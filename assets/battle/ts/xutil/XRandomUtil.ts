@@ -1,0 +1,30 @@
+export class XRandomUtil {
+    static seed: number = 0
+    static init(seed_: number) {
+        this.seed = seed_
+    }
+    static random() {
+        return this.seed = (9301 * this.seed + 49297) % 233280, this.seed / 233280
+    }
+    static getNumberRandom(min_, max_: number) {
+        return this.random() * (max_ - min_) + min_
+    }
+    static getIntRandom(min_: number, max_: number) {
+        return Math.floor(this.random() * (max_ - min_ + 1) + min_)
+    }
+    static randomArray(arr_) {
+        if (!arr_ || 0 == arr_.length) return;
+        let t = arr_.length;
+        for (; t;) {
+            let i = Math.floor(this.random() * t--);
+            [arr_[i], arr_[t]] = [arr_[t], arr_[i]]
+        }
+        return arr_
+    }
+    static randomInArray(arr_) {
+        if (!arr_ || 0 == arr_.length) return null;
+        return arr_[Math.floor(this.random() * arr_.length)]
+    }
+}
+
+
