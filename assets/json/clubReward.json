@@ -1,0 +1,44 @@
+{
+  "1": {
+    "id": 1,
+    "title": "【首次】加入游戏圈",
+    "clubDataType": 1,
+    "clubDataValue": 1,
+    "reward": {
+      "type": "Coin",
+      "cnt": 50
+    }
+  },
+  "2": {
+    "id": 2,
+    "title": "【每日】发表1个帖子",
+    "clubDataType": 6,
+    "clubDataValue": 1,
+    "reward": {
+      "type": "Coin",
+      "cnt": 50
+    }
+  },
+  "3": {
+    "id": 3,
+    "title": "【每日】点赞3个帖子",
+    "clubDataType": 4,
+    "clubDataValue": 3,
+    "reward": {
+      "type": "Build",
+      "id": 4,
+      "cnt": 1
+    }
+  },
+  "4": {
+    "id": 4,
+    "title": "【每日】评论3个帖子",
+    "clubDataType": 5,
+    "clubDataValue": 3,
+    "reward": {
+      "type": "Build",
+      "id": 4,
+      "cnt": 1
+    }
+  }
+}

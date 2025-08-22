@@ -1,0 +1,348 @@
+{
+  "1": {
+    "id": 1,
+    "buildId": 1000,
+    "name": "小破床",
+    "oldname": "发霉小床(Lv1)",
+    "icon": "res/build/bed_1.png",
+    "description": "生产：元宝+1/s",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "2": {
+    "id": 2,
+    "buildId": 1000,
+    "name": "潮湿床",
+    "oldname": "湿冷小床(Lv2)",
+    "icon": "res/build/bed_2.png",
+    "description": "生产：元宝+2/s",
+    "coin": 25,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [2]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "3": {
+    "id": 3,
+    "buildId": 1000,
+    "name": "简朴单人床",
+    "oldname": "破旧小床(Lv3)",
+    "icon": "res/build/bed_3.png",
+    "description": "生产：元宝+4/s\\n需要：简易门2",
+    "coin": 50,
+    "energy": 0,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 2
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [4]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "4": {
+    "id": 4,
+    "buildId": 1000,
+    "name": "普通单人床",
+    "oldname": "简陋的床(Lv4)",
+    "icon": "res/build/bed_4.png",
+    "description": "生产：元宝+8",
+    "coin": 100,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [8]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "5": {
+    "id": 5,
+    "buildId": 1000,
+    "name": "柔软单人床",
+    "oldname": "标准床铺(Lv5)",
+    "icon": "res/build/bed_5.png",
+    "description": "生产：元宝+16/s\\n需要：铸铁门2",
+    "coin": 200,
+    "energy": 0,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 5
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [16]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "6": {
+    "id": 6,
+    "buildId": 1000,
+    "name": "舒睡单人床",
+    "oldname": "温暖床铺(Lv6)",
+    "icon": "res/build/bed_6.png",
+    "description": "生产：元宝+32",
+    "coin": 400,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [32]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "7": {
+    "id": 7,
+    "buildId": 1000,
+    "name": "典雅大床",
+    "oldname": "精装床铺(Lv7)",
+    "icon": "res/build/bed_7.png",
+    "description": "生产：元宝+64/s\\n需要：工匠门2",
+    "coin": 800,
+    "energy": 16,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 8
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [64]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "8": {
+    "id": 8,
+    "buildId": 1000,
+    "name": "温馨大床",
+    "oldname": "标准大床(Lv8)",
+    "icon": "res/build/bed_8.png",
+    "description": "生产：元宝+128/s\\n需要：符箓门1",
+    "coin": 1600,
+    "energy": 32,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 10
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [128]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "9": {
+    "id": 9,
+    "buildId": 1000,
+    "name": "古典精致大床",
+    "oldname": "豪华大床(Lv9)",
+    "icon": "res/build/bed_9.png",
+    "description": "生产：元宝+256/s\\n需要：符箓门2",
+    "coin": 3200,
+    "energy": 64,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 11
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [256]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "10": {
+    "id": 10,
+    "buildId": 1000,
+    "name": "顶级豪华大床",
+    "oldname": "多功能大床(Lv10)",
+    "icon": "res/build/bed_10.png",
+    "description": "生产：元宝+512/s\\n需要：符箓门3",
+    "coin": 6400,
+    "energy": 128,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 12
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [512]
+      }
+    ],
+    "buffId": [22, 11]
+  },
+  "11": {
+    "id": 11,
+    "buildId": 1001,
+    "name": "小破床",
+    "oldname": "发霉小床",
+    "icon": "res/build/bed_1.png",
+    "description": "生产：元宝+1/s",
+    "coin": 12,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "12": {
+    "id": 12,
+    "buildId": 1001,
+    "name": "潮湿床",
+    "oldname": "湿冷小床",
+    "icon": "res/build/bed_2.png",
+    "description": "生产：元宝+2/s",
+    "coin": 25,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [2]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "13": {
+    "id": 13,
+    "buildId": 1001,
+    "name": "简朴单人床",
+    "oldname": "破旧小床",
+    "icon": "res/build/bed_3.png",
+    "description": "生产：元宝+4/s\\n需要：简易门2",
+    "coin": 50,
+    "energy": 0,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 2
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [4]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "14": {
+    "id": 14,
+    "buildId": 1001,
+    "name": "普通单人床",
+    "oldname": "简陋的床",
+    "icon": "res/build/bed_4.png",
+    "description": "生产：元宝+8",
+    "coin": 100,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [8]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "15": {
+    "id": 15,
+    "buildId": 1001,
+    "name": "柔软单人床",
+    "oldname": "标准床铺",
+    "icon": "res/build/bed_5.png",
+    "description": "生产：元宝+16/s\\n需要：铸铁门2",
+    "coin": 200,
+    "energy": 0,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 5
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [16]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "16": {
+    "id": 16,
+    "buildId": 1001,
+    "name": "舒睡单人床",
+    "oldname": "温暖床铺",
+    "icon": "res/build/bed_6.png",
+    "description": "生产：元宝+32",
+    "coin": 400,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [32]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "17": {
+    "id": 17,
+    "buildId": 1001,
+    "name": "典雅大床",
+    "oldname": "精装床铺",
+    "icon": "res/build/bed_7.png",
+    "description": "生产：元宝+64/s\\n需要：工匠门2",
+    "coin": 800,
+    "energy": 16,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 8
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [64]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "18": {
+    "id": 18,
+    "buildId": 1001,
+    "name": "温馨大床",
+    "oldname": "标准大床",
+    "icon": "res/build/bed_8.png",
+    "description": "生产：元宝+128/s\\n需要：符箓门1",
+    "coin": 1600,
+    "energy": 32,
+    "preBuilding": {
+      "buildId": 2000,
+      "lv": 10
+    },
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [128]
+      }
+    ],
+    "maxCnt": 1
+  }
+}

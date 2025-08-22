@@ -1,13 +1,36 @@
+import { math, Rect, v2, Vec2, view } from "cc"
 import { XConst } from "../xconfig/XConst"
 import { XGrid } from "./XGrid"
+import { XRoomModel } from "../model/XRoomModel"
+import { XV2Util01 } from "../xutil/XV2Util01"
+import { XRandomUtil } from "../xutil/XRandomUtil"
+import XAStar from "./XAStar"
+import XUtil from "../xutil/XUtil"
+
+class XTiledInfo {
+    x: number = 0
+    y: number = 0
+    groundBlock: string = ""
+    groundRot: number = 0
+    buildName: string = ""
+    buildId: number = 0
+    buildRot: number = 0
+    lv: number = 1
+    walkable: boolean = false
+    roomId: number = 0
+    image: string
+
+    constructor(x_, y_) {
+        this.x = x_, this.y = y_
+    }
+}
 
 export class MapMgr {
     _outRoomGirds = []
-    outRoomGridsInsideMap = []
-    hideDoors = []
+    // outRoomGridsInsideMap = []
+    // hideDoors = []
     roomBuildings = []
     outBuildings = []
-    hideWall = []
     hideWallMap = new Map
     roomsWall = []
     _height = 0
@@ -15,21 +38,38 @@ export class MapMgr {
     _grid: XGrid = null
     _mapBoundBox = null
 
+    _tiledMap: XTiledInfo[][] = []
+    _rooms: XRoomModel[] = []
+    _buildings = []
+    _hunterSpawns = []
+    _defenderSpawns = []
+    _mapBuildPoints = []
+    _mapEquipPoints = []
+    _healZones = []
+    _viewList = []
+    _tileSets = null
+    _mapNode = null
+
     constructor() {
     }
 
-    init(e, t) {
-        this.outBuildings = [], this.parseData(e, t), this._grid = new XGrid(this._height, this._width);
-        for (let e = 0; e < this._height; e++)
-            for (let t = 0; t < this._width; t++) this.setWalkable(e, t, this.isWalkable(e, t)), this.setDynWalkable(e, t, this.isWalkable(e, t));
-        this.initRooms(), this.initOutRoomGrids(), this._mapBoundBox = {
+    init(cfg_, t) {
+        this.outBuildings = []
+        this.parseData(cfg_, t)
+        this._grid = new XGrid(this._height, this._width);
+        for (let h = 0; h < this._height; h++)
+            for (let w = 0; w < this._width; w++) {
+                this.setWalkable(h, w, this.isWalkable(h, w))
+                this.setDynWalkable(h, w, this.isWalkable(h, w));
+            }
+        this.initRooms()
+        this.initOutRoomGrids()
+        this._mapBoundBox = {
             minX: 0,
             maxX: this._width * XConst.GridSize,
             minY: 0,
             maxY: this._height * XConst.GridSize
         };
-        for (const e of this._hideRooms) this.setWalkable(e.doorPos.x, e.doorPos.y, !1), this.setDynWalkable(e.doorPos.x, e.doorPos.y, !1);
-        for (const e of this._invalidHideRooms) this.setWalkable(e.doorPos.x, e.doorPos.y, !1), this.setDynWalkable(e.doorPos.x, e.doorPos.y, !1)
     }
     get width() {
         return this._width
@@ -46,9 +86,7 @@ export class MapMgr {
     get rooms() {
         return this._rooms
     }
-    get hideRooms() {
-        return this._hideRooms
-    }
+
     get mapNode() {
         return this._mapNode
     }
@@ -71,7 +109,7 @@ export class MapMgr {
         return this._healZones
     }
     get realWidth() {
-        return this.width * C.GridSize
+        return this.width * XConst.GridSize
     }
     get realHeight() {
         return this.height * XConst.GridSize
@@ -79,158 +117,181 @@ export class MapMgr {
     get outRoomGrids() {
         return this._outRoomGirds.slice()
     }
-    parseData(e, t) {
-        this._tiledMap = [], this._rooms = [], this._hideRooms = [], this._invalidHideRooms = [], this._buildings = [], this._hunterSpawns = [], this._defenderSpawns = [], this._mapBuildPoints = [], this._mapEquipPoints = [], this._healZones = [], this._viewList = [], this._width = e.width, this._height = e.height, this._tileSets = this.getTilesets(e), this.hideDoors = [], this.hideWall = [], this.hideWallMap.clear();
-        let i = -1,
-            s = this.getLayer(e, "data").objects;
-        for (const e of s)
-            if ("HealZone" == e.type) {
-                let t = new Laya.Rectangle(e.x, e.y, e.width, e.height);
+    parseData(cfg, t) {
+        this._width = cfg.width
+        this._height = cfg.height
+        this._tileSets = this.getTilesets(cfg)
+        let i = -1
+        const objs = this.getLayer(cfg, "data").objects;
+        for (const obj of objs) {
+            if ("HealZone" == obj.type) {
+                let t = new Rect(obj.x, obj.y, obj.width, obj.height);
                 this._healZones.push(t)
-            } else if ("DefenderSpawnPoint" == e.type) this._defenderSpawns.push(new fx.V2(e.x, e.y));
-            else if ("HunterSpawnPoint" == e.type) this._hunterSpawns.push(new fx.V2(e.x, e.y));
-            else if ("MapBuildPoint" == e.type) this._mapBuildPoints.push(new fx.V2(e.x, e.y));
-            else if ("MapEquipPoint" == e.type) {
-                let t = e.name.split("-");
-                t[1] && ("1" == t[1] ? (this._mapEquipPoints[0] || (this._mapEquipPoints[0] = []), this._mapEquipPoints[0].push(new fx.V2(e.x, e.y))) : "2" == t[1] ? (this._mapEquipPoints[1] || (this._mapEquipPoints[1] = []), this._mapEquipPoints[1].push(new fx.V2(e.x, e.y))) : "3" == t[1] ? (this._mapEquipPoints[2] || (this._mapEquipPoints[2] = []), this._mapEquipPoints[2].push(new fx.V2(e.x, e.y))) : "4" == t[1] && (this._mapEquipPoints[3] || (this._mapEquipPoints[3] = []), this._mapEquipPoints[3].push(new fx.V2(e.x, e.y))))
-            } else if (-1 != e.name.indexOf("Room")) {
-                let s = e.name.replace("Room_", ""),
+            }
+            else if ("DefenderSpawnPoint" == obj.type)
+                this._defenderSpawns.push(new Vec2(obj.x, obj.y));
+            else if ("HunterSpawnPoint" == obj.type)
+                this._hunterSpawns.push(new Vec2(obj.x, obj.y));
+            else if ("MapBuildPoint" == obj.type)
+                this._mapBuildPoints.push(new Vec2(obj.x, obj.y));
+            else if ("MapEquipPoint" == obj.type) {
+                let t = obj.name.split("-");
+                t[1] && ("1" == t[1] ? (this._mapEquipPoints[0] || (this._mapEquipPoints[0] = []), this._mapEquipPoints[0].push(new Vec2(obj.x, obj.y))) : "2" == t[1] ? (this._mapEquipPoints[1] || (this._mapEquipPoints[1] = []), this._mapEquipPoints[1].push(new Vec2(obj.x, obj.y))) : "3" == t[1] ? (this._mapEquipPoints[2] || (this._mapEquipPoints[2] = []), this._mapEquipPoints[2].push(new Vec2(obj.x, obj.y))) : "4" == t[1] && (this._mapEquipPoints[3] || (this._mapEquipPoints[3] = []), this._mapEquipPoints[3].push(new Vec2(obj.x, obj.y))))
+            } else if (-1 != obj.name.indexOf("Room")) {
+                let s = obj.name.replace("Room_", ""),
                     a = Number(s);
                 if (this.getRoomById(a)) {
                     console.error(`Room重复 ${a}`);
                     continue
                 }
-                let n = new Za;
-                n.id = a;
-                let r = this.mapPosToGridPos(e.x, e.y);
-                if (n.x = r.x, n.y = r.y, "Hide" == e.type) {
-                    ++i == t ? (n.active = !1, this._hideRooms.push(n), this._rooms.push(n), console.log(`------------------隐藏房间： ${e.name}`)) : this._invalidHideRooms.push(n);
-                    continue
-                }
-                this._rooms.push(n)
+                let roomModel = new XRoomModel;
+                roomModel.id = a;
+                let r = this.mapPosToGridPos(obj.x, obj.y);
+                roomModel.x = r.x
+                roomModel.y = r.y
+                this._rooms.push(roomModel)
             }
-        let a = this.getLayer(e, "ground").data,
-            n = this.getLayer(e, "build").data,
-            r = this.getLayer(e, "view") ? this.getLayer(e, "view").data : null;
-        for (let e = 0; e < this._height; ++e) {
-            this._tiledMap[e] = [];
-            for (let t = 0; t < this._width; ++t) {
-                let i = new Ja(e, t),
-                    s = e * this._width + t,
-                    o = a[s];
-                0 == o ? (i.groundBlock = "floor_1", i.groundRot = 0) : (i.groundBlock = this._tileSets[o][0], i.groundRot = this._tileSets[o][1]), -1 !== i.groundBlock.indexOf("wall_break") && this.hideWall.push(new fx.V2(i.x, i.y)), -1 != i.groundBlock.indexOf("floor_1") && this.outRoomGridsInsideMap.push(new fx.V2(e, t)), -1 != i.groundBlock.indexOf("wall_unable") && this.hideDoors.push(new fx.V2(i.x, i.y)), -1 != i.groundBlock.indexOf("floor") && (i.walkable = !0);
-                let l = n[s];
-                if (l > 0) {
-                    let e = this._tileSets[l][0],
-                        t = e.split("_");
-                    i.buildName = e, i.buildId = Number(t[1]), i.buildRot = this._tileSets[l][1], i.lv = t[3] ? Number(t[3]) : 1, this._buildings.push(i)
+        }
+        let groundData = this.getLayer(cfg, "ground").data
+        const buildData = this.getLayer(cfg, "build").data
+        for (let h = 0; h < this._height; ++h) {
+            this._tiledMap[h] = [];
+            for (let w = 0; w < this._width; ++w) {
+                let tiledInfo = new XTiledInfo(h, w)
+                const tiledIdx = h * this._width + w
+                const o = groundData[tiledIdx];
+                if (o == 0) {
+                    tiledInfo.groundBlock = "floor_1";
+                    tiledInfo.groundRot = 0;
+                } else {
+                    tiledInfo.groundBlock = this._tileSets[o][0];
+                    tiledInfo.groundRot = this._tileSets[o][1];
                 }
-                if (this._tiledMap[e][t] = i, r) {
-                    let i = r[s];
-                    if (i > 0) {
-                        let s = new Ja(e, t);
-                        if (!this._tileSets[i]) continue;
-                        let a = this._tileSets[i][2].name;
-                        s.image = `res/map/${a}.png`, s.groundBlock = a, this._viewList.push(s)
-                    }
+
+                // if (tiledInfo.groundBlock.indexOf("floor_1") !== -1) {
+                //     this.outRoomGridsInsideMap.push(new Vec2(h, w));
+                // }
+
+                // if (tiledInfo.groundBlock.indexOf("wall_unable") !== -1) {
+                //     this.hideDoors.push(new Vec2(tiledInfo.x, tiledInfo.y));
+                // }
+
+                if (tiledInfo.groundBlock.indexOf("floor") !== -1) {
+                    tiledInfo.walkable = true;
                 }
+                let buildIdx = buildData[tiledIdx];
+                if (buildIdx > 0) {
+                    let name = this._tileSets[buildIdx][0]
+                    const buildId = name.split("_");
+                    tiledInfo.buildName = name
+                    tiledInfo.buildId = Number(buildId[1])
+                    tiledInfo.buildRot = this._tileSets[buildIdx][1]
+                    tiledInfo.lv = buildId[3] ? Number(buildId[3]) : 1
+                    this._buildings.push(tiledInfo)
+                }
+                this._tiledMap[h][w] = tiledInfo
             }
         }
     }
-    getTilesets(e) {
+    getTilesets(cfg_) {
         let t = {};
-        for (let i = 0; i < e.tilesets.length; ++i) {
-            let s, a, n = e.tilesets[i],
-                r = n.name.split("_"),
+        for (let i = 0; i < cfg_.tilesets.length; ++i) {
+            let s, a, setInfo = cfg_.tilesets[i],
+                r = setInfo.name.split("_"),
                 o = Number(r[r.length - 1]);
-            !isNaN(o) && o >= 90 ? (s = n.name.replace(`_${o}`, ""), a = o) : (s = n.name, a = 0), t[n.firstgid] = [s, a, n]
+            !isNaN(o) && o >= 90 ? (s = setInfo.name.replace(`_${o}`, ""), a = o) : (s = setInfo.name, a = 0), t[setInfo.firstgid] = [s, a, setInfo]
         }
         return t
     }
-    getLayer(e, t) {
-        for (const i of e.layers)
-            if (i.name == t) return i
+    getLayer(cfg_, key_) {
+        for (const i of cfg_.layers)
+            if (i.name == key_) return i
     }
     initRooms() {
-        for (const e of this._rooms) {
-            let t = [],
-                i = [],
-                s = [];
-            this.searchRoomGrids(e.id, e.x, e.y, t, i, s), e.walls = i;
-            let a, n = new fx.V2(e.x, e.y),
-                r = 1 / 0;
-            for (const e of s) {
-                let t = n.distanceSq(e);
-                if (t < r) r = t, a = e;
-                else if (t == r)
-                    if (e.x == a.x)
-                        if (e.y < a.y) {
-                            let t = this.getTiledInfo(e.x, e.y - 1);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
+        for (const room of this._rooms) {
+            let roomTiles: Vec2[] = []
+            let blockTiles: Vec2[] = []
+            let doorTiles: Vec2[] = []
+            this.searchRoomGrids(room.id, room.x, room.y, roomTiles, blockTiles, doorTiles)
+            room.walls = blockTiles;
+            let currentTile, roomTile = new Vec2(room.x, room.y)
+            let minDis = 1 / 0;
+            for (const tile of doorTiles) {
+                let doorRoomDis = Vec2.squaredDistance(roomTile, tile)
+                if (doorRoomDis < minDis) minDis = doorRoomDis, currentTile = tile;
+                else if (doorRoomDis == minDis)
+                    if (tile.x == currentTile.x)
+                        if (tile.y < currentTile.y) {
+                            let t = this.getTiledInfo(tile.x, tile.y - 1);
+                            t.roomId ? currentTile = tile : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (currentTile = tile)
                         } else {
-                            let t = this.getTiledInfo(e.x, e.y + 1);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
-                        } else if (e.y == a.y)
-                        if (e.x < a.x) {
-                            let t = this.getTiledInfo(e.x - 1, e.y);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
+                            let t = this.getTiledInfo(tile.x, tile.y + 1);
+                            t.roomId ? currentTile = tile : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (currentTile = tile)
+                        } else if (tile.y == currentTile.y)
+                        if (tile.x < currentTile.x) {
+                            let t = this.getTiledInfo(tile.x - 1, tile.y);
+                            t.roomId ? currentTile = tile : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (currentTile = tile)
                         } else {
-                            let t = this.getTiledInfo(e.x + 1, e.y);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
+                            let t = this.getTiledInfo(tile.x + 1, tile.y);
+                            t.roomId ? currentTile = tile : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (currentTile = tile)
                         }
             }
-            let o = [];
-            for (const e of s) e.x == a.x && e.y == a.y || o.push(e);
-            e.doorPosArr = o, e.doorPos = a, e.doorRot = this._tiledMap[a.x][a.y].buildRot, t.unshift(a), e.grids = t
+            let doorTileArr: Vec2[] = [];
+            for (const doorTile of doorTiles) doorTile.x == currentTile.x && doorTile.y == currentTile.y || doorTileArr.push(doorTile);
+            room.doorPosArr = doorTileArr
+            room.doorPos = currentTile
+            room.doorRot = this._tiledMap[currentTile.x][currentTile.y].buildRot
+            roomTiles.unshift(currentTile)
+            room.grids = roomTiles
         }
-        for (const e of this.rooms) {
-            let t = e.grids[0],
+        for (const room of this.rooms) {
+            let t = room.grids[0],
                 i = this.getTiledInfo(t.x, t.y);
             if (!i) return;
-            i && (i.roomId = e.id)
-        }
-        for (const e of this._invalidHideRooms) {
-            let t = [],
-                i = [],
-                s = [];
-            this.searchRoomGrids(e.id, e.x, e.y, t, i, s), e.walls = i;
-            let a, n = new fx.V2(e.x, e.y),
-                r = 1 / 0;
-            for (const e of s) {
-                let t = n.distanceSq(e);
-                if (t < r) r = t, a = e;
-                else if (t == r)
-                    if (e.x == a.x)
-                        if (e.y < a.y) {
-                            let t = this.getTiledInfo(e.x, e.y - 1);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
-                        } else {
-                            let t = this.getTiledInfo(e.x, e.y + 1);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
-                        } else if (e.y == a.y)
-                        if (e.x < a.x) {
-                            let t = this.getTiledInfo(e.x - 1, e.y);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
-                        } else {
-                            let t = this.getTiledInfo(e.x + 1, e.y);
-                            t.roomId ? a = e : t.groundBlock && -1 != t.groundBlock.indexOf("floor_1") && (a = e)
-                        }
-            }
-            e.doorPos = a, t.unshift(a), e.grids = t
+            i && (i.roomId = room.id)
         }
     }
-    searchRoomGrids(e, t, i, s, a, n, r = !1) {
-        let o = new fx.V2(t, i);
-        if (XV2Util01.isV2InArray(o, s) || XV2Util01.isV2InArray(o, a)) return;
-        let l = this.getTiledInfo(t, i);
-        if (l)
-            if (l && (l.roomId = e), l.walkable) {
-                if (r) return;
-                if (l.groundBlock && -1 != l.groundBlock.indexOf("floor_1")) return;
-                if (l.buildName && -1 != l.buildName.indexOf("door")) return void n.push(o);
-                s.push(o), this.searchRoomGrids(e, t, i + 1, s, a, n), this.searchRoomGrids(e, t, i - 1, s, a, n), this.searchRoomGrids(e, t + 1, i, s, a, n), this.searchRoomGrids(e, t - 1, i, s, a, n), this.searchRoomGrids(e, t + 1, i + 1, s, a, n, !0), this.searchRoomGrids(e, t + 1, i - 1, s, a, n, !0), this.searchRoomGrids(e, t - 1, i + 1, s, a, n, !0), this.searchRoomGrids(e, t - 1, i - 1, s, a, n, !0)
-            } else a.push(o)
+
+    searchRoomGrids(id_, x_, y_, roomTiles_: Vec2[], blockTiles_: Vec2[], doorTiles_: Vec2[], r = !1) {
+        let tileXy = new Vec2(x_, y_);
+
+        // 如果 (x_, y_) 已经在 s 或 a 中，就直接返回
+        if (XV2Util01.isV2InArray(tileXy, roomTiles_) || XV2Util01.isV2InArray(tileXy, blockTiles_)) return;
+
+        let tileInfo = this.getTiledInfo(x_, y_);
+
+        if (tileInfo) {
+            tileInfo.roomId = id_
+            if (tileInfo.walkable) {
+                if (r) return; // 如果是对角线搜索（r = true），直接退出
+
+                // 如果是地板1，不再继续
+                if (tileInfo.groundBlock && -1 != tileInfo.groundBlock.indexOf("floor_1")) return;
+
+                // 如果是门，加入 n 数组后直接返回
+                if (tileInfo.buildName && -1 != tileInfo.buildName.indexOf("door"))
+                    return void doorTiles_.push(tileXy);
+
+                // 否则，加入 s（当前房间的格子集合）
+                roomTiles_.push(tileXy);
+
+                // 向四个方向递归搜索
+                this.searchRoomGrids(id_, x_, y_ + 1, roomTiles_, blockTiles_, doorTiles_);
+                this.searchRoomGrids(id_, x_, y_ - 1, roomTiles_, blockTiles_, doorTiles_);
+                this.searchRoomGrids(id_, x_ + 1, y_, roomTiles_, blockTiles_, doorTiles_);
+                this.searchRoomGrids(id_, x_ - 1, y_, roomTiles_, blockTiles_, doorTiles_);
+
+                // 向四个斜角递归搜索（但标记 r = true，下一层遇到直接 return，不会继续扩展）
+                this.searchRoomGrids(id_, x_ + 1, y_ + 1, roomTiles_, blockTiles_, doorTiles_, !0);
+                this.searchRoomGrids(id_, x_ + 1, y_ - 1, roomTiles_, blockTiles_, doorTiles_, !0);
+                this.searchRoomGrids(id_, x_ - 1, y_ + 1, roomTiles_, blockTiles_, doorTiles_, !0);
+                this.searchRoomGrids(id_, x_ - 1, y_ - 1, roomTiles_, blockTiles_, doorTiles_, !0);
+
+            } else blockTiles_.push(tileXy) // 如果 tileInfo 不可走，则加入 a（障碍物集合）
+        }
+
     }
+
     initOutRoomGrids() {
         this._outRoomGirds = [];
         for (let e = 0; e < this._height; ++e)
@@ -239,60 +300,60 @@ export class MapMgr {
                 i && !i.roomId && i.walkable && this._outRoomGirds.push(i)
             }
     }
-    getRoomById(e) {
-        for (const t of this._rooms)
-            if (t.id == e) return t
+    getRoomById(roomId_) {
+        for (const r of this._rooms)
+            if (r.id == roomId_) return r
     }
-    getRoomByGridPos(e, t) {
-        let i = this.getRoomIdByGridPos(e, t);
+    getRoomByGridPos(x_, y_) {
+        let i = this.getRoomIdByGridPos(x_, y_);
         if (-1 !== i) return this.getRoomById(i)
     }
-    getRoomByWallGrid(e, t) {
-        let i = null;
-        if (this.roomsWall[`x${e}_y${t}`]) return i = this.getRoomById(this.roomsWall[`x${e}_y${t}`])
+    getRoomByWallGrid(x_, y_) {
+        if (this.roomsWall[`x${x_}_y${y_}`])
+            return this.getRoomById(this.roomsWall[`x${x_}_y${y_}`])
     }
     getRoomTiledList(e) {
         let t = [];
-        for (const i of e.grids) {
-            let e = this.getTiledInfo(i.x, i.y);
+        for (const grid of e.grids) {
+            let e = this.getTiledInfo(grid.x, grid.y);
             e && t.push(e)
         }
         return t
     }
-    getTiledInfo(e, t) {
-        return this._tiledMap[e] ? this._tiledMap[e][t] : null
+    getTiledInfo(x_, y_) {
+        return this._tiledMap[x_] ? this._tiledMap[x_][y_] : null
     }
-    isWall(e, t, i) {
+    isWall(x_, y_, i) {
         if (!i) return;
         let s = i.walls;
         for (const i of s)
-            if (e == i.x && t == i.y) return !0;
+            if (x_ == i.x && y_ == i.y) return !0;
         return !1
     }
-    isGridWall(e, t) {
-        let i = this.getTiledInfo(e, t);
+    isGridWall(x_, y_) {
+        let i = this.getTiledInfo(x_, y_);
         if (i) return -1 != i.groundBlock.indexOf("wall")
     }
-    getHunterSpawnPos(e) {
-        return e = Math.clamp(e, 0, this._hunterSpawns.length - 1), this._hunterSpawns[e]
+    getHunterSpawnPos(idx_) {
+        return idx_ = math.clamp(idx_, 0, this._hunterSpawns.length - 1), this._hunterSpawns[idx_]
     }
-    getDefenderSpawnPos(e) {
-        return e = Math.clamp(e, 0, this._defenderSpawns.length - 1), this._defenderSpawns[e % this._defenderSpawns.length]
+    getDefenderSpawnPos(idx_) {
+        return idx_ = math.clamp(idx_, 0, this._defenderSpawns.length - 1), this._defenderSpawns[idx_ % this._defenderSpawns.length]
     }
-    mapPosToGridPos(e, t) {
-        let i = Math.floor(t / C.GridSize);
-        var s = Math.floor(e / C.GridSize);
-        return new fx.V2(i, s)
+    mapPosToGridPos(mapX_, mapY_) {
+        let h = Math.floor(mapY_ / XConst.GridSize);
+        var w = Math.floor(mapX_ / XConst.GridSize);
+        return new Vec2(h, w)
     }
-    gridPosToMapPos(e, t) {
-        let i = t * C.GridSize + C.GridHalfSize,
-            s = e * C.GridSize + C.GridHalfSize;
-        return new fx.V2(i, s)
+    gridPosToMapPos(col_, row_) {
+        let x = row_ * XConst.GridSize + XConst.GridHalfSize,
+            y = col_ * XConst.GridSize + XConst.GridHalfSize;
+        return new Vec2(x, y)
     }
-    mapPosToStagePos(e, t) {
+    mapPosToStagePos(mapX_, mapY_) {
         return {
-            x: e + this._mapNode.x,
-            y: t + this._mapNode.y
+            x: mapX_ + this._mapNode.x,
+            y: mapY_ + this._mapNode.y
         }
     }
     stagePosToMapPos(e, t) {
@@ -301,30 +362,30 @@ export class MapMgr {
             y: t - this._mapNode.y
         }
     }
-    isInStageByGridPos(e, t) {
-        let i = this.gridPosToMapPos(e, t);
-        return this.isInStageByMapPos(i.x, i.y)
+    isInStageByGridPos(col_, row_) {
+        let mapPos = this.gridPosToMapPos(col_, row_);
+        return this.isInStageByMapPos(mapPos.x, mapPos.y)
     }
-    isInStageByMapPos(e, t) {
-        let i = this.mapPosToStagePos(e, t);
-        return !(i.x < 0 || i.x > Laya.stage.width || i.y < 0 || i.y > Laya.stage.height)
+    isInStageByMapPos(mapX_, mapY_) {
+        let stagePos = this.mapPosToStagePos(mapX_, mapY_);
+        return !(stagePos.x < 0 || stagePos.x > view.getVisibleSize().x || stagePos.y < 0 || stagePos.y > view.getVisibleSize().y)
     }
-    isWalkable(e, t) {
-        return !(!this._tiledMap[e] || !this._tiledMap[e][t]) && this._tiledMap[e][t].walkable
+    isWalkable(x_, y_) {
+        return !(!this._tiledMap[x_] || !this._tiledMap[x_][y_]) && this._tiledMap[x_][y_].walkable
     }
     twoGridsInSameRoome(e, t, i, s) {
         return this.getRoomByGridPos(e, t) == this.getRoomByGridPos(i, s)
     }
-    getRoomIdByMapPos(e, t) {
-        let i = this.mapPosToGridPos(e, t);
-        return this.getRoomIdByGridPos(i.x, i.y)
+    getRoomIdByMapPos(mapX_, mapY) {
+        let gridPos = this.mapPosToGridPos(mapX_, mapY);
+        return this.getRoomIdByGridPos(gridPos.x, gridPos.y)
     }
-    getRoomIdByGridPos(e, t) {
-        let i = this.getTiledInfo(e, t);
-        if (i && i.roomId && i.buildName && i.buildName.includes("door")) return i.roomId;
-        for (const i of this.rooms)
-            for (const s of i.grids)
-                if (s.x == e && s.y == t) return i.id;
+    getRoomIdByGridPos(x_, y_) {
+        let tileInfo = this.getTiledInfo(x_, y_);
+        if (tileInfo && tileInfo.roomId && tileInfo.buildName && tileInfo.buildName.includes("door")) return tileInfo.roomId;
+        for (const room of this.rooms)
+            for (const s of room.grids)
+                if (s.x == x_ && s.y == y_) return room.id;
         return -1
     }
     getRoomIdByGrid(e, t) {
@@ -338,55 +399,56 @@ export class MapMgr {
                 if (s.x == e && s.y == t) return i.id;
         return -1
     }
-    getRandomPosByRoomId(e) {
+    getRandomPosByRoomId(roomId_: number) {
         for (const t of this.rooms)
-            if (e == t.id) {
-                let e = fx.Utils.cloneArray(t.grids);
-                for (const i of t.buildings)
-                    for (let t = 0; t < e.length; t++) i.x != e[t].x || i.y != e[t].y || e.splice(t, 1);
-                return fx.Utils.randomInArray(e)
+            if (roomId_ == t.id) {
+                let roomGrids = XUtil.deepClone(t.grids);
+                for (const build of t.buildings)
+                    for (let i = 0; i < roomGrids.length; i++)
+                        build.x != roomGrids[i].x || build.y != roomGrids[i].y || roomGrids.splice(i, 1);
+                return XRandomUtil.randomInArray(roomGrids)
             }
     }
-    getRoomsByDistance(e) {
-        let t = this.rooms.slice();
-        for (let i = 0; i < t.length - 1; ++i) {
-            let s = !1;
-            for (let a = t.length - 1; a > i; --a) {
-                let i = this.gridPosToMapPos(t[a].x, t[a].y),
-                    n = XV2Util01.pDistance(e, i),
-                    r = this.gridPosToMapPos(t[a - 1].x, t[a - 1].y);
-                if (XV2Util01.pDistance(e, r) > n) {
-                    let e = t[a - 1];
-                    t[a - 1] = t[a], t[a] = e, s = !0
-                }
-            }
-            if (!s) break
-        }
-        return t
-    }
-    findPath(e, t, i, s, a = !1) {
-        let n = this.mapPosToGridPos(e, t),
-            r = this.mapPosToGridPos(i, s);
-        if (this._grid.setStartNode(n.x, n.y), !this._grid.setEndNode(r.x, r.y)) return [];
-        let o = new XAStar;
-        if (o.findPath(this._grid, a), !o.path) return [];
+    // getRoomsByDistance(e) {
+    //     let rooms = this.rooms.slice();
+    //     for (let i = 0; i < rooms.length - 1; ++i) {
+    //         let s = false;
+    //         for (let a = rooms.length - 1; a > i; --a) {
+    //             let i = this.gridPosToMapPos(rooms[a].x, rooms[a].y),
+    //                 n = XV2Util01.pDistance(e, i),
+    //                 r = this.gridPosToMapPos(rooms[a - 1].x, rooms[a - 1].y);
+    //             if (XV2Util01.pDistance(e, r) > n) {
+    //                 let e = rooms[a - 1];
+    //                 rooms[a - 1] = rooms[a], rooms[a] = e, s = true
+    //             }
+    //         }
+    //         if (!s) break
+    //     }
+    //     return rooms
+    // }
+    findPath(mapX1_, mapY1_, mapX2_, mapY2_, slant_ = false) {
+        const gridPos1 = this.mapPosToGridPos(mapX1_, mapY1_)
+        const gridPos2 = this.mapPosToGridPos(mapX2_, mapY2_)
+        if (this._grid.setStartNode(gridPos1.x, gridPos1.y), !this._grid.setEndNode(gridPos2.x, gridPos2.y)) return [];
+        let path = new XAStar;
+        if (path.findPath(this._grid, slant_), !path.path) return [];
         let l = [];
-        for (let e = 0; e < o.path.length; ++e) {
-            let t = this.gridPosToMapPos(o.path[e].x, o.path[e].y);
+        for (let e = 0; e < path.path.length; ++e) {
+            let t = this.gridPosToMapPos(path.path[e].x, path.path[e].y);
             l.push(t)
         }
         return l
     }
-    limitMove(e, t, i, s, a = 0) {
+    limitMove(x_, y_, i, s, a = 0) {
         if (0 == i && 0 == s) return {
-            x: e,
-            y: t
+            x: x_,
+            y: y_
         };
-        let n = e + (i = Math.min(i, C.GridHalfSize - .01)),
-            r = t + (s = Math.min(s, C.GridHalfSize - .01)),
-            o = e + i,
-            l = t + s,
-            h = this.mapPosToGridPos(e, t);
+        let n = x_ + (i = Math.min(i, XConst.GridHalfSize - .01)),
+            r = y_ + (s = Math.min(s, XConst.GridHalfSize - .01)),
+            o = x_ + i,
+            l = y_ + s,
+            h = this.mapPosToGridPos(x_, y_);
         i > 0 ? o += a : i < 0 && (o -= a), s > 0 ? l += a : s < 0 && (l -= a);
         let d = this.mapPosToGridPos(o, l);
         if (XV2Util01.isV2Equal(h, d)) return {
@@ -397,17 +459,17 @@ export class MapMgr {
         if (h.y != d.y) {
             let e = d.y > h.y ? 1 : -1,
                 t = this._grid.getNode(h.x, h.y + e);
-            t && !t.dynWalkable && (o = this.gridPosToMapPos(h.x, h.y + e).x - e * (C.GridHalfSize + .01) - e * a, u = !0)
+            t && !t.dynWalkable && (o = this.gridPosToMapPos(h.x, h.y + e).x - e * (XConst.GridHalfSize + .01) - e * a, u = !0)
         }
         if (u || (o = n), u = !1, h.x != d.x) {
             let e = d.x > h.x ? 1 : -1,
                 t = this._grid.getNode(h.x + e, h.y);
-            t && !t.dynWalkable && (l = this.gridPosToMapPos(h.x + e, h.y).y - e * (C.GridHalfSize + .01) - e * a, u = !0)
+            t && !t.dynWalkable && (l = this.gridPosToMapPos(h.x + e, h.y).y - e * (XConst.GridHalfSize + .01) - e * a, u = !0)
         }
         u || (l = r);
         let g = this.mapPosToGridPos(o, l),
             c = this._grid.getNode(g.x, g.y);
-        return c && !c.dynWalkable && (o = e, l = t), {
+        return c && !c.dynWalkable && (o = x_, l = y_), {
             x: o,
             y: l
         }
@@ -417,8 +479,8 @@ export class MapMgr {
             x: e,
             y: t
         };
-        let n = e + (i = Math.min(i, C.GridHalfSize - .01)),
-            r = t + (s = Math.min(s, C.GridHalfSize - .01)),
+        let n = e + (i = Math.min(i, XConst.GridHalfSize - .01)),
+            r = t + (s = Math.min(s, XConst.GridHalfSize - .01)),
             o = e + i,
             l = t + s,
             h = this.mapPosToGridPos(e, t);
@@ -447,19 +509,7 @@ export class MapMgr {
         let i = this.stagePosToMapPos(e, t);
         return i = this.mapPosToGridPos(i.x, i.y)
     }
-    isHideRoomDoor(e, t) {
-        for (const i of this.hideRooms)
-            if (i.doorPos.x == e && i.doorPos.y == t) return !i.active;
-        return !1
-    }
-    getHideDoorPosByRoomId(e) {
-        let t = [];
-        for (const e of this.hideDoors) {
-            let i = this.getRoomIdByGrid(e.x, e.y);
-            i && -1 !== i && t.push(e)
-        }
-        if (t.length > 0) return t
-    }
+
     getActiveRoomCnt() {
         let e = 0;
         for (const t of this.rooms) t.active && e++;
@@ -467,8 +517,8 @@ export class MapMgr {
     }
     getRandomRoom(e) {
         let t = [];
-        for (const i of this.rooms) 0 != i.active && i != e && t.push(i);
-        return fx.Utils.randomInArray(t)
+        for (const i of this.rooms) false != i.active && i != e && t.push(i);
+        return XRandomUtil.randomInArray(t)
     }
     getMapTiles() {
         return this._tiledMap

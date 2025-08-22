@@ -1,0 +1,37 @@
+{
+  "1": {
+    "id": 1,
+    "inviteCnt": 1,
+    "rewardArr": [
+      {
+        "type": "Skin",
+        "id": 7001
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "inviteCnt": 3,
+    "rewardArr": [
+      {
+        "type": "Build",
+        "id": 4,
+        "cnt": 5
+      },
+      {
+        "type": "Coin",
+        "cnt": 500
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "inviteCnt": 5,
+    "rewardArr": [
+      {
+        "type": "Skin",
+        "id": 7002
+      }
+    ]
+  }
+}

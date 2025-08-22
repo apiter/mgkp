@@ -1,0 +1,1041 @@
+{
+  "1": {
+    "id": 1,
+    "buildId": 6001,
+    "name": "照妖镜",
+    "oldname": "维修台",
+    "icon": "res/build/skillBuild/skillBuild_zyj.png",
+    "description": "每秒恢复2％大门耐久",
+    "buildType": "skill",
+    "energy": 64,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_AlwaysAddHp",
+        "value": [0.02]
+      }
+    ],
+    "buffId": [15],
+    "buffIcon": "res/build/buffBuild/skillBuild_zyj.png",
+    "maxCnt": 4
+  },
+  "2": {
+    "id": 2,
+    "buildId": 6002,
+    "name": "玉净瓶",
+    "oldname": "符咒弹射器",
+    "icon": "res/build/skillBuild/skillBuild_bottle.png",
+    "description": "有30％概率在噬魂者释放技能时眩晕对方",
+    "buildType": "skill",
+    "energy": 64,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Enemy_UseSkillBeDizzy",
+        "value": [0.3, 3]
+      }
+    ],
+    "buffId": [4],
+    "buffIcon": "res/build/buffBuild/skillBuild_bottle.png",
+    "maxCnt": 1
+  },
+  "3": {
+    "id": 3,
+    "buildId": 6003,
+    "name": "金钟罩",
+    "oldname": "能量罩",
+    "icon": "res/build/skillBuild/skillBuild_jzz.png",
+    "description": "在大门耐久度低于30％时，大门会无敌3s",
+    "buildType": "skill",
+    "energy": 64,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_NotGetDmgOnHpLow",
+        "value": [0.3, 3]
+      }
+    ],
+    "buffId": [7],
+    "buffIcon": "res/build/buffBuild/skillBuild_jzz.png",
+    "maxCnt": 1
+  },
+  "4": {
+    "id": 4,
+    "buildId": 6004,
+    "name": "算卦摊",
+    "oldname": "取款机",
+    "icon": "res/build/skillBuild/skillBuild_suan.png",
+    "buildAni": "res/build/buildAni/skillBuild_suan.atlas",
+    "description": "每个炮塔攻击时，会获得基于床铺等级的元宝",
+    "buildType": "skill",
+    "energy": 32,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Tower_GetCoinOnAtk",
+        "value": [1]
+      }
+    ],
+    "buffId": [14],
+    "buffIcon": "res/build/buffBuild/skillBuild_suan.png",
+    "maxCnt": 1
+  },
+  "5": {
+    "id": 5,
+    "buildId": 6005,
+    "name": "一个门神",
+    "oldname": "冰箱",
+    "icon": "res/build/skillBuild/skillBuild_doorgod.png",
+    "buildAni": "res/build/buildAni/skillBuild_doorgod.atlas",
+    "description": "噬魂者的攻速降低20％",
+    "buildType": "skill",
+    "energy": 256,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Enemy_SlowAtkSpd",
+        "value": [0.2]
+      }
+    ],
+    "buffId": [5],
+    "buffIcon": "res/build/buffBuild/skillBuild_doorgod.png",
+    "buffBuildAni": "res/build/buffBuild/ani/skillBuild_doorgod.atlas",
+    "maxCnt": 1
+  },
+  "6": {
+    "id": 6,
+    "buildId": 6006,
+    "name": "雄黄酒",
+    "oldname": "诱捕",
+    "icon": "res/build/skillBuild/skillBuild_xh.png",
+    "description": "噬魂者在逃跑时被眩晕2s",
+    "buildType": "skill",
+    "energy": 256,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Enemy_EscapeBeDizzy",
+        "value": [2]
+      }
+    ],
+    "buffId": [8, 9],
+    "buffIcon": "res/build/buffBuild/skillBuild_xh.png",
+    "maxCnt": 1
+  },
+  "7": {
+    "id": 7,
+    "buildId": 6007,
+    "name": "粽子",
+    "oldname": "倒刺",
+    "icon": "res/build/skillBuild/skillBuild_zz.png",
+    "buildAni": "res/build/buildAni/skillBuild_zz.atlas",
+    "description": "每当噬魂者攻击门时，会受到1%最大生命值的伤害",
+    "buildType": "skill",
+    "energy": 512,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_FightBackOnBeAtk",
+        "value": [0.01]
+      }
+    ],
+    "buffId": [16],
+    "buffIcon": "res/build/buffBuild/skillBuild_zz.png",
+    "maxCnt": 1
+  },
+  "8": {
+    "id": 8,
+    "buildId": 6008,
+    "name": "纸人桌",
+    "oldname": "断头台",
+    "icon": "res/build/skillBuild/skillBuild_table.png",
+    "description": "噬魂者血量低于30%时, 立刻对其造成10%最大生命值伤害",
+    "buildType": "skill",
+    "energy": 2048,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Enemy_OnHpLowBeAtk",
+        "value": [0.3, 0.1]
+      }
+    ],
+    "buffId": [19],
+    "buffIcon": "res/build/buffBuild/skillBuild_table.png",
+    "maxCnt": 1
+  },
+  "9": {
+    "id": 9,
+    "buildId": 6009,
+    "name": "罗盘仪",
+    "oldname": "瞭望台",
+    "icon": "res/build/skillBuild/skillBuild_wx1.png",
+    "description": "所有炮塔攻击范围提高30％",
+    "buildType": "skill",
+    "energy": 256,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [0.3]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "10": {
+    "id": 10,
+    "buildId": 6010,
+    "name": "炼丹炉",
+    "oldname": "粒子加速器",
+    "icon": "res/build/skillBuild/skillBuild_fire.png",
+    "buildAni": "res/build/buildAni/skillBuild_fire.atlas",
+    "description": "所有炮塔攻速提高50％",
+    "buildType": "skill",
+    "energy": 2048,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkSpd",
+        "value": [0.5]
+      }
+    ],
+    "buffId": [17],
+    "buffIcon": "res/build/buffBuild/skillBuild_fire.png",
+    "buffBuildAni": "res/build/buffBuild/ani/skillBuild_fire.atlas",
+    "maxCnt": 1
+  },
+  "11": {
+    "id": 11,
+    "buildId": 6011,
+    "name": "孟婆汤",
+    "oldname": "电磁圈",
+    "icon": "res/build/skillBuild/skillBuild_soup.png",
+    "buildAni": "res/build/buildAni/skillBuild_soup.atlas",
+    "description": "当噬魂者离你越近，炮塔攻速越快，最高可提升50％",
+    "buildType": "skill",
+    "energy": 2048,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkSpdOnEnemyNear",
+        "value": [0.5]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "12": {
+    "id": 12,
+    "buildId": 6012,
+    "name": "摇钱树",
+    "oldname": "狗尾巴草",
+    "icon": "res/build/skillBuild/skillBuild_moneytree.png",
+    "description": "每当噬魂者攻击大门，获得等同于对方25%攻击力的元宝",
+    "buildType": "skill",
+    "energy": 10,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_GetCoinOnHurt",
+        "value": [0.25]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "13": {
+    "id": 13,
+    "buildId": 6013,
+    "name": "许愿池",
+    "oldname": "大狗尾巴草",
+    "icon": "res/build/skillBuild/skillBuild_pool.png",
+    "description": "每当噬魂者攻击大门，获得等同于对方100%攻击力的元宝",
+    "buildType": "skill",
+    "energy": 50,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_GetCoinOnHurt",
+        "value": [1]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "14": {
+    "id": 14,
+    "buildId": 6014,
+    "name": "荷花盆景",
+    "oldname": "赔款薰衣草",
+    "icon": "res/build/skillBuild/skillBuild_hehua.png",
+    "description": "每当噬魂者攻击大门，获得等同于对方100%攻击力的元宝",
+    "buildType": "skill",
+    "energy": 50,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Door_GetCoinOnHurt",
+        "value": [1]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "15": {
+    "id": 15,
+    "buildId": 6015,
+    "name": "口香糖",
+    "oldname": "渔网",
+    "icon": "res/build/skillBuild/skillBuild_gum.png",
+    "description": "当门生命值低于50%时，噬魂者会停止2s攻击（生效一次后消失）",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Door_EnemyBeDizzy",
+        "value": [0.5, 3]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "16": {
+    "id": 16,
+    "buildId": 6016,
+    "name": "螺狮粉",
+    "oldname": "大蒜",
+    "icon": "res/build/skillBuild/skillBuild_lsf.png",
+    "description": "当门生命值低于30%时，噬魂者会逃跑（生效一次后消失）",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Door_EnemyBeEscape",
+        "value": [0.3, 3]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "17": {
+    "id": 17,
+    "buildId": 6017,
+    "name": "村口大黄",
+    "oldname": "捕兽夹",
+    "icon": "res/build/skillBuild/skillBuild_dog.png",
+    "buildAni": "res/build/buildAni/skillBuild_dog.atlas",
+    "description": "当噬魂者逃跑时，移速降低50％，持续8s",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Enemy_EscapeBeSlowdown",
+        "value": [0.5, 8]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "18": {
+    "id": 18,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox1.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得1个元宝",
+    "buildType": "eatMosquito",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [1]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "19": {
+    "id": 19,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox2.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得2个元宝",
+    "buildType": "eatMosquito",
+    "energy": 0,
+    "coin": 25,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [2]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "20": {
+    "id": 20,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox3.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得4个元宝",
+    "buildType": "eatMosquito",
+    "energy": 0,
+    "coin": 50,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [4]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "21": {
+    "id": 21,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox4.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得8个元宝",
+    "buildType": "eatMosquito",
+    "energy": 0,
+    "coin": 100,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [8]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "22": {
+    "id": 22,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox5.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得16个元宝",
+    "buildType": "eatMosquito",
+    "energy": 8,
+    "coin": 200,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [16]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "23": {
+    "id": 23,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得32个元宝",
+    "buildType": "eatMosquito",
+    "energy": 16,
+    "coin": 500,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [32]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "24": {
+    "id": 24,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得64个元宝",
+    "buildType": "eatMosquito",
+    "energy": 32,
+    "coin": 1000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [64]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "25": {
+    "id": 25,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得128个元宝",
+    "buildType": "eatMosquito",
+    "energy": 64,
+    "coin": 2000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [128]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "26": {
+    "id": 26,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得256个元宝",
+    "buildType": "eatMosquito",
+    "energy": 128,
+    "coin": 4000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [256]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "27": {
+    "id": 27,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得512个元宝",
+    "buildType": "eatMosquito",
+    "energy": 256,
+    "coin": 8000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [512]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "28": {
+    "id": 28,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得1024个元宝",
+    "buildType": "eatMosquito",
+    "energy": 512,
+    "coin": 16000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [1024]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "29": {
+    "id": 29,
+    "buildId": 6018,
+    "name": "九尾狐",
+    "oldname": "金钱蛙",
+    "icon": "res/build/skillBuild/skillBuild_fox6.png",
+    "description": "每五秒生成一批鬼火，九尾狐每吃掉一个鬼火能获得2048个元宝",
+    "buildType": "eatMosquito",
+    "energy": 1024,
+    "coin": 32000,
+    "effectList": [
+      {
+        "type": "Eat_Mosquito",
+        "value": [2048]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "30": {
+    "id": 30,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "120%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔120%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 2,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [0.2]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "31": {
+    "id": 31,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "140%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔140%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 16,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [0.4]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "32": {
+    "id": 32,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "160%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔160%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 32,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [0.6]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "33": {
+    "id": 33,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "180%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔180%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 64,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [0.8]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "34": {
+    "id": 34,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "200%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔200%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 128,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [1]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "35": {
+    "id": 35,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "220%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔220%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 256,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [1.2]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "36": {
+    "id": 36,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "240%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔240%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 512,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [1.4]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "37": {
+    "id": 37,
+    "buildId": 6019,
+    "name": "指南针",
+    "oldname": "260%射程瞭望塔",
+    "icon": "res/build/skillBuild/skillBuild_wx.png",
+    "description": "增加炮塔260%的范围",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 1024,
+    "effectList": [
+      {
+        "type": "Tower_AddAtkDst",
+        "value": [1.6]
+      }
+    ],
+    "buffId": [12],
+    "buffIcon": "res/build/buffBuild/skillBuild_wx.png",
+    "maxCnt": 1
+  },
+  "38": {
+    "id": 38,
+    "buildId": 6020,
+    "name": "纸人抬轿",
+    "oldname": "箱神",
+    "icon": "res/build/skillBuild/skillBuild_box.png",
+    "description": "使你的床铺飞往门外，有额外的50%金币获取",
+    "buildType": "springBox",
+    "energy": 0,
+    "coin": 0,
+    "maxCnt": 1,
+    "videoUpgradeIdArr": [4, 5]
+  },
+  "39": {
+    "id": 39,
+    "buildId": 6021,
+    "name": "大剑",
+    "oldname": "杀猪刀",
+    "icon": "res/build/skillBuild/skillBuild_cuizi.png",
+    "description": "立刻对噬魂者造成10%最大生命值伤害",
+    "buildType": "knife",
+    "energy": 0,
+    "coin": 0,
+    "maxCnt": 1,
+    "videoUpgradeIdArr": [1]
+  },
+  "40": {
+    "id": 40,
+    "buildId": 6666,
+    "name": "摇签盒",
+    "oldname": "修勾魔盒",
+    "icon": "res/build/skillBuild/box.png",
+    "buildAni": "res/build/buildAni/box.atlas",
+    "description": "使用后生成随机建筑",
+    "buildType": "random",
+    "energy": 0,
+    "coin": 10,
+    "maxCnt": 3
+  },
+  "41": {
+    "id": 41,
+    "buildId": 2999,
+    "name": "学校技工",
+    "oldname": "房门升级卡",
+    "icon": "res/build/skillBuild/skillBuild_jg.png",
+    "description": "帮你完全修复并且升级一次大门",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 0
+  },
+  "42": {
+    "id": 42,
+    "buildId": 6022,
+    "name": "人参果树",
+    "oldname": "分裂器",
+    "icon": "res/build/skillBuild/skillBuild_rsgs.png",
+    "buildAni": "res/build/buildAni/skillBuild_rsgs.atlas",
+    "description": "炮塔能够同时攻击多个目标，但是单体伤害不变",
+    "buildType": "skill",
+    "energy": 128,
+    "coin": 0,
+    "effectList": [
+      {
+        "type": "Tower_SplitAtk"
+      }
+    ],
+    "maxCnt": 1
+  },
+  "43": {
+    "id": 43,
+    "buildId": 6023,
+    "name": "蟠桃",
+    "oldname": "迷迭香",
+    "icon": "res/build/skillBuild/skillBuild_pantao.png",
+    "buildAni": "res/build/buildAni/skillBuild_pantao.atlas",
+    "description": "引诱噬魂者攻击你，你的炮塔攻击时会获得与炮塔等级相同的元宝",
+    "buildType": "entice",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Tower_GetCoinOnAtk_1",
+        "value": [1.5]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "44": {
+    "id": 44,
+    "buildId": 7777,
+    "name": "随机底座",
+    "oldname": "特殊炮台",
+    "icon": "res/build/skillBuild/skillBuild_ts.png",
+    "description": "炮塔将会进化并带有随机效果",
+    "buildType": "special",
+    "energy": 0,
+    "coin": 50
+  },
+  "45": {
+    "id": 45,
+    "buildId": 6024,
+    "name": "兔子玩偶1",
+    "oldname": "碎石1",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：25",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 4,
+    "hp": 25
+  },
+  "46": {
+    "id": 46,
+    "buildId": 6024,
+    "name": "兔子玩偶2",
+    "oldname": "碎石2",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：40",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 8,
+    "hp": 40
+  },
+  "47": {
+    "id": 47,
+    "buildId": 6024,
+    "name": "兔子玩偶3",
+    "oldname": "碎石3",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：80",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 16,
+    "hp": 80
+  },
+  "48": {
+    "id": 48,
+    "buildId": 6024,
+    "name": "兔子玩偶4",
+    "oldname": "碎石4",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：100",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 32,
+    "hp": 100
+  },
+  "49": {
+    "id": 49,
+    "buildId": 6024,
+    "name": "兔子玩偶5",
+    "oldname": "碎石5",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：125",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 64,
+    "hp": 125
+  },
+  "50": {
+    "id": 50,
+    "buildId": 6024,
+    "name": "兔子玩偶6",
+    "oldname": "碎石6",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：160",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 128,
+    "hp": 160
+  },
+  "51": {
+    "id": 51,
+    "buildId": 6024,
+    "name": "兔子玩偶7",
+    "oldname": "碎石7",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：320",
+    "buildType": "stone",
+    "energy": 0,
+    "coin": 256,
+    "hp": 320
+  },
+  "52": {
+    "id": 52,
+    "buildId": 6024,
+    "name": "兔子玩偶8",
+    "oldname": "碎石8",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：640",
+    "buildType": "stone",
+    "energy": 16,
+    "coin": 512,
+    "hp": 640
+  },
+  "53": {
+    "id": 53,
+    "buildId": 6024,
+    "name": "兔子玩偶9",
+    "oldname": "碎石9",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：1280",
+    "buildType": "stone",
+    "energy": 32,
+    "coin": 1024,
+    "hp": 1280
+  },
+  "54": {
+    "id": 54,
+    "buildId": 6024,
+    "name": "兔子玩偶10",
+    "oldname": "碎石10",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：2560",
+    "buildType": "stone",
+    "energy": 64,
+    "coin": 2048,
+    "hp": 2560
+  },
+  "55": {
+    "id": 55,
+    "buildId": 6024,
+    "name": "兔子玩偶11",
+    "oldname": "碎石11",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：5120",
+    "buildType": "stone",
+    "energy": 128,
+    "coin": 4096,
+    "hp": 5120
+  },
+  "56": {
+    "id": 56,
+    "buildId": 6024,
+    "name": "兔子玩偶12",
+    "oldname": "碎石12",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：10240",
+    "buildType": "stone",
+    "energy": 256,
+    "coin": 8192,
+    "hp": 10240
+  },
+  "57": {
+    "id": 57,
+    "buildId": 6024,
+    "name": "兔子玩偶13",
+    "oldname": "碎石13",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：20480",
+    "buildType": "stone",
+    "energy": 512,
+    "coin": 16384,
+    "hp": 20480
+  },
+  "58": {
+    "id": 58,
+    "buildId": 6024,
+    "name": "兔子玩偶14",
+    "oldname": "碎石14",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：40960",
+    "buildType": "stone",
+    "energy": 1024,
+    "coin": 32768,
+    "hp": 40960
+  },
+  "59": {
+    "id": 59,
+    "buildId": 6024,
+    "name": "兔子玩偶15",
+    "oldname": "碎石15",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "耐久：81920",
+    "buildType": "stone",
+    "energy": 2048,
+    "coin": 65536,
+    "hp": 81920
+  },
+  "60": {
+    "id": 60,
+    "buildId": 6025,
+    "name": "宝箱怪",
+    "oldname": "古井阿姨",
+    "icon": "res/build/specialBuild/baoxiang/box_1.png",
+    "buildType": "boxMonster",
+    "energy": 0,
+    "coin": 0,
+    "maxCnt": 1
+  },
+  "61": {
+    "id": 61,
+    "buildId": 6026,
+    "name": "桃木剑",
+    "oldname": "冰球",
+    "icon": "res/build/skillBuild/skillBuild_woodsword.png",
+    "description": "当噬魂者生命值低于50%时，使噬魂者眩晕3秒（生效一次后消失）",
+    "buildType": "skill",
+    "energy": 0,
+    "coin": 10,
+    "effectList": [
+      {
+        "type": "Enemy_HpRateBeDizzy",
+        "value": [0.5, 3]
+      }
+    ],
+    "maxCnt": 1
+  },
+  "62": {
+    "id": 62,
+    "buildId": 6027,
+    "name": "镇宅石狮",
+    "oldname": "巨石",
+    "icon": "res/build/skillBuild/skillBuild_doorkeeper.png",
+    "description": "代替门承受伤害，其耐久值随门的升级增加",
+    "buildType": "doorkeeper",
+    "energy": 0,
+    "coin": 0,
+    "maxCnt": 1
+  },
+  "63": {
+    "id": 63,
+    "buildId": 6028,
+    "name": "鬼市钱庄",
+    "oldname": "贷款机",
+    "icon": "res/build/skillBuild/skillBuild_borrowMoney.png",
+    "description": "每次完全还款会增加下一次的额度",
+    "buildType": "borrowMoney",
+    "energy": 0,
+    "coin": 10,
+    "maxCnt": 1
+  }
+}

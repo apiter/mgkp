@@ -1,0 +1,193 @@
+{
+  "configurableJointMap": {
+    "Bone.0": {
+      "connectedBody": "",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "vmax": 10
+    },
+    "Bone.1": {
+      "connectedBody": "Bone.0",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.35,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.2": {
+      "connectedBody": "Bone.1",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.39,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.3": {
+      "connectedBody": "Bone.2",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.39,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.4": {
+      "connectedBody": "Bone.3",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.38,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.5": {
+      "connectedBody": "Bone.4",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.39,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.6": {
+      "connectedBody": "Bone.5",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.39,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.7": {
+      "connectedBody": "Bone.6",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.37,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.8": {
+      "connectedBody": "Bone.7",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.39,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    },
+    "Bone.9": {
+      "connectedBody": "Bone.8",
+      "localAnchor": {
+        "x": 0.36,
+        "y": 0,
+        "z": 0
+      },
+      "connectedAnchor": {
+        "x": -0.41,
+        "y": 0,
+        "z": 0
+      },
+      "min": -360,
+      "max": 360,
+      "spring": {
+        "x": 0,
+        "y": 0.01
+      },
+      "vmax": 10
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "1": {
+    "id": 1,
+    "path": "map/map1.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "2": {
+    "id": 2,
+    "path": "map/map2.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "3": {
+    "id": 3,
+    "path": "map/map3.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "4": {
+    "id": 4,
+    "path": "map/map4.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "5": {
+    "id": 5,
+    "path": "map/map5.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "6": {
+    "id": 6,
+    "path": "map/map6.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "7": {
+    "id": 7,
+    "path": "map/map7.json",
+    "name": "合作地图2",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 3
+  },
+  "11": {
+    "id": 11,
+    "path": "map/map11.json",
+    "name": "天使与伥鬼",
+    "row": 36,
+    "column": 43,
+    "defenderPointNum": 6,
+    "hunterPointNum": 4,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 4
+  },
+  "21": {
+    "id": 21,
+    "path": "map/map21.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 4
+  },
+  "22": {
+    "id": 22,
+    "path": "map/map22.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 4
+  },
+  "23": {
+    "id": 23,
+    "path": "map/map23.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 4
+  },
+  "24": {
+    "id": 24,
+    "path": "map/map24.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 5
+  },
+  "25": {
+    "id": 25,
+    "path": "map/map25.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 5
+  },
+  "26": {
+    "id": 26,
+    "path": "map/map26.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 6
+  },
+  "27": {
+    "id": 27,
+    "path": "map/map27.json",
+    "name": "合作地图2",
+    "row": 39,
+    "column": 39,
+    "defenderPointNum": 6,
+    "hunterPointNum": 5,
+    "smallMap": "res/smallMap/Map422.png",
+    "hideRoomCnt": 6
+  }
+}

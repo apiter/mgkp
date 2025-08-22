@@ -14450,7 +14450,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.playerNames = null
             }
         }
-        class Ja {
+        class XTiledInfo {
             constructor(e, t) {
                 this.x = e, this.y = t
             }
@@ -14688,7 +14688,7 @@ define("js/bundle.js", function(require, module, exports) {
                 for (let e = 0; e < this._height; ++e) {
                     this._tiledMap[e] = [];
                     for (let t = 0; t < this._width; ++t) {
-                        let i = new Ja(e, t),
+                        let i = new XTiledInfo(e, t),
                             s = e * this._width + t,
                             o = a[s];
                         0 == o ? (i.groundBlock = "floor_1", i.groundRot = 0) : (i.groundBlock = this._tileSets[o][0], i.groundRot = this._tileSets[o][1]), -1 !== i.groundBlock.indexOf("wall_break") && this.hideWall.push(new fx.V2(i.x, i.y)), -1 != i.groundBlock.indexOf("floor_1") && this.outRoomGridsInsideMap.push(new fx.V2(e, t)), -1 != i.groundBlock.indexOf("wall_unable") && this.hideDoors.push(new fx.V2(i.x, i.y)), -1 != i.groundBlock.indexOf("floor") && (i.walkable = !0);
@@ -14701,7 +14701,7 @@ define("js/bundle.js", function(require, module, exports) {
                         if (this._tiledMap[e][t] = i, r) {
                             let i = r[s];
                             if (i > 0) {
-                                let s = new Ja(e, t);
+                                let s = new XTiledInfo(e, t);
                                 if (!this._tileSets[i]) continue;
                                 let a = this._tileSets[i][2].name;
                                 s.image = `res/map/${a}.png`, s.groundBlock = a, this._viewList.push(s)
@@ -19470,7 +19470,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(e) {
                 this.name = e
             }
-        }, e.TianBoxScript = Mn, e.TianShiTowerScript = ns, e.TiledInfo = Ja, e.TimeIntervalCdt = XTimeIntervalCdt, e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = li, e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = rs, e.TowerGetCoinOnAtk = ei, e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = rn, e.TowerScript = XTowerScript, e.TrapScript = os, e.TurntableRewardDialog = me, e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = cn, e.User = xa, e.UsingSkillCdt = XHasSkillId02, e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
+        }, e.TianBoxScript = Mn, e.TianShiTowerScript = ns, e.TiledInfo = XTiledInfo, e.TimeIntervalCdt = XTimeIntervalCdt, e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = li, e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = rs, e.TowerGetCoinOnAtk = ei, e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = rn, e.TowerScript = XTowerScript, e.TrapScript = os, e.TurntableRewardDialog = me, e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = cn, e.User = xa, e.UsingSkillCdt = XHasSkillId02, e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
             onEnable() {
                 this.doLayout();
                 let e = this.owner.getChildren();

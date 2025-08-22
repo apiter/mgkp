@@ -1,0 +1,453 @@
+{
+  "1001": {
+    "id": 1001,
+    "name": "小莉",
+    "type": "Human",
+    "skinType": 1,
+    "skinPath": "spines/player/smw/smw.bin",
+    "headIcon": "res/icon/headIcon/playerHead1.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/player/player_1.png",
+    "unlock": {
+      "way": 999
+    }
+  },
+  "1002": {
+    "id": 1002,
+    "name": "公主小莉",
+    "type": "Human",
+    "skinType": 1,
+    "fragmentType": 0,
+    "skinPath": "spines/player/smwshuiqun/smwshuiqun.bin",
+    "headIcon": "res/icon/headIcon/playerHead1_1.png",
+    "skinBedPath": "res/icon/bedIcon/player1_1.png",
+    "skinShowPath": "res/player/player_1_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "1003": {
+    "id": 1003,
+    "name": "郡主小莉",
+    "type": "Human",
+    "skinType": 1,
+    "skinPath": "spines/player/xzs_smw/xzs_smw.bin",
+    "headIcon": "res/icon/headIcon/playerHead1_2.png",
+    "skinBedPath": "res/icon/bedIcon/player1_2.png",
+    "skinShowPath": "res/player/player_1_2.png",
+    "unlock": {
+      "way": 11
+    }
+  },
+  "1004": {
+    "id": 1004,
+    "name": "白雪小莉",
+    "type": "Human",
+    "skinType": 1,
+    "fragmentType": 1,
+    "skinPath": "spines/player/baixue/baixue.bin",
+    "headIcon": "res/icon/headIcon/playerHead1_3.png",
+    "skinBedPath": "res/icon/bedIcon/player1_3.png",
+    "skinShowPath": "res/player/player_1_3.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "2001": {
+    "id": 2001,
+    "name": "学霸阿昆",
+    "type": "Human",
+    "skinType": 2,
+    "skinPath": "spines/player/xuezha/xuezha.bin",
+    "headIcon": "res/icon/headIcon/playerHead2.png",
+    "skinBedPath": "res/icon/bedIcon/player2.png",
+    "skinShowPath": "res/player/player_2.png",
+    "unlock": {
+      "way": 1,
+      "num": 1
+    }
+  },
+  "2002": {
+    "id": 2002,
+    "name": "阿坤",
+    "type": "Human",
+    "skinType": 2,
+    "fragmentType": 0,
+    "skinPath": "spines/player/jikun/jikun.bin",
+    "headIcon": "res/icon/headIcon/playerHead2_1.png",
+    "skinBedPath": "res/icon/bedIcon/player2_1.png",
+    "skinShowPath": "res/player/player_2_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "2003": {
+    "id": 2003,
+    "name": "皮诺昆",
+    "type": "Human",
+    "skinType": 2,
+    "fragmentType": 1,
+    "skinPath": "spines/player/pinuocao/pinuocao.bin",
+    "headIcon": "res/icon/headIcon/playerHead2_2.png",
+    "skinBedPath": "res/icon/bedIcon/player2_2.png",
+    "skinShowPath": "res/player/player_2_2.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "3001": {
+    "id": 3001,
+    "name": "小书生",
+    "type": "Human",
+    "skinType": 3,
+    "skinPath": "spines/player/xiaoshusheng/xiaoshusheng.bin",
+    "headIcon": "res/icon/headIcon/playerHead3.png",
+    "skinBedPath": "res/icon/bedIcon/player3.png",
+    "skinShowPath": "res/player/player_3.png",
+    "unlock": {
+      "way": 1,
+      "num": 1
+    }
+  },
+  "3002": {
+    "id": 3002,
+    "name": "林道长",
+    "type": "Human",
+    "skinType": 3,
+    "fragmentType": 0,
+    "skinPath": "spines/player/daoshi/daoshi.bin",
+    "headIcon": "res/icon/headIcon/playerHead3_1.png",
+    "skinBedPath": "res/icon/bedIcon/player3_1.png",
+    "skinShowPath": "res/player/player_3_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "3003": {
+    "id": 3003,
+    "name": "小王子",
+    "type": "Human",
+    "skinType": 3,
+    "fragmentType": 1,
+    "skinPath": "spines/player/xwz/xwz.bin",
+    "headIcon": "res/icon/headIcon/playerHead3_2.png",
+    "skinBedPath": "res/icon/bedIcon/player3_2.png",
+    "skinShowPath": "res/player/player_3_2.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "4001": {
+    "id": 4001,
+    "name": "小飞",
+    "type": "Human",
+    "skinType": 4,
+    "skinPath": "spines/player/beishubao/beishubao.bin",
+    "headIcon": "res/icon/headIcon/playerHead4.png",
+    "skinBedPath": "res/icon/bedIcon/player4.png",
+    "skinShowPath": "res/player/player_4.png",
+    "unlock": {
+      "way": 1,
+      "num": 1
+    }
+  },
+  "4002": {
+    "id": 4002,
+    "name": "嘻哈小飞",
+    "type": "Human",
+    "skinType": 4,
+    "fragmentType": 0,
+    "skinPath": "spines/player/yingmuhuadao/yingmuhuadao.bin",
+    "headIcon": "res/icon/headIcon/playerHead4_1.png",
+    "skinBedPath": "res/icon/bedIcon/player4_1.png",
+    "skinShowPath": "res/player/player_4_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "4003": {
+    "id": 4003,
+    "name": "阿拉飞",
+    "type": "Human",
+    "skinType": 4,
+    "fragmentType": 1,
+    "skinPath": "spines/player/alading/alading.bin",
+    "headIcon": "res/icon/headIcon/playerHead4_2.png",
+    "skinBedPath": "res/icon/bedIcon/player4_2.png",
+    "skinShowPath": "res/player/player_4_2.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "5001": {
+    "id": 5001,
+    "name": "王老师",
+    "type": "Human",
+    "skinType": 5,
+    "skinPath": "spines/player/nvjiaoshi/nvjiaoshi.bin",
+    "headIcon": "res/icon/headIcon/playerHead5.png",
+    "skinBedPath": "res/icon/bedIcon/player5.png",
+    "skinShowPath": "res/player/player_5.png",
+    "unlock": {
+      "way": 1,
+      "num": 1
+    }
+  },
+  "5002": {
+    "id": 5002,
+    "name": "小红帽",
+    "type": "Human",
+    "skinType": 5,
+    "fragmentType": 0,
+    "skinPath": "spines/player/xiaohongmao/xiaohongmao.bin",
+    "headIcon": "res/icon/headIcon/playerHead5_1.png",
+    "skinBedPath": "res/icon/bedIcon/player5_1.png",
+    "skinShowPath": "res/player/player_5_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "5003": {
+    "id": 5003,
+    "name": "王后",
+    "type": "Human",
+    "skinType": 5,
+    "fragmentType": 1,
+    "skinPath": "spines/player/wanghou/wanghou.bin",
+    "headIcon": "res/icon/headIcon/playerHead5_2.png",
+    "skinBedPath": "res/icon/bedIcon/player5_2.png",
+    "skinShowPath": "res/player/player_5_2.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "6001": {
+    "id": 6001,
+    "name": "李保安",
+    "type": "Human",
+    "skinType": 6,
+    "skinPath": "spines/player/baoan/baoan.bin",
+    "headIcon": "res/icon/headIcon/playerHead6.png",
+    "skinBedPath": "res/icon/bedIcon/player6.png",
+    "skinShowPath": "res/player/player_6.png",
+    "unlock": {
+      "way": 1,
+      "num": 1
+    }
+  },
+  "6002": {
+    "id": 6002,
+    "name": "李因斯坦",
+    "type": "Human",
+    "skinType": 6,
+    "fragmentType": 0,
+    "skinPath": "spines/player/aiyinsitan/aiyinsitan.bin",
+    "headIcon": "res/icon/headIcon/playerHead6_1.png",
+    "skinBedPath": "res/icon/bedIcon/player6_1.png",
+    "skinShowPath": "res/player/player_6_1.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "6003": {
+    "id": 6003,
+    "name": "罗宾李",
+    "type": "Human",
+    "skinType": 6,
+    "fragmentType": 1,
+    "skinPath": "spines/player/luobinhan/luobinhan.bin",
+    "headIcon": "res/icon/headIcon/playerHead6_2.png",
+    "skinBedPath": "res/icon/bedIcon/player6_2.png",
+    "skinShowPath": "res/player/player_6_2.png",
+    "unlock": {
+      "way": 2,
+      "num": 25
+    }
+  },
+  "7001": {
+    "id": 7001,
+    "name": "小帅",
+    "type": "Human",
+    "skinType": 7,
+    "skinPath": "spines/player/xiaoshuai/xiaoshuai.bin",
+    "headIcon": "res/icon/headIcon/playerHead7.png",
+    "skinBedPath": "res/icon/bedIcon/player7.png",
+    "skinShowPath": "res/player/player_7.png",
+    "unlock": {
+      "way": 3
+    }
+  },
+  "7002": {
+    "id": 7002,
+    "name": "霸总小帅",
+    "type": "Human",
+    "skinType": 7,
+    "skinPath": "spines/player/bazong/bazong.bin",
+    "headIcon": "res/icon/headIcon/playerHead7_1.png",
+    "skinBedPath": "res/icon/bedIcon/player7_1.png",
+    "skinShowPath": "res/player/player_7_1.png",
+    "unlock": {
+      "way": 3
+    }
+  },
+  "10001": {
+    "id": 10001,
+    "name": "疯女",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/zhenzi/zhenzi.bin",
+    "headIcon": "res/icon/headIcon/hunterHead1.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_1.png",
+    "unlock": {
+      "way": 999
+    },
+    "defaultRight": 1,
+    "skillDes": "噬魂者技能：每隔一段时间，疯女的攻击会暴击，对门造成双倍伤害"
+  },
+  "10002": {
+    "id": 10002,
+    "name": "戏子鬼",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/xizi/xizi.bin",
+    "headIcon": "res/icon/headIcon/hunterHead2.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_2.png",
+    "defaultRight": 1,
+    "skillDes": "噬魂者技能：戏子鬼会召唤若干分身，一段时间后会自动消失"
+  },
+  "10003": {
+    "id": 10003,
+    "name": "鬼新娘",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/guixinniang/guixinniang.bin",
+    "headIcon": "res/icon/headIcon/hunterHead3.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_3.png",
+    "defaultRight": 1,
+    "skillDes": "噬魂者技能：鬼新娘会使用传送，铺满房间所有格子可以阻止她进入！"
+  },
+  "10004": {
+    "id": 10004,
+    "name": "猫脸老太",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/maolianpopo/maolianpopo.bin",
+    "headIcon": "res/icon/headIcon/hunterHead4.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_4.png",
+    "defaultRight": 0
+  },
+  "10005": {
+    "id": 10005,
+    "name": "幽灵护士",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/nvhushi/nvhushi.bin",
+    "headIcon": "res/icon/headIcon/hunterHead5.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_5.png",
+    "defaultRight": 1,
+    "skillDes": "噬魂者技能：幽灵护士会眩晕一定范围内的所有炮台"
+  },
+  "10006": {
+    "id": 10006,
+    "name": "兵马俑",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/bingmayong/bingmayong.bin",
+    "headIcon": "res/icon/headIcon/hunterHead6.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_6.png",
+    "defaultRight": 1,
+    "skillDes": "噬魂者技能：兵马俑的初始移动速度更快"
+  },
+  "10007": {
+    "id": 10007,
+    "name": "僵尸",
+    "type": "Hunter",
+    "skinPath": "spines/hunter/jiangshi/jiangshi.bin",
+    "headIcon": "res/icon/headIcon/hunterHead7.png",
+    "skinBedPath": "res/icon/bedIcon/player1.png",
+    "skinShowPath": "res/hunter/hunter_7.png",
+    "defaultRight": 0,
+    "skillDes": "噬魂者技能：僵尸会召唤其他噬魂者，使用人参果树会有奇效！"
+  },
+  "20001": {
+    "id": 20001,
+    "name": "小莉",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/smw/smw.bin"
+  },
+  "20002": {
+    "id": 20002,
+    "name": "阿坤",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/xuezha/xuezha.bin"
+  },
+  "20003": {
+    "id": 20003,
+    "name": "小书生",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/xiaoshusheng/xiaoshusheng.bin"
+  },
+  "20004": {
+    "id": 20004,
+    "name": "小飞",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/beishubao/beishubao.bin"
+  },
+  "20005": {
+    "id": 20005,
+    "name": "王老师",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/nvjiaoshi/nvjiaoshi.bin"
+  },
+  "20006": {
+    "id": 20006,
+    "name": "李保安",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/baoan/baoan.bin"
+  },
+  "20007": {
+    "id": 20007,
+    "name": "小帅",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/xiaoshuai/xiaoshuai.bin"
+  },
+  "90001": {
+    "id": 90001,
+    "name": "木头",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/mutou/mutou.bin",
+    "skinShowPath": "res/hunter/hunter_1.png",
+    "defaultRight": 0
+  },
+  "90002": {
+    "id": 90002,
+    "name": "小粉",
+    "type": "Ghost",
+    "skinPath": "spines/hunter/xiaofen/xiaofen.bin",
+    "defaultRight": 0
+  },
+  "90003": {
+    "id": 90003,
+    "name": "天使",
+    "type": "Angel",
+    "skinPath": "spines/player/tianshi/tianshi.bin"
+  },
+  "90004": {
+    "id": 90004,
+    "name": "讨债鬼",
+    "type": "Fighter",
+    "skinPath": "spines/hunter/taozhaigui/taozhaigui.bin",
+    "defaultRight": 1
+  }
+}

@@ -9,9 +9,9 @@ export class XV2Util01 {
             if (this.isV2Equal(e, i)) return !0;
         return !1
     }
-    static pDistance(e, t) {
-        let i = e.x - t.x,
-            s = e.y - t.y;
+    static pDistance(v1, v2) {
+        let i = v1.x - v2.x,
+            s = v1.y - v2.y;
         return Math.sqrt(i * i + s * s)
     }
     static pDistanceSquared(e, t) {
@@ -27,21 +27,21 @@ export class XV2Util01 {
             l = o * Math.PI / 180;
         node_.angle = -(l + offsetR)
     }
-    static faceTo_1(e, t, i, s, a = 0) {
-        if (!e || !t) return;
-        let n = i - (e.x + t.x),
-            r = s - (e.y + t.y),
-            o = Math.atan2(r, n),
+    static faceTo_1(node_, img_, targetX_, targetY_, offsetR_ = 0) {
+        if (!node_ || !img_) return;
+        let x = targetX_ - (node_.x + img_.x),
+            y = targetY_ - (node_.y + img_.y),
+            o = Math.atan2(y, x),
             l = o * Math.PI / 180;
-        t.rotation = l + a
+        img_.angle = -(l + offsetR_)
     }
-    static faceWith(e, t, i, s = 0) {
+    static faceWith(e, x_, y_, s = 0) {
         if (!e) return;
-        let a = t,
-            n = i,
+        let a = x_,
+            n = y_,
             r = Math.atan2(n, a),
             o = r * Math.PI / 180;
-        e.rotation = o + s + 90
+        e.angle = o + s + 90
     }
 }
 

@@ -1,0 +1,488 @@
+{
+  "1": {
+    "id": 1,
+    "buildId": 5000,
+    "name": "普通神龛",
+    "oldname": "铜矿",
+    "icon": "res/build/mine_2.png",
+    "description": "生产：元宝+8/s",
+    "coin": 0,
+    "energy": 128,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [8]
+      }
+    ],
+    "buffId": [1],
+    "variantList": [
+      {
+        "id": 5200,
+        "weight": 1
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "buildId": 5000,
+    "name": "铁制神龛",
+    "oldname": "银矿",
+    "icon": "res/build/mine_3.png",
+    "description": "生产：元宝+32/s",
+    "coin": 0,
+    "energy": 1024,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [32]
+      }
+    ],
+    "buffId": [1],
+    "variantList": [
+      {
+        "id": 5200,
+        "weight": 1
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "buildId": 5000,
+    "name": "金制神龛",
+    "oldname": "金矿",
+    "icon": "res/build/mine_4.png",
+    "description": "生产：元宝+128/s",
+    "coin": 0,
+    "energy": 2048,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [128]
+      }
+    ],
+    "buffId": [1],
+    "variantList": [
+      {
+        "id": 5200,
+        "weight": 1
+      }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "buildId": 5000,
+    "name": "辉煌神龛",
+    "oldname": "钻石矿",
+    "icon": "res/build/mine_5.png",
+    "description": "生产：元宝+512/s",
+    "coin": 0,
+    "energy": 4096,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [512]
+      }
+    ],
+    "buffId": [1],
+    "variantList": [
+      {
+        "id": 5200,
+        "weight": 1
+      }
+    ]
+  },
+  "5": {
+    "id": 5,
+    "buildId": 5000,
+    "name": "传说神龛",
+    "oldname": "氪金矿",
+    "icon": "res/build/mine_6.png",
+    "description": "生产：元宝+1024/s",
+    "coin": 0,
+    "energy": 4096,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1024]
+      }
+    ],
+    "buffId": [1],
+    "variantList": [
+      {
+        "id": 5200,
+        "weight": 1
+      }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "buildId": 5001,
+    "name": "香炉",
+    "oldname": "坟墓",
+    "icon": "res/build/mine_lu.png",
+    "description": "生产：元宝+1/s",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ],
+    "buffId": [13],
+    "buffIcon": "res/build/buffBuild/mine_lu.png"
+  },
+  "7": {
+    "id": 7,
+    "buildId": 5002,
+    "name": "招财猫",
+    "oldname": "动物床",
+    "icon": "res/build/mine_cat.png",
+    "description": "生产：元宝+1/s，队友死亡时翻倍",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ],
+    "variantList": [
+      {
+        "id": 5101,
+        "weight": 5
+      },
+      {
+        "id": 5102,
+        "weight": 5
+      },
+      {
+        "id": 5103,
+        "weight": 5
+      },
+      {
+        "id": 5104,
+        "weight": 5
+      },
+      {
+        "id": 5105,
+        "weight": 5
+      },
+      {
+        "id": 5106,
+        "weight": 5
+      }
+    ],
+    "variantDes": "升级成其他猫"
+  },
+  "8": {
+    "id": 8,
+    "buildId": 5003,
+    "name": "破旧神龛",
+    "oldname": "铁矿（不可升级）",
+    "icon": "res/build/mine_1.png",
+    "description": "生产：元宝+4/s",
+    "coin": 10,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [4]
+      }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "buildId": 5004,
+    "name": "青花瓷",
+    "oldname": "垃圾桶",
+    "icon": "res/build/mine_box.png",
+    "description": "生产：元宝+2/s",
+    "coin": 10,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [2]
+      }
+    ]
+  },
+  "10": {
+    "id": 10,
+    "buildId": 5005,
+    "name": "水蜜桃",
+    "oldname": "菊花",
+    "icon": "res/build/mine_dressrb.png",
+    "description": "生产：元宝+1/s",
+    "coin": 10,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ],
+    "videoUpgradeBuildId": 6023
+  },
+  "11": {
+    "id": 11,
+    "buildId": 5006,
+    "name": "兔子",
+    "oldname": "石头",
+    "icon": "res/build/skillBuild/skillBuild_rabbit.png",
+    "description": "生产：元宝+1/s",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ]
+  },
+  "12": {
+    "id": 12,
+    "buildId": 5007,
+    "name": "普通钱夹",
+    "oldname": "雪糕",
+    "icon": "res/build/wallet_1.png",
+    "description": "生产：元宝+8/s",
+    "coin": 0,
+    "energy": 128,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [8]
+      }
+    ]
+  },
+  "13": {
+    "id": 13,
+    "buildId": 5007,
+    "name": "高级钱夹",
+    "oldname": "冰糕",
+    "icon": "res/build/wallet_2.png",
+    "description": "生产：元宝+32/s",
+    "coin": 0,
+    "energy": 1024,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [32]
+      }
+    ]
+  },
+  "14": {
+    "id": 14,
+    "buildId": 5007,
+    "name": "华丽钱夹",
+    "oldname": "冰淇淋",
+    "icon": "res/build/wallet_3.png",
+    "description": "生产：元宝+128/s",
+    "coin": 0,
+    "energy": 2048,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [128]
+      }
+    ]
+  },
+  "15": {
+    "id": 15,
+    "buildId": 5007,
+    "name": "豪华钱夹",
+    "oldname": "雪糕刺客",
+    "icon": "res/build/wallet_4.png",
+    "description": "生产：元宝+512/s",
+    "coin": 0,
+    "energy": 4096,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [512]
+      }
+    ]
+  },
+  "16": {
+    "id": 16,
+    "buildId": 5101,
+    "name": "白猫",
+    "oldname": "手机",
+    "icon": "res/build/mine_whitecat.png",
+    "description": "生产：元宝+1/s，灵感+1/s",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_CoinAndEnergy",
+        "value": [1, 1]
+      }
+    ]
+  },
+  "17": {
+    "id": 17,
+    "buildId": 5102,
+    "name": "黑猫",
+    "oldname": "掌机",
+    "icon": "res/build/mine_blackcat.png",
+    "description": "生产：元宝+10/s，灵感+5/s",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_CoinAndEnergy",
+        "value": [10, 5]
+      }
+    ]
+  },
+  "18": {
+    "id": 18,
+    "buildId": 5103,
+    "name": "翻运猫",
+    "oldname": "翻身",
+    "icon": "res/build/mine_fs1.png",
+    "description": "生产：元宝+1/s，队友死亡时翻倍，翻身后翻倍",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ]
+  },
+  "19": {
+    "id": 19,
+    "buildId": 5104,
+    "name": "橘猫",
+    "oldname": "宠物",
+    "icon": "res/build/mine_cw1.png",
+    "description": "生产：元宝+1/s，队友死亡时翻倍，每次点击获得额外1元宝",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ]
+  },
+  "20": {
+    "id": 20,
+    "buildId": 5105,
+    "name": "撒钱猫",
+    "oldname": "圣母",
+    "icon": "res/build/mine_smm.png",
+    "description": "所有队友元宝+1/s，每次队友死亡时翻倍",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ]
+  },
+  "21": {
+    "id": 21,
+    "buildId": 5106,
+    "name": "看门猫",
+    "oldname": "显眼包",
+    "icon": "res/build/mine_xybm.png",
+    "description": "生产：元宝+1/s，队友死亡时翻倍，门的血量较低时会攻击噬魂者",
+    "coin": 0,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1]
+      }
+    ]
+  },
+  "22": {
+    "id": 22,
+    "buildId": 5200,
+    "name": "陶制宝盆",
+    "oldname": "公交卡",
+    "icon": "res/build/pen_1.png",
+    "description": "生产：元宝+9/s",
+    "coin": 0,
+    "energy": 128,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [9]
+      }
+    ],
+    "buffId": [1]
+  },
+  "23": {
+    "id": 23,
+    "buildId": 5200,
+    "name": "精铁宝盆",
+    "oldname": "好人卡",
+    "icon": "res/build/pen_2.png",
+    "description": "生产：元宝+38/s",
+    "coin": 0,
+    "energy": 1024,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [38]
+      }
+    ],
+    "buffId": [1]
+  },
+  "24": {
+    "id": 24,
+    "buildId": 5200,
+    "name": "铜华宝盆",
+    "oldname": "黑卡",
+    "icon": "res/build/pen_3.png",
+    "description": "生产：元宝+153/s",
+    "coin": 0,
+    "energy": 2048,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [153]
+      }
+    ],
+    "buffId": [1]
+  },
+  "25": {
+    "id": 25,
+    "buildId": 5200,
+    "name": "银辉宝盆",
+    "oldname": "至尊金卡",
+    "icon": "res/build/pen_4.png",
+    "description": "生产：元宝+614/s",
+    "coin": 0,
+    "energy": 4096,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [614]
+      }
+    ],
+    "buffId": [1]
+  },
+  "26": {
+    "id": 26,
+    "buildId": 5200,
+    "name": "金耀宝盆",
+    "oldname": "天尊卡",
+    "icon": "res/build/pen_5.png",
+    "description": "生产：元宝+1228/s",
+    "coin": 0,
+    "energy": 4096,
+    "effectList": [
+      {
+        "type": "Add_Coin",
+        "value": [1228]
+      }
+    ],
+    "buffId": [1]
+  }
+}

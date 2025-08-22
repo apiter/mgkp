@@ -1,0 +1,155 @@
+{
+  "1": {
+    "id": 1,
+    "oldname": "千金炮",
+    "name": "糖果底座",
+    "quality": "罕见",
+    "weight": 20,
+    "des": "炮塔攻击噬魂者时，可将伤害值的12.5%转化为元宝",
+    "diIcon": "res/tower/tower_1_di2.png"
+  },
+  "2": {
+    "id": 2,
+    "oldname": "天使炮",
+    "name": "八卦底座",
+    "quality": "神话",
+    "weight": 1,
+    "des": "炮塔会追踪怪物进行攻击",
+    "diIcon": "res/tower/tower_1_di3.png"
+  },
+  "3": {
+    "id": 3,
+    "oldname": "百里炮",
+    "name": "吐司底座",
+    "quality": "罕见",
+    "weight": 20,
+    "des": "攻击范围提高至150%",
+    "diIcon": "res/tower/tower_1_di4.png"
+  },
+  "4": {
+    "id": 4,
+    "oldname": "大炮",
+    "name": "贝壳底座",
+    "quality": "罕见",
+    "weight": 20,
+    "des": "炮台变大啦，攻击力提高50%",
+    "diIcon": "res/tower/tower_1_di5.png"
+  },
+  "5": {
+    "id": 5,
+    "oldname": "子母炮",
+    "name": "生日蛋糕底座",
+    "quality": "罕见",
+    "weight": 20,
+    "des": "会召唤一个攻击力只有25%的小炮",
+    "diIcon": "res/tower/tower_1_di6.png"
+  },
+  "6": {
+    "id": 6,
+    "oldname": "癫狂炮",
+    "name": "莲花底座",
+    "quality": "神话",
+    "weight": 0,
+    "des": "向随机地块上的目标射出大量子弹",
+    "diIcon": "res/tower/tower_1_di7.png"
+  },
+  "7": {
+    "id": 7,
+    "oldname": "双头炮",
+    "name": "镜面宝石底座",
+    "quality": "传说",
+    "weight": 3,
+    "des": "镜像出双管炮塔，每管有75%的攻击力",
+    "diIcon": "res/tower/tower_1_di8.png"
+  },
+  "8": {
+    "id": 8,
+    "oldname": "冰冻炮",
+    "name": "人鱼底座",
+    "quality": "神话",
+    "weight": 3,
+    "des": "每攻击猎梦者15次，禁锢其2秒",
+    "diIcon": "res/tower/tower_1_di9.png"
+  },
+  "9": {
+    "id": 9,
+    "oldname": "巨炮",
+    "name": "折扇底座",
+    "quality": "传说",
+    "weight": 3,
+    "des": "炮塔攻击力提升90%",
+    "diIcon": "res/tower/tower_1_di10.png"
+  },
+  "10": {
+    "id": 10,
+    "oldname": "激光炮",
+    "name": "磁力底座",
+    "quality": "罕见",
+    "weight": 3,
+    "des": "每秒射出一道激光，对噬魂者造成1%最大生命值伤害",
+    "diIcon": "res/tower/tower_1_di11.png"
+  },
+  "11": {
+    "id": 11,
+    "oldname": "万金炮",
+    "name": "猫爪底座",
+    "quality": "传说",
+    "weight": 3,
+    "des": "炮塔攻击噬魂者时，可将伤害值的25%转化为元宝",
+    "diIcon": "res/tower/tower_1_di12.png"
+  },
+  "12": {
+    "id": 12,
+    "oldname": "迷你炮",
+    "name": "雪糕娃娃底座",
+    "quality": "传说",
+    "weight": 5,
+    "des": "射速增强，但威力降低至30%",
+    "diIcon": "res/tower/tower_1_di13.png"
+  },
+  "13": {
+    "id": 13,
+    "oldname": "极速炮",
+    "name": "锣底座",
+    "quality": "传说",
+    "weight": 3,
+    "des": "攻击力变为原来的一半，攻速提升三倍",
+    "diIcon": "res/tower/tower_1_di14.png"
+  },
+  "14": {
+    "id": 14,
+    "oldname": "千里炮",
+    "name": "花朵底座",
+    "quality": "传说",
+    "weight": 2,
+    "des": "攻击范围提高至200%",
+    "diIcon": "res/tower/tower_1_di15.png"
+  },
+  "15": {
+    "id": 15,
+    "oldname": "随机炮",
+    "name": "圣旨底座",
+    "quality": "神话",
+    "weight": 0,
+    "des": "圣旨到，随机赐给你一种炮塔",
+    "diIcon": "res/tower/tower_1_di16.png"
+  },
+  "16": {
+    "id": 16,
+    "oldname": "速射炮",
+    "name": "牛排底座",
+    "quality": "罕见",
+    "weight": 20,
+    "des": "攻速提高2.5倍，威力下降为原来的一半",
+    "diIcon": "res/tower/tower_1_di17.png"
+  },
+  "17": {
+    "id": 17,
+    "oldname": "吸星炮",
+    "name": "秘法底座",
+    "quality": "传说",
+    "weight": 5,
+    "des": "每次攻击为大门回复1%最大生命值血量",
+    "diIcon": "res/tower/tower_1_di18.png"
+  }
+}

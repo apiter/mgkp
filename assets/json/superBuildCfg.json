@@ -1,0 +1,23 @@
+{
+  "1": {
+    "id": 1,
+    "name": "屠龙刀",
+    "icon": "res/build/skillBuild/skillBuild_cuizi1.png",
+    "description": "能造成噬魂者25%生命值的伤害",
+    "upDes": "免费升级一次,使法宝更加强大"
+  },
+  "2": {
+    "id": 2,
+    "name": "芭蕉宝扇",
+    "icon": "res/tower/tower_bjs2.png",
+    "description": "每攻击一次，能获得相应的元宝",
+    "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
+  },
+  "3": {
+    "id": 3,
+    "name": "牛魔宝扇",
+    "icon": "res/tower/tower_bjs3.png",
+    "description": "功速变为300%，每攻击一次，能获得相应的元宝",
+    "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
+  }
+}

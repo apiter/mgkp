@@ -1,0 +1,162 @@
+{
+  "1": {
+    "id": 1,
+    "buildId": 4000,
+    "name": "破书包",
+    "oldname": "发霉游戏机",
+    "icon": "res/build/game_1.png",
+    "description": "生产：灵感+1/2s",
+    "coin": 200,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [1, 2]
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "buildId": 4000,
+    "name": "廉价书包",
+    "oldname": "破旧游戏机",
+    "icon": "res/build/game_2.png",
+    "description": "生产：灵感+2/1s",
+    "coin": 400,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [2]
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "buildId": 4000,
+    "name": "普通书包",
+    "oldname": "简陋游戏机",
+    "icon": "res/build/game_3.png",
+    "description": "生产：灵感+4/1s",
+    "coin": 800,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [4]
+      }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "buildId": 4000,
+    "name": "卡通书包",
+    "oldname": "古董游戏机",
+    "icon": "res/build/game_4.png",
+    "description": "生产：灵感+6/1s",
+    "coin": 1600,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [6]
+      }
+    ]
+  },
+  "5": {
+    "id": 5,
+    "buildId": 4000,
+    "name": "复古书包",
+    "oldname": "怀旧游戏机",
+    "icon": "res/build/game_5.png",
+    "description": "生产：灵感+8/1s",
+    "coin": 3200,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [8]
+      }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "buildId": 4000,
+    "name": "整洁书包",
+    "oldname": "NSN游戏机",
+    "icon": "res/build/game_6.png",
+    "description": "生产：灵感+10/1s",
+    "coin": 6400,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [10]
+      }
+    ]
+  },
+  "7": {
+    "id": 7,
+    "buildId": 4000,
+    "name": "高级书包",
+    "oldname": "GBG游戏机",
+    "icon": "res/build/game_7.png",
+    "description": "生产：灵感+15/1s",
+    "coin": 12800,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [15]
+      }
+    ]
+  },
+  "8": {
+    "id": 8,
+    "buildId": 4000,
+    "name": "昂贵书包",
+    "oldname": "qs5游戏机",
+    "icon": "res/build/game_8.png",
+    "description": "生产：灵感+20/1s",
+    "coin": 25600,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [20]
+      }
+    ]
+  },
+  "9": {
+    "id": 9,
+    "buildId": 4000,
+    "name": "精致书包",
+    "oldname": "红盒游戏机",
+    "icon": "res/build/game_9.png",
+    "description": "生产：灵感+25/1s",
+    "coin": 51200,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [25]
+      }
+    ]
+  },
+  "10": {
+    "id": 10,
+    "buildId": 4000,
+    "name": "豪华书包",
+    "oldname": "顶配游戏机",
+    "icon": "res/build/game_10.png",
+    "description": "生产：灵感+50/1s",
+    "coin": 102400,
+    "energy": 0,
+    "effectList": [
+      {
+        "type": "Add_Energy",
+        "value": [50]
+      }
+    ]
+  }
+}

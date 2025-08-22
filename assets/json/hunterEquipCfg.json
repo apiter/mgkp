@@ -1,0 +1,917 @@
+{
+  "1001": {
+    "id": 1001,
+    "oldName": "木刀1",
+    "name": "一阶银叉",
+    "type": 0,
+    "part": 0,
+    "value": 0.4,
+    "level": 1,
+    "url": "res/game/hunterEquip/1_1.png"
+  },
+  "1002": {
+    "id": 1002,
+    "oldName": "木刀2",
+    "name": "二阶银叉",
+    "type": 0,
+    "part": 0,
+    "value": 0.8,
+    "level": 2,
+    "url": "res/game/hunterEquip/1_1.png"
+  },
+  "1003": {
+    "id": 1003,
+    "oldName": "木刀3",
+    "name": "三阶银叉",
+    "type": 0,
+    "part": 0,
+    "value": 1.2,
+    "level": 3,
+    "url": "res/game/hunterEquip/1_1.png"
+  },
+  "1004": {
+    "id": 1004,
+    "oldName": "木刀4",
+    "name": "四阶银叉",
+    "type": 0,
+    "part": 0,
+    "value": 2.4,
+    "level": 4,
+    "url": "res/game/hunterEquip/1_1.png"
+  },
+  "1005": {
+    "id": 1005,
+    "oldName": "木刀5",
+    "name": "五阶银叉",
+    "type": 0,
+    "part": 0,
+    "value": 4.8,
+    "level": 5,
+    "url": "res/game/hunterEquip/1_1.png"
+  },
+  "1006": {
+    "id": 1006,
+    "oldName": "铁刀1",
+    "name": "一阶金叉",
+    "type": 0,
+    "part": 0,
+    "value": 6.4,
+    "level": 6,
+    "url": "res/game/hunterEquip/1_2.png"
+  },
+  "1007": {
+    "id": 1007,
+    "oldName": "铁刀2",
+    "name": "二阶金叉",
+    "type": 0,
+    "part": 0,
+    "value": 12.8,
+    "level": 7,
+    "url": "res/game/hunterEquip/1_2.png"
+  },
+  "1008": {
+    "id": 1008,
+    "oldName": "铁刀3",
+    "name": "三阶金叉",
+    "type": 0,
+    "part": 0,
+    "value": 25.6,
+    "level": 8,
+    "url": "res/game/hunterEquip/1_2.png"
+  },
+  "1009": {
+    "id": 1009,
+    "oldName": "铁刀4",
+    "name": "四阶金叉",
+    "type": 0,
+    "part": 0,
+    "value": 51.2,
+    "level": 9,
+    "url": "res/game/hunterEquip/1_2.png"
+  },
+  "1010": {
+    "id": 1010,
+    "oldName": "铁刀5",
+    "name": "五阶金叉",
+    "type": 0,
+    "part": 0,
+    "value": 102.4,
+    "level": 10,
+    "url": "res/game/hunterEquip/1_2.png"
+  },
+  "1011": {
+    "id": 1011,
+    "oldName": "钢刀1",
+    "name": "一阶玉叉",
+    "type": 0,
+    "part": 0,
+    "value": 204.8,
+    "level": 11,
+    "url": "res/game/hunterEquip/1_3.png"
+  },
+  "1012": {
+    "id": 1012,
+    "oldName": "钢刀2",
+    "name": "二阶玉叉",
+    "type": 0,
+    "part": 0,
+    "value": 409.6,
+    "level": 12,
+    "url": "res/game/hunterEquip/1_3.png"
+  },
+  "1013": {
+    "id": 1013,
+    "oldName": "钢刀3",
+    "name": "三阶玉叉",
+    "type": 0,
+    "part": 0,
+    "value": 819.2,
+    "level": 13,
+    "url": "res/game/hunterEquip/1_3.png"
+  },
+  "1014": {
+    "id": 1014,
+    "oldName": "钢刀4",
+    "name": "四阶玉叉",
+    "type": 0,
+    "part": 0,
+    "value": 1638.4,
+    "level": 14,
+    "url": "res/game/hunterEquip/1_3.png"
+  },
+  "1015": {
+    "id": 1015,
+    "oldName": "钢刀5",
+    "name": "五阶玉叉",
+    "type": 0,
+    "part": 0,
+    "value": 3276.8,
+    "level": 15,
+    "url": "res/game/hunterEquip/1_3.png"
+  },
+  "2001": {
+    "id": 2001,
+    "oldName": "木甲1",
+    "name": "一阶银铃",
+    "type": 1,
+    "part": 1,
+    "value": 60,
+    "level": 1,
+    "url": "res/game/hunterEquip/2_1.png"
+  },
+  "2002": {
+    "id": 2002,
+    "oldName": "木甲2",
+    "name": "二阶银铃",
+    "type": 1,
+    "part": 1,
+    "value": 80,
+    "level": 2,
+    "url": "res/game/hunterEquip/2_1.png"
+  },
+  "2003": {
+    "id": 2003,
+    "oldName": "木甲3",
+    "name": "三阶银铃",
+    "type": 1,
+    "part": 1,
+    "value": 120,
+    "level": 3,
+    "url": "res/game/hunterEquip/2_1.png"
+  },
+  "2004": {
+    "id": 2004,
+    "oldName": "木甲4",
+    "name": "四阶银铃",
+    "type": 1,
+    "part": 1,
+    "value": 240,
+    "level": 4,
+    "url": "res/game/hunterEquip/2_1.png"
+  },
+  "2005": {
+    "id": 2005,
+    "oldName": "木甲5",
+    "name": "五阶银铃",
+    "type": 1,
+    "part": 1,
+    "value": 480,
+    "level": 5,
+    "url": "res/game/hunterEquip/2_1.png"
+  },
+  "2006": {
+    "id": 2006,
+    "oldName": "铁甲1",
+    "name": "一阶金铃",
+    "type": 1,
+    "part": 1,
+    "value": 640,
+    "level": 6,
+    "url": "res/game/hunterEquip/2_2.png"
+  },
+  "2007": {
+    "id": 2007,
+    "oldName": "铁甲2",
+    "name": "二阶金铃",
+    "type": 1,
+    "part": 1,
+    "value": 1280,
+    "level": 7,
+    "url": "res/game/hunterEquip/2_2.png"
+  },
+  "2008": {
+    "id": 2008,
+    "oldName": "铁甲3",
+    "name": "三阶金铃",
+    "type": 1,
+    "part": 1,
+    "value": 1280,
+    "level": 8,
+    "url": "res/game/hunterEquip/2_2.png"
+  },
+  "2009": {
+    "id": 2009,
+    "oldName": "铁甲4",
+    "name": "四阶金铃",
+    "type": 1,
+    "part": 1,
+    "value": 5120,
+    "level": 9,
+    "url": "res/game/hunterEquip/2_2.png"
+  },
+  "2010": {
+    "id": 2010,
+    "oldName": "铁甲5",
+    "name": "五阶金铃",
+    "type": 1,
+    "part": 1,
+    "value": 5120,
+    "level": 10,
+    "url": "res/game/hunterEquip/2_2.png"
+  },
+  "2011": {
+    "id": 2011,
+    "oldName": "钢甲1",
+    "name": "一阶玉铃",
+    "type": 1,
+    "part": 1,
+    "value": 20480,
+    "level": 11,
+    "url": "res/game/hunterEquip/2_3.png"
+  },
+  "2012": {
+    "id": 2012,
+    "oldName": "钢甲2",
+    "name": "二阶玉铃",
+    "type": 1,
+    "part": 1,
+    "value": 20480,
+    "level": 12,
+    "url": "res/game/hunterEquip/2_3.png"
+  },
+  "2013": {
+    "id": 2013,
+    "oldName": "钢甲3",
+    "name": "三阶玉铃",
+    "type": 1,
+    "part": 1,
+    "value": 81920,
+    "level": 13,
+    "url": "res/game/hunterEquip/2_3.png"
+  },
+  "2014": {
+    "id": 2014,
+    "oldName": "钢甲4",
+    "name": "四阶玉铃",
+    "type": 1,
+    "part": 1,
+    "value": 81920,
+    "level": 14,
+    "url": "res/game/hunterEquip/2_3.png"
+  },
+  "2015": {
+    "id": 2015,
+    "oldName": "钢甲5",
+    "name": "五阶玉铃",
+    "type": 1,
+    "part": 1,
+    "value": 327680,
+    "level": 15,
+    "url": "res/game/hunterEquip/2_3.png"
+  },
+  "3001": {
+    "id": 3001,
+    "oldName": "木鞋1",
+    "name": "一阶银链",
+    "type": 2,
+    "part": 2,
+    "value": 0.05,
+    "level": 1,
+    "extraValue": 0.05,
+    "url": "res/game/hunterEquip/3_1.png"
+  },
+  "3002": {
+    "id": 3002,
+    "oldName": "木鞋2",
+    "name": "二阶银链",
+    "type": 2,
+    "part": 2,
+    "value": 0.052,
+    "level": 2,
+    "extraValue": 0.055,
+    "url": "res/game/hunterEquip/3_1.png"
+  },
+  "3003": {
+    "id": 3003,
+    "oldName": "木鞋3",
+    "name": "三阶银链",
+    "type": 2,
+    "part": 2,
+    "value": 0.054,
+    "level": 3,
+    "extraValue": 0.06,
+    "url": "res/game/hunterEquip/3_1.png"
+  },
+  "3004": {
+    "id": 3004,
+    "oldName": "木鞋4",
+    "name": "四阶银链",
+    "type": 2,
+    "part": 2,
+    "value": 0.056,
+    "level": 4,
+    "extraValue": 0.065,
+    "url": "res/game/hunterEquip/3_1.png"
+  },
+  "3005": {
+    "id": 3005,
+    "oldName": "木鞋5",
+    "name": "五阶银链",
+    "type": 2,
+    "part": 2,
+    "value": 0.058,
+    "level": 5,
+    "extraValue": 0.07,
+    "url": "res/game/hunterEquip/3_1.png"
+  },
+  "3006": {
+    "id": 3006,
+    "oldName": "铁鞋1",
+    "name": "一阶金链",
+    "type": 2,
+    "part": 2,
+    "value": 0.06,
+    "level": 6,
+    "extraValue": 0.075,
+    "url": "res/game/hunterEquip/3_2.png"
+  },
+  "3007": {
+    "id": 3007,
+    "oldName": "铁鞋2",
+    "name": "二阶金链",
+    "type": 2,
+    "part": 2,
+    "value": 0.062,
+    "level": 7,
+    "extraValue": 0.08,
+    "url": "res/game/hunterEquip/3_2.png"
+  },
+  "3008": {
+    "id": 3008,
+    "oldName": "铁鞋3",
+    "name": "三阶金链",
+    "type": 2,
+    "part": 2,
+    "value": 0.064,
+    "level": 8,
+    "extraValue": 0.085,
+    "url": "res/game/hunterEquip/3_2.png"
+  },
+  "3009": {
+    "id": 3009,
+    "oldName": "铁鞋4",
+    "name": "四阶金链",
+    "type": 2,
+    "part": 2,
+    "value": 0.066,
+    "level": 9,
+    "extraValue": 0.09,
+    "url": "res/game/hunterEquip/3_2.png"
+  },
+  "3010": {
+    "id": 3010,
+    "oldName": "铁鞋5",
+    "name": "五阶金链",
+    "type": 2,
+    "part": 2,
+    "value": 0.068,
+    "level": 10,
+    "extraValue": 0.095,
+    "url": "res/game/hunterEquip/3_2.png"
+  },
+  "3011": {
+    "id": 3011,
+    "oldName": "钢鞋1",
+    "name": "一阶玉链",
+    "type": 2,
+    "part": 2,
+    "value": 0.07,
+    "level": 11,
+    "extraValue": 0.1,
+    "url": "res/game/hunterEquip/3_3.png"
+  },
+  "3012": {
+    "id": 3012,
+    "oldName": "钢鞋2",
+    "name": "二阶玉链",
+    "type": 2,
+    "part": 2,
+    "value": 0.072,
+    "level": 12,
+    "extraValue": 0.105,
+    "url": "res/game/hunterEquip/3_3.png"
+  },
+  "3013": {
+    "id": 3013,
+    "oldName": "钢鞋3",
+    "name": "三阶玉链",
+    "type": 2,
+    "part": 2,
+    "value": 0.074,
+    "level": 13,
+    "extraValue": 0.11,
+    "url": "res/game/hunterEquip/3_3.png"
+  },
+  "3014": {
+    "id": 3014,
+    "oldName": "钢鞋4",
+    "name": "四阶玉链",
+    "type": 2,
+    "part": 2,
+    "value": 0.076,
+    "level": 14,
+    "extraValue": 0.115,
+    "url": "res/game/hunterEquip/3_3.png"
+  },
+  "3015": {
+    "id": 3015,
+    "oldName": "钢鞋5",
+    "name": "五阶玉链",
+    "type": 2,
+    "part": 2,
+    "value": 0.078,
+    "level": 15,
+    "extraValue": 0.12,
+    "url": "res/game/hunterEquip/3_3.png"
+  },
+  "4001": {
+    "id": 4001,
+    "oldName": "木书1",
+    "name": "一阶银卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.05,
+    "level": 1,
+    "url": "res/game/hunterEquip/4_1.png"
+  },
+  "4002": {
+    "id": 4002,
+    "oldName": "木书2",
+    "name": "二阶银卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.053,
+    "level": 2,
+    "url": "res/game/hunterEquip/4_1.png"
+  },
+  "4003": {
+    "id": 4003,
+    "oldName": "木书3",
+    "name": "三阶银卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.056,
+    "level": 3,
+    "url": "res/game/hunterEquip/4_1.png"
+  },
+  "4004": {
+    "id": 4004,
+    "oldName": "木书4",
+    "name": "四阶银卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.059,
+    "level": 4,
+    "url": "res/game/hunterEquip/4_1.png"
+  },
+  "4005": {
+    "id": 4005,
+    "oldName": "木书5",
+    "name": "五阶银卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.062,
+    "level": 5,
+    "url": "res/game/hunterEquip/4_1.png"
+  },
+  "4006": {
+    "id": 4006,
+    "oldName": "铁书1",
+    "name": "一阶金卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.065,
+    "level": 6,
+    "url": "res/game/hunterEquip/4_2.png"
+  },
+  "4007": {
+    "id": 4007,
+    "oldName": "铁书2",
+    "name": "二阶金卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.068,
+    "level": 7,
+    "url": "res/game/hunterEquip/4_2.png"
+  },
+  "4008": {
+    "id": 4008,
+    "oldName": "铁书3",
+    "name": "三阶金卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.071,
+    "level": 8,
+    "url": "res/game/hunterEquip/4_2.png"
+  },
+  "4009": {
+    "id": 4009,
+    "oldName": "铁书4",
+    "name": "四阶金卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.074,
+    "level": 9,
+    "url": "res/game/hunterEquip/4_2.png"
+  },
+  "4010": {
+    "id": 4010,
+    "oldName": "铁书5",
+    "name": "五阶金卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.077,
+    "level": 10,
+    "url": "res/game/hunterEquip/4_2.png"
+  },
+  "4011": {
+    "id": 4011,
+    "oldName": "钢书1",
+    "name": "一阶玉卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.08,
+    "level": 11,
+    "url": "res/game/hunterEquip/4_3.png"
+  },
+  "4012": {
+    "id": 4012,
+    "oldName": "钢书2",
+    "name": "二阶玉卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.083,
+    "level": 12,
+    "url": "res/game/hunterEquip/4_3.png"
+  },
+  "4013": {
+    "id": 4013,
+    "oldName": "钢书3",
+    "name": "三阶玉卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.086,
+    "level": 13,
+    "url": "res/game/hunterEquip/4_3.png"
+  },
+  "4014": {
+    "id": 4014,
+    "oldName": "钢书4",
+    "name": "四阶玉卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.089,
+    "level": 14,
+    "url": "res/game/hunterEquip/4_3.png"
+  },
+  "4015": {
+    "id": 4015,
+    "oldName": "钢书5",
+    "name": "五阶玉卷",
+    "type": 3,
+    "part": 3,
+    "value": 0.092,
+    "level": 15,
+    "url": "res/game/hunterEquip/4_3.png"
+  },
+  "5001": {
+    "id": 5001,
+    "oldName": "木盔1",
+    "name": "一阶银珠",
+    "type": 1,
+    "part": 4,
+    "value": 30,
+    "level": 1,
+    "url": "res/game/hunterEquip/5_1.png"
+  },
+  "5002": {
+    "id": 5002,
+    "oldName": "木盔2",
+    "name": "二阶银珠",
+    "type": 1,
+    "part": 4,
+    "value": 40,
+    "level": 2,
+    "url": "res/game/hunterEquip/5_1.png"
+  },
+  "5003": {
+    "id": 5003,
+    "oldName": "木盔3",
+    "name": "三阶银珠",
+    "type": 1,
+    "part": 4,
+    "value": 80,
+    "level": 3,
+    "url": "res/game/hunterEquip/5_1.png"
+  },
+  "5004": {
+    "id": 5004,
+    "oldName": "木盔4",
+    "name": "四阶银珠",
+    "type": 1,
+    "part": 4,
+    "value": 160,
+    "level": 4,
+    "url": "res/game/hunterEquip/5_1.png"
+  },
+  "5005": {
+    "id": 5005,
+    "oldName": "木盔5",
+    "name": "五阶银珠",
+    "type": 1,
+    "part": 4,
+    "value": 320,
+    "level": 5,
+    "url": "res/game/hunterEquip/5_1.png"
+  },
+  "5006": {
+    "id": 5006,
+    "oldName": "铁盔1",
+    "name": "一阶金珠",
+    "type": 1,
+    "part": 4,
+    "value": 640,
+    "level": 6,
+    "url": "res/game/hunterEquip/5_2.png"
+  },
+  "5007": {
+    "id": 5007,
+    "oldName": "铁盔2",
+    "name": "二阶金珠",
+    "type": 1,
+    "part": 4,
+    "value": 1280,
+    "level": 7,
+    "url": "res/game/hunterEquip/5_2.png"
+  },
+  "5008": {
+    "id": 5008,
+    "oldName": "铁盔3",
+    "name": "三阶金珠",
+    "type": 1,
+    "part": 4,
+    "value": 1280,
+    "level": 8,
+    "url": "res/game/hunterEquip/5_2.png"
+  },
+  "5009": {
+    "id": 5009,
+    "oldName": "铁盔4",
+    "name": "四阶金珠",
+    "type": 1,
+    "part": 4,
+    "value": 5120,
+    "level": 9,
+    "url": "res/game/hunterEquip/5_2.png"
+  },
+  "5010": {
+    "id": 5010,
+    "oldName": "铁盔5",
+    "name": "五阶金珠",
+    "type": 1,
+    "part": 4,
+    "value": 5120,
+    "level": 10,
+    "url": "res/game/hunterEquip/5_2.png"
+  },
+  "5011": {
+    "id": 5011,
+    "oldName": "钢盔1",
+    "name": "一阶玉珠",
+    "type": 1,
+    "part": 4,
+    "value": 30720,
+    "level": 11,
+    "url": "res/game/hunterEquip/5_3.png"
+  },
+  "5012": {
+    "id": 5012,
+    "oldName": "钢盔2",
+    "name": "二阶玉珠",
+    "type": 1,
+    "part": 4,
+    "value": 30720,
+    "level": 12,
+    "url": "res/game/hunterEquip/5_3.png"
+  },
+  "5013": {
+    "id": 5013,
+    "oldName": "钢盔3",
+    "name": "三阶玉珠",
+    "type": 1,
+    "part": 4,
+    "value": 122880,
+    "level": 13,
+    "url": "res/game/hunterEquip/5_3.png"
+  },
+  "5014": {
+    "id": 5014,
+    "oldName": "钢盔4",
+    "name": "四阶玉珠",
+    "type": 1,
+    "part": 4,
+    "value": 163840,
+    "level": 14,
+    "url": "res/game/hunterEquip/5_3.png"
+  },
+  "5015": {
+    "id": 5015,
+    "oldName": "钢盔5",
+    "name": "五阶玉珠",
+    "type": 1,
+    "part": 4,
+    "value": 655360,
+    "level": 15,
+    "url": "res/game/hunterEquip/5_3.png"
+  },
+  "6001": {
+    "id": 6001,
+    "oldName": "木锤1",
+    "name": "一阶银斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.03,
+    "level": 1,
+    "url": "res/game/hunterEquip/6_1.png"
+  },
+  "6002": {
+    "id": 6002,
+    "oldName": "木锤2",
+    "name": "二阶银斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.035,
+    "level": 2,
+    "url": "res/game/hunterEquip/6_1.png"
+  },
+  "6003": {
+    "id": 6003,
+    "oldName": "木锤3",
+    "name": "三阶银斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.04,
+    "level": 3,
+    "url": "res/game/hunterEquip/6_1.png"
+  },
+  "6004": {
+    "id": 6004,
+    "oldName": "木锤4",
+    "name": "四阶银斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.045,
+    "level": 4,
+    "url": "res/game/hunterEquip/6_1.png"
+  },
+  "6005": {
+    "id": 6005,
+    "oldName": "木锤5",
+    "name": "五阶银斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.05,
+    "level": 5,
+    "url": "res/game/hunterEquip/6_1.png"
+  },
+  "6006": {
+    "id": 6006,
+    "oldName": "铁锤1",
+    "name": "一阶金斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.055,
+    "level": 6,
+    "url": "res/game/hunterEquip/6_2.png"
+  },
+  "6007": {
+    "id": 6007,
+    "oldName": "铁锤2",
+    "name": "二阶金斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.06,
+    "level": 7,
+    "url": "res/game/hunterEquip/6_2.png"
+  },
+  "6008": {
+    "id": 6008,
+    "oldName": "铁锤3",
+    "name": "三阶金斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.065,
+    "level": 8,
+    "url": "res/game/hunterEquip/6_2.png"
+  },
+  "6009": {
+    "id": 6009,
+    "oldName": "铁锤4",
+    "name": "四阶金斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.07,
+    "level": 9,
+    "url": "res/game/hunterEquip/6_2.png"
+  },
+  "6010": {
+    "id": 6010,
+    "oldName": "铁锤5",
+    "name": "五阶金斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.075,
+    "level": 10,
+    "url": "res/game/hunterEquip/6_2.png"
+  },
+  "6011": {
+    "id": 6011,
+    "oldName": "钢锤1",
+    "name": "一阶玉斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.08,
+    "level": 11,
+    "url": "res/game/hunterEquip/6_3.png"
+  },
+  "6012": {
+    "id": 6012,
+    "oldName": "钢锤2",
+    "name": "二阶玉斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.085,
+    "level": 12,
+    "url": "res/game/hunterEquip/6_3.png"
+  },
+  "6013": {
+    "id": 6013,
+    "oldName": "钢锤3",
+    "name": "三阶玉斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.09,
+    "level": 13,
+    "url": "res/game/hunterEquip/6_3.png"
+  },
+  "6014": {
+    "id": 6014,
+    "oldName": "钢锤4",
+    "name": "四阶玉斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.095,
+    "level": 14,
+    "url": "res/game/hunterEquip/6_3.png"
+  },
+  "6015": {
+    "id": 6015,
+    "oldName": "钢锤5",
+    "name": "五阶玉斧",
+    "type": 4,
+    "part": 5,
+    "value": 0.1,
+    "level": 15,
+    "url": "res/game/hunterEquip/6_3.png"
+  }
+}
