@@ -53,9 +53,9 @@ export class MapMgr {
     constructor() {
     }
 
-    init(cfg_, t) {
+    init(mapData_, t) {
         this.outBuildings = []
-        this.parseData(cfg_, t)
+        this.parseData(mapData_, t)
         this._grid = new XGrid(this._height, this._width);
         for (let h = 0; h < this._height; h++)
             for (let w = 0; w < this._width; w++) {

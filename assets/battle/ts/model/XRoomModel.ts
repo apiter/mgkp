@@ -16,6 +16,6 @@ export class XRoomModel {
     active = true
     towers = []
     doorPosArr: Vec2[] = []
-    doorPos: Vec2[] = []
+    doorPos: Vec2
     doorRot:number
 }

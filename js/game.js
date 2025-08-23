@@ -321,8 +321,7 @@ define("index.js", function(require, module, exports) {
 define("js/bundle.js", function(require, module, exports) {
     var BundleJs = function(e) {
         "use strict";
-        class t {
-        }
+        class t {}
         var i;
         e.AssetType = void 0, (i = e.AssetType || (e.AssetType = {}))[i.Prefab = 1] = "Prefab", i[i.Spine = 2] = "Spine", i[i.Sprite = 3] = "Sprite", i[i.Bmfont = 4] = "Bmfont";
         const s = {
@@ -899,7 +898,8 @@ define("js/bundle.js", function(require, module, exports) {
         e.RewardId = void 0, (k = e.RewardId || (e.RewardId = {}))[k.Coin = 1] = "Coin", e.GameClubDataType = void 0, (b = e.GameClubDataType || (e.GameClubDataType = {}))[b.JoinClubTime = 1] = "JoinClubTime", b[b.SpeakStat = 3] = "SpeakStat", b[b.DayLickNum = 4] = "DayLickNum", b[b.DayCommentNum = 5] = "DayCommentNum", b[b.DayPublishNum = 6] = "DayPublishNum", b[b.DayPublishVideoNum = 7] = "DayPublishVideoNum", b[b.DayLickOfficialNum = 8] = "DayLickOfficialNum", b[b.DayPublishOfficiaVideolNum = 9] = "DayPublishOfficiaVideolNum", e.GameMode = void 0, (w = e.GameMode || (e.GameMode = {}))[w.E_Defense = 0] = "E_Defense", w[w.E_Hunt = 1] = "E_Hunt", w[w.E_AngelOrGhost = 2] = "E_AngelOrGhost", w[w.E_SevenGhost = 3] = "E_SevenGhost", e.PlayerType = void 0, (S = e.PlayerType || (e.PlayerType = {}))[S.E_Defender = 0] = "E_Defender", S[S.E_Hunter = 1] = "E_Hunter", e.BuildType = void 0, (I = e.BuildType || (e.BuildType = {})).bed = "bed", I.door = "door", I.tower = "tower", I.energy = "energy", I.mine = "mine", I.skill = "skill", I.eatMosquito = "eatMosquito", I.springBox = "springBox", I.knife = "knife", I.random = "random", I.entice = "entice", I.special = "special", I.stone = "stone", I.boxMonster = "boxMonster", I.doorkeeper = "doorkeeper", I.borrowMoney = "borrowMoney", e.EffectType = void 0, (v = e.EffectType || (e.EffectType = {})).Add_Coin = "Add_Coin", v.Add_Energy = "Add_Energy", v.Add_CoinAndEnergy = "Add_CoinAndEnergy", v.Door_AlwaysAddHp = "Door_AlwaysAddHp", v.Enemy_UseSkillBeDizzy = "Enemy_UseSkillBeDizzy", v.Door_NotGetDmgOnHpLow = "Door_NotGetDmgOnHpLow", v.Tower_GetCoinOnAtk = "Tower_GetCoinOnAtk", v.Tower_GetCoinOnAtk_1 = "Tower_GetCoinOnAtk_1", v.Enemy_SlowAtkSpd = "Enemy_SlowAtkSpd", v.Enemy_EscapeBeDizzy = "Enemy_EscapeBeDizzy", v.Door_FightBackOnBeAtk = "Door_FightBackOnBeAtk", v.Enemy_OnHpLowBeAtk = "Enemy_OnHpLowBeAtk", v.Tower_AddAtkDst = "Tower_AddAtkDst", v.Tower_AddAtkSpd = "Tower_AddAtkSpd", v.Tower_AddAtkSpdOnEnemyNear = "Tower_AddAtkSpdOnEnemyNear", v.Heal_Buildings = "Heal_Buildings", v.Door_GetCoinOnHurt = "Door_GetCoinOnHurt", v.Eat_Mosquito = "Eat_Mosquito", v.Door_EnemyBeDizzy = "Door_EnemyBeDizzy", v.Door_EnemyBeEscape = "Door_EnemyBeEscape", v.Enemy_EscapeBeSlowdown = "Enemy_EscapeBeSlowdown", v.Enemy_HpRateBeDizzy = "Enemy_HpRateBeDizzy",
             function(e) {
                 e[e.ATK_POW = 1] = "ATK_POW", e[e.ATK_SPD = 2] = "ATK_SPD", e[e.ATK_DST = 3] = "ATK_DST", e[e.ATK_SPLIT = 4] = "ATK_SPLIT", e[e.DYC_ATK_SPD = 5] = "DYC_ATK_SPD", e[e.INCOME_DOWN = 6] = "INCOME_DOWN", e[e.ENERGY_RATIO = 7] = "ENERGY_RATIO", e[e.FIGHT_BACK = 8] = "FIGHT_BACK", e[e.SPEED_POW = 9] = "SPEED_POW", e[e.DEF_ROI = 10] = "DEF_ROI", e[e.DOOR_HP_INCREASE = 11] = "DOOR_HP_INCREASE", e[e.SPEED = 12] = "SPEED"
-            }(M || (M = {})), e.SkinType = void 0, (x = e.SkinType || (e.SkinType = {})).Human = "Human", x.Hunter = "Hunter", x.Angel = "Angel", x.Ghost = "Ghost", x.Fighter = "Fighter", e.BuildResult = void 0, (B = e.BuildResult || (e.BuildResult = {}))[B.E_OK = 0] = "E_OK", B[B.E_FAILD = 1] = "E_FAILD", B[B.E_COIN_NOT_ENOUGH = 2] = "E_COIN_NOT_ENOUGH", B[B.E_ENERGY_NOT_ENOUGH = 3] = "E_ENERGY_NOT_ENOUGH", B[B.E_MAX_CNT = 4] = "E_MAX_CNT", B[B.E_MAX_LV = 5] = "E_MAX_LV", B[B.E_NOT_HAVE_PREBUILD = 6] = "E_NOT_HAVE_PREBUILD", B[B.E_BED_IS_USED = 7] = "E_BED_IS_USED", B[B.E_STAGE_NOT_ENOUGH = 8] = "E_STAGE_NOT_ENOUGH";
+            }(M || (M = {})), e.SkinType = void 0, (x = e.SkinType || (e.SkinType = {})).Human = "Human", x.Hunter = "Hunter", x.Angel = "Angel", x.Ghost = "Ghost", x.Fighter = "Fighter", 
+            e.BuildResult = void 0, (B = e.BuildResult || (e.BuildResult = {}))[B.E_OK = 0] = "E_OK", B[B.E_FAILD = 1] = "E_FAILD", B[B.E_COIN_NOT_ENOUGH = 2] = "E_COIN_NOT_ENOUGH", B[B.E_ENERGY_NOT_ENOUGH = 3] = "E_ENERGY_NOT_ENOUGH", B[B.E_MAX_CNT = 4] = "E_MAX_CNT", B[B.E_MAX_LV = 5] = "E_MAX_LV", B[B.E_NOT_HAVE_PREBUILD = 6] = "E_NOT_HAVE_PREBUILD", B[B.E_BED_IS_USED = 7] = "E_BED_IS_USED", B[B.E_STAGE_NOT_ENOUGH = 8] = "E_STAGE_NOT_ENOUGH";
         const T = {
             Prefab_GuideFinger: "scenes/prefab/finger.json",
             Prefab_HealZoneEff: "scenes/prefab/Heal.json",
@@ -915,11 +915,7 @@ define("js/bundle.js", function(require, module, exports) {
             Prefab_Guide: "scenes/prefab/box_guide.json"
         };
         var E, L, D, A, P, N;
-        e.Direction = void 0, (E = e.Direction || (e.Direction = {}))[E.Left = 1] = "Left", E[E.Right = 2] = "Right", E[E.Up = 3] = "Up", E[E.Down = 4] = "Down", 
-        e.BuildGroup = void 0, (L = e.BuildGroup || (e.BuildGroup = {}))[L.Build = 1] = "Build", L[L.Mine = 2] = "Mine", L[L.GodProp = 3] = "GodProp", L[L.ZongProp = 4] = "ZongProp", L[L.Secret = 5] = "Secret", L[L.HideBuild = 6] = "HideBuild", 
-        e.TokenType = void 0, (D = e.TokenType || (e.TokenType = {}))[D.E_Coin = 0] = "E_Coin", D[D.E_Energy = 1] = "E_Energy", 
-        e.GameStatus = void 0, (A = e.GameStatus || (e.GameStatus = {}))[A.E_GAME_READY = 1] = "E_GAME_READY", A[A.E_GAME_START = 2] = "E_GAME_START", A[A.E_GAME_PAUSE = 3] = "E_GAME_PAUSE", A[A.E_GAME_FINISH = 4] = "E_GAME_FINISH", 
-        e.CollideGroupType = void 0, (P = e.CollideGroupType || (e.CollideGroupType = {}))[P.NONE = 0] = "NONE", P[P.BULLET = 2] = "BULLET", P[P.HUNTER = 4] = "HUNTER", P[P.BOX = 8] = "BOX", P[P.PoprWall = 16] = "PoprWall", P[P.Defender = 32] = "Defender", P[P.Building = 64] = "Building", P[P.HunterMine = 128] = "HunterMine", P[P.DefenderMine = 256] = "DefenderMine";
+        e.Direction = void 0, (E = e.Direction || (e.Direction = {}))[E.Left = 1] = "Left", E[E.Right = 2] = "Right", E[E.Up = 3] = "Up", E[E.Down = 4] = "Down", e.BuildGroup = void 0, (L = e.BuildGroup || (e.BuildGroup = {}))[L.Build = 1] = "Build", L[L.Mine = 2] = "Mine", L[L.GodProp = 3] = "GodProp", L[L.ZongProp = 4] = "ZongProp", L[L.Secret = 5] = "Secret", L[L.HideBuild = 6] = "HideBuild", e.TokenType = void 0, (D = e.TokenType || (e.TokenType = {}))[D.E_Coin = 0] = "E_Coin", D[D.E_Energy = 1] = "E_Energy", e.GameStatus = void 0, (A = e.GameStatus || (e.GameStatus = {}))[A.E_GAME_READY = 1] = "E_GAME_READY", A[A.E_GAME_START = 2] = "E_GAME_START", A[A.E_GAME_PAUSE = 3] = "E_GAME_PAUSE", A[A.E_GAME_FINISH = 4] = "E_GAME_FINISH", e.CollideGroupType = void 0, (P = e.CollideGroupType || (e.CollideGroupType = {}))[P.NONE = 0] = "NONE", P[P.BULLET = 2] = "BULLET", P[P.HUNTER = 4] = "HUNTER", P[P.BOX = 8] = "BOX", P[P.PoprWall = 16] = "PoprWall", P[P.Defender = 32] = "Defender", P[P.Building = 64] = "Building", P[P.HunterMine = 128] = "HunterMine", P[P.DefenderMine = 256] = "DefenderMine";
         class XToastItem extends Laya.Box {
             constructor() {
                 super(), this.anchorX = this.anchorY = .5, this.bg = new Laya.Image(s.TipsBg), this.bg.sizeGrid = "18,18,18,18", this.addChild(this.bg), this.bg.left = this.bg.right = this.bg.top = this.bg.bottom = 0
@@ -2632,15 +2628,16 @@ define("js/bundle.js", function(require, module, exports) {
                 t.ui.close(this)
             }
         }
-        class le {
+        class XBaseModel {
             constructor() {
-                this.curHp = 1, this.maxHp = 1, this.roomId = -1, this.isDie = !1, this.lv = 1, this.coinRatio = 1, this.energyRatio = 1, this.invincible = !1, this.invincible_skill = !1, this.buffs = []
+                this.curHp = 1, this.maxHp = 1, this.roomId = -1, this.isDie = !1, this.lv = 1, this.coinRatio = 1, 
+                this.energyRatio = 1, this.invincible = !1, this.invincible_skill = !1, this.buffs = []
             }
             get hpPercent() {
                 return this.curHp / this.maxHp
             }
         }
-        class he extends le {
+        class XPlayerModel extends XBaseModel {
             constructor() {
                 super(...arguments), this.isBed = !1, this.coin = 0, this.energy = 0, this.buildings = [], this.canBedRange = 116, this.attackCd = 1, this.attackRange = 100, this.escapeOdds = .3, this.attackPower = 0, this.critRate = 0, this.poisonTimes = 0, this.skillIdArr = [], this.skillMoveSpeedRate = 0, this.skillAtkRate = 0, this.skillEquipHp = 0, this.skillSuckHpRate = 0, this.skillAtkSquRate = 0, this.addReduceRate = 0, this.equipAtk = 0, this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0, this.invincibleCnt = 0, this.isGhost = !1, this.isAngel = !1, this.isBack = !1, this.randomCnt = 0, this.reduceRate = 0
             }
@@ -2673,24 +2670,20 @@ define("js/bundle.js", function(require, module, exports) {
                 this.equipAtk  = 0, this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0
             }
         }
-        class XMatchingView extends e.ui.scenes.view.MatchingViewUI {
+        class de extends e.ui.scenes.view.MatchingViewUI {
             constructor(e, t) {
                 super(), this.idxArr = [0, 1, 2, 3, 4, 5], this.matchingtime = 0, t && (this.gameMode = t.mode)
             }
             onAwake() {
-                this.img_title.skin = `res/ui/matching/title_${this.gameMode}.png`, 
-                this.gameMode == e.GameMode.E_AngelOrGhost && 
-                (this.box_hunter.visible = !1, this.img_hBg.skin = "res/ui/matching/bg_aog.png"), this.isStart = !0, this.hunterArr = [];
-                let i = new he;
+                this.img_title.skin = `res/ui/matching/title_${this.gameMode}.png`, this.gameMode == e.GameMode.E_AngelOrGhost && (this.box_hunter.visible = !1, this.img_hBg.skin = "res/ui/matching/bg_aog.png"), this.isStart = !0, this.hunterArr = [];
+                let i = new XPlayerModel;
                 i.type = e.PlayerType.E_Defender, i.uuid = fx.Utils.createUUID(), i.name = this.randomName(), i.skinId = t.user.gameInfo.curSkinId;
                 let s = t.user.gameInfo.getBuffData(26);
                 if (s) {
                     let e = t.cfg.buffCfg.get(26);
                     i.invincibleCnt = e.values[s.lv] - 1
                 }
-                this.defenderArr = [i, null, null, null, null, null], 
-                this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), 
-                Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.initList()
+                this.defenderArr = [i, null, null, null, null, null], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.initList()
             }
             initList() {
                 this.list_list.array = this.defenderArr, this.list_list.renderHandler = new Laya.Handler(this, this.updateItem)
@@ -2718,22 +2711,17 @@ define("js/bundle.js", function(require, module, exports) {
                         t.gameMgr.dCfg = s;
                         let a = s.addMaxHp + 1;
                         i.curLv == t.cfg.difficultCfg.length && i.maxWinCnt && (s = t.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
-                        let n = new he;
+                        let n = new XPlayerModel;
                         if (n.type = e.PlayerType.E_Hunter, n.uuid = fx.Utils.createUUID(), n.name = this.randomName(), n.skinId = s.bossId, this.gameMode == e.GameMode.E_AngelOrGhost) n.skinId = 90001, a = 1;
                         else if (this.gameMode == e.GameMode.E_SevenGhost) {
                             let e = t.user.gameInfo.curSevenGhostLv,
                                 i = t.cfg.sevenGhostCfg.get(e);
                             n.skinId = i.bossId, a = 1
                         }
-                        n.attackPower = t.cfg.hunterCfg.attackList[0], 
-                        n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, this.hunterArr.push(n), this.updateHunter(n)
+                        n.attackPower = t.cfg.hunterCfg.attackList[0], n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, this.hunterArr.push(n), this.updateHunter(n)
                     } else {
-                        let s = new he;
-                        s.type = e.PlayerType.E_Defender, 
-                        s.uuid = fx.Utils.createUUID(), 
-                        s.name = this.randomName(), 
-                        s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), 
-                        this.defenderArr[i] = s, this.initList()
+                        let s = new XPlayerModel;
+                        s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), this.defenderArr[i] = s, this.initList()
                     }
                 }
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
@@ -2746,9 +2734,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lb_time.text = `匹配中..${Math.floor(this.matchingtime)}s`
             }
             startGame() {
-                let mapCfg = this.getMap();
-                Laya.loader.load(mapCfg.path, new Laya.Handler(this, mapData => {
-                    let a = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, mapCfg, mapData, !0),
+                let i = this.getMap();
+                Laya.loader.load(i.path, new Laya.Handler(this, s => {
+                    let a = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, i, s, !0),
                         n = "";
                     switch (this.gameMode) {
                         case e.GameMode.E_Defense:
@@ -3150,7 +3138,7 @@ define("js/bundle.js", function(require, module, exports) {
             _e = {
                 SyncFromServer: "SyncFromServer"
             },
-            ke = {
+            XEventNames = {
                 E_INPUT_DOWN: "$E_INPUT_DOWN",
                 E_INPUT_UP: "$E_INPUT_UP",
                 E_INPUT: "$E_INPUT",
@@ -3192,7 +3180,7 @@ define("js/bundle.js", function(require, module, exports) {
                 E_GuideHand_Show: "$E_GuideHand_Show",
                 E_GuideArrow_Visible: "$E_GuideArrow_Visible"
             },
-            XModelEvent = {
+            be = {
                 Hp_Changed: "Hp_Changed",
                 Battle_Be_Hit: "Battle_Be_Hit",
                 AddCoin_By_Cnt: "AddCoin_By_Cnt",
@@ -3353,7 +3341,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let a = XRandomUtil.random();
                     if ((s.getHpPercent() < .8 || t.gameMgr.gameMode != e.GameMode.E_Defense || !t.gameMgr.diff) && a < u)
                         if (s.getHpPercent() > .5) {
-                            this.lastTarget = null, s.setCurTarget(null), fx.EventCenter.I.event(ke.E_HUNTER_LEAVE, [s.getDataModel()]);
+                            this.lastTarget = null, s.setCurTarget(null), fx.EventCenter.I.event(XEventNames.E_HUNTER_LEAVE, [s.getDataModel()]);
                             let t = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
                             t ? (t.splice(0), t.push(r)) : t = [r], i.blackboard.set(e.PropertiesKey.FILTERTARGET, t, i.tree.id), Laya.timer.clear(this, this.clearFilterTarget), Laya.timer.once(5e3, this, this.clearFilterTarget, [i.blackboard, i.tree.id]), this.atkEscapeStartTs = 0
                         } else this.lastTarget = null, s.setEscape(!0)
@@ -3780,7 +3768,7 @@ define("js/bundle.js", function(require, module, exports) {
                     r = n.getCurTarget(),
                     o = n.getDataModel();
                 if (o.isEntice) return !1;
-                if (r && r instanceof he && n.targetIsOK(r)) return !0;
+                if (r && r instanceof XPlayerModel && n.targetIsOK(r)) return !0;
                 let l = n.getAllPlayersRand(),
                     h = 99999;
                 for (const i of l) {
@@ -4289,7 +4277,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class kt extends le {
+        class XBuildingModel extends XBaseModel {
             constructor(e, t, i, s, a, n) {
                 super(), this.canHandle = !0, this.isPlayerDelete = !1, this.id = e, this.roomId = t, this.lv = i, this.x = s, this.y = a, this.rotation = n
             }
@@ -4476,7 +4464,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node = this.owner, this.img_bar = this.owner.getChildByName("img_bar"), this.img_graybar = this.owner.getChildByName("img_graybar"), this.img_di = this.owner.getChildByName("img_di"), this.img_shield = this.owner.getChildByName("img_shield"), this.barWidth = this.img_bar.width, this.label_lv = this.owner.getChildByName("label_lv"), this.label_lv.visible = !1, this.node.visible = !1, this.autoSkillBarBg = this.owner.getChildByName("autoSkillBarBg"), this.autoSkillBar = this.autoSkillBarBg.getChildByName("autoSkillBar"), this.autoSkillBarBg.visible = !1
             }
             init(e, t = !1, i, s) {
-                if (this.data = e, this.data.owner.on(XModelEvent.Hp_Changed, this, this.onHpChanged), this.updateHealth(), t && (this.label_lv.visible = !0, this.label_lv.value = `LV.${this.data.lv}`, this.img_bar.skin = "res/game/img_healthbar_red.png", this.img_graybar.skin = "res/game/img_healthbar_white.png"), s) switch (s) {
+                if (this.data = e, this.data.owner.on(be.Hp_Changed, this, this.onHpChanged), this.updateHealth(), t && (this.label_lv.visible = !0, this.label_lv.value = `LV.${this.data.lv}`, this.img_bar.skin = "res/game/img_healthbar_red.png", this.img_graybar.skin = "res/game/img_healthbar_white.png"), s) switch (s) {
                     case 1:
                         this.img_bar.skin = "res/rank/yellow.png";
                         break;
@@ -4569,7 +4557,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.owner
             }
             init(e) {
-                if (this.data = e, e.ownerScript = this, e.owner = this.node, this.diEffect = new Laya.Box, this.diEffect.width = this.diEffect.height = 1, this.node.addChild(this.diEffect), this.skinNode = new Laya.Box, this.skinNode.name = "skinNode", this.skinNode.width = this.skinNode.height = C.GridSize, this.node.addChild(this.skinNode), this.node.on(XModelEvent.Hp_Changed, this, this.onHpChanged), this.takeMapBuildNode = new Laya.Box, this.takeMapBuildNode.name = "takeMapBuildNode", this.takeMapBuildNode.width = this.takeMapBuildNode.height = C.GridSize, this.node.addChild(this.takeMapBuildNode), e.isAngel) {
+                if (this.data = e, e.ownerScript = this, e.owner = this.node, this.diEffect = new Laya.Box, this.diEffect.width = this.diEffect.height = 1, this.node.addChild(this.diEffect), this.skinNode = new Laya.Box, this.skinNode.name = "skinNode", this.skinNode.width = this.skinNode.height = C.GridSize, this.node.addChild(this.skinNode), this.node.on(be.Hp_Changed, this, this.onHpChanged), this.takeMapBuildNode = new Laya.Box, this.takeMapBuildNode.name = "takeMapBuildNode", this.takeMapBuildNode.width = this.takeMapBuildNode.height = C.GridSize, this.node.addChild(this.takeMapBuildNode), e.isAngel) {
                     let e = new Laya.Image;
                     e.skin = "res/build/specialBuild/fhl.png", e.anchorX = e.anchorY = .5, this.takeMapBuildNode.addChild(e), e.anchorX = .5, e.anchorY = 0, e.pos(0, 0), e.visible = !1, this.img_angelAddSpeed = e
                 }
@@ -4607,7 +4595,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.user.gameInfo,
                     s = !1;
                 if (this.skinNode.visible = !1, this.data.type == e.PlayerType.E_Defender)
-                    if (fx.EventCenter.I.event(ke.E_Player_Dead), t.gameMgr.gameMode == e.GameMode.E_Defense)
+                    if (fx.EventCenter.I.event(XEventNames.E_Player_Dead), t.gameMgr.gameMode == e.GameMode.E_Defense)
                         if (this.data.uuid == t.playerMgr.mineUuid) i.failCnt += 1, t.user.gameInfo.mapBuildRate = .5, t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.FailDialog), t.reporter.finishGame(2), s = !0;
                         else {
                             if (XToast.show(`玩家${this.data.name}被淘汰`), t.user.gameInfo.getBuffData(3)) {
@@ -4626,13 +4614,13 @@ define("js/bundle.js", function(require, module, exports) {
                             }
                         } else if (t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
                     let i = !0;
-                    if (this.data.uuid == t.playerMgr.mineUuid) return this.data.isGhost ? (i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : this.data.isAngel ? (t.playerMgr.angels = [], fx.EventCenter.I.event(ke.E_Angel_Dead), t.gameUI.startAngelRevive(), void this.changeToGhost()) : (t.gameUI.hideUpgradeMenu(), t.gameUI.hideBuildMenu(), fx.EventCenter.I.event(ke.E_BuildTips_Hide, [this.data.roomId]), 5 == t.gameMgr.defenseDeadCnt ? (t.ui.closeAll(), i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : void t.ui.open(l.AogChooseDialog, {
+                    if (this.data.uuid == t.playerMgr.mineUuid) return this.data.isGhost ? (i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : this.data.isAngel ? (t.playerMgr.angels = [], fx.EventCenter.I.event(XEventNames.E_Angel_Dead), t.gameUI.startAngelRevive(), void this.changeToGhost()) : (t.gameUI.hideUpgradeMenu(), t.gameUI.hideBuildMenu(), fx.EventCenter.I.event(XEventNames.E_BuildTips_Hide, [this.data.roomId]), 5 == t.gameMgr.defenseDeadCnt ? (t.ui.closeAll(), i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : void t.ui.open(l.AogChooseDialog, {
                         cb: new Laya.Handler(this, this.changeAngelOrGhost)
                     }));
                     t.gameMgr.defenseDeadCnt += 1, 5 == t.gameMgr.defenseDeadCnt ? t.playerMgr.player.isGhost ? (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(2), t.gameMgr.gameover(!0), t.ui.open(l.AogWinDialog)) : t.playerMgr.player.isAngel ? (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.ui.open(l.AogFailDialog)) : this.changeToGhost() : i && this.changeToGhost()
                 } else t.gameMgr.gameMode == e.GameMode.E_Hunt ? (t.gameMgr.defenseDeadCnt += 1, 6 == t.gameMgr.defenseDeadCnt && (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(1), t.gameMgr.gameover(!0), t.ui.open(l.HunterWinDialog))) : t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (this.data.uuid == t.playerMgr.mineUuid ? (t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.SevenGhostFailDialog), t.reporter.finishGame(2), s = !0) : XToast.show(`玩家${this.data.name}被淘汰`));
                 else if (this.data.type == e.PlayerType.E_Hunter) {
-                    if (fx.EventCenter.I.event(ke.E_Hunter_Dead, this.data), t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    if (fx.EventCenter.I.event(XEventNames.E_Hunter_Dead, this.data), t.gameMgr.gameMode == e.GameMode.E_Defense) {
                         if (this.data.uuid == t.playerMgr.hunters[0].uuid) {
                             i.winCnt += 1, t.user.gameInfo.mapBuildRate = .3;
                             let a = 1;
@@ -4650,12 +4638,12 @@ define("js/bundle.js", function(require, module, exports) {
             changeAngelOrGhost(e) {
                 e ? this.changeToGhost() : this.changeToAngel()
             }
-            changeToQxbmGhost(e) {fx.CfgMgr
-                let t = new he;
+            changeToQxbmGhost(e) {
+                let t = new XPlayerModel;
                 t.skinId = 2e4 + e, t.uuid = this.data.uuid, t.name = this.data.name, this.ghost(t)
             }
             changeToGhost() {
-                let e = new he;
+                let e = new XPlayerModel;
                 e.skinId = 90002, this.data.isAngel ? (e.uuid = fx.Utils.createUUID(), e.name = "玩家") : (e.uuid = this.data.uuid, e.name = this.data.name), this.ghost(e)
             }
             ghost(i) {
@@ -4844,7 +4832,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return void 0 === e && (e = this.getOwnerRoomId()), t.buildingMgr.getRoom(e)
             }
             targetIsOK(e) {
-                return e instanceof he ? !e.isDie : e instanceof kt ? !e.isOpen && e.curHp > 0 : !!e && !e.isDie
+                return e instanceof XPlayerModel ? !e.isDie : e instanceof XBuildingModel ? !e.isOpen && e.curHp > 0 : !!e && !e.isDie
             }
             getAttackRange() {
                 return this.data.stopRange
@@ -4942,7 +4930,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return i.setValue(a.x + .5 * a.width, a.y + .5 * a.height), s.from(i), s
             }
             targetIsOKNew(e) {
-                return e instanceof he ? !e.isDie : e instanceof kt ? !e.isOpen : !e.isDie
+                return e instanceof XPlayerModel ? !e.isDie : e instanceof XBuildingModel ? !e.isOpen : !e.isDie
             }
             getOwnerGridPos() {
                 let e = this.getOwnerPos(),
@@ -4960,7 +4948,7 @@ define("js/bundle.js", function(require, module, exports) {
             performSkill(e) {}
             targetIsDoor() {
                 let t = this.curTarget;
-                return !!t && (t instanceof kt && t.type == e.BuildType.door)
+                return !!t && (t instanceof XBuildingModel && t.type == e.BuildType.door)
             }
             isEscape() {
                 return this.isEscaped
@@ -5000,12 +4988,12 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.isRage && (this.atkRageStartTs = a), this.getLastAtkTarget() || (this.setLastAtkTarget(i), this.atkRageStartTs = a, this.canDizzySkill = !0), this.lastTarget && this.lastTarget.owner == i.owner || (this.atkRageStartTs = a, this.lastTarget = i, this.canDizzySkill = !0, this.setStartAtkTime(a)), a - this.atkIntervalTs >= 1e3 * s) {
                     if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
                         if (a - this.atkRageStartTs > 2e4) {
-                            fx.EventCenter.I.event(ke.E_Rage_Refresh);
+                            fx.EventCenter.I.event(XEventNames.E_Rage_Refresh);
                             let e = XRandomUtil.getIntRandom(1, 3);
                             e = Math.min(15, e + this.data.lv), XRandomUtil.random() <= .3 && t.buildingMgr.addMapEquip(e, !1), this.atkRageStartTs = a
                         }
                         if (i.type == e.BuildType.door && !i.isOpen && i.curHp <= .2 * i.maxHp) {
-                            XRandomUtil.random() <= .3 && fx.EventCenter.I.event(ke.E_Dizzy_Refresh)
+                            XRandomUtil.random() <= .3 && fx.EventCenter.I.event(XEventNames.E_Dizzy_Refresh)
                         }
                     } else if (a - this.atkRageStartTs > 2e4) this.data.isGhost && (this.performSkill("rage"), this.atkRageStartTs = a);
                     else if (this.canDizzySkill && i.type == e.BuildType.door && !i.isOpen && i.curHp <= .2 * i.maxHp) {
@@ -5298,7 +5286,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class EnemyUseSkillBeDizzy extends $t {
             constructor(e, t) {
-                super(e, t), this.rate = e.value[0], this.time = e.value[1], fx.EventCenter.I.on(ke.E_Hunter_Use_Skill, this, this.exec)
+                super(e, t), this.rate = e.value[0], this.time = e.value[1], fx.EventCenter.I.on(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
             exec(e, i) {
                 if (this.data.palsyTime) return;
@@ -5321,7 +5309,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.playerWorkEff()
             }
             clear() {
-                fx.EventCenter.I.off(ke.E_Hunter_Use_Skill, this, this.exec)
+                fx.EventCenter.I.off(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
         }
         class Qt extends $t {
@@ -5334,7 +5322,7 @@ define("js/bundle.js", function(require, module, exports) {
                     this.time += e.values[0]
                 }
                 let r = this.getCurDoorModel()[0];
-                r && r.owner.on(XModelEvent.Battle_Be_Hit, this, this.exec, [r])
+                r && r.owner.on(be.Battle_Be_Hit, this, this.exec, [r])
             }
             exec(e) {
                 let t = e.owner.getChildAt(0),
@@ -5356,7 +5344,7 @@ define("js/bundle.js", function(require, module, exports) {
                 for (const t of e) {
                     if (!t || !t.owner || t.owner.destroyed) return;
                     let e = t.owner.getChildAt(0).getChildByName("energuhoodImg");
-                    e && (e.visible = !1), t.owner.off(XModelEvent.Hp_Changed, this, this.exec)
+                    e && (e.visible = !1), t.owner.off(be.Hp_Changed, this, this.exec)
                 }
             }
         }
@@ -5369,7 +5357,7 @@ define("js/bundle.js", function(require, module, exports) {
                     this.buffMult = 1 + e.values[0] / 100
                 }
                 let n = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                n && n.owner.on(XModelEvent.Tower_Be_fire, this, this.addCoin)
+                n && n.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
             addCoin(e) {
                 if (this.data.palsyTime) return;
@@ -5387,14 +5375,14 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 this.node.clearTimer(this, this.exec);
                 let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                e && e.owner.off(XModelEvent.Tower_Be_fire, this, this.addCoin)
+                e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
         class ti extends $t {
             constructor(e, i) {
                 super(e, i), this.curCnt = 0, this.bonusRate = e.value[0], this.node.timerLoop(1e3, this, this.exec);
                 let s = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                s && s.owner.on(XModelEvent.Tower_Be_fire, this, this.addCoin)
+                s && s.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
             addCoin(e) {
                 if (this.data.palsyTime) return;
@@ -5412,14 +5400,14 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 this.node.clearTimer(this, this.exec);
                 let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                e && e.owner.off(XModelEvent.Tower_Be_fire, this, this.addCoin)
+                e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
         class EnemySlowAtkSpd extends $t {
             constructor(e, t) {
                 super(e, t), this.map = new Map, this.slowMult = 1, this.slowRatio = e.value[0];
                 let i = this.getCurDoorModel()[0];
-                i && (i.owner.on(XModelEvent.Battle_Be_Hit, this, this.exec), fx.EventCenter.I.on(ke.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.on(ke.E_HUNTER_LEAVE, this, this.onHunterEscape), this.data.owner.timerLoop(100, this, this.onHunterEscape))
+                i && (i.owner.on(be.Battle_Be_Hit, this, this.exec), fx.EventCenter.I.on(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.on(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape), this.data.owner.timerLoop(100, this, this.onHunterEscape))
             }
             exec(e, i) {
                 let s;
@@ -5441,11 +5429,11 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             clear() {
-                this.data.owner.timer.clear(this, this.onHunterEscape), fx.EventCenter.I.off(ke.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.off(ke.E_HUNTER_LEAVE, this, this.onHunterEscape);
+                this.data.owner.timer.clear(this, this.onHunterEscape), fx.EventCenter.I.off(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.off(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape);
                 let e = this.getCurDoorModel();
                 for (const i of e) {
                     if (!i) return;
-                    i.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec);
+                    i.owner.off(be.Battle_Be_Hit, this, this.exec);
                     for (const [e, i] of this.map) {
                         let s = e.owner.getChildByName("skinNode");
                         s && (s.filters = []), t.buffMgr.removeBuff(e, i)
@@ -5500,7 +5488,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(e, t), this.hunters = [], this.dizzyTime = e.value[0], this.data.owner.timerLoop(100, this, this.exec);
                 let i = this.getCurDoorModel();
                 if (i[0])
-                    for (const e of i) e.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                    for (const e of i) e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             exec() {
                 if (this.data.palsyTime) return;
@@ -5532,7 +5520,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.owner.timer.clear(this, this.exec);
                 let e = this.getCurDoorModel();
                 if (e[0])
-                    for (const t of e) t.owner.off(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                    for (const t of e) t.owner.off(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e, t) {
                 this.hunters.includes(e) || this.hunters.push(e)
@@ -5548,11 +5536,11 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = t.cfg.buffCfg.get(16);
                     this.mult = 1 + e.values[0] / 100
                 }
-                this.create(a), a.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                this.create(a), a.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             create(e) {
                 let t = e.owner.getChildAt(0).getChildByName("thorn");
@@ -5568,7 +5556,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(e, t), this.canUse = !0, this.threshold = this.cfg.value[0], this.dmgPer = this.cfg.value[1];
                 let i = this.getCurDoorModel();
                 if (this.door = i[0], this.data.owner.timerLoop(100, this, this.exec), i[0])
-                    for (const e of i) e.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                    for (const e of i) e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e) {
                 this.hunter || e != t.playerMgr.hunters[0] || (this.hunter = e)
@@ -5592,7 +5580,7 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 this.data.owner.timer.callLater(this, this.exec);
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
         class ri extends $t {
@@ -5600,7 +5588,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(i, s), this.map = new Map, this.changeVal = this.cfg.value[0];
                 let a = t.buildingMgr.getRoom(this.data.roomId);
                 for (const t of a.buildings) t.type == e.BuildType.tower && this.addBuff(t);
-                fx.EventCenter.I.on(ke.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.on(ke.E_BUILDING_REMOVED, this, this.onBuildingRemove)
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove)
             }
             createBuff() {
                 return null
@@ -5620,7 +5608,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.roomId == this.data.roomId && t.type == e.BuildType.tower && this.removeBuff(t)
             }
             clear() {
-                fx.EventCenter.I.off(ke.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.off(ke.E_BUILDING_REMOVED, this, this.onBuildingRemove);
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove);
                 let i = t.buildingMgr.getRoom(this.data.roomId);
                 for (const t of i.buildings) t.type == e.BuildType.tower && this.removeBuff(t)
             }
@@ -5651,7 +5639,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(e, t, i = !0) {
                 super(e, t), this.addValue = this.cfg.value[0];
                 let s = this.getCurDoorModel()[0];
-                s && s.owner.on(XModelEvent.Battle_Be_Hit, this, this.exec)
+                s && s.owner.on(be.Battle_Be_Hit, this, this.exec)
             }
             exec(i, s) {
                 if (this.data.palsyTime) return;
@@ -5661,26 +5649,26 @@ define("js/bundle.js", function(require, module, exports) {
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
         class ui extends $t {
             constructor(e, t) {
-                super(e, t), this.addValue = this.cfg.value[0], this.node.on(XModelEvent.AddCoin_By_Cnt, this, this.exec)
+                super(e, t), this.addValue = this.cfg.value[0], this.node.on(be.AddCoin_By_Cnt, this, this.exec)
             }
             exec(i) {
                 let s = i * this.addValue;
                 t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && t.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y)
             }
             clear() {
-                this.node.off(XModelEvent.AddCoin_By_Cnt, this, this.exec)
+                this.node.off(be.AddCoin_By_Cnt, this, this.exec)
             }
         }
         class gi extends $t {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
-                i && i.owner.on(XModelEvent.Battle_Be_Hit, this, this.exec)
+                i && i.owner.on(be.Battle_Be_Hit, this, this.exec)
             }
             exec(e, i) {
                 if (this.data.palsyTime) return;
@@ -5694,14 +5682,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
         class ci extends $t {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0];
                 let i = this.getCurDoorModel()[0];
-                i && i.owner.on(XModelEvent.Battle_Be_Hit, this, this.exec)
+                i && i.owner.on(be.Battle_Be_Hit, this, this.exec)
             }
             exec(e, i) {
                 if (this.data.palsyTime) return;
@@ -5715,14 +5703,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
         class EnemyEscapeBeSlowdown extends $t {
             constructor(e, t) {
                 super(e, t), this.map = new Map, this.slowRatio = e.value[0], this.time = 1e3 * e.value[1], this.data.owner.timerLoop(100, this, this.exec);
                 let i = this.getCurDoorModel()[0];
-                i && i.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                i && i.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             exec() {
                 if (this.data.palsyTime) return;
@@ -5744,7 +5732,7 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 this.data.owner.timer.clear(this, this.exec);
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e, t) {
                 this.hunter = e
@@ -5754,7 +5742,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
-                i && (i.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorHit), this.data.owner.timerLoop(100, this, this.exec), this.hunterArr = [])
+                i && (i.owner.on(be.Battle_Be_Hit, this, this.onDoorHit), this.data.owner.timerLoop(100, this, this.exec), this.hunterArr = [])
             }
             onDoorHit(e, t) {
                 this.hunterArr.includes(e) || this.hunterArr.push(e)
@@ -5779,7 +5767,7 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 this.hunterArr = [], this.data.owner.timer.clear(this, this.exec);
                 let e = this.getCurDoorModel()[0];
-                e && e.owner.off(XModelEvent.Battle_Be_Hit, this, this.exec)
+                e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
         class XBuildingScript extends Laya.Script {
@@ -5789,7 +5777,7 @@ define("js/bundle.js", function(require, module, exports) {
             init(e, i = 0) {
                 this.isActive = !0, this.node = this.owner, this.skinNode = new Laya.Box, this.aniNode = new Laya.Box, this.skinNode.width = this.skinNode.height = 90, this.aniNode.width = this.aniNode.height = 90;
                 let s = C.GridSize / 90;
-                this.skinNode.scale(s, s), this.aniNode.scale(s, s), this.aniNode.anchorX = this.aniNode.anchorY = .5, this.node.addChild(this.skinNode), this.node.addChild(this.aniNode), this.data = e, this.data.ownerScript = this, this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.initSkin(), this.node.on(XModelEvent.Hp_Changed, this, this.onHpChanged), this.node.on(XModelEvent.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
+                this.skinNode.scale(s, s), this.aniNode.scale(s, s), this.aniNode.anchorX = this.aniNode.anchorY = .5, this.node.addChild(this.skinNode), this.node.addChild(this.aniNode), this.data = e, this.data.ownerScript = this, this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.initSkin(), this.node.on(be.Hp_Changed, this, this.onHpChanged), this.node.on(be.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
             }
             initCdUI(e) {
                 this.barNode = fx.Utils.createPrefab(T.Prefab_BuildingCD);
@@ -5815,7 +5803,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onInit() {}
             onHpChanged() {
-                this.data.isDie && (fx.EventCenter.I.event(ke.E_BUILD_DEAD, [this.data]), this.onDead())
+                this.data.isDie && (fx.EventCenter.I.event(XEventNames.E_BUILD_DEAD, [this.data]), this.onDead())
             }
             onDead() {
                 this.isDead || (t.playerMgr.mineUuid == this.data.playerUuid ? t.gameMgr.addDataInArr(this.data) : this.data.type && "door" == this.data.type && t.playerMgr.player.roomId == this.data.roomId && t.gameMgr.addDataInArr(this.data), t.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1))
@@ -5988,7 +5976,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }),
                     a = (new XHasPathCdt).bindout(t);
                 return new fx.BTSequence({
-                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(ke.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
+                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
                         child: s
                     }), new XClearTargetAction],
@@ -5997,7 +5985,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class XMatterUtil {
+        class Ci {
             static init() {
                 this.clear(), this.engine = Matter.Engine.create(), this.engine.gravity.y = 0, this.world = this.engine.world, this.runner = Matter.Runner.create(), Matter.Runner.run(this.runner, this.engine), this.initEvent()
             }
@@ -6131,7 +6119,7 @@ define("js/bundle.js", function(require, module, exports) {
                         y: -C.GridHalfSize
                     }
                 };
-                this.body = XMatterUtil.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
+                this.body = Ci.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
             }
             initAI() {
                 this.ai = new yi(this);
@@ -6189,7 +6177,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = t.cfg.hunterCfg.hunterHpList, a = t.cfg.hunterCfg.hunterAttackList);
                 let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
                     r = a[this.lv - 1];
-                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(ke.E_Hunter_Upgrade, this.lv)
+                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
             }
             dismissDizzy() {
                 this.data.dizzyDurSec = 0, this.data.dizzyStartTime = 0
@@ -6199,7 +6187,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = this.owner.timer.currTimer / 1e3;
                 this.skillAttackTime = i, this.data.isRage || (this.data.isRage = !0), XToast.show(`${this.data.name}暴躁了`);
                 let s = e || 8;
-                this.node.timerOnce(1e3 * s, this, this.cancelRage), fx.EventCenter.I.event(ke.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), EffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
+                this.node.timerOnce(1e3 * s, this, this.cancelRage), fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), EffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
             }
             cancelRage() {
                 this.data.isRage = !1, this.atkCdScale = this.lastAtkCdScale
@@ -6222,7 +6210,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.changeSideUuid = e, this.healthBar.revertBarColor()
             }
         }
-        class XMonsterAI extends XAIModel {
+        class ki extends XAIModel {
             constructor(e) {
                 super(e)
             }
@@ -6270,7 +6258,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }),
                     a = (new XHasPathCdt).bindout(t);
                 return new fx.BTSequence({
-                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(ke.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
+                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
                         child: s
                     }), new XClearTargetAction],
@@ -6314,7 +6302,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0, this.curAutoSkillCd = 0, this.isStartCd = !0, this.useSkillCnt = 1, this.passiveSkillCd = 0, this.critCnt = 5, this.critCurCnt = 1, this.critScale = 1, this.hpHeal = 0, this.hpCnt = .2, this.createId = 10001
             }
             onAwake() {
-                super.onAwake(), this.moveSpeed = t.cfg.constant.hunterMoveSpeed, this.moveSpeed /= t.gameMgr.hunterSpeedRatio, this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1, fx.EventCenter.I.on(ke.E_Player_Dead, this, this.onPlayerDead)
+                super.onAwake(), this.moveSpeed = t.cfg.constant.hunterMoveSpeed, this.moveSpeed /= t.gameMgr.hunterSpeedRatio, this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1, fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
             }
             onPlayerDead() {
                 if (this.canBig) {
@@ -6352,10 +6340,10 @@ define("js/bundle.js", function(require, module, exports) {
                         y: -C.GridHalfSize
                     }
                 };
-                this.body = XMatterUtil.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
+                this.body = Ci.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
             }
             initAI() {
-                this.ai = new XMonsterAI(this);
+                this.ai = new ki(this);
                 let e = yt([this.ai.dizzy("dizzy"), this.ai.canEscape(this.ai.escape("escape")), this.ai.usingSkill(), this.ai.OnCloseDoorCdt(this.ai.breakAway()), this.ai.canPatrol(this.ai.patrol()), this.ai.skill(), this.ai.attack(), this.ai.idle("idle")]);
                 this.ai.load(e)
             }
@@ -6453,7 +6441,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = t.cfg.hunterCfg.hunterHpList, a = t.cfg.hunterCfg.hunterAttackList);
                 let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
                     r = a[this.lv - 1];
-                this.data.isGhost ? (n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`${this.data.name} 执行人升到${this.lv}等级`) : XToast.show(`${this.data.name} 升到${this.lv}等级`)) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`木头人升到${this.lv}等级`) : XToast.show(`噬魂者升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), t.gameMgr.gameMode == e.GameMode.E_Defense && t.gameMgr.dCfg.addSkillLv == this.lv && this.getSkill(), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(ke.E_Hunter_Upgrade, this.lv)
+                this.data.isGhost ? (n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`${this.data.name} 执行人升到${this.lv}等级`) : XToast.show(`${this.data.name} 升到${this.lv}等级`)) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`木头人升到${this.lv}等级`) : XToast.show(`噬魂者升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), t.gameMgr.gameMode == e.GameMode.E_Defense && t.gameMgr.dCfg.addSkillLv == this.lv && this.getSkill(), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
             }
             takeEquip(e) {
                 this.refreshEquip(e), this.addUpgradeCnt()
@@ -6573,7 +6561,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = this.owner.timer.currTimer / 1e3;
                 this.skillAttackTime = a, this.data.isRage || (this.data.isRage = !0), t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了") : this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
                 let n = i || 8;
-                this.node.timerOnce(1e3 * n, this, this.cancelRage), fx.EventCenter.I.event(ke.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), EffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
+                this.node.timerOnce(1e3 * n, this, this.cancelRage), fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), EffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
             }
             cancelRage() {
                 this.data.isRage = !1, this.atkCdScale = this.lastAtkCdScale
@@ -6608,7 +6596,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             autoHeal() {
-                this.data.curHp += .5 * this.data.maxHp, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.data.owner.event(XModelEvent.Hp_Changed), this.healEff ? (this.healEff.visible = !0, this.healEff.play(0, !1), this.healEff.offAll(Laya.Event.STOPPED), this.healEff.on(Laya.Event.STOPPED, this, () => {
+                this.data.curHp += .5 * this.data.maxHp, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.data.owner.event(be.Hp_Changed), this.healEff ? (this.healEff.visible = !0, this.healEff.play(0, !1), this.healEff.offAll(Laya.Event.STOPPED), this.healEff.on(Laya.Event.STOPPED, this, () => {
                     this.healEff.visible = !1
                 })) : t.assetLoader.createSpine("spines/effect/heal/huatuo_phyattack_2.bin", e => {
                     this.healEff = e, this.node.addChild(e), this.healEff.play(0, !1), this.healEff.on(Laya.Event.STOPPED, this, () => {
@@ -6669,7 +6657,7 @@ define("js/bundle.js", function(require, module, exports) {
             useYanluo() {
                 this.data.curHp = this.data.maxHp, this.data.reduceRate = .5, this.img_yanluo = new Laya.Box, this.skinAniNode.addChild(this.img_yanluo), this.img_yanluo.anchorX = this.img_yanluo.anchorY = .5, this.img_yanluo.pos(C.GridHalfSize, C.GridSize), t.assetLoader.createSpine("spines/effect/yanluo/skeleton.bin", e => {
                     this.img_yanluo.addChild(e), e.play(0, !0)
-                }), this.owner.timer.once(6e4, this, this.clearYanluo), this.data.owner.event(XModelEvent.Hp_Changed)
+                }), this.owner.timer.once(6e4, this, this.clearYanluo), this.data.owner.event(be.Hp_Changed)
             }
             clearYanluo() {
                 this.data.reduceRate = 0, this.img_yanluo.destroy()
@@ -6683,7 +6671,7 @@ define("js/bundle.js", function(require, module, exports) {
                         let i = t.mapMgr.getRandomPosByRoomId(e);
                         if (i) {
                             let e = t.mapMgr.gridPosToMapPos(i.x, i.y);
-                            fx.EventCenter.I.event(ke.E_Hurter_Dig, [e]), this.isUsedSkill = !0, this.owner.timer.once(2e3, this, this.closeSkillByAtk)
+                            fx.EventCenter.I.event(XEventNames.E_Hurter_Dig, [e]), this.isUsedSkill = !0, this.owner.timer.once(2e3, this, this.closeSkillByAtk)
                         }
                         break;
                     case 10005:
@@ -6741,10 +6729,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             healHP() {
                 let e = Math.min(.6, this.hpCnt + .1 * (Math.ceil(this.useSkillCnt / 2) - 1));
-                this.hpHeal = Math.ceil(this.data.maxHp * e / 10), this.data.curHp = Math.min(this.data.curHp + this.hpHeal, this.data.maxHp), this.data.owner.event(XModelEvent.Hp_Changed)
+                this.hpHeal = Math.ceil(this.data.maxHp * e / 10), this.data.curHp = Math.min(this.data.curHp + this.hpHeal, this.data.maxHp), this.data.owner.event(be.Hp_Changed)
             }
             createGhost(i, s) {
-                let a = new he;
+                let a = new XPlayerModel;
                 a.isGhost = !0, a.uuid = fx.Utils.createUUID(), a.name = s;
                 let n = t.playerMgr.hunters[0].lv;
                 a.lv = n, n > 2 ? (a.curHp = a.maxHp = t.cfg.hunterCfg.hpList[n - 2], a.attackPower = t.cfg.hunterCfg.attackList[n - 2]) : 2 == n ? (a.curHp = a.maxHp = 400, a.attackPower = 4) : (a.curHp = a.maxHp = t.cfg.hunterCfg.hpList[0], a.attackPower = t.cfg.hunterCfg.attackList[0]), a.skinId = i, a.type = e.PlayerType.E_Hunter, t.playerMgr.addGhost(a)
@@ -6754,7 +6742,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             digHole() {}
             onDestroy() {
-                fx.EventCenter.I.on(ke.E_Player_Dead, this, this.onPlayerDead)
+                fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
             }
         }
         class wi extends Laya.Script {
@@ -6828,10 +6816,10 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender
                     }
                 };
-                this.body = XMatterUtil.createCircle(this.node, 20, i, !0)
+                this.body = Ci.createCircle(this.node, 20, i, !0)
             }
             removeBody() {
-                this.body && (XMatterUtil.removeBody(this.body), this.body = null)
+                this.body && (Ci.removeBody(this.body), this.body = null)
             }
             setSpeed(e) {
                 (e || 0 === e) && (this.speed = e)
@@ -6962,7 +6950,7 @@ define("js/bundle.js", function(require, module, exports) {
             addCoinByAtk() {}
             fireEvent() {
                 let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                e && !e.isDie && e.owner.event(XModelEvent.Tower_Be_fire, this.data.lv)
+                e && !e.isDie && e.owner.event(be.Tower_Be_fire, this.data.lv)
             }
         }
         class Ii extends XTowerScript {
@@ -6978,7 +6966,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class vi extends XBuildingScript {
             onAwake() {
-                super.onAwake(), fx.EventCenter.I.on(ke.E_Bed_Up, this, this.onPlayerGotoBed), fx.EventCenter.I.on(ke.E_Bed_Down, this, this.onPlayerDownBed)
+                super.onAwake(), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerGotoBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.onPlayerDownBed)
             }
             upgrade() {
                 this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.initEffects()
@@ -7057,7 +7045,7 @@ define("js/bundle.js", function(require, module, exports) {
             onInit() {
                 this.mult = 1, this.curBorrowMoney = 0, this.curHireMoney = 0;
                 let e = t.mapMgr.getRoomById(this.data.roomId);
-                this.doorModel = e.doorModel, fx.EventCenter.I.on(ke.E_Hunter_Dead, this, this.onHunterDead)
+                this.doorModel = e.doorModel, fx.EventCenter.I.on(XEventNames.E_Hunter_Dead, this, this.onHunterDead)
             }
             onHunterDead(e) {
                 e == this.curFighter && this.curBorrowMoney && this.refreshBorrowMoneyTime()
@@ -7103,7 +7091,7 @@ define("js/bundle.js", function(require, module, exports) {
                 } else XToast.show("元宝不足，快去升级床铺吧！")
             }
             createFighter() {
-                let i = new he;
+                let i = new XPlayerModel;
                 i.isGhost = !0, i.uuid = fx.Utils.createUUID(), i.name = "讨债鬼";
                 let s = t.playerMgr.hunters[0].lv;
                 i.lv = s, s > 2 ? (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[s - 2], i.attackPower = t.cfg.hunterCfg.attackList[s - 2]) : 2 == s ? (i.curHp = i.maxHp = 400, i.attackPower = 4) : (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[0], i.attackPower = t.cfg.hunterCfg.attackList[0]), i.skinId = 90004, i.type = e.PlayerType.E_Hunter, this.curFighter = i, t.playerMgr.addFighter(i), XToast.show("鬼市钱庄已派出讨债鬼！")
@@ -7114,7 +7102,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.isClick = !1, this.monsterLv = 0, this.curClickNum = 0
             }
             onInit() {
-                this.data.canHandle = !1, fx.EventCenter.I.on(ke.E_Hunter_Dead, this, this.onHunterDead), this.imgBody.timerLoop(1e3, this, this.autoAddCoin), this.initOutDoorPos()
+                this.data.canHandle = !1, fx.EventCenter.I.on(XEventNames.E_Hunter_Dead, this, this.onHunterDead), this.imgBody.timerLoop(1e3, this, this.autoAddCoin), this.initOutDoorPos()
             }
             onHunterDead(e) {
                 "宝箱怪" == e.name && (this.curClickNum = 0, this.monsterLv += 1, this.isOut = !1, this.isClick = !1, this.updateBox())
@@ -7179,7 +7167,7 @@ define("js/bundle.js", function(require, module, exports) {
                 n.run(e), r.run(e)
             }
             createBoxMonster(i) {
-                let s = new he;
+                let s = new XPlayerModel;
                 s.isGhost = !0, s.uuid = fx.Utils.createUUID(), s.name = "宝箱怪";
                 let a = t.playerMgr.hunters[0].lv;
                 s.lv = a, a > 2 ? (s.curHp = s.maxHp = t.cfg.hunterCfg.hpList[a - 2], s.attackPower = t.cfg.hunterCfg.attackList[a - 2]) : 2 == a ? (s.curHp = s.maxHp = 400, s.attackPower = 4) : (s.curHp = s.maxHp = t.cfg.hunterCfg.hpList[0], s.attackPower = t.cfg.hunterCfg.attackList[0]), s.skinId = 10001, s.type = e.PlayerType.E_Hunter, t.playerMgr.addBoxMonster(s, i)
@@ -7246,7 +7234,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initXianYanBao() {
                 let e = t.mapMgr.getRoomById(this.data.roomId);
-                e.doorModel && e.doorModel.owner && e.doorModel.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit), this.initBullet()
+                e.doorModel && e.doorModel.owner && e.doorModel.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit), this.initBullet()
             }
             initBullet() {
                 let e = new Laya.Image("res/build/bullet_xyb.png");
@@ -7298,7 +7286,7 @@ define("js/bundle.js", function(require, module, exports) {
                             this.door = t;
                             break
                         }
-                this.door && !this.door.isDie && this.door.owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit), this.data.owner.timerLoop(100, this, this.timeLoop)
+                this.door && !this.door.isDie && this.door.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit), this.data.owner.timerLoop(100, this, this.timeLoop)
             }
             onDoorBeHit(e, t) {
                 this.atkTarget || (this.lastAtkTime = this.owner.timer.currTimer), this.atkTarget = e
@@ -7422,7 +7410,7 @@ define("js/bundle.js", function(require, module, exports) {
                                 i < e && (s.x != n.x || s.y != n.y) && (e = i, l = o)
                             }
                             let d = t.mapMgr.gridPosToMapPos(r[l].x, r[l].y);
-                            i.owner.pos(d.x, d.y), i.uuid == t.playerMgr.mineUuid && fx.EventCenter.I.event(ke.E_Look_Player, i)
+                            i.owner.pos(d.x, d.y), i.uuid == t.playerMgr.mineUuid && fx.EventCenter.I.event(XEventNames.E_Look_Player, i)
                         }
                     }
                 }
@@ -7512,7 +7500,7 @@ define("js/bundle.js", function(require, module, exports) {
                     })).to({
                         height: 10
                     }, i / 2).exec(new Laya.Handler(this, () => {
-                        this.attackImg.visible = !1, this.eatCnt++, this.eatCnt == this.cnt && (this.node.event(XModelEvent.AddCoin_By_Cnt, this.eatCnt), this.updateStatus())
+                        this.attackImg.visible = !1, this.eatCnt++, this.eatCnt == this.cnt && (this.node.event(be.AddCoin_By_Cnt, this.eatCnt), this.updateStatus())
                     })).run(this.attackImg)
                 }
             }
@@ -7565,7 +7553,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onUpdate() {
                 if (!this.isActive) return;
-                if (this.curRot += 2, this.curRot >= 360) return this.recover(), void this.owner.event(XModelEvent.FlyCutter_End);
+                if (this.curRot += 2, this.curRot >= 360) return this.recover(), void this.owner.event(be.FlyCutter_End);
                 let e = this.rot + this.curRot;
                 e > 360 && (e -= 360), this.node.rotation += 10;
                 let t = Math.cos(Math.rad(e)) * this.length,
@@ -7584,7 +7572,7 @@ define("js/bundle.js", function(require, module, exports) {
             onCollision(e) {
                 if (!this.isActive) return;
                 let i, s = e.owner;
-                s.destroyed || ((i = s.getComponent(bi)) || (i = s.getComponent(_i)), i && !i.data.isDie && (this.removeBody(), t.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(XModelEvent.FlyCutter_Be_Hit)))
+                s.destroyed || ((i = s.getComponent(bi)) || (i = s.getComponent(_i)), i && !i.data.isDie && (this.removeBody(), t.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
             }
         }
         class Ri extends XBuildingScript {
@@ -7671,7 +7659,7 @@ define("js/bundle.js", function(require, module, exports) {
                     category: e.CollideGroupType.BULLET,
                     mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                 };
-                s = i.addComponent(Gi), i.off(XModelEvent.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(XModelEvent.FlyCutter_End, this, this.onFlyCutterEnd), i.once(XModelEvent.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.once(XModelEvent.FlyCutter_End, this, this.onFlyCutterEnd), s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
+                s = i.addComponent(Gi), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
             }
             onFlyCutterBeHit() {
                 this.hitCnt += 1
@@ -8232,7 +8220,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
         }
-        class XMiniTowerScript extends XTowerScript {
+        class Xi extends XTowerScript {
             initSkin() {
                 super.initSkin(), this.imgBody.scale(.6, .6)
             }
@@ -8256,7 +8244,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody)
             }
         }
-        class XMirrorScript extends XBuildingScript {
+        class Yi extends XBuildingScript {
             constructor() {
                 super(...arguments), this.isUsingSkill = !1, this.isCanSkill = !1, this.buildTime = 90, this.skillTime = 5e3, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
@@ -9020,7 +9008,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = t.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
                 t.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
                 let n = t.mapMgr.getRoomById(this.data.roomId);
-                (this.door = n.doorModel).owner.on(XModelEvent.Battle_Be_Hit, this, this.onDoorBeHit)
+                (this.door = n.doorModel).owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e, t) {
                 this.hunters.includes(e) || this.hunters.push(e)
@@ -9153,7 +9141,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = t.user.gameInfo;
                 this.inputScript = t.gameMgr.inputScript, this.inputScript.downHandler = new Laya.Handler(this, this.onDown, null, !1), this.inputScript.moveHandler = new Laya.Handler(this, this.onInputMove, null, !1), this.inputScript.clickHandler = new Laya.Handler(this, this.onClickMap, null, !1);
                 let i = this.owner.getChildByName("MapNode");
-                t.mapMgr.mapNode = i, this.map = t.gameMgr.mapScript = i.addComponent($i), this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), XMatterUtil.init(), t.bulletMgr.init(i.getChildByName("BulletLayer")), t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), this.initEvents(), this.initMapBuild(), this.initBuildings(), this.initDefenders(), this.initHunters(), this.firstPlay(), this.onInit();
+                t.mapMgr.mapNode = i, this.map = t.gameMgr.mapScript = i.addComponent($i), this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), Ci.init(), t.bulletMgr.init(i.getChildByName("BulletLayer")), t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), this.initEvents(), this.initMapBuild(), this.initBuildings(), this.initDefenders(), this.initHunters(), this.firstPlay(), this.onInit();
                 let s = fx.Utils.isNotchScreenDevice();
                 if (s && (s.notchTop && (this.node.top = -s.notchTop), s.notchBottom && (this.node.bottom = -s.notchBottom)), e.failCnt + e.winCnt < 3) {
                     this.img_guideHand = new Laya.Image("res/game/guide/finger1.png"), this.img_guideHand.pivotX = 26, this.img_guideHand.pivotY = 12, t.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
@@ -9162,7 +9150,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             initEvents() {
-                fx.EventCenter.I.on(ke.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.on(ke.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.on(ke.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.on(ke.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.on(ke.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.on(ke.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.on(ke.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.on(ke.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.on(ke.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.on(ke.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.on(ke.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.on(ke.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.once(ke.E_Game_Start, this, this.onGameStart), fx.EventCenter.I.on(ke.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(ke.E_Task_Compelet, this, this.guideHandHide)
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.on(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.on(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.on(XEventNames.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.on(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.on(XEventNames.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.on(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.on(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.on(XEventNames.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.once(XEventNames.E_Game_Start, this, this.onGameStart), fx.EventCenter.I.on(XEventNames.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
             }
             onGameStart() {
                 for (const e of this.defenders) e.moveSpeed = t.cfg.constant.playerMoveSpeed / t.gameMgr.speedRatio
@@ -9267,7 +9255,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     this.img_guideArrow = new Laya.Image("res/game/guideArrow.png"), this.img_guideArrow.anchorX = this.img_guideArrow.anchorY = .5, this.img_guideArrow.rotation = 180, this.arrowEndPos = t.mapMgr.gridPosToMapPos(7, 20), t.mapMgr.effectLayer.addChild(this.img_guideArrow), this.img_guideArrow.pos(this.arrowEndPos.x, this.arrowEndPos.y - 100);
                     let i = (new fx.Sequence).move(0, 20, 500).move(0, -20, 500);
-                    i.isRepeat = !0, i.run(this.img_guideArrow), fx.EventCenter.I.on(ke.E_GuideArrow_Visible, this, this.changeArrowVisible)
+                    i.isRepeat = !0, i.run(this.img_guideArrow), fx.EventCenter.I.on(XEventNames.E_GuideArrow_Visible, this, this.changeArrowVisible)
                 }
             }
             changeArrowVisible(e) {
@@ -9364,7 +9352,7 @@ define("js/bundle.js", function(require, module, exports) {
                                     r = n.addComponent(ls);
                                     break;
                                 case 12:
-                                    r = n.addComponent(XMiniTowerScript);
+                                    r = n.addComponent(Xi);
                                     break;
                                 case 13:
                                     r = n.addComponent(JisuTowerScript);
@@ -9385,7 +9373,7 @@ define("js/bundle.js", function(require, module, exports) {
                                     r = n.addComponent(XTowerScript)
                             }
                         } else r = n.addComponent(XTowerScript);
-                else 3001 == h.buildId ? r = n.addComponent(rs) : 3002 == h.buildId ? r = n.addComponent(Qi) : 3003 == h.buildId || (3004 == h.buildId ? r = n.addComponent(ss) : 3005 == h.buildId ? r = n.addComponent(Li) : 3006 == h.buildId ? (r = n.addComponent(Hi), l = !0) : 3007 == h.buildId ? r = n.addComponent(ji) : 3008 == h.buildId || 3009 == h.buildId ? r = n.addComponent(Ri) : 3010 == h.buildId && (r = n.addComponent(XMirrorScript)));
+                else 3001 == h.buildId ? r = n.addComponent(rs) : 3002 == h.buildId ? r = n.addComponent(Qi) : 3003 == h.buildId || (3004 == h.buildId ? r = n.addComponent(ss) : 3005 == h.buildId ? r = n.addComponent(Li) : 3006 == h.buildId ? (r = n.addComponent(Hi), l = !0) : 3007 == h.buildId ? r = n.addComponent(ji) : 3008 == h.buildId || 3009 == h.buildId ? r = n.addComponent(Ri) : 3010 == h.buildId && (r = n.addComponent(Yi)));
                 else r = h.type == e.BuildType.eatMosquito ? n.addComponent(Pi) : h.type == e.BuildType.springBox ? n.addComponent(is) : h.type == e.BuildType.knife ? n.addComponent(KnifeScript) : h.type == e.BuildType.random ? n.addComponent(Wi) : h.type == e.BuildType.mine ? 5002 == h.buildId || 5103 == h.buildId || 5104 == h.buildId || 5105 == h.buildId || 5106 == h.buildId ? n.addComponent(Ti) : n.addComponent(XBuildingScript) : h.type == e.BuildType.entice ? n.addComponent(EnticeScript) : h.type == e.BuildType.stone ? n.addComponent(es) : h.type == e.BuildType.boxMonster ? n.addComponent(Bi) : h.type == e.BuildType.doorkeeper ? n.addComponent(Di) : h.type == e.BuildType.borrowMoney ? n.addComponent(xi) : 6006 == h.buildId ? n.addComponent(os) : n.addComponent(XBuildingScript);
                 this.buildingGrids[i.x] || (this.buildingGrids[i.x] = []), l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n), n.pos(o.x, o.y), this.buildingGrids[i.x][i.y] = r, r.init(i, a), r.map = this.map, s || t.mapMgr.isInStageByGridPos(i.x, i.y) && EffectUtil.I.playUpgradeEffect(i.x, i.y)
             }
@@ -9524,7 +9512,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_guideHand && (this.img_guideHand.visible = !1)
             }
             onDestroy() {
-                fx.EventCenter.I.off(ke.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.off(ke.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.off(ke.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.off(ke.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.off(ke.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.off(ke.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.off(ke.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.off(ke.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.off(ke.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.off(ke.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.off(ke.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.off(ke.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.off(ke.E_Game_Start, this, this.onGameStart)
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.off(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.off(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.off(XEventNames.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.off(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.off(XEventNames.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.off(XEventNames.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.off(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.off(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.off(XEventNames.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.off(XEventNames.E_Game_Start, this, this.onGameStart)
             }
         }
         class AngelOrGhostGameScript extends GameScript {
@@ -9535,7 +9523,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.angel_skill = e.getChildByName("angel_skill"), this.skill_repair = t.getChildByName("skill_repair"), this.skill_repair.on(Laya.Event.CLICK, this, this.onClickRepair), this.skill_addSpeed = this.angel_skill.getChildByName("skill_addSpeed"), this.skill_dizzy = this.angel_skill.getChildByName("skill_dizzy"), this.skill_addSpeed.on(Laya.Event.CLICK, this, this.onClickAddSpeed), this.skill_dizzy.on(Laya.Event.CLICK, this, this.onClickDizzy), this.angel_skill.visible = !1
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(ke.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(ke.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.on(ke.E_Angel_Dead, this, this.clearControl)
+                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.on(XEventNames.E_Angel_Dead, this, this.clearControl)
             }
             onClickMap(e) {
                 if (!t.playerMgr.player.isBed) return;
@@ -9601,7 +9589,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isPlayerBed = !0, this.characterControl = null, this.inputScript.hide(), this.angel_skill.visible = !1, this.defender_skill.visible = !1
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(ke.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(ke.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.off(ke.E_Angel_Dead, this, this.clearControl), Laya.timer.clear(t.gameUI, t.gameUI.countdownFunc)
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.off(XEventNames.E_Angel_Dead, this, this.clearControl), Laya.timer.clear(t.gameUI, t.gameUI.countdownFunc)
             }
         }
         class DefenseGameScript extends GameScript {
@@ -9614,7 +9602,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.isRepeat = !0, i.run(t)
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(ke.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.on(ke.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(ke.E_Create_Fighter, this, this.createFighter)
+                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(XEventNames.E_Create_Fighter, this, this.createFighter)
             }
             onClickMap(i) {
                 if (!t.playerMgr.player.isBed) return;
@@ -9675,7 +9663,7 @@ define("js/bundle.js", function(require, module, exports) {
                 s.pos(a.x, a.y)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(ke.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(ke.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.off(ke.E_Create_Fighter, this, this.createFighter), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.off(XEventNames.E_Create_Fighter, this, this.createFighter), t.buildingMgr.clearAllMapEquip()
             }
             }
         ////猜测是噬魂者模式
@@ -9691,7 +9679,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.visible = !0, this.skill_yanluo = i.getChildByName("skill_yanluo"), this.skill_equip = i.getChildByName("skill_equip"), this.skill_yanluo.on(Laya.Event.CLICK, this, this.onClickYanluo), this.skill_equip.on(Laya.Event.CLICK, this, this.onClickShowEquip), this.img_kuangbao = i.getChildByName("img_kuangbao"), this.img_zhenhan = i.getChildByName("img_zhenhan"), this.img_random = i.getChildByName("img_random"), this.lb_random = this.img_random.getChildByName("lb_random"), this.img_kuangbao.visible = !1, this.img_zhenhan.visible = !1, this.img_random.visible = !1, this.img_kuangbao.on(Laya.Event.CLICK, this, this.onClickKuangbao), this.img_zhenhan.on(Laya.Event.CLICK, this, this.onClickZhenhan), this.img_random.on(Laya.Event.CLICK, this, this.onClickRandom), this.isPlayerBed = !0, this.characterControl = null, this.inputScript.hide(), this.list_equip.array = [0, 1, 2, 3, 4, 5], this.list_equip.renderHandler = new Laya.Handler(this, this.updateEquipItem)
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(ke.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.on(ke.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.on(ke.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.on(ke.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.on(ke.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.on(ke.E_Create_Ghost, this, this.createGhost)
+                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.on(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.on(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.on(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.on(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost)
             }
             updateEquipItem(e) {
                 let t = e.dataSource,
@@ -9786,7 +9774,7 @@ define("js/bundle.js", function(require, module, exports) {
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(ke.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(ke.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(ke.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(ke.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(ke.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(ke.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
             }
         }
         class ServenGhostGameScript extends GameScript {
@@ -9796,7 +9784,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.skill_repair = e.getChildByName("skill_repair"), this.skill_repair.on(Laya.Event.CLICK, this, this.onClickRepair)
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(ke.E_Create_Ghost, this, this.createGhost)
+                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost)
             }
             onClickMap(i) {
                 if (!t.playerMgr.player.isBed) return;
@@ -9830,7 +9818,7 @@ define("js/bundle.js", function(require, module, exports) {
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(ke.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
             }
         }
         class InputScript extends Laya.Script {
@@ -9887,7 +9875,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return new fx.V2(this.lastPos.x - this.downPos.x, this.lastPos.y - this.downPos.y)
             }
         }
-        class XGameScene extends e.ui.scenes.GameSceneUI {
+        class ys extends e.ui.scenes.GameSceneUI {
             static getRes(...e) {
                 return [T.Prefab_GuideFinger, T.Prefab_HealZoneEff, T.Prefab_IconTips, T.Prefab_OperateBtn, T.Prefab_BuildMenu, T.Prefab_UpgradeMenu, T.Prefab_BorrowMoney, T.Prefab_HealthBar, T.Prefab_BuildingCD, T.Prefab_SkillCD, T.Prefab_LabelTips, T.Prefab_Guide]
             }
@@ -10505,7 +10493,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.user.gameInfo,
                     s = t.cfg.hunterDifficultCfg.get(i.curHunterLv);
                 t.gameMgr.dCfg = s, this.isStart = !1;
-                let a = new he;
+                let a = new XPlayerModel;
                 a.type = e.PlayerType.E_Hunter, a.uuid = fx.Utils.createUUID(), a.name = "自己";
                 let n = t.cfg.hunterCfg;
                 a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], this.defenderArr = [null, null, null, null, null, null], this.hunterArr = [a], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.lb_hunterName.text = "自己", this.img_people.visible = !1, this.updateHunter(), this.initList()
@@ -10531,7 +10519,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.matchingtime >= 3 && (i = 0), i < .7) {
                     let i = XRandomUtil.getIntRandom(0, this.idxArr.length - 1);
                     i = this.idxArr.splice(i, 1)[0];
-                    let s = new he;
+                    let s = new XPlayerModel;
                     s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), this.defenderArr[i] = s, this.initList()
                 }
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
@@ -11317,7 +11305,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initUI(), this.initCls()
             }
             static initUI() {
-                Laya.ClassUtils.regClass(l.MainScene, Cs), Laya.ClassUtils.regClass(l.GameScene, XGameScene), Laya.ClassUtils.regClass(l.WinDialog, ye), Laya.ClassUtils.regClass(l.FailDialog, re), Laya.ClassUtils.regClass(l.SkinView, ws), Laya.ClassUtils.regClass(l.TipsView, Ss), Laya.ClassUtils.regClass(l.SettingDialog, ge), Laya.ClassUtils.regClass(l.GameEndBoxDialog, oe), Laya.ClassUtils.regClass(l.MatchingView, XMatchingView), Laya.ClassUtils.regClass(l.HunterMatchingView, vs), Laya.ClassUtils.regClass(l.ShopDialog, ce), Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), Laya.ClassUtils.regClass(l.RankView, bs), Laya.ClassUtils.regClass(l.SkinFragmentDialog, pe), Laya.ClassUtils.regClass(l.SkinFragmentGetDialog, fe), Laya.ClassUtils.regClass(l.ExitView, _s), Laya.ClassUtils.regClass(l.NoticeDialog, ue), Laya.ClassUtils.regClass(l.TurntableView, Is), Laya.ClassUtils.regClass(l.TurntableRewardDialog, me), Laya.ClassUtils.regClass(l.BuffChooseDialog, ee), Laya.ClassUtils.regClass(l.BuffOwnerDialog, te), Laya.ClassUtils.regClass(l.BuffShowDialog, ie), Laya.ClassUtils.regClass(l.DailyShareDialog, ae), Laya.ClassUtils.regClass(l.BuyTianDialog, se), Laya.ClassUtils.regClass(l.InviteDialog, InviteDialog), Laya.ClassUtils.regClass(l.QuestionDialog, Os), Laya.ClassUtils.regClass(l.AogUnlockDialog, Z), Laya.ClassUtils.regClass(l.AogFailDialog, J), Laya.ClassUtils.regClass(l.AogWinDialog, Q), Laya.ClassUtils.regClass(l.AogChooseDialog, R), Laya.ClassUtils.regClass(l.HunterChooseView, Ms), Laya.ClassUtils.regClass(l.HunterFailDialog, xs), Laya.ClassUtils.regClass(l.HunterWinDialog, Bs), Laya.ClassUtils.regClass(l.HunterUnlockDialog, Ts), Laya.ClassUtils.regClass(l.HunterDifficultChooseDialog, Es), Laya.ClassUtils.regClass(l.SevenGhostUnlockDialog, Ps), Laya.ClassUtils.regClass(l.SevenGhostView, Ns), Laya.ClassUtils.regClass(l.SevenGhostFailDialog, Us), Laya.ClassUtils.regClass(l.SevenGhostWinDialog, Gs), Laya.ClassUtils.regClass(l.ClubRewardDialog, Ds), Laya.ClassUtils.regClass(l.EvaluateDialog, As), Laya.ClassUtils.regClass(l.RewardDialog, Rs), Laya.ClassUtils.regClass(l.SkinRewardDialog, Vs), Laya.ClassUtils.regClass(l.MessageDialog, Fs)
+                Laya.ClassUtils.regClass(l.MainScene, Cs), Laya.ClassUtils.regClass(l.GameScene, ys), Laya.ClassUtils.regClass(l.WinDialog, ye), Laya.ClassUtils.regClass(l.FailDialog, re), Laya.ClassUtils.regClass(l.SkinView, ws), Laya.ClassUtils.regClass(l.TipsView, Ss), Laya.ClassUtils.regClass(l.SettingDialog, ge), Laya.ClassUtils.regClass(l.GameEndBoxDialog, oe), Laya.ClassUtils.regClass(l.MatchingView, de), Laya.ClassUtils.regClass(l.HunterMatchingView, vs), Laya.ClassUtils.regClass(l.ShopDialog, ce), Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), Laya.ClassUtils.regClass(l.RankView, bs), Laya.ClassUtils.regClass(l.SkinFragmentDialog, pe), Laya.ClassUtils.regClass(l.SkinFragmentGetDialog, fe), Laya.ClassUtils.regClass(l.ExitView, _s), Laya.ClassUtils.regClass(l.NoticeDialog, ue), Laya.ClassUtils.regClass(l.TurntableView, Is), Laya.ClassUtils.regClass(l.TurntableRewardDialog, me), Laya.ClassUtils.regClass(l.BuffChooseDialog, ee), Laya.ClassUtils.regClass(l.BuffOwnerDialog, te), Laya.ClassUtils.regClass(l.BuffShowDialog, ie), Laya.ClassUtils.regClass(l.DailyShareDialog, ae), Laya.ClassUtils.regClass(l.BuyTianDialog, se), Laya.ClassUtils.regClass(l.InviteDialog, InviteDialog), Laya.ClassUtils.regClass(l.QuestionDialog, Os), Laya.ClassUtils.regClass(l.AogUnlockDialog, Z), Laya.ClassUtils.regClass(l.AogFailDialog, J), Laya.ClassUtils.regClass(l.AogWinDialog, Q), Laya.ClassUtils.regClass(l.AogChooseDialog, R), Laya.ClassUtils.regClass(l.HunterChooseView, Ms), Laya.ClassUtils.regClass(l.HunterFailDialog, xs), Laya.ClassUtils.regClass(l.HunterWinDialog, Bs), Laya.ClassUtils.regClass(l.HunterUnlockDialog, Ts), Laya.ClassUtils.regClass(l.HunterDifficultChooseDialog, Es), Laya.ClassUtils.regClass(l.SevenGhostUnlockDialog, Ps), Laya.ClassUtils.regClass(l.SevenGhostView, Ns), Laya.ClassUtils.regClass(l.SevenGhostFailDialog, Us), Laya.ClassUtils.regClass(l.SevenGhostWinDialog, Gs), Laya.ClassUtils.regClass(l.ClubRewardDialog, Ds), Laya.ClassUtils.regClass(l.EvaluateDialog, As), Laya.ClassUtils.regClass(l.RewardDialog, Rs), Laya.ClassUtils.regClass(l.SkinRewardDialog, Vs), Laya.ClassUtils.regClass(l.MessageDialog, Fs)
             }
             static initCls() {}
         }
@@ -11371,7 +11359,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class Ks extends Laya.Script {
             onStart() {
-                this.initPlayer(), this.initHunter(), fx.EventCenter.I.on(ke.E_Player_Dead, this, this.setDieState), fx.EventCenter.I.on(ke.E_Player_Hurt, this, this.setHurtState)
+                this.initPlayer(), this.initHunter(), fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.setDieState), fx.EventCenter.I.on(XEventNames.E_Player_Hurt, this, this.setHurtState)
             }
             setDieState() {
                 this.curHurt = null, this.list_player.refresh()
@@ -11394,7 +11382,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (o && (o.visible = !1), s && (s.skin = t.cfg.skin.get(i.skinId).headIcon), a && (a.visible = !1), n.visible = i.isDie, r && (i.uuid == t.playerMgr.mineUuid ? (r.visible = !0, r.text = "你") : r.visible = !1), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
                         e.stopPropagation();
                         let i = e.target.dataSource.player;
-                        t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(ke.E_Look_Player, [i]))
+                        t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
                     })), this.curHurt == i.uuid) {
                     s.centerX = 0, (new fx.Sequence).to({
                         centerX: -6
@@ -11448,11 +11436,11 @@ define("js/bundle.js", function(require, module, exports) {
                 s && (s.skin = r.headIcon), a && (a.visible = !1), n && (i.uuid == t.playerMgr.mineUuid ? n.text = "你" : n.text = r.name), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
                     e.stopPropagation();
                     let i = e.target.dataSource.hunter;
-                    t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(ke.E_Look_Player, [i]))
+                    t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
                 }))
             }
             onDestroy() {
-                fx.EventCenter.I.off(ke.E_Player_Dead, this, this.setDieState), fx.EventCenter.I.off(ke.E_Player_Hurt, this, this.setHurtState)
+                fx.EventCenter.I.off(XEventNames.E_Player_Dead, this, this.setDieState), fx.EventCenter.I.off(XEventNames.E_Player_Hurt, this, this.setHurtState)
             }
         }
         class $s extends Laya.Script {
@@ -11468,7 +11456,7 @@ define("js/bundle.js", function(require, module, exports) {
                         t.user.gameInfo.addCoin(e.reward), t.reporter.getCoinCnt("新手任务"), XToast.show(`获得${e.reward}铜币`), t.taskMgr.index += 1, t.user.gameInfo.taskIndex += 1, t.user.saveToServer()
                     }
                     this.taskIndexChange(), t.taskMgr.startTask()
-                }), t.taskMgr.compeletAllTask() ? (this.node.visible = !1, t.gameMgr.isGuide = !1) : (this.taskIndexChange(), fx.EventCenter.I.on(ke.E_Task_Compelet, this, this.compeletFunc));
+                }), t.taskMgr.compeletAllTask() ? (this.node.visible = !1, t.gameMgr.isGuide = !1) : (this.taskIndexChange(), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.compeletFunc));
                 let e = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                 e.isRepeat = !0, e.run(this.img_hand)
             }
@@ -11485,10 +11473,10 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = (new fx.Sequence).fadeOut(500).fadeIn(500);
                     e.isRepeat = !0, e.run(this.img_first)
                 }
-                t.taskMgr.compeletAllTask() && (this.node.visible = !1, fx.EventCenter.I.off(ke.E_Task_Compelet, this, this.compeletFunc))
+                t.taskMgr.compeletAllTask() && (this.node.visible = !1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc))
             }
             onDisable() {
-                t.taskMgr.index = 1, fx.EventCenter.I.off(ke.E_Task_Compelet, this, this.compeletFunc)
+                t.taskMgr.index = 1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc)
             }
         }
         class Xs extends Laya.Script {
@@ -11496,9 +11484,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                this.node = this.owner, this.node.visible = !1, this.label_hunterDes = this.owner.getChildByName("label_hunterDes"), 
-                this.label_sureBtn = this.owner.getChildByName("label_sureBtn"), this.label_sureBtn.on(Laya.Event.CLICK, this, this.onClickSure), 
-                this.checkShow()
+                this.node = this.owner, this.node.visible = !1, this.label_hunterDes = this.owner.getChildByName("label_hunterDes"), this.label_sureBtn = this.owner.getChildByName("label_sureBtn"), this.label_sureBtn.on(Laya.Event.CLICK, this, this.onClickSure), this.checkShow()
             }
             onClickSure() {
                 this.node.visible = !1
@@ -11766,7 +11752,7 @@ define("js/bundle.js", function(require, module, exports) {
         const ra = window.moment;
         var oa, la;
         e.StreamType = void 0, (oa = e.StreamType || (e.StreamType = {}))[oa.Original = 0] = "Original", oa[oa.Assembly = 1] = "Assembly", oa[oa.Object = 2] = "Object";
-        class XStream {
+        class ha {
             clean() {}
         }
 
@@ -11819,7 +11805,7 @@ define("js/bundle.js", function(require, module, exports) {
                             else {
                                 let e = new r;
                                 e.fromJson(o), this[a] = e
-                            } else this[a] instanceof XStream && this[a].fromJson(o);
+                            } else this[a] instanceof ha && this[a].fromJson(o);
                             else n == e.StreamType.Object && (this[a] = JSON.parse(o))
                         }
                 }
@@ -11896,12 +11882,12 @@ define("js/bundle.js", function(require, module, exports) {
                 for (let t in e)
                     if (e.hasOwnProperty(t)) {
                         let i = e[t][0];
-                        this[i] && (this[i] instanceof Array ? this[i].length = 0 : this[i] instanceof Map ? this[i].clear() : this[i] instanceof XStream && this[i].clean())
+                        this[i] && (this[i] instanceof Array ? this[i].length = 0 : this[i] instanceof Map ? this[i].clear() : this[i] instanceof ha && this[i].clean())
                     }
             }
         }
         e.ObjType = void 0, (la = e.ObjType || (e.ObjType = {}))[la.Map = 1] = "Map", la[la.Number = 2] = "Number", la[la.String = 3] = "String";
-        class XObjStream extends XStream {
+        class ga extends ha {
             isMap(t) {
                 if (this[t] && this[t] instanceof Map) return !0;
                 return !(!this.mappingInfos || !this.mappingInfos[t] || this.mappingInfos[t][0] != e.ObjType.Map)
@@ -12093,29 +12079,18 @@ define("js/bundle.js", function(require, module, exports) {
                 Ca.includes(e) && console.error("重复的存储key " + e), Ca.push(e), s.prototype.Key = e, s.prototype.StoreKey = e, s.prototype.IsEncrypt = t, s.prototype.isLocal = i
             }
         }
-        class ka extends XObjStream {}
-        class XBuildData extends XObjStream {}
-        class wa extends XObjStream {}
-        class Sa extends XObjStream {}
-        class Ia extends XObjStream {}
-        class va extends XObjStream {}
+        class ka extends ga {}
+        class ba extends ga {}
+        class wa extends ga {}
+        class Sa extends ga {}
+        class Ia extends ga {}
+        class va extends ga {}
         e.GameInfo = class extends e.StoreStream {
             constructor() {
                 super(), this.coin = 0, this.tian = 0, this.vibrateEnable = !0, this.showSkinRed = !0, this.dailyShare = !1, this.dailyBuyZr = !1, this.isUnlockAngelOrGhost = !1, this.isUnlockHunter = !1, this.isUnlockSevenGhost = !1, this.isGetTian = !1, this.inviteCnt = 0, this.inviteClaimed = 0, this._clubDataList = [], this.clear()
             }
             clear() {
-                this.coin = 0, this.tian = 0, this.tempCoin = 0, this.curSkinId = 1001, this.curHunterSkinId = 10001, this.maxLevel = 1, 
-                t.reporter.setUserMaxLevel(this.maxLevel), this.winCnt = 0, this.failCnt = 0, this.isStartLv = !1, this.weekMaxLv = 1, this.curLv = 1, 
-                t.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, this.todayExtraScore = 0, this.isLastWin = !1, 
-                this.isMapByWeek = !1, this.maxWinCnt = 0, this.isUseSkinFragmentVideo = !1, this.getFragmentCnt = 0, this.mapBuildRate = 0, this.taskIndex = 1, 
-                this.isExitGame = !1, this.magicGetCnt = 0, this.isFirstBuild = !0, this.dailyShareCnt = 0, this.canPlayTurnTable = !0, this.showTurntableCnt = 0, 
-                this.dailyShare = !1, this.dailyBuyZr = !1, this.playHunter = !1, this.curHunterLv = 1, this.lastHunterLv = 1, this.lowestHunterLv = 1, 
-                this.todayHunterMaxLv = 0, this.todayHunterExtraScore = 0, this.isLastHunterWin = !1, this.maxHunterLevel = 1, this.hunterBox = 3, 
-                this.hunterUnlockLvl = 0, this.curSevenGhostLv = 1, this.isUnlockSevenGhost = !1, this.isUnlockAngelOrGhost = !1, this.isUnlockHunter = !1, 
-                this.isGetTian = !1, this.clubClaimedList = [], this.isEvaluate = !1, this.isOpenEvaluate = !1, this.inviteCnt = 0, this.inviteClaimed = 0, 
-                this.isOpenNewSkin = !1, this.isCommond = !1, 
-                this.isOpenCommond = !1, this.clearOwnBuild(), this.clearOwnSkin(), this.clearOwnSkinFragment(), this.clearSkinTypeShow(), this.clearOwnPrize(), 
-                this.clearOwnBuff(), this.clearOwnHunterSkin(), this.clearShowHunterSkillDes()
+                this.coin = 0, this.tian = 0, this.tempCoin = 0, this.curSkinId = 1001, this.curHunterSkinId = 10001, this.maxLevel = 1, t.reporter.setUserMaxLevel(this.maxLevel), this.winCnt = 0, this.failCnt = 0, this.isStartLv = !1, this.weekMaxLv = 1, this.curLv = 1, t.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, this.todayExtraScore = 0, this.isLastWin = !1, this.isMapByWeek = !1, this.maxWinCnt = 0, this.isUseSkinFragmentVideo = !1, this.getFragmentCnt = 0, this.mapBuildRate = 0, this.taskIndex = 1, this.isExitGame = !1, this.magicGetCnt = 0, this.isFirstBuild = !0, this.dailyShareCnt = 0, this.canPlayTurnTable = !0, this.showTurntableCnt = 0, this.dailyShare = !1, this.dailyBuyZr = !1, this.playHunter = !1, this.curHunterLv = 1, this.lastHunterLv = 1, this.lowestHunterLv = 1, this.todayHunterMaxLv = 0, this.todayHunterExtraScore = 0, this.isLastHunterWin = !1, this.maxHunterLevel = 1, this.hunterBox = 3, this.hunterUnlockLvl = 0, this.curSevenGhostLv = 1, this.isUnlockSevenGhost = !1, this.isUnlockAngelOrGhost = !1, this.isUnlockHunter = !1, this.isGetTian = !1, this.clubClaimedList = [], this.isEvaluate = !1, this.isOpenEvaluate = !1, this.inviteCnt = 0, this.inviteClaimed = 0, this.isOpenNewSkin = !1, this.isCommond = !1, this.isOpenCommond = !1, this.clearOwnBuild(), this.clearOwnSkin(), this.clearOwnSkinFragment(), this.clearSkinTypeShow(), this.clearOwnPrize(), this.clearOwnBuff(), this.clearOwnHunterSkin(), this.clearShowHunterSkillDes()
             }
             init(e) {
                 this.tempCoin > 0 && (this.coin += this.tempCoin)
@@ -12164,7 +12139,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             clearOwnBuild() {
                 this.ownBuild = new Map, t.cfg.shopCfg.foreach(e => {
-                    let t = new XBuildData;
+                    let t = new ba;
                     t.cnt = e.initialHave, this.ownBuild.set(e.buildId, t)
                 }), this.onPropertyChange("ownBuild")
             }
@@ -12178,12 +12153,11 @@ define("js/bundle.js", function(require, module, exports) {
             addOwnBuildData(e, t, i) {
                 6666 == e && (i = 20);
                 let s = this.ownBuild.get(e);
-                this.ownBuild.has(e) || (s = new XBuildData), s.cnt += t, i && (s.cnt = Math.min(s.cnt, i)), this.ownBuild.set(e, s), this.onPropertyChange("ownBuild")
+                this.ownBuild.has(e) || (s = new ba), s.cnt += t, i && (s.cnt = Math.min(s.cnt, i)), this.ownBuild.set(e, s), this.onPropertyChange("ownBuild")
             }
             useBuildData(e, i = 1) {
                 let s = this.ownBuild.get(e);
-                this.ownBuild.has(e) ? (s.cnt -= i, this.ownBuild.set(e, s), this.onPropertyChange("ownBuild"), 
-                t.user.saveToServer()) : s = new XBuildData
+                this.ownBuild.has(e) ? (s.cnt -= i, this.ownBuild.set(e, s), this.onPropertyChange("ownBuild"), t.user.saveToServer()) : s = new ba
             }
             clearOwnSkin() {
                 this.ownSkin = new Map, t.cfg.skin.foreach(t => {
@@ -12291,11 +12265,11 @@ define("js/bundle.js", function(require, module, exports) {
             }
             addOwnPrizeData(e, t = 1) {
                 let i = this.ownPrize.get(e);
-                this.ownPrize.has(e) || ((i = new XBuildData).cnt = 0), i.cnt += t, this.ownPrize.set(e, i), this.onPropertyChange("ownPrize")
+                this.ownPrize.has(e) || ((i = new ba).cnt = 0), i.cnt += t, this.ownPrize.set(e, i), this.onPropertyChange("ownPrize")
             }
             usePrizeData(e, i = 1) {
                 let s = this.ownPrize.get(e);
-                this.ownPrize.has(e) || (s = new XBuildData), s.cnt -= i, 0 == s.cnt ? this.ownPrize.delete(e) : this.ownPrize.set(e, s), this.onPropertyChange("ownPrize"), t.user.saveToServer()
+                this.ownPrize.has(e) || (s = new ba), s.cnt -= i, 0 == s.cnt ? this.ownPrize.delete(e) : this.ownPrize.set(e, s), this.onPropertyChange("ownPrize"), t.user.saveToServer()
             }
             clearOwnBuff() {
                 this.ownBuff = new Map, this.buffLvArr = [], this.onPropertyChange("ownBuff")
@@ -12361,74 +12335,7 @@ define("js/bundle.js", function(require, module, exports) {
             getShowHunterSkillDes(e) {
                 return this.showHunterSkillDes.get(e)
             }
-        }, na([ya("coin", e.StreamType.Original, null, Ce.CoinChange)], e.GameInfo.prototype, "coin", void 0), 
-        na([ya("tian", e.StreamType.Original, null, Ce.TianChange)], e.GameInfo.prototype, "tian", void 0), 
-        na([ya("tempCoin", e.StreamType.Original)], e.GameInfo.prototype, "tempCoin", void 0), 
-        na([ya("vibrateEnable", e.StreamType.Original)], e.GameInfo.prototype, "vibrateEnable", void 0), 
-        na([ya("curSkinId", e.StreamType.Original)], e.GameInfo.prototype, "curSkinId", void 0), 
-        na([ya("curHunterSkinId", e.StreamType.Original)], e.GameInfo.prototype, "curHunterSkinId", void 0), 
-        na([ya("ownBuild", e.StreamType.Assembly, XBuildData)], e.GameInfo.prototype, "ownBuild", void 0), 
-        na([ya("ownSkin", e.StreamType.Assembly, wa)], e.GameInfo.prototype, "ownSkin", void 0), 
-        na([ya("ownSkinFragment", e.StreamType.Assembly, Sa)], e.GameInfo.prototype, "ownSkinFragment", void 0), 
-        na([ya("skinTypeShow", e.StreamType.Assembly, Ia)], e.GameInfo.prototype, "skinTypeShow", void 0), 
-        na([ya("maxLevel", e.StreamType.Original)], e.GameInfo.prototype, "maxLevel", void 0), 
-        na([ya("winCnt", e.StreamType.Original)], e.GameInfo.prototype, "winCnt", void 0), 
-        na([ya("failCnt", e.StreamType.Original)], e.GameInfo.prototype, "failCnt", void 0), 
-        na([ya("isStartLv", e.StreamType.Original)], e.GameInfo.prototype, "isStartLv", void 0), 
-        na([ya("weekMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "weekMaxLv", void 0), 
-        na([ya("curLv", e.StreamType.Original)], e.GameInfo.prototype, "curLv", void 0), 
-        na([ya("lastLv", e.StreamType.Original)], e.GameInfo.prototype, "lastLv", void 0), 
-        na([ya("lowestLv", e.StreamType.Original)], e.GameInfo.prototype, "lowestLv", void 0), 
-        na([ya("todayMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "todayMaxLv", void 0), 
-        na([ya("todayExtraScore", e.StreamType.Original)], e.GameInfo.prototype, "todayExtraScore", void 0), 
-        na([ya("isLastWin", e.StreamType.Original)], e.GameInfo.prototype, "isLastWin", void 0), 
-        na([ya("isMapByWeek", e.StreamType.Original)], e.GameInfo.prototype, "isMapByWeek", void 0), 
-        na([ya("maxWinCnt", e.StreamType.Original)], e.GameInfo.prototype, "maxWinCnt", void 0), 
-        na([ya("isUseSkinFragmentVideo", e.StreamType.Original)], e.GameInfo.prototype, "isUseSkinFragmentVideo", void 0), 
-        na([ya("getFragmentCnt", e.StreamType.Original)], e.GameInfo.prototype, "getFragmentCnt", void 0), 
-        na([ya("mapBuildRate", e.StreamType.Original)], e.GameInfo.prototype, "mapBuildRate", void 0), 
-        na([ya("taskIndex", e.StreamType.Original)], e.GameInfo.prototype, "taskIndex", void 0), 
-        na([ya("isExitGame", e.StreamType.Original)], e.GameInfo.prototype, "isExitGame", void 0), 
-        na([ya("magicGetCnt", e.StreamType.Original)], e.GameInfo.prototype, "magicGetCnt", void 0),
-        na([ya("isFirstBuild", e.StreamType.Original)], e.GameInfo.prototype, "isFirstBuild", void 0), 
-        na([ya("isGetPrize", e.StreamType.Original)], e.GameInfo.prototype, "isGetPrize", void 0), 
-        na([ya("prizeArr", e.StreamType.Original)], e.GameInfo.prototype, "prizeArr", void 0), 
-        na([ya("ownPrize", e.StreamType.Assembly, XBuildData)], e.GameInfo.prototype, "ownPrize", void 0), 
-        na([ya("dailyShareCnt", e.StreamType.Original)], e.GameInfo.prototype, "dailyShareCnt", void 0), 
-        na([ya("canPlayTurnTable", e.StreamType.Original)], e.GameInfo.prototype, "canPlayTurnTable", void 0), 
-        na([ya("showTurntableCnt", e.StreamType.Original)], e.GameInfo.prototype, "showTurntableCnt", void 0), 
-        na([ya("showSkinRed", e.StreamType.Original)], e.GameInfo.prototype, "showSkinRed", void 0), 
-        na([ya("isUnlockBuff", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockBuff", void 0), 
-        na([ya("ownBuff", e.StreamType.Assembly, va)], e.GameInfo.prototype, "ownBuff", void 0), 
-        na([ya("buffLvArr", e.StreamType.Original)], e.GameInfo.prototype, "buffLvArr", void 0), 
-        na([ya("dailyShare", e.StreamType.Original)], e.GameInfo.prototype, "dailyShare", void 0), 
-        na([ya("dailyBuyZr", e.StreamType.Original)], e.GameInfo.prototype, "dailyBuyZr", void 0), 
-        na([ya("playHunter", e.StreamType.Original)], e.GameInfo.prototype, "playHunter", void 0), 
-        na([ya("curHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "curHunterLv", void 0), 
-        na([ya("lastHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "lastHunterLv", void 0),
-        na([ya("lowestHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "lowestHunterLv", void 0), 
-        na([ya("todayHunterMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "todayHunterMaxLv", void 0), 
-        na([ya("todayHunterExtraScore", e.StreamType.Original)], e.GameInfo.prototype, "todayHunterExtraScore", void 0), 
-        na([ya("isLastHunterWin", e.StreamType.Original)], e.GameInfo.prototype, "isLastHunterWin", void 0), 
-        na([ya("maxHunterLevel", e.StreamType.Original)], e.GameInfo.prototype, "maxHunterLevel", void 0), 
-        na([ya("hunterBox", e.StreamType.Original)], e.GameInfo.prototype, "hunterBox", void 0), 
-        na([ya("hunterUnlockLvl", e.StreamType.Original)], e.GameInfo.prototype, "hunterUnlockLvl", void 0), 
-        na([ya("ownHunterSkin", e.StreamType.Assembly, wa)], e.GameInfo.prototype, "ownHunterSkin", void 0), 
-        na([ya("curSevenGhostLv", e.StreamType.Original)], e.GameInfo.prototype, "curSevenGhostLv", void 0), 
-        na([ya("isUnlockAngelOrGhost", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockAngelOrGhost", void 0), 
-        na([ya("isUnlockHunter", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockHunter", void 0), 
-        na([ya("isUnlockSevenGhost", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockSevenGhost", void 0), 
-        na([ya("isGetTian", e.StreamType.Original)], e.GameInfo.prototype, "isGetTian", void 0), 
-        na([ya("clubClaimedList", e.StreamType.Original)], e.GameInfo.prototype, "clubClaimedList", void 0), 
-        na([ya("isEvaluate", e.StreamType.Original)], e.GameInfo.prototype, "isEvaluate", void 0), 
-        na([ya("isOpenEvaluate", e.StreamType.Original)], e.GameInfo.prototype, "isOpenEvaluate", void 0), 
-        na([ya("inviteCnt", e.StreamType.Original, null, Ce.InviteCntChange)], e.GameInfo.prototype, "inviteCnt", void 0),
-        na([ya("inviteClaimed", e.StreamType.Original)], e.GameInfo.prototype, "inviteClaimed", void 0), 
-        na([ya("isOpenNewSkin", e.StreamType.Original)], e.GameInfo.prototype, "isOpenNewSkin", void 0), 
-        na([ya("showHunterSkillDes", e.StreamType.Assembly, ka)], e.GameInfo.prototype, "showHunterSkillDes", void 0), 
-        na([ya("isCommond", e.StreamType.Original)], e.GameInfo.prototype, "isCommond", void 0), 
-        na([ya("isOpenCommond", e.StreamType.Original)], e.GameInfo.prototype, "isOpenCommond", void 0), 
-        e.GameInfo = na([_a(sa.User.GameInfo, !1)], e.GameInfo);
+        }, na([ya("coin", e.StreamType.Original, null, Ce.CoinChange)], e.GameInfo.prototype, "coin", void 0), na([ya("tian", e.StreamType.Original, null, Ce.TianChange)], e.GameInfo.prototype, "tian", void 0), na([ya("tempCoin", e.StreamType.Original)], e.GameInfo.prototype, "tempCoin", void 0), na([ya("vibrateEnable", e.StreamType.Original)], e.GameInfo.prototype, "vibrateEnable", void 0), na([ya("curSkinId", e.StreamType.Original)], e.GameInfo.prototype, "curSkinId", void 0), na([ya("curHunterSkinId", e.StreamType.Original)], e.GameInfo.prototype, "curHunterSkinId", void 0), na([ya("ownBuild", e.StreamType.Assembly, ba)], e.GameInfo.prototype, "ownBuild", void 0), na([ya("ownSkin", e.StreamType.Assembly, wa)], e.GameInfo.prototype, "ownSkin", void 0), na([ya("ownSkinFragment", e.StreamType.Assembly, Sa)], e.GameInfo.prototype, "ownSkinFragment", void 0), na([ya("skinTypeShow", e.StreamType.Assembly, Ia)], e.GameInfo.prototype, "skinTypeShow", void 0), na([ya("maxLevel", e.StreamType.Original)], e.GameInfo.prototype, "maxLevel", void 0), na([ya("winCnt", e.StreamType.Original)], e.GameInfo.prototype, "winCnt", void 0), na([ya("failCnt", e.StreamType.Original)], e.GameInfo.prototype, "failCnt", void 0), na([ya("isStartLv", e.StreamType.Original)], e.GameInfo.prototype, "isStartLv", void 0), na([ya("weekMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "weekMaxLv", void 0), na([ya("curLv", e.StreamType.Original)], e.GameInfo.prototype, "curLv", void 0), na([ya("lastLv", e.StreamType.Original)], e.GameInfo.prototype, "lastLv", void 0), na([ya("lowestLv", e.StreamType.Original)], e.GameInfo.prototype, "lowestLv", void 0), na([ya("todayMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "todayMaxLv", void 0), na([ya("todayExtraScore", e.StreamType.Original)], e.GameInfo.prototype, "todayExtraScore", void 0), na([ya("isLastWin", e.StreamType.Original)], e.GameInfo.prototype, "isLastWin", void 0), na([ya("isMapByWeek", e.StreamType.Original)], e.GameInfo.prototype, "isMapByWeek", void 0), na([ya("maxWinCnt", e.StreamType.Original)], e.GameInfo.prototype, "maxWinCnt", void 0), na([ya("isUseSkinFragmentVideo", e.StreamType.Original)], e.GameInfo.prototype, "isUseSkinFragmentVideo", void 0), na([ya("getFragmentCnt", e.StreamType.Original)], e.GameInfo.prototype, "getFragmentCnt", void 0), na([ya("mapBuildRate", e.StreamType.Original)], e.GameInfo.prototype, "mapBuildRate", void 0), na([ya("taskIndex", e.StreamType.Original)], e.GameInfo.prototype, "taskIndex", void 0), na([ya("isExitGame", e.StreamType.Original)], e.GameInfo.prototype, "isExitGame", void 0), na([ya("magicGetCnt", e.StreamType.Original)], e.GameInfo.prototype, "magicGetCnt", void 0), na([ya("isFirstBuild", e.StreamType.Original)], e.GameInfo.prototype, "isFirstBuild", void 0), na([ya("isGetPrize", e.StreamType.Original)], e.GameInfo.prototype, "isGetPrize", void 0), na([ya("prizeArr", e.StreamType.Original)], e.GameInfo.prototype, "prizeArr", void 0), na([ya("ownPrize", e.StreamType.Assembly, ba)], e.GameInfo.prototype, "ownPrize", void 0), na([ya("dailyShareCnt", e.StreamType.Original)], e.GameInfo.prototype, "dailyShareCnt", void 0), na([ya("canPlayTurnTable", e.StreamType.Original)], e.GameInfo.prototype, "canPlayTurnTable", void 0), na([ya("showTurntableCnt", e.StreamType.Original)], e.GameInfo.prototype, "showTurntableCnt", void 0), na([ya("showSkinRed", e.StreamType.Original)], e.GameInfo.prototype, "showSkinRed", void 0), na([ya("isUnlockBuff", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockBuff", void 0), na([ya("ownBuff", e.StreamType.Assembly, va)], e.GameInfo.prototype, "ownBuff", void 0), na([ya("buffLvArr", e.StreamType.Original)], e.GameInfo.prototype, "buffLvArr", void 0), na([ya("dailyShare", e.StreamType.Original)], e.GameInfo.prototype, "dailyShare", void 0), na([ya("dailyBuyZr", e.StreamType.Original)], e.GameInfo.prototype, "dailyBuyZr", void 0), na([ya("playHunter", e.StreamType.Original)], e.GameInfo.prototype, "playHunter", void 0), na([ya("curHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "curHunterLv", void 0), na([ya("lastHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "lastHunterLv", void 0), na([ya("lowestHunterLv", e.StreamType.Original)], e.GameInfo.prototype, "lowestHunterLv", void 0), na([ya("todayHunterMaxLv", e.StreamType.Original)], e.GameInfo.prototype, "todayHunterMaxLv", void 0), na([ya("todayHunterExtraScore", e.StreamType.Original)], e.GameInfo.prototype, "todayHunterExtraScore", void 0), na([ya("isLastHunterWin", e.StreamType.Original)], e.GameInfo.prototype, "isLastHunterWin", void 0), na([ya("maxHunterLevel", e.StreamType.Original)], e.GameInfo.prototype, "maxHunterLevel", void 0), na([ya("hunterBox", e.StreamType.Original)], e.GameInfo.prototype, "hunterBox", void 0), na([ya("hunterUnlockLvl", e.StreamType.Original)], e.GameInfo.prototype, "hunterUnlockLvl", void 0), na([ya("ownHunterSkin", e.StreamType.Assembly, wa)], e.GameInfo.prototype, "ownHunterSkin", void 0), na([ya("curSevenGhostLv", e.StreamType.Original)], e.GameInfo.prototype, "curSevenGhostLv", void 0), na([ya("isUnlockAngelOrGhost", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockAngelOrGhost", void 0), na([ya("isUnlockHunter", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockHunter", void 0), na([ya("isUnlockSevenGhost", e.StreamType.Original)], e.GameInfo.prototype, "isUnlockSevenGhost", void 0), na([ya("isGetTian", e.StreamType.Original)], e.GameInfo.prototype, "isGetTian", void 0), na([ya("clubClaimedList", e.StreamType.Original)], e.GameInfo.prototype, "clubClaimedList", void 0), na([ya("isEvaluate", e.StreamType.Original)], e.GameInfo.prototype, "isEvaluate", void 0), na([ya("isOpenEvaluate", e.StreamType.Original)], e.GameInfo.prototype, "isOpenEvaluate", void 0), na([ya("inviteCnt", e.StreamType.Original, null, Ce.InviteCntChange)], e.GameInfo.prototype, "inviteCnt", void 0), na([ya("inviteClaimed", e.StreamType.Original)], e.GameInfo.prototype, "inviteClaimed", void 0), na([ya("isOpenNewSkin", e.StreamType.Original)], e.GameInfo.prototype, "isOpenNewSkin", void 0), na([ya("showHunterSkillDes", e.StreamType.Assembly, ka)], e.GameInfo.prototype, "showHunterSkillDes", void 0), na([ya("isCommond", e.StreamType.Original)], e.GameInfo.prototype, "isCommond", void 0), na([ya("isOpenCommond", e.StreamType.Original)], e.GameInfo.prototype, "isOpenCommond", void 0), e.GameInfo = na([_a(sa.User.GameInfo, !1)], e.GameInfo);
         const Ma = window.moment;
         e.UserInfo = class extends e.StoreStream {
             constructor() {
@@ -12505,14 +12412,7 @@ define("js/bundle.js", function(require, module, exports) {
                     i = await t.http.send(e, "Get", {}, 10);
                 return i && i.city ? i.city : (e = "https://cdwaterbear.cn/ip/queryex", (i = await t.http.send(e, "Get", {}, 10)) && i.data && i.data.city ? i.data.city : void 0)
             }
-        }, na([ya("lot", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "useLocalTime", void 0), 
-        na([ya("lt", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginTime", void 0), 
-        na([ya("ld", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginDay", void 0), 
-        na([ya("tlc", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "todayLoginCnt", void 0), 
-        na([ya("crt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "dailyResetTime", void 0), 
-        na([ya("wrt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "weeklyResetTime", void 0), 
-        na([ya("cityId", e.StreamType.Original)], e.UserInfo.prototype, "cityId", void 0), 
-        e.UserInfo = na([_a(sa.User.UserInfo, !1)], e.UserInfo), 
+        }, na([ya("lot", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "useLocalTime", void 0), na([ya("lt", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginTime", void 0), na([ya("ld", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginDay", void 0), na([ya("tlc", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "todayLoginCnt", void 0), na([ya("crt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "dailyResetTime", void 0), na([ya("wrt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "weeklyResetTime", void 0), na([ya("cityId", e.StreamType.Original)], e.UserInfo.prototype, "cityId", void 0), e.UserInfo = na([_a(sa.User.UserInfo, !1)], e.UserInfo), 
         e.CommonInfo = class extends e.StoreStream {
             constructor() {
                 super(), this.clear()
@@ -12532,8 +12432,7 @@ define("js/bundle.js", function(require, module, exports) {
             setSubscribe() {
                 this.isSubscribe = !0, t.user.saveToServer()
             }
-        }, na([ya("saveProgramClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "saveProgramClaimed", void 0), na([ya("addToDeskClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "addToDeskClaimed", void 0), na([ya("shareCnt", e.StreamType.Original)], e.CommonInfo.prototype, "shareCnt", void 0), na([ya("shareCntOnVideo", e.StreamType.Original)], e.CommonInfo.prototype, "shareCntOnVideo", void 0), na([ya("isSubscribe", e.StreamType.Original)], e.CommonInfo.prototype, "isSubscribe", void 0), e.CommonInfo = na([_a(sa.User.CommonInfo, !1)], e.CommonInfo), 
-        e.NavigateInfo = class extends e.StoreStream {
+        }, na([ya("saveProgramClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "saveProgramClaimed", void 0), na([ya("addToDeskClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "addToDeskClaimed", void 0), na([ya("shareCnt", e.StreamType.Original)], e.CommonInfo.prototype, "shareCnt", void 0), na([ya("shareCntOnVideo", e.StreamType.Original)], e.CommonInfo.prototype, "shareCntOnVideo", void 0), na([ya("isSubscribe", e.StreamType.Original)], e.CommonInfo.prototype, "isSubscribe", void 0), e.CommonInfo = na([_a(sa.User.CommonInfo, !1)], e.CommonInfo), e.NavigateInfo = class extends e.StoreStream {
             constructor() {
                 super(), this.isChecked = !1, this.isChecking = !1, this._iconList = [], this._dialogList = [], this._whiteIp = "", this.clear()
             }
@@ -12596,7 +12495,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this._iconList.length <= 1
             }
         }, na([ya("isBlackIp", e.StreamType.Original)], e.NavigateInfo.prototype, "isBlackIp", void 0), na([ya("loginCnt", e.StreamType.Original)], e.NavigateInfo.prototype, "loginCnt", void 0), e.NavigateInfo = na([_a(sa.User.NavigateInfo, !1)], e.NavigateInfo);
-        class xa {
+        class XUser {
             constructor() {
                 this.localVersion = 0, this.changeAccount = !1, this._isUploading = !1, this._uploadDirty = !1;
                 let t = Laya.LocalStorage.getItem("localVersion");
@@ -13411,14 +13310,14 @@ define("js/bundle.js", function(require, module, exports) {
                 t && this.getPool(t).put(e)
             }
         }
-        class XCgfMgr {
+        class Ra {
             constructor() {
                 this.constant = fx.CfgMgr.instance.get("constant"), this.map = new fx.BaseDataModel("mapCfg", Mt), this.skin = new fx.BaseDataModel("skinCfg", vt), this.buildCreate = new fx.BaseDataModel("buildCreateCfg", Bt), this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg"), this.hunterDifficultCfg = new fx.BaseDataModel("hunterDifficultCfg", Et), this.hunterEquipCfg = new fx.BaseDataModel("hunterEquipCfg", Nt), this.sevenGhostCfg = new fx.BaseDataModel("sevenGhostCfg", Ut), this.clubReward = new fx.BaseDataModel("clubReward", Gt), this.inviteCfg = new fx.BaseDataModel("inviteCfg", InviteCfg), this.magicBoxCfg = new fx.BaseDataModel("magicBoxCfg", Ht), this.shopCfg = new fx.BaseDataModel("shopCfg_test", Tt), this.hunterSkillCfg = new fx.BaseDataModel("hunterSkillCfg_test", Pt), this.buffCfg = new fx.BaseDataModel("buffCfg_test", At), this.difficultCfg = new fx.BaseDataModel("newDifficultCfg", Et), this.playerIdArr = [], this.playerSkinTypeArr = [], this.skin.foreach(t => {
                     t.type == e.SkinType.Human && (this.playerIdArr.push(t.id), t.skinType && !this.playerSkinTypeArr.includes(t.skinType) && this.playerSkinTypeArr.push(t.skinType))
                 }), this.magicBoxCfg.foreach(e => {})
             }
             static get I() {
-                return this._instance || (this._instance = new XCgfMgr), this._instance
+                return this._instance || (this._instance = new Ra), this._instance
             }
             getPlayerIdArr() {
                 return this.playerIdArr
@@ -14260,7 +14159,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (n && n.info) return n.info
             }
         }
-        class XMatchData {
+        class Ya {
             constructor() {
                 this.players = [], this.defenders = [], this.hunters = [], this.difficulty = 0, this.hideRoomIndex = 0
             }
@@ -14289,22 +14188,22 @@ define("js/bundle.js", function(require, module, exports) {
                 let n = Math.floor(XRandomUtil.random() * i[a].length);
                 this.diff = i[a][n], this.diff > 3 && (this.diff = 0)
             }
-            match(gameMode_, defenderArr_, hunterArr_, mapCfg_, mapData_, o) {
-                let l, h = new XMatchData;
-                h.gameMode = gameMode_, this.randomDiff(mapCfg_.id), h.mapCfg = mapCfg_, this.mapId = mapCfg_.id, h.mapData = mapData_, gameMode_ == e.GameMode.E_Defense ? l = 0 : gameMode_ == e.GameMode.E_Hunt ? l = 0 : gameMode_ == e.GameMode.E_AngelOrGhost ? l = 0 : gameMode_ == e.GameMode.E_SevenGhost && (l = 0);
+            match(i, s, a, n, r, o) {
+                let l, h = new Ya;
+                h.gameMode = i, this.randomDiff(n.id), h.mapCfg = n, this.mapId = n.id, h.mapData = r, i == e.GameMode.E_Defense ? l = 0 : i == e.GameMode.E_Hunt ? l = 0 : i == e.GameMode.E_AngelOrGhost ? l = 0 : i == e.GameMode.E_SevenGhost && (l = 0);
                 let d = [];
-                for (let e = 0; e < mapCfg_.defenderPointNum; ++e) d.push(e);
+                for (let e = 0; e < n.defenderPointNum; ++e) d.push(e);
                 t.user.gameInfo.winCnt + t.user.gameInfo.failCnt != 0 && fx.Utils.randomArray(d);
-                for (let t = 0; t < defenderArr_.length; ++t) {
-                    let a = defenderArr_[t];
-                    a.spwanPoint = d[t], gameMode_ != e.GameMode.E_Hunt && t == l && (h.mineUuid = a.uuid), h.defenders.push(a)
+                for (let t = 0; t < s.length; ++t) {
+                    let a = s[t];
+                    a.spwanPoint = d[t], i != e.GameMode.E_Hunt && t == l && (h.mineUuid = a.uuid), h.defenders.push(a)
                 }
                 d = [];
-                for (let e = 0; e < mapCfg_.hunterPointNum; ++e) d.push(e);
+                for (let e = 0; e < n.hunterPointNum; ++e) d.push(e);
                 fx.Utils.randomArray(d);
-                for (let t = 0; t < hunterArr_.length; ++t) {
-                    let s = hunterArr_[t];
-                    s.spwanPoint = d[t], gameMode_ == e.GameMode.E_Hunt && t == l && (h.mineUuid = s.uuid), h.hunters.push(s)
+                for (let t = 0; t < a.length; ++t) {
+                    let s = a[t];
+                    s.spwanPoint = d[t], i == e.GameMode.E_Hunt && t == l && (h.mineUuid = s.uuid), h.hunters.push(s)
                 }
                 return h.players = [], h.players = h.hunters.concat(h.defenders), h
             }
@@ -14331,7 +14230,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.playTime++
             }
             setGameStatus(t) {
-                this.gameStatus = t, t == e.GameStatus.E_GAME_START && fx.EventCenter.I.event(ke.E_Game_Start)
+                this.gameStatus = t, t == e.GameStatus.E_GAME_START && fx.EventCenter.I.event(XEventNames.E_Game_Start)
             }
             get isPause() {
                 return this._isPause
@@ -14346,7 +14245,7 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.timer.scale = 1, Laya.updateTimer.scale = 1, this.gameStatus != e.GameStatus.E_GAME_READY && this.setGameStatus(e.GameStatus.E_GAME_START)
             }
             changeMaxHp(e, t, i) {
-                t < e.maxHp && (e.curHp = Math.clamp(e.curHp, 0, t)), e.maxHp = t, e.doorkeeper && (e.doorkeeper.maxHp = t, e.doorkeeper.curHp = i, e.doorkeeper.owner && e.doorkeeper.owner.event(XModelEvent.Hp_Changed)), null != i && (e.curHp = i, e.curHp = Math.clamp(e.curHp, 0, e.maxHp), e.isDie = 0 == e.curHp), e.owner && e.owner.event(XModelEvent.Hp_Changed)
+                t < e.maxHp && (e.curHp = Math.clamp(e.curHp, 0, t)), e.maxHp = t, e.doorkeeper && (e.doorkeeper.maxHp = t, e.doorkeeper.curHp = i, e.doorkeeper.owner && e.doorkeeper.owner.event(be.Hp_Changed)), null != i && (e.curHp = i, e.curHp = Math.clamp(e.curHp, 0, e.maxHp), e.isDie = 0 == e.curHp), e.owner && e.owner.event(be.Hp_Changed)
             }
             takeDamage(i, s, a) {
                 if (!s.isDie && !(s.invincible || s.invincible_skill || a <= 0)) {
@@ -14354,7 +14253,7 @@ define("js/bundle.js", function(require, module, exports) {
                         let e = t.playerMgr.getPlayer(s.playerUuid);
                         if (e.invincibleCnt) return void(e.invincibleCnt -= 1)
                     }
-                    if (s.skillEquipHp ? (s.skillEquipHp -= a, s.skillEquipHp <= 0 && (s.skillEquipHp = 0, s.ownerScript.changeSkin(!1))) : (s.curHp -= a, s.curHp = Math.max(s.curHp, 0), this.gameMode == e.GameMode.E_Hunt && s.curHp > 0 && s.curHp / s.maxHp < .1 && (s != t.playerMgr.player || s.isShowYanluo || (s.isShowYanluo = !0, fx.EventCenter.I.event(ke.E_Yanluo_Show)))), s.isDie = 0 == s.curHp, s.owner && (s.owner.event(XModelEvent.Hp_Changed, [i]), s.owner.event(XModelEvent.Battle_Be_Hit, [i, a])), s.isDie) {
+                    if (s.skillEquipHp ? (s.skillEquipHp -= a, s.skillEquipHp <= 0 && (s.skillEquipHp = 0, s.ownerScript.changeSkin(!1))) : (s.curHp -= a, s.curHp = Math.max(s.curHp, 0), this.gameMode == e.GameMode.E_Hunt && s.curHp > 0 && s.curHp / s.maxHp < .1 && (s != t.playerMgr.player || s.isShowYanluo || (s.isShowYanluo = !0, fx.EventCenter.I.event(XEventNames.E_Yanluo_Show)))), s.isDie = 0 == s.curHp, s.owner && (s.owner.event(be.Hp_Changed, [i]), s.owner.event(be.Battle_Be_Hit, [i, a])), s.isDie) {
                         let n = s;
                         if (n.type == e.BuildType.bed && n.playerUuid) {
                             let e = t.playerMgr.getPlayer(n.playerUuid);
@@ -14369,7 +14268,7 @@ define("js/bundle.js", function(require, module, exports) {
                     if (s.type == e.BuildType.door && this.curHunterAtkTarget != s && !i.isGhost) {
                         this.curHunterAtkTarget = s;
                         let e = t.mapMgr.getRoomById(s.roomId);
-                        fx.EventCenter.I.event(ke.E_Player_Hurt, e.bedModelList[0].playerUuid)
+                        fx.EventCenter.I.event(XEventNames.E_Player_Hurt, e.bedModelList[0].playerUuid)
                     }
                 }
             }
@@ -14380,7 +14279,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (e.isDie) return;
                 if (t <= 0) return;
                 let i = t * e.maxHp;
-                e.curHp += t * e.maxHp, e.curHp = Math.min(e.curHp, e.maxHp), e.isDie = 0 == e.curHp, e.owner && e.owner.event(XModelEvent.Hp_Changed, [-i])
+                e.curHp += t * e.maxHp, e.curHp = Math.min(e.curHp, e.maxHp), e.isDie = 0 == e.curHp, e.owner && e.owner.event(be.Hp_Changed, [-i])
             }
             get arrDatas() {
                 return this._arrDatas
@@ -14519,7 +14418,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getPlayer() {
                 let i = [0, 1, 2, 3, 4, 5],
-                    s = new he;
+                    s = new XPlayerModel;
                 s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = t.user.gameInfo.curSkinId;
                 let a = [s, null, null, null, null, null],
                     n = [];
@@ -14531,10 +14430,10 @@ define("js/bundle.js", function(require, module, exports) {
                         t.gameMgr.dCfg = s;
                         let a = s.addMaxHp + 1;
                         i.curLv == t.cfg.difficultCfg.length && (s = t.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
-                        let r = new he;
+                        let r = new XPlayerModel;
                         r.type = e.PlayerType.E_Hunter, r.uuid = fx.Utils.createUUID(), r.name = this.randomName(), r.skinId = s.bossId, r.attackPower = t.cfg.hunterCfg.attackList[0], r.curHp = t.cfg.hunterCfg.hpList[0] * a, r.maxHp = t.cfg.hunterCfg.hpList[0] * a, n.push(r)
                     } else {
-                        let i = new he;
+                        let i = new XPlayerModel;
                         i.type = e.PlayerType.E_Defender, i.uuid = fx.Utils.createUUID(), i.name = this.randomName(), i.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), a[s] = i
                     }
                 }
@@ -15161,7 +15060,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node = this.owner, this.x = e.x, this.y = e.y, this.equipCfg = t
             }
         }
-        class rn extends kt {
+        class XTowerModel extends XBuildingModel {
             getAtkPow() {
                 let e = this.atk,
                     t = e;
@@ -15187,7 +15086,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t
             }
         }
-        class BuildingMgr {
+        class XBuildingMgr {
             constructor() {
                 this.isAddCfg = !1, this.buildCfgs = {}, this.buildIdsMap = {}, this.dawnBed = [], this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"], this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5], this.magicConsumeArr = [
                     [10, 0],
@@ -15298,7 +15197,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             changeDoorState(e, i) {
-                e.isOpen = i, t.mapMgr.setDynWalkable(e.x, e.y, i), fx.EventCenter.I.event(ke.E_Door_State_Changed, [e])
+                e.isOpen = i, t.mapMgr.setDynWalkable(e.x, e.y, i), fx.EventCenter.I.event(XEventNames.E_Door_State_Changed, [e])
             }
             openDoorByGridPos(t, i) {
                 let s = this.getBuilding(t, i);
@@ -15333,7 +15232,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 n.isUsed = !0, a.isBed = !0, a.bedModel = n, r.players || (r.players = []), r.players.push(a);
                 let o = this.getBuilding(r.doorPos.x, r.doorPos.y);
-                if (o && o.canHandle && this.closeDoorByGridPos(r.doorPos.x, r.doorPos.y), fx.EventCenter.I.event(ke.E_Bed_Up, [n, a.uuid]), a.takeMapBuild) {
+                if (o && o.canHandle && this.closeDoorByGridPos(r.doorPos.x, r.doorPos.y), fx.EventCenter.I.event(XEventNames.E_Bed_Up, [n, a.uuid]), a.takeMapBuild) {
                     let e = a.takeMapBuild.buildCfg,
                         t = this.getEmptyGrids(r.id),
                         i = fx.Utils.randomInArray(t);
@@ -15350,7 +15249,7 @@ define("js/bundle.js", function(require, module, exports) {
                         i = s;
                         break
                     }
-                t.players.splice(i, 1), e.isBed = !1, e.bedModel = null, fx.EventCenter.I.event(ke.E_Bed_Down, [e.uuid, t.id])
+                t.players.splice(i, 1), e.isBed = !1, e.bedModel = null, fx.EventCenter.I.event(XEventNames.E_Bed_Down, [e.uuid, t.id])
             }
             build(i, s, a, n, r = 0, o = 1, l = !0, h = !0, d, u = !1) {
                 let g = this.getBuilding(a, n);
@@ -15381,7 +15280,7 @@ define("js/bundle.js", function(require, module, exports) {
                     this.isInfiniteIncome ? t.playerMgr.changePlayerIncomeByUuid(i, f, m) : t.playerMgr.changePlayerIncomeByUuid(i, -f, -m)
                 }
                 let C = this.createBuildingModelByCfg(i, s, p, o, a, n, r, c);
-                return d && (C.curHp = C.maxHp = d), C.isInit = u, C.canHandle = h, this.addBuilding(C, y), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(ke.E_BUILDING_BUILD, [C, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(C, 111), e.BuildResult.E_OK
+                return d && (C.curHp = C.maxHp = d), C.isInit = u, C.canHandle = h, this.addBuilding(C, y), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [C, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(C, 111), e.BuildResult.E_OK
             }
             buildFree(i, s, a, n, r = 0, o = 1, l = !0, h) {
                 let d = this.getBuilding(a, n);
@@ -15390,7 +15289,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (7777 == s && (u = this.getBuildCfg(3e3, o)), !u) return;
                 let g, c = t.mapMgr.getRoomIdByGrid(a, n),
                     p = t.playerMgr.getPlayer(i);
-                return 7777 == s ? ((g = this.createBuildingModelByCfg(i, 3e3, c, o, a, n, r, u)).isSpecial = !0, !h || h > t.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(i, s, c, o, a, n, r, u), g.canHandle = l, this.addBuilding(g, p), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(ke.E_BUILDING_BUILD, [g, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(g, 111), e.BuildResult.E_OK
+                return 7777 == s ? ((g = this.createBuildingModelByCfg(i, 3e3, c, o, a, n, r, u)).isSpecial = !0, !h || h > t.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(i, s, c, o, a, n, r, u), g.canHandle = l, this.addBuilding(g, p), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [g, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(g, 111), e.BuildResult.E_OK
             }
             buildCd(i, s, a, n, r = 0, o = 1, l = !0) {
                 let h = this.getBuilding(a, n);
@@ -15404,7 +15303,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = this.getSpecialTower();
                     u.specialId = e.id, "罕见" == e.quality && (u.canChangeSpecial = !0)
                 } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
-                return u.canHandle = l, this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(ke.E_BUILDING_BUILD, [u, !1, 60]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
+                return u.canHandle = l, this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1, 60]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
             }
             buildTurntable(i, s, a, n, r = 0, o = 1, l = !0) {
                 let h = this.getBuilding(a, n);
@@ -15423,22 +15322,22 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = this.getSpecialTower();
                     u.specialId = e.id, "罕见" == e.quality && (u.canChangeSpecial = !0)
                 } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
-                return u.canHandle = l, u.turntableBuildId = `${s}_${o}`, this.turntableBuildArr.push(`${s}_${o}`), this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(ke.E_BUILDING_BUILD, [u, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
+                return u.canHandle = l, u.turntableBuildId = `${s}_${o}`, this.turntableBuildArr.push(`${s}_${o}`), this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
             }
             buildSpecial(i) {
                 let s = t.playerMgr.getPlayer(i.playerUuid);
-                return this.addBuilding(i, s), fx.EventCenter.I.event(ke.E_BUILDING_BUILD, [i, !1]), e.BuildResult.E_OK
+                return this.addBuilding(i, s), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [i, !1]), e.BuildResult.E_OK
             }
             createBuildingModelByCfg(i, s, a, n, r, o, l, h) {
                 let d;
                 switch (h.type) {
                     case e.BuildType.tower:
-                        let t = d = new rn(s, a, n, r, o, l),
+                        let t = d = new XTowerModel(s, a, n, r, o, l),
                             i = h;
                         t.atkCD = i.atkInterval, t.atkDst = i.atkRange, t.atk = i.atkDamage;
                         break;
                     default:
-                        d = new kt(s, a, n, r, o, l)
+                        d = new XBuildingModel(s, a, n, r, o, l)
                 }
                 d.playerUuid = i, d.lv = n, d.type = h.type;
                 let u = h.hp || 1;
@@ -15536,7 +15435,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = this.turntableBuildArr.indexOf(r.turntableBuildId);
                     e >= 0 && this.turntableBuildArr.splice(e, 0)
                 }
-                fx.EventCenter.I.event(ke.E_BUILDING_REMOVED, [r])
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_REMOVED, [r])
             }
             upgrade(i, s, a, n = !0, r = 0, o) {
                 let l = this.getBuilding(s, a);
@@ -15556,11 +15455,11 @@ define("js/bundle.js", function(require, module, exports) {
                     if (g.preBuilding && !this.isHaveBuilding(d, g.preBuilding.buildId, g.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
                     this.isInfiniteIncome ? t.playerMgr.changePlayerIncomeByUuid(i, s, a) : t.playerMgr.changePlayerIncomeByUuid(i, -s, -a)
                 }
-                return l.lv += u, o && (g.hp = g.hp * Math.pow(.5, o)), this.updateBuildingModel(l, g), fx.EventCenter.I.event(ke.E_BUILDING_UPGRADE, [l]), t.gameMgr.playSound(l, 112), e.BuildResult.E_OK
+                return l.lv += u, o && (g.hp = g.hp * Math.pow(.5, o)), this.updateBuildingModel(l, g), fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [l]), t.gameMgr.playSound(l, 112), e.BuildResult.E_OK
             }
             videoSuper(i, s, a) {
                 let n = this.getBuilding(s, a);
-                return n ? n.playerUuid && n.playerUuid != i && !n.playerUuid.includes(i) ? e.BuildResult.E_FAILD : t.mapMgr.getRoomIdByGridPos(s, a) ? (n.isSuper = !0, fx.EventCenter.I.event(ke.E_BUILDING_VIDEOUPGRADE, [n]), t.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
+                return n ? n.playerUuid && n.playerUuid != i && !n.playerUuid.includes(i) ? e.BuildResult.E_FAILD : t.mapMgr.getRoomIdByGridPos(s, a) ? (n.isSuper = !0, fx.EventCenter.I.event(XEventNames.E_BUILDING_VIDEOUPGRADE, [n]), t.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
             }
             getUpgradeRet(i, s, a, n) {
                 let r = this.getBuilding(s, a);
@@ -15830,7 +15729,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t
             }
             repairDoor(e) {
-                return !(!e || !e.doorModel) && (e.doorModel.isRepair = !0, fx.EventCenter.I.event(ke.E_Repair_Door, [e]), !0)
+                return !(!e || !e.doorModel) && (e.doorModel.isRepair = !0, fx.EventCenter.I.event(XEventNames.E_Repair_Door, [e]), !0)
             }
             stopRepairDoor(e) {
                 e.isRepair = !0
@@ -15883,7 +15782,7 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                         return !1
                     }
-                    return s.takeMapBuild = a, fx.EventCenter.I.event(ke.E_MapBuild_take, [a, s.uuid]), !0
+                    return s.takeMapBuild = a, fx.EventCenter.I.event(XEventNames.E_MapBuild_take, [a, s.uuid]), !0
                 }
             }
             clearMapBuild() {
@@ -15928,7 +15827,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s.owner || s.owner.destroyed) return;
                 t.gameMgr.playSoundByNode(s.owner, 126);
                 let a = s.equipCfg;
-                fx.EventCenter.I.event(ke.E_MapEquip_take, a), this.clearAllMapEquip()
+                fx.EventCenter.I.event(XEventNames.E_MapEquip_take, a), this.clearAllMapEquip()
             }
             getSpecialTowerByWeight() {
                 let e = [];
@@ -15984,17 +15883,17 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.player.roomId
             }
             addFighter(e) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(ke.E_Create_Fighter, e), this.fighter = e
+                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_Fighter, e), this.fighter = e
             }
             addBoxMonster(e, i) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(ke.E_Create_BoxMonster, [e, i])
+                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_BoxMonster, [e, i])
             }
             addGhost(e) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(ke.E_Create_Ghost, e)
+                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_Ghost, e)
             }
             addAngel() {
-                let i = new he;
-                i.uuid = this.mineUuid, i.name = this.player.name, i.type = e.PlayerType.E_Defender, i.isAngel = !0, i.skinId = 90003, i.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.defenderPointNum - 1), this.angels.push(i), fx.EventCenter.I.event(ke.E_Create_Angel, i)
+                let i = new XPlayerModel;
+                i.uuid = this.mineUuid, i.name = this.player.name, i.type = e.PlayerType.E_Defender, i.isAngel = !0, i.skinId = 90003, i.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.defenderPointNum - 1), this.angels.push(i), fx.EventCenter.I.event(XEventNames.E_Create_Angel, i)
             }
             deleteGhost() {
                 let e = this.hunters.splice(1);
@@ -16127,10 +16026,10 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = t.user.gameInfo.ownPrize.size;
                     this.img_hide.visible = !!e
                 } else this.img_hide.visible = !1;
-                fx.EventCenter.I.on(ke.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(ke.E_Task_Compelet, this, this.guideHandHide)
+                fx.EventCenter.I.on(XEventNames.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
             }
             onDestroy() {
-                fx.EventCenter.I.off(ke.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.off(ke.E_Task_Compelet, this, this.guideHandHide)
+                fx.EventCenter.I.off(XEventNames.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.guideHandHide)
             }
             guideHandShow(e) {
                 if (!this.img_guide.__seq) {
@@ -16835,7 +16734,7 @@ define("js/bundle.js", function(require, module, exports) {
                         let e = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                         e.isRepeat = !0, e.run(this.img_hand)
                     }
-                    fx.EventCenter.I.event(ke.E_GuideArrow_Visible, !1)
+                    fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !1)
                 }
                 let a = t.playerMgr.player;
                 this.operateBtn.visible = !0, this.operateImg.skin = this.switchOperateImg(a.skinId), this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.bed, i, s, null]), this.operateGrid.setValue(i, s)
@@ -16859,7 +16758,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.playerMgr.player.ownerScript.takeMapBuild(a)
             }
             hideOperateBtn() {
-                fx.EventCenter.I.event(ke.E_GuideArrow_Visible, !0), this.img_hand && (this.img_hand.visible = !1), this.operateBtn.visible && (this.operateBtn.visible = !1)
+                fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !0), this.img_hand && (this.img_hand.visible = !1), this.operateBtn.visible && (this.operateBtn.visible = !1)
             }
             update() {
                 this.updateOperateBtn()
@@ -17419,7 +17318,7 @@ define("js/bundle.js", function(require, module, exports) {
                         const t = s[e];
                         t && this.taskTextArr.push(t)
                     }
-                this.taskTextArr.length < i.taskIndex ? this.isInit = !1 : (this.isInit = !0, this.index = 1, this.compeletAllTask() || fx.EventCenter.I.on(ke.E_Bed_Up, this, this.startTask))
+                this.taskTextArr.length < i.taskIndex ? this.isInit = !1 : (this.isInit = !0, this.index = 1, this.compeletAllTask() || fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.startTask))
             }
             getCurTaskCfg() {
                 let e = this.index;
@@ -17432,28 +17331,28 @@ define("js/bundle.js", function(require, module, exports) {
                 return !(!i || !i.bedModel) && i.bedModel.lv > e
             }
             compeletAllTask() {
-                return !this.isInit || !(this.index <= this.taskTextArr.length) && (fx.EventCenter.I.off(ke.E_Bed_Up, this, this.startTask), !0)
+                return !this.isInit || !(this.index <= this.taskTextArr.length) && (fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.startTask), !0)
             }
             Task1() {
                 t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.taskCompelet()
             }
             Task2() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(1) ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 2)
+                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(1) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 2)
             }
             Task3() {
-                t.gameMgr.randomCnt > 0 ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 3)
+                t.gameMgr.randomCnt > 0 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 3)
             }
             Task4() {
                 {
                     let e = t.gameMgr.mineRoom;
-                    e && e.doorModel && e.doorModel.lv > 1 ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 4)
+                    e && e.doorModel && e.doorModel.lv > 1 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 4)
                 }
             }
             Task5() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(2) ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 5)
+                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(2) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 5)
             }
             Task6() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(3) ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 6)
+                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(3) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 6)
             }
             Task7() {
                 let e = t.gameMgr.mineRoom;
@@ -17463,11 +17362,11 @@ define("js/bundle.js", function(require, module, exports) {
                         const s = e.buildings[i];
                         s && "tower" == s.type && (t += 1)
                     }
-                    t >= 2 ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 7)
+                    t >= 2 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 7)
                 }
             }
             Task8() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && (t.gameMgr.isClickRepair ? this.taskCompelet() : fx.EventCenter.I.event(ke.E_GuideHand_Show, 8))
+                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && (t.gameMgr.isClickRepair ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 8))
             }
             Task9() {
                 t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(4) && this.taskCompelet()
@@ -17555,7 +17454,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.compeletAllTask() || this.taskFunc && this.taskFunc()
             }
             taskCompelet() {
-                fx.EventCenter.I.event(ke.E_Task_Compelet), this.taskFunc = null
+                fx.EventCenter.I.event(XEventNames.E_Task_Compelet), this.taskFunc = null
             }
             getInit() {
                 return this.isInit
@@ -17584,11 +17483,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }), fx.Utils.isOnMiniGame() && (sdk.Sdk.isOnWeiXin() ? V.channel_AdIds.videoId.length > 0 && (sdk.Sdk.instance.adIds = V.channel_AdIds) : sdk.Sdk.instance.adIds = V.channel_AdIds, sdk.Sdk.isOnWeiXin() ? j.I.initWxVideo() : sdk.Sdk.instance.preloadVideo()), zs.init(), this.initGame(), this.initConfig()
             }
             initGame() {
-                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool,
+                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, 
                 t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, 
-                t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, 
-                t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new BuildingMgr, t.playerMgr = new PlayerMgr, 
-                t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr, t.buffMgr = new BuffMgr, t.taskMgr = new TaskMgr
+                t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, 
+                t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, 
+                t.buildingMgr = new XBuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, 
+                t.guideMgr = new GuildMgr, t.buffMgr = new BuffMgr, t.taskMgr = new TaskMgr
             }
             initConfig() {
                 this.cfgTime = Date.now(), LoadingUtil.show("同步配置文件"), t.controller.queryVersionCfg(() => {
@@ -17603,7 +17503,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = (Date.now() - this.cfgTime) / 1e3;
                 e = Math.round(100 * e) / 100, XAnalyticsUtil.track("load_cfg", {
                     load_time: e
-                }), t.cfg = new XCgfMgr, t.user = new xa, fx.EventCenter.I.event("InfoNeedInit"), t.user.parseFromLocal(), this.getServerData()
+                }), t.cfg = new Ra, t.user = new XUser, fx.EventCenter.I.event("InfoNeedInit"), t.user.parseFromLocal(), this.getServerData()
             }
             getServerData() {
                 this.syncTime = Date.now(), LoadingUtil.show("数据同步中"), XEventDispatcher.I.init(V.serverURL, V.gameID, V.platform, e => {
@@ -18094,7 +17994,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }], !1).run()
             }
         }
-        class XMiniGameListDialog extends e.ui.scenes.WXJump.MiniGameListDialogUI {
+        class Rn extends e.ui.scenes.WXJump.MiniGameListDialogUI {
             onAdd() {
                 this.initList(), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -18128,7 +18028,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
         }
-        class XMoreGameBtnScript extends Laya.Script {
+        class Hn extends Laya.Script {
             onAwake() {
                 this._owner = this.owner, this._owner.visible = !1, this.initUi()
             }
@@ -18136,7 +18036,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (Pn.I.getJumpData()) {
                     if (!Pn.I.isShowBanner()) return this._owner.visible = !1, void this._owner.destroy();
                     this._owner.visible = !0, this._owner.on(Laya.Event.CLICK, this, () => {
-                        fx.SceneManager.openPanel(XMiniGameListDialog)
+                        fx.SceneManager.openPanel(Rn)
                     })
                 } else Laya.timer.once(1e3, this, this.initUi)
             }
@@ -18197,7 +18097,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {}
             static init() {
                 var e = Laya.ClassUtils.regClass;
-                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", hn), e("game/core/BuildMenuScript.ts", gn), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", cn), e("modules/WXJump/BannerJumpScript.ts", Un), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
+                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", hn), e("game/core/BuildMenuScript.ts", gn), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", cn), e("modules/WXJump/BannerJumpScript.ts", Un), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", Hn), e("modules/WXJump/WXGameClubScript.ts", On)
             }
         }
         Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", Vn.alignV = "middle", Vn.alignH = "center", Vn.startScene = "scenes/LoadingScene.scene", Vn.sceneRoot = "", Vn.debug = !1, Vn.stat = !1, Vn.physicsDebug = !1, Vn.exportSceneToJson = !0, Vn.init();
@@ -18577,7 +18477,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this._label.text = e
             }
         }
-        e.Item = class extends XStream {
+        e.Item = class extends ha {
             constructor(e) {
                 super(), this.id = -1, this.own = 0, this.adNum = 0, this.isNew = !1, e && (this.cheatScene = e)
             }
@@ -18641,7 +18541,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this._changed = !0, this.handler.onPropertyChange()
             }
         }
-        class XMarkupMap extends tr {
+        class ir extends tr {
             constructor(e, t, i) {
                 super(e, t), this._map = new Map, this._base = i || 0, this._value = this._base
             }
@@ -18828,13 +18728,14 @@ define("js/bundle.js", function(require, module, exports) {
             onDestroy() {
                 sdk.Sdk.instance.hideBanner()
             }
-        }, e.BannerJumpScript = Un, e.BaseBuff = XBaseBuff, e.BaseEffect = $t, e.BaseModel = le, e.BedScript = vi, 
-        e.BingdongTowerScript = Mi, e.BlockNode = XBlockNode, e.BorrowMoneyMenuScript = hn, e.BorrowMoneyScript = xi,
-         e.BoxMonsterScript = Bi, e.BreakAwayAction = XBreakAwayAction, e.BuffCfg = At, e.BuffChooseDialog = ee, e.BuffData = va, e.BuffManager = BuffMgr, 
-        e.BuffOwnerDialog = te, e.BuffShowDialog = ie, e.BuildCfg = xt, e.BuildCreateCfg = Bt, e.BuildData = XBuildData, 
-        e.BuildMenuScript = gn, e.BuildingManager = BuildingMgr, e.BuildingModel = kt, e.BuildingScript = XBuildingScript, 
-        e.BulletManager = BulletMgr, e.BulletRotScript = Gi, e.BulletScript = wi, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt,
-         e.CatBedScript = Ti, e.Category = ve, e.CfgManager = XCgfMgr, e.CircleProgressBarScript = class extends Laya.Script {
+        }, e.BannerJumpScript = Un, e.BaseBuff = XBaseBuff, e.BaseEffect = $t, e.BaseModel = XBaseModel, e.BedScript = vi, 
+        e.BingdongTowerScript = Mi, e.BlockNode = XBlockNode, e.BorrowMoneyMenuScript = hn, e.BorrowMoneyScript = xi, 
+        e.BoxMonsterScript = Bi, e.BreakAwayAction = XBreakAwayAction, e.BuffCfg = At, e.BuffChooseDialog = ee, 
+        e.BuffData = va, e.BuffManager = BuffMgr, e.BuffOwnerDialog = te, e.BuffShowDialog = ie, e.BuildCfg = xt, 
+        e.BuildCreateCfg = Bt, e.BuildData = ba, e.BuildMenuScript = gn, e.BuildingManager = XBuildingMgr, 
+        e.BuildingModel = XBuildingModel, e.BuildingScript = XBuildingScript, e.BulletManager = BulletMgr, e.BulletRotScript = Gi, 
+        e.BulletScript = wi, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt, e.CatBedScript = Ti, e.Category = ve, 
+        e.CfgManager = Ra, e.CircleProgressBarScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.value = .5, this.direction = 0, this.duration = 0, this.elapse = 0
             }
@@ -18916,7 +18817,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return Math.round(this.val * e)
             }
-        }, e.DoorModel = class extends kt {}, e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = Ai, e.DoorkeeperScript = Di, e.DynamicAtkSpdBuff = Wt, e.EatMosquito = ui, e.EatMosquitoScript = Pi, e.EffectBuilder = Kt, e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
+        }, e.DoorModel = class extends XBuildingModel {}, e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = Ai, e.DoorkeeperScript = Di, e.DynamicAtkSpdBuff = Wt, e.EatMosquito = ui, e.EatMosquitoScript = Pi, e.EffectBuilder = Kt, e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
             onAwake() {
                 t.effectMgr = this, t.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), t.assetLoader.createPrefab(r.ClickEff, e => {
                     this.clickEff = e, Laya.stage.addChild(this.clickEff)
@@ -19040,19 +18941,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
             }
-        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, 
-        e.GameCfg = V, e.GameConfig = Vn, e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, 
-        e.GameEvent = ke, e.GameHunterScript = HuntGameScript, e.GameInfoEvent = Ce, e.GameManager = GameMgr, e.GameScene = XGameScene, 
-        e.GameScript = GameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
-        e.GameUI = GameUI, e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, 
-        e.GuideArrowScript = Oi, e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = GuildMgr, e.HBoxScript = En, 
-        e.HasAngelAroundCdt = XHasAngelAroundCdt, e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, 
-        e.HasPlayerAroundCdt = XHasPlayerAroundCdt, e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, 
-        e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, e.HealthBar = wt, e.Http = Js, 
-        e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, 
-        e.HunterFailDialog = xs, e.HunterMatchingView = vs, 
-        e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, e.HunterUnlockDialog = Ts, 
-        e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
+        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, e.GameInfoEvent = Ce, e.GameManager = GameMgr, e.GameScene = ys, e.GameScript = GameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, e.GameUI = GameUI, e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, e.GuideArrowScript = Oi, e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = GuildMgr, e.HBoxScript = En, e.HasAngelAroundCdt = XHasAngelAroundCdt, e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, e.HunterFailDialog = xs, e.HunterMatchingView = vs, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, e.HunterUnlockDialog = Ts, e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
             }
@@ -19293,9 +19182,7 @@ define("js/bundle.js", function(require, module, exports) {
                     e(t)
                 })
             }
-        }, e.MarkupMap = XMarkupMap, e.MatchData = XMatchData, e.MatterUtil = XMatterUtil, e.MessageDialog = Fs, 
-        e.MiniGameListDialog = XMiniGameListDialog, e.MiniTowerScript = XMiniTowerScript, e.MirrorScript = XMirrorScript, e.ModelEvent = XModelEvent, 
-        e.MonsterAI = XMonsterAI, e.MoreGameBtnScript = XMoreGameBtnScript, e.NativeAdBanner = class extends Laya.Script {
+        }, e.MarkupMap = ir, e.MatchData = Ya, e.MatterUtil = Ci, e.MessageDialog = Fs, e.MiniGameListDialog = Rn, e.MiniTowerScript = Xi, e.MirrorScript = Yi, e.ModelEvent = be, e.MonsterAI = ki, e.MoreGameBtnScript = Hn, e.NativeAdBanner = class extends Laya.Script {
             constructor() {
                 super()
             }
@@ -19382,7 +19269,7 @@ define("js/bundle.js", function(require, module, exports) {
                         }(e.width, e.height)
                 })
             }
-        }, e.NoticeDialog = ue, e.Num = ar, e.ObjStream = XObjStream, e.ObjStreamDeco = function(e) {
+        }, e.NoticeDialog = ue, e.Num = ar, e.ObjStream = ga, e.ObjStreamDeco = function(e) {
             return function(t, i) {
                 fx.Utils.defineProperty(t, "mappingInfos", {}), t.mappingInfos[i] = [e]
             }
@@ -19402,15 +19289,15 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.PlayableLoadingScript = class extends Laya.Script {
             onEnable() {
-                zs.init(), this.initGame(), t.cfg = new XCgfMgr, t.user = new xa, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
+                zs.init(), this.initGame(), t.cfg = new Ra, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
-                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new BuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr
+                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new XBuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr
             }
             enterGame() {
                 t.cfg.map.get(19)
             }
-        }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = he, e.PlayerScript = St, e.PoisonSpringTowerScript = ji, e.PolygonSeparator = class {
+        }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = St, e.PoisonSpringTowerScript = ji, e.PolygonSeparator = class {
             static At(e, t) {
                 var i = t.length;
                 return t[e < 0 ? i - -e % i : e % i]
@@ -19532,7 +19419,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.Popup = Da, e.PostEventAction = XPostEventAction, e.PrefabNodes = {}, e.PrefabUrl = r, e.ProgressBar = Ls, e.PropBase = class extends ar {
             constructor(e, t) {
-                super(e, t), this.base = new XMarkupMap(this), this.rate = new XMarkupMap(this)
+                super(e, t), this.base = new ir(this), this.rate = new ir(this)
             }
             get value() {
                 if (this._changed) {
@@ -19559,7 +19446,7 @@ define("js/bundle.js", function(require, module, exports) {
             Children: "Children"
         }, e.PulseEffectBtn = qs, e.QianjinTowerScript = Ji, e.QianliTowerScript = Zi, e.QuestionDialog = Os, e.QuirkyTowerScript = Qi, e.RabbitScript = es, e.RandomRoomCdt = XRandomRoomCdt, e.RandomSpawnPosCdt = XRandomSpawnPosCdt, e.RandomUtil = XRandomUtil, e.RankMgr = RankMgr, e.RankView = bs, e.Redu = class extends Laya.EventDispatcher {
             constructor() {
-                super(), this.moveSpeed = new XMarkupMap(() => {
+                super(), this.moveSpeed = new ir(() => {
                     this.event(sr.MoveSpeed, this.moveSpeed.value)
                 })
             }
@@ -19573,7 +19460,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return this.Val
             }
-        }, e.SpineScript = Ba, e.SpringBoxScript = is, e.SpringTowerScript = ss, e.Status = Ie, e.Store = aa, e.StoreKey = sa, e.Stream = XStream, e.SuperBuildCfg = Lt, e.SusheTowerScript = as, e.TabScript = class extends Laya.Script {
+        }, e.SpineScript = Ba, e.SpringBoxScript = is, e.SpringTowerScript = ss, e.Status = Ie, e.Store = aa, e.StoreKey = sa, e.Stream = ha, e.SuperBuildCfg = Lt, e.SusheTowerScript = as, e.TabScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.currIdx = -1
             }
@@ -19599,11 +19486,13 @@ define("js/bundle.js", function(require, module, exports) {
                 this.name = e
             }
         }, e.TianBoxScript = Mn, e.TianShiTowerScript = ns, e.TiledInfo = XTiledInfo, e.TimeIntervalCdt = XTimeIntervalCdt, 
-        e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = li, e.TowerAddAtkSpdOnEnemyNear = hi, 
-        e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = rs, e.TowerGetCoinOnAtk = ei, 
-        e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = rn, e.TowerScript = XTowerScript, e.TrapScript = os, e.TurntableRewardDialog = me, 
-        e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = cn, 
-        e.User = xa, e.UsingSkillCdt = XHasSkillId02, e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
+        e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = li, 
+        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = rs, 
+        e.TowerGetCoinOnAtk = ei,
+         e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = os, 
+         e.TurntableRewardDialog = me, e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, 
+         e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = cn, e.User = XUser, e.UsingSkillCdt = XHasSkillId02, 
+         e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
             onEnable() {
                 this.doLayout();
                 let e = this.owner.getChildren();
