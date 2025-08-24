@@ -35,3 +35,19 @@ export interface XCfgHunterEquipData {
     level:number;
     url:string
 }
+
+export interface XCfgMapCfgItem {
+    id:number;
+    path:string;
+    name:string;
+    row:number;
+    column:number;
+    defenderPointNum:number;
+    hunterPointNum:number;
+    smallMap:string;
+    hideRoomCnt:number;
+}
+
+export interface XCfgMapDataItem {
+    
+}

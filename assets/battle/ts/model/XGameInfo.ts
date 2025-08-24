@@ -134,7 +134,7 @@ export default class XGameInfo {
     }
     clearOwnBuild() {
         this.ownBuild = new Map
-        XMgr.cfg.shopCfg.foreach(e => {
+        XMgr.cfg.shopCfg.forEach(e => {
             let t = new XBuildData;
             t.cnt = e.initialHave, this.ownBuild.set(e.buildId, t)
         })

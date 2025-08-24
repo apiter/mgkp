@@ -13310,14 +13310,29 @@ define("js/bundle.js", function(require, module, exports) {
                 t && this.getPool(t).put(e)
             }
         }
-        class Ra {
+        class XCfgMgr {
             constructor() {
-                this.constant = fx.CfgMgr.instance.get("constant"), this.map = new fx.BaseDataModel("mapCfg", Mt), this.skin = new fx.BaseDataModel("skinCfg", vt), this.buildCreate = new fx.BaseDataModel("buildCreateCfg", Bt), this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg"), this.hunterDifficultCfg = new fx.BaseDataModel("hunterDifficultCfg", Et), this.hunterEquipCfg = new fx.BaseDataModel("hunterEquipCfg", Nt), this.sevenGhostCfg = new fx.BaseDataModel("sevenGhostCfg", Ut), this.clubReward = new fx.BaseDataModel("clubReward", Gt), this.inviteCfg = new fx.BaseDataModel("inviteCfg", InviteCfg), this.magicBoxCfg = new fx.BaseDataModel("magicBoxCfg", Ht), this.shopCfg = new fx.BaseDataModel("shopCfg_test", Tt), this.hunterSkillCfg = new fx.BaseDataModel("hunterSkillCfg_test", Pt), this.buffCfg = new fx.BaseDataModel("buffCfg_test", At), this.difficultCfg = new fx.BaseDataModel("newDifficultCfg", Et), this.playerIdArr = [], this.playerSkinTypeArr = [], this.skin.foreach(t => {
+                this.constant = fx.CfgMgr.instance.get("constant"), 
+                this.map = new fx.BaseDataModel("mapCfg", Mt), 
+                this.skin = new fx.BaseDataModel("skinCfg", vt), 
+                this.buildCreate = new fx.BaseDataModel("buildCreateCfg", Bt), this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg"), 
+                this.hunterDifficultCfg = new fx.BaseDataModel("hunterDifficultCfg", Et), 
+                this.hunterEquipCfg = new fx.BaseDataModel("hunterEquipCfg", Nt), 
+                this.sevenGhostCfg = new fx.BaseDataModel("sevenGhostCfg", Ut), 
+                this.clubReward = new fx.BaseDataModel("clubReward", Gt), 
+                this.inviteCfg = new fx.BaseDataModel("inviteCfg", InviteCfg), 
+                this.magicBoxCfg = new fx.BaseDataModel("magicBoxCfg", Ht), 
+                this.shopCfg = new fx.BaseDataModel("shopCfg_test", Tt), 
+                this.hunterSkillCfg = new fx.BaseDataModel("hunterSkillCfg_test", Pt), 
+                this.buffCfg = new fx.BaseDataModel("buffCfg_test", At), 
+                this.difficultCfg = new fx.BaseDataModel("newDifficultCfg", Et), 
+                this.playerIdArr = [], this.playerSkinTypeArr = [], 
+                this.skin.foreach(t => {
                     t.type == e.SkinType.Human && (this.playerIdArr.push(t.id), t.skinType && !this.playerSkinTypeArr.includes(t.skinType) && this.playerSkinTypeArr.push(t.skinType))
                 }), this.magicBoxCfg.foreach(e => {})
             }
             static get I() {
-                return this._instance || (this._instance = new Ra), this._instance
+                return this._instance || (this._instance = new XCfgMgr), this._instance
             }
             getPlayerIdArr() {
                 return this.playerIdArr
@@ -17503,7 +17518,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = (Date.now() - this.cfgTime) / 1e3;
                 e = Math.round(100 * e) / 100, XAnalyticsUtil.track("load_cfg", {
                     load_time: e
-                }), t.cfg = new Ra, t.user = new XUser, fx.EventCenter.I.event("InfoNeedInit"), t.user.parseFromLocal(), this.getServerData()
+                }), t.cfg = new XCfgMgr, t.user = new XUser, fx.EventCenter.I.event("InfoNeedInit"), t.user.parseFromLocal(), this.getServerData()
             }
             getServerData() {
                 this.syncTime = Date.now(), LoadingUtil.show("数据同步中"), XEventDispatcher.I.init(V.serverURL, V.gameID, V.platform, e => {
@@ -18735,7 +18750,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.BuildCreateCfg = Bt, e.BuildData = ba, e.BuildMenuScript = gn, e.BuildingManager = XBuildingMgr, 
         e.BuildingModel = XBuildingModel, e.BuildingScript = XBuildingScript, e.BulletManager = BulletMgr, e.BulletRotScript = Gi, 
         e.BulletScript = wi, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt, e.CatBedScript = Ti, e.Category = ve, 
-        e.CfgManager = Ra, e.CircleProgressBarScript = class extends Laya.Script {
+        e.CfgManager = XCfgMgr, e.CircleProgressBarScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.value = .5, this.direction = 0, this.duration = 0, this.elapse = 0
             }
@@ -19289,7 +19304,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.PlayableLoadingScript = class extends Laya.Script {
             onEnable() {
-                zs.init(), this.initGame(), t.cfg = new Ra, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
+                zs.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
                 t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new XBuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr

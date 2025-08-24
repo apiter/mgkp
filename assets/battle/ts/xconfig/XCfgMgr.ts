@@ -1,5 +1,6 @@
+import { assetManager, JsonAsset } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgShopData, XCfgSkinData } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData } from "./XCfgData"
 import { XSkinType } from "./XEnum"
 
 class BaseDataModel {
@@ -12,7 +13,7 @@ class BaseDataModel {
 /**load jsons */
 export default class XCfgMgr {
 
-    map: BaseDataModel
+    map: Map<number, XCfgMapCfgItem>
     skin: XCfgSkinData[] = []
 
     buildCreate: BaseDataModel
@@ -31,8 +32,39 @@ export default class XCfgMgr {
     playerIdArr: number[] = []
     playerSkinTypeArr: number[] = []
 
-    load() {
-        this.map = new BaseDataModel("mapCfg")
+    load(): Promise<number> {
+        return new Promise((resolve, reject) => {
+            assetManager.loadBundle("battle", (err, bundle) => {
+                if (err) {
+                    console.error(err);
+                    resolve(-1)
+                    return;
+                }
+                bundle.loadDir("cfg", (err, assets) => {
+                    if (err) {
+                        console.error(err);
+                        resolve(-1)
+                        return;
+                    }
+                    let assetMap = new Map<string, any>()
+                    assets.forEach(element => {
+                        const jsonEle = element as JsonAsset 
+                        jsonEle.json && assetMap.set(element.name, jsonEle.json)
+                    });
+
+                    this.map = assetMap.get("mapCfg")
+                    this.skin.forEach(t => {
+                        if (t.type == XSkinType.Human) {
+                            this.playerIdArr.push(t.id)
+                            if (t.skinType && this.playerSkinTypeArr.indexOf(t.skinType) == -1)
+                                this.playerSkinTypeArr.push(t.skinType)
+                        }
+                    })
+                    resolve(0)
+                })
+            })
+        })
+
         // this.skin = new BaseDataModel("skinCfg")
         // this.buildCreate = new BaseDataModel("buildCreateCfg")
         // this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg")
@@ -48,13 +80,6 @@ export default class XCfgMgr {
         // this.difficultCfg = new BaseDataModel("newDifficultCfg")
         // this.playerIdArr = []
         // this.playerSkinTypeArr = []
-        this.skin.forEach(t => {
-            if (t.type == XSkinType.Human) {
-                this.playerIdArr.push(t.id)
-                if (t.skinType && this.playerSkinTypeArr.indexOf(t.skinType) == -1)
-                    this.playerSkinTypeArr.push(t.skinType)
-            }
-        })
         // this.magicBoxCfg.foreach(e => { })
     }
     getPlayerIdArr() {
