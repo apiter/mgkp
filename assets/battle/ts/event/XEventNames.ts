@@ -5,6 +5,9 @@ export enum XEventNames {
     E_Create_Ghost = "E_Create_Ghost",
     E_Create_Angel = "E_Create_Angel",
 
+    E_BUILDING_BUILD = "E_BUILDING_BUILD",
+    E_MapBuild_take = "E_MapBuild_take",
+    E_Bed_Up = "E_Bed_Up",
     E_Door_State_Changed = "E_Door_State_Changed",
 
     E_Player_Hurt = "E_Player_Hurt",

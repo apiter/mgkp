@@ -85,15 +85,6 @@ export default class XGameInfo {
         this.tempCoin > 0 && (this.coin += this.tempCoin)
     }
     onNewDay() {
-        this.isStartLv = !0, this.curLv = 1, this.lastLv = 1, this.lowestLv = 1,
-            this.todayMaxLv = 0, this.isLastWin = !1, this.isMapByWeek = !1, this.maxWinCnt = 0,
-            this.dailyShareCnt = 0, this.canPlayTurnTable = !0, this.dailyShare = !1, this.dailyBuyZr = !1,
-            this.playHunter = !1, this.curHunterLv = 1, this.lastHunterLv = 1, this.lowestHunterLv = 1,
-            this.todayHunterMaxLv = 0, this.isLastHunterWin = !1, this.hunterUnlockLvl = 0, this.isGetTian = !1,
-            this.clearOwnBuff(), this.todayExtraScore = 0, this.todayHunterExtraScore = 0, this.isUseSkinFragmentVideo = !1,
-            this.isExitGame = !1, this.magicGetCnt = 0, this.showSkinRed = !0, this.isOpenCommond = !1;
-        let e = [];
-        this.isClubRewardClaimed(1) && e.push(1), this.clubClaimedList = e
     }
     coinEnough(e) {
         return this.coin >= e
@@ -148,19 +139,10 @@ export default class XGameInfo {
         return 0
     }
     addOwnBuildData(e, t, i) {
-        6666 == e && (i = 20);
-        let s = this.ownBuild.get(e);
-        this.ownBuild.has(e) || (s = new ba), s.cnt += t, i && (s.cnt = Math.min(s.cnt, i)), this.ownBuild.set(e, s), this.onPropertyChange("ownBuild")
     }
     useBuildData(e, i = 1) {
-        let s = this.ownBuild.get(e);
-        this.ownBuild.has(e) ? (s.cnt -= i, this.ownBuild.set(e, s), this.onPropertyChange("ownBuild")) : s = new ba
     }
     clearOwnSkin() {
-        this.ownSkin = new Map, t.cfg.skin.foreach(t => {
-            let i = new wa;
-            i.cnt = 0, i.isUnlock = !1, t.unlock && 999 == t.unlock.way && t.type == e.SkinType.Human && (i.isUnlock = !0), this.ownSkin.set(t.id, i)
-        }), this.onPropertyChange("ownSkin")
     }
     isUnlockSkin(e) {
         if (this.ownSkin.has(e)) {
@@ -175,24 +157,17 @@ export default class XGameInfo {
         return null
     }
     unlockSkin(e) {
-        let i;
-        this.ownSkin.has(e) ? i = this.ownSkin.get(e) : (i = new wa).cnt = 0, i.isUnlock = !0;
-        let s = t.cfg.skin.get(e);
-        s && XAnalyticsUtil.getSkin(s.name), this.onPropertyChange("ownSkin")
     }
+
     getSkinCnt() {
         let e = 0;
         for (const [t, i] of this.ownSkin) i.isUnlock && e++;
         return e
     }
+
     clearOwnSkinFragment() {
-        this.ownSkinFragment = new Map, t.cfg.skin.foreach(e => {
-            if (!this.ownSkinFragment.has(e.skinType)) {
-                let t = new Sa;
-                t.cnt = 0, t.cnt_1 = 0, this.ownSkinFragment.set(e.skinType, t)
-            }
-        }), this.onPropertyChange("ownSkinFragment")
     }
+
     getOwnSkinFragmentCnt(e, t = 0) {
         if (!this.ownSkinFragment.has(e)) return 0; {
             let i = this.ownSkinFragment.get(e);
@@ -207,41 +182,14 @@ export default class XGameInfo {
         }
     }
     addOwnSkinFragmentData(e, t, i = 0) {
-        let s = this.ownSkinFragment.get(e);
-        switch (this.ownSkinFragment.has(e) || (s = new Sa), i) {
-            case 0:
-                s.cnt += t;
-                break;
-            case 1:
-                s.cnt_1 || (s.cnt_1 = 0), s.cnt_1 += t;
-                break;
-            default:
-                s.cnt += t
-        }
-        this.ownSkinFragment.set(e, s), this.onPropertyChange("ownSkinFragment")
     }
+
     useSkinFragmentData(e, t, i = 0) {
-        let s = this.ownSkinFragment.get(e);
-        switch (this.ownSkinFragment.has(e) || (s = new Sa), i) {
-            case 0:
-                s.cnt -= t;
-                break;
-            case 1:
-                s.cnt_1 || (s.cnt_1 = 0), s.cnt_1 -= t;
-                break;
-            default:
-                s.cnt -= t
-        }
-        this.ownSkinFragment.set(e, s), this.onPropertyChange("ownSkinFragment")
     }
+
     clearSkinTypeShow() {
-        this.skinTypeShow = new Map, t.cfg.skin.foreach(e => {
-            if (!this.skinTypeShow.has(e.skinType)) {
-                let t = new Ia;
-                t.id = e.id, this.skinTypeShow.set(e.skinType, t)
-            }
-        }), this.onPropertyChange("ownSkinTypeShow")
     }
+
     getSkinTypeShow(e) {
         if (this.skinTypeShow.has(e)) {
             return this.skinTypeShow.get(e).id
@@ -249,88 +197,41 @@ export default class XGameInfo {
         return 0
     }
     setSkinTypeShow(e, i) {
-        if (this.skinTypeShow.has(i)) {
-            this.skinTypeShow.get(i).id = e
-        } else {
-            let t = new Ia;
-            t.id = e, this.skinTypeShow.set(i, t)
-        }
-        this.onPropertyChange("ownSkinTypeShow"), t.user.saveToServer()
     }
     clearOwnPrize() {
-        this.ownPrize = new Map, this.onPropertyChange("ownPrize")
     }
     addOwnPrizeData(e, t = 1) {
-        let i = this.ownPrize.get(e);
-        this.ownPrize.has(e) || ((i = new ba).cnt = 0), i.cnt += t, this.ownPrize.set(e, i), this.onPropertyChange("ownPrize")
+        
     }
     usePrizeData(e, i = 1) {
-        let s = this.ownPrize.get(e);
-        this.ownPrize.has(e) || (s = new ba), s.cnt -= i, 0 == s.cnt ? this.ownPrize.delete(e) : this.ownPrize.set(e, s), this.onPropertyChange("ownPrize"), t.user.saveToServer()
     }
     clearOwnBuff() {
-        this.ownBuff = new Map, this.buffLvArr = [], this.onPropertyChange("ownBuff")
     }
     addBuff(e) {
-        let i = this.ownBuff.get(e);
-        i ? i.lv += 1 : (i = new va).lv = 0;
-        let s = t.cfg.buffCfg.get(e);
-        XAnalyticsUtil.buffGet(s.name, i.lv), this.ownBuff.set(e, i), this.onPropertyChange("ownBuff")
     }
     getBuffData(e) {
-        return this.ownBuff.get(e)
     }
     clearOwnHunterSkin() {
-        this.ownHunterSkin = new Map, t.cfg.skin.foreach(t => {
-            let i = new wa;
-            i.cnt = 0, i.isUnlock = !1, t.unlock && 999 == t.unlock.way && t.type == e.SkinType.Hunter && (i.isUnlock = !0), this.ownHunterSkin.set(t.id, i)
-        }), this.onPropertyChange("ownHunterSkin")
     }
     isUnlockHunterSkin(e) {
-        if (this.ownHunterSkin.has(e)) {
-            return this.ownHunterSkin.get(e).isUnlock
-        }
-        return null
     }
     unlockHunterSkin(e) {
-        let t;
-        this.ownHunterSkin.has(e) ? t = this.ownHunterSkin.get(e) : (t = new wa).cnt = 0, t.isUnlock = !0, this.onPropertyChange("ownHunterSkin")
     }
     updateGameClubData() {
-        let e = [];
-        t.cfg.clubReward.getList().forEach(t => {
-            e.includes(t.clubDataType) || e.push(t.clubDataType)
-        }), j.I.getGameClubData(e, e => {
-            this._clubDataList = e || [], this.event(Ce.GameClubDataChange)
-        })
     }
     getClubValue(t) {
-        for (const i of this._clubDataList)
-            if (i.dataType == t) return t == e.GameClubDataType.JoinClubTime ? i.value > 0 ? 1 : 0 : i.value;
-        return 0
     }
+
     isClubRewardClaimed(e) {
-        return this.clubClaimedList.includes(e)
     }
     claimClubReward(e) {
-        let i = this.clubClaimedList.slice();
-        for (const s of e)
-            if (!i.includes(s)) {
-                i.push(s);
-                let e = t.cfg.clubReward.get(s);
-                t.rewardMgr.addReward(e.reward), XAnalyticsUtil.clubReward(e.clubDataType)
-            }
-        this.clubClaimedList = i, t.user.saveToServer(), this.event(Ce.GameClubRewardClaimed)
+       
     }
     clearShowHunterSkillDes() {
-        this.showHunterSkillDes = new Map, this.onPropertyChange("showHunterDes")
     }
     addShowHunterSkillDes(e) {
-        let t = new ka;
-        t.b = !0, this.showHunterSkillDes.set(e, t), this.onPropertyChange("showHunterDes")
     }
     getShowHunterSkillDes(e) {
-        return this.showHunterSkillDes.get(e)
     }
 
     onPropertyChange(prop: string) {

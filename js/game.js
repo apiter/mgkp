@@ -4724,7 +4724,8 @@ define("js/bundle.js", function(require, module, exports) {
                 t && (this.forceTarget = e, this.data.curHp < this.data.maxHp) || e != this.curMapBuild && (this.curMapBuild = e, this.curPath = null)
             }
             takeMapBuild(e) {
-                if (e && !e.isUsed) return this.takeMapBuildNode.addChild(e.node), e.node.anchorX = .5, e.node.anchorY = .5, "fhl" == e.buildName ? (e.node.anchorY = 0, e.node.pos(0, 0)) : e.node.pos(0, 0), t.buildingMgr.takeMapBuild(e.x, e.y, this.data)
+                if (e && !e.isUsed) return this.takeMapBuildNode.addChild(e.node), e.node.anchorX = .5, e.node.anchorY = .5, "fhl" == e.buildName ? (e.node.anchorY = 0, e.node.pos(0, 0)) : e.node.pos(0, 0), 
+                t.buildingMgr.takeMapBuild(e.x, e.y, this.data)
             }
             getTakeMapBuild() {
                 return this.data.takeMapBuild
@@ -5034,14 +5035,14 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lb_name.text = a.title, this.lb_name.color = a.titleColor
             }
             getRandomLv() {
-                let e = [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3],
-                    i = 0;
-                for (const t of e) i += t;
-                let s = XRandomUtil.getIntRandom(0, i),
-                    a = 1;
-                for (const t of e) {
-                    if (s <= t) break;
-                    s -= t, a += 1
+                let arr = [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
+                let sum = 0;
+                for (const num of arr) sum += num;
+                let randNum = XRandomUtil.getIntRandom(0, sum)
+                let a = 1;
+                for (const num of arr) {
+                    if (randNum <= num) break;
+                    randNum -= num, a += 1
                 }
                 return a > t.cfg.difficultCfg.length && (a = t.cfg.difficultCfg.length), a
             }
@@ -7327,7 +7328,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }, 300).run(this.node)
             }
         }
-        class Di extends XBuildingScript {
+        class XDoorkeeperScript extends XBuildingScript {
             onInit() {
                 let e = t.mapMgr.getRoomById(this.data.roomId);
                 if (e.doorModel && !e.doorModel.isDie) {
@@ -7346,7 +7347,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e.doorModel && !e.doorModel.isDie && (e.doorModel.doorkeeper = null)
             }
         }
-        class Ai extends XBuildingScript {
+        class XDoorScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.open = !1
             }
@@ -9302,7 +9303,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let r, o = t.mapMgr.gridPosToMapPos(i.x, i.y),
                     l = !1,
                     h = t.buildingMgr.getBuildCfg(i.id);
-                if (h.type == e.BuildType.door) r = n.addComponent(Ai);
+                if (h.type == e.BuildType.door) r = n.addComponent(XDoorScript);
                 else if (h.type == e.BuildType.bed) {
                     if (n.zOrder = 100, r = n.addComponent(vi), 1001 == i.id) {
                         let e = t.cfg.skin.getList(),
@@ -9374,7 +9375,7 @@ define("js/bundle.js", function(require, module, exports) {
                             }
                         } else r = n.addComponent(XTowerScript);
                 else 3001 == h.buildId ? r = n.addComponent(rs) : 3002 == h.buildId ? r = n.addComponent(Qi) : 3003 == h.buildId || (3004 == h.buildId ? r = n.addComponent(ss) : 3005 == h.buildId ? r = n.addComponent(Li) : 3006 == h.buildId ? (r = n.addComponent(Hi), l = !0) : 3007 == h.buildId ? r = n.addComponent(ji) : 3008 == h.buildId || 3009 == h.buildId ? r = n.addComponent(Ri) : 3010 == h.buildId && (r = n.addComponent(Yi)));
-                else r = h.type == e.BuildType.eatMosquito ? n.addComponent(Pi) : h.type == e.BuildType.springBox ? n.addComponent(is) : h.type == e.BuildType.knife ? n.addComponent(KnifeScript) : h.type == e.BuildType.random ? n.addComponent(Wi) : h.type == e.BuildType.mine ? 5002 == h.buildId || 5103 == h.buildId || 5104 == h.buildId || 5105 == h.buildId || 5106 == h.buildId ? n.addComponent(Ti) : n.addComponent(XBuildingScript) : h.type == e.BuildType.entice ? n.addComponent(EnticeScript) : h.type == e.BuildType.stone ? n.addComponent(es) : h.type == e.BuildType.boxMonster ? n.addComponent(Bi) : h.type == e.BuildType.doorkeeper ? n.addComponent(Di) : h.type == e.BuildType.borrowMoney ? n.addComponent(xi) : 6006 == h.buildId ? n.addComponent(os) : n.addComponent(XBuildingScript);
+                else r = h.type == e.BuildType.eatMosquito ? n.addComponent(Pi) : h.type == e.BuildType.springBox ? n.addComponent(is) : h.type == e.BuildType.knife ? n.addComponent(KnifeScript) : h.type == e.BuildType.random ? n.addComponent(Wi) : h.type == e.BuildType.mine ? 5002 == h.buildId || 5103 == h.buildId || 5104 == h.buildId || 5105 == h.buildId || 5106 == h.buildId ? n.addComponent(Ti) : n.addComponent(XBuildingScript) : h.type == e.BuildType.entice ? n.addComponent(EnticeScript) : h.type == e.BuildType.stone ? n.addComponent(es) : h.type == e.BuildType.boxMonster ? n.addComponent(Bi) : h.type == e.BuildType.doorkeeper ? n.addComponent(XDoorkeeperScript) : h.type == e.BuildType.borrowMoney ? n.addComponent(xi) : 6006 == h.buildId ? n.addComponent(os) : n.addComponent(XBuildingScript);
                 this.buildingGrids[i.x] || (this.buildingGrids[i.x] = []), l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n), n.pos(o.x, o.y), this.buildingGrids[i.x][i.y] = r, r.init(i, a), r.map = this.map, s || t.mapMgr.isInStageByGridPos(i.x, i.y) && EffectUtil.I.playUpgradeEffect(i.x, i.y)
             }
             destroyBuilding(e) {
@@ -14397,10 +14398,10 @@ define("js/bundle.js", function(require, module, exports) {
                     t.user.saveToServer()
                 } else this.gameMode == e.GameMode.E_SevenGhost && (i ? (a.curSevenGhostLv == t.cfg.sevenGhostCfg.length ? (a.curSevenGhostLv = 1, a.isUnlockSkin(1003) || (a.unlockSkin(1003), this.isOpenSevenGhost = !0)) : a.curSevenGhostLv += 1, XAnalyticsUtil.passLevel(s, "挑战模式", n.name)) : (a.curSevenGhostLv = 1, XAnalyticsUtil.loseLevel("挑战模式", n.name)), t.user.saveToServer())
             }
-            takeMapBuild(e, i, s) {
-                let a = t.playerMgr.getPlayer(s),
-                    n = t.buildingMgr.getMapBuild(e, i);
-                return (!n || !n.isUsed) && t.buildingMgr.takeMapBuild(e, i, a)
+            takeMapBuild(x_, y_, data_) {
+                let player_ = t.playerMgr.getPlayer(data_),
+                    n = t.buildingMgr.getMapBuild(x_, y_);
+                return (!n || !n.isUsed) && t.buildingMgr.takeMapBuild(x_, y_, player_)
             }
             playSoundByNode(t, i, s) {
                 this.gameStatus == e.GameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
@@ -15111,7 +15112,16 @@ define("js/bundle.js", function(require, module, exports) {
                 ]
             }
             initBuildingCfg() {
-                this.isAddCfg || (this.isAddCfg = !0, this.addCfgs("bedCfg", e.BuildType.bed), this.addCfgs("doorCfg", e.BuildType.door), this.addCfgs("towerCfg_test", e.BuildType.tower), this.addCfgs("energyMachineCfg", e.BuildType.energy), this.addCfgs("mineCfg_test", e.BuildType.mine), this.addCfgs("skillBuildCfg_test"), this.superBuildCfg = new fx.BaseDataModel("superBuildCfg_test", Lt), this.specialTowerCfg = new fx.BaseDataModel("specialTowerCfg_test", Dt))
+                this.isAddCfg || 
+                (this.isAddCfg = !0, 
+                    this.addCfgs("bedCfg", e.BuildType.bed), 
+                this.addCfgs("doorCfg", e.BuildType.door), 
+                this.addCfgs("towerCfg_test", e.BuildType.tower), 
+                this.addCfgs("energyMachineCfg", e.BuildType.energy), 
+                this.addCfgs("mineCfg_test", e.BuildType.mine), 
+                this.addCfgs("skillBuildCfg_test"), 
+                this.superBuildCfg = new fx.BaseDataModel("superBuildCfg_test", Lt), 
+                this.specialTowerCfg = new fx.BaseDataModel("specialTowerCfg_test", Dt))
             }
             addCfgs(e, t) {
                 let i = fx.CfgMgr.instance.get(e);
@@ -15224,8 +15234,8 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s || s.type != e.BuildType.door) return e.BuildResult.E_FAILD;
                 this.changeDoorState(s, !1)
             }
-            upBed(i, s, a) {
-                let n = this.getBuilding(i, s),
+            upBed(x_, y_, a) {
+                let n = this.getBuilding(x_, y_),
                     r = this.getRoom(n.roomId);
                 if (!n || n.type != e.BuildType.bed || !r) return e.BuildResult.E_FAILD;
                 if (n.isUsed) return e.BuildResult.E_BED_IS_USED;
@@ -15377,8 +15387,8 @@ define("js/bundle.js", function(require, module, exports) {
             getBuilding(e, t) {
                 if (this.buildingGrids[e]) return this.buildingGrids[e][t]
             }
-            getMapBuild(e, t) {
-                if (this.mapBuildScripts && this.mapBuildScripts[e]) return this.mapBuildScripts[e][t]
+            getMapBuild(x_, y_) {
+                if (this.mapBuildScripts && this.mapBuildScripts[x_]) return this.mapBuildScripts[x_][y_]
             }
             getMapEquip(e, t) {
                 if (this.mapEquipScripts && this.mapEquipScripts[e]) return this.mapEquipScripts[e][t]
@@ -15542,16 +15552,16 @@ define("js/bundle.js", function(require, module, exports) {
                 for (const e of a.bedModelList) e && !e.isDie && e.playerUuid && n.push(e.playerUuid);
                 for (const t of a.buildings)
                     if (t.id == i && t.lv >= s) {
-                        if (this.aaa(n, t.playerUuid)) return !0;
-                        if (t.type == e.BuildType.door) return !0
+                        if (this.aaa(n, t.playerUuid)) return true;
+                        if (t.type == e.BuildType.door) return true
                     }
                 return !1
             }
-            aaa(e, t) {
-                if (!t || !e || 0 == e.length) return !1;
-                for (const i of e)
-                    if (t.includes(i) || i.includes(t)) return !0;
-                return !1
+            aaa(arr_, ele_) {
+                if (!ele_ || !arr_ || 0 == arr_.length) return false;
+                for (const ele of arr_)
+                    if (ele_.includes(ele) || ele.includes(ele_)) return true;
+                return false
             }
             getIndoorEmptyGrids(e, i, s = 1, a = !0) {
                 let n = [];
@@ -18832,7 +18842,10 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return Math.round(this.val * e)
             }
-        }, e.DoorModel = class extends XBuildingModel {}, e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = Ai, e.DoorkeeperScript = Di, e.DynamicAtkSpdBuff = Wt, e.EatMosquito = ui, e.EatMosquitoScript = Pi, e.EffectBuilder = Kt, e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
+        }, e.DoorModel = class extends XBuildingModel {}, 
+        e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = XDoorScript, e.DoorkeeperScript = XDoorkeeperScript, 
+        e.DynamicAtkSpdBuff = Wt, e.EatMosquito = ui, e.EatMosquitoScript = Pi, e.EffectBuilder = Kt, 
+        e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
             onAwake() {
                 t.effectMgr = this, t.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), t.assetLoader.createPrefab(r.ClickEff, e => {
                     this.clickEff = e, Laya.stage.addChild(this.clickEff)

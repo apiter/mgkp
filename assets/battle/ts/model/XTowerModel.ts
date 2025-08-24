@@ -20,7 +20,7 @@ export default class XTowerModel extends XBuildingModel {
         if (3e3 == this.id && this.playerUuid == XMgr.playerMgr.mineUuid) {
             let e = XMgr.user.gameInfo.getBuffData(23);
             if (e) {
-                i *= (100 - XMgr.cfg.buffCfg.get(23).values[e.lv]) / 100
+                i *= (100 - XMgr.cfg.buffCfg.get("23").values[e.lv]) / 100
             }
         }
         return i = Math.max(.2, i)

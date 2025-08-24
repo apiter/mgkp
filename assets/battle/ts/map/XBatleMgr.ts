@@ -359,62 +359,16 @@ export class XBatleMgr implements ISchedulable {
         e.dizzyDurSec = t;
     }
 
-    gameover(i, s = 1) {
-        let a = XMgr.user.gameInfo,
-            n = XMgr.cfg.skin.get(a.curSkinId);
-        if (this.gameMode == XGameMode.E_Defense) {
-            if (a.isLastWin = i, a.lastLv = a.curLv, a.isStartLv && this.gameMode == XGameMode.E_Defense && (a.isMapByWeek = !0), i) {
-                // XAnalyticsUtil.passLevel(s, "普通模式", n.name);
-                let e = XMgr.cfg.difficultCfg.length;
-                if (a.curLv > a.maxLevel) {
-                    a.maxLevel = a.curLv, XMgr.reporter.setUserMaxLevel(a.maxLevel);
-                    let e = XMgr.cfg.difficultCfg.get(a.maxLevel);
-                    XToast.show(`称号上升：${e.title}`)
-                }
-                if (a.curLv == e && (a.maxWinCnt += 1), a.weekMaxLv < a.curLv && (a.weekMaxLv = a.curLv), a.todayMaxLv < a.curLv) {
-                    if (a.hunterUnlockLvl += 1, a.hunterUnlockLvl && a.hunterUnlockLvl % 2 == 0) {
-                        let e = XMgr.cfg.getHunterSkillArr();
-                        for (let t = 0; t < e.length; t++) {
-                            let i = e[t].id;
-                            if (!a.isUnlockHunterSkin(i)) {
-                                a.unlockHunterSkin(i);
-                                break
-                            }
-                        }
-                    }
-                    a.todayMaxLv = a.curLv;
-                    let e = XMgr.user.gameInfo.todayMaxLv;
-                    // XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId)
-                } else a.curLv >= XMgr.cfg.difficultCfg.length && (a.todayExtraScore += 1, a.todayMaxLv < a.curLv + a.todayExtraScore && (a.todayMaxLv += 1, t.rankMgr.setCustomRankValue("score_day", a.todayMaxLv, t.user.gameInfo.curSkinId)));
-                a.buffLvArr.includes(a.curLv) || (this.canChooseBuff = !0, this.chooseBuffLv = a.curLv)
-            } else XAnalyticsUtil.loseLevel("普通模式", n.name), a.todayExtraScore ? a.todayExtraScore -= 1 : a.curLv > a.lowestLv && a.setCurLv(a.lowestLv);
-            XMgr.user.saveToServer()
-        } else if (this.gameMode == XGameMode.E_AngelOrGhost) {
-            let e = n.name;
-            XMgr.playerMgr.player.isAngel ? e = "救援者" : XMgr.playerMgr.player.isGhost && (e = "执行人"), i ? XAnalyticsUtil.passLevel(s, "木头人模式", e) : XAnalyticsUtil.loseLevel("木头人模式", e)
-        } else if (this.gameMode == XGameMode.E_Hunt) {
-            a.isLastHunterWin = i, a.lastHunterLv = a.curHunterLv;
-            let e = XMgr.cfg.skin.get(a.curHunterSkinId);
-            if (i) {
-                if (XAnalyticsUtil.passLevel(s, "噬魂者模式", e.name), a.curHunterLv > a.maxHunterLevel) {
-                    a.maxHunterLevel = a.curHunterLv;
-                    let e = XMgr.cfg.hunterDifficultCfg.get(a.maxHunterLevel);
-                    XToast.show(`称号上升：${e.title}`)
-                }
-                if (a.todayHunterMaxLv < a.curHunterLv) {
-                    a.todayHunterMaxLv = a.curHunterLv;
-                    let e = XMgr.user.gameInfo.todayHunterMaxLv;
-                    XMgr.rankMgr.setCustomRankValue("score_hunter_day", e, t.user.gameInfo.curHunterSkinId)
-                } else a.curHunterLv >= XMgr.cfg.hunterDifficultCfg.length && (a.todayHunterExtraScore += 1, a.todayHunterMaxLv < a.curHunterLv + a.todayHunterExtraScore && (a.todayHunterMaxLv += 1, t.rankMgr.setCustomRankValue("score_hunter_day", a.todayHunterMaxLv, t.user.gameInfo.curHunterSkinId)))
-            } else XAnalyticsUtil.loseLevel("噬魂者模式", e.name), a.todayHunterExtraScore ? a.todayHunterExtraScore -= 1 : a.curHunterLv > a.lowestHunterLv && a.setCurHunterLv(a.lowestHunterLv);
-            XMgr.user.saveToServer()
-        } else this.gameMode == XGameMode.E_SevenGhost && (i ? (a.curSevenGhostLv == t.cfg.sevenGhostCfg.length ? (a.curSevenGhostLv = 1, a.isUnlockSkin(1003) || (a.unlockSkin(1003), this.isOpenSevenGhost = !0)) : a.curSevenGhostLv += 1, XAnalyticsUtil.passLevel(s, "挑战模式", n.name)) : (a.curSevenGhostLv = 1, XAnalyticsUtil.loseLevel("挑战模式", n.name)), t.user.saveToServer())
+    gameover(isWin_, s = 1) {
+        console.error("gameover", isWin_, s);
     }
+
     takeMapBuild(e, i, s) {
         let a = XMgr.playerMgr.getPlayer(s),
             n = XMgr.buildingMgr.getMapBuild(e, i);
         return (!n || !n.isUsed) && XMgr.buildingMgr.takeMapBuild(e, i, a)
     }
+    
     playSoundByNode(t, i, s) {
         // this.gameStatus == XGameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
     }
@@ -462,15 +416,18 @@ export class XBatleMgr implements ISchedulable {
             let s = XRandomUtil.getIntRandom(0, i.length - 1);
             if (0 == (s = i.splice(s, 1)[0])) {
                 let gameInfo = XMgr.user.gameInfo
-                let s = XMgr.cfg.difficultCfg.get(gameInfo.curLv);
-                XMgr.gameMgr.dCfg = s;
-                let a = s.addMaxHp + 1;
-                gameInfo.curLv == XMgr.cfg.difficultCfg.length && (s = XMgr.cfg.difficultCfg.get(gameInfo.maxWinCnt % gameInfo.curLv + 1));
+                let diffcultyCfg = XMgr.cfg.difficultCfg.get(gameInfo.curLv);
+                XMgr.gameMgr.dCfg = diffcultyCfg;
+                let a = diffcultyCfg.addMaxHp + 1;
+                if (gameInfo.curLv == XMgr.cfg.difficultCfg.size) {
+                    const newLv = gameInfo.maxWinCnt % gameInfo.curLv + 1
+                    diffcultyCfg = XMgr.cfg.difficultCfg.get(newLv.toString())
+                }
                 let r = new XPlayerModel;
                 r.type = XPlayerType.E_Hunter
                 r.uuid = XUtil.createUUID()
                 r.name = this.randomName()
-                r.skinId = s.bossId, r.attackPower = XMgr.cfg.hunterCfg.attackList[0]
+                r.skinId = diffcultyCfg.bossId, r.attackPower = XMgr.cfg.hunterCfg.attackList[0]
                 r.curHp = XMgr.cfg.hunterCfg.hpList[0] * a
                 r.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.push(r)
             } else {

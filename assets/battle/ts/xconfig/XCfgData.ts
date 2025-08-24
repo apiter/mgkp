@@ -49,5 +49,38 @@ export interface XCfgMapCfgItem {
 }
 
 export interface XCfgMapDataItem {
-    
+
+}
+
+export interface XDifficultCfgItem {
+    id: number;
+    name: string;
+    title: string;
+    titleColor: string;
+    bossId: number;
+    upRate: number;
+    isBreak: number;
+    escLv: number;
+    atkEscTime: number;
+    moveSpeed: number;
+    addHpLv: number;
+    addHpRate: number;
+    addExpLv: number;
+    addExp: number;
+    addMaxHp: number;
+    addSkillLv: number;
+}
+
+export interface XCfgBuffItem {
+    id: number;
+    oldname: string;
+    name: string;
+    buffId: string;
+    quality: string;
+    isOpen: number;
+    icon: string;
+    des: string;
+    buffDes: string;
+    isRepeat: number;
+    values: number[];
 }

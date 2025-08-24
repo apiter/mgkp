@@ -1,6 +1,6 @@
 import { assetManager, JsonAsset } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem } from "./XCfgData"
 import { XSkinType } from "./XEnum"
 
 class BaseDataModel {
@@ -13,8 +13,10 @@ class BaseDataModel {
 /**load jsons */
 export default class XCfgMgr {
 
-    map: Map<number, XCfgMapCfgItem>
-    skin: XCfgSkinData[] = []
+    map: Map<string, XCfgMapCfgItem>
+    skin: Map<string, XCfgSkinData>
+    difficultCfg: Map<string, XCfgDifficultyItem>
+    buffCfg: Map<string, XCfgBuffItem>
 
     buildCreate: BaseDataModel
     constant
@@ -27,10 +29,10 @@ export default class XCfgMgr {
     magicBoxCfg: BaseDataModel
     shopCfg: XCfgShopData[] = []
     hunterSkillCfg: BaseDataModel
-    buffCfg: BaseDataModel
-    difficultCfg: BaseDataModel
     playerIdArr: number[] = []
     playerSkinTypeArr: number[] = []
+
+    allCfgMap = new Map<string, Map<string,any>>()
 
     load(): Promise<number> {
         return new Promise((resolve, reject) => {
@@ -46,13 +48,16 @@ export default class XCfgMgr {
                         resolve(-1)
                         return;
                     }
-                    let assetMap = new Map<string, any>()
                     assets.forEach(element => {
-                        const jsonEle = element as JsonAsset 
-                        jsonEle.json && assetMap.set(element.name, jsonEle.json)
+                        const jsonEle = element as JsonAsset
+                        jsonEle.json && this.allCfgMap.set(element.name, jsonEle.json as Map<string, any>)
                     });
 
-                    this.map = assetMap.get("mapCfg")
+                    this.map = this.allCfgMap.get("mapCfg")
+                    this.difficultCfg = this.allCfgMap.get("difficultCfg")
+                    this.skin = this.allCfgMap.get("skinCfg")
+                    this.buffCfg = this.allCfgMap.get("buffCfg_test")
+
                     this.skin.forEach(t => {
                         if (t.type == XSkinType.Human) {
                             this.playerIdArr.push(t.id)

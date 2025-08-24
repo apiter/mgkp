@@ -8,7 +8,7 @@ export class XRoomModel {
     aiMult = 1
     coin = 0
     energy = 0
-    grids = []
+    grids:Vec2[] = []
     walls = []
     buildings = []
     preBuildings = []
@@ -18,4 +18,7 @@ export class XRoomModel {
     doorPosArr: Vec2[] = []
     doorPos: Vec2
     doorRot:number
+    doorModel: any
+
+    players = []
 }
