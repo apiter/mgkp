@@ -13,23 +13,23 @@ export default class XUtil {
 
     static createUUID(): string {
         // 返回一个类似 "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx" 的 UUID
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             const r = Math.random() * 16 | 0; // 生成 0~15 的随机数
             const v = c === 'x' ? r : (r & 0x3 | 0x8); // y 位必须是 8、9、a、b
             return v.toString(16);
         });
     }
-    
+
     static takeOneByWeight<T extends { weight: number }>(objects: T[]): T | null {
         if (!objects || objects.length === 0) return null;
-    
+
         // 计算总权重
         let totalWeight = objects.reduce((sum, obj) => sum + (obj.weight > 0 ? obj.weight : 0), 0);
         if (totalWeight <= 0) return null;
-    
+
         // 随机一个 [0, totalWeight) 的值
         let random = Math.random() * totalWeight;
-    
+
         // 按权重查找对应的对象
         let cumulative = 0;
         for (let obj of objects) {
@@ -38,8 +38,19 @@ export default class XUtil {
                 return obj;
             }
         }
-    
+
         // 理论上不会走到这里，兜底返回最后一个
         return objects[objects.length - 1];
+    }
+
+    static objectToMap<K extends string | number, V>(obj: any): Map<K, V> {
+        const map = new Map<K, V>();
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                //@ts-ignore
+                map.set(key, obj[key]);
+            }
+        }
+        return map;
     }
 }

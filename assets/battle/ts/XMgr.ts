@@ -1,18 +1,27 @@
 import { XBatleMgr } from "./map/XBatleMgr";
 import XBuildingMgr from "./map/XBuildingMgr";
-import { MapMgr } from "./map/XMapMgr";
+import { XMapMgr } from "./map/XMapMgr";
 import XPlayerMgr from "./player/XPlayerMgr";
 import XUser from "./player/XUser";
 import XCfgMgr from "./xconfig/XCfgMgr";
 
 class XMgr {
-    gameMgr: XBatleMgr = new XBatleMgr();
-    playerMgr: XPlayerMgr = new XPlayerMgr();
-    mapMgr = new MapMgr();
-    buildingMgr = new XBuildingMgr();
-    user: XUser = new XUser();
-    cfg:XCfgMgr = new XCfgMgr()
-    gameTime:Date
+    gameMgr: XBatleMgr = null
+    playerMgr: XPlayerMgr = null;
+    mapMgr:XMapMgr = null;
+    buildingMgr = null;
+    user: XUser = null;
+    cfg: XCfgMgr = null
+    gameTime: Date = null
+
+    init() {
+        this.cfg = new XCfgMgr()
+        this.gameMgr = new XBatleMgr();
+        this.playerMgr = new XPlayerMgr();
+        this.mapMgr = new XMapMgr();
+        this.buildingMgr = new XBuildingMgr();
+        this.user = new XUser();
+    }
 }
 export default new XMgr();
 

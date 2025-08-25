@@ -1,14 +1,12 @@
 import { _decorator, Component, Node } from 'cc';
-const { ccclass, property } = _decorator;
+import XMgr from './battle/ts/XMgr';
 
-@ccclass('XBattleEntrance')
-export class XBattleEntrance extends Component {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
+export class XBattleEntrance {
+    static async loadRes() {
+        XMgr.init()
+        let ret = await XMgr.cfg.load()
+        console.log("Battle Res Load Ret:", ret)
     }
 }
-
+
+

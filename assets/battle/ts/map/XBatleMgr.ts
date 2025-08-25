@@ -8,6 +8,7 @@ import EventCenter from "../event/EventCenter"
 import { XEventNames } from "../event/XEventNames"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
+import { XCfgMapCfgItem, XCfgMapDataItem } from "../xconfig/XCfgData"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -26,7 +27,7 @@ export class XBatleMgr implements ISchedulable {
     playTime: number = 0
     _arrDatas = []
     matchData: XMatchData = null
-    mapCfg
+    mapCfg:XCfgMapCfgItem = null
     startTime = 0
     killCnt = 0
     randomCnt = 0
@@ -56,48 +57,53 @@ export class XBatleMgr implements ISchedulable {
     isHunter() {
         return XMgr.playerMgr.player.type == XPlayerType.E_Hunter
     }
-    randomDiff(e) {
-        let i = [
+    randomDiff() {
+        let arr_arr = [
             [0, 1],
             [0, 1, 2],
             [1, 2]
-        ],
-            s = XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt,
-            a = 0;
-        if (1 == e)
-            for (let e = 0; e < 1; e++) a = s < 5 ? e : 1;
-        else a = s < 5 ? 0 : 1;
-        let n = Math.floor(XRandomUtil.random() * i[a].length);
-        this.diff = i[a][n], this.diff > 3 && (this.diff = 0)
+        ]
+        const totalCnt = XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt
+        let idx1 = totalCnt < 5 ? 0 : 1;
+        let idx2 = Math.floor(XRandomUtil.random() * arr_arr[idx1].length);
+        this.diff = arr_arr[idx1][idx2]
     }
-    match(gameMode_, defenderArr_, hunterArr_, mapCfg_, mapData_, o) {
-        let l, h = new XMatchData;
-        h.gameMode = gameMode_
-        this.randomDiff(mapCfg_.id)
-        h.mapCfg = mapCfg_
-        this.mapId = mapCfg_.id
-        h.mapData = mapData_;
-        (gameMode_ == XGameMode.E_Defense
-            || gameMode_ == XGameMode.E_Hunt
-            || gameMode_ == XGameMode.E_AngelOrGhost
-            || gameMode_ == XGameMode.E_SevenGhost) && (l = 0);
 
-        let d = [];
-        for (let e = 0; e < mapCfg_.defenderPointNum; ++e) d.push(e);
-        XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt != 0 && XRandomUtil.randomArray(d);
-        for (let t = 0; t < defenderArr_.length; ++t) {
-            let a = defenderArr_[t];
-            a.spwanPoint = d[t], gameMode_ != XGameMode.E_Hunt && t == l && (h.mineUuid = a.uuid), h.defenders.push(a)
+    match(gameMode_: XGameMode, defenderArr_: XPlayerModel[], hunterArr_: XPlayerModel[], mapCfg_: XCfgMapCfgItem, mapData_: XCfgMapDataItem) {
+        let matchData = new XMatchData;
+        matchData.gameMode = gameMode_
+        matchData.mapCfg = mapCfg_
+        matchData.mapData = mapData_;
+
+        this.randomDiff()
+        this.mapId = mapCfg_.id
+
+        let mineIdx = 0
+        let defenderPointArr = [];
+        for (let i = 0; i < mapCfg_.defenderPointNum; ++i)
+            defenderPointArr.push(i);
+        XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt != 0 && XRandomUtil.randomArray(defenderPointArr);
+
+        for (let i = 0; i < defenderArr_.length; ++i) {
+            let defender = defenderArr_[i];
+            defender.spwanPoint = defenderPointArr[i]
+            gameMode_ != XGameMode.E_Hunt && i == mineIdx && (matchData.mineUuid = defender.uuid)
+            matchData.defenders.push(defender)
         }
-        d = [];
-        for (let e = 0; e < mapCfg_.hunterPointNum; ++e) d.push(e);
-        XRandomUtil.randomArray(d);
-        for (let t = 0; t < hunterArr_.length; ++t) {
-            let s = hunterArr_[t];
-            s.spwanPoint = d[t], gameMode_ == XGameMode.E_Hunt && t == l && (h.mineUuid = s.uuid), h.hunters.push(s)
+        let hunterPointArr = [];
+        for (let i = 0; i < mapCfg_.hunterPointNum; ++i)
+            hunterPointArr.push(i);
+        XRandomUtil.randomArray(hunterPointArr);
+        for (let i = 0; i < hunterArr_.length; ++i) {
+            let s = hunterArr_[i];
+            s.spwanPoint = hunterPointArr[i]
+            gameMode_ == XGameMode.E_Hunt && i == mineIdx && (matchData.mineUuid = s.uuid)
+            matchData.hunters.push(s)
         }
-        return h.players = [], h.players = h.hunters.concat(h.defenders), h
+        matchData.players = matchData.hunters.concat(matchData.defenders)
+        return matchData
     }
+
     start(matchData_: XMatchData) {
         this._arrDatas = []
         this.gameStatus = XGameStatus.E_GAME_READY
@@ -368,7 +374,7 @@ export class XBatleMgr implements ISchedulable {
             n = XMgr.buildingMgr.getMapBuild(e, i);
         return (!n || !n.isUsed) && XMgr.buildingMgr.takeMapBuild(e, i, a)
     }
-    
+
     playSoundByNode(t, i, s) {
         // this.gameStatus == XGameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
     }

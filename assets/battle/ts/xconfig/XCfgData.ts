@@ -49,7 +49,21 @@ export interface XCfgMapCfgItem {
 }
 
 export interface XCfgMapDataItem {
-
+    compressionlevel:number,
+    height:number,
+    layers:any[],
+    infinite:boolean,
+    nextlayerid:number,
+    nextobjectid:number,
+    orientation:string,
+    renderorder:string,
+    tiledversion:string,
+    tileheight:number,
+    tilesets:any[],
+    tilewidth:number,
+    type:string,
+    version:string,
+    width:number
 }
 
 export interface XDifficultCfgItem {

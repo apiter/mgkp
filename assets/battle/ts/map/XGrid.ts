@@ -54,14 +54,14 @@ export class XGrid {
         }
         return true
     }
-    setStartNode(e, t) {
-        this._startNode = this._nodes[e][t]
+    setStartNode(x_, y_) {
+        this._startNode = this._nodes[x_][y_]
     }
-    setWalkable(e, t, i) {
-        this._nodes[e][t].walkable = i
+    setWalkable(x_, y_, value_) {
+        this._nodes[x_][y_].walkable = value_
     }
-    setDynWalkable(e, t, i) {
-        this._nodes[e][t].dynWalkable = i
+    setDynWalkable(x_, y_, value_) {
+        this._nodes[x_][y_].dynWalkable = value_
     }
     get endNode() {
         return this._endNode

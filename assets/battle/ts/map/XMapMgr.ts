@@ -6,6 +6,7 @@ import { XV2Util01 } from "../xutil/XV2Util01"
 import { XRandomUtil } from "../xutil/XRandomUtil"
 import XAStar from "./XAStar"
 import XUtil from "../xutil/XUtil"
+import { XCfgMapDataItem } from "../xconfig/XCfgData"
 
 class XTiledInfo {
     x: number = 0
@@ -25,7 +26,7 @@ class XTiledInfo {
     }
 }
 
-export class MapMgr {
+export class XMapMgr {
     _outRoomGirds = []
     // outRoomGridsInsideMap = []
     // hideDoors = []
@@ -50,10 +51,7 @@ export class MapMgr {
     _tileSets = null
     _mapNode = null
 
-    constructor() {
-    }
-
-    init(mapData_, t) {
+    init(mapData_: XCfgMapDataItem, t) {
         this.outBuildings = []
         this.parseData(mapData_, t)
         this._grid = new XGrid(this._height, this._width);
@@ -71,58 +69,12 @@ export class MapMgr {
             maxY: this._height * XConst.GridSize
         };
     }
-    get width() {
-        return this._width
-    }
-    get height() {
-        return this._height
-    }
-    get buildings() {
-        return this._buildings
-    }
-    get views() {
-        return this._viewList
-    }
-    get rooms() {
-        return this._rooms
-    }
-
-    get mapNode() {
-        return this._mapNode
-    }
-    set mapNode(e) {
-        this._mapNode = e
-    }
-    get mapBoundBox() {
-        return this._mapBoundBox
-    }
-    get hunterSpawns() {
-        return this._hunterSpawns
-    }
-    get mapBuildPoints() {
-        return this._mapBuildPoints
-    }
-    get mapEquipPoints() {
-        return this._mapEquipPoints
-    }
-    get healZones() {
-        return this._healZones
-    }
-    get realWidth() {
-        return this.width * XConst.GridSize
-    }
-    get realHeight() {
-        return this.height * XConst.GridSize
-    }
-    get outRoomGrids() {
-        return this._outRoomGirds.slice()
-    }
-    parseData(cfg, t) {
-        this._width = cfg.width
-        this._height = cfg.height
-        this._tileSets = this.getTilesets(cfg)
+    parseData(mapData_: XCfgMapDataItem, t) {
+        this._width = mapData_.width
+        this._height = mapData_.height
+        this._tileSets = this.getTilesets(mapData_)
         let i = -1
-        const objs = this.getLayer(cfg, "data").objects;
+        const objs = this.getLayer(mapData_, "data").objects;
         for (const obj of objs) {
             if ("HealZone" == obj.type) {
                 let t = new Rect(obj.x, obj.y, obj.width, obj.height);
@@ -152,8 +104,8 @@ export class MapMgr {
                 this._rooms.push(roomModel)
             }
         }
-        let groundData = this.getLayer(cfg, "ground").data
-        const buildData = this.getLayer(cfg, "build").data
+        let groundData = this.getLayer(mapData_, "ground").data
+        const buildData = this.getLayer(mapData_, "build").data
         for (let h = 0; h < this._height; ++h) {
             this._tiledMap[h] = [];
             for (let w = 0; w < this._width; ++w) {
@@ -312,13 +264,13 @@ export class MapMgr {
         if (this.roomsWall[`x${x_}_y${y_}`])
             return this.getRoomById(this.roomsWall[`x${x_}_y${y_}`])
     }
-    getRoomTiledList(e) {
-        let t = [];
-        for (const grid of e.grids) {
-            let e = this.getTiledInfo(grid.x, grid.y);
-            e && t.push(e)
+    getRoomTiledList(room_: XRoomModel) {
+        let tiles: XTiledInfo[] = [];
+        for (const grid of room_.grids) {
+            let tile = this.getTiledInfo(grid.x, grid.y);
+            tile && tiles.push(tile)
         }
-        return t
+        return tiles
     }
     getTiledInfo(x_, y_) {
         return this._tiledMap[x_] ? this._tiledMap[x_][y_] : null
@@ -356,10 +308,10 @@ export class MapMgr {
             y: mapY_ + this._mapNode.y
         }
     }
-    stagePosToMapPos(e, t) {
+    stagePosToMapPos(x_, y_) {
         return {
-            x: e - this._mapNode.x,
-            y: t - this._mapNode.y
+            x: x_ - this._mapNode.x,
+            y: y_ - this._mapNode.y
         }
     }
     isInStageByGridPos(col_, row_) {
@@ -373,8 +325,8 @@ export class MapMgr {
     isWalkable(x_, y_) {
         return !(!this._tiledMap[x_] || !this._tiledMap[x_][y_]) && this._tiledMap[x_][y_].walkable
     }
-    twoGridsInSameRoome(e, t, i, s) {
-        return this.getRoomByGridPos(e, t) == this.getRoomByGridPos(i, s)
+    twoGridsInSameRoome(x1_, y1_, x2_, y2_) {
+        return this.getRoomByGridPos(x1_, y1_) == this.getRoomByGridPos(x2_, y2_)
     }
     getRoomIdByMapPos(mapX_, mapY) {
         let gridPos = this.mapPosToGridPos(mapX_, mapY);
@@ -409,23 +361,7 @@ export class MapMgr {
                 return XRandomUtil.randomInArray(roomGrids)
             }
     }
-    // getRoomsByDistance(e) {
-    //     let rooms = this.rooms.slice();
-    //     for (let i = 0; i < rooms.length - 1; ++i) {
-    //         let s = false;
-    //         for (let a = rooms.length - 1; a > i; --a) {
-    //             let i = this.gridPosToMapPos(rooms[a].x, rooms[a].y),
-    //                 n = XV2Util01.pDistance(e, i),
-    //                 r = this.gridPosToMapPos(rooms[a - 1].x, rooms[a - 1].y);
-    //             if (XV2Util01.pDistance(e, r) > n) {
-    //                 let e = rooms[a - 1];
-    //                 rooms[a - 1] = rooms[a], rooms[a] = e, s = true
-    //             }
-    //         }
-    //         if (!s) break
-    //     }
-    //     return rooms
-    // }
+
     findPath(mapX1_, mapY1_, mapX2_, mapY2_, slant_ = false) {
         const gridPos1 = this.mapPosToGridPos(mapX1_, mapY1_)
         const gridPos2 = this.mapPosToGridPos(mapX2_, mapY2_)
@@ -491,22 +427,22 @@ export class MapMgr {
             y: r
         }
     }
-    setWalkable(e, t, i) {
-        this._grid.setWalkable(e, t, i)
+    setWalkable(x_, y_, value_) {
+        this._grid.setWalkable(x_, y_, value_)
     }
-    setDynWalkable(e, t, i) {
-        this._grid.setDynWalkable(e, t, i)
+    setDynWalkable(x_, y_, value_) {
+        this._grid.setDynWalkable(x_, y_, value_)
     }
-    isInMap(e, t) {
-        return !(e < this.mapBoundBox.minX || e > this.mapBoundBox.maxX || t < this.mapBoundBox.minY || t > this.mapBoundBox.maxY)
+    isInMap(x_, y_) {
+        return !(x_ < this.mapBoundBox.minX || x_ > this.mapBoundBox.maxX || y_ < this.mapBoundBox.minY || y_ > this.mapBoundBox.maxY)
     }
-    isInHealZone(e, t) {
+    isInHealZone(x_, y_) {
         for (const i of this._healZones)
-            if (i.contains(e, t)) return !0;
-        return !1
+            if (i.contains(x_, y_)) return true;
+        return false
     }
-    stagePosToGridPos(e, t) {
-        let i = this.stagePosToMapPos(e, t);
+    stagePosToGridPos(x_, y_) {
+        let i = this.stagePosToMapPos(x_, y_);
         return i = this.mapPosToGridPos(i.x, i.y)
     }
 
@@ -522,5 +458,51 @@ export class MapMgr {
     }
     getMapTiles() {
         return this._tiledMap
+    }
+    get width() {
+        return this._width
+    }
+    get height() {
+        return this._height
+    }
+    get buildings() {
+        return this._buildings
+    }
+    get views() {
+        return this._viewList
+    }
+    get rooms() {
+        return this._rooms
+    }
+
+    get mapNode() {
+        return this._mapNode
+    }
+    set mapNode(e) {
+        this._mapNode = e
+    }
+    get mapBoundBox() {
+        return this._mapBoundBox
+    }
+    get hunterSpawns() {
+        return this._hunterSpawns
+    }
+    get mapBuildPoints() {
+        return this._mapBuildPoints
+    }
+    get mapEquipPoints() {
+        return this._mapEquipPoints
+    }
+    get healZones() {
+        return this._healZones
+    }
+    get realWidth() {
+        return this.width * XConst.GridSize
+    }
+    get realHeight() {
+        return this.height * XConst.GridSize
+    }
+    get outRoomGrids() {
+        return this._outRoomGirds.slice()
     }
 }

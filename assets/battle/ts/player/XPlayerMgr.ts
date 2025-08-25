@@ -1,5 +1,6 @@
 import EventCenter from "../event/EventCenter";
 import { XEventNames } from "../event/XEventNames";
+import XMatchData from "../model/XMatchData";
 import XPlayerModel from "../model/XPlayerModel";
 import { XPlayerType } from "../xconfig/XEnum";
 import XMgr from "../XMgr";
@@ -16,10 +17,10 @@ export default class XPlayerMgr {
     isGoldlessMode = !1;
     fighter = null;
 
-    init(e) {
-        this.mineUuid = e.mineUuid
-        this.hunters = e.hunters
-        this.defenders = e.defenders
+    init(matchData_:XMatchData) {
+        this.mineUuid = matchData_.mineUuid
+        this.hunters = matchData_.hunters
+        this.defenders = matchData_.defenders
         this.angels = []
         this.players = this.hunters.concat(this.defenders)
         this.playerMap = {};

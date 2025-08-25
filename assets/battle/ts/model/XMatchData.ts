@@ -1,14 +1,16 @@
+import { XCfgMapCfgItem, XCfgMapDataItem } from "../xconfig/XCfgData";
 import { XGameMode } from "../xconfig/XEnum";
+import XPlayerModel from "./XPlayerModel";
 
 export default class XMatchData {
-    players= [];
-    defenders= [];
-    hunters= [];
-    difficulty= 0;
-    hideRoomIndex= 0;
+    players: XPlayerModel[] = [];
+    defenders: XPlayerModel[] = [];
+    hunters: XPlayerModel[] = [];
+    difficulty = 0;
+    hideRoomIndex = 0;
     gameMode = XGameMode.E_Defense;
 
-    mapCfg
-    mapData
-    mineUuid:string = ""
+    mapCfg: XCfgMapCfgItem
+    mapData: XCfgMapDataItem
+    mineUuid: string = ""
 }

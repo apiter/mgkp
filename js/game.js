@@ -2670,7 +2670,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.equipAtk  = 0, this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0
             }
         }
-        class de extends e.ui.scenes.view.MatchingViewUI {
+        class XMatchingView extends e.ui.scenes.view.MatchingViewUI {
             constructor(e, t) {
                 super(), this.idxArr = [0, 1, 2, 3, 4, 5], this.matchingtime = 0, t && (this.gameMode = t.mode)
             }
@@ -2721,7 +2721,11 @@ define("js/bundle.js", function(require, module, exports) {
                         n.attackPower = t.cfg.hunterCfg.attackList[0], n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, this.hunterArr.push(n), this.updateHunter(n)
                     } else {
                         let s = new XPlayerModel;
-                        s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), this.defenderArr[i] = s, this.initList()
+                        s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), 
+                        s.name = this.randomName(), 
+                        s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), 
+                        this.defenderArr[i] = s, 
+                        this.initList()
                     }
                 }
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
@@ -2734,9 +2738,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lb_time.text = `匹配中..${Math.floor(this.matchingtime)}s`
             }
             startGame() {
-                let i = this.getMap();
-                Laya.loader.load(i.path, new Laya.Handler(this, s => {
-                    let a = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, i, s, !0),
+                let mapCfg = this.getMap();
+                Laya.loader.load(mapCfg.path, new Laya.Handler(this, mapData => {
+                    let matchData = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, mapCfg, mapData, !0),
                         n = "";
                     switch (this.gameMode) {
                         case e.GameMode.E_Defense:
@@ -2749,7 +2753,7 @@ define("js/bundle.js", function(require, module, exports) {
                             n = "挑战模式", XAnalyticsUtil.enterLevel(t.user.gameInfo.curSevenGhostLv, n)
                     }
                     t.ui.changeScene(l.GameScene, {
-                        matchData: a
+                        matchData: matchData
                     })
                 }))
             }
@@ -9876,7 +9880,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return new fx.V2(this.lastPos.x - this.downPos.x, this.lastPos.y - this.downPos.y)
             }
         }
-        class ys extends e.ui.scenes.GameSceneUI {
+        class XGameScene extends e.ui.scenes.GameSceneUI {
             static getRes(...e) {
                 return [T.Prefab_GuideFinger, T.Prefab_HealZoneEff, T.Prefab_IconTips, T.Prefab_OperateBtn, T.Prefab_BuildMenu, T.Prefab_UpgradeMenu, T.Prefab_BorrowMoney, T.Prefab_HealthBar, T.Prefab_BuildingCD, T.Prefab_SkillCD, T.Prefab_LabelTips, T.Prefab_Guide]
             }
@@ -11306,7 +11310,50 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initUI(), this.initCls()
             }
             static initUI() {
-                Laya.ClassUtils.regClass(l.MainScene, Cs), Laya.ClassUtils.regClass(l.GameScene, ys), Laya.ClassUtils.regClass(l.WinDialog, ye), Laya.ClassUtils.regClass(l.FailDialog, re), Laya.ClassUtils.regClass(l.SkinView, ws), Laya.ClassUtils.regClass(l.TipsView, Ss), Laya.ClassUtils.regClass(l.SettingDialog, ge), Laya.ClassUtils.regClass(l.GameEndBoxDialog, oe), Laya.ClassUtils.regClass(l.MatchingView, de), Laya.ClassUtils.regClass(l.HunterMatchingView, vs), Laya.ClassUtils.regClass(l.ShopDialog, ce), Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), Laya.ClassUtils.regClass(l.RankView, bs), Laya.ClassUtils.regClass(l.SkinFragmentDialog, pe), Laya.ClassUtils.regClass(l.SkinFragmentGetDialog, fe), Laya.ClassUtils.regClass(l.ExitView, _s), Laya.ClassUtils.regClass(l.NoticeDialog, ue), Laya.ClassUtils.regClass(l.TurntableView, Is), Laya.ClassUtils.regClass(l.TurntableRewardDialog, me), Laya.ClassUtils.regClass(l.BuffChooseDialog, ee), Laya.ClassUtils.regClass(l.BuffOwnerDialog, te), Laya.ClassUtils.regClass(l.BuffShowDialog, ie), Laya.ClassUtils.regClass(l.DailyShareDialog, ae), Laya.ClassUtils.regClass(l.BuyTianDialog, se), Laya.ClassUtils.regClass(l.InviteDialog, InviteDialog), Laya.ClassUtils.regClass(l.QuestionDialog, Os), Laya.ClassUtils.regClass(l.AogUnlockDialog, Z), Laya.ClassUtils.regClass(l.AogFailDialog, J), Laya.ClassUtils.regClass(l.AogWinDialog, Q), Laya.ClassUtils.regClass(l.AogChooseDialog, R), Laya.ClassUtils.regClass(l.HunterChooseView, Ms), Laya.ClassUtils.regClass(l.HunterFailDialog, xs), Laya.ClassUtils.regClass(l.HunterWinDialog, Bs), Laya.ClassUtils.regClass(l.HunterUnlockDialog, Ts), Laya.ClassUtils.regClass(l.HunterDifficultChooseDialog, Es), Laya.ClassUtils.regClass(l.SevenGhostUnlockDialog, Ps), Laya.ClassUtils.regClass(l.SevenGhostView, Ns), Laya.ClassUtils.regClass(l.SevenGhostFailDialog, Us), Laya.ClassUtils.regClass(l.SevenGhostWinDialog, Gs), Laya.ClassUtils.regClass(l.ClubRewardDialog, Ds), Laya.ClassUtils.regClass(l.EvaluateDialog, As), Laya.ClassUtils.regClass(l.RewardDialog, Rs), Laya.ClassUtils.regClass(l.SkinRewardDialog, Vs), Laya.ClassUtils.regClass(l.MessageDialog, Fs)
+                Laya.ClassUtils.regClass(l.MainScene, Cs), 
+                Laya.ClassUtils.regClass(l.GameScene, XGameScene), 
+                Laya.ClassUtils.regClass(l.WinDialog, ye), 
+                Laya.ClassUtils.regClass(l.FailDialog, re), 
+                Laya.ClassUtils.regClass(l.SkinView, ws), 
+                Laya.ClassUtils.regClass(l.TipsView, Ss), 
+                Laya.ClassUtils.regClass(l.SettingDialog, ge), 
+                Laya.ClassUtils.regClass(l.GameEndBoxDialog, oe), 
+                Laya.ClassUtils.regClass(l.MatchingView, XMatchingView), 
+                Laya.ClassUtils.regClass(l.HunterMatchingView, vs), 
+                Laya.ClassUtils.regClass(l.ShopDialog, ce), 
+                Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), 
+                Laya.ClassUtils.regClass(l.RankView, bs), 
+                Laya.ClassUtils.regClass(l.SkinFragmentDialog, pe), 
+                Laya.ClassUtils.regClass(l.SkinFragmentGetDialog, fe), 
+                Laya.ClassUtils.regClass(l.ExitView, _s), 
+                Laya.ClassUtils.regClass(l.NoticeDialog, ue), 
+                Laya.ClassUtils.regClass(l.TurntableView, Is), 
+                Laya.ClassUtils.regClass(l.TurntableRewardDialog, me), 
+                Laya.ClassUtils.regClass(l.BuffChooseDialog, ee),
+                Laya.ClassUtils.regClass(l.BuffOwnerDialog, te), 
+                Laya.ClassUtils.regClass(l.BuffShowDialog, ie), 
+                Laya.ClassUtils.regClass(l.DailyShareDialog, ae), 
+                Laya.ClassUtils.regClass(l.BuyTianDialog, se), 
+                Laya.ClassUtils.regClass(l.InviteDialog, InviteDialog), 
+                Laya.ClassUtils.regClass(l.QuestionDialog, Os), 
+                Laya.ClassUtils.regClass(l.AogUnlockDialog, Z), 
+                Laya.ClassUtils.regClass(l.AogFailDialog, J), 
+                Laya.ClassUtils.regClass(l.AogWinDialog, Q), 
+                Laya.ClassUtils.regClass(l.AogChooseDialog, R), 
+                Laya.ClassUtils.regClass(l.HunterChooseView, Ms), 
+                Laya.ClassUtils.regClass(l.HunterFailDialog, xs), 
+                Laya.ClassUtils.regClass(l.HunterWinDialog, Bs), 
+                Laya.ClassUtils.regClass(l.HunterUnlockDialog, Ts), 
+                Laya.ClassUtils.regClass(l.HunterDifficultChooseDialog, Es), 
+                Laya.ClassUtils.regClass(l.SevenGhostUnlockDialog, Ps), 
+                Laya.ClassUtils.regClass(l.SevenGhostView, Ns), 
+                Laya.ClassUtils.regClass(l.SevenGhostFailDialog, Us), 
+                Laya.ClassUtils.regClass(l.SevenGhostWinDialog, Gs), 
+                Laya.ClassUtils.regClass(l.ClubRewardDialog, Ds), 
+                Laya.ClassUtils.regClass(l.EvaluateDialog, As), 
+                Laya.ClassUtils.regClass(l.RewardDialog, Rs), 
+                Laya.ClassUtils.regClass(l.SkinRewardDialog, Vs), 
+                Laya.ClassUtils.regClass(l.MessageDialog, Fs)
             }
             static initCls() {}
         }
@@ -14175,7 +14222,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (n && n.info) return n.info
             }
         }
-        class Ya {
+        class XMatchData {
             constructor() {
                 this.players = [], this.defenders = [], this.hunters = [], this.difficulty = 0, this.hideRoomIndex = 0
             }
@@ -14205,7 +14252,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.diff = i[a][n], this.diff > 3 && (this.diff = 0)
             }
             match(i, s, a, n, r, o) {
-                let l, h = new Ya;
+                let l, h = new XMatchData;
                 h.gameMode = i, this.randomDiff(n.id), h.mapCfg = n, this.mapId = n.id, h.mapData = r, i == e.GameMode.E_Defense ? l = 0 : i == e.GameMode.E_Hunt ? l = 0 : i == e.GameMode.E_AngelOrGhost ? l = 0 : i == e.GameMode.E_SevenGhost && (l = 0);
                 let d = [];
                 for (let e = 0; e < n.defenderPointNum; ++e) d.push(e);
@@ -14224,7 +14271,8 @@ define("js/bundle.js", function(require, module, exports) {
                 return h.players = [], h.players = h.hunters.concat(h.defenders), h
             }
             start(i) {
-                this._arrDatas = [], this.gameStatus = e.GameStatus.E_GAME_READY, this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, t.playerMgr.init(i), t.mapMgr.init(i.mapData, 0), t.buildingMgr.init(), t.taskMgr.init(), this.startTime = t.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
+                this._arrDatas = [], this.gameStatus = e.GameStatus.E_GAME_READY, 
+                this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, t.playerMgr.init(i), t.mapMgr.init(i.mapData, 0), t.buildingMgr.init(), t.taskMgr.init(), this.startTime = t.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
                 let s = t.user.gameInfo;
                 if (1 == this.difficultABTest ? (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = .75, this.hunterSpeedRatio = .75 / t.gameMgr.dCfg.moveSpeed || 1, console.log(1 / this.hunterSpeedRatio, t.gameMgr.dCfg.moveSpeed, "real Speed")) : (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = this.hunterSpeedRatio = 1), t.gameMgr.gameMode == e.GameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
                     let e = this.dCfg;
@@ -18969,7 +19017,18 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
             }
-        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, e.GameInfoEvent = Ce, e.GameManager = GameMgr, e.GameScene = ys, e.GameScript = GameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, e.GameUI = GameUI, e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, e.GuideArrowScript = Oi, e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = GuildMgr, e.HBoxScript = En, e.HasAngelAroundCdt = XHasAngelAroundCdt, e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, e.HunterFailDialog = xs, e.HunterMatchingView = vs, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, e.HunterUnlockDialog = Ts, e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
+        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
+        e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
+        e.GameInfoEvent = Ce, e.GameManager = GameMgr, 
+        e.GameScene = XGameScene, e.GameScript = GameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
+        e.GameUI = GameUI, 
+        e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, e.GuideArrowScript = Oi, 
+        e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = GuildMgr, e.HBoxScript = En, e.HasAngelAroundCdt = XHasAngelAroundCdt, 
+        e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, 
+        e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
+        e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, 
+        e.HunterFailDialog = xs, e.HunterMatchingView = vs, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
+        e.HunterUnlockDialog = Ts, e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
             }
@@ -19210,7 +19269,8 @@ define("js/bundle.js", function(require, module, exports) {
                     e(t)
                 })
             }
-        }, e.MarkupMap = ir, e.MatchData = Ya, e.MatterUtil = Ci, e.MessageDialog = Fs, e.MiniGameListDialog = Rn, e.MiniTowerScript = Xi, e.MirrorScript = Yi, e.ModelEvent = be, e.MonsterAI = ki, e.MoreGameBtnScript = Hn, e.NativeAdBanner = class extends Laya.Script {
+        }, e.MarkupMap = ir, e.MatchData = XMatchData, e.MatterUtil = Ci, e.MessageDialog = Fs, e.MiniGameListDialog = Rn, e.MiniTowerScript = Xi, 
+        e.MirrorScript = Yi, e.ModelEvent = be, e.MonsterAI = ki, e.MoreGameBtnScript = Hn, e.NativeAdBanner = class extends Laya.Script {
             constructor() {
                 super()
             }

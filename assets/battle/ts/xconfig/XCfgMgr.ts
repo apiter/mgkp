@@ -1,7 +1,8 @@
-import { assetManager, JsonAsset } from "cc"
+import { assetManager, JsonAsset, log } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapDataItem } from "./XCfgData"
 import { XSkinType } from "./XEnum"
+import XUtil from "../xutil/XUtil"
 
 class BaseDataModel {
     _name: string
@@ -13,7 +14,8 @@ class BaseDataModel {
 /**load jsons */
 export default class XCfgMgr {
 
-    map: Map<string, XCfgMapCfgItem>
+    mapCfg: Map<string, XCfgMapCfgItem>
+    mapDatas: Map<string, Map<string, XCfgMapDataItem>> = new Map()
     skin: Map<string, XCfgSkinData>
     difficultCfg: Map<string, XCfgDifficultyItem>
     buffCfg: Map<string, XCfgBuffItem>
@@ -32,20 +34,30 @@ export default class XCfgMgr {
     playerIdArr: number[] = []
     playerSkinTypeArr: number[] = []
 
-    allCfgMap = new Map<string, Map<string,any>>()
+    allCfgMap = new Map<string, Map<string, any>>()
 
-    load(): Promise<number> {
-        return new Promise((resolve, reject) => {
+    async load(): Promise<void> {
+        return new Promise(async (resolve, reject) => {
+            await this.loadJsonData()
+            log(`XCfgMgr loadJsonData complete`)
+            await this.loadMapData()
+            log(`XCfgMgr loadMapData complete`)
+            resolve()
+        })
+    }
+
+    loadJsonData(): Promise<void> {
+        return new Promise((resolve) => {
             assetManager.loadBundle("battle", (err, bundle) => {
                 if (err) {
                     console.error(err);
-                    resolve(-1)
+                    resolve()
                     return;
                 }
                 bundle.loadDir("cfg", (err, assets) => {
                     if (err) {
                         console.error(err);
-                        resolve(-1)
+                        resolve()
                         return;
                     }
                     assets.forEach(element => {
@@ -53,40 +65,50 @@ export default class XCfgMgr {
                         jsonEle.json && this.allCfgMap.set(element.name, jsonEle.json as Map<string, any>)
                     });
 
-                    this.map = this.allCfgMap.get("mapCfg")
+                    this.mapCfg = this.allCfgMap.get("mapCfg")
                     this.difficultCfg = this.allCfgMap.get("difficultCfg")
-                    this.skin = this.allCfgMap.get("skinCfg")
+                    this.skin = XUtil.objectToMap<string, XCfgSkinData>(this.allCfgMap.get("skinCfg"))
                     this.buffCfg = this.allCfgMap.get("buffCfg_test")
 
-                    this.skin.forEach(t => {
-                        if (t.type == XSkinType.Human) {
-                            this.playerIdArr.push(t.id)
-                            if (t.skinType && this.playerSkinTypeArr.indexOf(t.skinType) == -1)
-                                this.playerSkinTypeArr.push(t.skinType)
+
+                    this.skin.forEach((v, k) => {
+                        if (v.type == XSkinType.Human) {
+                            this.playerIdArr.push(v.id)
+                            if (v.skinType && this.playerSkinTypeArr.indexOf(v.skinType) == -1)
+                                this.playerSkinTypeArr.push(v.skinType)
                         }
                     })
-                    resolve(0)
+                    resolve()
                 })
             })
         })
-
-        // this.skin = new BaseDataModel("skinCfg")
-        // this.buildCreate = new BaseDataModel("buildCreateCfg")
-        // this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg")
-        // this.hunterDifficultCfg = new BaseDataModel("hunterDifficultCfg")
-        // this.hunterEquipCfg = new BaseDataModel("hunterEquipCfg")
-        // this.sevenGhostCfg = new BaseDataModel("sevenGhostCfg")
-        // this.clubReward = new BaseDataModel("clubReward")
-        // this.inviteCfg = new BaseDataModel("inviteCfg")
-        // this.magicBoxCfg = new BaseDataModel("magicBoxCfg")
-        // this.shopCfg = new BaseDataModel("shopCfg_test")
-        // this.hunterSkillCfg = new BaseDataModel("hunterSkillCfg_test")
-        // this.buffCfg = new BaseDataModel("buffCfg_test")
-        // this.difficultCfg = new BaseDataModel("newDifficultCfg")
-        // this.playerIdArr = []
-        // this.playerSkinTypeArr = []
-        // this.magicBoxCfg.foreach(e => { })
     }
+
+    loadMapData(): Promise<void> {
+        return new Promise((resolve) => {
+            assetManager.loadBundle("battle", (err, bundle) => {
+                if (err) {
+                    console.error(err);
+                    resolve()
+                    return;
+                }
+                bundle.loadDir("map", (err, assets) => {
+                    if (err) {
+                        console.error(err);
+                        resolve()
+                        return;
+                    }
+                    assets.forEach(element => {
+                        const jsonEle = element as JsonAsset
+                        const data = XUtil.objectToMap<string, XCfgMapDataItem>(jsonEle.json)
+                        this.mapDatas.set(element.name, data)
+                    });
+                    resolve()
+                })
+            })
+        })
+    }
+
     getPlayerIdArr() {
         return this.playerIdArr
     }
@@ -95,39 +117,41 @@ export default class XCfgMgr {
     }
     getSkinArrByType(e) {
         let t = [];
-        return this.skin.forEach(i => {
-            i.type == e && t.push(i.id)
+        return this.skin.forEach((v) => {
+            v.type == e && t.push(v.id)
         }), t
     }
     getSkinArrBySkinType(e) {
         let t = [];
-        return this.skin.forEach(i => {
-            i.skinType == e && t.push(i.id)
+        return this.skin.forEach(v => {
+            v.skinType == e && t.push(v.id)
         }), t
     }
     getRandomHunter() {
         let t = [];
-        return this.skin.forEach(i => {
-            i.type == XSkinType.Hunter && t.push(i)
+        return this.skin.forEach(v => {
+            v.type == XSkinType.Hunter && t.push(v)
         }), XRandomUtil.randomInArray(t)
     }
-    getShopGroupArr(e) {
+    getShopGroupArr(group_: number) {
         let t = [];
-        return this.shopCfg.forEach(i => {
-            i.group == e && t.push(i)
+        return this.shopCfg.forEach(v => {
+            v.group == group_ && t.push(v)
         }), t
     }
-    getHunterEquipCfg(e, t) {
+    getHunterEquipCfg(part_, level_) {
         let i;
-        return this.hunterEquipCfg.forEach(s => {
-            if (s.part == e && s.level == t) return i = s
-        }), i
+        // this.hunterEquipCfg.forEach(s => {
+        //     if (s.part == part_ && s.level == level_) return i = s
+        // })
+        return i
     }
     getHunterSkillArr() {
-        let t = [];
-        return this.skin.forEach(i => {
-            i.type == XSkinType.Hunter && t.push(i)
-        }), t
+        let ret = [];
+        this.skin.forEach(v => {
+            v.type == XSkinType.Hunter && ret.push(v)
+        })
+        return ret
     }
 }
 
