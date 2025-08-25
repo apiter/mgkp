@@ -2683,7 +2683,9 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = t.cfg.buffCfg.get(26);
                     i.invincibleCnt = e.values[s.lv] - 1
                 }
-                this.defenderArr = [i, null, null, null, null, null], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.initList()
+                this.defenderArr = [i, null, null, null, null, null], 
+                this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), 
+                Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.initList()
             }
             initList() {
                 this.list_list.array = this.defenderArr, this.list_list.renderHandler = new Laya.Handler(this, this.updateItem)
@@ -4553,7 +4555,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_bar.skin = "res/game/img_healthbar.png"
             }
         }
-        class St extends Laya.Script {
+        class XPlayerScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.faceDir = 1, this.moveSpeedScale = 1, this.canMove = !0, this.control = !1, this.direction = e.Direction.Left, this.isEscaped = !1, this.isSkinLoaded = !1, this.atkIntervalTs = 0, this.isFirstFind = !0, this.getPathCd = !1
             }
@@ -5023,7 +5025,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !1
             }
         }
-        class It extends St {
+        class It extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Defender
             }
@@ -5070,7 +5072,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.RewardType = void 0, (xe = e.RewardType || (e.RewardType = {})).Coin = "Coin", xe.Build = "Build", xe.Skin = "Skin";
         class vt extends fx.BaseData {}
         e.SkinUnlockWay = void 0, (Be = e.SkinUnlockWay || (e.SkinUnlockWay = {}))[Be.VIDEO = 1] = "VIDEO", Be[Be.FRAGMENT = 2] = "FRAGMENT", Be[Be.INITIAL = 999] = "INITIAL";
-        class Mt extends fx.BaseData {}
+        class XMapCfg extends fx.BaseData {}
         class xt extends fx.BaseData {}
         e.BulletType = void 0, (Te = e.BulletType || (e.BulletType = {})).Follow = "Follow", Te.Normal = "Normal";
         class Bt extends fx.BaseData {}
@@ -6098,7 +6100,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.world && e && Matter.Composite.remove(this.world, e)
             }
         }
-        class _i extends St {
+        class _i extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
@@ -6302,7 +6304,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class bi extends St {
+        class bi extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0, this.curAutoSkillCd = 0, this.isStartCd = !0, this.useSkillCnt = 1, this.passiveSkillCd = 0, this.critCnt = 5, this.critCurCnt = 1, this.critScale = 1, this.hpHeal = 0, this.hpCnt = .2, this.createId = 10001
             }
@@ -8077,24 +8079,63 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.minX == e.minX && this.maxX == e.maxX && this.minY == e.minY && this.maxY == e.maxY
             }
         }
-        class $i extends Laya.Script {
+        class XMapScript extends Laya.Script {
             constructor() {
-                super(...arguments), this.displayGrounds = [], this.groundPool = [], this.buildTipsList = [], this.mowHideTipList = [], this.upTipsList = [], this.doorTipsList = [], this.views = [], this.lookPos = new fx.V2, this.updateSign = !1
+                super(...arguments), this.displayGrounds = [], this.groundPool = [], this.buildTipsList = [], this.mowHideTipList = [], 
+                this.upTipsList = [], this.doorTipsList = [], this.views = [], this.lookPos = new fx.V2, this.updateSign = !1
             }
             get node() {
                 return this.owner
             }
             init() {
-                this.groundLayer = this.owner.getChildByName("GroundLayer"), this.lowLayer = this.owner.getChildByName("LowLayer"), this.buildCdLayer = this.owner.getChildByName("BuildCdLayer"), this.viewLayer = this.owner.getChildByName("ViewLayer"), this.buildLayer = this.owner.getChildByName("BuildLayer"), this.buildMoveLayer = this.owner.getChildByName("BuildMoveLayer"), this.playerLayer = this.owner.getChildByName("PlayerLayer"), this.bulletLayer = this.owner.getChildByName("BulletLayer"), this.effectLayer = this.owner.getChildByName("EffectLayer"), this.hunterLayer = this.owner.getChildByName("HunterLayer"), this.petLayer = this.owner.getChildByName("PetLayer"), this.barLayer = this.owner.getChildByName("BarLayer"), this.fogLayer = this.owner.getChildByName("FogLayer"), this.propLayer = this.owner.getChildByName("PropLayer"), this.skillEffLayer = this.owner.getChildByName("SkillEffLayer"), this.dropLayer = this.owner.getChildByName("DropLayer"), this.gridSize = C.GridSize, this.initViewLayer(), this.initHealZoneEffects(), t.mapMgr.groundLayer = this.groundLayer, t.mapMgr.viewLayer = this.viewLayer, t.mapMgr.buildLayer = this.buildLayer, t.mapMgr.playerLayer = this.playerLayer, t.mapMgr.bulletLayer = this.bulletLayer, t.mapMgr.effectLayer = this.effectLayer, t.mapMgr.hunterLayer = this.hunterLayer, t.mapMgr.petLayer = this.petLayer, t.mapMgr.barLayer = this.barLayer, t.mapMgr.fogLayer = this.fogLayer, t.mapMgr.propLayer = this.propLayer, t.mapMgr.skillEffLayer = this.skillEffLayer, t.mapMgr.lowLayer = this.lowLayer, t.mapMgr.buildCdLayer = this.buildCdLayer, t.mapMgr.dropLayer = this.dropLayer, t.mapMgr.buildMoveLayer = this.buildMoveLayer
+                this.groundLayer = this.owner.getChildByName("GroundLayer"), 
+                this.lowLayer = this.owner.getChildByName("LowLayer"), 
+                this.buildCdLayer = this.owner.getChildByName("BuildCdLayer"), 
+                this.viewLayer = this.owner.getChildByName("ViewLayer"), 
+                this.buildLayer = this.owner.getChildByName("BuildLayer"), 
+                this.buildMoveLayer = this.owner.getChildByName("BuildMoveLayer"), 
+                this.playerLayer = this.owner.getChildByName("PlayerLayer"), 
+                this.bulletLayer = this.owner.getChildByName("BulletLayer"), 
+                this.effectLayer = this.owner.getChildByName("EffectLayer"), 
+                this.hunterLayer = this.owner.getChildByName("HunterLayer"), 
+                this.petLayer = this.owner.getChildByName("PetLayer"), 
+                this.barLayer = this.owner.getChildByName("BarLayer"), 
+                this.fogLayer = this.owner.getChildByName("FogLayer"), 
+                this.propLayer = this.owner.getChildByName("PropLayer"), 
+                this.skillEffLayer = this.owner.getChildByName("SkillEffLayer"), 
+                this.dropLayer = this.owner.getChildByName("DropLayer"), 
+                this.gridSize = C.GridSize, 
+                this.initViewLayer(), 
+                this.initHealZoneEffects(), 
+                t.mapMgr.groundLayer = this.groundLayer, 
+                t.mapMgr.viewLayer = this.viewLayer, 
+                t.mapMgr.buildLayer = this.buildLayer, 
+                t.mapMgr.playerLayer = this.playerLayer, 
+                t.mapMgr.bulletLayer = this.bulletLayer, 
+                t.mapMgr.effectLayer = this.effectLayer, 
+                t.mapMgr.hunterLayer = this.hunterLayer, 
+                t.mapMgr.petLayer = this.petLayer,
+                t.mapMgr.barLayer = this.barLayer, 
+                t.mapMgr.fogLayer = this.fogLayer, 
+                t.mapMgr.propLayer = this.propLayer, 
+                t.mapMgr.skillEffLayer = this.skillEffLayer, 
+                t.mapMgr.lowLayer = this.lowLayer, 
+                t.mapMgr.buildCdLayer = this.buildCdLayer, 
+                t.mapMgr.dropLayer = this.dropLayer, 
+                t.mapMgr.buildMoveLayer = this.buildMoveLayer
             }
             initViewLayer() {
-                let e = t.mapMgr.views;
-                for (const i of e) {
-                    let e = i.image,
+                let views = t.mapMgr.views;
+                for (const view of views) {
+                    let e = view.image,
                         s = new Laya.Image(e);
                     this.viewLayer.addChild(s);
-                    let a = t.mapMgr.gridPosToMapPos(i.x, i.y);
-                    a.x -= C.GridHalfSize, a.y -= C.GridHalfSize, s.pos(a.x, a.y), this.views[i.x] || (this.views[i.x] = []), this.views[i.x][i.y] = s
+                    let a = t.mapMgr.gridPosToMapPos(view.x, view.y);
+                    a.x -= C.GridHalfSize, 
+                    a.y -= C.GridHalfSize, 
+                    s.pos(a.x, a.y), 
+                    this.views[view.x] || (this.views[view.x] = []), 
+                    this.views[view.x][view.y] = s
                 }
             }
             hideRoomView(e) {
@@ -8107,12 +8148,16 @@ define("js/bundle.js", function(require, module, exports) {
                     t = Math.max(0 - this.node.x + Laya.stage.width, 0),
                     i = Math.max(0 - this.node.y, 0),
                     s = Math.max(0 - this.node.y + Laya.stage.height, 0);
-                this.curRange.minX = Math.floor(e / this.gridSize), this.curRange.maxX = Math.floor(t / this.gridSize), this.curRange.minY = Math.floor(i / this.gridSize), this.curRange.maxY = Math.floor(s / this.gridSize), this.hideOutGround(), this.showInGround(), this.preRange || (this.preRange = new Ki), this.preRange.from(this.curRange)
+                this.curRange.minX = Math.floor(e / this.gridSize), this.curRange.maxX = Math.floor(t / this.gridSize), 
+                this.curRange.minY = Math.floor(i / this.gridSize), this.curRange.maxY = Math.floor(s / this.gridSize), this.hideOutGround(), 
+                this.showInGround(), 
+                this.preRange || (this.preRange = new Ki), this.preRange.from(this.curRange)
             }
             hideOutGround() {
                 if (this.preRange && !this.preRange.equal(this.curRange))
                     for (let e = this.preRange.minY; e <= this.preRange.maxY; ++e)
-                        for (let t = this.preRange.minX; t <= this.preRange.maxX; ++t) !this.isGridPosInMap(e, t) && this.displayGrounds[e][t] && (this.recoverGroundImg(this.displayGrounds[e][t]), this.displayGrounds[e][t] = null)
+                        for (let t = this.preRange.minX; t <= this.preRange.maxX; ++t) 
+                            !this.isGridPosInMap(e, t) && this.displayGrounds[e][t] && (this.recoverGroundImg(this.displayGrounds[e][t]), this.displayGrounds[e][t] = null)
             }
             updateGround(e, t) {
                 this.displayGrounds[e][t] && (this.recoverGroundImg(this.displayGrounds[e][t]), this.displayGrounds[e][t] = null);
@@ -8134,7 +8179,23 @@ define("js/bundle.js", function(require, module, exports) {
             }
             createGroundImg(e, i) {
                 let s, a = t.mapMgr.getTiledInfo(e, i);
-                if (a) return this.groundPool.length > 0 ? s = this.groundPool.pop() : (s = new Laya.Image, this.groundLayer.addChild(s), s.size(this.gridSize + 1, this.gridSize + 1), s.anchorX = s.anchorY = .5), s && !s.destroyed || (s = new Laya.Image, this.groundLayer.addChild(s), s.size(this.gridSize + 1, this.gridSize + 1), s.anchorX = s.anchorY = .5), s.visible = !0, s.pos((i + .5) * this.gridSize, (e + .5) * this.gridSize), s.rotation = a.groundRot, s.name = a.groundBlock, s.skin = `res/map/${a.groundBlock}.png`, s
+                if (a) {
+                    if(this.groundPool.length > 0) {
+                        s = this.groundPool.pop()
+                    }else{
+                        s = new Laya.Image
+                        this.groundLayer.addChild(s)
+                        s.size(this.gridSize + 1, this.gridSize + 1) 
+                        s.anchorX = s.anchorY = .5
+                    }
+                    s && !s.destroyed || (s = new Laya.Image, this.groundLayer.addChild(s), s.size(this.gridSize + 1, this.gridSize + 1), s.anchorX = s.anchorY = .5)
+                    s.visible = !0, 
+                    s.pos((i + .5) * this.gridSize, (e + .5) * this.gridSize)
+                    s.rotation = a.groundRot, 
+                    s.name = a.groundBlock, 
+                    s.skin = `res/map/${a.groundBlock}.png`
+                }
+                return s
             }
             recoverGroundImg(e) {
                 e.visible = !1, this.groundPool.push(e)
@@ -8217,7 +8278,12 @@ define("js/bundle.js", function(require, module, exports) {
                 this.updateSign && this.updateArea()
             }
             lookAtSmoothly(e, i, s = 200, a) {
-                this.lookPos.setValue(e, i), e = Laya.stage.width / 2 - e, i = Laya.stage.height / 2 - i, this.updateSign = !0, t.gameMgr.inputScript.canHandle = !1, Laya.Tween.to(this.node, {
+                this.lookPos.setValue(e, i), 
+                e = Laya.stage.width / 2 - e, 
+                i = Laya.stage.height / 2 - i, 
+                this.updateSign = !0, 
+                t.gameMgr.inputScript.canHandle = !1, 
+                Laya.Tween.to(this.node, {
                     x: e,
                     y: i
                 }, s, null, Laya.Handler.create(this, () => {
@@ -9146,7 +9212,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = t.user.gameInfo;
                 this.inputScript = t.gameMgr.inputScript, this.inputScript.downHandler = new Laya.Handler(this, this.onDown, null, !1), this.inputScript.moveHandler = new Laya.Handler(this, this.onInputMove, null, !1), this.inputScript.clickHandler = new Laya.Handler(this, this.onClickMap, null, !1);
                 let i = this.owner.getChildByName("MapNode");
-                t.mapMgr.mapNode = i, this.map = t.gameMgr.mapScript = i.addComponent($i), this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), Ci.init(), t.bulletMgr.init(i.getChildByName("BulletLayer")), t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), this.initEvents(), this.initMapBuild(), this.initBuildings(), this.initDefenders(), this.initHunters(), this.firstPlay(), this.onInit();
+                t.mapMgr.mapNode = i, this.map = t.gameMgr.mapScript = i.addComponent(XMapScript), this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), Ci.init(), t.bulletMgr.init(i.getChildByName("BulletLayer")), t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), this.initEvents(), this.initMapBuild(), this.initBuildings(), this.initDefenders(), this.initHunters(), this.firstPlay(), this.onInit();
                 let s = fx.Utils.isNotchScreenDevice();
                 if (s && (s.notchTop && (this.node.top = -s.notchTop), s.notchBottom && (this.node.bottom = -s.notchBottom)), e.failCnt + e.winCnt < 3) {
                     this.img_guideHand = new Laya.Image("res/game/guide/finger1.png"), this.img_guideHand.pivotX = 26, this.img_guideHand.pivotY = 12, t.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
@@ -10490,7 +10556,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.ui.close(this), t.gameMgr.canChooseBuff && t.gameMgr.isChooseBuff() && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))
             }
         }
-        class vs extends e.ui.scenes.view.HunterMatchingViewUI {
+        class XHunterMatchingViewUI extends e.ui.scenes.view.HunterMatchingViewUI {
             constructor(e, t) {
                 super(), this.idxArr = [0, 1, 2, 3, 4, 5], this.matchingtime = 0, t && (this.gameMode = t.mode)
             }
@@ -10501,7 +10567,10 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = new XPlayerModel;
                 a.type = e.PlayerType.E_Hunter, a.uuid = fx.Utils.createUUID(), a.name = "自己";
                 let n = t.cfg.hunterCfg;
-                a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], this.defenderArr = [null, null, null, null, null, null], this.hunterArr = [a], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), this.lb_hunterName.text = "自己", this.img_people.visible = !1, this.updateHunter(), this.initList()
+                a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], this.defenderArr = [null, null, null, null, null, null], this.hunterArr = [a], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), 
+                this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), 
+                Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), 
+                this.lb_hunterName.text = "自己", this.img_people.visible = !1, this.updateHunter(), this.initList()
             }
             initList() {
                 this.list_list.array = this.defenderArr, this.list_list.renderHandler = new Laya.Handler(this, this.updateItem)
@@ -11319,7 +11388,7 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.ClassUtils.regClass(l.SettingDialog, ge), 
                 Laya.ClassUtils.regClass(l.GameEndBoxDialog, oe), 
                 Laya.ClassUtils.regClass(l.MatchingView, XMatchingView), 
-                Laya.ClassUtils.regClass(l.HunterMatchingView, vs), 
+                Laya.ClassUtils.regClass(l.HunterMatchingView, XHunterMatchingViewUI), 
                 Laya.ClassUtils.regClass(l.ShopDialog, ce), 
                 Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), 
                 Laya.ClassUtils.regClass(l.RankView, bs), 
@@ -13361,7 +13430,7 @@ define("js/bundle.js", function(require, module, exports) {
         class XCfgMgr {
             constructor() {
                 this.constant = fx.CfgMgr.instance.get("constant"), 
-                this.map = new fx.BaseDataModel("mapCfg", Mt), 
+                this.map = new fx.BaseDataModel("mapCfg", XMapCfg), 
                 this.skin = new fx.BaseDataModel("skinCfg", vt), 
                 this.buildCreate = new fx.BaseDataModel("buildCreateCfg", Bt), this.hunterCfg = fx.CfgMgr.instance.get("hunterCfg"), 
                 this.hunterDifficultCfg = new fx.BaseDataModel("hunterDifficultCfg", Et), 
@@ -18428,7 +18497,32 @@ define("js/bundle.js", function(require, module, exports) {
                 e = Number(e), !isNaN(e) && e && (t.user.gameInfo.inviteCnt += e)
             }
         }
-        qn.sDisableGpu = !1, qn.logsArray = [], qn.logs = [], na([zn("显示性能面板")], qn, "showStat", null), na([zn("隐藏性能面板")], qn, "hideStat", null), na([zn("发送日志到内网FTP--\x3ehttp://192.168.0.179/logs/")], qn, "postLog", null), na([zn("禁用内存过高提示")], qn, "disableGPUTips", null), na([zn("清除存档数据")], qn, "clearStorage", null), na([zn("跳过广告")], qn, "skipAd", null), na([zn("猎梦者模式加地图装备")], qn, "addMapEquip", null), na([zn("猎梦者升级")], qn, "hunterUpgrade", null), na([zn("猎梦者使用阎罗降世")], qn, "useYanluo", null), na([zn("加钱")], qn, "addCoin", null), na([zn("根据buildId建造")], qn, "buildById", null), na([zn("根据Id建造特殊炮台")], qn, "specialById", null), na([zn("设置地图")], qn, "setMap", null), na([zn("获得铜币")], qn, "getCoin", null), na([zn("获得天师令")], qn, "getTian", null), na([zn("打开结算宝箱界面(游戏内打开)")], qn, "openGameEndBox", null), na([zn("打开Buff选取")], qn, "openBuffChoose", null), na([zn("根据id加buff")], qn, "addBuffById", null), na([zn("快速匹配")], qn, "setQuickMatch", null), na([zn("增加黑店道具")], qn, "addAllPrize", null), na([zn("难度选择")], qn, "chooseDifficult", null), na([zn("打开胜利")], qn, "openWin", null), na([zn("打开失败")], qn, "openFail", null), na([zn("噬魂者难度选择")], qn, "chooseHunterDifficult", null), na([zn("打开噬魂者胜利")], qn, "openHunterWin", null), na([zn("打开噬魂者失败")], qn, "openHunterFail", null), na([zn("新的一天")], qn, "newDay", null), na([zn("打开每日分享")], qn, "openDailyShare", null), na([zn("解锁Buff")], qn, "unlockBuff", null), na([zn("加buff数量")], qn, "addBuff", null), na([zn("打开难度选择")], qn, "openChooseLv", null), na([zn("挑战模式难度选择")], qn, "chooseSeven", null), na([zn("打开挑战模式胜利")], qn, "openSevenWin", null), na([zn("打开挑战模式失败")], qn, "openSevenFail", null), na([zn("解锁皮肤")], qn, "unlockSkin", null), na([zn("加邀请新玩家数量")], qn, "addInviteCnt", null);
+        qn.sDisableGpu = !1, qn.logsArray = [], qn.logs = [] 
+        na([zn("显示性能面板")], qn, "showStat", null) 
+        na([zn("隐藏性能面板")], qn, "hideStat", null) 
+        na([zn("发送日志到内网FTP--\x3ehttp://192.168.0.179/logs/")], qn, "postLog", null)
+        na([zn("禁用内存过高提示")], qn, "disableGPUTips", null)
+        na([zn("清除存档数据")], qn, "clearStorage", null)
+        na([zn("跳过广告")], qn, "skipAd", null)
+        na([zn("猎梦者模式加地图装备")], qn, "addMapEquip", null)
+        na([zn("猎梦者升级")], qn, "hunterUpgrade", null)
+        na([zn("猎梦者使用阎罗降世")], qn, "useYanluo", null)
+        na([zn("加钱")], qn, "addCoin", null)
+        na([zn("根据buildId建造")], qn, "buildById", null)
+        na([zn("根据Id建造特殊炮台")], qn, "specialById", null)
+        na([zn("设置地图")], qn, "setMap", null)
+        na([zn("获得铜币")], qn, "getCoin", null)
+        na([zn("获得天师令")], qn, "getTian", null)
+        na([zn("打开结算宝箱界面(游戏内打开)")], qn, "openGameEndBox", null) 
+        na([zn("打开Buff选取")], qn, "openBuffChoose", null)
+        na([zn("根据id加buff")], qn, "addBuffById", null)
+        na([zn("快速匹配")], qn, "setQuickMatch", null), na([zn("增加黑店道具")], qn, "addAllPrize", null), na([zn("难度选择")], qn, "chooseDifficult", null), 
+        na([zn("打开胜利")], qn, "openWin", null), na([zn("打开失败")], qn, "openFail", null), na([zn("噬魂者难度选择")], qn, "chooseHunterDifficult", null), 
+        na([zn("打开噬魂者胜利")], qn, "openHunterWin", null), na([zn("打开噬魂者失败")], qn, "openHunterFail", null), na([zn("新的一天")], qn, "newDay", null), 
+        na([zn("打开每日分享")], qn, "openDailyShare", null), na([zn("解锁Buff")], qn, "unlockBuff", null), na([zn("加buff数量")], qn, "addBuff", null), 
+        na([zn("打开难度选择")], qn, "openChooseLv", null), na([zn("挑战模式难度选择")], qn, "chooseSeven", null), 
+        na([zn("打开挑战模式胜利")], qn, "openSevenWin", null), na([zn("打开挑战模式失败")], qn, "openSevenFail", null), 
+        na([zn("解锁皮肤")], qn, "unlockSkin", null), na([zn("加邀请新玩家数量")], qn, "addInviteCnt", null);
         new class extends fx.AppBase {
             constructor() {
                 Laya.isWXPlayable = !1, Laya.Laya.isWXPlayable = !1;
@@ -19027,7 +19121,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, 
         e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
         e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, 
-        e.HunterFailDialog = xs, e.HunterMatchingView = vs, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
+        e.HunterFailDialog = xs, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
         e.HunterUnlockDialog = Ts, e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
@@ -19249,7 +19343,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = LanguageMgr.instance.getLabel(this._key, this._params);
                 this.text = e
             }
-        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = Wi, e.MainScene = Cs, e.MapBuildingScript = an, e.MapCfg = Mt, e.MapEquipScript = nn, e.MapManager = MapMgr, e.MapScript = $i, e.Markup = tr, e.MarkupList = class extends tr {
+        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = Wi, e.MainScene = Cs, e.MapBuildingScript = an, e.MapCfg = XMapCfg, 
+        e.MapEquipScript = nn, e.MapManager = MapMgr, 
+        e.MapScript = XMapScript, e.Markup = tr, e.MarkupList = class extends tr {
             constructor(e) {
                 super(e), this._list = []
             }
@@ -19385,7 +19481,8 @@ define("js/bundle.js", function(require, module, exports) {
             enterGame() {
                 t.cfg.map.get(19)
             }
-        }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = St, e.PoisonSpringTowerScript = ji, e.PolygonSeparator = class {
+        }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
+        e.PoisonSpringTowerScript = ji, e.PolygonSeparator = class {
             static At(e, t) {
                 var i = t.length;
                 return t[e < 0 ? i - -e % i : e % i]

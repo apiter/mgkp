@@ -1,6 +1,6 @@
 import { assetManager, JsonAsset, log } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapDataItem } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapData } from "./XCfgData"
 import { XSkinType } from "./XEnum"
 import XUtil from "../xutil/XUtil"
 
@@ -15,7 +15,7 @@ class BaseDataModel {
 export default class XCfgMgr {
 
     mapCfg: Map<string, XCfgMapCfgItem>
-    mapDatas: Map<string, Map<string, XCfgMapDataItem>> = new Map()
+    mapDatas: Map<string, XCfgMapData> = new Map()
     skin: Map<string, XCfgSkinData>
     difficultCfg: Map<string, XCfgDifficultyItem>
     buffCfg: Map<string, XCfgBuffItem>
@@ -65,7 +65,7 @@ export default class XCfgMgr {
                         jsonEle.json && this.allCfgMap.set(element.name, jsonEle.json as Map<string, any>)
                     });
 
-                    this.mapCfg = this.allCfgMap.get("mapCfg")
+                    this.mapCfg = XUtil.objectToMap<string, XCfgMapCfgItem>(this.allCfgMap.get("mapCfg"))
                     this.difficultCfg = this.allCfgMap.get("difficultCfg")
                     this.skin = XUtil.objectToMap<string, XCfgSkinData>(this.allCfgMap.get("skinCfg"))
                     this.buffCfg = this.allCfgMap.get("buffCfg_test")
@@ -100,8 +100,8 @@ export default class XCfgMgr {
                     }
                     assets.forEach(element => {
                         const jsonEle = element as JsonAsset
-                        const data = XUtil.objectToMap<string, XCfgMapDataItem>(jsonEle.json)
-                        this.mapDatas.set(element.name, data)
+                        // const data = XUtil.objectToMap<string, XCfgMapData>(jsonEle.json)
+                        this.mapDatas.set(element.name, jsonEle.json as XCfgMapData)
                     });
                     resolve()
                 })

@@ -8,7 +8,7 @@ import EventCenter from "../event/EventCenter"
 import { XEventNames } from "../event/XEventNames"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
-import { XCfgMapCfgItem, XCfgMapDataItem } from "../xconfig/XCfgData"
+import { XCfgMapCfgItem, XCfgMapData } from "../xconfig/XCfgData"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -69,7 +69,7 @@ export class XBatleMgr implements ISchedulable {
         this.diff = arr_arr[idx1][idx2]
     }
 
-    match(gameMode_: XGameMode, defenderArr_: XPlayerModel[], hunterArr_: XPlayerModel[], mapCfg_: XCfgMapCfgItem, mapData_: XCfgMapDataItem) {
+    match(gameMode_: XGameMode, defenderArr_: XPlayerModel[], hunterArr_: XPlayerModel[], mapCfg_: XCfgMapCfgItem, mapData_: XCfgMapData) {
         let matchData = new XMatchData;
         matchData.gameMode = gameMode_
         matchData.mapCfg = mapCfg_
@@ -111,7 +111,7 @@ export class XBatleMgr implements ISchedulable {
         this.gameMode = matchData_.gameMode
         this.mapCfg = matchData_.mapCfg
         XMgr.playerMgr.init(matchData_)
-        XMgr.mapMgr.init(matchData_.mapData, 0)
+        XMgr.mapMgr.init(matchData_.mapData)
         XMgr.buildingMgr.init()
         // t.taskMgr.init()
         this.startTime = XMgr.gameTime.getTime()

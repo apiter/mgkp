@@ -1,4 +1,4 @@
-import { math, Rect, v2, Vec2, view } from "cc"
+import { log, math, Rect, v2, Vec2, view } from "cc"
 import { XConst } from "../xconfig/XConst"
 import { XGrid } from "./XGrid"
 import { XRoomModel } from "../model/XRoomModel"
@@ -6,7 +6,7 @@ import { XV2Util01 } from "../xutil/XV2Util01"
 import { XRandomUtil } from "../xutil/XRandomUtil"
 import XAStar from "./XAStar"
 import XUtil from "../xutil/XUtil"
-import { XCfgMapDataItem } from "../xconfig/XCfgData"
+import { XCfgMapData } from "../xconfig/XCfgData"
 
 class XTiledInfo {
     x: number = 0
@@ -51,9 +51,9 @@ export class XMapMgr {
     _tileSets = null
     _mapNode = null
 
-    init(mapData_: XCfgMapDataItem, t) {
+    init(mapData_: XCfgMapData) {
         this.outBuildings = []
-        this.parseData(mapData_, t)
+        this.parseData(mapData_)
         this._grid = new XGrid(this._height, this._width);
         for (let h = 0; h < this._height; h++)
             for (let w = 0; w < this._width; w++) {
@@ -69,7 +69,7 @@ export class XMapMgr {
             maxY: this._height * XConst.GridSize
         };
     }
-    parseData(mapData_: XCfgMapDataItem, t) {
+    parseData(mapData_: XCfgMapData) {
         this._width = mapData_.width
         this._height = mapData_.height
         this._tileSets = this.getTilesets(mapData_)
@@ -88,7 +88,12 @@ export class XMapMgr {
                 this._mapBuildPoints.push(new Vec2(obj.x, obj.y));
             else if ("MapEquipPoint" == obj.type) {
                 let t = obj.name.split("-");
-                t[1] && ("1" == t[1] ? (this._mapEquipPoints[0] || (this._mapEquipPoints[0] = []), this._mapEquipPoints[0].push(new Vec2(obj.x, obj.y))) : "2" == t[1] ? (this._mapEquipPoints[1] || (this._mapEquipPoints[1] = []), this._mapEquipPoints[1].push(new Vec2(obj.x, obj.y))) : "3" == t[1] ? (this._mapEquipPoints[2] || (this._mapEquipPoints[2] = []), this._mapEquipPoints[2].push(new Vec2(obj.x, obj.y))) : "4" == t[1] && (this._mapEquipPoints[3] || (this._mapEquipPoints[3] = []), this._mapEquipPoints[3].push(new Vec2(obj.x, obj.y))))
+                if (t[1]) {
+                    const index = parseInt(t[1], 10) - 1;
+                    if (index >= 0 && index <= 3) {
+                        (this._mapEquipPoints[index] ??= []).push(new Vec2(obj.x, obj.y));
+                    }
+                }
             } else if (-1 != obj.name.indexOf("Room")) {
                 let s = obj.name.replace("Room_", ""),
                     a = Number(s);
@@ -142,6 +147,7 @@ export class XMapMgr {
                     this._buildings.push(tiledInfo)
                 }
                 this._tiledMap[h][w] = tiledInfo
+                // log("ground block:", tiledInfo.groundBlock)
             }
         }
     }

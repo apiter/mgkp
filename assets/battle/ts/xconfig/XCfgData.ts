@@ -48,7 +48,7 @@ export interface XCfgMapCfgItem {
     hideRoomCnt:number;
 }
 
-export interface XCfgMapDataItem {
+export interface XCfgMapData {
     compressionlevel:number,
     height:number,
     layers:any[],
