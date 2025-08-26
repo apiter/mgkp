@@ -1,0 +1,48 @@
+
+yingmuhuadao.png
+size: 433,239
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beishubao_body
+  rotate: false
+  xy: 2, 36
+  size: 129, 201
+  orig: 131, 201
+  offset: 2, 0
+  index: -1
+beishubao_hand1
+  rotate: true
+  xy: 268, 158
+  size: 79, 162
+  orig: 79, 162
+  offset: 0, 0
+  index: -1
+beishubao_hand2
+  rotate: true
+  xy: 268, 88
+  size: 68, 163
+  orig: 68, 163
+  offset: 0, 0
+  index: -1
+beishubao_head
+  rotate: false
+  xy: 133, 80
+  size: 133, 157
+  orig: 133, 157
+  offset: 0, 0
+  index: -1
+beishubao_tui1
+  rotate: true
+  xy: 133, 2
+  size: 76, 145
+  orig: 76, 145
+  offset: 0, 0
+  index: -1
+beishubao_tui2
+  rotate: true
+  xy: 280, 13
+  size: 73, 151
+  orig: 73, 151
+  offset: 0, 0
+  index: -1

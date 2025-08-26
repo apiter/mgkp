@@ -1,0 +1,104 @@
+
+bingmayong.png
+size: 673,299
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bingmayong_body
+  rotate: false
+  xy: 120, 105
+  size: 100, 192
+  orig: 106, 198
+  offset: 3, 3
+  index: -1
+bingmayong_hand1
+  rotate: false
+  xy: 570, 3
+  size: 70, 123
+  orig: 76, 129
+  offset: 3, 3
+  index: -1
+bingmayong_hand2
+  rotate: true
+  xy: 2, 6
+  size: 65, 124
+  orig: 71, 130
+  offset: 3, 3
+  index: -1
+bingmayong_head
+  rotate: false
+  xy: 486, 128
+  size: 89, 71
+  orig: 95, 77
+  offset: 3, 3
+  index: -1
+bingmayong_tui1
+  rotate: false
+  xy: 632, 149
+  size: 39, 50
+  orig: 45, 56
+  offset: 3, 3
+  index: -1
+bingmayong_tui2
+  rotate: false
+  xy: 577, 143
+  size: 53, 56
+  orig: 53, 56
+  offset: 0, 0
+  index: -1
+dianju
+  rotate: false
+  xy: 222, 126
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: true
+  xy: 442, 204
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: false
+  xy: 2, 73
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: true
+  xy: 570, 201
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+liandao
+  rotate: true
+  xy: 128, 2
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: true
+  xy: 353, 128
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+wenzi
+  rotate: false
+  xy: 353, 202
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+zhaohunfan
+  rotate: true
+  xy: 272, 14
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

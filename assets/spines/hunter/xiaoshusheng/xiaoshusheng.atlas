@@ -1,0 +1,132 @@
+
+xiaoshusheng.png
+size: 277,794
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xiaoshusheng_bi
+  rotate: true
+  xy: 135, 42
+  size: 25, 78
+  orig: 25, 78
+  offset: 0, 0
+  index: -1
+xiaoshusheng_bi1
+  rotate: true
+  xy: 2, 30
+  size: 25, 78
+  orig: 25, 78
+  offset: 0, 0
+  index: -1
+xiaoshusheng_body
+  rotate: false
+  xy: 143, 213
+  size: 131, 279
+  orig: 131, 279
+  offset: 0, 0
+  index: -1
+xiaoshusheng_body1
+  rotate: false
+  xy: 2, 57
+  size: 131, 279
+  orig: 131, 279
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hair1
+  rotate: false
+  xy: 227, 2
+  size: 33, 73
+  orig: 33, 73
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hair2
+  rotate: true
+  xy: 135, 183
+  size: 28, 131
+  orig: 28, 131
+  offset: 0, 0
+  index: -1
+xiaoshusheng_han3
+  rotate: true
+  xy: 2, 421
+  size: 81, 139
+  orig: 81, 139
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand1
+  rotate: true
+  xy: 179, 545
+  size: 49, 91
+  orig: 49, 91
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand11
+  rotate: true
+  xy: 179, 494
+  size: 49, 91
+  orig: 49, 91
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand2
+  rotate: true
+  xy: 135, 126
+  size: 55, 90
+  orig: 55, 90
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand21
+  rotate: true
+  xy: 135, 69
+  size: 55, 90
+  orig: 55, 90
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand31
+  rotate: true
+  xy: 2, 338
+  size: 81, 139
+  orig: 81, 139
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand4
+  rotate: false
+  xy: 179, 695
+  size: 96, 97
+  orig: 96, 97
+  offset: 0, 0
+  index: -1
+xiaoshusheng_hand41
+  rotate: false
+  xy: 179, 596
+  size: 96, 97
+  orig: 96, 97
+  offset: 0, 0
+  index: -1
+xiaoshusheng_head
+  rotate: true
+  xy: 2, 649
+  size: 143, 175
+  orig: 143, 175
+  offset: 0, 0
+  index: -1
+xiaoshusheng_head1
+  rotate: true
+  xy: 2, 504
+  size: 143, 175
+  orig: 143, 175
+  offset: 0, 0
+  index: -1
+xiaoshusheng_jiao1
+  rotate: false
+  xy: 227, 130
+  size: 42, 51
+  orig: 42, 51
+  offset: 0, 0
+  index: -1
+xiaoshusheng_jiao2
+  rotate: false
+  xy: 227, 77
+  size: 42, 51
+  orig: 42, 51
+  offset: 0, 0
+  index: -1

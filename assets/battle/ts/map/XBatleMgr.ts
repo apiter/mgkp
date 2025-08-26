@@ -8,7 +8,7 @@ import EventCenter from "../event/EventCenter"
 import { XEventNames } from "../event/XEventNames"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
-import { XCfgMapCfgItem, XCfgMapData } from "../xconfig/XCfgData"
+import { XCfgMapCfgItem, XCfgMapData, XDifficultCfgItem } from "../xconfig/XCfgData"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -45,7 +45,7 @@ export class XBatleMgr implements ISchedulable {
     aiRatios = []
     aiMultArr = []
     curHunterAtkTarget = null
-    dCfg
+    dCfg:XDifficultCfgItem
     playerNames: string[] = []
 
     constructor() {
@@ -322,14 +322,14 @@ export class XBatleMgr implements ISchedulable {
         }
     }
     upBed(i, s, a) {
-        let n = XMgr.playerMgr.getPlayer(a);
+        let playModel = XMgr.playerMgr.getPlayer(a);
         let r = XMgr.buildingMgr.getBuilding(i, s);
 
         if (r && r.type == XBuildType.bed && XMgr.buildingMgr.getRoom(r.roomId)) {
             if (r.isUsed) {
                 return XBuildResult.E_BED_IS_USED;
             } else {
-                return XMgr.buildingMgr.upBed(i, s, n);
+                return XMgr.buildingMgr.upBed(i, s, playModel);
             }
         }
         return XBuildResult.E_FAILD;

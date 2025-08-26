@@ -4,8 +4,8 @@ import XMgr from '../XMgr';
 import { XConst } from '../xconfig/XConst';
 const { ccclass, property } = _decorator;
 
-@ccclass('XGroundView')
-export class XGroundView extends Component {
+@ccclass('XMapView')
+export class XMapView extends Component {
     @property(SpriteAtlas)
     mapAtlas: SpriteAtlas = null
 
@@ -14,21 +14,24 @@ export class XGroundView extends Component {
 
     @property(Node)
     groundLayer: Node = null
+    @property(Node)
+    buildLayer: Node = null
+    @property(Node)
+    buildMoveLayer: Node = null
+    @property(Node)
+    playerLayer:Node = null
 
-    protected onLoad(): void {
-    }
-
-    async start() {
-        await XBattleEntrance.loadRes()
-
+    init() {
         const width = XMgr.mapMgr.width
         const height = XMgr.mapMgr.height
+        this.node.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
         this.groundLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        
+
         this.createGround()
     }
 
     private createGround() {
+        //TODO in view only
         const width = XMgr.mapMgr.width
         const height = XMgr.mapMgr.height
         for (let h = 0; h < height; h++) {

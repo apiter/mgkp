@@ -1,0 +1,111 @@
+
+jiangshi.png
+size: 467,508
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dianju
+  rotate: false
+  xy: 2, 37
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: true
+  xy: 213, 94
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: false
+  xy: 246, 282
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: true
+  xy: 364, 266
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+jiangshi_ body
+  rotate: false
+  xy: 114, 279
+  size: 130, 227
+  orig: 130, 227
+  offset: 0, 0
+  index: -1
+jiangshi_fu
+  rotate: true
+  xy: 2, 2
+  size: 33, 73
+  orig: 34, 73
+  offset: 1, 0
+  index: -1
+jiangshi_hand1
+  rotate: false
+  xy: 114, 215
+  size: 134, 62
+  orig: 136, 64
+  offset: 1, 1
+  index: -1
+jiangshi_hand2
+  rotate: false
+  xy: 213, 14
+  size: 135, 78
+  orig: 137, 80
+  offset: 1, 1
+  index: -1
+jiangshi_head
+  rotate: true
+  xy: 250, 189
+  size: 91, 109
+  orig: 97, 115
+  offset: 3, 3
+  index: -1
+jiangshi_shou
+  rotate: true
+  xy: 133, 63
+  size: 150, 78
+  orig: 152, 80
+  offset: 1, 1
+  index: -1
+jiangshi_tui
+  rotate: true
+  xy: 423, 119
+  size: 56, 40
+  orig: 58, 42
+  offset: 1, 1
+  index: -1
+liandao
+  rotate: false
+  xy: 364, 364
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: false
+  xy: 350, 44
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+wenzi
+  rotate: true
+  xy: 361, 177
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+zhaohunfan
+  rotate: false
+  xy: 2, 210
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

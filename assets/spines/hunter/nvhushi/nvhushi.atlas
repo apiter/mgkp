@@ -1,0 +1,118 @@
+
+nvhushi.png
+size: 365,540
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dianju
+  rotate: false
+  xy: 228, 180
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: false
+  xy: 83, 35
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: true
+  xy: 2, 310
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: false
+  xy: 178, 40
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+liandao
+  rotate: true
+  xy: 83, 207
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: true
+  xy: 228, 353
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+nvhushi_body
+  rotate: false
+  xy: 2, 35
+  size: 79, 143
+  orig: 84, 147
+  offset: 3, 2
+  index: -1
+nvhushi_hair1
+  rotate: false
+  xy: 83, 163
+  size: 28, 42
+  orig: 28, 42
+  offset: 0, 0
+  index: -1
+nvhushi_hair2
+  rotate: true
+  xy: 2, 181
+  size: 24, 44
+  orig: 24, 44
+  offset: 0, 0
+  index: -1
+nvhushi_hand1
+  rotate: true
+  xy: 228, 141
+  size: 37, 119
+  orig: 37, 119
+  offset: 0, 0
+  index: -1
+nvhushi_hand2
+  rotate: false
+  xy: 300, 426
+  size: 50, 112
+  orig: 51, 116
+  offset: 0, 2
+  index: -1
+nvhushi_head
+  rotate: false
+  xy: 2, 217
+  size: 77, 91
+  orig: 79, 93
+  offset: 1, 1
+  index: -1
+nvhushi_tui1
+  rotate: true
+  xy: 2, 2
+  size: 31, 113
+  orig: 33, 115
+  offset: 0, 0
+  index: -1
+nvhushi_tui2
+  rotate: true
+  xy: 117, 174
+  size: 31, 109
+  orig: 36, 114
+  offset: 2, 3
+  index: -1
+wenzi
+  rotate: false
+  xy: 276, 44
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+zhaohunfan
+  rotate: true
+  xy: 2, 428
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

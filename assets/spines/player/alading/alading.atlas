@@ -1,0 +1,132 @@
+
+alading.png
+size: 315,500
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+alading_body
+  rotate: true
+  xy: 2, 15
+  size: 109, 128
+  orig: 109, 128
+  offset: 0, 0
+  index: -1
+alading_hand1
+  rotate: false
+  xy: 181, 10
+  size: 51, 64
+  orig: 53, 66
+  offset: 1, 1
+  index: -1
+alading_hand2
+  rotate: false
+  xy: 195, 133
+  size: 64, 55
+  orig: 66, 57
+  offset: 1, 1
+  index: -1
+alading_hand3
+  rotate: true
+  xy: 132, 2
+  size: 72, 47
+  orig: 74, 49
+  offset: 1, 1
+  index: -1
+alading_hand4
+  rotate: true
+  xy: 261, 140
+  size: 55, 51
+  orig: 57, 53
+  offset: 1, 1
+  index: -1
+alading_hand5
+  rotate: true
+  xy: 153, 336
+  size: 65, 66
+  orig: 65, 66
+  offset: 0, 0
+  index: -1
+alading_hand6
+  rotate: false
+  xy: 234, 2
+  size: 49, 38
+  orig: 49, 38
+  offset: 0, 0
+  index: -1
+alading_head
+  rotate: false
+  xy: 2, 334
+  size: 149, 164
+  orig: 151, 166
+  offset: 1, 1
+  index: -1
+alading_hu
+  rotate: false
+  xy: 132, 76
+  size: 109, 49
+  orig: 111, 51
+  offset: 1, 1
+  index: -1
+alading_maozi
+  rotate: false
+  xy: 153, 403
+  size: 155, 95
+  orig: 157, 97
+  offset: 1, 1
+  index: -1
+alading_pd1
+  rotate: true
+  xy: 221, 363
+  size: 38, 92
+  orig: 38, 92
+  offset: 0, 0
+  index: -1
+alading_pd2
+  rotate: true
+  xy: 86, 127
+  size: 51, 107
+  orig: 51, 108
+  offset: 0, 1
+  index: -1
+alading_pf1
+  rotate: true
+  xy: 231, 197
+  size: 53, 70
+  orig: 53, 70
+  offset: 0, 0
+  index: -1
+alading_pf2
+  rotate: true
+  xy: 243, 42
+  size: 89, 54
+  orig: 89, 54
+  offset: 0, 0
+  index: -1
+alading_tui1
+  rotate: false
+  xy: 2, 126
+  size: 82, 206
+  orig: 82, 207
+  offset: 0, 1
+  index: -1
+alading_tui2
+  rotate: true
+  xy: 86, 252
+  size: 80, 205
+  orig: 80, 205
+  offset: 0, 0
+  index: -1
+alading_xl
+  rotate: true
+  xy: 86, 180
+  size: 70, 74
+  orig: 70, 78
+  offset: 0, 0
+  index: -1
+alading_yumao
+  rotate: true
+  xy: 162, 190
+  size: 60, 67
+  orig: 60, 67
+  offset: 0, 0
+  index: -1

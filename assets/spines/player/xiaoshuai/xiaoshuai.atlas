@@ -1,0 +1,97 @@
+
+xiaoshuai.png
+size: 501,326
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xiaoshuai_body
+  rotate: false
+  xy: 2, 155
+  size: 150, 169
+  orig: 150, 170
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair1
+  rotate: true
+  xy: 154, 156
+  size: 67, 133
+  orig: 67, 133
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair2
+  rotate: true
+  xy: 289, 162
+  size: 61, 140
+  orig: 61, 140
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair3
+  rotate: true
+  xy: 2, 2
+  size: 56, 139
+  orig: 56, 139
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair4
+  rotate: false
+  xy: 154, 225
+  size: 172, 99
+  orig: 172, 99
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair5
+  rotate: false
+  xy: 431, 184
+  size: 58, 140
+  orig: 59, 140
+  offset: 1, 0
+  index: -1
+xiaoshuai_hand1
+  rotate: true
+  xy: 283, 15
+  size: 59, 90
+  orig: 59, 90
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand2
+  rotate: false
+  xy: 384, 238
+  size: 42, 86
+  orig: 42, 86
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand4
+  rotate: true
+  xy: 143, 2
+  size: 56, 138
+  orig: 56, 138
+  offset: 0, 0
+  index: -1
+xiaoshuai_head
+  rotate: true
+  xy: 389, 13
+  size: 147, 110
+  orig: 149, 112
+  offset: 1, 1
+  index: -1
+xiaoshuai_tui1
+  rotate: true
+  xy: 2, 60
+  size: 93, 189
+  orig: 93, 189
+  offset: 0, 0
+  index: -1
+xiaoshuai_tui2
+  rotate: true
+  xy: 193, 76
+  size: 78, 194
+  orig: 78, 194
+  offset: 0, 0
+  index: -1
+xiaoshuai_xl
+  rotate: false
+  xy: 328, 243
+  size: 54, 81
+  orig: 54, 81
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,125 @@
+
+xzs_smw.png
+size: 267,536
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xzs_body
+  rotate: true
+  xy: 2, 232
+  size: 134, 170
+  orig: 134, 170
+  offset: 0, 0
+  index: -1
+xzs_diaosui
+  rotate: false
+  xy: 174, 328
+  size: 18, 38
+  orig: 18, 38
+  offset: 0, 0
+  index: -1
+xzs_dl
+  rotate: true
+  xy: 2, 129
+  size: 101, 115
+  orig: 101, 115
+  offset: 0, 0
+  index: -1
+xzs_dl_p1
+  rotate: false
+  xy: 206, 50
+  size: 27, 61
+  orig: 27, 61
+  offset: 0, 0
+  index: -1
+xzs_dl_p2
+  rotate: false
+  xy: 178, 32
+  size: 26, 79
+  orig: 26, 79
+  offset: 0, 0
+  index: -1
+xzs_dl_w
+  rotate: true
+  xy: 174, 174
+  size: 100, 90
+  orig: 100, 90
+  offset: 0, 0
+  index: -1
+xzs_hair1
+  rotate: false
+  xy: 80, 10
+  size: 27, 117
+  orig: 27, 117
+  offset: 0, 0
+  index: -1
+xzs_hair2
+  rotate: false
+  xy: 119, 109
+  size: 39, 121
+  orig: 39, 121
+  offset: 0, 0
+  index: -1
+xzs_hand1
+  rotate: true
+  xy: 160, 113
+  size: 59, 77
+  orig: 59, 77
+  offset: 0, 0
+  index: -1
+xzs_hand2
+  rotate: true
+  xy: 2, 2
+  size: 54, 76
+  orig: 54, 76
+  offset: 0, 0
+  index: -1
+xzs_hand3
+  rotate: true
+  xy: 2, 58
+  size: 69, 76
+  orig: 69, 76
+  offset: 0, 0
+  index: -1
+xzs_hand4
+  rotate: false
+  xy: 109, 29
+  size: 67, 78
+  orig: 68, 78
+  offset: 1, 0
+  index: -1
+xzs_head
+  rotate: false
+  xy: 2, 368
+  size: 194, 166
+  orig: 194, 166
+  offset: 0, 0
+  index: -1
+xzs_piaodai1
+  rotate: false
+  xy: 242, 51
+  size: 23, 121
+  orig: 24, 121
+  offset: 1, 0
+  index: -1
+xzs_piaodai2
+  rotate: true
+  xy: 109, 3
+  size: 24, 131
+  orig: 24, 133
+  offset: 0, 2
+  index: -1
+xzs_tui1
+  rotate: false
+  xy: 198, 276
+  size: 59, 125
+  orig: 72, 125
+  offset: 0, 0
+  index: -1
+xzs_tui2
+  rotate: false
+  xy: 198, 403
+  size: 59, 131
+  orig: 59, 131
+  offset: 0, 0
+  index: -1

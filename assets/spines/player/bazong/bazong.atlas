@@ -1,0 +1,132 @@
+
+bazong.png
+size: 936,280
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bazong_body
+  rotate: true
+  xy: 787, 5
+  size: 91, 147
+  orig: 91, 147
+  offset: 0, 0
+  index: -1
+bazong_hair1
+  rotate: true
+  xy: 506, 5
+  size: 53, 66
+  orig: 53, 66
+  offset: 0, 0
+  index: -1
+bazong_hair2
+  rotate: true
+  xy: 823, 98
+  size: 75, 96
+  orig: 76, 96
+  offset: 1, 0
+  index: -1
+bazong_hair3
+  rotate: true
+  xy: 827, 175
+  size: 103, 106
+  orig: 103, 106
+  offset: 0, 0
+  index: -1
+bazong_hand1
+  rotate: true
+  xy: 426, 4
+  size: 54, 78
+  orig: 54, 78
+  offset: 0, 0
+  index: -1
+bazong_hand2
+  rotate: true
+  xy: 630, 24
+  size: 95, 155
+  orig: 95, 155
+  offset: 0, 0
+  index: -1
+bazong_hand3
+  rotate: false
+  xy: 400, 5
+  size: 24, 74
+  orig: 26, 76
+  offset: 1, 1
+  index: -1
+bazong_head
+  rotate: true
+  xy: 463, 124
+  size: 154, 189
+  orig: 156, 191
+  offset: 1, 1
+  index: -1
+bazong_jiu1
+  rotate: false
+  xy: 78, 9
+  size: 25, 33
+  orig: 25, 33
+  offset: 0, 0
+  index: -1
+bazong_jiu2
+  rotate: false
+  xy: 574, 29
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: -1
+bazong_jiubei
+  rotate: true
+  xy: 2, 4
+  size: 38, 74
+  orig: 38, 74
+  offset: 0, 0
+  index: -1
+bazong_pifeng
+  rotate: false
+  xy: 2, 44
+  size: 207, 234
+  orig: 207, 234
+  offset: 0, 0
+  index: -1
+bazong_tui1
+  rotate: true
+  xy: 211, 2
+  size: 77, 187
+  orig: 77, 187
+  offset: 0, 0
+  index: -1
+bazong_tui2
+  rotate: true
+  xy: 451, 60
+  size: 62, 177
+  orig: 62, 183
+  offset: 0, 0
+  index: -1
+bazong_yifu1
+  rotate: true
+  xy: 211, 181
+  size: 97, 250
+  orig: 97, 250
+  offset: 0, 0
+  index: -1
+bazong_yifu2
+  rotate: true
+  xy: 654, 196
+  size: 82, 171
+  orig: 82, 172
+  offset: 0, 0
+  index: -1
+bazong_yifu3
+  rotate: true
+  xy: 211, 81
+  size: 98, 238
+  orig: 98, 238
+  offset: 0, 0
+  index: -1
+bazong_yifu4
+  rotate: true
+  xy: 654, 121
+  size: 73, 167
+  orig: 73, 167
+  offset: 0, 0
+  index: -1

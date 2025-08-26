@@ -1,0 +1,55 @@
+
+aiyinsitan.png
+size: 546,281
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+aiyinsitan_body
+  rotate: true
+  xy: 2, 140
+  size: 139, 280
+  orig: 148, 280
+  offset: 9, 0
+  index: -1
+aiyinsitan_hand1
+  rotate: true
+  xy: 2, 15
+  size: 123, 274
+  orig: 123, 274
+  offset: 0, 0
+  index: -1
+aiyinsitan_hand2
+  rotate: false
+  xy: 386, 18
+  size: 90, 90
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+aiyinsitan_hand4
+  rotate: false
+  xy: 278, 15
+  size: 106, 93
+  orig: 106, 93
+  offset: 0, 0
+  index: -1
+aiyinsitan_head
+  rotate: false
+  xy: 284, 110
+  size: 222, 169
+  orig: 222, 169
+  offset: 0, 0
+  index: -1
+aiyinsitan_tui1
+  rotate: true
+  xy: 478, 56
+  size: 52, 66
+  orig: 52, 66
+  offset: 0, 0
+  index: -1
+aiyinsitan_tui2
+  rotate: true
+  xy: 478, 2
+  size: 52, 64
+  orig: 52, 64
+  offset: 0, 0
+  index: -1

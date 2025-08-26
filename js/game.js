@@ -2677,7 +2677,10 @@ define("js/bundle.js", function(require, module, exports) {
             onAwake() {
                 this.img_title.skin = `res/ui/matching/title_${this.gameMode}.png`, this.gameMode == e.GameMode.E_AngelOrGhost && (this.box_hunter.visible = !1, this.img_hBg.skin = "res/ui/matching/bg_aog.png"), this.isStart = !0, this.hunterArr = [];
                 let i = new XPlayerModel;
-                i.type = e.PlayerType.E_Defender, i.uuid = fx.Utils.createUUID(), i.name = this.randomName(), i.skinId = t.user.gameInfo.curSkinId;
+                i.type = e.PlayerType.E_Defender, 
+                i.uuid = fx.Utils.createUUID(), 
+                i.name = this.randomName(), 
+                i.skinId = t.user.gameInfo.curSkinId;
                 let s = t.user.gameInfo.getBuffData(26);
                 if (s) {
                     let e = t.cfg.buffCfg.get(26);
@@ -2720,7 +2723,8 @@ define("js/bundle.js", function(require, module, exports) {
                                 i = t.cfg.sevenGhostCfg.get(e);
                             n.skinId = i.bossId, a = 1
                         }
-                        n.attackPower = t.cfg.hunterCfg.attackList[0], n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, this.hunterArr.push(n), this.updateHunter(n)
+                        n.attackPower = t.cfg.hunterCfg.attackList[0], n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, 
+                        this.hunterArr.push(n), this.updateHunter(n)
                     } else {
                         let s = new XPlayerModel;
                         s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), 
@@ -3359,10 +3363,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         XAttackAction.NAME = "AttackAction", XAttackAction.register(XAttackAction.NAME, ve.ACTION);
-        class XFindMapBuildCdt extends fx.BTCondition {
+        class XFindMapBuildAct extends fx.BTCondition {
             constructor(e) {
                 super({
-                    name: XFindEmptyBedCdt.NAME,
+                    name: XFindEmptyBedAct.NAME,
                     child: e
                 })
             }
@@ -3384,7 +3388,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return a ? (i.setMapBuildTarget(a), i.setCurTarget(a), this.lastMapBuild = a, !0) : (i.setMapBuildTarget(null), this.lastMapBuild = void 0, !1)
             }
         }
-        XFindMapBuildCdt.NAME = "FindMapBuild", XFindMapBuildCdt.register(XFindMapBuildCdt.NAME, ve.ACTION);
+        XFindMapBuildAct.NAME = "FindMapBuild", XFindMapBuildAct.register(XFindMapBuildAct.NAME, ve.ACTION);
         class XTakeMapBuildAction extends fx.BTAction {
             constructor() {
                 super({
@@ -3399,10 +3403,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         XTakeMapBuildAction.NAME = "TakeMapBuild", XTakeMapBuildAction.register(XTakeMapBuildAction.NAME, ve.ACTION);
-        class XFindEmptyBedCdt extends fx.BTCondition {
+        class XFindEmptyBedAct extends fx.BTCondition {
             constructor(e) {
                 super({
-                    name: XFindEmptyBedCdt.NAME,
+                    name: XFindEmptyBedAct.NAME,
                     child: e
                 })
             }
@@ -3410,8 +3414,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let i, s = e.target,
                     a = this.lastBed;
                 if (!this.lastBed || (i = s.isBedUsed(this.lastBed))) {
-                    let n = e.blackboard.get(XFindEmptyBedCdt.NAME);
-                    if (n && 0 != n.length || (n = s.getAllRoomIdRand(), e.blackboard.set(XFindEmptyBedCdt.NAME, n)), a = null, i) {
+                    let n = e.blackboard.get(XFindEmptyBedAct.NAME);
+                    if (n && 0 != n.length || (n = s.getAllRoomIdRand(), e.blackboard.set(XFindEmptyBedAct.NAME, n)), a = null, i) {
                         let e = s.getRoomModel(this.lastBed.roomId),
                             [t, i] = this.findInMoreBedRoom([e]);
                         a = t, i && t && n.splice(n.indexOf(a.roomId), 1)
@@ -3465,7 +3469,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return [t, s]
             }
         }
-        XFindEmptyBedCdt.NAME = "FindEmptyBed", XFindEmptyBedCdt.register(XFindEmptyBedCdt.NAME, ve.ACTION);
+        XFindEmptyBedAct.NAME = "FindEmptyBed", XFindEmptyBedAct.register(XFindEmptyBedAct.NAME, ve.ACTION);
         class XGotoBedAction extends fx.BTAction {
             constructor() {
                 super({
@@ -4231,7 +4235,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.add(e), t
             }
             findBed(e) {
-                let t = new XFindEmptyBedCdt;
+                let t = new XFindEmptyBedAct;
                 return new fx.BTSequence({
                     children: [t, e],
                     continuePolicy: Ie.SUCCESS,
@@ -4239,7 +4243,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             findMapBuild(e) {
-                let t = new XFindMapBuildCdt;
+                let t = new XFindMapBuildAct;
                 return new fx.BTSequence({
                     children: [t, e],
                     continuePolicy: Ie.SUCCESS,
@@ -4557,24 +4561,63 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XPlayerScript extends Laya.Script {
             constructor() {
-                super(...arguments), this.faceDir = 1, this.moveSpeedScale = 1, this.canMove = !0, this.control = !1, this.direction = e.Direction.Left, this.isEscaped = !1, this.isSkinLoaded = !1, this.atkIntervalTs = 0, this.isFirstFind = !0, this.getPathCd = !1
+                super(...arguments), 
+                this.faceDir = 1, 
+                this.moveSpeedScale = 1, 
+                this.canMove = !0, 
+                this.control = !1, 
+                this.direction = e.Direction.Left, 
+                this.isEscaped = !1, 
+                this.isSkinLoaded = !1, 
+                this.atkIntervalTs = 0, 
+                this.isFirstFind = !0, 
+                this.getPathCd = !1
             }
             get node() {
                 return this.owner
             }
             init(e) {
-                if (this.data = e, e.ownerScript = this, e.owner = this.node, this.diEffect = new Laya.Box, this.diEffect.width = this.diEffect.height = 1, this.node.addChild(this.diEffect), this.skinNode = new Laya.Box, this.skinNode.name = "skinNode", this.skinNode.width = this.skinNode.height = C.GridSize, this.node.addChild(this.skinNode), this.node.on(be.Hp_Changed, this, this.onHpChanged), this.takeMapBuildNode = new Laya.Box, this.takeMapBuildNode.name = "takeMapBuildNode", this.takeMapBuildNode.width = this.takeMapBuildNode.height = C.GridSize, this.node.addChild(this.takeMapBuildNode), e.isAngel) {
+                this.data = e
+                e.ownerScript = this
+                e.owner = this.node, 
+                this.diEffect = new Laya.Box, 
+                this.diEffect.width = this.diEffect.height = 1, 
+                this.node.addChild(this.diEffect), 
+                this.skinNode = new Laya.Box, 
+                this.skinNode.name = "skinNode", 
+                this.skinNode.width = this.skinNode.height = C.GridSize, 
+                this.node.addChild(this.skinNode), 
+                this.node.on(be.Hp_Changed, this, this.onHpChanged), 
+                this.takeMapBuildNode = new Laya.Box, 
+                this.takeMapBuildNode.name = "takeMapBuildNode", 
+                this.takeMapBuildNode.width = this.takeMapBuildNode.height = C.GridSize, 
+                this.node.addChild(this.takeMapBuildNode)
+                if (e.isAngel) {
                     let e = new Laya.Image;
-                    e.skin = "res/build/specialBuild/fhl.png", e.anchorX = e.anchorY = .5, this.takeMapBuildNode.addChild(e), e.anchorX = .5, e.anchorY = 0, e.pos(0, 0), e.visible = !1, this.img_angelAddSpeed = e
+                    e.skin = "res/build/specialBuild/fhl.png", e.anchorX = e.anchorY = .5, 
+                    this.takeMapBuildNode.addChild(e), e.anchorX = .5, e.anchorY = 0, e.pos(0, 0), e.visible = !1, this.img_angelAddSpeed = e
                 }
-                this.loadSkin(), this.onInit()
+                this.loadSkin()
+                this.onInit()
             }
             onInit() {}
             loadSkin() {
                 let i = this.skinCfg = t.cfg.skin.get(this.data.skinId);
-                i.skinBedPath && (this.skinBedImg = new Laya.Image(i.skinBedPath), this.skinBedImg.anchorX = .5, this.skinBedImg.anchorY = .75, this.skinBedImg.scale(1, 1), this.skinNode.addChild(this.skinBedImg), this.skinBedImg.y = -15, this.skinBedImg.visible = !1), i.skinPath.includes(".bin") ? (this.skinAniNode = new Laya.Box, this.skinAniNode.name = "aniNode", this.skinAniNode.width = this.skinAniNode.height = C.GridSize, this.skinAniNode.anchorX = .5, this.skinAniNode.anchorY = .9, this.skinNode.addChild(this.skinAniNode), t.assetLoader.createSpine(i.skinPath, t => {
-                    this.skinSpine = t, i.type == e.SkinType.Human ? this.skinSpine.scale(.275, .275) : i.type == e.SkinType.Hunter ? this.skinSpine.scale(.5, .5) : i.type == e.SkinType.Angel ? this.skinSpine.scale(.275, .275) : i.type == e.SkinType.Fighter ? this.skinSpine.scale(1, 1) : this.data.isGhost ? (this.skinSpine.scale(.275, .275), this.skinSpine.showSkinByIndex(0)) : this.skinSpine.scale(.5, .5), 10004 == i.id && this.skinSpine.showSkinByName("guaigun"), this.skinAniNode.addChild(t), t.pos(C.GridHalfSize, C.GridSize + 15), this.playAnim("idle"), this.isSkinLoaded = !0
-                })) : (this.skinImg = new Laya.Image(i.skinPath), this.skinImg.name = "img_skin", this.skinImg.anchorX = .5, this.skinImg.anchorY = .9, this.skinNode.addChild(this.skinImg), this.playAnim("idle"), this.isSkinLoaded = !0)
+                i.skinBedPath && (this.skinBedImg = new Laya.Image(i.skinBedPath), this.skinBedImg.anchorX = .5, 
+                this.skinBedImg.anchorY = .75, this.skinBedImg.scale(1, 1), this.skinNode.addChild(this.skinBedImg), 
+                this.skinBedImg.y = -15, this.skinBedImg.visible = !1), 
+                i.skinPath.includes(".bin") ? (this.skinAniNode = new Laya.Box, this.skinAniNode.name = "aniNode", 
+                    this.skinAniNode.width = this.skinAniNode.height = C.GridSize, this.skinAniNode.anchorX = .5, 
+                    this.skinAniNode.anchorY = .9, this.skinNode.addChild(this.skinAniNode), 
+                    t.assetLoader.createSpine(i.skinPath, t => {
+                    this.skinSpine = t, 
+                    i.type == e.SkinType.Human ? this.skinSpine.scale(.275, .275) : 
+                    i.type == e.SkinType.Hunter ? this.skinSpine.scale(.5, .5) :
+                     i.type == e.SkinType.Angel ? this.skinSpine.scale(.275, .275) :
+                     i.type == e.SkinType.Fighter ? this.skinSpine.scale(1, 1) : 
+                     this.data.isGhost ? (this.skinSpine.scale(.275, .275), this.skinSpine.showSkinByIndex(0)) : this.skinSpine.scale(.5, .5), 10004 == i.id && this.skinSpine.showSkinByName("guaigun"), this.skinAniNode.addChild(t), t.pos(C.GridHalfSize, C.GridSize + 15), this.playAnim("idle"), this.isSkinLoaded = !0
+                })) : (this.skinImg = new Laya.Image(i.skinPath), this.skinImg.name = "img_skin", this.skinImg.anchorX = .5, this.skinImg.anchorY = .9, 
+                this.skinNode.addChild(this.skinImg), this.playAnim("idle"), this.isSkinLoaded = !0)
             }
             setFace(t) {
                 this.faceDir = t, this.data.type == e.PlayerType.E_Defender ? (this.skinNode.scaleX = -t, this.takeMapBuildNode.scaleX = t) : this.data.type == e.PlayerType.E_Hunter && (this.skinCfg.defaultRight ? this.skinNode.scaleX = t : this.skinNode.scaleX = -t)
@@ -4582,8 +4625,18 @@ define("js/bundle.js", function(require, module, exports) {
             idle() {
                 this.playAnim("idle")
             }
-            playAnim(e, t = !1, i) {
-                (t || this.curAniName != e) && (this.skinNode.y = 0, this.skinAniNode ? this.skinSpine && (this.skinSpine.offAll(Laya.Event.STOPPED), "idle" == e ? (this.curAniName = e, this.skinSpine.play("idle", !0)) : "run" == e ? (this.curAniName = e, this.skinSpine.play("move", !0)) : "attack" == e && (this.curAniName = e, this.skinSpine.on(Laya.Event.STOPPED, this, i), this.skinSpine.play("attack1", !1))) : "idle" == e ? (this.curAniName = e, fx.Effect.breathEff(this.skinImg, 1e3, 1.1)) : "run" == e ? (this.curAniName = e, fx.Effect.breathEff(this.skinImg, 1e3, 1.1), this.curAniName = e) : "attack" == e && (new fx.Sequence).move(0, 20, 200).move(0, -20, 200).run(this.skinNode))
+            playAnim(aniName, reStart_ = !1, i) {
+                (reStart_ || this.curAniName != aniName) && 
+                (this.skinNode.y = 0, 
+                    this.skinAniNode ? this.skinSpine && (this.skinSpine.offAll(Laya.Event.STOPPED), 
+                    "idle" == aniName ? (this.curAniName = aniName, this.skinSpine.play("idle", !0)) : 
+                    "run" == aniName ? (this.curAniName = aniName, this.skinSpine.play("move", !0)) : 
+                    "attack" == aniName && (this.curAniName = aniName, this.skinSpine.on(Laya.Event.STOPPED, this, i),
+
+                     this.skinSpine.play("attack1", !1))) : 
+                     "idle" == aniName ? (this.curAniName = aniName, fx.Effect.breathEff(this.skinImg, 1e3, 1.1)) : 
+                     "run" == aniName ? (this.curAniName = aniName, fx.Effect.breathEff(this.skinImg, 1e3, 1.1), this.curAniName = aniName) : 
+                     "attack" == aniName && (new fx.Sequence).move(0, 20, 200).move(0, -20, 200).run(this.skinNode))
             }
             pos(e, i) {
                 this.lastMovePos ? this.lastMovePos.setValue(this.node.x, this.node.y) : this.lastMovePos = new fx.V2(this.node.x, this.node.y), this.node.pos(e, i), this.data.roomId = t.mapMgr.getRoomIdByMapPos(e, i)
@@ -5025,7 +5078,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !1
             }
         }
-        class It extends XPlayerScript {
+        class DefenderScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Defender
             }
@@ -5143,7 +5196,7 @@ define("js/bundle.js", function(require, module, exports) {
         class Kt {
             static init() {
                 this.effectMap = {
-                    [e.EffectType.Add_Coin]: Xt, [e.EffectType.Add_Energy]: EnergyEffect, [e.EffectType.Add_CoinAndEnergy]: jt, [e.EffectType.Door_AlwaysAddHp]: Jt, [e.EffectType.Enemy_UseSkillBeDizzy]: EnemyUseSkillBeDizzy, [e.EffectType.Door_NotGetDmgOnHpLow]: Qt, [e.EffectType.Tower_GetCoinOnAtk]: ei, [e.EffectType.Tower_GetCoinOnAtk_1]: ti, [e.EffectType.Enemy_SlowAtkSpd]: EnemySlowAtkSpd, [e.EffectType.Enemy_EscapeBeDizzy]: EnemyEscapeBeDizzy, [e.EffectType.Door_FightBackOnBeAtk]: ai, [e.EffectType.Enemy_OnHpLowBeAtk]: EnemyOnHpLowBeAtk, [e.EffectType.Tower_AddAtkDst]: oi, [e.EffectType.Tower_AddAtkSpd]: li, [e.EffectType.Tower_AddAtkSpdOnEnemyNear]: hi, [e.EffectType.Door_GetCoinOnHurt]: di, [e.EffectType.Eat_Mosquito]: ui, [e.EffectType.Door_EnemyBeDizzy]: gi, [e.EffectType.Door_EnemyBeEscape]: ci, [e.EffectType.Enemy_EscapeBeSlowdown]: EnemyEscapeBeSlowdown, [e.EffectType.Enemy_HpRateBeDizzy]: EnemyHpRateBeDizzy
+                    [e.EffectType.Add_Coin]: Xt, [e.EffectType.Add_Energy]: EnergyEffect, [e.EffectType.Add_CoinAndEnergy]: jt, [e.EffectType.Door_AlwaysAddHp]: Jt, [e.EffectType.Enemy_UseSkillBeDizzy]: EnemyUseSkillBeDizzy, [e.EffectType.Door_NotGetDmgOnHpLow]: Qt, [e.EffectType.Tower_GetCoinOnAtk]: ei, [e.EffectType.Tower_GetCoinOnAtk_1]: ti, [e.EffectType.Enemy_SlowAtkSpd]: EnemySlowAtkSpd, [e.EffectType.Enemy_EscapeBeDizzy]: EnemyEscapeBeDizzy, [e.EffectType.Door_FightBackOnBeAtk]: ai, [e.EffectType.Enemy_OnHpLowBeAtk]: EnemyOnHpLowBeAtk, [e.EffectType.Tower_AddAtkDst]: oi, [e.EffectType.Tower_AddAtkSpd]: XTowerAddAtkSpd, [e.EffectType.Tower_AddAtkSpdOnEnemyNear]: hi, [e.EffectType.Door_GetCoinOnHurt]: di, [e.EffectType.Eat_Mosquito]: XEatMosquito, [e.EffectType.Door_EnemyBeDizzy]: gi, [e.EffectType.Door_EnemyBeEscape]: ci, [e.EffectType.Enemy_EscapeBeSlowdown]: EnemyEscapeBeSlowdown, [e.EffectType.Enemy_HpRateBeDizzy]: EnemyHpRateBeDizzy
                 }
             }
             static createEffect(e, t) {
@@ -5152,7 +5205,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return i && t ? new i(e, t) : null
             }
         }
-        class $t {
+        class XBaseEffect {
             constructor(e, t) {
                 e && (this.type = e.type, this.cfg = e), t && (this.data = t, this.node = t.owner)
             }
@@ -5190,7 +5243,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.onWork()
             }
         }
-        class Xt extends $t {
+        class Xt extends XBaseEffect {
             constructor(i, s, a = !0) {
                 super(i, s), this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
                 let n = 1e3,
@@ -5222,7 +5275,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class EnergyEffect extends $t {
+        class EnergyEffect extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addValue = this.cfg.value[0];
                 let i = this.cfg.value[1] ? this.cfg.value[1] : 1;
@@ -5241,7 +5294,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class jt extends $t {
+        class jt extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addCoinValue = this.cfg.value[0], this.addEnergyValue = this.cfg.value[1];
                 let i = this.cfg.value[2] ? this.cfg.value[2] : 1;
@@ -5264,7 +5317,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class Jt extends $t {
+        class Jt extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addValue = this.cfg.value[0], this.node.timerLoop(1e3, this, this.exec)
             }
@@ -5291,7 +5344,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class EnemyUseSkillBeDizzy extends $t {
+        class EnemyUseSkillBeDizzy extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.rate = e.value[0], this.time = e.value[1], fx.EventCenter.I.on(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
@@ -5319,7 +5372,7 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.off(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
         }
-        class Qt extends $t {
+        class Qt extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.threshold = i.value[0], this.time = i.value[1];
                 let a = s,
@@ -5355,7 +5408,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class ei extends $t {
+        class ei extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.curCnt = 0, this.buffMult = 1, this.bonusRate = i.value[0], this.node.timerLoop(1e3, this, this.exec);
                 let a = t.buildingMgr.getBuildCfg(this.data.id);
@@ -5385,7 +5438,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
-        class ti extends $t {
+        class ti extends XBaseEffect {
             constructor(e, i) {
                 super(e, i), this.curCnt = 0, this.bonusRate = e.value[0], this.node.timerLoop(1e3, this, this.exec);
                 let s = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
@@ -5410,7 +5463,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
-        class EnemySlowAtkSpd extends $t {
+        class EnemySlowAtkSpd extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.map = new Map, this.slowMult = 1, this.slowRatio = e.value[0];
                 let i = this.getCurDoorModel()[0];
@@ -5490,7 +5543,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
             }
         }
-        class EnemyEscapeBeDizzy extends $t {
+        class EnemyEscapeBeDizzy extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.hunters = [], this.dizzyTime = e.value[0], this.data.owner.timerLoop(100, this, this.exec);
                 let i = this.getCurDoorModel();
@@ -5533,7 +5586,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.hunters.includes(e) || this.hunters.push(e)
             }
         }
-        class ai extends $t {
+        class ai extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.reboundDmgRatio = 0, this.mult = 1, this.reboundDmgRatio = this.cfg.value[0];
                 let a = this.getCurDoorModel()[0];
@@ -5558,7 +5611,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.gameMgr.takeDamage(e, e, i), this.playerWorkEff()
             }
         }
-        class EnemyOnHpLowBeAtk extends $t {
+        class EnemyOnHpLowBeAtk extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.canUse = !0, this.threshold = this.cfg.value[0], this.dmgPer = this.cfg.value[1];
                 let i = this.getCurDoorModel();
@@ -5590,7 +5643,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class ri extends $t {
+        class ri extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.map = new Map, this.changeVal = this.cfg.value[0];
                 let a = t.buildingMgr.getRoom(this.data.roomId);
@@ -5627,7 +5680,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new qt(i)
             }
         }
-        class li extends ri {
+        class XTowerAddAtkSpd extends ri {
             createBuff() {
                 let i = t.buildingMgr.getBuildCfg(this.data.id);
                 if (t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffId.includes(17) && t.user.gameInfo.getBuffData(17)) {
@@ -5642,7 +5695,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return new Wt(-this.changeVal)
             }
         }
-        class di extends $t {
+        class di extends XBaseEffect {
             constructor(e, t, i = !0) {
                 super(e, t), this.addValue = this.cfg.value[0];
                 let s = this.getCurDoorModel()[0];
@@ -5659,7 +5712,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class ui extends $t {
+        class XEatMosquito extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addValue = this.cfg.value[0], this.node.on(be.AddCoin_By_Cnt, this, this.exec)
             }
@@ -5671,7 +5724,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.off(be.AddCoin_By_Cnt, this, this.exec)
             }
         }
-        class gi extends $t {
+        class gi extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
@@ -5692,7 +5745,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class ci extends $t {
+        class ci extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0];
                 let i = this.getCurDoorModel()[0];
@@ -5713,7 +5766,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class EnemyEscapeBeSlowdown extends $t {
+        class EnemyEscapeBeSlowdown extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.map = new Map, this.slowRatio = e.value[0], this.time = 1e3 * e.value[1], this.data.owner.timerLoop(100, this, this.exec);
                 let i = this.getCurDoorModel()[0];
@@ -5745,7 +5798,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.hunter = e
             }
         }
-        class EnemyHpRateBeDizzy extends $t {
+        class EnemyHpRateBeDizzy extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
@@ -5782,9 +5835,19 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.isActive = !1, this.isDying = !1, this.effects = [], this.detlaAlpha = .05, this.onHitting = !1
             }
             init(e, i = 0) {
-                this.isActive = !0, this.node = this.owner, this.skinNode = new Laya.Box, this.aniNode = new Laya.Box, this.skinNode.width = this.skinNode.height = 90, this.aniNode.width = this.aniNode.height = 90;
+                this.isActive = !0, this.node = this.owner, this.skinNode = new Laya.Box, this.aniNode = new Laya.Box, 
+                this.skinNode.width = this.skinNode.height = 90, this.aniNode.width = this.aniNode.height = 90;
                 let s = C.GridSize / 90;
-                this.skinNode.scale(s, s), this.aniNode.scale(s, s), this.aniNode.anchorX = this.aniNode.anchorY = .5, this.node.addChild(this.skinNode), this.node.addChild(this.aniNode), this.data = e, this.data.ownerScript = this, this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.initSkin(), this.node.on(be.Hp_Changed, this, this.onHpChanged), this.node.on(be.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
+                this.skinNode.scale(s, s), this.aniNode.scale(s, s), 
+                this.aniNode.anchorX = this.aniNode.anchorY = .5, 
+                this.node.addChild(this.skinNode), 
+                this.node.addChild(this.aniNode), 
+                this.data = e, 
+                this.data.ownerScript = this, 
+                this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
+                this.initSkin(), 
+                this.node.on(be.Hp_Changed, this, this.onHpChanged), 
+                this.node.on(be.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
             }
             initCdUI(e) {
                 this.barNode = fx.Utils.createPrefab(T.Prefab_BuildingCD);
@@ -6100,7 +6163,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.world && e && Matter.Composite.remove(this.world, e)
             }
         }
-        class _i extends XPlayerScript {
+        class XFighterScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
@@ -6217,7 +6280,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.changeSideUuid = e, this.healthBar.revertBarColor()
             }
         }
-        class ki extends XAIModel {
+        class XMonsterAI extends XAIModel {
             constructor(e) {
                 super(e)
             }
@@ -6304,7 +6367,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class bi extends XPlayerScript {
+        class XHunterScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0, this.curAutoSkillCd = 0, this.isStartCd = !0, this.useSkillCnt = 1, this.passiveSkillCd = 0, this.critCnt = 5, this.critCurCnt = 1, this.critScale = 1, this.hpHeal = 0, this.hpCnt = .2, this.createId = 10001
             }
@@ -6350,7 +6413,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.body = Ci.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
             }
             initAI() {
-                this.ai = new ki(this);
+                this.ai = new XMonsterAI(this);
                 let e = yt([this.ai.dizzy("dizzy"), this.ai.canEscape(this.ai.escape("escape")), this.ai.usingSkill(), this.ai.OnCloseDoorCdt(this.ai.breakAway()), this.ai.canPatrol(this.ai.patrol()), this.ai.skill(), this.ai.attack(), this.ai.idle("idle")]);
                 this.ai.load(e)
             }
@@ -6752,7 +6815,7 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
             }
         }
-        class wi extends Laya.Script {
+        class XBulletScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.speed = 1e3, this.maxDistSquared = 1e6, this.subBullet = [], this.unlimitedRange = !1
             }
@@ -6801,7 +6864,7 @@ define("js/bundle.js", function(require, module, exports) {
             onCollision(e) {
                 if (!this.isActive) return;
                 let i, s = e.owner;
-                if (!s.destroyed && (t.gameMgr.playSoundByNode(this.node, 110), (i = s.getComponent(bi)) || (i = s.getComponent(_i)), i && !i.data.isDie)) {
+                if (!s.destroyed && (t.gameMgr.playSoundByNode(this.node, 110), (i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie)) {
                     let s = this.attack;
                     t.gameMgr.takeDamage(this.baseModel, i.data, s), this.collisionCb && this.collisionCb.runWith(i.data);
                     for (const e of this.subBullet) e.recover();
@@ -6920,7 +6983,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
-                let a = s.getComponent(wi);
+                let a = s.getComponent(XBulletScript);
                 a && a.destroy();
                 let n = this.cfg.bulletType,
                     r = {
@@ -6928,7 +6991,7 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(wi)).lockTarget = i;
+                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i;
                 let l = this.cfg.atkDamage * this.getDamageMult();
                 n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, l, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, l, o, i, this.data, null, void 0, r), this.playFireEff(), this.fireEvent()
             }
@@ -6971,7 +7034,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return a * a
             }
         }
-        class vi extends XBuildingScript {
+        class XBedScript extends XBuildingScript {
             onAwake() {
                 super.onAwake(), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerGotoBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.onPlayerDownBed)
             }
@@ -7018,7 +7081,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             createZhiren() {}
         }
-        class Mi extends XTowerScript {
+        class XBingdongTowerScript extends XTowerScript {
             constructor() {
                 super(...arguments), this.atkCnt = 0
             }
@@ -7026,7 +7089,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
-                let a = s.getComponent(wi);
+                let a = s.getComponent(XBulletScript);
                 a && a.destroy();
                 let n = this.cfg.bulletType,
                     r = {
@@ -7034,7 +7097,7 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(wi)).lockTarget = i;
+                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i;
                 let l, h = this.cfg.atkDamage * this.getDamageMult();
                 this.atkCnt++, this.atkCnt >= 15 && (this.atkCnt -= 15, l = new Laya.Handler(this, this.freezeTarget)), n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, h, o, null, this.data, null, void 0, r, l) : a.shoot(this.cfg.bullet, h, o, i, this.data, null, void 0, r, l), this.playFireEff(), this.fireEvent()
             }
@@ -7045,7 +7108,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class xi extends XBuildingScript {
+        class XBorrowMoneyScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.interestMult = .005
             }
@@ -7104,7 +7167,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.lv = s, s > 2 ? (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[s - 2], i.attackPower = t.cfg.hunterCfg.attackList[s - 2]) : 2 == s ? (i.curHp = i.maxHp = 400, i.attackPower = 4) : (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[0], i.attackPower = t.cfg.hunterCfg.attackList[0]), i.skinId = 90004, i.type = e.PlayerType.E_Hunter, this.curFighter = i, t.playerMgr.addFighter(i), XToast.show("鬼市钱庄已派出讨债鬼！")
             }
         }
-        class Bi extends XBuildingScript {
+        class XBoxMonsterScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.isClick = !1, this.monsterLv = 0, this.curClickNum = 0
             }
@@ -7183,7 +7246,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.skinNode.destroyChildren(), this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = .5, this.imgBody.anchorY = 1, this.imgBody.y += 40
             }
         }
-        class Ti extends XBuildingScript {
+        class XCatBedScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.curIdx = 1, this.idxArr = [1, 2, 3, 4], this.fsTime = 0, this.fireCd = 0
             }
@@ -7255,14 +7318,14 @@ define("js/bundle.js", function(require, module, exports) {
                     a = t.bulletMgr.createBulletNode(s);
                 if (!a) return;
                 a.rotation = this.node.rotation, a.x = this.node.x, a.y = this.node.y;
-                let n = a.getComponent(wi);
+                let n = a.getComponent(XBulletScript);
                 n && n.destroy();
                 let r = {
                         category: e.CollideGroupType.BULLET,
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = i ? new fx.V2(i.owner.x - a.x, i.owner.y - a.y) : new fx.V2(Math.cos((a.rotation - 90) * Math.PI / 180), Math.sin((a.rotation - 90) * Math.PI / 180));
-                o.normalize(), (n = a.addComponent(wi)).lockTarget = i;
+                o.normalize(), (n = a.addComponent(XBulletScript)).lockTarget = i;
                 let l = .1 * i.maxHp;
                 n.shoot(s, l, o, i, this.data, null, void 0, r, null, !0)
             }
@@ -7280,7 +7343,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return 1.5
             }
         }
-        class Li extends XBuildingScript {
+        class XDoorGuardTowerScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
@@ -7456,7 +7519,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class Pi extends XBuildingScript {
+        class XEatMosquitoScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.flameArr = [], this.dir = new fx.V2(0, -1), this.temp = new fx.V2(0, 0)
             }
@@ -7554,7 +7617,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.cdNode && this.cdNode.destroy(), this.btn_entice && this.btn_entice.destroy()
             }
         }
-        class Gi extends wi {
+        class XBulletRotScript extends XBulletScript {
             constructor() {
                 super(...arguments), this.subBullet = [], this.unlimitedRange = !1
             }
@@ -7579,10 +7642,10 @@ define("js/bundle.js", function(require, module, exports) {
             onCollision(e) {
                 if (!this.isActive) return;
                 let i, s = e.owner;
-                s.destroyed || ((i = s.getComponent(bi)) || (i = s.getComponent(_i)), i && !i.data.isDie && (this.removeBody(), t.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
+                s.destroyed || ((i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie && (this.removeBody(), t.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
             }
         }
-        class Ri extends XBuildingScript {
+        class XFlyCutterScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.centerPos = new fx.V2, this.fireCnt = 0
             }
@@ -7660,13 +7723,13 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
-                let s = i.getComponent(Gi);
+                let s = i.getComponent(XBulletRotScript);
                 s && s.destroy();
                 let a = {
                     category: e.CollideGroupType.BULLET,
                     mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                 };
-                s = i.addComponent(Gi), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
+                s = i.addComponent(XBulletRotScript), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
             }
             onFlyCutterBeHit() {
                 this.hitCnt += 1
@@ -7686,7 +7749,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class Hi extends XBuildingScript {
+        class XFollowSpringTowerScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
@@ -7784,7 +7847,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
-                let s = i.getComponent(wi);
+                let s = i.getComponent(XBulletScript);
                 s && s.destroy();
                 let a = this.cfg.bulletType,
                     n = {
@@ -7792,7 +7855,7 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     r = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y) : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
-                r.normalize(), (s = i.addComponent(wi)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
+                r.normalize(), (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
             }
         }
         class Oi extends Laya.Script {
@@ -7911,7 +7974,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return 1.9
             }
         }
-        class KnifeScript extends XBuildingScript {
+        class XKnifeScript extends XBuildingScript {
             onInit() {
                 let i = t.buildingMgr.getRoom(this.data.roomId);
                 if (i)
@@ -7943,14 +8006,14 @@ define("js/bundle.js", function(require, module, exports) {
                     n = t.bulletMgr.createBulletNode(s);
                 if (!n) return;
                 n.rotation = this.node.rotation, n.x = this.node.x, n.y = this.node.y;
-                let r = n.getComponent(wi);
+                let r = n.getComponent(XBulletScript);
                 r && r.destroy();
                 let o = {
                         category: e.CollideGroupType.BULLET,
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     l = a ? new fx.V2(a.owner.x - n.x, a.owner.y - n.y) : new fx.V2(Math.cos((n.rotation - 90) * Math.PI / 180), Math.sin((n.rotation - 90) * Math.PI / 180));
-                l.normalize(), (r = n.addComponent(wi)).lockTarget = a;
+                l.normalize(), (r = n.addComponent(XBulletScript)).lockTarget = a;
                 let h = a.maxHp * i;
                 r.shoot(s, h, l, a, this.data, null, void 0, o, null, !0)
             }
@@ -8291,7 +8354,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
         }
-        class Xi extends XTowerScript {
+        class XMiniTowerScript extends XTowerScript {
             initSkin() {
                 super.initSkin(), this.imgBody.scale(.6, .6)
             }
@@ -8315,7 +8378,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody)
             }
         }
-        class Yi extends XBuildingScript {
+        class XMirrorScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.isUsingSkill = !1, this.isCanSkill = !1, this.buildTime = 90, this.skillTime = 5e3, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
@@ -8333,7 +8396,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.playerMgr.hunters
             }
         }
-        class ji extends XBuildingScript {
+        class XPoisonSpringTowerScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2, this.attackTime = 0, this.attackNum = 0
             }
@@ -8404,7 +8467,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
-                let s = i.getComponent(wi);
+                let s = i.getComponent(XBulletScript);
                 s && s.destroy();
                 let a, n = this.cfg.bulletType,
                     r = {
@@ -8412,16 +8475,16 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y) : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
-                o.normalize(), (s = i.addComponent(wi)).lockTarget = this.atkTarget, this.attackNum % 5 == 0 ? (a = .01 * this.atkTarget.maxHp, this.isPoisoned = !0) : this.attackTime + 5e3 >= this.owner.timer.currTimer ? (a = .003 * this.atkTarget.maxHp, this.isPoisoned = !1) : (a = .01 * this.atkTarget.maxHp, this.isPoisoned = !0), n == e.BulletType.Normal ? s.shoot(this.cfg.bullet, a, o, null, this.data, null, void 0, r) : s.shoot(this.cfg.bullet, a, o, this.atkTarget, this.data, null, void 0, r)
+                o.normalize(), (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget, this.attackNum % 5 == 0 ? (a = .01 * this.atkTarget.maxHp, this.isPoisoned = !0) : this.attackTime + 5e3 >= this.owner.timer.currTimer ? (a = .003 * this.atkTarget.maxHp, this.isPoisoned = !1) : (a = .01 * this.atkTarget.maxHp, this.isPoisoned = !0), n == e.BulletType.Normal ? s.shoot(this.cfg.bullet, a, o, null, this.data, null, void 0, r) : s.shoot(this.cfg.bullet, a, o, this.atkTarget, this.data, null, void 0, r)
             }
         }
-        class Ji extends XTowerScript {
+        class XQianjinTowerScript extends XTowerScript {
             addCoinByAtk() {
                 let i = Math.round(.5 * this.cfg.atkDamage * .25);
                 t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
             }
         }
-        class Zi extends XTowerScript {
+        class XQianliTowerScript extends XTowerScript {
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
                     i = t.playerMgr.getPlayer(this.data.playerUuid),
@@ -8432,7 +8495,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return a * a
             }
         }
-        class Qi extends XBuildingScript {
+        class XQuirkyTowerScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.curNum = 180, this.isCoin = !1, this.isSuper = !1
             }
@@ -8508,7 +8571,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
-                let a = s.getComponent(wi);
+                let a = s.getComponent(XBulletScript);
                 a && a.destroy();
                 let n = this.cfg.bulletType,
                     r = {
@@ -8516,7 +8579,7 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(wi)).lockTarget = i, n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, i, this.data, null, void 0, r), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
+                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i, n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, i, this.data, null, void 0, r), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
                     this.imgBody.scale(1, 1)
                 })).run(this.imgBody);
                 let l = this.node.rotation,
@@ -8541,7 +8604,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgBody.skin = e.icon
             }
         }
-        class es extends XBuildingScript {get moveMod() {
+        class XRabbitScript extends XBuildingScript {get moveMod() {
                 let e = Math.abs(this.data.rotation);
                 return 0 == e || 180 == e
             }
@@ -8596,7 +8659,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
-                    let a = s.getComponent(wi);
+                    let a = s.getComponent(XBulletScript);
                     a && a.destroy();
                     let n = this.cfg.bulletType,
                         r = {
@@ -8604,7 +8667,7 @@ define("js/bundle.js", function(require, module, exports) {
                             mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                         },
                         o = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - s.x, this.atkTarget.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                    o.normalize(), (a = s.addComponent(wi)).lockTarget = this.atkTarget;
+                    o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = this.atkTarget;
                     let l = .75 * this.cfg.atkDamage;
                     n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, l, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, l, o, this.atkTarget, this.data, null, void 0, r)
                 }(new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
@@ -8614,7 +8677,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody_1), this.fireEvent()
             }
         }
-        class is extends XBuildingScript {
+        class XSpringBoxScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.isUsedSkill = !1, this.isDouble = !1, this.isSuper = !1, this.v2 = new fx.V2
             }
@@ -8792,7 +8855,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgBody.skin = e.icon
             }
         }
-        class ss extends XBuildingScript {
+        class XSpringTowerScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
@@ -8863,7 +8926,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
-                let s = i.getComponent(wi);
+                let s = i.getComponent(XBulletScript);
                 s && s.destroy();
                 let a = this.cfg.bulletType,
                     n = {
@@ -8871,7 +8934,7 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     r = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y) : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
-                r.normalize(), (s = i.addComponent(wi)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
+                r.normalize(), (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
             }
         }
         class as extends XTowerScript {
@@ -8977,7 +9040,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.atkTarget = e, XV2Util01.faceTo(this.node, this.atkTarget.owner.x, this.atkTarget.owner.y, 90), this.fire(e), this.isWork = !0) : this.isWork = !1
             }
         }
-        class rs extends XBuildingScript {
+        class XTowerDoubleScript extends XBuildingScript {
             constructor() {
                 super(...arguments), this.canAttack = !0, this.lastAtkTime = 0
             }
@@ -9052,7 +9115,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
-                    let a = s.getComponent(wi);
+                    let a = s.getComponent(XBulletScript);
                     a && a.destroy();
                     let n = this.cfg.bulletType,
                         r = {
@@ -9060,7 +9123,7 @@ define("js/bundle.js", function(require, module, exports) {
                             mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                         },
                         o = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - s.x, this.atkTarget.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                    o.normalize(), (a = s.addComponent(wi)).lockTarget = this.atkTarget, n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, this.atkTarget, this.data, null, void 0, r)
+                    o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = this.atkTarget, n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, this.atkTarget, this.data, null, void 0, r)
                 }(new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
                     this.imgBody.scale(1, 1)
                 })).run(this.imgBody), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
@@ -9068,7 +9131,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody_1)
             }
         }
-        class os extends XBuildingScript {
+        class XTrapScript extends XBuildingScript {
             initBuild() {
                 let e = t.buildingMgr.getBuildCfg(this.data.id);
                 this.dizzyTime = e.effectList[0].value[0], t.user.gameInfo.getBuffData(8) && (this.dizzyTime += 1), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
@@ -9174,7 +9237,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
-                    let a = s.getComponent(wi);
+                    let a = s.getComponent(XBulletScript);
                     a && a.destroy();
                     let n = this.cfg.bulletType,
                         r = {
@@ -9182,7 +9245,7 @@ define("js/bundle.js", function(require, module, exports) {
                             mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                         },
                         o = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - s.x, this.atkTarget.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                    o.normalize(), (a = s.addComponent(wi)).lockTarget = this.atkTarget;
+                    o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = this.atkTarget;
                     let l = this.cfg.atkDamage;
                     0 != i && (l *= .25), n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, l, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, l, o, this.atkTarget, this.data, null, void 0, r)
                 }(new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
@@ -9203,25 +9266,57 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class GameScript extends Laya.Script {
             constructor() {
-                super(...arguments), this.mapMoveSpeed = 1.5, this.defenders = [], this.hunters = [], this.moveDir = new fx.V2, this.buildingGrids = [], this.moveTime = 0
+                super(...arguments), this.mapMoveSpeed = 1.5, this.defenders = [], this.hunters = [], 
+                this.moveDir = new fx.V2, this.buildingGrids = [], this.moveTime = 0
             }
             get node() {
                 return this.owner
             }
             init() {
                 let e = t.user.gameInfo;
-                this.inputScript = t.gameMgr.inputScript, this.inputScript.downHandler = new Laya.Handler(this, this.onDown, null, !1), this.inputScript.moveHandler = new Laya.Handler(this, this.onInputMove, null, !1), this.inputScript.clickHandler = new Laya.Handler(this, this.onClickMap, null, !1);
+                this.inputScript = t.gameMgr.inputScript, 
+                this.inputScript.downHandler = new Laya.Handler(this, this.onDown, null, !1), 
+                this.inputScript.moveHandler = new Laya.Handler(this, this.onInputMove, null, !1), 
+                this.inputScript.clickHandler = new Laya.Handler(this, this.onClickMap, null, !1);
                 let i = this.owner.getChildByName("MapNode");
-                t.mapMgr.mapNode = i, this.map = t.gameMgr.mapScript = i.addComponent(XMapScript), this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), Ci.init(), t.bulletMgr.init(i.getChildByName("BulletLayer")), t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), this.initEvents(), this.initMapBuild(), this.initBuildings(), this.initDefenders(), this.initHunters(), this.firstPlay(), this.onInit();
+                t.mapMgr.mapNode = i, 
+                this.map = t.gameMgr.mapScript = i.addComponent(XMapScript), 
+                this.map.init(), EffectUtil.I.init(t.mapMgr.effectLayer), 
+                Ci.init(), 
+                t.bulletMgr.init(i.getChildByName("BulletLayer")), 
+                t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), 
+                this.initEvents(), 
+                this.initMapBuild(), 
+                this.initBuildings(), 
+                this.initDefenders(), 
+                this.initHunters(), 
+                this.firstPlay(), 
+                this.onInit();
                 let s = fx.Utils.isNotchScreenDevice();
                 if (s && (s.notchTop && (this.node.top = -s.notchTop), s.notchBottom && (this.node.bottom = -s.notchBottom)), e.failCnt + e.winCnt < 3) {
-                    this.img_guideHand = new Laya.Image("res/game/guide/finger1.png"), this.img_guideHand.pivotX = 26, this.img_guideHand.pivotY = 12, t.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
+                    this.img_guideHand = new Laya.Image("res/game/guide/finger1.png"), this.img_guideHand.pivotX = 26, 
+                    this.img_guideHand.pivotY = 12, 
+                    t.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
                     let e = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                     e.isRepeat = !0, e.run(this.img_guideHand)
                 }
             }
             initEvents() {
-                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.on(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.on(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.on(XEventNames.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.on(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.on(XEventNames.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.on(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.on(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.on(XEventNames.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.once(XEventNames.E_Game_Start, this, this.onGameStart), fx.EventCenter.I.on(XEventNames.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.build), 
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), 
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), 
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), 
+                fx.EventCenter.I.on(XEventNames.E_Look_Player, this, this.lookAtPlayer), 
+                fx.EventCenter.I.on(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), 
+                fx.EventCenter.I.on(XEventNames.E_Repair_Door, this, this.repairDoor), 
+                fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), 
+                fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.hideBuildTips), 
+                fx.EventCenter.I.on(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), 
+                fx.EventCenter.I.on(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), 
+                fx.EventCenter.I.on(XEventNames.E_Hurter_Dig, this, this.useDigHole), 
+                fx.EventCenter.I.once(XEventNames.E_Game_Start, this, this.onGameStart), 
+                fx.EventCenter.I.on(XEventNames.E_GuideHand_Show, this, this.guideHandShow), 
+                fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
             }
             onGameStart() {
                 for (const e of this.defenders) e.moveSpeed = t.cfg.constant.playerMoveSpeed / t.gameMgr.speedRatio
@@ -9235,14 +9330,15 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initDefenders() {
                 let e = t.playerMgr.mineUuid,
-                    i = t.playerMgr.defenders;
-                for (let s = 0; s < i.length; ++s) {
-                    let a = i[s],
-                        n = new Laya.Box;
-                    n.width = n.height = 1, this.map.playerLayer.addChild(n);
-                    let r = n.addComponent(It);
-                    r.init(a);
-                    let o = t.mapMgr.getDefenderSpawnPos(a.spwanPoint);
+                    defenderArr = t.playerMgr.defenders;
+                for (let s = 0; s < defenderArr.length; ++s) {
+                    let defender = defenderArr[s],
+                        box = new Laya.Box;
+                    box.width = box.height = 1, 
+                    this.map.playerLayer.addChild(box);
+                    let r = box.addComponent(DefenderScript);
+                    r.init(defender);
+                    let o = t.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
                     if (!o) {
                         let e;
                         for (const i of t.mapMgr.getMapTiles())
@@ -9257,7 +9353,7 @@ define("js/bundle.js", function(require, module, exports) {
                             o = new fx.V2(t.mapMgr.width * e / 2, t.mapMgr.height * e / 2)
                         }
                     }
-                    r.pos(o.x, o.y), this.defenders.push(r), a.uuid == e && (this.characterControl = r)
+                    r.pos(o.x, o.y), this.defenders.push(r), defender.uuid == e && (this.characterControl = r)
                 }
             }
             initHunters() {
@@ -9268,7 +9364,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let a = i[s],
                         n = new Laya.Box;
                     n.width = n.height = 1, this.map.hunterLayer.addChild(n);
-                    let r = n.addComponent(bi);
+                    let r = n.addComponent(XHunterScript);
                     r.init(a);
                     let o = t.mapMgr.getHunterSpawnPos(a.spwanPoint);
                     if (r.pos(o.x, o.y), this.hunters.push(r), a.uuid == e) {
@@ -9367,30 +9463,30 @@ define("js/bundle.js", function(require, module, exports) {
             lookAt(e, t) {
                 this.map.lookAt(e, t), this.map.updateArea()
             }
-            build(i, s, a = 0) {
+            build(buildModel_, s, a = 0) {
                 let n = new Laya.Box;
-                n.width = n.height = .01, i.owner = n, n.anchorX = n.anchorY = .5;
-                let r, o = t.mapMgr.gridPosToMapPos(i.x, i.y),
+                n.width = n.height = .01, buildModel_.owner = n, n.anchorX = n.anchorY = .5;
+                let r, o = t.mapMgr.gridPosToMapPos(buildModel_.x, buildModel_.y),
                     l = !1,
-                    h = t.buildingMgr.getBuildCfg(i.id);
-                if (h.type == e.BuildType.door) r = n.addComponent(XDoorScript);
-                else if (h.type == e.BuildType.bed) {
-                    if (n.zOrder = 100, r = n.addComponent(vi), 1001 == i.id) {
+                    building = t.buildingMgr.getBuildCfg(buildModel_.id);
+                if (building.type == e.BuildType.door) r = n.addComponent(XDoorScript);
+                else if (building.type == e.BuildType.bed) {
+                    if (n.zOrder = 100, r = n.addComponent(XBedScript), 1001 == buildModel_.id) {
                         let e = t.cfg.skin.getList(),
                             s = fx.Utils.randomInArray(e);
-                        if (i.playerUuid) {
-                            let e = t.playerMgr.getPlayer(i.playerUuid);
+                        if (buildModel_.playerUuid) {
+                            let e = t.playerMgr.getPlayer(buildModel_.playerUuid);
                             s = t.cfg.skin.get(e.skinId)
                         }
                         let a = new Laya.Image(s.skinBedPath);
                         a.scale(1, 1), a.anchorX = .5, a.anchorY = .75, t.mapMgr.playerLayer.addChild(a), a.pos(o.x, o.y - 15), r.bedHead = a
                     }
-                } else if (h.type == e.BuildType.tower)
-                    if (3e3 == h.buildId)
-                        if (i.isSpecial) {
-                            switch (i.specialId) {
+                } else if (building.type == e.BuildType.tower)
+                    if (3e3 == building.buildId)
+                        if (buildModel_.isSpecial) {
+                            switch (buildModel_.specialId) {
                                 case 1:
-                                    r = n.addComponent(Ji);
+                                    r = n.addComponent(XQianjinTowerScript);
                                     break;
                                 case 2:
                                     r = n.addComponent(ns), l = !0;
@@ -9411,7 +9507,7 @@ define("js/bundle.js", function(require, module, exports) {
                                     r = n.addComponent(XShuangtouTowerScript);
                                     break;
                                 case 8:
-                                    r = n.addComponent(Mi);
+                                    r = n.addComponent(XBingdongTowerScript);
                                     break;
                                 case 9:
                                     r = n.addComponent(JuTowerScript);
@@ -9423,13 +9519,13 @@ define("js/bundle.js", function(require, module, exports) {
                                     r = n.addComponent(ls);
                                     break;
                                 case 12:
-                                    r = n.addComponent(Xi);
+                                    r = n.addComponent(XMiniTowerScript);
                                     break;
                                 case 13:
                                     r = n.addComponent(JisuTowerScript);
                                     break;
                                 case 14:
-                                    r = n.addComponent(Zi);
+                                    r = n.addComponent(XQianliTowerScript);
                                     break;
                                 case 15:
                                     r = n.addComponent(XTowerScript);
@@ -9444,9 +9540,9 @@ define("js/bundle.js", function(require, module, exports) {
                                     r = n.addComponent(XTowerScript)
                             }
                         } else r = n.addComponent(XTowerScript);
-                else 3001 == h.buildId ? r = n.addComponent(rs) : 3002 == h.buildId ? r = n.addComponent(Qi) : 3003 == h.buildId || (3004 == h.buildId ? r = n.addComponent(ss) : 3005 == h.buildId ? r = n.addComponent(Li) : 3006 == h.buildId ? (r = n.addComponent(Hi), l = !0) : 3007 == h.buildId ? r = n.addComponent(ji) : 3008 == h.buildId || 3009 == h.buildId ? r = n.addComponent(Ri) : 3010 == h.buildId && (r = n.addComponent(Yi)));
-                else r = h.type == e.BuildType.eatMosquito ? n.addComponent(Pi) : h.type == e.BuildType.springBox ? n.addComponent(is) : h.type == e.BuildType.knife ? n.addComponent(KnifeScript) : h.type == e.BuildType.random ? n.addComponent(Wi) : h.type == e.BuildType.mine ? 5002 == h.buildId || 5103 == h.buildId || 5104 == h.buildId || 5105 == h.buildId || 5106 == h.buildId ? n.addComponent(Ti) : n.addComponent(XBuildingScript) : h.type == e.BuildType.entice ? n.addComponent(EnticeScript) : h.type == e.BuildType.stone ? n.addComponent(es) : h.type == e.BuildType.boxMonster ? n.addComponent(Bi) : h.type == e.BuildType.doorkeeper ? n.addComponent(XDoorkeeperScript) : h.type == e.BuildType.borrowMoney ? n.addComponent(xi) : 6006 == h.buildId ? n.addComponent(os) : n.addComponent(XBuildingScript);
-                this.buildingGrids[i.x] || (this.buildingGrids[i.x] = []), l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n), n.pos(o.x, o.y), this.buildingGrids[i.x][i.y] = r, r.init(i, a), r.map = this.map, s || t.mapMgr.isInStageByGridPos(i.x, i.y) && EffectUtil.I.playUpgradeEffect(i.x, i.y)
+                else 3001 == building.buildId ? r = n.addComponent(XTowerDoubleScript) : 3002 == building.buildId ? r = n.addComponent(XQuirkyTowerScript) : 3003 == building.buildId || (3004 == building.buildId ? r = n.addComponent(XSpringTowerScript) : 3005 == building.buildId ? r = n.addComponent(XDoorGuardTowerScript) : 3006 == building.buildId ? (r = n.addComponent(XFollowSpringTowerScript), l = !0) : 3007 == building.buildId ? r = n.addComponent(XPoisonSpringTowerScript) : 3008 == building.buildId || 3009 == building.buildId ? r = n.addComponent(XFlyCutterScript) : 3010 == building.buildId && (r = n.addComponent(XMirrorScript)));
+                else r = building.type == e.BuildType.eatMosquito ? n.addComponent(XEatMosquitoScript) : building.type == e.BuildType.springBox ? n.addComponent(XSpringBoxScript) : building.type == e.BuildType.knife ? n.addComponent(XKnifeScript) : building.type == e.BuildType.random ? n.addComponent(Wi) : building.type == e.BuildType.mine ? 5002 == building.buildId || 5103 == building.buildId || 5104 == building.buildId || 5105 == building.buildId || 5106 == building.buildId ? n.addComponent(XCatBedScript) : n.addComponent(XBuildingScript) : building.type == e.BuildType.entice ? n.addComponent(EnticeScript) : building.type == e.BuildType.stone ? n.addComponent(XRabbitScript) : building.type == e.BuildType.boxMonster ? n.addComponent(XBoxMonsterScript) : building.type == e.BuildType.doorkeeper ? n.addComponent(XDoorkeeperScript) : building.type == e.BuildType.borrowMoney ? n.addComponent(XBorrowMoneyScript) : 6006 == building.buildId ? n.addComponent(XTrapScript) : n.addComponent(XBuildingScript);
+                this.buildingGrids[buildModel_.x] || (this.buildingGrids[buildModel_.x] = []), l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n), n.pos(o.x, o.y), this.buildingGrids[buildModel_.x][buildModel_.y] = r, r.init(buildModel_, a), r.map = this.map, s || t.mapMgr.isInStageByGridPos(buildModel_.x, buildModel_.y) && EffectUtil.I.playUpgradeEffect(buildModel_.x, buildModel_.y)
             }
             destroyBuilding(e) {
                 let i = this.getBuidling(e.x, e.y);
@@ -9642,7 +9738,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = t.playerMgr.mineUuid,
                     s = new Laya.Box;
                 s.width = s.height = 1, this.map.hunterLayer.addChild(s);
-                let a = s.addComponent(bi);
+                let a = s.addComponent(XHunterScript);
                 a.init(e);
                 let n = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 a.pos(n.x, n.y), this.hunters.push(a), e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
@@ -9651,7 +9747,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.angel_skill.visible = !0, this.isPlayerBed = !1, this.inputScript.show();
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.playerLayer.addChild(i);
-                let s = i.addComponent(It);
+                let s = i.addComponent(DefenderScript);
                 s.init(e);
                 let a = t.mapMgr.getDefenderSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.characterControl = s, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y), this.clearBtnCD(this.skill_addSpeed), this.clearBtnCD(this.skill_dizzy), XToast.show("我变成救援者")
@@ -9714,7 +9810,7 @@ define("js/bundle.js", function(require, module, exports) {
             createGhost(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
-                let s = i.addComponent(bi);
+                let s = i.addComponent(XHunterScript);
                 s.init(e);
                 let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
@@ -9722,13 +9818,13 @@ define("js/bundle.js", function(require, module, exports) {
             createBoxMonster(e, t) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
-                let s = i.addComponent(bi);
+                let s = i.addComponent(XHunterScript);
                 s.init(e), s.pos(t.x, t.y), this.hunters.push(s)
             }
             createFighter(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
-                let s = i.addComponent(_i);
+                let s = i.addComponent(XFighterScript);
                 s.init(e);
                 let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y)
@@ -9839,7 +9935,7 @@ define("js/bundle.js", function(require, module, exports) {
             createGhost(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
-                let s = i.addComponent(bi);
+                let s = i.addComponent(XHunterScript);
                 s.init(e);
                 let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
@@ -9883,7 +9979,7 @@ define("js/bundle.js", function(require, module, exports) {
             createGhost(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
-                let s = i.addComponent(bi);
+                let s = i.addComponent(XHunterScript);
                 s.init(e);
                 let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
@@ -9955,7 +10051,13 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAdd() {
                 let i;
-                t.reporter.enterGame(), t.gameMgr.inputScript = this.InputLayer.getComponent(InputScript), t.gameMgr.gameMode == e.GameMode.E_Defense ? i = this.game.addComponent(DefenseGameScript) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i = this.game.addComponent(AngelOrGhostGameScript) : t.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = this.game.addComponent(HuntGameScript), this.box_resNum.visible = !1) : t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = this.game.addComponent(ServenGhostGameScript)), i.init(), XChoreUtil.playMusic(103), XChoreUtil.playSound(115)
+                t.reporter.enterGame(), 
+                t.gameMgr.inputScript = this.InputLayer.getComponent(InputScript), 
+                t.gameMgr.gameMode == e.GameMode.E_Defense ? i = this.game.addComponent(DefenseGameScript) : 
+                t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i = this.game.addComponent(AngelOrGhostGameScript) : 
+                t.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = this.game.addComponent(HuntGameScript), this.box_resNum.visible = !1) : 
+                t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = this.game.addComponent(ServenGhostGameScript)), i.init(), 
+                XChoreUtil.playMusic(103), XChoreUtil.playSound(115)
             }
         }
         class Cs extends e.ui.scenes.MainSceneUI {
@@ -10567,7 +10669,10 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = new XPlayerModel;
                 a.type = e.PlayerType.E_Hunter, a.uuid = fx.Utils.createUUID(), a.name = "自己";
                 let n = t.cfg.hunterCfg;
-                a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], this.defenderArr = [null, null, null, null, null, null], this.hunterArr = [a], this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), 
+                a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], 
+                this.defenderArr = [null, null, null, null, null, null], 
+                this.hunterArr = [a], 
+                this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), 
                 this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), 
                 Laya.__quickMatch ? Laya.timer.loop(1, this, this.timeLoop) : Laya.timer.loop(500, this, this.timeLoop), 
                 this.lb_hunterName.text = "自己", this.img_people.visible = !1, this.updateHunter(), this.initList()
@@ -10594,7 +10699,11 @@ define("js/bundle.js", function(require, module, exports) {
                     let i = XRandomUtil.getIntRandom(0, this.idxArr.length - 1);
                     i = this.idxArr.splice(i, 1)[0];
                     let s = new XPlayerModel;
-                    s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), this.defenderArr[i] = s, this.initList()
+                    s.type = e.PlayerType.E_Defender, 
+                    s.uuid = fx.Utils.createUUID(), 
+                    s.name = this.randomName(), 
+                    s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), 
+                    this.defenderArr[i] = s, this.initList()
                 }
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
             }
@@ -11374,7 +11483,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e(this), 0 != this.data.sureClose && t.ui.close(this)
             }
         }
-        class zs {
+        class XRegClass {
             static init() {
                 this.initUI(), this.initCls()
             }
@@ -12748,7 +12857,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class Ba extends Laya.Script {
+        class XSpineScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.loop = !0
             }
@@ -12811,7 +12920,7 @@ define("js/bundle.js", function(require, module, exports) {
             static create(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1;
-                let s = i.addComponent(Ba),
+                let s = i.addComponent(XSpineScript),
                     a = t.assetLoader.getSpineTemplet(e).buildArmature();
                 return t.assetLoader.addSpineSkeletonReference(a), a.name = "spine", i.addChild(a), s
             }
@@ -12952,8 +13061,8 @@ define("js/bundle.js", function(require, module, exports) {
                     let i = e.create(),
                         s = e.__spineUrl;
                     if (s) {
-                        let e = i.getComponent(Ba);
-                        e || (e = i.getComponentInChildren(Ba));
+                        let e = i.getComponent(XSpineScript);
+                        e || (e = i.getComponentInChildren(XSpineScript));
                         let t = this.getSpineTemplet(s).buildArmature();
                         this.addSpineSkeletonReference(t), t.name = "spine", e.node.addChild(t), e.onSpineLoad(), t.pos(e.node.width / 2, e.node.height)
                     }
@@ -13363,8 +13472,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let i;
                 if (e instanceof Laya.Prefab) {
                     if (i = e.create(), e.__spineUrl) {
-                        let s = i.getComponent(Ba);
-                        s || (s = i.getComponentInChildren(Ba));
+                        let s = i.getComponent(XSpineScript);
+                        s || (s = i.getComponentInChildren(XSpineScript));
                         let a = t.assetLoader.getSpineTemplet(e.__spineUrl).buildArmature();
                         t.assetLoader.addSpineSkeletonReference(a), a.name = "spine", s.node.addChild(a);
                         let n = XCoordinateUtil.getAnchorPos(s.node);
@@ -16042,7 +16151,7 @@ define("js/bundle.js", function(require, module, exports) {
                 for (const t of e) t && t.owner && !t.owner.destroyed && (t.ownerScript.onDead(), t.owner.destroy())
             }
         }
-        class hn extends Laya.Script {
+        class XBorrowMoneyMenuScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.buildPos = new Laya.Point
             }
@@ -16461,7 +16570,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.visible && (this.isMouseDown || (this.list_build.refresh(), this.list_hide.refresh()))
             }
         }
-        class cn extends Laya.Script {
+        class XUpgradeMenuScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.buildPos = new Laya.Point, this.isDragPumpkin = !1, this.trigger30034 = !1
             }
@@ -16804,9 +16913,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = fx.Utils.createPrefab(T.Prefab_BuildMenu);
                 this.gameNode.parent.addChild(i), this.buildMenu = i.getComponent(gn), i.visible = !1;
                 let s = fx.Utils.createPrefab(T.Prefab_UpgradeMenu);
-                this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(cn), s.visible = !1;
+                this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(XUpgradeMenuScript), s.visible = !1;
                 let a = fx.Utils.createPrefab(T.Prefab_BorrowMoney);
-                this.gameNode.parent.addChild(a), this.borrowMoneyMenu = a.getComponent(hn), a.visible = !1, this.tipsList = [], this.iconList = [], t.getChildByName("btn_back").on(Laya.Event.CLICK, this, this.onClickBack), t.getChildByName("btn_setting").on(Laya.Event.CLICK, this, this.onClickSetting)
+                this.gameNode.parent.addChild(a), this.borrowMoneyMenu = a.getComponent(XBorrowMoneyMenuScript), a.visible = !1, this.tipsList = [], this.iconList = [], t.getChildByName("btn_back").on(Laya.Event.CLICK, this, this.onClickBack), t.getChildByName("btn_setting").on(Laya.Event.CLICK, this, this.onClickSetting)
             }
             onClickBack() {
                 t.ui.open(l.ExitView)
@@ -17622,7 +17731,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = (Date.now() - this.sdkTime) / 1e3;
                 e = Math.round(100 * e) / 100, XAnalyticsUtil.track("login_sdk", {
                     login_time: e
-                }), fx.Utils.isOnMiniGame() && (sdk.Sdk.isOnWeiXin() ? V.channel_AdIds.videoId.length > 0 && (sdk.Sdk.instance.adIds = V.channel_AdIds) : sdk.Sdk.instance.adIds = V.channel_AdIds, sdk.Sdk.isOnWeiXin() ? j.I.initWxVideo() : sdk.Sdk.instance.preloadVideo()), zs.init(), this.initGame(), this.initConfig()
+                }), fx.Utils.isOnMiniGame() && (sdk.Sdk.isOnWeiXin() ? V.channel_AdIds.videoId.length > 0 && (sdk.Sdk.instance.adIds = V.channel_AdIds) : sdk.Sdk.instance.adIds = V.channel_AdIds, sdk.Sdk.isOnWeiXin() ? j.I.initWxVideo() : sdk.Sdk.instance.preloadVideo()), XRegClass.init(), this.initGame(), this.initConfig()
             }
             initGame() {
                 t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, 
@@ -18042,7 +18151,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.list_index.refresh(), this.img_icon.skin = this.jumpGame.imgUrl + this.jumpGame.gameList[this.index].gameImage
             }
         }
-        class Un extends Laya.Script {
+        class XBannerJumpScript extends Laya.Script {
             onAwake() {
                 if (this._owner = this.owner, !Pn.I.isShowBanner()) return this._owner.visible = !1, void this._owner.destroy();
                 this.img_reddot = this._owner.getChildByName("img_reddot"), this.img_reddot.visible = Pn.I.getBannerRedSign(), this._owner.getChildByName("img_banner").skin = Pn.I.getBannerImage(), this._owner.on(Laya.Event.CLICK, this, () => {
@@ -18170,7 +18279,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
         }
-        class Hn extends Laya.Script {
+        class XMoreGameBtnScript extends Laya.Script {
             onAwake() {
                 this._owner = this.owner, this._owner.visible = !1, this.initUi()
             }
@@ -18239,7 +18348,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {}
             static init() {
                 var e = Laya.ClassUtils.regClass;
-                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", hn), e("game/core/BuildMenuScript.ts", gn), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", cn), e("modules/WXJump/BannerJumpScript.ts", Un), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", Hn), e("modules/WXJump/WXGameClubScript.ts", On)
+                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", gn), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
             }
         }
         Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", Vn.alignV = "middle", Vn.alignH = "center", Vn.startScene = "scenes/LoadingScene.scene", Vn.sceneRoot = "", Vn.debug = !1, Vn.stat = !1, Vn.physicsDebug = !1, Vn.exportSceneToJson = !0, Vn.init();
@@ -18895,13 +19004,14 @@ define("js/bundle.js", function(require, module, exports) {
             onDestroy() {
                 sdk.Sdk.instance.hideBanner()
             }
-        }, e.BannerJumpScript = Un, e.BaseBuff = XBaseBuff, e.BaseEffect = $t, e.BaseModel = XBaseModel, e.BedScript = vi, 
-        e.BingdongTowerScript = Mi, e.BlockNode = XBlockNode, e.BorrowMoneyMenuScript = hn, e.BorrowMoneyScript = xi, 
-        e.BoxMonsterScript = Bi, e.BreakAwayAction = XBreakAwayAction, e.BuffCfg = At, e.BuffChooseDialog = ee, 
+        }, e.BannerJumpScript = XBannerJumpScript, e.BaseBuff = XBaseBuff, e.BaseEffect = XBaseEffect, e.BaseModel = XBaseModel, e.BedScript = XBedScript, 
+        e.BingdongTowerScript = XBingdongTowerScript, e.BlockNode = XBlockNode, e.BorrowMoneyMenuScript = XBorrowMoneyMenuScript, 
+        e.BorrowMoneyScript = XBorrowMoneyScript, 
+        e.BoxMonsterScript = XBoxMonsterScript, e.BreakAwayAction = XBreakAwayAction, e.BuffCfg = At, e.BuffChooseDialog = ee, 
         e.BuffData = va, e.BuffManager = BuffMgr, e.BuffOwnerDialog = te, e.BuffShowDialog = ie, e.BuildCfg = xt, 
         e.BuildCreateCfg = Bt, e.BuildData = ba, e.BuildMenuScript = gn, e.BuildingManager = XBuildingMgr, 
-        e.BuildingModel = XBuildingModel, e.BuildingScript = XBuildingScript, e.BulletManager = BulletMgr, e.BulletRotScript = Gi, 
-        e.BulletScript = wi, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt, e.CatBedScript = Ti, e.Category = ve, 
+        e.BuildingModel = XBuildingModel, e.BuildingScript = XBuildingScript, e.BulletManager = BulletMgr, e.BulletRotScript = XBulletRotScript, 
+        e.BulletScript = XBulletScript, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt, e.CatBedScript = XCatBedScript, e.Category = ve, 
         e.CfgManager = XCfgMgr, e.CircleProgressBarScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.value = .5, this.direction = 0, this.duration = 0, this.elapse = 0
@@ -18977,7 +19087,9 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 super(...arguments), this.type = Ee.DEF_ROI
             }
-        }, e.DefenderScript = It, e.DepsConditionAnd = XAllTrueCdt, e.DepsConditionOr = XOneTrueCdt, e.DifficultCfg = Et, e.DifficultChooseDialog = ne, e.DizzyAction = XDizzyAction, e.DoorAlwaysAddHp = Jt, e.DoorEnemyBeDizzy = gi, e.DoorEnemyBeEscape = ci, e.DoorFightBackOnBeAtk = ai, e.DoorGetCoinOnHurt = di, e.DoorGuardTowerScript = Li, e.DoorHpIncrease = class extends XBaseBuff {
+        }, e.DefenderScript = DefenderScript, e.DepsConditionAnd = XAllTrueCdt, e.DepsConditionOr = XOneTrueCdt, 
+        e.DifficultCfg = Et, e.DifficultChooseDialog = ne, e.DizzyAction = XDizzyAction, e.DoorAlwaysAddHp = Jt, e.DoorEnemyBeDizzy = gi, e.DoorEnemyBeEscape = ci, 
+        e.DoorFightBackOnBeAtk = ai, e.DoorGetCoinOnHurt = di, e.DoorGuardTowerScript = XDoorGuardTowerScript, e.DoorHpIncrease = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.DOOR_HP_INCREASE
             }
@@ -18986,7 +19098,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.DoorModel = class extends XBuildingModel {}, 
         e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = XDoorScript, e.DoorkeeperScript = XDoorkeeperScript, 
-        e.DynamicAtkSpdBuff = Wt, e.EatMosquito = ui, e.EatMosquitoScript = Pi, e.EffectBuilder = Kt, 
+        e.DynamicAtkSpdBuff = Wt, e.EatMosquito = XEatMosquito, e.EatMosquitoScript = XEatMosquitoScript, e.EffectBuilder = Kt, 
         e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
             onAwake() {
                 t.effectMgr = this, t.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), t.assetLoader.createPrefab(r.ClickEff, e => {
@@ -19106,7 +19218,9 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return e * this.Val
             }
-        }, e.FighterAI = yi, e.FighterAICdt = XHasPlayerBorrowCdt, e.FighterScript = _i, e.FindEmptyBedAction = XFindEmptyBedCdt, e.FindMapBuildAction = XFindMapBuildCdt, e.FlyCutterScript = Ri, e.FollowSpringTowerScript = Hi, e.FontLabelScript = class extends Laya.Script {
+        }, e.FighterAI = yi, e.FighterAICdt = XHasPlayerBorrowCdt, e.FighterScript = XFighterScript, 
+        e.FindEmptyBedAction = XFindEmptyBedAct, e.FindMapBuildAction = XFindMapBuildAct, e.FlyCutterScript = XFlyCutterScript, 
+        e.FollowSpringTowerScript = XFollowSpringTowerScript, e.FontLabelScript = class extends Laya.Script {
             onAwake() {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
@@ -19121,7 +19235,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, 
         e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
         e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = Ms, e.HunterDifficultChooseDialog = Es, e.HunterEquipCfg = Nt, 
-        e.HunterFailDialog = xs, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = bi, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
+        e.HunterFailDialog = xs, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = XHunterScript, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
         e.HunterUnlockDialog = Ts, e.HunterWinDialog = Bs, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
@@ -19269,7 +19383,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             onDestroy() {}
-        }, e.InviteCfg = InviteCfg, e.InviteDialog = InviteDialog, e.IsDizzyingCdt = XIsDizzyingCdt, e.IsMaxHpCdt = XIsMaxHpCdt, e.IsNowAttackCdt = XIsNowAttackCdt, e.JiguangTowerScript = JiguangTowerScript, e.JisuTowerScript = JisuTowerScript, e.JuTowerScript = JuTowerScript, e.JumpGameCfg = JumpGameCfg, e.JumpGameListDialog = JumpGameListDialog, e.JumpGameListType = class {}, e.JumpShowCfg = JumpShowCfg, e.KnifeScript = KnifeScript, e.LanguageExtend = class {
+        }, e.InviteCfg = InviteCfg, e.InviteDialog = InviteDialog, e.IsDizzyingCdt = XIsDizzyingCdt, e.IsMaxHpCdt = XIsMaxHpCdt, e.IsNowAttackCdt = XIsNowAttackCdt, e.JiguangTowerScript = JiguangTowerScript, e.JisuTowerScript = JisuTowerScript, e.JuTowerScript = JuTowerScript, e.JumpGameCfg = JumpGameCfg, e.JumpGameListDialog = JumpGameListDialog, e.JumpGameListType = class {}, e.JumpShowCfg = JumpShowCfg, e.KnifeScript = XKnifeScript, e.LanguageExtend = class {
             static init() {
                 Laya.Label.prototype.setKey = function(e) {
                     let t = this.getComponent(Jn);
@@ -19365,8 +19479,8 @@ define("js/bundle.js", function(require, module, exports) {
                     e(t)
                 })
             }
-        }, e.MarkupMap = ir, e.MatchData = XMatchData, e.MatterUtil = Ci, e.MessageDialog = Fs, e.MiniGameListDialog = Rn, e.MiniTowerScript = Xi, 
-        e.MirrorScript = Yi, e.ModelEvent = be, e.MonsterAI = ki, e.MoreGameBtnScript = Hn, e.NativeAdBanner = class extends Laya.Script {
+        }, e.MarkupMap = ir, e.MatchData = XMatchData, e.MatterUtil = Ci, e.MessageDialog = Fs, e.MiniGameListDialog = Rn, e.MiniTowerScript = XMiniTowerScript, 
+        e.MirrorScript = XMirrorScript, e.ModelEvent = be, e.MonsterAI = XMonsterAI, e.MoreGameBtnScript = XMoreGameBtnScript, e.NativeAdBanner = class extends Laya.Script {
             constructor() {
                 super()
             }
@@ -19473,7 +19587,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.PlayableLoadingScript = class extends Laya.Script {
             onEnable() {
-                zs.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
+                XRegClass.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
                 t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new XBuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr
@@ -19482,7 +19596,7 @@ define("js/bundle.js", function(require, module, exports) {
                 t.cfg.map.get(19)
             }
         }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
-        e.PoisonSpringTowerScript = ji, e.PolygonSeparator = class {
+        e.PoisonSpringTowerScript = XPoisonSpringTowerScript, e.PolygonSeparator = class {
             static At(e, t) {
                 var i = t.length;
                 return t[e < 0 ? i - -e % i : e % i]
@@ -19629,7 +19743,9 @@ define("js/bundle.js", function(require, module, exports) {
             Equip: "Equip",
             Teacher: "Teacher",
             Children: "Children"
-        }, e.PulseEffectBtn = qs, e.QianjinTowerScript = Ji, e.QianliTowerScript = Zi, e.QuestionDialog = Os, e.QuirkyTowerScript = Qi, e.RabbitScript = es, e.RandomRoomCdt = XRandomRoomCdt, e.RandomSpawnPosCdt = XRandomSpawnPosCdt, e.RandomUtil = XRandomUtil, e.RankMgr = RankMgr, e.RankView = bs, e.Redu = class extends Laya.EventDispatcher {
+        }, e.PulseEffectBtn = qs, e.QianjinTowerScript = XQianjinTowerScript, e.QianliTowerScript = XQianliTowerScript, e.QuestionDialog = Os, 
+        e.QuirkyTowerScript = XQuirkyTowerScript, e.RabbitScript = XRabbitScript, e.RandomRoomCdt = XRandomRoomCdt, e.RandomSpawnPosCdt = XRandomSpawnPosCdt, 
+        e.RandomUtil = XRandomUtil, e.RankMgr = RankMgr, e.RankView = bs, e.Redu = class extends Laya.EventDispatcher {
             constructor() {
                 super(), this.moveSpeed = new ir(() => {
                     this.event(sr.MoveSpeed, this.moveSpeed.value)
@@ -19638,14 +19754,15 @@ define("js/bundle.js", function(require, module, exports) {
             reset() {
                 this.moveSpeed.clear()
             }
-        }, e.ReduEvent = sr, e.RegClass = zs, e.RepaireAction = XRepaireAction, e.ReportEvent = Ka, e.Reporter = Reporter, e.Res = T, e.RewardDialog = Rs, e.RewardInfo = class {}, e.RewardMgr = RewardMgr, e.RoomModel = XRoomModel, e.RunAction = XRunAction, e.ScaleEffectBtn = Ni, e.SceneEvent = we, e.Scope = yn, e.SdkAliPay = z, e.SdkBase = XIAD, e.SdkKuaiShou = q, e.SdkMgr = j, e.SdkPc = W, e.SdkToutiao = K, e.SdkWx = Y, e.ServerStorage = XEventDispatcher, e.SettingDialog = ge, e.SevenGhostCfg = Ut, e.SevenGhostFailDialog = Us, e.SevenGhostUnlockDialog = Ps, e.SevenGhostView = Ns, e.SevenGhostWinDialog = Gs, e.ShopCfg = Tt, e.ShopDialog = ce, e.ShouldFixCdt = XShouldFixCdt, e.ShuangtouTowerScript = XShuangtouTowerScript, e.SimpleAtkAction = XSimpleRunAction, e.SkillAction = XSkillAction, e.SkinCfg = vt, e.SkinData = wa, e.SkinFragmentData = Sa, e.SkinFragmentDialog = pe, e.SkinFragmentGetDialog = fe, e.SkinRewardDialog = Vs, e.SkinTypeShowData = Ia, e.SkinUnlock = class {}, e.SkinView = ws, e.SlowDownBuff = Vt, e.SpecialTowerCfg = Dt, e.SpeedPowBuff = class extends XBaseBuff {
+        }, e.ReduEvent = sr, e.RegClass = XRegClass, e.RepaireAction = XRepaireAction, e.ReportEvent = Ka, e.Reporter = Reporter, e.Res = T, e.RewardDialog = Rs, e.RewardInfo = class {}, e.RewardMgr = RewardMgr, e.RoomModel = XRoomModel, e.RunAction = XRunAction, e.ScaleEffectBtn = Ni, e.SceneEvent = we, e.Scope = yn, e.SdkAliPay = z, e.SdkBase = XIAD, e.SdkKuaiShou = q, e.SdkMgr = j, e.SdkPc = W, e.SdkToutiao = K, e.SdkWx = Y, e.ServerStorage = XEventDispatcher, e.SettingDialog = ge, e.SevenGhostCfg = Ut, e.SevenGhostFailDialog = Us, e.SevenGhostUnlockDialog = Ps, e.SevenGhostView = Ns, e.SevenGhostWinDialog = Gs, e.ShopCfg = Tt, e.ShopDialog = ce, e.ShouldFixCdt = XShouldFixCdt, e.ShuangtouTowerScript = XShuangtouTowerScript, e.SimpleAtkAction = XSimpleRunAction, e.SkillAction = XSkillAction, e.SkinCfg = vt, e.SkinData = wa, e.SkinFragmentData = Sa, e.SkinFragmentDialog = pe, e.SkinFragmentGetDialog = fe, e.SkinRewardDialog = Vs, e.SkinTypeShowData = Ia, e.SkinUnlock = class {}, e.SkinView = ws, e.SlowDownBuff = Vt, e.SpecialTowerCfg = Dt, e.SpeedPowBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.SPEED_POW
             }
             result(e) {
                 return this.Val
             }
-        }, e.SpineScript = Ba, e.SpringBoxScript = is, e.SpringTowerScript = ss, e.Status = Ie, e.Store = aa, e.StoreKey = sa, e.Stream = ha, e.SuperBuildCfg = Lt, e.SusheTowerScript = as, e.TabScript = class extends Laya.Script {
+        }, e.SpineScript = XSpineScript, e.SpringBoxScript = XSpringBoxScript, e.SpringTowerScript = XSpringTowerScript, e.Status = Ie, e.Store = aa, 
+        e.StoreKey = sa, e.Stream = ha, e.SuperBuildCfg = Lt, e.SusheTowerScript = as, e.TabScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.currIdx = -1
             }
@@ -19671,12 +19788,12 @@ define("js/bundle.js", function(require, module, exports) {
                 this.name = e
             }
         }, e.TianBoxScript = Mn, e.TianShiTowerScript = ns, e.TiledInfo = XTiledInfo, e.TimeIntervalCdt = XTimeIntervalCdt, 
-        e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = li, 
-        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = rs, 
+        e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = XTowerAddAtkSpd, 
+        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = XTowerDoubleScript, 
         e.TowerGetCoinOnAtk = ei,
-         e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = os, 
+         e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = XTrapScript, 
          e.TurntableRewardDialog = me, e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, 
-         e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = cn, e.User = XUser, e.UsingSkillCdt = XHasSkillId02, 
+         e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = XUpgradeMenuScript, e.User = XUser, e.UsingSkillCdt = XHasSkillId02, 
          e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
             onEnable() {
                 this.doLayout();

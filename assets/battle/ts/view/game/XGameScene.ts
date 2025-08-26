@@ -1,0 +1,66 @@
+import { _decorator, Component, Node } from 'cc';
+import XMgr from '../../XMgr';
+import { XGameMode, XPlayerType } from '../../xconfig/XEnum';
+import { XDefenseGameScript } from './XDefenseGameScript';
+import { XBattleEntrance } from 'db://assets/XBattleEntrance';
+import { XGameScript } from './XGameScript';
+import XMatchData from '../../model/XMatchData';
+import { XRandomUtil } from '../../xutil/XRandomUtil';
+import XPlayerModel from '../../model/XPlayerModel';
+import XUtil from '../../xutil/XUtil';
+const { ccclass, property } = _decorator;
+
+@ccclass('XGameScene')
+export class XGameScene extends Component {
+    @property(Node)
+    gameNode: Node = null
+
+    gameScript: XGameScript = null
+
+    protected async onLoad() {
+        //must be first 
+        await XBattleEntrance.loadRes()
+        const matchData = this.generateMatchData()
+        XMgr.gameMgr.start(matchData)
+
+        if (XMgr.gameMgr.gameMode === XGameMode.E_Defense) {
+            this.gameScript = this.gameNode.addComponent(XDefenseGameScript)
+            this.gameScript.init()
+        }
+
+    }
+
+    private generateMatchData() {
+        let idxArr = [0, 1, 2, 3, 4, 5]
+        let hunterArr: XPlayerModel[] = []
+        let defenderArr: XPlayerModel[] = []
+
+        let diffCfg = XMgr.cfg.difficultCfg.get("1");
+        XMgr.gameMgr.dCfg = diffCfg;
+        let addMaxHp = diffCfg.addMaxHp + 1;
+        let hunterModel = new XPlayerModel;
+        hunterModel.type = XPlayerType.E_Hunter
+        hunterModel.uuid = XUtil.createUUID()
+        hunterModel.name = "随机名字"
+        hunterModel.skinId = diffCfg.bossId
+        hunterModel.attackPower = XMgr.cfg.hunterCfg.attackList[0]
+        hunterModel.curHp = XMgr.cfg.hunterCfg.hpList[0] * addMaxHp
+        hunterModel.maxHp = hunterModel.curHp
+        hunterArr.push(hunterModel)
+
+        for (let i = 0; i < 6; ++i) {
+            let playerModel = new XPlayerModel;
+            playerModel.type = XPlayerType.E_Defender
+            playerModel.uuid = XUtil.createUUID()
+            playerModel.name = "随机名字"
+            playerModel.skinId = XRandomUtil.randomInArray(XMgr.cfg.getPlayerIdArr())
+            defenderArr.push(playerModel)
+        }
+        let mapCfg = XMgr.cfg.mapCfg.get("1")
+        let mapData = XMgr.cfg.mapDatas.get("map1")
+        let data = XMgr.gameMgr.match(XGameMode.E_Defense, defenderArr, hunterArr, mapCfg, mapData)
+        return data
+    }
+}
+
+

@@ -1,0 +1,55 @@
+
+xiaohongmao.png
+size: 445,314
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xiaohongmao_body
+  rotate: false
+  xy: 290, 146
+  size: 153, 166
+  orig: 153, 166
+  offset: 0, 0
+  index: -1
+xiaohongmao_hand1
+  rotate: false
+  xy: 318, 32
+  size: 109, 112
+  orig: 109, 112
+  offset: 0, 0
+  index: -1
+xiaohongmao_hand2
+  rotate: false
+  xy: 206, 142
+  size: 82, 170
+  orig: 82, 170
+  offset: 0, 0
+  index: -1
+xiaohongmao_hand3
+  rotate: true
+  xy: 206, 67
+  size: 73, 88
+  orig: 73, 88
+  offset: 0, 0
+  index: -1
+xiaohongmao_head
+  rotate: false
+  xy: 2, 55
+  size: 202, 257
+  orig: 202, 257
+  offset: 0, 0
+  index: -1
+xiaohongmao_tui1
+  rotate: true
+  xy: 2, 2
+  size: 51, 156
+  orig: 52, 156
+  offset: 1, 0
+  index: -1
+xiaohongmao_tui2
+  rotate: true
+  xy: 160, 2
+  size: 51, 156
+  orig: 52, 156
+  offset: 0, 0
+  index: -1

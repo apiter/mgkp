@@ -1,0 +1,111 @@
+
+mutou.png
+size: 366,539
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dianju
+  rotate: false
+  xy: 232, 366
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: true
+  xy: 2, 2
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: false
+  xy: 114, 313
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: false
+  xy: 247, 265
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+liandao
+  rotate: false
+  xy: 2, 97
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: true
+  xy: 114, 240
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+mutou_body
+  rotate: false
+  xy: 130, 10
+  size: 96, 123
+  orig: 96, 136
+  offset: 0, 0
+  index: -1
+mutou_hand1
+  rotate: true
+  xy: 318, 131
+  size: 29, 39
+  orig: 31, 41
+  offset: 1, 1
+  index: -1
+mutou_hand2
+  rotate: false
+  xy: 318, 162
+  size: 46, 58
+  orig: 48, 60
+  offset: 1, 1
+  index: -1
+mutou_hand3
+  rotate: true
+  xy: 227, 160
+  size: 60, 89
+  orig: 60, 89
+  offset: 0, 0
+  index: -1
+mutou_head
+  rotate: false
+  xy: 105, 135
+  size: 120, 103
+  orig: 122, 105
+  offset: 1, 1
+  index: -1
+mutou_jiao1
+  rotate: true
+  xy: 247, 222
+  size: 41, 98
+  orig: 41, 100
+  offset: 0, 1
+  index: -1
+mutou_jiao2
+  rotate: true
+  xy: 228, 20
+  size: 41, 99
+  orig: 41, 99
+  offset: 0, 0
+  index: -1
+wenzi
+  rotate: false
+  xy: 228, 63
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+zhaohunfan
+  rotate: false
+  xy: 2, 241
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

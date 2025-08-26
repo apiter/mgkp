@@ -1,13 +1,22 @@
+import { Node } from "cc"
+import { XBuildType } from "../xconfig/XEnum"
 import XBaseModel from "./XBaseModel"
 
 export default class XBuildingModel extends XBaseModel {
     canHandle = true
+    isInit = false
     isPlayerDelete = false
+    isSpecial = false
+    specialId = 0
+    canChangeSpecial = false
+    owner:Node
     id = 0
     x = 0
     y = 0
     rotation = 0
     playerUuid = ""
+    type:XBuildType
+    isUsed = false
     
     constructor(id_, roomId_, lv_, x_, y_, rotation_) {
         super()

@@ -1,6 +1,6 @@
 import { assetManager, JsonAsset, log } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapData } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapData, XDifficultCfgItem, XCfgHunterData, XCfgSpecialTowerData, XCfgSuperBuildingData } from "./XCfgData"
 import { XSkinType } from "./XEnum"
 import XUtil from "../xutil/XUtil"
 
@@ -19,10 +19,12 @@ export default class XCfgMgr {
     skin: Map<string, XCfgSkinData>
     difficultCfg: Map<string, XCfgDifficultyItem>
     buffCfg: Map<string, XCfgBuffItem>
+    specialTowerCfg:Map<string, XCfgSpecialTowerData>
+    superBuildCfg:Map<string, XCfgSuperBuildingData>
 
     buildCreate: BaseDataModel
     constant
-    hunterCfg
+    hunterCfg:XCfgHunterData
     hunterDifficultCfg: BaseDataModel
     hunterEquipCfg: XCfgHunterEquipData[] = []
     sevenGhostCfg: BaseDataModel
@@ -34,7 +36,7 @@ export default class XCfgMgr {
     playerIdArr: number[] = []
     playerSkinTypeArr: number[] = []
 
-    allCfgMap = new Map<string, Map<string, any>>()
+    allCfgMap = new Map<string, any>()
 
     async load(): Promise<void> {
         return new Promise(async (resolve, reject) => {
@@ -66,9 +68,12 @@ export default class XCfgMgr {
                     });
 
                     this.mapCfg = XUtil.objectToMap<string, XCfgMapCfgItem>(this.allCfgMap.get("mapCfg"))
-                    this.difficultCfg = this.allCfgMap.get("difficultCfg")
+                    this.difficultCfg = XUtil.objectToMap<string, XDifficultCfgItem>(this.allCfgMap.get("difficultCfg")) 
                     this.skin = XUtil.objectToMap<string, XCfgSkinData>(this.allCfgMap.get("skinCfg"))
-                    this.buffCfg = this.allCfgMap.get("buffCfg_test")
+                    this.buffCfg = XUtil.objectToMap<string, XCfgBuffItem>(this.allCfgMap.get("buffCfg_test"))
+                    this.hunterCfg = this.allCfgMap.get("hunterCfg") as XCfgHunterData
+                    this.specialTowerCfg = XUtil.objectToMap<string, XCfgSpecialTowerData>(this.allCfgMap.get("specialTowerCfg_test"))
+                    this.superBuildCfg = XUtil.objectToMap<string, XCfgSuperBuildingData>(this.allCfgMap.get("superBuildCfg_test"))
 
 
                     this.skin.forEach((v, k) => {

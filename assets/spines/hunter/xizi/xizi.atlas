@@ -1,0 +1,90 @@
+
+xizi.png
+size: 363,574
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dianju
+  rotate: false
+  xy: 232, 401
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: true
+  xy: 114, 253
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: false
+  xy: 114, 348
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: false
+  xy: 135, 2
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+liandao
+  rotate: false
+  xy: 94, 109
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: true
+  xy: 2, 2
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+wenzi
+  rotate: false
+  xy: 233, 6
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+xizi_body
+  rotate: false
+  xy: 2, 75
+  size: 90, 199
+  orig: 91, 199
+  offset: 0, 0
+  index: -1
+xizi_hand1
+  rotate: false
+  xy: 197, 103
+  size: 60, 148
+  orig: 60, 148
+  offset: 0, 0
+  index: -1
+xizi_hand2
+  rotate: false
+  xy: 259, 112
+  size: 67, 160
+  orig: 68, 162
+  offset: 1, 2
+  index: -1
+xizi_head
+  rotate: true
+  xy: 242, 274
+  size: 125, 110
+  orig: 131, 116
+  offset: 3, 3
+  index: -1
+zhaohunfan
+  rotate: false
+  xy: 2, 276
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,146 @@
+
+luobinhan.png
+size: 1168,169
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+luobinhan_beidai
+  rotate: true
+  xy: 1098, 125
+  size: 42, 68
+  orig: 42, 68
+  offset: 0, 0
+  index: -1
+luobinhan_body
+  rotate: true
+  xy: 971, 5
+  size: 108, 100
+  orig: 108, 100
+  offset: 0, 0
+  index: -1
+luobinhan_gongjian
+  rotate: true
+  xy: 2, 2
+  size: 165, 121
+  orig: 165, 122
+  offset: 0, 1
+  index: -1
+luobinhan_hair1
+  rotate: false
+  xy: 474, 3
+  size: 89, 77
+  orig: 89, 77
+  offset: 0, 0
+  index: -1
+luobinhan_hair2
+  rotate: true
+  xy: 671, 85
+  size: 82, 90
+  orig: 82, 90
+  offset: 0, 0
+  index: -1
+luobinhan_hair3
+  rotate: true
+  xy: 1017, 123
+  size: 44, 79
+  orig: 44, 79
+  offset: 0, 0
+  index: -1
+luobinhan_hair4
+  rotate: false
+  xy: 1073, 13
+  size: 45, 59
+  orig: 45, 59
+  offset: 0, 0
+  index: -1
+luobinhan_hand1
+  rotate: true
+  xy: 948, 115
+  size: 52, 67
+  orig: 54, 69
+  offset: 1, 1
+  index: -1
+luobinhan_hand2
+  rotate: true
+  xy: 763, 114
+  size: 53, 83
+  orig: 53, 98
+  offset: 0, 0
+  index: -1
+luobinhan_hand3
+  rotate: false
+  xy: 1120, 13
+  size: 43, 59
+  orig: 45, 61
+  offset: 1, 1
+  index: -1
+luobinhan_hand4
+  rotate: true
+  xy: 848, 125
+  size: 42, 98
+  orig: 42, 98
+  offset: 0, 0
+  index: -1
+luobinhan_head
+  rotate: false
+  xy: 125, 21
+  size: 131, 146
+  orig: 133, 148
+  offset: 1, 1
+  index: -1
+luobinhan_jianlou
+  rotate: true
+  xy: 834, 8
+  size: 104, 135
+  orig: 106, 137
+  offset: 1, 1
+  index: -1
+luobinhan_maoshan
+  rotate: false
+  xy: 732, 37
+  size: 100, 46
+  orig: 100, 46
+  offset: 0, 0
+  index: -1
+luobinhan_maozi
+  rotate: false
+  xy: 258, 75
+  size: 197, 92
+  orig: 199, 94
+  offset: 1, 1
+  index: -1
+luobinhan_pf1
+  rotate: false
+  xy: 565, 6
+  size: 92, 74
+  orig: 92, 74
+  offset: 0, 0
+  index: -1
+luobinhan_pf2
+  rotate: true
+  xy: 659, 3
+  size: 77, 71
+  orig: 77, 71
+  offset: 0, 0
+  index: -1
+luobinhan_tui1
+  rotate: true
+  xy: 457, 82
+  size: 85, 212
+  orig: 85, 212
+  offset: 0, 0
+  index: -1
+luobinhan_tui2
+  rotate: true
+  xy: 258, 9
+  size: 64, 214
+  orig: 64, 214
+  offset: 0, 0
+  index: -1
+luobinhan_yumao
+  rotate: true
+  xy: 1073, 74
+  size: 47, 65
+  orig: 49, 67
+  offset: 1, 1
+  index: -1

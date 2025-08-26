@@ -26,44 +26,44 @@ export interface XCfgShopData {
 }
 
 export interface XCfgHunterEquipData {
-    id:number;
-    oldName:string;
-    name:string;
-    type:number;
-    part:number;
-    value:number;
-    level:number;
-    url:string
+    id: number;
+    oldName: string;
+    name: string;
+    type: number;
+    part: number;
+    value: number;
+    level: number;
+    url: string
 }
 
 export interface XCfgMapCfgItem {
-    id:number;
-    path:string;
-    name:string;
-    row:number;
-    column:number;
-    defenderPointNum:number;
-    hunterPointNum:number;
-    smallMap:string;
-    hideRoomCnt:number;
+    id: number;
+    path: string;
+    name: string;
+    row: number;
+    column: number;
+    defenderPointNum: number;
+    hunterPointNum: number;
+    smallMap: string;
+    hideRoomCnt: number;
 }
 
 export interface XCfgMapData {
-    compressionlevel:number,
-    height:number,
-    layers:any[],
-    infinite:boolean,
-    nextlayerid:number,
-    nextobjectid:number,
-    orientation:string,
-    renderorder:string,
-    tiledversion:string,
-    tileheight:number,
-    tilesets:any[],
-    tilewidth:number,
-    type:string,
-    version:string,
-    width:number
+    compressionlevel: number,
+    height: number,
+    layers: any[],
+    infinite: boolean,
+    nextlayerid: number,
+    nextobjectid: number,
+    orientation: string,
+    renderorder: string,
+    tiledversion: string,
+    tileheight: number,
+    tilesets: any[],
+    tilewidth: number,
+    type: string,
+    version: string,
+    width: number
 }
 
 export interface XDifficultCfgItem {
@@ -97,4 +97,30 @@ export interface XCfgBuffItem {
     buffDes: string;
     isRepeat: number;
     values: number[];
+}
+
+export interface XCfgHunterData {
+    attackList:number[]
+    hpList:number[]
+    upAtcCntList:number[]
+    hunterAttackList:number[]
+    hunterHpList:number[]
+}
+
+export interface XCfgSpecialTowerData {
+    id:number,
+    oldname:string,
+    name:string
+    quality:string
+    weight:number
+    des:string
+    diIcon:string
+}
+
+export interface XCfgSuperBuildingData {
+    id:number,
+    name:string,
+    icon:string
+    description:string
+    upDes:string
 }

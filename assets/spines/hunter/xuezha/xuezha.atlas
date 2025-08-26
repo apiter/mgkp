@@ -1,0 +1,90 @@
+
+xuezha.png
+size: 322,606
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xuezha_body
+  rotate: true
+  xy: 2, 136
+  size: 124, 175
+  orig: 124, 175
+  offset: 0, 0
+  index: -1
+xuezha_body1
+  rotate: true
+  xy: 2, 10
+  size: 124, 175
+  orig: 124, 175
+  offset: 0, 0
+  index: -1
+xuezha_hand1
+  rotate: false
+  xy: 149, 454
+  size: 109, 150
+  orig: 109, 150
+  offset: 0, 0
+  index: -1
+xuezha_hand11
+  rotate: false
+  xy: 149, 302
+  size: 109, 150
+  orig: 109, 150
+  offset: 0, 0
+  index: -1
+xuezha_hand2
+  rotate: false
+  xy: 179, 152
+  size: 67, 148
+  orig: 67, 148
+  offset: 0, 0
+  index: -1
+xuezha_hand21
+  rotate: false
+  xy: 179, 2
+  size: 67, 148
+  orig: 67, 148
+  offset: 0, 0
+  index: -1
+xuezha_head
+  rotate: false
+  xy: 2, 434
+  size: 145, 170
+  orig: 145, 170
+  offset: 0, 0
+  index: -1
+xuezha_head1
+  rotate: false
+  xy: 2, 262
+  size: 145, 170
+  orig: 145, 170
+  offset: 0, 0
+  index: -1
+xuezha_tui1
+  rotate: false
+  xy: 260, 458
+  size: 60, 146
+  orig: 60, 146
+  offset: 0, 0
+  index: -1
+xuezha_tui11
+  rotate: false
+  xy: 260, 310
+  size: 60, 146
+  orig: 60, 146
+  offset: 0, 0
+  index: -1
+xuezha_tui2
+  rotate: false
+  xy: 248, 157
+  size: 64, 143
+  orig: 64, 143
+  offset: 0, 0
+  index: -1
+xuezha_tui21
+  rotate: false
+  xy: 248, 12
+  size: 64, 143
+  orig: 64, 143
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+beishubao.png
+size: 676,250
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beishubao_bei
+  rotate: false
+  xy: 438, 3
+  size: 107, 93
+  orig: 107, 93
+  offset: 0, 0
+  index: -1
+beishubao_body
+  rotate: false
+  xy: 275, 65
+  size: 128, 183
+  orig: 139, 183
+  offset: 0, 0
+  index: -1
+beishubao_hand1
+  rotate: false
+  xy: 547, 28
+  size: 50, 88
+  orig: 50, 88
+  offset: 0, 0
+  index: -1
+beishubao_hand2
+  rotate: false
+  xy: 544, 118
+  size: 71, 130
+  orig: 71, 130
+  offset: 0, 0
+  index: -1
+beishubao_hand3
+  rotate: true
+  xy: 2, 6
+  size: 242, 271
+  orig: 242, 271
+  offset: 0, 0
+  index: -1
+beishubao_head
+  rotate: false
+  xy: 405, 98
+  size: 137, 150
+  orig: 137, 150
+  offset: 0, 0
+  index: -1
+beishubao_tui1
+  rotate: false
+  xy: 617, 88
+  size: 57, 160
+  orig: 57, 160
+  offset: 0, 0
+  index: -1
+beishubao_tui2
+  rotate: true
+  xy: 275, 2
+  size: 61, 161
+  orig: 61, 161
+  offset: 0, 0
+  index: -1

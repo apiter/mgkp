@@ -1,0 +1,111 @@
+
+baixue.png
+size: 248,918
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+baixue_body
+  rotate: true
+  xy: 2, 48
+  size: 98, 130
+  orig: 98, 130
+  offset: 0, 0
+  index: -1
+baixue_face
+  rotate: false
+  xy: 2, 148
+  size: 149, 135
+  orig: 151, 137
+  offset: 1, 1
+  index: -1
+baixue_hair1
+  rotate: true
+  xy: 127, 2
+  size: 29, 118
+  orig: 29, 119
+  offset: 0, 0
+  index: -1
+baixue_hair2
+  rotate: true
+  xy: 2, 5
+  size: 41, 123
+  orig: 41, 123
+  offset: 0, 0
+  index: -1
+baixue_hair3
+  rotate: false
+  xy: 2, 382
+  size: 177, 166
+  orig: 177, 256
+  offset: 0, 83
+  index: -1
+baixue_hand1
+  rotate: true
+  xy: 158, 259
+  size: 69, 88
+  orig: 71, 90
+  offset: 1, 1
+  index: -1
+baixue_hand2
+  rotate: false
+  xy: 153, 213
+  size: 87, 44
+  orig: 87, 44
+  offset: 0, 0
+  index: -1
+baixue_hand3
+  rotate: false
+  xy: 153, 103
+  size: 70, 108
+  orig: 72, 110
+  offset: 1, 1
+  index: -1
+baixue_hand4
+  rotate: true
+  xy: 134, 33
+  size: 68, 97
+  orig: 70, 99
+  offset: 1, 1
+  index: -1
+baixue_hudie
+  rotate: true
+  xy: 181, 455
+  size: 93, 65
+  orig: 93, 65
+  offset: 0, 0
+  index: -1
+baixue_kazi
+  rotate: true
+  xy: 181, 330
+  size: 123, 63
+  orig: 125, 65
+  offset: 1, 1
+  index: -1
+baixue_qunzi1
+  rotate: false
+  xy: 2, 550
+  size: 228, 180
+  orig: 228, 180
+  offset: 0, 0
+  index: -1
+baixue_qunzi2
+  rotate: false
+  xy: 2, 732
+  size: 239, 184
+  orig: 239, 194
+  offset: 0, 9
+  index: -1
+baixue_tui1
+  rotate: true
+  xy: 2, 285
+  size: 51, 154
+  orig: 62, 154
+  offset: 0, 0
+  index: -1
+baixue_tui2
+  rotate: true
+  xy: 2, 338
+  size: 42, 157
+  orig: 122, 183
+  offset: 4, 0
+  index: -1

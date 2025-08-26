@@ -1,0 +1,146 @@
+
+smw.png
+size: 698,298
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+smw_body
+  rotate: true
+  xy: 316, 168
+  size: 128, 189
+  orig: 128, 189
+  offset: 0, 0
+  index: -1
+smw_body1
+  rotate: true
+  xy: 507, 168
+  size: 128, 189
+  orig: 128, 189
+  offset: 0, 0
+  index: -1
+smw_hair1
+  rotate: true
+  xy: 562, 139
+  size: 27, 119
+  orig: 27, 119
+  offset: 0, 0
+  index: -1
+smw_hair11
+  rotate: true
+  xy: 429, 98
+  size: 27, 119
+  orig: 27, 119
+  offset: 0, 0
+  index: -1
+smw_hair2
+  rotate: true
+  xy: 316, 127
+  size: 39, 121
+  orig: 39, 121
+  offset: 0, 0
+  index: -1
+smw_hair21
+  rotate: true
+  xy: 439, 127
+  size: 39, 121
+  orig: 39, 121
+  offset: 0, 0
+  index: -1
+smw_hand1
+  rotate: true
+  xy: 565, 6
+  size: 51, 63
+  orig: 51, 63
+  offset: 0, 0
+  index: -1
+smw_hand11
+  rotate: true
+  xy: 630, 6
+  size: 51, 63
+  orig: 51, 63
+  offset: 0, 0
+  index: -1
+smw_hand2
+  rotate: false
+  xy: 509, 18
+  size: 54, 78
+  orig: 54, 78
+  offset: 0, 0
+  index: -1
+smw_hand21
+  rotate: false
+  xy: 634, 59
+  size: 54, 78
+  orig: 54, 78
+  offset: 0, 0
+  index: -1
+smw_hand3
+  rotate: true
+  xy: 259, 22
+  size: 94, 76
+  orig: 176, 81
+  offset: 0, 0
+  index: -1
+smw_hand31
+  rotate: false
+  xy: 337, 39
+  size: 90, 86
+  orig: 170, 91
+  offset: 0, 0
+  index: -1
+smw_hand4
+  rotate: true
+  xy: 429, 29
+  size: 67, 78
+  orig: 68, 78
+  offset: 1, 0
+  index: -1
+smw_hand41
+  rotate: false
+  xy: 565, 59
+  size: 67, 78
+  orig: 68, 78
+  offset: 1, 0
+  index: -1
+smw_head
+  rotate: false
+  xy: 2, 118
+  size: 155, 178
+  orig: 155, 178
+  offset: 0, 0
+  index: -1
+smw_head1
+  rotate: false
+  xy: 159, 118
+  size: 155, 178
+  orig: 155, 178
+  offset: 0, 0
+  index: -1
+smw_tui1
+  rotate: true
+  xy: 132, 60
+  size: 56, 125
+  orig: 57, 125
+  offset: 0, 0
+  index: -1
+smw_tui11
+  rotate: true
+  xy: 132, 2
+  size: 56, 125
+  orig: 57, 125
+  offset: 0, 0
+  index: -1
+smw_tui2
+  rotate: true
+  xy: 2, 60
+  size: 56, 128
+  orig: 56, 128
+  offset: 0, 0
+  index: -1
+smw_tui21
+  rotate: true
+  xy: 2, 2
+  size: 56, 128
+  orig: 56, 128
+  offset: 0, 0
+  index: -1

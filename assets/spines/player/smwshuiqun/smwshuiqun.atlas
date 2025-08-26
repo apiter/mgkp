@@ -1,0 +1,83 @@
+
+smwshuiqun.png
+size: 525,310
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+smwsy_body
+  rotate: true
+  xy: 174, 151
+  size: 157, 251
+  orig: 157, 251
+  offset: 0, 0
+  index: -1
+smwsy_hair
+  rotate: false
+  xy: 316, 4
+  size: 167, 145
+  orig: 167, 145
+  offset: 0, 0
+  index: -1
+smwsy_hair1
+  rotate: false
+  xy: 485, 71
+  size: 30, 95
+  orig: 30, 95
+  offset: 0, 0
+  index: -1
+smwsy_hair2
+  rotate: true
+  xy: 187, 30
+  size: 45, 103
+  orig: 45, 103
+  offset: 0, 0
+  index: -1
+smwsy_hand1
+  rotate: true
+  xy: 95, 3
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+smwsy_hand2
+  rotate: true
+  xy: 2, 2
+  size: 61, 91
+  orig: 61, 92
+  offset: 0, 0
+  index: -1
+smwsy_hand3
+  rotate: false
+  xy: 427, 233
+  size: 88, 75
+  orig: 88, 81
+  offset: 0, 0
+  index: -1
+smwsy_hand4
+  rotate: true
+  xy: 174, 77
+  size: 72, 140
+  orig: 72, 140
+  offset: 0, 0
+  index: -1
+smwsy_head
+  rotate: true
+  xy: 2, 65
+  size: 243, 170
+  orig: 243, 170
+  offset: 0, 0
+  index: -1
+smwsy_tui1
+  rotate: false
+  xy: 483, 168
+  size: 40, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1
+smwsy_tui2
+  rotate: false
+  xy: 427, 167
+  size: 54, 64
+  orig: 58, 64
+  offset: 4, 0
+  index: -1

@@ -1,4 +1,4 @@
-import { math, v2, Vec2 } from "cc"
+import { log, math, v2, Vec2 } from "cc"
 import EventCenter from "../event/EventCenter"
 import { XEventNames } from "../event/XEventNames"
 import { XRoomModel } from "../model/XRoomModel"
@@ -8,6 +8,7 @@ import { XRandomUtil } from "../xutil/XRandomUtil"
 import XTowerModel from "../model/XTowerModel"
 import XBuildingModel from "../model/XBuildingModel"
 import XUtil from "../xutil/XUtil"
+import XPlayerModel from "../model/XPlayerModel"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -18,8 +19,8 @@ export default class XBuildingMgr {
     mapBuildWeightArr: number[] = []
     magicConsumeArr: number[][] = []
 
-    buildings: any[] = []
-    buildingGrids: any[] = []
+    buildings: XBuildingModel[] = []
+    buildingGrids: XBuildingModel[][] = []
     turntableBuildArr: any[] = []
     mapEquipScripts: any[] = []
     mapEquipScriptArr: any[] = []
@@ -31,16 +32,34 @@ export default class XBuildingMgr {
     mapBuildScripts: any[][] = []
 
     constructor() {
-        this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"],
-            this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5],
-            this.magicConsumeArr = [
-                [10, 0],
-                [40, 10],
-                [160, 10],
-                [240, 30]
-            ]
+        this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"]
+        this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5]
+        this.magicConsumeArr = [
+            [10, 0], [40, 10], [160, 10], [240, 30]
+        ]
     }
 
+    init() {
+        this.initBuildingCfg()
+        this.buildings = []
+        this.buildingGrids = []
+        this.turntableBuildArr = []
+        this.mapEquipScripts = []
+        this.mapEquipScriptArr = []
+        this.rooms = {};
+        for (const room of XMgr.mapMgr.rooms)
+            this.rooms[room.id] = room;
+        let buildings = XMgr.mapMgr.buildings.slice(0)
+        for (const e of buildings) {
+            let t = this.getRoom(e.roomId);
+            if (t?.active) {
+                this.build(null, e.buildId, e.x, e.y, e.buildRot, e.lv, !1)
+            }
+        }
+        this.openAllDoor()
+        this.initRandomBuild()
+        // XMgr.gameMgr.gameMode == XGameMode.E_Defense ? this.initRandomBuild() : XMgr.gameMgr.gameMode == XGameMode.E_Hunt ? this.initHunterRandomBuild() : t.gameMgr.gameMode == XGameMode.E_SevenGhost && this.initSevenGhostRandomBuild()
+    }
 
     initBuildingCfg() {
         if (this.isAddCfg) return;
@@ -52,46 +71,20 @@ export default class XBuildingMgr {
         this.addCfgs("mineCfg_test", XBuildType.mine)
         this.addCfgs("skillBuildCfg_test")
 
-        this.specialTowerCfg = Array.from(XMgr.cfg.allCfgMap.get("specialTowerCfg_test").values())
-        // this.superBuildCfg = new fx.BaseDataModel("superBuildCfg_test", Lt)
-        // this.specialTowerCfg = new fx.BaseDataModel("specialTowerCfg_test", Dt)
-    }
-
-    init() {
-        this.initBuildingCfg()
-        this.buildings = []
-        this.buildingGrids = []
-        this.turntableBuildArr = []
-        this.mapEquipScripts = []
-        this.mapEquipScriptArr = []
-        this.rooms = {};
-        for (const room of XMgr.mapMgr.rooms) this.rooms[room.id] = room;
-        let i = XMgr.mapMgr.buildings.slice(0),
-            s = [];
-        for (const e of i) {
-            let t = this.getRoom(e.roomId);
-            if (t?.active) {
-                s.push(e)
-                this.build(null, e.buildId, e.x, e.y, e.buildRot, e.lv, !1)
-            }
-        }
-        this.openAllDoor()
-        this.initRandomBuild()
-        // XMgr.gameMgr.gameMode == XGameMode.E_Defense ? this.initRandomBuild() : XMgr.gameMgr.gameMode == XGameMode.E_Hunt ? this.initHunterRandomBuild() : t.gameMgr.gameMode == XGameMode.E_SevenGhost && this.initSevenGhostRandomBuild()
+        this.specialTowerCfg = Array.from(XMgr.cfg.superBuildCfg.values())
     }
 
     initRandomBuild() {
         let e = 100 / 95,
             t = [5001, 6012, 3e3, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
         for (const i in this.rooms) {
-            let s, a = this.rooms[i],
-                n = a.bedModelList[0],
-                r = v2(n.x, n.y),
-                o = this.getGridByPos(a.id, r),
-                l = XRandomUtil.random(),
-                h = t[s = l < .25 * e ? 0 : l < .4 * e ? 1 : l < .45 * e ? 2 : l < .5 * e ? 3 : l < .55 * e ? 4 : l < .67 * e ? 5 : l < .79 * e ? 6 : l < .83 * e ? 7 : l < .85 * e ? 8 : l < .9 * e ? 9 : 10],
-                d = this.getBuildCfg(h);
-            this.build(null, d.buildId, o.x, o.y, 0, 1, !1, !0, null, !0)
+            let room = this.rooms[i],
+                n = room.bedModelList[0],
+                pos = v2(n.x, n.y),
+                grid = this.getGridByPos(room.id, pos),
+                h = t[0]
+            let buildCfg = this.getBuildCfg(h);
+            this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }
 
@@ -118,49 +111,102 @@ export default class XBuildingMgr {
         return arr
     }
 
-    build(i, buildId_, x_, y_, buildRot_ = 0, lv_ = 1, l = !0, h = !0, maxHp = null, u = !1) {
-        let g = this.getBuilding(x_, y_);
-        if (g && !g.isDie) return XBuildResult.E_FAILD;
-        let c = this.getBuildCfg(buildId_, lv_);
-        if (!c) return;
-        let p = XMgr.mapMgr.getRoomIdByGrid(x_, y_),
-            f = c.coin,
-            m = c.energy,
-            y = XMgr.playerMgr.getPlayer(i);
-        if (6666 == c.buildId)
-            if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt || 1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == XGameMode.E_Defense)
-                if (XMgr.playerMgr.mineUuid == i) {
-                    let e = math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
-                    f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
-                } else {
-                    let e = math.clamp(y.randomCnt, 0, 3);
-                    f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
-                } else f = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0], m = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
-        else XMgr.gameMgr.gameMode == XGameMode.E_Defense && c.buffId && c.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (f = Math.round(.9 * c.coin), m = Math.round(.9 * c.energy));
-        if (p && y && l) {
-            let a = this.getRoom(p),
-                n = this.getBuildCntInRoom(a, buildId_);
-            if (c.maxCnt && n >= c.maxCnt) return XBuildResult.E_MAX_CNT;
-            if (!this.isInfiniteIncome && f && f > y.coin) return XBuildResult.E_COIN_NOT_ENOUGH;
-            if (!this.isInfiniteIncome && m && m > y.energy) return XBuildResult.E_ENERGY_NOT_ENOUGH;
-            if (c.preBuilding && !this.isHaveBuilding(p, c.preBuilding.buildId, c.preBuilding.lv)) return XBuildResult.E_NOT_HAVE_PREBUILD;
-            this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, f, m) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -f, -m)
+    build(playerID, buildId_, x_, y_, buildRot_ = 0, lv_ = 1, check = true, canHandle_ = true, maxHp = null, isInit_ = !1) {
+        // 检查目标格子是否已有建筑
+        const buildModel = this.getBuilding(x_, y_);
+        if (buildModel && !buildModel.isDie) return XBuildResult.E_FAILD;
+
+        // 获取建造配置
+        let buildCfg = this.getBuildCfg(buildId_, lv_);
+        if (!buildCfg) return;
+
+        const roomId = XMgr.mapMgr.getRoomIdByGrid(x_, y_);
+        let consumeCoin = buildCfg.coin;      // 消耗金币
+        let consumeEnergy = buildCfg.energy;    // 消耗能量
+        const playModel = XMgr.playerMgr.getPlayer(playerID);
+
+        // 特殊建造（6666：魔法消耗）
+        if (6666 == buildCfg.buildId) {
+            if (
+                XMgr.gameMgr.gameMode == XGameMode.E_Hunt ||
+                (1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == XGameMode.E_Defense)
+            ) {
+                // 自己
+                if (XMgr.playerMgr.mineUuid == playerID) {
+                    const e = math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
+                    consumeCoin = this.magicConsumeArr[e][0];
+                    consumeEnergy = this.magicConsumeArr[e][1];
+                }
+                // 其他人
+                else {
+                    const e = math.clamp(playModel.randomCnt, 0, 3);
+                    consumeCoin = this.magicConsumeArr[e][0];
+                    consumeEnergy = this.magicConsumeArr[e][1];
+                }
+            } else {
+                consumeCoin = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0];
+                consumeEnergy = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
+            }
         }
-        let buildingModel = this.createBuildingModelByCfg(i, buildId_, p, lv_, x_, y_, buildRot_, c);
-        maxHp && (buildingModel.curHp = buildingModel.maxHp = maxHp)
-        buildingModel.isInit = u
-        buildingModel.canHandle = h
-        this.addBuilding(buildingModel, y)
-        XMgr.playerMgr.player.type != XPlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(x_, y_, !1)
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildingModel, !1])
-        // !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()
-        // t.gameMgr.playSound(C, 111)
-        return XBuildResult.E_OK
+        // 防御模式 buff 折扣
+        else if (
+            XMgr.gameMgr.gameMode == XGameMode.E_Defense &&
+            buildCfg.buffId &&
+            buildCfg.buffId.includes(1) &&
+            XMgr.user.gameInfo.getBuffData(1)
+        ) {
+            consumeCoin = Math.round(0.9 * buildCfg.coin);
+            consumeEnergy = Math.round(0.9 * buildCfg.energy);
+        }
+
+        // 建造前的限制检查
+        if (roomId && playModel && check) {
+            const room = this.getRoom(roomId);
+            const buildCntInRoom = this.getBuildCntInRoom(room, buildId_);
+
+            if (buildCfg.maxCnt && buildCntInRoom >= buildCfg.maxCnt) return XBuildResult.E_MAX_CNT;
+            if (!this.isInfiniteIncome && consumeCoin && consumeCoin > playModel.coin) return XBuildResult.E_COIN_NOT_ENOUGH;
+            if (!this.isInfiniteIncome && consumeEnergy && consumeEnergy > playModel.energy) return XBuildResult.E_ENERGY_NOT_ENOUGH;
+            if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
+                return XBuildResult.E_NOT_HAVE_PREBUILD;
+
+            // 扣除资源
+            if (this.isInfiniteIncome) {
+                XMgr.playerMgr.changePlayerIncomeByUuid(playerID, consumeCoin, consumeEnergy);
+            } else {
+                XMgr.playerMgr.changePlayerIncomeByUuid(playerID, -consumeCoin, -consumeEnergy);
+            }
+        }
+
+        // 创建建筑实例
+        const buildingModel = this.createBuildingModelByCfg(playerID, buildId_, roomId, lv_, x_, y_, buildRot_, buildCfg);
+        if (maxHp) buildingModel.curHp = buildingModel.maxHp = maxHp;
+
+        buildingModel.isInit = isInit_;
+        buildingModel.canHandle = canHandle_;
+
+        // 加入房间/玩家
+        this.addBuilding(buildingModel, playModel);
+
+        // 更新寻路
+        if (XMgr.playerMgr.player.type != XPlayerType.E_Defender) {
+            XMgr.mapMgr.setDynWalkable(x_, y_, !1);
+        }
+
+        // 广播事件
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildingModel, !1]);
+
+        // 任务/音效（目前注释掉）
+        // !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask();
+        // t.gameMgr.playSound(C, 111);
+
+        return XBuildResult.E_OK;
     }
+
 
     takeMapBuild(x_, y_, data_) {
         let a = this.getMapBuild(x_, y_);
-        if (!a || a.isUsed) return !1;
+        if (!a || a.isUsed) return false;
         if (a.isUsed = !0, a.owner && !a.owner.destroyed) {
             this.mapBuildScripts[x_][y_] = null
             // if ("fhl" == a.buildName) {
@@ -177,20 +223,23 @@ export default class XBuildingMgr {
     }
 
 
-    createBuildingModelByCfg(i, s, a, n, r, o, l, h) {
-        let d;
+    createBuildingModelByCfg(playerUuid_: string, id_: number, roomId_: number, lv_: number, x_: number, y_: number, rotation_: number, h) {
+        let model: XBuildingModel;
         switch (h.type) {
             case XBuildType.tower:
-                let t = d = new XTowerModel(s, a, n, r, o, l),
+                let t = model = new XTowerModel(id_, roomId_, lv_, x_, y_, rotation_),
                     i = h;
                 t.atkCD = i.atkInterval, t.atkDst = i.atkRange, t.atk = i.atkDamage;
                 break;
             default:
-                d = new XBuildingModel(s, a, n, r, o, l)
+                model = new XBuildingModel(id_, roomId_, lv_, x_, y_, rotation_)
         }
-        d.playerUuid = i, d.lv = n, d.type = h.type;
+        model.playerUuid = playerUuid_
+        model.lv = lv_
+        model.type = h.type;
         let u = h.hp || 1;
-        return XMgr.gameMgr.changeMaxHp(d, u, u), d
+        XMgr.gameMgr.changeMaxHp(model, u, u)
+        return model
     }
 
     isHaveBuilding(t, i, s = 1) {
@@ -219,7 +268,7 @@ export default class XBuildingMgr {
         return i
     }
 
-    addBuilding(building, owner) {
+    addBuilding(building: XBuildingModel, owner: XPlayerModel) {
         // 全局建筑列表
         this.buildings.push(building);
 
@@ -269,7 +318,7 @@ export default class XBuildingMgr {
         if (i) {
             let e = 9999999;
             for (const grid of roomEmptyGrids) {
-                let dis = i.distanceSq(grid);
+                let dis = Vec2.squaredDistance(i, grid)
                 if (dis < e) {
                     e = dis
                     a.x = grid.x
@@ -287,7 +336,7 @@ export default class XBuildingMgr {
     addCfgs(name_, type_?) {
         let cfg = XMgr.cfg.allCfgMap.get(name_);
         if (!cfg) return;
-        for (const key of cfg.keys()) {
+        for (const key in cfg) {
             let cfgItem = cfg[key];
             cfgItem.id = cfgItem.buildId
             cfgItem.type = type_ || cfgItem.buildType
@@ -303,10 +352,10 @@ export default class XBuildingMgr {
         return this.rooms[roomID]
     }
 
-    getBuildCfg(e, t = 1) {
-        if (this.buildCfgs[e]) {
-            const list = this.buildCfgs[e];
-            const index = Math.min(t, list.length) - 1;
+    getBuildCfg(buildId_, minIdx_ = 1) {
+        if (this.buildCfgs[buildId_]) {
+            const list = this.buildCfgs[buildId_];
+            const index = Math.min(minIdx_, list.length) - 1;
             return list[index];
         }
     }
@@ -324,7 +373,7 @@ export default class XBuildingMgr {
         EventCenter.emit(XEventNames.E_Door_State_Changed, [e])
     }
 
-    upBed(x_: number, y_: number, player_: any) {
+    upBed(x_: number, y_: number, player_: XPlayerModel) {
         // 获取当前床建筑 & 所在房间
         const bed = this.getBuilding(x_, y_);
         const room = bed ? this.getRoom(bed.roomId) : null;
@@ -391,12 +440,12 @@ export default class XBuildingMgr {
         EventCenter.emit(XEventNames.E_Bed_Up, [bed, player_.uuid])
 
         // 搬建筑逻辑
-        if (player_.takeMapBuild) {
-            const buildCfg = player_.takeMapBuild.buildCfg;
-            const emptyGrids = this.getEmptyGrids(room.id);
-            const randPos = XRandomUtil.randomInArray(emptyGrids);
-            this.buildCd(player_.uuid, buildCfg.buildId, randPos.x, randPos.y, 0, buildCfg.lv);
-        }
+        // if (player_.takeMapBuild) {
+        //     const buildCfg = player_.takeMapBuild.buildCfg;
+        //     const emptyGrids = this.getEmptyGrids(room.id);
+        //     const randPos = XRandomUtil.randomInArray(emptyGrids);
+        //     this.buildCd(player_.uuid, buildCfg.buildId, randPos.x, randPos.y, 0, buildCfg.lv);
+        // }
 
         return XBuildResult.E_OK;
     }
@@ -407,7 +456,7 @@ export default class XBuildingMgr {
         this.changeDoorState(s, false)
     }
 
-    buildCd(i, s, a, n, r = 0, o = 1, l = !0) {
+    buildCd(i, s, a, n, r = 0, o = 1, canHandle_ = !0) {
         // 检查当前位置是否已有建筑
         let h = this.getBuilding(a, n);
         if (h && !h.isDie) {
@@ -423,31 +472,31 @@ export default class XBuildingMgr {
             return;
         }
 
-        let u; // 新建筑实例
-        let g = XMgr.mapMgr.getRoomIdByGrid(a, n);   // 房间 ID
-        let c = XMgr.playerMgr.getPlayer(i);         // 玩家对象
+        let buildModel: XBuildingModel; // 新建筑实例
+        let roomId = XMgr.mapMgr.getRoomIdByGrid(a, n);   // 房间 ID
+        let playModel = XMgr.playerMgr.getPlayer(i);         // 玩家对象
 
         // 处理特殊建筑逻辑
         if (s == 7777) {
-            u = this.createBuildingModelByCfg(i, 3000, g, o, a, n, r, d);
-            u.isSpecial = true;
+            buildModel = this.createBuildingModelByCfg(i, 3000, roomId, o, a, n, r, d);
+            buildModel.isSpecial = true;
 
             let e = this.getSpecialTower();
-            u.specialId = e.id;
+            buildModel.specialId = e.id;
 
             if (e.quality == "罕见") {
-                u.canChangeSpecial = true;
+                buildModel.canChangeSpecial = true;
             }
         } else {
             // 普通建筑
-            u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
+            buildModel = this.createBuildingModelByCfg(i, s, roomId, o, a, n, r, d);
         }
 
         // 设置可操作属性
-        u.canHandle = l;
+        buildModel.canHandle = canHandle_;
 
         // 添加建筑到地图 & 玩家
-        this.addBuilding(u, c);
+        this.addBuilding(buildModel, playModel);
 
         // 如果是进攻方，则格子不可通行
         if (XMgr.playerMgr.player.type != XPlayerType.E_Defender) {
@@ -455,7 +504,7 @@ export default class XBuildingMgr {
         }
 
         // 派发建造事件
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [u, false, 60]);
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildModel, false, 60]);
         // 任务检查
         // if (!XMgr.taskMgr.compeletAllTask()) {
         //     XMgr.taskMgr.startTask();
@@ -471,7 +520,7 @@ export default class XBuildingMgr {
             towers.push(e)
         })
         e ? towers.splice(0, 5) : 8 * XRandomUtil.getNumberRandom(0, 1) < 6 ? towers.splice(5) : towers.splice(0, 5);
-        let selectedTowers:{tower:any, weight:number}[] = [];
+        let selectedTowers: { tower: any, weight: number }[] = [];
         for (const tower of towers)
             e ? "罕见" != tower.quality && selectedTowers.push({
                 tower: tower,

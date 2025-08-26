@@ -1,0 +1,62 @@
+
+tianshi.png
+size: 724,151
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+tianshi _head
+  rotate: true
+  xy: 2, 7
+  size: 142, 170
+  orig: 144, 172
+  offset: 1, 1
+  index: -1
+tianshi_body
+  rotate: true
+  xy: 174, 18
+  size: 131, 157
+  orig: 131, 158
+  offset: 0, 1
+  index: -1
+tianshi_hand1
+  rotate: false
+  xy: 503, 3
+  size: 103, 66
+  orig: 103, 66
+  offset: 0, 0
+  index: -1
+tianshi_hand2
+  rotate: true
+  xy: 608, 18
+  size: 51, 82
+  orig: 51, 111
+  offset: 0, 29
+  index: -1
+tianshi_hand3
+  rotate: true
+  xy: 333, 71
+  size: 78, 198
+  orig: 78, 198
+  offset: 0, 0
+  index: -1
+tianshi_jiao1
+  rotate: true
+  xy: 333, 2
+  size: 67, 168
+  orig: 67, 168
+  offset: 0, 0
+  index: -1
+tianshi_jiao2
+  rotate: true
+  xy: 533, 71
+  size: 78, 169
+  orig: 78, 169
+  offset: 0, 0
+  index: -1
+tianshi_qiu
+  rotate: true
+  xy: 692, 37
+  size: 32, 30
+  orig: 38, 36
+  offset: 3, 3
+  index: -1

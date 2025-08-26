@@ -1,0 +1,181 @@
+
+xiaoshuai.png
+size: 972,324
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xiaoshuai_body
+  rotate: false
+  xy: 2, 153
+  size: 150, 169
+  orig: 150, 170
+  offset: 0, 0
+  index: -1
+xiaoshuai_body1
+  rotate: false
+  xy: 154, 155
+  size: 148, 167
+  orig: 148, 168
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair1
+  rotate: true
+  xy: 463, 61
+  size: 67, 133
+  orig: 67, 133
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair11
+  rotate: true
+  xy: 826, 177
+  size: 65, 131
+  orig: 65, 131
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair2
+  rotate: false
+  xy: 226, 13
+  size: 61, 140
+  orig: 61, 140
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair21
+  rotate: true
+  xy: 598, 65
+  size: 59, 138
+  orig: 59, 138
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair3
+  rotate: true
+  xy: 672, 126
+  size: 56, 139
+  orig: 56, 139
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair31
+  rotate: true
+  xy: 463, 5
+  size: 54, 137
+  orig: 54, 137
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair4
+  rotate: false
+  xy: 498, 130
+  size: 172, 99
+  orig: 172, 99
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair41
+  rotate: false
+  xy: 289, 50
+  size: 172, 99
+  orig: 172, 99
+  offset: 0, 0
+  index: -1
+xiaoshuai_hair5
+  rotate: true
+  xy: 684, 184
+  size: 58, 140
+  orig: 59, 140
+  offset: 1, 0
+  index: -1
+xiaoshuai_hair51
+  rotate: true
+  xy: 602, 7
+  size: 56, 138
+  orig: 57, 138
+  offset: 1, 0
+  index: -1
+xiaoshuai_hand1
+  rotate: true
+  xy: 880, 263
+  size: 59, 90
+  orig: 59, 90
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand11
+  rotate: true
+  xy: 738, 65
+  size: 59, 90
+  orig: 59, 90
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand2
+  rotate: true
+  xy: 289, 6
+  size: 42, 86
+  orig: 42, 86
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand4
+  rotate: true
+  xy: 742, 7
+  size: 56, 138
+  orig: 56, 138
+  offset: 0, 0
+  index: -1
+xiaoshuai_hand41
+  rotate: true
+  xy: 830, 119
+  size: 56, 138
+  orig: 56, 138
+  offset: 0, 0
+  index: -1
+xiaoshuai_head
+  rotate: true
+  xy: 2, 2
+  size: 147, 110
+  orig: 149, 112
+  offset: 1, 1
+  index: -1
+xiaoshuai_head1
+  rotate: true
+  xy: 114, 2
+  size: 147, 110
+  orig: 147, 110
+  offset: 0, 0
+  index: -1
+xiaoshuai_tui1
+  rotate: true
+  xy: 304, 229
+  size: 93, 189
+  orig: 93, 189
+  offset: 0, 0
+  index: -1
+xiaoshuai_tui11
+  rotate: true
+  xy: 495, 231
+  size: 91, 187
+  orig: 91, 187
+  offset: 0, 0
+  index: -1
+xiaoshuai_tui2
+  rotate: true
+  xy: 684, 244
+  size: 78, 194
+  orig: 78, 194
+  offset: 0, 0
+  index: -1
+xiaoshuai_tui21
+  rotate: true
+  xy: 304, 151
+  size: 76, 192
+  orig: 76, 192
+  offset: 0, 0
+  index: -1
+xiaoshuai_xl
+  rotate: false
+  xy: 911, 36
+  size: 54, 81
+  orig: 54, 81
+  offset: 0, 0
+  index: -1
+xiaoshuai_xl1
+  rotate: true
+  xy: 830, 65
+  size: 52, 79
+  orig: 52, 79
+  offset: 0, 0
+  index: -1

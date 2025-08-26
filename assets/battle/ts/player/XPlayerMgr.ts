@@ -8,27 +8,30 @@ import { XRandomUtil } from "../xutil/XRandomUtil";
 
 export default class XPlayerMgr {
     mineUuid = "";
-    hunters = [];
-    defenders = [];
+    hunters: XPlayerModel[] = [];
+    defenders: XPlayerModel[] = [];
     angels = [];
     players = [];
-    playerMap = {};
+    playerMap: { [key: string]: XPlayerModel } = {};
     player = null;
     isGoldlessMode = !1;
     fighter = null;
 
-    init(matchData_:XMatchData) {
+    init(matchData_: XMatchData) {
         this.mineUuid = matchData_.mineUuid
         this.hunters = matchData_.hunters
         this.defenders = matchData_.defenders
         this.angels = []
         this.players = this.hunters.concat(this.defenders)
         this.playerMap = {};
-        for (const e of this.players)
-            e.uuid == this.mineUuid && (this.player = e), this.playerMap[e.uuid] = e
+        for (const player of this.players) {
+            player.uuid == this.mineUuid && (this.player = player)
+            this.playerMap[player.uuid] = player
+        }
+
     }
-    getPlayer(e) {
-        return e ? this.playerMap[e] : null
+    getPlayer(id_: string) {
+        return id_ ? this.playerMap[id_] : null
     }
     changePlayerIncomeByUuid(e, t, i) {
         if (!e) return;
@@ -67,17 +70,18 @@ export default class XPlayerMgr {
     }
     addAngel() {
         let i = new XPlayerModel;
-        i.uuid = this.mineUuid, 
-        i.name = this.player.name, 
-        i.type = XPlayerType.E_Defender, 
-        i.isAngel = true, 
-        i.skinId = 90003, 
-        i.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.defenderPointNum - 1), 
-        this.angels.push(i), 
-        EventCenter.emit(XEventNames.E_Create_Angel, i)
+        i.uuid = this.mineUuid,
+            i.name = this.player.name,
+            i.type = XPlayerType.E_Defender,
+            i.isAngel = true,
+            i.skinId = 90003,
+            i.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.defenderPointNum - 1),
+            this.angels.push(i),
+            EventCenter.emit(XEventNames.E_Create_Angel, i)
     }
     deleteGhost() {
-        let e = this.hunters.splice(1);
-        for (const t of e) t && t.owner && !t.owner.destroyed && (t.ownerScript.onDead(), t.owner.destroy())
+        let hunters = this.hunters.splice(1);
+        for (const hun of hunters) 
+            hun && hun.owner && hun.owner.isValid && (hun.ownerScript.onDead(), hun.owner.destroy())
     }
 }

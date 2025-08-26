@@ -9,10 +9,10 @@ class XMgr {
     gameMgr: XBatleMgr = null
     playerMgr: XPlayerMgr = null;
     mapMgr:XMapMgr = null;
-    buildingMgr = null;
+    buildingMgr:XBuildingMgr = null;
     user: XUser = null;
     cfg: XCfgMgr = null
-    gameTime: Date = null
+    gameTime: Date = new Date
 
     init() {
         this.cfg = new XCfgMgr()

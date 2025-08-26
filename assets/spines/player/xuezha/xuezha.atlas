@@ -1,0 +1,48 @@
+
+xuezha.png
+size: 304,322
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xuezha_body
+  rotate: false
+  xy: 174, 145
+  size: 124, 175
+  orig: 124, 175
+  offset: 0, 0
+  index: -1
+xuezha_hand1
+  rotate: true
+  xy: 2, 64
+  size: 109, 150
+  orig: 109, 150
+  offset: 0, 0
+  index: -1
+xuezha_hand2
+  rotate: true
+  xy: 154, 76
+  size: 67, 148
+  orig: 67, 148
+  offset: 0, 0
+  index: -1
+xuezha_head
+  rotate: true
+  xy: 2, 175
+  size: 145, 170
+  orig: 145, 170
+  offset: 0, 0
+  index: -1
+xuezha_tui1
+  rotate: true
+  xy: 2, 2
+  size: 60, 146
+  orig: 60, 146
+  offset: 0, 0
+  index: -1
+xuezha_tui2
+  rotate: true
+  xy: 154, 10
+  size: 64, 143
+  orig: 64, 143
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,132 @@
+
+maolianpopo.png
+size: 278,721
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dianju
+  rotate: true
+  xy: 2, 472
+  size: 129, 171
+  orig: 129, 171
+  offset: 0, 0
+  index: -1
+fanwan
+  rotate: true
+  xy: 2, 216
+  size: 93, 126
+  orig: 93, 126
+  offset: 0, 0
+  index: -1
+guancai
+  rotate: true
+  xy: 2, 603
+  size: 116, 224
+  orig: 116, 224
+  offset: 0, 0
+  index: -1
+guimianju
+  rotate: true
+  xy: 170, 300
+  size: 96, 99
+  orig: 96, 99
+  offset: 0, 0
+  index: -1
+liandao
+  rotate: false
+  xy: 175, 398
+  size: 101, 142
+  orig: 101, 142
+  offset: 0, 0
+  index: -1
+maolian_body
+  rotate: true
+  xy: 2, 384
+  size: 86, 133
+  orig: 87, 136
+  offset: 1, 2
+  index: -1
+maolian_guaigun
+  rotate: false
+  xy: 135, 209
+  size: 28, 119
+  orig: 28, 119
+  offset: 0, 0
+  index: -1
+maolian_hair1
+  rotate: false
+  xy: 119, 118
+  size: 38, 89
+  orig: 39, 90
+  offset: 1, 1
+  index: -1
+maolian_hair2
+  rotate: true
+  xy: 137, 393
+  size: 77, 31
+  orig: 77, 31
+  offset: 0, 0
+  index: -1
+maolian_hand1
+  rotate: false
+  xy: 137, 330
+  size: 30, 61
+  orig: 32, 63
+  offset: 1, 1
+  index: -1
+maolian_hand2
+  rotate: true
+  xy: 99, 40
+  size: 76, 53
+  orig: 77, 53
+  offset: 1, 0
+  index: -1
+maolian_head
+  rotate: false
+  xy: 2, 119
+  size: 115, 95
+  orig: 117, 97
+  offset: 1, 1
+  index: -1
+maolian_tui1
+  rotate: false
+  xy: 228, 542
+  size: 38, 90
+  orig: 41, 94
+  offset: 2, 2
+  index: -1
+maolian_tui2
+  rotate: false
+  xy: 228, 634
+  size: 43, 85
+  orig: 46, 87
+  offset: 2, 0
+  index: -1
+maolian_zhang
+  rotate: true
+  xy: 175, 572
+  size: 29, 36
+  orig: 29, 36
+  offset: 0, 0
+  index: -1
+maozi
+  rotate: true
+  xy: 2, 311
+  size: 71, 131
+  orig: 71, 131
+  offset: 0, 0
+  index: -1
+wenzi
+  rotate: true
+  xy: 2, 30
+  size: 87, 95
+  orig: 87, 95
+  offset: 0, 0
+  index: -1
+zhaohunfan
+  rotate: false
+  xy: 165, 2
+  size: 110, 296
+  orig: 110, 296
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,167 @@
+
+wanghou.png
+size: 632,532
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nvwang_hand1
+  rotate: false
+  xy: 529, 110
+  size: 74, 73
+  orig: 84, 139
+  offset: 10, 0
+  index: -1
+nvwang_hand11
+  rotate: false
+  xy: 276, 257
+  size: 29, 31
+  orig: 31, 33
+  offset: 1, 1
+  index: -1
+nvwang_hand12
+  rotate: false
+  xy: 453, 130
+  size: 23, 38
+  orig: 25, 40
+  offset: 1, 1
+  index: -1
+nvwang_quanzhang
+  rotate: true
+  xy: 2, 32
+  size: 70, 378
+  orig: 70, 378
+  offset: 0, 0
+  index: -1
+nwang_er1
+  rotate: true
+  xy: 188, 10
+  size: 20, 38
+  orig: 20, 38
+  offset: 0, 0
+  index: -1
+nwang_er2
+  rotate: true
+  xy: 147, 10
+  size: 20, 39
+  orig: 20, 39
+  offset: 0, 0
+  index: -1
+nwang_hair1
+  rotate: false
+  xy: 382, 16
+  size: 71, 94
+  orig: 72, 94
+  offset: 0, 0
+  index: -1
+nwang_hair2
+  rotate: false
+  xy: 529, 185
+  size: 95, 93
+  orig: 131, 124
+  offset: 36, 31
+  index: -1
+nwang_head
+  rotate: false
+  xy: 311, 253
+  size: 165, 164
+  orig: 167, 166
+  offset: 1, 1
+  index: -1
+nwang_huangguan
+  rotate: true
+  xy: 544, 419
+  size: 111, 77
+  orig: 113, 79
+  offset: 1, 1
+  index: -1
+nwang_lbody
+  rotate: false
+  xy: 529, 280
+  size: 101, 137
+  orig: 107, 137
+  offset: 0, 0
+  index: -1
+nwang_lhand2
+  rotate: true
+  xy: 276, 170
+  size: 81, 195
+  orig: 81, 195
+  offset: 0, 0
+  index: -1
+nwang_lhand3
+  rotate: false
+  xy: 455, 10
+  size: 83, 45
+  orig: 93, 47
+  offset: 10, 0
+  index: -1
+nwang_lhand4
+  rotate: true
+  xy: 540, 2
+  size: 53, 71
+  orig: 55, 73
+  offset: 1, 1
+  index: -1
+nwang_ling
+  rotate: false
+  xy: 311, 419
+  size: 231, 111
+  orig: 231, 111
+  offset: 0, 0
+  index: -1
+nwang_lyibai1
+  rotate: false
+  xy: 478, 255
+  size: 49, 162
+  orig: 49, 162
+  offset: 0, 0
+  index: -1
+nwang_lyibai2
+  rotate: true
+  xy: 2, 9
+  size: 21, 143
+  orig: 21, 143
+  offset: 0, 0
+  index: -1
+nwang_pd1
+  rotate: true
+  xy: 276, 112
+  size: 56, 175
+  orig: 56, 175
+  offset: 0, 0
+  index: -1
+nwang_pd2
+  rotate: false
+  xy: 216, 114
+  size: 58, 174
+  orig: 58, 174
+  offset: 0, 0
+  index: -1
+nwang_qun1
+  rotate: false
+  xy: 2, 290
+  size: 307, 240
+  orig: 307, 240
+  offset: 0, 0
+  index: -1
+nwang_qun2
+  rotate: false
+  xy: 2, 104
+  size: 212, 184
+  orig: 212, 184
+  offset: 0, 0
+  index: -1
+nwang_tui1
+  rotate: true
+  xy: 455, 57
+  size: 51, 141
+  orig: 51, 141
+  offset: 0, 0
+  index: -1
+nwang_tui2
+  rotate: false
+  xy: 478, 111
+  size: 49, 142
+  orig: 49, 142
+  offset: 0, 0
+  index: -1

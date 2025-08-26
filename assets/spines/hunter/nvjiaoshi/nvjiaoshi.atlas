@@ -1,0 +1,125 @@
+
+nvjiaoshi.png
+size: 863,292
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nvjiaoshi_body
+  rotate: true
+  xy: 224, 177
+  size: 113, 234
+  orig: 113, 234
+  offset: 0, 0
+  index: -1
+nvjiaoshi_body1
+  rotate: true
+  xy: 460, 177
+  size: 113, 234
+  orig: 113, 234
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hair
+  rotate: false
+  xy: 2, 106
+  size: 220, 184
+  orig: 220, 184
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand1
+  rotate: false
+  xy: 128, 24
+  size: 66, 80
+  orig: 66, 80
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand11
+  rotate: false
+  xy: 128, 24
+  size: 66, 80
+  orig: 66, 80
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand2
+  rotate: true
+  xy: 498, 2
+  size: 47, 73
+  orig: 47, 73
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand21
+  rotate: true
+  xy: 573, 2
+  size: 47, 73
+  orig: 47, 73
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand3
+  rotate: false
+  xy: 224, 51
+  size: 217, 124
+  orig: 217, 124
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand31
+  rotate: false
+  xy: 443, 51
+  size: 217, 124
+  orig: 217, 124
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand4
+  rotate: false
+  xy: 322, 4
+  size: 86, 45
+  orig: 86, 45
+  offset: 0, 0
+  index: -1
+nvjiaoshi_hand41
+  rotate: false
+  xy: 410, 4
+  size: 86, 45
+  orig: 86, 45
+  offset: 0, 0
+  index: -1
+nvjiaoshi_head
+  rotate: false
+  xy: 696, 153
+  size: 150, 137
+  orig: 150, 137
+  offset: 0, 0
+  index: -1
+nvjiaoshi_head1
+  rotate: false
+  xy: 662, 14
+  size: 150, 137
+  orig: 150, 137
+  offset: 0, 0
+  index: -1
+nvjiaoshi_tui1
+  rotate: true
+  xy: 2, 57
+  size: 47, 124
+  orig: 47, 124
+  offset: 0, 0
+  index: -1
+nvjiaoshi_tui11
+  rotate: false
+  xy: 814, 27
+  size: 47, 124
+  orig: 47, 124
+  offset: 0, 0
+  index: -1
+nvjiaoshi_tui2
+  rotate: true
+  xy: 2, 8
+  size: 47, 124
+  orig: 47, 124
+  offset: 0, 0
+  index: -1
+nvjiaoshi_tui21
+  rotate: true
+  xy: 196, 2
+  size: 47, 124
+  orig: 47, 124
+  offset: 0, 0
+  index: -1

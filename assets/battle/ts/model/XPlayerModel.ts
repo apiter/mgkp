@@ -1,5 +1,8 @@
+import { Node } from "cc"
+import { XPlayerScript } from "../view/player/XPlayerScript"
 import { XBuffType, XPlayerType } from "../xconfig/XEnum"
 import XBaseModel from "./XBaseModel"
+import XBuildingModel from "./XBuildingModel"
 
 export default class XPlayerModel extends XBaseModel {
     isBed = false
@@ -32,12 +35,16 @@ export default class XPlayerModel extends XBaseModel {
     isBack = false
     randomCnt = 0
     reduceRate = 0
+    ownerScript:XPlayerScript
+    owner:Node
 
     type = XPlayerType.E_Defender
     uuid = ""
     name = ""
     skinId = 0
     spwanPoint = 0
+    bedModel:XBuildingModel
+    takeMapBuild = false
     getSpeedPow() {
         let e = 1;
         if (this.buffs)
