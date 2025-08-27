@@ -6,7 +6,7 @@
     "quality": "罕见",
     "weight": 20,
     "des": "甜，能把噬魂者的元宝骗到手",
-    "diIcon": "res/tower/tower_1_di2.png"
+    "diIcon": "atlas/res/tower/tower_1_di2.png"
   },
   "2": {
     "id": 2,
@@ -15,7 +15,7 @@
     "quality": "神话",
     "weight": 1,
     "des": "妖怪，无处可逃！",
-    "diIcon": "res/tower/tower_1_di3.png"
+    "diIcon": "atlas/res/tower/tower_1_di3.png"
   },
   "3": {
     "id": 3,
@@ -24,7 +24,7 @@
     "quality": "罕见",
     "weight": 20,
     "des": "攻击范围提高至150%",
-    "diIcon": "res/tower/tower_1_di4.png"
+    "diIcon": "atlas/res/tower/tower_1_di4.png"
   },
   "4": {
     "id": 4,
@@ -33,7 +33,7 @@
     "quality": "罕见",
     "weight": 20,
     "des": "变大啦，攻击力提高50%",
-    "diIcon": "res/tower/tower_1_di5.png"
+    "diIcon": "atlas/res/tower/tower_1_di5.png"
   },
   "5": {
     "id": 5,
@@ -42,7 +42,7 @@
     "quality": "罕见",
     "weight": 20,
     "des": "会召唤一个攻击力只有25%的小炮",
-    "diIcon": "res/tower/tower_1_di6.png"
+    "diIcon": "atlas/res/tower/tower_1_di6.png"
   },
   "6": {
     "id": 6,
@@ -51,7 +51,7 @@
     "quality": "神话",
     "weight": 0,
     "des": "强力法宝拥有无上法力，没人能抵御",
-    "diIcon": "res/tower/tower_1_di7.png"
+    "diIcon": "atlas/res/tower/tower_1_di7.png"
   },
   "7": {
     "id": 7,
@@ -60,7 +60,7 @@
     "quality": "传说",
     "weight": 3,
     "des": "镜面出双管炮塔，每管有75%的攻击力",
-    "diIcon": "res/tower/tower_1_di8.png"
+    "diIcon": "atlas/res/tower/tower_1_di8.png"
   },
   "8": {
     "id": 8,
@@ -69,7 +69,7 @@
     "quality": "神话",
     "weight": 3,
     "des": "能间歇吹出可以困住猎梦者2秒的泡泡",
-    "diIcon": "res/tower/tower_1_di9.png"
+    "diIcon": "atlas/res/tower/tower_1_di9.png"
   },
   "9": {
     "id": 9,
@@ -78,7 +78,7 @@
     "quality": "传说",
     "weight": 3,
     "des": "扇子出自少林，让你攻击力提升90%",
-    "diIcon": "res/tower/tower_1_di10.png"
+    "diIcon": "atlas/res/tower/tower_1_di10.png"
   },
   "10": {
     "id": 10,
@@ -87,7 +87,7 @@
     "quality": "罕见",
     "weight": 3,
     "des": "可以发射强力电磁，伤害为每秒1%",
-    "diIcon": "res/tower/tower_1_di11.png"
+    "diIcon": "atlas/res/tower/tower_1_di11.png"
   },
   "11": {
     "id": 11,
@@ -96,7 +96,7 @@
     "quality": "传说",
     "weight": 3,
     "des": "太可爱了，连攻击也可以收获大量元宝呢~",
-    "diIcon": "res/tower/tower_1_di12.png"
+    "diIcon": "atlas/res/tower/tower_1_di12.png"
   },
   "12": {
     "id": 12,
@@ -105,7 +105,7 @@
     "quality": "传说",
     "weight": 5,
     "des": "变小啦，稍微弱一些，一起回到童年",
-    "diIcon": "res/tower/tower_1_di13.png"
+    "diIcon": "atlas/res/tower/tower_1_di13.png"
   },
   "13": {
     "id": 13,
@@ -114,7 +114,7 @@
     "quality": "传说",
     "weight": 3,
     "des": "咚咚咚，炮塔攻速大大加快！",
-    "diIcon": "res/tower/tower_1_di14.png"
+    "diIcon": "atlas/res/tower/tower_1_di14.png"
   },
   "14": {
     "id": 14,
@@ -123,7 +123,7 @@
     "quality": "传说",
     "weight": 2,
     "des": "攻击范围提高至200%",
-    "diIcon": "res/tower/tower_1_di15.png"
+    "diIcon": "atlas/res/tower/tower_1_di15.png"
   },
   "15": {
     "id": 15,
@@ -132,7 +132,7 @@
     "quality": "神话",
     "weight": 0,
     "des": "圣旨到，随机赐给你一种炮塔",
-    "diIcon": "res/tower/tower_1_di16.png"
+    "diIcon": "atlas/res/tower/tower_1_di16.png"
   },
   "16": {
     "id": 16,
@@ -141,7 +141,7 @@
     "quality": "罕见",
     "weight": 20,
     "des": "牛排提供动力，攻击力降低一半，攻速提高至250%",
-    "diIcon": "res/tower/tower_1_di17.png"
+    "diIcon": "atlas/res/tower/tower_1_di17.png"
   },
   "17": {
     "id": 17,
@@ -150,6 +150,6 @@
     "quality": "传说",
     "weight": 5,
     "des": "武林秘法加持，吸掉狩猎者的生命，给门提供保护",
-    "diIcon": "res/tower/tower_1_di18.png"
+    "diIcon": "atlas/res/tower/tower_1_di18.png"
   }
 }

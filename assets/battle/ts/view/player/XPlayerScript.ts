@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, sp, UITransform, v2, v3 } from 'cc';
+import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2 } from 'cc';
 import { Direction as XDirection, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
@@ -28,6 +28,9 @@ export class XPlayerScript extends Component {
     skinAniNode: Node = null
     spineNode: Node = null
     skinCfg: XCfgSkinData = null
+
+    lastMovePos: Vec2 = null
+
     start() {
 
     }
@@ -56,6 +59,7 @@ export class XPlayerScript extends Component {
 
         // 2. spine 动画资源（.bin 格式）
         if (this.skinCfg.skinPath.includes(".bin")) {
+            const path = this.skinCfg.skinPath.replace(".bin", "")
             this.skinAniNode = new Node("aniNode")
             this.skinAniNode.name = "aniNode";
             const uiTrans = this.skinAniNode.addComponent(UITransform)
@@ -63,23 +67,24 @@ export class XPlayerScript extends Component {
             uiTrans.anchorPoint = v2(0.5, 0.1)
             this.skinNode.addChild(this.skinAniNode);
 
-            const spineNode = await XResUtil.loadSpineFromBundle("spine", this.skinCfg.skinPath);
+            const spineNode = await XResUtil.loadSpineFromBundle("spines", path);
             this.skinAniNode.addChild(spineNode)
             spineNode.setPosition(v3(XConst.GridHalfSize, -XConst.GridSize - 15))
             this.spineNode = spineNode
+            spineNode.getComponent(sp.Skeleton).premultipliedAlpha = false
 
             switch (this.skinCfg.type) {
                 case XSkinType.Human:
-                    spineNode.scale = v3(0.275)
+                    spineNode.scale = v3(0.275, 0.275, 1)
                     break
                 case XSkinType.Hunter:
-                    spineNode.scale = v3(0.5)
+                    spineNode.scale = v3(0.5, 0.5, 1)
                     break
                 case XSkinType.Angel:
-                    spineNode.scale = v3(0.275)
+                    spineNode.scale = v3(0.275, 0.275, 1)
                     break
                 case XSkinType.Fighter:
-                    spineNode.scale = v3(1)
+                    spineNode.scale = v3(1, 1, 1)
                     break
                 default:
 
@@ -103,6 +108,22 @@ export class XPlayerScript extends Component {
     onDead() {
 
     }
+
+    pos(x_, y_) {
+        if (this.lastMovePos) {
+            this.lastMovePos.set(this.node.x, this.node.y);
+        } else {
+            this.lastMovePos = new Vec2(this.node.x, this.node.y);
+        }
+
+        // 移动节点
+        this.node.x = x_;
+        this.node.y = y_;
+
+        // 更新房间 ID
+        this.data.roomId = XMgr.mapMgr.getRoomIdByMapPos(x_, y_);
+    }
+
 }
 
 

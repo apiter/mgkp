@@ -9,7 +9,7 @@
       "num": 50
     },
     "desc": "当噬魂者逃跑时，会被麻痹",
-    "icon": "res/build/skillBuild/skillBuild_xh.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_xh.png",
     "initialHave": 1
   },
   "2": {
@@ -22,7 +22,7 @@
       "num": 50
     },
     "desc": "当门耐久度较低时，会生成持续3秒的无敌金钟罩",
-    "icon": "res/build/skillBuild/skillBuild_jzz.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_jzz.png",
     "initialHave": 1
   },
   "3": {
@@ -35,7 +35,7 @@
       "num": 10
     },
     "desc": "大门的耐久度会持续提高",
-    "icon": "res/build/skillBuild/skillBuild_zyj.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_zyj.png",
     "initialHave": 10
   },
   "4": {
@@ -49,7 +49,7 @@
     },
     "limit": 20,
     "desc": "摇一摇，开出随机建筑",
-    "icon": "res/build/skillBuild/box.png",
+    "icon": "atlas/res/build/skillBuild/box.png",
     "initialHave": 3
   },
   "5": {
@@ -63,7 +63,7 @@
     },
     "limit": 1,
     "desc": "帮你升级一次门",
-    "icon": "res/build/skillBuild/skillBuild_jg.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_jg.png",
     "initialHave": 1
   },
   "6": {
@@ -76,7 +76,7 @@
       "num": 20
     },
     "desc": "当噬魂者释放技能时，有几率被眩晕",
-    "icon": "res/build/skillBuild/skillBuild_bottle.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_bottle.png",
     "initialHave": 1
   },
   "7": {
@@ -89,7 +89,7 @@
       "num": 50
     },
     "desc": "噬魂者攻击门时，让它受到自身1%最大生命值的伤害",
-    "icon": "res/build/skillBuild/skillBuild_zz.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_zz.png",
     "initialHave": 1
   },
   "8": {
@@ -102,7 +102,7 @@
       "num": 30
     },
     "desc": "可令噬魂者减慢攻速",
-    "icon": "res/build/skillBuild/skillBuild_doorgod.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_doorgod.png",
     "initialHave": 1
   },
   "9": {
@@ -115,7 +115,7 @@
       "num": 10
     },
     "desc": "炮塔攻击时，算卦摊能从噬魂者身上窃取元宝",
-    "icon": "res/build/skillBuild/skillBuild_suan.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_suan.png",
     "initialHave": 1
   },
   "10": {
@@ -128,7 +128,7 @@
       "num": 30
     },
     "desc": "罗盘仪使你感官加倍，炮塔的攻击范围提高",
-    "icon": "res/build/skillBuild/skillBuild_wx1.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_wx1.png",
     "initialHave": 1
   },
   "11": {
@@ -141,7 +141,7 @@
       "num": 1
     },
     "desc": "激励所有炮塔加快攻速",
-    "icon": "res/build/skillBuild/skillBuild_fire.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_fire.png",
     "initialHave": 1
   },
   "12": {
@@ -154,7 +154,7 @@
       "num": 100
     },
     "desc": "噬魂者离你越近，炮塔攻速越快。",
-    "icon": "res/build/skillBuild/skillBuild_soup.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_soup.png",
     "initialHave": 1
   },
   "13": {
@@ -167,7 +167,7 @@
       "num": 1
     },
     "desc": "噬魂者血量低于30%时，会受到10%最大生命值的伤害",
-    "icon": "res/build/skillBuild/skillBuild_table.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_table.png",
     "initialHave": 1
   },
   "14": {
@@ -180,7 +180,7 @@
       "num": 30
     },
     "desc": "能让你的炮塔能多攻击几个对象",
-    "icon": "res/build/skillBuild/skillBuild_rsgs.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_rsgs.png",
     "initialHave": 1
   }
 }

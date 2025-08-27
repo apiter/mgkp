@@ -9,7 +9,7 @@
       "num": 50
     },
     "desc": "噬魂者在逃跑时被眩晕2s",
-    "icon": "res/build/skillBuild/skillBuild_xh.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_xh.png",
     "initialHave": 1
   },
   "2": {
@@ -22,7 +22,7 @@
       "num": 50
     },
     "desc": "在大门耐久低于30％时，大门无敌3s",
-    "icon": "res/build/skillBuild/skillBuild_jzz.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_jzz.png",
     "initialHave": 1
   },
   "3": {
@@ -35,7 +35,7 @@
       "num": 10
     },
     "desc": "每秒恢复2％的大门耐久",
-    "icon": "res/build/skillBuild/skillBuild_zyj.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_zyj.png",
     "initialHave": 10
   },
   "4": {
@@ -49,7 +49,7 @@
     },
     "limit": 20,
     "desc": "使用后生成随机建筑",
-    "icon": "res/build/skillBuild/box.png",
+    "icon": "atlas/res/build/skillBuild/box.png",
     "initialHave": 3
   },
   "5": {
@@ -63,7 +63,7 @@
     },
     "limit": 1,
     "desc": "升级并且完全恢复大门耐久",
-    "icon": "res/build/skillBuild/skillBuild_jg.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_jg.png",
     "initialHave": 1
   },
   "6": {
@@ -76,7 +76,7 @@
       "num": 20
     },
     "desc": "噬魂者释放技能时，有30％概率眩晕他",
-    "icon": "res/build/skillBuild/skillBuild_bottle.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_bottle.png",
     "initialHave": 1
   },
   "7": {
@@ -89,7 +89,7 @@
       "num": 50
     },
     "desc": "噬魂者攻击大门时，会受到自身1%最大生命值的伤害",
-    "icon": "res/build/skillBuild/skillBuild_zz.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_zz.png",
     "initialHave": 1
   },
   "8": {
@@ -102,7 +102,7 @@
       "num": 30
     },
     "desc": "噬魂者攻速降低20％",
-    "icon": "res/build/skillBuild/skillBuild_doorgod.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_doorgod.png",
     "initialHave": 1
   },
   "9": {
@@ -115,7 +115,7 @@
       "num": 10
     },
     "desc": "所有炮塔攻击可获得元宝，数量等同于炮台等级",
-    "icon": "res/build/skillBuild/skillBuild_suan.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_suan.png",
     "initialHave": 1
   },
   "10": {
@@ -128,7 +128,7 @@
       "num": 30
     },
     "desc": "所有炮塔攻击范围提高30％",
-    "icon": "res/build/skillBuild/skillBuild_wx1.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_wx1.png",
     "initialHave": 1
   },
   "11": {
@@ -141,7 +141,7 @@
       "num": 1
     },
     "desc": "所有炮塔攻速提高50％",
-    "icon": "res/build/skillBuild/skillBuild_fire.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_fire.png",
     "initialHave": 1
   },
   "12": {
@@ -154,7 +154,7 @@
       "num": 100
     },
     "desc": "当噬魂者离你越近，所有炮塔攻速越快，最高提升50％",
-    "icon": "res/build/skillBuild/skillBuild_soup.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_soup.png",
     "initialHave": 1
   },
   "13": {
@@ -167,7 +167,7 @@
       "num": 1
     },
     "desc": "当噬魂者血量低于30%，立刻对其造成自身10%最大生命值伤害",
-    "icon": "res/build/skillBuild/skillBuild_table.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_table.png",
     "initialHave": 1
   },
   "14": {
@@ -180,7 +180,7 @@
       "num": 30
     },
     "desc": "炮塔能够同时攻击多个目标，但单体伤害不变",
-    "icon": "res/build/skillBuild/skillBuild_rsgs.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_rsgs.png",
     "initialHave": 1
   }
 }

@@ -1,0 +1,63 @@
+{
+  "ver": "1.0.8",
+  "importer": "sprite-atlas",
+  "imported": true,
+  "uuid": "6e944bc3-64fb-42f4-b2ba-51b8473f4512",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {
+    "76693": {
+      "importer": "sprite-frame",
+      "uuid": "6e944bc3-64fb-42f4-b2ba-51b8473f4512@76693",
+      "displayName": "",
+      "id": "76693",
+      "name": "img_title",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 265,
+        "height": 146,
+        "rawWidth": 265,
+        "rawHeight": 146,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c49e4d88-716c-411c-a7d3-3da77ef7f99f@6c48a",
+        "atlasUuid": "6e944bc3-64fb-42f4-b2ba-51b8473f4512",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "atlasTextureName": "Upgrade.png",
+    "format": 2,
+    "uuid": "6e944bc3-64fb-42f4-b2ba-51b8473f4512",
+    "textureUuid": "c49e4d88-716c-411c-a7d3-3da77ef7f99f@6c48a"
+  }
+}

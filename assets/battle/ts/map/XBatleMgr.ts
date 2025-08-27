@@ -278,8 +278,8 @@ export class XBatleMgr implements ISchedulable {
 
             if (s.type == XBuildType.door && this.curHunterAtkTarget != s && !i.isGhost) {
                 this.curHunterAtkTarget = s;
-                let e = XMgr.mapMgr.getRoomById(s.roomId);
-                EventCenter.emit(XEventNames.E_Player_Hurt, e.bedModelList[0].playerUuid)
+                let room = XMgr.mapMgr.getRoomById(s.roomId);
+                EventCenter.emit(XEventNames.E_Player_Hurt, room.bedModelList[0].playerUuid)
             }
         }
     }

@@ -4,13 +4,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XBedScript')
 export class XBedScript extends XBuildingScript {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
 }
 
 

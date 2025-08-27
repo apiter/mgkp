@@ -43,7 +43,7 @@ export class XMapMgr {
     _rooms: XRoomModel[] = []
     _buildings = []
     _hunterSpawns = []
-    _defenderSpawns = []
+    _defenderSpawns: Vec2[] = []
     _mapBuildPoints = []
     _mapEquipPoints = []
     _healZones = []
@@ -81,17 +81,17 @@ export class XMapMgr {
                 this._healZones.push(t)
             }
             else if ("DefenderSpawnPoint" == obj.type)
-                this._defenderSpawns.push(new Vec2(obj.x, obj.y));
+                this._defenderSpawns.push(new Vec2(obj.x, -obj.y));
             else if ("HunterSpawnPoint" == obj.type)
-                this._hunterSpawns.push(new Vec2(obj.x, obj.y));
+                this._hunterSpawns.push(new Vec2(obj.x, -obj.y));
             else if ("MapBuildPoint" == obj.type)
-                this._mapBuildPoints.push(new Vec2(obj.x, obj.y));
+                this._mapBuildPoints.push(new Vec2(obj.x, -obj.y));
             else if ("MapEquipPoint" == obj.type) {
                 let t = obj.name.split("-");
                 if (t[1]) {
                     const index = parseInt(t[1], 10) - 1;
                     if (index >= 0 && index <= 3) {
-                        (this._mapEquipPoints[index] ??= []).push(new Vec2(obj.x, obj.y));
+                        (this._mapEquipPoints[index] ??= []).push(new Vec2(obj.x, -obj.y));
                     }
                 }
             } else if (-1 != obj.name.indexOf("Room")) {
@@ -296,7 +296,8 @@ export class XMapMgr {
         return idx_ = math.clamp(idx_, 0, this._hunterSpawns.length - 1), this._hunterSpawns[idx_]
     }
     getDefenderSpawnPos(idx_) {
-        return idx_ = math.clamp(idx_, 0, this._defenderSpawns.length - 1), this._defenderSpawns[idx_ % this._defenderSpawns.length]
+        idx_ = math.clamp(idx_, 0, this._defenderSpawns.length - 1)
+        return this._defenderSpawns[idx_ % this._defenderSpawns.length]
     }
     mapPosToGridPos(mapX_, mapY_) {
         let h = Math.floor(mapY_ / XConst.GridSize);
@@ -305,7 +306,7 @@ export class XMapMgr {
     }
     gridPosToMapPos(col_, row_) {
         let x = row_ * XConst.GridSize + XConst.GridHalfSize,
-            y = col_ * XConst.GridSize + XConst.GridHalfSize;
+            y = -(col_ * XConst.GridSize + XConst.GridHalfSize);
         return new Vec2(x, y)
     }
     mapPosToStagePos(mapX_, mapY_) {

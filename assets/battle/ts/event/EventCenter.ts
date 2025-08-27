@@ -6,6 +6,8 @@
  * 事件观察中心
  */
 
+import { Component } from "cc";
+
 /** 订阅 */
 interface Subscription {
     callback: Function;
@@ -80,12 +82,12 @@ export default class EventCenter {
      * @param args 参数
      */
     public static emit(name: string, ...args: any[]) {
-        cc.log(`EventCenter emit event: ${name}`,  args.toString())
+        // cc.log(`EventCenter emit event: ${name}`,  args.toString())
         if (this.events.has(name)) {
             let invalidSubscriptorsIndex = [];
             const subscriptions = this.events.get(name);
             for (let i = 0; i < subscriptions.length; i++) {
-                if(subscriptions[i].target instanceof cc.Component && (subscriptions[i].target as cc.Component).isValid == false) {
+                if(subscriptions[i].target instanceof Component && (subscriptions[i].target as Component).isValid == false) {
                     invalidSubscriptorsIndex.push(i);
                     continue;
                 }
@@ -101,7 +103,7 @@ export default class EventCenter {
         if (this.onceEvents.has(name)) {
             let subscriptions = this.onceEvents.get(name);
             for (let i = 0; i < subscriptions.length; i++) {
-                if(subscriptions[i].target instanceof cc.Component && (subscriptions[i].target as cc.Component).isValid == false) {
+                if(subscriptions[i].target instanceof Component && (subscriptions[i].target as Component).isValid == false) {
                     continue;
                 }
                 subscriptions[i].callback.apply(subscriptions[i].target, args);

@@ -1,14 +1,107 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Sprite, UITransform, v3 } from 'cc';
+import { XConst } from '../../xconfig/XConst';
+import XBuildingModel from '../../model/XBuildingModel';
+import XMgr from '../../XMgr';
+import { XEventNames } from '../../event/XEventNames';
+import { XMapView } from '../XMapVIew';
+import { XGameMode } from '../../xconfig/XEnum';
+import XAtlasLoader from 'db://assets/XAtlasLoader';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBuildingScript')
 export class XBuildingScript extends Component {
+    map: XMapView = null
+
+    data: XBuildingModel = null
+    skinNode: Node = null
+    aniNode: Node = null
+    diNode: Node = null
+    iconNode:Node = null
+
+    cfg: any = null
+    isBuildCd = false
+    buildCdTime = 0
+
+    init(buildModel_: XBuildingModel, cdTime_ = 0) {
+        this.skinNode = new Node("SkinNode")
+        let uiTrans = this.skinNode.addComponent(UITransform)
+        uiTrans.setContentSize(90, 90)
+        this.aniNode = new Node("aniNode")
+        uiTrans = this.aniNode.addComponent(UITransform)
+        uiTrans.setContentSize(90, 90)
+        let scale = XConst.GridSize / 90;
+        this.skinNode.scale = v3(scale, scale, scale)
+        this.aniNode.scale = v3(scale, scale, scale)
+        this.node.addChild(this.skinNode)
+        this.node.addChild(this.aniNode)
+
+        this.data = buildModel_
+        this.data.ownerScript = this
+        this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv)
+        this.initSkin()
+        this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
+        this.node.on(XEventNames.Battle_Be_Hit, this.onHit, this)
+        cdTime_ ? (this.isBuildCd = true, this.buildCdTime = cdTime_, this.initCdUI(buildModel_)) : (this.onInit(), this.initEffects())
+    }
+
+    onInit() {
+
+    }
+
+    initEffects() {
+
+    }
+
+    initCdUI(e) {
+    }
+
+    async initSkin() {
+        this.skinNode.removeAllChildren()
+        this.initDiSkin();
+        let isSelf = false;
+        this.data.playerUuid == XMgr.playerMgr.player.uuid && (isSelf = true)
+        if (isSelf && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
+            this.initBuffSkin();
+        } else if (this.cfg.buildAni) {
+            // EffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode);
+        } else {
+            this.iconNode = new Node("iconNode")
+            const spr = this.iconNode.addComponent(Sprite)
+            spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon)
+            spr.trim  = true
+            spr.sizeMode = Sprite.SizeMode.CUSTOM
+            this.skinNode.addChild(this.iconNode);
+        }
+    }
+
+    async initDiSkin() {
+        if (this.cfg.diIcon) {
+            if (!this.diNode) {
+                this.diNode = new Node("diNode")
+                const spr = this.diNode.addComponent(Sprite)
+                spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon)
+                spr.trim  = true
+                spr.sizeMode = Sprite.SizeMode.CUSTOM
+                this.skinNode.addChild(this.diNode);
+            }
+        }
+    }
+
+    initBuffSkin() {
+
+    }
+
+    onHpChanged() {
+
+    }
+
+    onHit() {
+
+    }
+
     start() {
 
     }
-
-    update(deltaTime: number) {
-        
-    }
 }
-
+
+

@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plist version="1.0"><dict><key>frames</key><dict><key>img_title.png</key><dict><key>frame</key><string>{{0,0},{265,146}}</string><key>offset</key><string>{0,0}</string><key>rotated</key><false /><key>sourceSize</key><string>{265,146}</string></dict></dict><key>metadata</key><dict><key>format</key><integer>2</integer><key>realTextureFileName</key><string>Upgrade.png</string><key>textureFileName</key><string>Upgrade.png</string></dict></dict></plist>

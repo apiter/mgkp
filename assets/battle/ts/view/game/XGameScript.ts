@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Sprite, UITransform, Vec2 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XBuildType } from '../../xconfig/XEnum';
@@ -8,6 +8,13 @@ import { XTowerScript } from '../building/XTowerScript';
 import { XMapView } from '../XMapVIew';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import { XBuildingScript } from '../building/XBuildingScript';
+import EventCenter from '../../event/EventCenter';
+import { XEventNames } from '../../event/XEventNames';
+import { XCatBedScript } from '../building/XCatBedScript';
+import { XConst } from '../../xconfig/XConst';
+import XAtlasLoader from 'db://assets/XAtlasLoader';
+import { XDefenderScript } from '../player/XDefenderScript';
+import { XPlayerScript } from '../player/XPlayerScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -15,13 +22,24 @@ export class XGameScript extends Component {
     map: XMapView = null
     buildingGrids: XBuildingScript[][] = []
 
+    defenders:XDefenderScript[] = []
+
+    characterControl:XPlayerScript = null
+
     protected onLoad(): void {
         this.map = this.node.getChildByName("map").getComponent(XMapView)
+
+        EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
     }
 
-    init() {
+    protected onDestroy(): void {
+        EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
+    }
+
+    async init() {
         this.map.init()
         this.initBuildings()
+        this.initDefenders()
     }
 
     initBuildings() {
@@ -33,10 +51,44 @@ export class XGameScript extends Component {
 
     }
 
-    build(build_: XBuildingModel, s, a = 0) {
+    initDefenders() {
+        let myUuid = XMgr.playerMgr.mineUuid
+        let defenderArr = XMgr.playerMgr.defenders
+        for (let i = 0; i < defenderArr.length; ++i) {
+            let defender = defenderArr[i]
+            let box = new Node;
+            box.addComponent(UITransform).setContentSize(1, 1)
+            this.map.playerLayer.addChild(box);
+            let defenderScript = box.addComponent(XDefenderScript);
+            defenderScript.init(defender);
+            let spawnPos = XMgr.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
+            if (!spawnPos) {
+                let targetTile = null;
+                for (const tiles of XMgr.mapMgr.getMapTiles())
+                    for (const tile of tiles)
+                        if (-1 !== tile.groundBlock.indexOf("floor_2")) {
+                            targetTile = tile;
+                            break
+                        }
+                if (targetTile)
+                    spawnPos = XMgr.mapMgr.gridPosToMapPos(targetTile.x, targetTile.y);
+                else {
+                    let e = XConst.GridSize;
+                    spawnPos = new Vec2(XMgr.mapMgr.width * e / 2, XMgr.mapMgr.height * e / 2)
+                }
+            }
+            defenderScript.pos(spawnPos.x, spawnPos.y)
+            this.defenders.push(defenderScript)
+            defender.uuid == myUuid && (this.characterControl = defenderScript)
+        }
+    }
+
+    build(build_: XBuildingModel, s, cdTime_ = 0) {
         let buildNode = new Node;
+        buildNode.addComponent(UITransform).setContentSize(XConst.GridSize, XConst.GridSize)
         build_.owner = buildNode
-        let buildScript, mapPos = XMgr.mapMgr.gridPosToMapPos(build_.x, build_.y)
+        let buildScript: XBuildingScript
+        let mapPos = XMgr.mapMgr.gridPosToMapPos(build_.x, build_.y)
         let canMove = false
         let buildCfg = XMgr.buildingMgr.getBuildCfg(build_.id)
         if (buildCfg.type == XBuildType.door)
@@ -50,6 +102,29 @@ export class XGameScript extends Component {
                 case 3000:
                     buildScript = buildNode.addComponent(XTowerScript)
                     break
+                //TOOD 其他
+                default: break;
+            }
+        } else {
+            if (buildCfg.type == XBuildType.eatMosquito) {
+            } else if (buildCfg.type == XBuildType.springBox) {
+            } else if (buildCfg.type == XBuildType.knife) {
+            } else if (buildCfg.type == XBuildType.random) {
+                // r = n.addComponent(Wi);
+            } else if (buildCfg.type == XBuildType.mine) {
+                if ([5002, 5103, 5104, 5105, 5106].indexOf(buildCfg.buildId) >= 0) {
+                    buildScript = buildNode.addComponent(XCatBedScript);
+                } else {
+                    buildScript = buildNode.addComponent(XBuildingScript);
+                }
+            } else if (buildCfg.type == XBuildType.entice) {
+            } else if (buildCfg.type == XBuildType.stone) {
+            } else if (buildCfg.type == XBuildType.boxMonster) {
+            } else if (buildCfg.type == XBuildType.doorkeeper) {
+            } else if (buildCfg.type == XBuildType.borrowMoney) {
+            } else if (buildCfg.buildId == 6006) {
+            } else {
+                buildScript = buildNode.addComponent(XBuildingScript);
             }
         }
         this.buildingGrids[build_.x] || (this.buildingGrids[build_.x] = [])
@@ -57,7 +132,7 @@ export class XGameScript extends Component {
         buildNode.x = mapPos.x
         buildNode.y = mapPos.y
         this.buildingGrids[build_.x][build_.y] = buildScript
-        buildScript.init(build_, a)
+        buildScript.init(build_, cdTime_)
         buildScript.map = this.map
     }
 }

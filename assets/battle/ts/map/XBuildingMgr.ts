@@ -123,14 +123,12 @@ export default class XBuildingMgr {
         const roomId = XMgr.mapMgr.getRoomIdByGrid(x_, y_);
         let consumeCoin = buildCfg.coin;      // 消耗金币
         let consumeEnergy = buildCfg.energy;    // 消耗能量
-        const playModel = XMgr.playerMgr.getPlayer(playerID);
+        const playerModel = XMgr.playerMgr.getPlayer(playerID);
 
         // 特殊建造（6666：魔法消耗）
         if (6666 == buildCfg.buildId) {
-            if (
-                XMgr.gameMgr.gameMode == XGameMode.E_Hunt ||
-                (1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == XGameMode.E_Defense)
-            ) {
+            if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt ||
+                (1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == XGameMode.E_Defense)) {
                 // 自己
                 if (XMgr.playerMgr.mineUuid == playerID) {
                     const e = math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
@@ -139,7 +137,7 @@ export default class XBuildingMgr {
                 }
                 // 其他人
                 else {
-                    const e = math.clamp(playModel.randomCnt, 0, 3);
+                    const e = math.clamp(playerModel.randomCnt, 0, 3);
                     consumeCoin = this.magicConsumeArr[e][0];
                     consumeEnergy = this.magicConsumeArr[e][1];
                 }
@@ -160,13 +158,13 @@ export default class XBuildingMgr {
         }
 
         // 建造前的限制检查
-        if (roomId && playModel && check) {
+        if (roomId && playerModel && check) {
             const room = this.getRoom(roomId);
             const buildCntInRoom = this.getBuildCntInRoom(room, buildId_);
 
             if (buildCfg.maxCnt && buildCntInRoom >= buildCfg.maxCnt) return XBuildResult.E_MAX_CNT;
-            if (!this.isInfiniteIncome && consumeCoin && consumeCoin > playModel.coin) return XBuildResult.E_COIN_NOT_ENOUGH;
-            if (!this.isInfiniteIncome && consumeEnergy && consumeEnergy > playModel.energy) return XBuildResult.E_ENERGY_NOT_ENOUGH;
+            if (!this.isInfiniteIncome && consumeCoin && consumeCoin > playerModel.coin) return XBuildResult.E_COIN_NOT_ENOUGH;
+            if (!this.isInfiniteIncome && consumeEnergy && consumeEnergy > playerModel.energy) return XBuildResult.E_ENERGY_NOT_ENOUGH;
             if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
                 return XBuildResult.E_NOT_HAVE_PREBUILD;
 
@@ -186,7 +184,7 @@ export default class XBuildingMgr {
         buildingModel.canHandle = canHandle_;
 
         // 加入房间/玩家
-        this.addBuilding(buildingModel, playModel);
+        this.addBuilding(buildingModel, playerModel);
 
         // 更新寻路
         if (XMgr.playerMgr.player.type != XPlayerType.E_Defender) {
@@ -194,78 +192,13 @@ export default class XBuildingMgr {
         }
 
         // 广播事件
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildingModel, !1]);
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildingModel, false]);
 
         // 任务/音效（目前注释掉）
         // !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask();
         // t.gameMgr.playSound(C, 111);
 
         return XBuildResult.E_OK;
-    }
-
-
-    takeMapBuild(x_, y_, data_) {
-        let a = this.getMapBuild(x_, y_);
-        if (!a || a.isUsed) return false;
-        if (a.isUsed = !0, a.owner && !a.owner.destroyed) {
-            this.mapBuildScripts[x_][y_] = null
-            // if ("fhl" == a.buildName) {
-            //     if (data_.uuid == XMgr.playerMgr.mineUuid) {
-            //         let e = XMgr.cfg.constant.playerMoveSpeed;
-            //         e /= XMgr.gameMgr.speedRatio, data_.ownerScript.moveSpeed = 4.5 * e
-            //     }
-            //     return false
-            // }
-            data_.takeMapBuild = a
-            EventCenter.emit(XEventNames.E_MapBuild_take, [a, data_.uuid])
-            return true
-        }
-    }
-
-
-    createBuildingModelByCfg(playerUuid_: string, id_: number, roomId_: number, lv_: number, x_: number, y_: number, rotation_: number, h) {
-        let model: XBuildingModel;
-        switch (h.type) {
-            case XBuildType.tower:
-                let t = model = new XTowerModel(id_, roomId_, lv_, x_, y_, rotation_),
-                    i = h;
-                t.atkCD = i.atkInterval, t.atkDst = i.atkRange, t.atk = i.atkDamage;
-                break;
-            default:
-                model = new XBuildingModel(id_, roomId_, lv_, x_, y_, rotation_)
-        }
-        model.playerUuid = playerUuid_
-        model.lv = lv_
-        model.type = h.type;
-        let u = h.hp || 1;
-        XMgr.gameMgr.changeMaxHp(model, u, u)
-        return model
-    }
-
-    isHaveBuilding(t, i, s = 1) {
-        let a = this.getRoom(t),
-            n = [];
-        for (const e of a.bedModelList) e && !e.isDie && e.playerUuid && n.push(e.playerUuid);
-        for (const t of a.buildings)
-            if (t.id == i && t.lv >= s) {
-                if (this.isIncludes(n, t.playerUuid)) return true;
-                if (t.type == XBuildType.door) return true
-            }
-        return !1
-    }
-
-    isIncludes(arr_, ele_) {
-        if (!ele_ || !arr_ || 0 == arr_.length) return false;
-        for (const ele of arr_)
-            if (ele_.includes(ele) || ele.includes(ele_)) return true;
-        return false
-    }
-
-    getBuildCntInRoom(e, t) {
-        if (!e) return 0;
-        let i = 0;
-        for (const s of e.buildings) s.id == t && i++;
-        return i
     }
 
     addBuilding(building: XBuildingModel, owner: XPlayerModel) {
@@ -306,6 +239,72 @@ export default class XBuildingMgr {
         }
     }
 
+    takeMapBuild(x_, y_, data_) {
+        let a = this.getMapBuild(x_, y_);
+        if (!a || a.isUsed) return false;
+        if (a.isUsed = !0, a.owner && !a.owner.destroyed) {
+            this.mapBuildScripts[x_][y_] = null
+            // if ("fhl" == a.buildName) {
+            //     if (data_.uuid == XMgr.playerMgr.mineUuid) {
+            //         let e = XMgr.cfg.constant.playerMoveSpeed;
+            //         e /= XMgr.gameMgr.speedRatio, data_.ownerScript.moveSpeed = 4.5 * e
+            //     }
+            //     return false
+            // }
+            data_.takeMapBuild = a
+            EventCenter.emit(XEventNames.E_MapBuild_take, [a, data_.uuid])
+            return true
+        }
+    }
+
+
+    createBuildingModelByCfg(playerUuid_: string, id_: number, roomId_: number, lv_: number, x_: number, y_: number, rotation_: number, h) {
+        let model: XBuildingModel;
+        switch (h.type) {
+            case XBuildType.tower:
+                let t = model = new XTowerModel(id_, roomId_, lv_, x_, y_, rotation_),
+                    i = h;
+                t.atkCD = i.atkInterval, t.atkDst = i.atkRange, t.atk = i.atkDamage;
+                break;
+            default:
+                model = new XBuildingModel(id_, roomId_, lv_, x_, y_, rotation_)
+        }
+        model.playerUuid = playerUuid_
+        model.lv = lv_
+        model.type = h.type;
+        let u = h.hp || 1;
+        XMgr.gameMgr.changeMaxHp(model, u, u)
+        return model
+    }
+
+    isHaveBuilding(roomId_, buildId_, lv_ = 1) {
+        let room = this.getRoom(roomId_)
+        let uuids = [];
+        for (const bedModel of room.bedModelList)
+            bedModel && !bedModel.isDie && bedModel.playerUuid && uuids.push(bedModel.playerUuid);
+        for (const build of room.buildings)
+            if (build.id == buildId_ && build.lv >= lv_) {
+                if (uuids.indexOf(build.playerUuid) >= 0)
+                    return true;
+                if (build.type == XBuildType.door)
+                    return true
+            }
+        return false
+    }
+
+    isIncludes(arr_, ele_) {
+        if (!ele_ || !arr_ || 0 == arr_.length) return false;
+        for (const ele of arr_)
+            if (ele_.includes(ele) || ele.includes(ele_)) return true;
+        return false
+    }
+
+    getBuildCntInRoom(room_, buildId_) {
+        if (!room_) return 0;
+        let cnt = 0;
+        for (const build of room_.buildings) build.id == buildId_ && cnt++;
+        return cnt
+    }
 
     getBuilding(e, t) {
         if (this.buildingGrids[e]) return this.buildingGrids[e][t]

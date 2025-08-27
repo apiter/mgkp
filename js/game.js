@@ -5078,7 +5078,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !1
             }
         }
-        class DefenderScript extends XPlayerScript {
+        class XDefenderScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Defender
             }
@@ -5643,12 +5643,13 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class ri extends XBaseEffect {
+        class XTowerBuffEffect extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.map = new Map, this.changeVal = this.cfg.value[0];
                 let a = t.buildingMgr.getRoom(this.data.roomId);
                 for (const t of a.buildings) t.type == e.BuildType.tower && this.addBuff(t);
-                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove)
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
+                fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove)
             }
             createBuff() {
                 return null
@@ -5668,19 +5669,20 @@ define("js/bundle.js", function(require, module, exports) {
                 t.roomId == this.data.roomId && t.type == e.BuildType.tower && this.removeBuff(t)
             }
             clear() {
-                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove);
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove);
                 let i = t.buildingMgr.getRoom(this.data.roomId);
                 for (const t of i.buildings) t.type == e.BuildType.tower && this.removeBuff(t)
             }
         }
-        class oi extends ri {
+        class oi extends XTowerBuffEffect {
             createBuff() {
                 let i = this.changeVal,
                     s = t.buildingMgr.getBuildCfg(this.data.id);
                 return t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new qt(i)
             }
         }
-        class XTowerAddAtkSpd extends ri {
+        class XTowerAddAtkSpd extends XTowerBuffEffect {
             createBuff() {
                 let i = t.buildingMgr.getBuildCfg(this.data.id);
                 if (t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffId.includes(17) && t.user.gameInfo.getBuffData(17)) {
@@ -5690,7 +5692,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return new zt(-this.changeVal)
             }
         }
-        class hi extends ri {
+        class hi extends XTowerBuffEffect {
             createBuff() {
                 return new Wt(-this.changeVal)
             }
@@ -9264,7 +9266,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e.diIcon && (this.imgDi.skin = e.diIcon)
             }
         }
-        class GameScript extends Laya.Script {
+        class XGameScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.mapMoveSpeed = 1.5, this.defenders = [], this.hunters = [], 
                 this.moveDir = new fx.V2, this.buildingGrids = [], this.moveTime = 0
@@ -9336,7 +9338,7 @@ define("js/bundle.js", function(require, module, exports) {
                         box = new Laya.Box;
                     box.width = box.height = 1, 
                     this.map.playerLayer.addChild(box);
-                    let r = box.addComponent(DefenderScript);
+                    let r = box.addComponent(XDefenderScript);
                     r.init(defender);
                     let o = t.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
                     if (!o) {
@@ -9357,7 +9359,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             initHunters() {
-                this.panel_ghostDoor = new Laya.Panel, this.panel_ghostDoor.width = this.panel_ghostDoor.height = 180, this.panel_ghostDoor.anchorX = this.panel_ghostDoor.anchorY = .5, this.map.hunterLayer.addChild(this.panel_ghostDoor), this.img_ghostDoor = new Laya.Image("res/game/img_ghostDoor.png"), this.img_ghostDoor.width = this.img_ghostDoor.height = 180, this.panel_ghostDoor.addChild(this.img_ghostDoor), this.img_ghostDoor.pos(0, 180);
+                this.panel_ghostDoor = new Laya.Panel, this.panel_ghostDoor.width = this.panel_ghostDoor.height = 180, 
+                this.panel_ghostDoor.anchorX = this.panel_ghostDoor.anchorY = .5, 
+                this.map.hunterLayer.addChild(this.panel_ghostDoor), 
+                this.img_ghostDoor = new Laya.Image("res/game/img_ghostDoor.png"), 
+                this.img_ghostDoor.width = this.img_ghostDoor.height = 180, 
+                this.panel_ghostDoor.addChild(this.img_ghostDoor), this.img_ghostDoor.pos(0, 180);
                 let e = t.playerMgr.mineUuid,
                     i = t.playerMgr.hunters;
                 for (let s = 0; s < i.length; ++s) {
@@ -9463,87 +9470,142 @@ define("js/bundle.js", function(require, module, exports) {
             lookAt(e, t) {
                 this.map.lookAt(e, t), this.map.updateArea()
             }
-            build(buildModel_, s, a = 0) {
-                let n = new Laya.Box;
-                n.width = n.height = .01, buildModel_.owner = n, n.anchorX = n.anchorY = .5;
-                let r, o = t.mapMgr.gridPosToMapPos(buildModel_.x, buildModel_.y),
-                    l = !1,
-                    building = t.buildingMgr.getBuildCfg(buildModel_.id);
-                if (building.type == e.BuildType.door) r = n.addComponent(XDoorScript);
-                else if (building.type == e.BuildType.bed) {
-                    if (n.zOrder = 100, r = n.addComponent(XBedScript), 1001 == buildModel_.id) {
-                        let e = t.cfg.skin.getList(),
-                            s = fx.Utils.randomInArray(e);
+
+            build(buildModel_, s, cdTime_ = 0) {
+                // 初始化容器
+                let n = new Laya.Box();
+                n.width = n.height = .01;
+                n.anchorX = n.anchorY = .5;
+                buildModel_.owner = n;
+            
+                // 基础数据
+                let r;
+                const o = t.mapMgr.gridPosToMapPos(buildModel_.x, buildModel_.y);
+                let l = !1;
+                const buildCfg = t.buildingMgr.getBuildCfg(buildModel_.id);
+            
+                // 不同类型建造物处理
+                if (buildCfg.type == e.BuildType.door) {
+                    r = n.addComponent(XDoorScript);
+            
+                } else if (buildCfg.type == e.BuildType.bed) {
+                    n.zOrder = 100;
+                    r = n.addComponent(XBedScript);
+            
+                    // 特殊床 1001
+                    if (buildModel_.id == 1001) {
+                        let skins = t.cfg.skin.getList();
+                        let chosen = fx.Utils.randomInArray(skins);
+            
                         if (buildModel_.playerUuid) {
-                            let e = t.playerMgr.getPlayer(buildModel_.playerUuid);
-                            s = t.cfg.skin.get(e.skinId)
+                            let p = t.playerMgr.getPlayer(buildModel_.playerUuid);
+                            chosen = t.cfg.skin.get(p.skinId);
                         }
-                        let a = new Laya.Image(s.skinBedPath);
-                        a.scale(1, 1), a.anchorX = .5, a.anchorY = .75, t.mapMgr.playerLayer.addChild(a), a.pos(o.x, o.y - 15), r.bedHead = a
+            
+                        const bedImg = new Laya.Image(chosen.skinBedPath);
+                        bedImg.scale(1, 1);
+                        bedImg.anchorX = .5;
+                        bedImg.anchorY = .75;
+                        t.mapMgr.playerLayer.addChild(bedImg);
+                        bedImg.pos(o.x, o.y - 15);
+                        r.bedHead = bedImg;
                     }
-                } else if (building.type == e.BuildType.tower)
-                    if (3e3 == building.buildId)
+            
+                } else if (buildCfg.type == e.BuildType.tower) {
+                    // 特殊塔（3000）
+                    if (buildCfg.buildId == 3000) {
                         if (buildModel_.isSpecial) {
                             switch (buildModel_.specialId) {
-                                case 1:
-                                    r = n.addComponent(XQianjinTowerScript);
-                                    break;
-                                case 2:
-                                    r = n.addComponent(ns), l = !0;
-                                    break;
-                                case 3:
-                                    r = n.addComponent(Ii);
-                                    break;
-                                case 4:
-                                    r = n.addComponent(Ei);
-                                    break;
-                                case 5:
-                                    r = n.addComponent(ds);
-                                    break;
-                                case 6:
-                                    r = n.addComponent(XTowerScript);
-                                    break;
-                                case 7:
-                                    r = n.addComponent(XShuangtouTowerScript);
-                                    break;
-                                case 8:
-                                    r = n.addComponent(XBingdongTowerScript);
-                                    break;
-                                case 9:
-                                    r = n.addComponent(JuTowerScript);
-                                    break;
-                                case 10:
-                                    r = n.addComponent(JiguangTowerScript);
-                                    break;
-                                case 11:
-                                    r = n.addComponent(ls);
-                                    break;
-                                case 12:
-                                    r = n.addComponent(XMiniTowerScript);
-                                    break;
-                                case 13:
-                                    r = n.addComponent(JisuTowerScript);
-                                    break;
-                                case 14:
-                                    r = n.addComponent(XQianliTowerScript);
-                                    break;
-                                case 15:
-                                    r = n.addComponent(XTowerScript);
-                                    break;
-                                case 16:
-                                    r = n.addComponent(as);
-                                    break;
-                                case 17:
-                                    r = n.addComponent(hs);
-                                    break;
-                                default:
-                                    r = n.addComponent(XTowerScript)
+                                case 1: r = n.addComponent(XQianjinTowerScript); break;
+                                case 2: r = n.addComponent(ns); l = !0; break;
+                                case 3: r = n.addComponent(Ii); break;
+                                case 4: r = n.addComponent(Ei); break;
+                                case 5: r = n.addComponent(ds); break;
+                                case 6: r = n.addComponent(XTowerScript); break;
+                                case 7: r = n.addComponent(XShuangtouTowerScript); break;
+                                case 8: r = n.addComponent(XBingdongTowerScript); break;
+                                case 9: r = n.addComponent(JuTowerScript); break;
+                                case 10: r = n.addComponent(JiguangTowerScript); break;
+                                case 11: r = n.addComponent(ls); break;
+                                case 12: r = n.addComponent(XMiniTowerScript); break;
+                                case 13: r = n.addComponent(JisuTowerScript); break;
+                                case 14: r = n.addComponent(XQianliTowerScript); break;
+                                case 15: r = n.addComponent(XTowerScript); break;
+                                case 16: r = n.addComponent(as); break;
+                                case 17: r = n.addComponent(hs); break;
+                                default: r = n.addComponent(XTowerScript);
                             }
-                        } else r = n.addComponent(XTowerScript);
-                else 3001 == building.buildId ? r = n.addComponent(XTowerDoubleScript) : 3002 == building.buildId ? r = n.addComponent(XQuirkyTowerScript) : 3003 == building.buildId || (3004 == building.buildId ? r = n.addComponent(XSpringTowerScript) : 3005 == building.buildId ? r = n.addComponent(XDoorGuardTowerScript) : 3006 == building.buildId ? (r = n.addComponent(XFollowSpringTowerScript), l = !0) : 3007 == building.buildId ? r = n.addComponent(XPoisonSpringTowerScript) : 3008 == building.buildId || 3009 == building.buildId ? r = n.addComponent(XFlyCutterScript) : 3010 == building.buildId && (r = n.addComponent(XMirrorScript)));
-                else r = building.type == e.BuildType.eatMosquito ? n.addComponent(XEatMosquitoScript) : building.type == e.BuildType.springBox ? n.addComponent(XSpringBoxScript) : building.type == e.BuildType.knife ? n.addComponent(XKnifeScript) : building.type == e.BuildType.random ? n.addComponent(Wi) : building.type == e.BuildType.mine ? 5002 == building.buildId || 5103 == building.buildId || 5104 == building.buildId || 5105 == building.buildId || 5106 == building.buildId ? n.addComponent(XCatBedScript) : n.addComponent(XBuildingScript) : building.type == e.BuildType.entice ? n.addComponent(EnticeScript) : building.type == e.BuildType.stone ? n.addComponent(XRabbitScript) : building.type == e.BuildType.boxMonster ? n.addComponent(XBoxMonsterScript) : building.type == e.BuildType.doorkeeper ? n.addComponent(XDoorkeeperScript) : building.type == e.BuildType.borrowMoney ? n.addComponent(XBorrowMoneyScript) : 6006 == building.buildId ? n.addComponent(XTrapScript) : n.addComponent(XBuildingScript);
-                this.buildingGrids[buildModel_.x] || (this.buildingGrids[buildModel_.x] = []), l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n), n.pos(o.x, o.y), this.buildingGrids[buildModel_.x][buildModel_.y] = r, r.init(buildModel_, a), r.map = this.map, s || t.mapMgr.isInStageByGridPos(buildModel_.x, buildModel_.y) && EffectUtil.I.playUpgradeEffect(buildModel_.x, buildModel_.y)
+                        } else {
+                            r = n.addComponent(XTowerScript);
+                        }
+                    } else {
+                        // 其他塔
+                        switch (buildCfg.buildId) {
+                            case 3001: r = n.addComponent(XTowerDoubleScript); break;
+                            case 3002: r = n.addComponent(XQuirkyTowerScript); break;
+                            case 3004: r = n.addComponent(XSpringTowerScript); break;
+                            case 3005: r = n.addComponent(XDoorGuardTowerScript); break;
+                            case 3006: r = n.addComponent(XFollowSpringTowerScript); l = !0; break;
+                            case 3007: r = n.addComponent(XPoisonSpringTowerScript); break;
+                            case 3008:
+                            case 3009: r = n.addComponent(XFlyCutterScript); break;
+                            case 3010: r = n.addComponent(XMirrorScript); break;
+                            default: break;
+                        }
+                    }
+            
+                } else {
+                    // 其他类型
+                    if (buildCfg.type == e.BuildType.eatMosquito) {
+                        r = n.addComponent(XEatMosquitoScript);
+                    } else if (buildCfg.type == e.BuildType.springBox) {
+                        r = n.addComponent(XSpringBoxScript);
+                    } else if (buildCfg.type == e.BuildType.knife) {
+                        r = n.addComponent(XKnifeScript);
+                    } else if (buildCfg.type == e.BuildType.random) {
+                        r = n.addComponent(Wi);
+                    } else if (buildCfg.type == e.BuildType.mine) {
+                        if ([5002, 5103, 5104, 5105, 5106].includes(buildCfg.buildId)) {
+                            r = n.addComponent(XCatBedScript);
+                        } else {
+                            r = n.addComponent(XBuildingScript);
+                        }
+                    } else if (buildCfg.type == e.BuildType.entice) {
+                        r = n.addComponent(EnticeScript);
+                    } else if (buildCfg.type == e.BuildType.stone) {
+                        r = n.addComponent(XRabbitScript);
+                    } else if (buildCfg.type == e.BuildType.boxMonster) {
+                        r = n.addComponent(XBoxMonsterScript);
+                    } else if (buildCfg.type == e.BuildType.doorkeeper) {
+                        r = n.addComponent(XDoorkeeperScript);
+                    } else if (buildCfg.type == e.BuildType.borrowMoney) {
+                        r = n.addComponent(XBorrowMoneyScript);
+                    } else if (buildCfg.buildId == 6006) {
+                        r = n.addComponent(XTrapScript);
+                    } else {
+                        r = n.addComponent(XBuildingScript);
+                    }
+                }
+            
+                // 添加到地图层
+                this.buildingGrids[buildModel_.x] ||= [];
+                l ? this.map.buildMoveLayer.addChild(n) : this.map.buildLayer.addChild(n);
+            
+                // 设置位置 & 存储引用
+                n.pos(o.x, o.y);
+                this.buildingGrids[buildModel_.x][buildModel_.y] = r;
+            
+                // 初始化脚本
+                r.init(buildModel_, cdTime_);
+                r.map = this.map;
+            
+                // 播放特效
+                if (!s && t.mapMgr.isInStageByGridPos(buildModel_.x, buildModel_.y)) {
+                    EffectUtil.I.playUpgradeEffect(buildModel_.x, buildModel_.y);
+                }
             }
+            
+
             destroyBuilding(e) {
                 let i = this.getBuidling(e.x, e.y);
                 i ? (i.node.destroy(), this.buildingGrids[e.x] && this.buildingGrids[e.x][e.y] && delete this.buildingGrids[e.x][e.y], this.map.hideUpTips(e.x, e.y), t.mapMgr.isInStageByGridPos(e.x, e.y)) : e.owner && e.owner.destroy()
@@ -9682,7 +9744,7 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.off(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.off(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.off(XEventNames.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.off(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.off(XEventNames.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.off(XEventNames.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.off(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.off(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.off(XEventNames.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.off(XEventNames.E_Game_Start, this, this.onGameStart)
             }
         }
-        class AngelOrGhostGameScript extends GameScript {
+        class AngelOrGhostGameScript extends XGameScript {
             onInit() {
                 super.onInit();
                 let e = this.owner.getChildByName("box_skill"),
@@ -9747,7 +9809,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.angel_skill.visible = !0, this.isPlayerBed = !1, this.inputScript.show();
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.playerLayer.addChild(i);
-                let s = i.addComponent(DefenderScript);
+                let s = i.addComponent(XDefenderScript);
                 s.init(e);
                 let a = t.mapMgr.getDefenderSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.characterControl = s, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y), this.clearBtnCD(this.skill_addSpeed), this.clearBtnCD(this.skill_dizzy), XToast.show("我变成救援者")
@@ -9759,7 +9821,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.off(XEventNames.E_Angel_Dead, this, this.clearControl), Laya.timer.clear(t.gameUI, t.gameUI.countdownFunc)
             }
         }
-        class DefenseGameScript extends GameScript {
+        class DefenseGameScript extends XGameScript {
             onInit() {
                 super.onInit();
                 let e = this.owner.getChildByName("box_skill").getChildByName("defender_skill");
@@ -9834,7 +9896,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             }
         ////猜测是噬魂者模式
-        class HuntGameScript extends GameScript {
+        class HuntGameScript extends XGameScript {
             constructor() {
                 super(...arguments), this.equipArr = []
             }
@@ -9944,7 +10006,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
             }
         }
-        class ServenGhostGameScript extends GameScript {
+        class ServenGhostGameScript extends XGameScript {
             onInit() {
                 super.onInit();
                 let e = this.owner.getChildByName("box_skill").getChildByName("defender_skill");
@@ -15573,7 +15635,13 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = this.getSpecialTower();
                     u.specialId = e.id, "罕见" == e.quality && (u.canChangeSpecial = !0)
                 } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
-                return u.canHandle = l, u.turntableBuildId = `${s}_${o}`, this.turntableBuildArr.push(`${s}_${o}`), this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
+                u.canHandle = l, u.turntableBuildId = `${s}_${o}`, this.turntableBuildArr.push(`${s}_${o}`)
+                this.addBuilding(u, c)
+                t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1)
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1])
+                !t.taskMgr.compeletAllTask() && t.taskMgr.startTask()
+                t.gameMgr.playSound(u, 111)
+                return    e.BuildResult.E_OK
             }
             buildSpecial(i) {
                 let s = t.playerMgr.getPlayer(i.playerUuid);
@@ -16255,7 +16323,7 @@ define("js/bundle.js", function(require, module, exports) {
                 menu4: ["res/PlantingList/img_legend.png", "res/PlantingList/img_legend_1.png"],
                 menu5: ["res/PlantingList/img_god.png", "res/PlantingList/img_god_1.png"]
             };
-        class gn extends Laya.Script {
+        class XBuildMenuScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.buildPos = new Laya.Point, this.firstNodeInfo = {
                     y: null,
@@ -16489,7 +16557,13 @@ define("js/bundle.js", function(require, module, exports) {
                 let n = t.buildingMgr.getBuildRet(this.roomId, i.buildId, i.lv);
                 switch (s && (n = e.BuildResult.E_OK), n) {
                     case e.BuildResult.E_OK:
-                        t.gameMgr.buildCnt++, t.reporter.useProp(i.name), t.user.gameInfo.isFirstBuild && 6666 == i.buildId && (t.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), this.hide(), a && t.user.gameInfo.useBuildData(i.buildId), XAnalyticsUtil.useLevelItem(`商店道具-${i.name}`), s ? t.buildingMgr.buildFree(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv) : t.buildingMgr.build(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv);
+                        t.gameMgr.buildCnt++, 
+                        t.reporter.useProp(i.name), 
+                        t.user.gameInfo.isFirstBuild && 6666 == i.buildId && (t.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), 
+                        this.hide(), 
+                        a && t.user.gameInfo.useBuildData(i.buildId),
+                        XAnalyticsUtil.useLevelItem(`商店道具-${i.name}`), 
+                        s ? t.buildingMgr.buildFree(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv) : t.buildingMgr.build(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv);
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("建造失败！");
@@ -16911,7 +16985,7 @@ define("js/bundle.js", function(require, module, exports) {
             init(e, t) {
                 this.gameNode = e, this.label_cd = t.getChildByName("label_cd"), this.label_cd.visible = !1, this.box_angelRevive = t.getChildByName("box_angelRevive"), this.lb_angelRevive = this.box_angelRevive.getChildByName("lb_angelRevive"), this.operateBtn = fx.Utils.createPrefab(T.Prefab_OperateBtn), this.operateImg = this.operateBtn.getChildByName("imgBtn"), this.gameNode.addChild(this.operateBtn), this.operateBtn.visible = !1;
                 let i = fx.Utils.createPrefab(T.Prefab_BuildMenu);
-                this.gameNode.parent.addChild(i), this.buildMenu = i.getComponent(gn), i.visible = !1;
+                this.gameNode.parent.addChild(i), this.buildMenu = i.getComponent(XBuildMenuScript), i.visible = !1;
                 let s = fx.Utils.createPrefab(T.Prefab_UpgradeMenu);
                 this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(XUpgradeMenuScript), s.visible = !1;
                 let a = fx.Utils.createPrefab(T.Prefab_BorrowMoney);
@@ -18348,10 +18422,12 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {}
             static init() {
                 var e = Laya.ClassUtils.regClass;
-                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", gn), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
+                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", XBuildMenuScript), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
             }
         }
-        Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", Vn.alignV = "middle", Vn.alignH = "center", Vn.startScene = "scenes/LoadingScene.scene", Vn.sceneRoot = "", Vn.debug = !1, Vn.stat = !1, Vn.physicsDebug = !1, Vn.exportSceneToJson = !0, Vn.init();
+        Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", 
+        Vn.alignV = "middle", Vn.alignH = "center", Vn.startScene = "scenes/LoadingScene.scene", 
+        Vn.sceneRoot = "", Vn.debug = !1, Vn.stat = !1, Vn.physicsDebug = !1, Vn.exportSceneToJson = !0, Vn.init();
         let Fn = null;
 
         function zn(e) {
@@ -18636,7 +18712,12 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 Laya.isWXPlayable = !1, Laya.Laya.isWXPlayable = !1;
                 let e = Vn;
-                if (!e.stat && fx.Utils.isOnPC() && (e.stat = !0), e.stat && qn.enableLog(), Laya.isWXPlayable || sdk.Sdk.sInit(V), super(e, "version.json"), e.stat && (Laya.isWXPlayable || qn.init()), fx.Utils.isOnMiniGame() && !fx.Utils.isOnPC() && V.remoteUrl && !Laya.isWXPlayable) {
+                !e.stat && fx.Utils.isOnPC() && (e.stat = !0)
+                e.stat && qn.enableLog()
+                Laya.isWXPlayable || sdk.Sdk.sInit(V)
+                super(e, "version.json")
+                e.stat && (Laya.isWXPlayable || qn.init())
+                if ( fx.Utils.isOnMiniGame() && !fx.Utils.isOnPC() && V.remoteUrl && !Laya.isWXPlayable) {
                     Laya.URL.basePath = V.remoteUrl;
                     let e = sdk.Sdk.instance.getMiniAdapter();
                     e && (e.AutoCacheDownFile = !0, e.remotefiles = V.remotefiles, e.cacheExcludes = V.cacheExcludes)
@@ -19009,7 +19090,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.BorrowMoneyScript = XBorrowMoneyScript, 
         e.BoxMonsterScript = XBoxMonsterScript, e.BreakAwayAction = XBreakAwayAction, e.BuffCfg = At, e.BuffChooseDialog = ee, 
         e.BuffData = va, e.BuffManager = BuffMgr, e.BuffOwnerDialog = te, e.BuffShowDialog = ie, e.BuildCfg = xt, 
-        e.BuildCreateCfg = Bt, e.BuildData = ba, e.BuildMenuScript = gn, e.BuildingManager = XBuildingMgr, 
+        e.BuildCreateCfg = Bt, e.BuildData = ba, e.BuildMenuScript = XBuildMenuScript, e.BuildingManager = XBuildingMgr, 
         e.BuildingModel = XBuildingModel, e.BuildingScript = XBuildingScript, e.BulletManager = BulletMgr, e.BulletRotScript = XBulletRotScript, 
         e.BulletScript = XBulletScript, e.BuyTianDialog = se, e.CanUpOrBuildCdt = XCanUpgradeCdt, e.CatBedScript = XCatBedScript, e.Category = ve, 
         e.CfgManager = XCfgMgr, e.CircleProgressBarScript = class extends Laya.Script {
@@ -19087,7 +19168,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 super(...arguments), this.type = Ee.DEF_ROI
             }
-        }, e.DefenderScript = DefenderScript, e.DepsConditionAnd = XAllTrueCdt, e.DepsConditionOr = XOneTrueCdt, 
+        }, e.DefenderScript = XDefenderScript, e.DepsConditionAnd = XAllTrueCdt, e.DepsConditionOr = XOneTrueCdt, 
         e.DifficultCfg = Et, e.DifficultChooseDialog = ne, e.DizzyAction = XDizzyAction, e.DoorAlwaysAddHp = Jt, e.DoorEnemyBeDizzy = gi, e.DoorEnemyBeEscape = ci, 
         e.DoorFightBackOnBeAtk = ai, e.DoorGetCoinOnHurt = di, e.DoorGuardTowerScript = XDoorGuardTowerScript, e.DoorHpIncrease = class extends XBaseBuff {
             constructor() {
@@ -19228,7 +19309,7 @@ define("js/bundle.js", function(require, module, exports) {
         }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
         e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
         e.GameInfoEvent = Ce, e.GameManager = GameMgr, 
-        e.GameScene = XGameScene, e.GameScript = GameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
+        e.GameScene = XGameScene, e.GameScript = XGameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
         e.GameUI = GameUI, 
         e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, e.GuideArrowScript = Oi, 
         e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = GuildMgr, e.HBoxScript = En, e.HasAngelAroundCdt = XHasAngelAroundCdt, 
@@ -19587,7 +19668,8 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.PlayableLoadingScript = class extends Laya.Script {
             onEnable() {
-                XRegClass.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), Laya.timer.callLater(this, this.enterGame)
+                XRegClass.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), 
+                Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
                 t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new GameUI, t.mapMgr = new MapMgr, t.buildingMgr = new XBuildingMgr, t.playerMgr = new PlayerMgr, t.bulletMgr = new BulletMgr, t.guideMgr = new GuildMgr
@@ -19789,7 +19871,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.TianBoxScript = Mn, e.TianShiTowerScript = ns, e.TiledInfo = XTiledInfo, e.TimeIntervalCdt = XTimeIntervalCdt, 
         e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = Ss, e.TowerAddAtkDst = oi, e.TowerAddAtkSpd = XTowerAddAtkSpd, 
-        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = ri, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = XTowerDoubleScript, 
+        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = XTowerBuffEffect, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = XTowerDoubleScript, 
         e.TowerGetCoinOnAtk = ei,
          e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = XTrapScript, 
          e.TurntableRewardDialog = me, e.TurntableView = Is, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, 

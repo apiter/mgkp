@@ -1,0 +1,63 @@
+{
+  "ver": "1.0.8",
+  "importer": "sprite-atlas",
+  "imported": true,
+  "uuid": "8c969c1d-d285-471d-8905-22c822c9c96e",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {
+    "1d068": {
+      "importer": "sprite-frame",
+      "uuid": "8c969c1d-d285-471d-8905-22c822c9c96e@1d068",
+      "displayName": "",
+      "id": "1d068",
+      "name": "guideTips",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 46,
+        "height": 59,
+        "rawWidth": 46,
+        "rawHeight": 59,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "81f9ec38-5735-4c41-b243-a05fa7cb53ca@6c48a",
+        "atlasUuid": "8c969c1d-d285-471d-8905-22c822c9c96e",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "atlasTextureName": "guideTips.png",
+    "format": 2,
+    "uuid": "8c969c1d-d285-471d-8905-22c822c9c96e",
+    "textureUuid": "81f9ec38-5735-4c41-b243-a05fa7cb53ca@6c48a"
+  }
+}

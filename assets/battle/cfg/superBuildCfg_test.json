@@ -2,35 +2,35 @@
   "1": {
     "id": 1,
     "name": "屠龙刀",
-    "icon": "res/build/skillBuild/skillBuild_cuizi1.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_cuizi1.png",
     "description": "对噬魂者造成25%最大生命值伤害",
     "upDes": "免费升级一次,使法宝更加强大"
   },
   "2": {
     "id": 2,
     "name": "芭蕉宝扇",
-    "icon": "res/tower/tower_bjs2.png",
+    "icon": "atlas/res/tower/tower_bjs2.png",
     "description": "攻击获得25%造成伤害的元宝",
     "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
   },
   "3": {
     "id": 3,
     "name": "牛魔宝扇",
-    "icon": "res/tower/tower_bjs3.png",
+    "icon": "atlas/res/tower/tower_bjs3.png",
     "description": "攻速+200%，攻击获得25%造成伤害的元宝",
     "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
   },
   "4": {
     "id": 4,
     "name": "纸人银轿",
-    "icon": "res/build/skillBuild/skillBuild_box1.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_box1.png",
     "description": "额外金币提升至100%",
     "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
   },
   "5": {
     "id": 5,
     "name": "纸人金轿",
-    "icon": "res/build/skillBuild/skillBuild_box2.png",
+    "icon": "atlas/res/build/skillBuild/skillBuild_box2.png",
     "description": "床铺会自动躲避噬魂者，并根据与房间距离增加额外金币",
     "upDes": "免费升级一次,使法宝更加强大，运气好能连升两级！"
   }

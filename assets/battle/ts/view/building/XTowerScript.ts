@@ -4,13 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XTowerScript')
 export class XTowerScript extends XBuildingScript {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
+ 
 }
 
 

@@ -1,0 +1,109 @@
+{
+  "ver": "1.0.8",
+  "importer": "sprite-atlas",
+  "imported": true,
+  "uuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {
+    "c86cc": {
+      "importer": "sprite-frame",
+      "uuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163@c86cc",
+      "displayName": "",
+      "id": "c86cc",
+      "name": "2",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 37,
+        "height": 117,
+        "rawWidth": 37,
+        "rawHeight": 117,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "a59a0144-872f-46b8-9a5a-f28454ac96ef@6c48a",
+        "atlasUuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c30fb": {
+      "importer": "sprite-frame",
+      "uuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163@c30fb",
+      "displayName": "",
+      "id": "c30fb",
+      "name": "1",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 38,
+        "trimY": 0,
+        "width": 28,
+        "height": 102,
+        "rawWidth": 28,
+        "rawHeight": 102,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "a59a0144-872f-46b8-9a5a-f28454ac96ef@6c48a",
+        "atlasUuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "atlasTextureName": "knife.png",
+    "format": 2,
+    "uuid": "dfdfe9c4-ced4-4f1f-b7cc-4a424e4c8163",
+    "textureUuid": "a59a0144-872f-46b8-9a5a-f28454ac96ef@6c48a"
+  }
+}

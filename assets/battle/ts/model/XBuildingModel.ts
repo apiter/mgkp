@@ -1,6 +1,7 @@
 import { Node } from "cc"
 import { XBuildType } from "../xconfig/XEnum"
 import XBaseModel from "./XBaseModel"
+import { XBuildingScript } from "../view/building/XBuildingScript"
 
 export default class XBuildingModel extends XBaseModel {
     canHandle = true
@@ -17,6 +18,7 @@ export default class XBuildingModel extends XBaseModel {
     playerUuid = ""
     type:XBuildType
     isUsed = false
+    ownerScript:XBuildingScript
     
     constructor(id_, roomId_, lv_, x_, y_, rotation_) {
         super()

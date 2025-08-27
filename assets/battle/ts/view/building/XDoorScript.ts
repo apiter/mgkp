@@ -4,13 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XDoorScript')
 export class XDoorScript extends XBuildingScript {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
+ 
 }
 
 
