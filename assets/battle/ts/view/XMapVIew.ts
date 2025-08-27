@@ -20,6 +20,8 @@ export class XMapView extends Component {
     buildMoveLayer: Node = null
     @property(Node)
     playerLayer:Node = null
+    @property(Node)
+    hunterLayer:Node = null
 
     init() {
         const width = XMgr.mapMgr.width
@@ -29,6 +31,7 @@ export class XMapView extends Component {
         this.buildLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
         this.buildMoveLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
         this.playerLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
+        this.hunterLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
 
         this.createGround()
     }

@@ -25,7 +25,7 @@ export class XPlayerScript extends Component {
     data: XPlayerModel = null
 
     skinNode: Node = null
-    skinAniNode: Node = null
+    aniNode: Node = null
     spineNode: Node = null
     skinCfg: XCfgSkinData = null
 
@@ -60,16 +60,15 @@ export class XPlayerScript extends Component {
         // 2. spine 动画资源（.bin 格式）
         if (this.skinCfg.skinPath.includes(".bin")) {
             const path = this.skinCfg.skinPath.replace(".bin", "")
-            this.skinAniNode = new Node("aniNode")
-            this.skinAniNode.name = "aniNode";
-            const uiTrans = this.skinAniNode.addComponent(UITransform)
+            this.aniNode = new Node("aniNode")
+            const uiTrans = this.aniNode.addComponent(UITransform)
             uiTrans.setContentSize(XConst.GridSize, XConst.GridSize)
-            uiTrans.anchorPoint = v2(0.5, 0.1)
-            this.skinNode.addChild(this.skinAniNode);
+            uiTrans.anchorPoint = v2(0.5, 0.9)
+            this.skinNode.addChild(this.aniNode);
 
             const spineNode = await XResUtil.loadSpineFromBundle("spines", path);
-            this.skinAniNode.addChild(spineNode)
-            spineNode.setPosition(v3(XConst.GridHalfSize, -XConst.GridSize - 15))
+            this.aniNode.addChild(spineNode)
+            spineNode.setPosition(v3(0, -XConst.GridHalfSize + 15))
             this.spineNode = spineNode
             spineNode.getComponent(sp.Skeleton).premultipliedAlpha = false
 

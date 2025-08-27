@@ -15,6 +15,7 @@ import { XConst } from '../../xconfig/XConst';
 import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XDefenderScript } from '../player/XDefenderScript';
 import { XPlayerScript } from '../player/XPlayerScript';
+import { XHunterScript } from '../player/XHunterScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -22,9 +23,10 @@ export class XGameScript extends Component {
     map: XMapView = null
     buildingGrids: XBuildingScript[][] = []
 
-    defenders:XDefenderScript[] = []
+    defenders: XDefenderScript[] = []
+    hunters: XHunterScript[] = []
 
-    characterControl:XPlayerScript = null
+    characterControl: XPlayerScript = null
 
     protected onLoad(): void {
         this.map = this.node.getChildByName("map").getComponent(XMapView)
@@ -40,6 +42,7 @@ export class XGameScript extends Component {
         this.map.init()
         this.initBuildings()
         this.initDefenders()
+        this.initHunters()
     }
 
     initBuildings() {
@@ -56,10 +59,10 @@ export class XGameScript extends Component {
         let defenderArr = XMgr.playerMgr.defenders
         for (let i = 0; i < defenderArr.length; ++i) {
             let defender = defenderArr[i]
-            let box = new Node;
-            box.addComponent(UITransform).setContentSize(1, 1)
-            this.map.playerLayer.addChild(box);
-            let defenderScript = box.addComponent(XDefenderScript);
+            let defNode = new Node;
+            defNode.addComponent(UITransform).setContentSize(1, 1)
+            this.map.playerLayer.addChild(defNode);
+            let defenderScript = defNode.addComponent(XDefenderScript);
             defenderScript.init(defender);
             let spawnPos = XMgr.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
             if (!spawnPos) {
@@ -80,6 +83,26 @@ export class XGameScript extends Component {
             defenderScript.pos(spawnPos.x, spawnPos.y)
             this.defenders.push(defenderScript)
             defender.uuid == myUuid && (this.characterControl = defenderScript)
+        }
+    }
+
+    initHunters() {
+        let myUuid = XMgr.playerMgr.mineUuid
+        let hunters = XMgr.playerMgr.hunters;
+        for (let i = 0; i < hunters.length; ++i) {
+            let hunterModel = hunters[i]
+            let huntNode = new Node
+            huntNode.addComponent(UITransform).setContentSize(1, 1)
+            this.map.hunterLayer.addChild(huntNode);
+            let script = huntNode.addComponent(XHunterScript);
+            script.init(hunterModel);
+            let spawnPos = XMgr.mapMgr.getHunterSpawnPos(hunterModel.spwanPoint);
+            script.pos(spawnPos.x, spawnPos.y)
+            this.hunters.push(script)
+            if (hunterModel.uuid == myUuid) {
+                this.characterControl = script;
+                break
+            }
         }
     }
 

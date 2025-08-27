@@ -4615,7 +4615,9 @@ define("js/bundle.js", function(require, module, exports) {
                     i.type == e.SkinType.Hunter ? this.skinSpine.scale(.5, .5) :
                      i.type == e.SkinType.Angel ? this.skinSpine.scale(.275, .275) :
                      i.type == e.SkinType.Fighter ? this.skinSpine.scale(1, 1) : 
-                     this.data.isGhost ? (this.skinSpine.scale(.275, .275), this.skinSpine.showSkinByIndex(0)) : this.skinSpine.scale(.5, .5), 10004 == i.id && this.skinSpine.showSkinByName("guaigun"), this.skinAniNode.addChild(t), t.pos(C.GridHalfSize, C.GridSize + 15), this.playAnim("idle"), this.isSkinLoaded = !0
+                     this.data.isGhost ? (this.skinSpine.scale(.275, .275), 
+                     this.skinSpine.showSkinByIndex(0)) : this.skinSpine.scale(.5, .5), 
+                     10004 == i.id && this.skinSpine.showSkinByName("guaigun"), this.skinAniNode.addChild(t), t.pos(C.GridHalfSize, C.GridSize + 15), this.playAnim("idle"), this.isSkinLoaded = !0
                 })) : (this.skinImg = new Laya.Image(i.skinPath), this.skinImg.name = "img_skin", this.skinImg.anchorX = .5, this.skinImg.anchorY = .9, 
                 this.skinNode.addChild(this.skinImg), this.playAnim("idle"), this.isSkinLoaded = !0)
             }
