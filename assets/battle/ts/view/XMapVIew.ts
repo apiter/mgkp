@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab, Sprite, SpriteAtlas, UITransform } from 'cc';
+import { _decorator, Component, instantiate, log, math, Node, Prefab, Sprite, SpriteAtlas, UITransform, v2, v3, Vec2, view } from 'cc';
 import { XBattleEntrance } from 'db://assets/XBattleEntrance';
 import XMgr from '../XMgr';
 import { XConst } from '../xconfig/XConst';
@@ -19,9 +19,11 @@ export class XMapView extends Component {
     @property(Node)
     buildMoveLayer: Node = null
     @property(Node)
-    playerLayer:Node = null
+    playerLayer: Node = null
     @property(Node)
-    hunterLayer:Node = null
+    hunterLayer: Node = null
+
+    lookPos = v2(0)
 
     init() {
         const width = XMgr.mapMgr.width
@@ -53,6 +55,24 @@ export class XMapView extends Component {
                 }
             }
         }
+    }
+
+    lookAt(worldX, worldY) {
+        const row = XMgr.gameMgr.mapCfg.row
+        const column = XMgr.gameMgr.mapCfg.column;
+        worldX += view.getVisibleSize().width * 0.5 
+        worldY -= view.getVisibleSize().height * 0.5 
+        const localPt = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(v3(worldX, worldY, 0))
+        const localX = math.clamp(-localPt.x, -column * XConst.GridSize + view.getVisibleSize().width * 0.5, -view.getVisibleSize().width * 0.5) //Math.max(0, Math.min(row * XConst.GridSize, localPt.x))
+        const localY = math.clamp(-localPt.y, view.getVisibleSize().height * 0.5, row * XConst.GridSize - view.getVisibleSize().height * 0.5)// Math.max(0, Math.min(-column * XConst.GridSize, localPt.y))
+        // this.lookPos.set(localX, localY)
+        this.node.x = localX
+        this.node.y = localY
+        console.debug(`map look at:(${localX}, ${localY})`)
+    }
+
+    updateArea() {
+
     }
 }
 

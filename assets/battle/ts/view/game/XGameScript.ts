@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, UITransform, Vec2 } from 'cc';
+import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XBuildType } from '../../xconfig/XEnum';
@@ -16,6 +16,9 @@ import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XDefenderScript } from '../player/XDefenderScript';
 import { XPlayerScript } from '../player/XPlayerScript';
 import { XHunterScript } from '../player/XHunterScript';
+import { XInputScript } from '../XInputScript';
+import XPlayerModel from '../../model/XPlayerModel';
+import { XV2Util01 } from '../../xutil/XV2Util01';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -27,22 +30,45 @@ export class XGameScript extends Component {
     hunters: XHunterScript[] = []
 
     characterControl: XPlayerScript = null
+    inputScript: XInputScript = null
+
+    isPlayerBed = true
+    mapMoveSpeed = 1.5
+    moveDir: Vec2 = v2(0)
+
+    moveTime = 0
 
     protected onLoad(): void {
         this.map = this.node.getChildByName("map").getComponent(XMapView)
-
-        EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
     }
 
     protected onDestroy(): void {
-        EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
+        this.offEvents()
     }
 
     async init() {
+        this.inputScript = XMgr.gameMgr.inputScript
+        this.inputScript.downHandler = this.onDown.bind(this)
+        this.inputScript.moveHandler = this.onInputMove.bind(this)
+        this.inputScript.clickHandler = this.onClickMap.bind(this)
+
         this.map.init()
+        this.initEvents()
         this.initBuildings()
         this.initDefenders()
         this.initHunters()
+
+        this.onInit()
+    }
+
+    initEvents() {
+        EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
+        EventCenter.on(XEventNames.E_Look_Player, this.lookAtPlayer, this)
+    }
+
+    offEvents() {
+        EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
+        EventCenter.off(XEventNames.E_Look_Player, this.lookAtPlayer, this)
     }
 
     initBuildings() {
@@ -59,7 +85,7 @@ export class XGameScript extends Component {
         let defenderArr = XMgr.playerMgr.defenders
         for (let i = 0; i < defenderArr.length; ++i) {
             let defender = defenderArr[i]
-            let defNode = new Node;
+            let defNode = new Node(`defender${i}`);
             defNode.addComponent(UITransform).setContentSize(1, 1)
             this.map.playerLayer.addChild(defNode);
             let defenderScript = defNode.addComponent(XDefenderScript);
@@ -82,6 +108,7 @@ export class XGameScript extends Component {
             }
             defenderScript.pos(spawnPos.x, spawnPos.y)
             this.defenders.push(defenderScript)
+            defNode.active = defender.uuid == myUuid
             defender.uuid == myUuid && (this.characterControl = defenderScript)
         }
     }
@@ -104,6 +131,13 @@ export class XGameScript extends Component {
                 break
             }
         }
+    }
+
+    onInit() {
+        const lookX = this.characterControl.node.worldPositionX
+        const lookY = this.characterControl.node.worldPositionY
+        log(`characterControl:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
+        this.lookAt(lookX, lookY)
     }
 
     build(build_: XBuildingModel, s, cdTime_ = 0) {
@@ -157,6 +191,55 @@ export class XGameScript extends Component {
         this.buildingGrids[build_.x][build_.y] = buildScript
         buildScript.init(build_, cdTime_)
         buildScript.map = this.map
+    }
+
+    onDown() {
+    }
+
+    onInputMove(deltaX, deltaY) {
+        if (!this.isPlayerBed || this.characterControl) return;
+        let moveX = this.mapMoveSpeed * deltaX,
+            moveY = this.mapMoveSpeed * deltaY;
+        // this.map.lookPos.x -= moveX
+        // this.map.lookPos.y -= moveY
+        const mapWorldPt = this.map.node.worldPosition
+
+        this.lookAt(mapWorldPt.x - moveX, mapWorldPt.y - moveY)
+    }
+    onClickMap(e) { }
+
+    lookAt(worldX, worldY) {
+        this.map.lookAt(worldX, worldY)
+        this.map.updateArea()
+    }
+
+    lookAtPlayer(player_: XPlayerModel) {
+        player_?.owner?.isValid && this.lookAt(player_.owner.worldPositionX, player_.owner.worldPositionY)
+    }
+
+    protected update(dt: number): void {
+        this.updateMove(dt)
+    }
+
+    updateMove(dt) {
+        if (!this.characterControl) return;
+        if (0 == this.inputScript.input.x && 0 == this.inputScript.input.y) {
+            this.moveTime = 0
+            this.characterControl.isAtking || this.characterControl.idle()
+            return
+        }
+        const t033 = 0.033
+        this.moveTime += 0.033
+        this.moveTime >= .5 && (this.moveTime = 0);
+        this.moveDir.set(this.inputScript.input.x, this.inputScript.input.y)
+        this.moveDir.normalize()
+        // this.characterControl.img_addSpeed && XV2Util01.faceWith(this.characterControl.img_addSpeed, this.moveDir.x, this.moveDir.y);
+        let speedPow = this.characterControl.data ? this.characterControl.data.getSpeedPow() : 1
+        let speed = this.characterControl.moveSpeed * speedPow * this.characterControl.moveSpeedScale
+        let x = speed * t033 * this.moveDir.x
+        let y = speed * t033 * this.moveDir.y
+        this.characterControl.move(x, y, !0)
+        // this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
     }
 }
 

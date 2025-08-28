@@ -4622,8 +4622,22 @@ define("js/bundle.js", function(require, module, exports) {
                 this.skinNode.addChild(this.skinImg), this.playAnim("idle"), this.isSkinLoaded = !0)
             }
             setFace(t) {
-                this.faceDir = t, this.data.type == e.PlayerType.E_Defender ? (this.skinNode.scaleX = -t, this.takeMapBuildNode.scaleX = t) : this.data.type == e.PlayerType.E_Hunter && (this.skinCfg.defaultRight ? this.skinNode.scaleX = t : this.skinNode.scaleX = -t)
+                this.faceDir = t;
+            
+                if (this.data.type == e.PlayerType.E_Defender) {
+                    // 防守者：皮肤镜像翻转，建筑保持一致
+                    this.skinNode.scaleX = -t;
+                    this.takeMapBuildNode.scaleX = t;
+                } else if (this.data.type == e.PlayerType.E_Hunter) {
+                    // 猎人：根据配置决定默认朝向
+                    if (this.skinCfg.defaultRight) {
+                        this.skinNode.scaleX = t;
+                    } else {
+                        this.skinNode.scaleX = -t;
+                    }
+                }
             }
+            
             idle() {
                 this.playAnim("idle")
             }
@@ -4644,10 +4658,37 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lastMovePos ? this.lastMovePos.setValue(this.node.x, this.node.y) : this.lastMovePos = new fx.V2(this.node.x, this.node.y), this.node.pos(e, i), this.data.roomId = t.mapMgr.getRoomIdByMapPos(e, i)
             }
             move(i, s, a = !0) {
+                // 如果当前不能移动 或者处于控制状态，就直接 return
                 if (!this.canMove || this.control) return;
+            
                 let n;
-                n = a ? t.mapMgr.limitMove(this.node.x, this.node.y, i, s, 16) : t.mapMgr.move(this.node.x, this.node.y, i, s, 16), this.pos(n.x, n.y), i > 0 ? this.setFace(1) : i < 0 && this.setFace(-1), Math.abs(i) > Math.abs(s) ? this.direction = i > 0 ? e.Direction.Right : e.Direction.Left : Math.abs(i) < Math.abs(s) && (this.direction = s > 0 ? e.Direction.Down : e.Direction.Up), this.playAnim("run")
+                // 如果 a 为 true，调用限制移动的方法（可能带碰撞检测/边界限制）
+                // 否则就是普通移动
+                n = a 
+                    ? t.mapMgr.limitMove(this.node.x, this.node.y, i, s, 16) 
+                    : t.mapMgr.move(this.node.x, this.node.y, i, s, 16);
+            
+                // 更新位置
+                this.pos(n.x, n.y);
+            
+                // 根据 i (横向输入) 设置朝向
+                if (i > 0) {
+                    this.setFace(1);   // 面向右
+                } else if (i < 0) {
+                    this.setFace(-1);  // 面向左
+                }
+            
+                // 设置方向 (上下左右)
+                if (Math.abs(i) > Math.abs(s)) {
+                    this.direction = i > 0 ? e.Direction.Right : e.Direction.Left;
+                } else if (Math.abs(i) < Math.abs(s)) {
+                    this.direction = s > 0 ? e.Direction.Down : e.Direction.Up;
+                }
+            
+                // 播放跑步动画
+                this.playAnim("run");
             }
+            
             onHpChanged(i) {
                 this.data.curHp <= 0 && i && i.playerUuid == t.playerMgr.mineUuid && t.gameMgr.killCnt++, this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (t.gameMgr.playerDeadCnt += 1), this.onDead())
             }
@@ -4848,19 +4889,65 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.buildingMgr.upgrade(this.data.uuid, i.x, i.y, s) == e.BuildResult.E_OK
             }
             attack(e) {}
+
             runWithPath(t, i) {
-                if (0 == t.length) return !0;
+                // t 是路径点数组，i 可能是是否允许穿越阻挡的标记
+                if (t.length == 0) return true;
+            
+                // 当前目标点（路径的第一个点）
                 let s = t[0];
-                let a = this.getOwnerPos().sub(s).scale(-1),
-                    n = a.len();
-                if (n <= 1e-6) return t.shift(), this.runWithPath(t); {
-                    let t = fx.Utils.getFrameDelta(),
-                        s = this.data ? this.data.getSpeedPow() : 1,
-                        r = this.moveSpeed * s;
-                    this.data.isEntice && (r *= 3), this.data.type == e.PlayerType.E_Hunter ? (a.normalize(Math.min(r * t, n)), 0 != a.x && (a.x *= 2, a.x > 0 ? a.x = Math.min(a.x, n) : a.x = Math.max(a.x, -n))) : a.normalize(Math.min(r * t, n)), this.checkWalkAble(a.x, a.y) ? this.move(a.x, a.y, !i) : this.setCurPath(null)
+            
+                // 从当前坐标到目标点的向量（注意这里做了 sub(s).scale(-1)）
+                let a = this.getOwnerPos().sub(s).scale(-1);
+                let n = a.len();
+            
+                // 已经到达目标点
+                if (n <= 1e-6) {
+                    t.shift(); // 移除当前点
+                    return this.runWithPath(t); // 递归继续走下一个点
                 }
-                return !1
+            
+                {
+                    // 每帧的时间间隔
+                    let dt = fx.Utils.getFrameDelta();
+            
+                    // 速度倍率
+                    let pow = this.data ? this.data.getSpeedPow() : 1;
+            
+                    // 基础速度
+                    let r = this.moveSpeed * pow;
+            
+                    // 被诱惑时速度加倍
+                    if (this.data.isEntice) r *= 3;
+            
+                    if (this.data.type == e.PlayerType.E_Hunter) {
+                        // 猎人移动：X 轴会被放大处理
+                        a.normalize(Math.min(r * dt, n));
+            
+                        if (a.x != 0) {
+                            a.x *= 2; // 横向速度更快？
+                            if (a.x > 0) {
+                                a.x = Math.min(a.x, n);
+                            } else {
+                                a.x = Math.max(a.x, -n);
+                            }
+                        }
+                    } else {
+                        // 防守者移动
+                        a.normalize(Math.min(r * dt, n));
+                    }
+            
+                    // 检测是否可走
+                    if (this.checkWalkAble(a.x, a.y)) {
+                        this.move(a.x, a.y, !i); // i 可能表示是否严格寻路
+                    } else {
+                        this.setCurPath(null); // 走不通，清掉路径
+                    }
+                }
+            
+                return false;
             }
+            
             checkWalkAble(e, i) {
                 let s = new fx.V2(this.data.owner.x + e, this.data.owner.y + i),
                     a = t.mapMgr.mapPosToGridPos(s.x, s.y),
@@ -5088,13 +5175,55 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onAwake(), this.moveSpeed = t.cfg.constant.playerMoveSpeed
             }
             onInit() {
-                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, this.lb_name.anchorY = 1, this.lb_name.y = -100, this.lb_name.fontSize = 25, this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name);
-                let i = t.user.gameInfo.maxLevel,
-                    s = 1;
-                this.data.uuid != t.playerMgr.mineUuid ? (this.initAI(), t.gameMgr.gameMode == e.GameMode.E_Defense ? s = 1.1 : t.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = XRandomUtil.getIntRandom(t.gameMgr.dCfg.lvlFloor - 1, t.gameMgr.dCfg.lvlCeil) + t.gameMgr.dCfg.id, i = Math.min(26, i)) : i = this.getRandomLv()) : t.gameMgr.gameMode == e.GameMode.E_Defense && (s = 1.5), this.data.uuid == t.playerMgr.mineUuid && (this.moveSpeed /= t.gameMgr.speedRatio), this.moveSpeed *= s;
-                let a = t.cfg.difficultCfg.get(i);
-                this.lb_name.text = a.title, this.lb_name.color = a.titleColor
+                // 创建名字标签
+                this.lb_name = new Laya.Label();
+                this.lb_name.anchorX = 0.5;
+                this.lb_name.anchorY = 1;
+                this.lb_name.y = -100;
+                this.lb_name.fontSize = 25;
+                this.lb_name.color = "#ffffff";
+                this.lb_name.stroke = 3;
+                this.node.addChild(this.lb_name);
+            
+                // 默认等级和速度系数
+                let level = t.user.gameInfo.maxLevel;
+                let speedFactor = 1;
+            
+                // 是否是自己玩家
+                if (this.data.uuid !== t.playerMgr.mineUuid) {
+                    this.initAI();
+            
+                    if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                        speedFactor = 1.1;
+                    } else if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                        // 随机生成等级
+                        level = XRandomUtil.getIntRandom(
+                            t.gameMgr.dCfg.lvlFloor - 1,
+                            t.gameMgr.dCfg.lvlCeil
+                        ) + t.gameMgr.dCfg.id;
+                        level = Math.min(26, level);
+                    } else {
+                        // 其他模式
+                        level = this.getRandomLv();
+                    }
+                } else {
+                    // 如果是自己玩家并且在防御模式，额外加速
+                    if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                        speedFactor = 1.5;
+                    }
+                    // 自己的移动速度要除以加速系数
+                    this.moveSpeed /= t.gameMgr.speedRatio;
+                }
+            
+                // 应用速度系数
+                this.moveSpeed *= speedFactor;
+            
+                // 配置名字和颜色
+                let cfg = t.cfg.difficultCfg.get(level);
+                this.lb_name.text = cfg.title;
+                this.lb_name.color = cfg.titleColor;
             }
+            
             getRandomLv() {
                 let arr = [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]
                 let sum = 0;
@@ -6376,7 +6505,12 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0, this.curAutoSkillCd = 0, this.isStartCd = !0, this.useSkillCnt = 1, this.passiveSkillCd = 0, this.critCnt = 5, this.critCurCnt = 1, this.critScale = 1, this.hpHeal = 0, this.hpCnt = .2, this.createId = 10001
             }
             onAwake() {
-                super.onAwake(), this.moveSpeed = t.cfg.constant.hunterMoveSpeed, this.moveSpeed /= t.gameMgr.hunterSpeedRatio, this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1, fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
+                super.onAwake(), 
+                this.moveSpeed = t.cfg.constant.hunterMoveSpeed, 
+                this.moveSpeed /= t.gameMgr.hunterSpeedRatio, 
+                this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, 
+                this.atkCdScale = 1, this.lastAtkCdScale = 1, 
+                fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
             }
             onPlayerDead() {
                 if (this.canBig) {
@@ -6386,14 +6520,59 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             init(i) {
-                super.init(i), this.lv = i.lv, i.invincible = !0, t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? (i.isGhost && (this.moveSpeed *= 2), this.data.escapeOdds = .4, this.moveSpeed *= .87) : (t.gameMgr.gameMode != e.GameMode.E_Defense || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)) && (10006 != this.data.skinId || this.data.isGhost || (this.moveSpeed *= 1.5), 10002 == this.data.skinId ? this.passiveIntervalTime = 90 : 10007 == this.data.skinId ? this.passiveIntervalTime = 120 : this.passiveIntervalTime = 30)
+                super.init(i),
+            
+                // 设置等级
+                this.lv = i.lv, 
+            
+                // 设置无敌状态
+                i.invincible = !0, 
+            
+                // 游戏模式判断
+                t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost 
+                    ? (
+                        // 如果是鬼，移速翻倍
+                        i.isGhost && (this.moveSpeed *= 2), 
+                        // 设置逃跑概率
+                        this.data.escapeOdds = .4, 
+                        // 再整体降低一点速度
+                        this.moveSpeed *= .87
+                    ) 
+                    : (
+                        // 不是 AngelOrGhost 模式，进入其它模式逻辑
+                        t.gameMgr.gameMode != e.GameMode.E_Defense 
+                        || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 
+                            && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)
+                    ) 
+                    && (
+                        // 皮肤判定
+                        10006 != this.data.skinId || this.data.isGhost || (this.moveSpeed *= 1.5),
+                        10002 == this.data.skinId 
+                            ? this.passiveIntervalTime = 90 
+                            : 10007 == this.data.skinId 
+                                ? this.passiveIntervalTime = 120 
+                                : this.passiveIntervalTime = 30
+                    )
             }
+            
             onInit() {
-                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, this.lb_name.anchorY = 1, this.lb_name.y = -170, this.lb_name.fontSize = 25, this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name), this.initBody(), this.data.uuid != t.playerMgr.mineUuid && this.initAI(), this.createHealthBar(), this.dCfg = t.gameMgr.dCfg;
+                this.lb_name = new Laya.Label, 
+                this.lb_name.anchorX = .5, 
+                this.lb_name.anchorY = 1, 
+                this.lb_name.y = -170, 
+                this.lb_name.fontSize = 25, 
+                this.lb_name.color = "#ffffff", 
+                this.lb_name.stroke = 3, 
+                this.node.addChild(this.lb_name), 
+                this.initBody(), 
+                this.data.uuid != t.playerMgr.mineUuid && this.initAI(), 
+                this.createHealthBar(), 
+                this.dCfg = t.gameMgr.dCfg;
                 let i = t.user.gameInfo.maxHunterLevel;
                 t.gameMgr.gameMode == e.GameMode.E_Hunt || (i = this.dCfg.id);
                 let s = t.cfg.hunterDifficultCfg.get(i);
-                if (t.gameMgr.gameMode == e.GameMode.E_Hunt || t.gameMgr.gameMode == e.GameMode.E_Defense) this.data.isGhost || (this.lb_name.text = s.title, this.lb_name.color = s.titleColor);
+                if (t.gameMgr.gameMode == e.GameMode.E_Hunt || t.gameMgr.gameMode == e.GameMode.E_Defense) 
+                    this.data.isGhost || (this.lb_name.text = s.title, this.lb_name.color = s.titleColor);
                 else if (t.gameMgr.gameMode == e.GameMode.E_SevenGhost && !this.data.isGhost) {
                     let e = t.user.gameInfo.curSevenGhostLv,
                         i = [1, 4, 7, 11, 14, 17, 26],
@@ -8315,10 +8494,58 @@ define("js/bundle.js", function(require, module, exports) {
             showUpTips(e, t, i = !0) {
                 let s = i ? "res/game/img_upgradeTips.png" : "res/game/img_upgradeTips02.png",
                     a = i ? "res/game/img_up.png" : "res/game/img_up02.png";
+
                 this.upTipsList[e] || (this.upTipsList[e] = []);
-                let n, r, o = this.upTipsList[e][t];
-                o ? (n = o.getChildAt(0), r = o.getChildAt(1)) : ((o = new Laya.Box).width = o.height = .01, o.anchorX = o.anchorY = .5, this.hunterLayer.addChild(o), o.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize), (n = new Laya.Image(s)).visible = !1, n.width = n.height = C.GridSize, n.anchorX = n.anchorY = .5, o.addChild(n), (r = new Laya.Image(a)).anchorX = r.anchorY = .5, o.addChild(r), Laya.Tween.clearAll(n), n.alpha = 0, new fx.Sequence(null, !0).fadeIn(1e3).fadeOut(1e3).run(n), Laya.Tween.clearAll(r), r.y = 0, new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r), this.upTipsList[e][t] = o), o.visible || (o.visible = !0, Laya.Tween.clearAll(n), n.skin = s, n.alpha = 0, new fx.Sequence(null, !0).fadeIn(1e3).fadeOut(1e3).run(n), Laya.Tween.clearAll(r), r.y = 0, r.skin = a, new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r))
+
+                let n, r,
+                    o = this.upTipsList[e][t];
+
+                if (o) {
+                    n = o.getChildAt(0);
+                    r = o.getChildAt(1);
+                } else {
+                    o = new Laya.Box;
+                    o.width = o.height = .01;
+                    o.anchorX = o.anchorY = .5;
+                    this.hunterLayer.addChild(o);
+                    o.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize);
+
+                    n = new Laya.Image(s);
+                    n.visible = !1;
+                    n.width = n.height = C.GridSize;
+                    n.anchorX = n.anchorY = .5;
+                    o.addChild(n);
+
+                    r = new Laya.Image(a);
+                    r.anchorX = r.anchorY = .5;
+                    o.addChild(r);
+
+                    Laya.Tween.clearAll(n);
+                    n.alpha = 0;
+                    new fx.Sequence(null, !0).fadeIn(1000).fadeOut(1000).run(n);
+
+                    Laya.Tween.clearAll(r);
+                    r.y = 0;
+                    new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r);
+
+                    this.upTipsList[e][t] = o;
+                }
+
+                if (!o.visible) {
+                    o.visible = !0;
+
+                    Laya.Tween.clearAll(n);
+                    n.skin = s;
+                    n.alpha = 0;
+                    new fx.Sequence(null, !0).fadeIn(1000).fadeOut(1000).run(n);
+
+                    Laya.Tween.clearAll(r);
+                    r.y = 0;
+                    r.skin = a;
+                    new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r);
+                }
             }
+
             hideUpTips(e, t) {
                 if (!this.upTipsList[e] || !this.upTipsList[e][t]) return;
                 let i = this.upTipsList[e][t];
@@ -9438,7 +9665,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_guideArrow.visible = e
             }
             onUpdate() {
-                this.updateMove(), this.updateOperateUI(), t.gameUI.update()
+                this.updateMove(), 
+                this.updateOperateUI(),
+                 t.gameUI.update()
             }
             updateMove() {
                 if (!this.characterControl) return;
@@ -9743,7 +9972,19 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_guideHand && (this.img_guideHand.visible = !1)
             }
             onDestroy() {
-                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.build), fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), fx.EventCenter.I.off(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), fx.EventCenter.I.off(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), fx.EventCenter.I.off(XEventNames.E_Look_Player, this, this.lookAtPlayer), fx.EventCenter.I.off(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), fx.EventCenter.I.off(XEventNames.E_Repair_Door, this, this.repairDoor), fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), fx.EventCenter.I.off(XEventNames.E_Bed_Down, this, this.hideBuildTips), fx.EventCenter.I.off(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), fx.EventCenter.I.off(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), fx.EventCenter.I.off(XEventNames.E_Hurter_Dig, this, this.useDigHole), fx.EventCenter.I.off(XEventNames.E_Game_Start, this, this.onGameStart)
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.build), 
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.destroyBuilding), 
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_UPGRADE, this, this.onBuildingUpgrade), 
+                fx.EventCenter.I.off(XEventNames.E_BUILDING_VIDEOUPGRADE, this, this.onBuildingVideoUpgrade), 
+                fx.EventCenter.I.off(XEventNames.E_Look_Player, this, this.lookAtPlayer), 
+                fx.EventCenter.I.off(XEventNames.E_Door_State_Changed, this, this.onDoorStateChanged), 
+                fx.EventCenter.I.off(XEventNames.E_Repair_Door, this, this.repairDoor), 
+                fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.onPlayerUpBed), 
+                fx.EventCenter.I.off(XEventNames.E_Bed_Down, this, this.hideBuildTips), 
+                fx.EventCenter.I.off(XEventNames.E_BuildTips_Hide, this, this.onPlayerDownBed), 
+                fx.EventCenter.I.off(XEventNames.E_MapBuild_take, this, this.onPlayerTakeMapBuild), 
+                fx.EventCenter.I.off(XEventNames.E_Hurter_Dig, this, this.useDigHole), 
+                fx.EventCenter.I.off(XEventNames.E_Game_Start, this, this.onGameStart)
             }
         }
         class AngelOrGhostGameScript extends XGameScript {
@@ -9805,7 +10046,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = s.addComponent(XHunterScript);
                 a.init(e);
                 let n = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
-                a.pos(n.x, n.y), this.hunters.push(a), e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
+                a.pos(n.x, n.y), this.hunters.push(a), 
+                e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
             }
             createAngel(e) {
                 this.angel_skill.visible = !0, this.isPlayerBed = !1, this.inputScript.show();
@@ -9827,13 +10069,17 @@ define("js/bundle.js", function(require, module, exports) {
             onInit() {
                 super.onInit();
                 let e = this.owner.getChildByName("box_skill").getChildByName("defender_skill");
-                this.skill_repair = e.getChildByName("skill_repair"), this.skill_repair.on(Laya.Event.CLICK, this, this.onClickRepair);
+                this.skill_repair = e.getChildByName("skill_repair"), 
+                this.skill_repair.on(Laya.Event.CLICK, this, this.onClickRepair);
                 let t = this.skill_repair.getChildByName("img_hand"),
                     i = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                 i.isRepeat = !0, i.run(t)
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(XEventNames.E_Create_Fighter, this, this.createFighter)
+                super.initEvents(), 
+                fx.EventCenter.I.on(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), 
+                fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost), 
+                fx.EventCenter.I.on(XEventNames.E_Create_Fighter, this, this.createFighter)
             }
             onClickMap(i) {
                 if (!t.playerMgr.player.isBed) return;
@@ -9907,10 +10153,35 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner.getChildByName("box_skill");
                 e.getChildByName("defender_skill").visible = !1;
                 let i = e.getChildByName("hunter_skill");
-                i.visible = !0, this.skill_yanluo = i.getChildByName("skill_yanluo"), this.skill_equip = i.getChildByName("skill_equip"), this.skill_yanluo.on(Laya.Event.CLICK, this, this.onClickYanluo), this.skill_equip.on(Laya.Event.CLICK, this, this.onClickShowEquip), this.img_kuangbao = i.getChildByName("img_kuangbao"), this.img_zhenhan = i.getChildByName("img_zhenhan"), this.img_random = i.getChildByName("img_random"), this.lb_random = this.img_random.getChildByName("lb_random"), this.img_kuangbao.visible = !1, this.img_zhenhan.visible = !1, this.img_random.visible = !1, this.img_kuangbao.on(Laya.Event.CLICK, this, this.onClickKuangbao), this.img_zhenhan.on(Laya.Event.CLICK, this, this.onClickZhenhan), this.img_random.on(Laya.Event.CLICK, this, this.onClickRandom), this.isPlayerBed = !0, this.characterControl = null, this.inputScript.hide(), this.list_equip.array = [0, 1, 2, 3, 4, 5], this.list_equip.renderHandler = new Laya.Handler(this, this.updateEquipItem)
+                i.visible = !0, 
+                this.skill_yanluo = i.getChildByName("skill_yanluo"), 
+                this.skill_equip = i.getChildByName("skill_equip"), 
+                this.skill_yanluo.on(Laya.Event.CLICK, this, this.onClickYanluo), 
+                this.skill_equip.on(Laya.Event.CLICK, this, this.onClickShowEquip), 
+                this.img_kuangbao = i.getChildByName("img_kuangbao"), 
+                this.img_zhenhan = i.getChildByName("img_zhenhan"), 
+                this.img_random = i.getChildByName("img_random"), 
+                this.lb_random = this.img_random.getChildByName("lb_random"), 
+                this.img_kuangbao.visible = !1, 
+                this.img_zhenhan.visible = !1, 
+                this.img_random.visible = !1, 
+                this.img_kuangbao.on(Laya.Event.CLICK, this, this.onClickKuangbao), 
+                this.img_zhenhan.on(Laya.Event.CLICK, this, this.onClickZhenhan), 
+                this.img_random.on(Laya.Event.CLICK, this, this.onClickRandom), 
+                this.isPlayerBed = !0, 
+                this.characterControl = null, 
+                this.inputScript.hide(), 
+                this.list_equip.array = [0, 1, 2, 3, 4, 5], 
+                this.list_equip.renderHandler = new Laya.Handler(this, this.updateEquipItem)
             }
             initEvents() {
-                super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.on(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.on(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.on(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.on(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost)
+                super.initEvents(), 
+                fx.EventCenter.I.on(XEventNames.E_Rage_Refresh, this, this.rageRefresh), 
+                fx.EventCenter.I.on(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), 
+                fx.EventCenter.I.on(XEventNames.E_Yanluo_Show, this, this.yanluoShow), 
+                fx.EventCenter.I.on(XEventNames.E_MapEquip_take, this, this.takeMapEquip), 
+                fx.EventCenter.I.on(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), 
+                fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost)
             }
             updateEquipItem(e) {
                 let t = e.dataSource,
@@ -10052,15 +10323,28 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
             }
         }
-        class InputScript extends Laya.Script {
+        class XInputScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.visible = !0, this.moveFlag = !1, this.whetherControl = !0, this.canHandle = !0
             }
             onAwake() {
                 if (this.ownerUI = this.owner, !t.taskMgr.compeletAllTask()) {
-                    this.box_guide = fx.Utils.createPrefab(T.Prefab_Guide), this.ownerUI.addChild(this.box_guide), this.box_guide.centerX = 0, this.box_guide.centerY = 300, fx.Utils.getDefaultUIFrameAnimation(this.box_guide).play(0, !0)
+                    this.box_guide = fx.Utils.createPrefab(T.Prefab_Guide)
+                    this.ownerUI.addChild(this.box_guide), 
+                    this.box_guide.centerX = 0, 
+                    this.box_guide.centerY = 300, 
+                    fx.Utils.getDefaultUIFrameAnimation(this.box_guide).play(0, !0)
                 }
-                this.joystickNode = this.owner.getChildByName("joystickNode"), this.joystickNode.visible = !1, this.handle = this.joystickNode.getChildByName("handle"), this.input = new fx.V2, this.lastPos = new fx.V2, this.downPos = new fx.V2, this.ownerUI.on(Laya.Event.MOUSE_DOWN, this, this.onDown), Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMove), Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onUp), Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onUp)
+                this.joystickNode = this.owner.getChildByName("joystickNode"), 
+                this.joystickNode.visible = !1, 
+                this.handle = this.joystickNode.getChildByName("handle"), 
+                this.input = new fx.V2, 
+                this.lastPos = new fx.V2, 
+                this.downPos = new fx.V2, 
+                this.ownerUI.on(Laya.Event.MOUSE_DOWN, this, this.onDown), 
+                Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMove), 
+                Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onUp), 
+                Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onUp)
             }
             onClick(e) {
                 this.moveFlag || this.clickHandler.runWith(e)
@@ -10116,7 +10400,7 @@ define("js/bundle.js", function(require, module, exports) {
             onAdd() {
                 let i;
                 t.reporter.enterGame(), 
-                t.gameMgr.inputScript = this.InputLayer.getComponent(InputScript), 
+                t.gameMgr.inputScript = this.InputLayer.getComponent(XInputScript), 
                 t.gameMgr.gameMode == e.GameMode.E_Defense ? i = this.game.addComponent(DefenseGameScript) : 
                 t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i = this.game.addComponent(AngelOrGhostGameScript) : 
                 t.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = this.game.addComponent(HuntGameScript), this.box_resNum.visible = !1) : 
@@ -11647,9 +11931,13 @@ define("js/bundle.js", function(require, module, exports) {
                 return e > 999999999 ? t = Math.floor(e / 1e6).toString() + "M" : e > 999999 && (t = Math.floor(e / 1e3).toString() + "K"), t
             }
         }
-        class Ks extends Laya.Script {
+        //小地图点击头像
+        class XPlayerHeadScript extends Laya.Script {
             onStart() {
-                this.initPlayer(), this.initHunter(), fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.setDieState), fx.EventCenter.I.on(XEventNames.E_Player_Hurt, this, this.setHurtState)
+                this.initPlayer(), 
+                this.initHunter(), 
+                fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.setDieState), 
+                fx.EventCenter.I.on(XEventNames.E_Player_Hurt, this, this.setHurtState)
             }
             setDieState() {
                 this.curHurt = null, this.list_player.refresh()
@@ -11659,7 +11947,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initPlayer() {
                 t.playerMgr.hunters.length;
-                this.list_player = this.owner.getChildByName("list_player"), this.list_player && (this.list_player.array = this.getPlayerList(), this.list_player.renderHandler = new Laya.Handler(this, this.updatePlayerItem))
+                this.list_player = this.owner.getChildByName("list_player"), 
+                this.list_player && (this.list_player.array = this.getPlayerList(), 
+                this.list_player.renderHandler = new Laya.Handler(this, this.updatePlayerItem))
             }
             updatePlayerItem(e) {
                 if (!e.dataSource) return;
@@ -18424,7 +18714,21 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {}
             static init() {
                 var e = Laya.ClassUtils.regClass;
-                e("game/core/InputScript.ts", InputScript), e("script/ScaleEffectBtn.ts", Ni), e("script/PulseEffectBtn.ts", qs), e("game/core/CoinScript.ts", Ws), e("game/core/PlayerHeadScript.ts", Ks), e("game/core/TaskScript.ts", $s), e("game/core/HunterSkillDesScript.ts", Xs), e("script/LoadingScript.ts", LoadingScript), e("game/ui/script/TianBoxScript.ts", Mn), e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", XBuildMenuScript), e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
+                e("game/core/InputScript.ts", XInputScript), 
+                e("script/ScaleEffectBtn.ts", Ni), 
+                e("script/PulseEffectBtn.ts", qs), 
+                e("game/core/CoinScript.ts", Ws), 
+                e("game/core/PlayerHeadScript.ts", XPlayerHeadScript), 
+                e("game/core/TaskScript.ts", $s), 
+                e("game/core/HunterSkillDesScript.ts", Xs), 
+                e("script/LoadingScript.ts", LoadingScript), 
+                e("game/ui/script/TianBoxScript.ts", Mn), 
+                e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), 
+                e("game/component/ProgressBar.ts", Ls), e("game/component/HBoxScript.ts", En), 
+                e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", XBuildMenuScript),
+                 e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), 
+                 e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), 
+                 e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
             }
         }
         Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", 
@@ -19332,7 +19636,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return Math.round(this.val * e)
             }
-        }, e.InputScript = InputScript, e.Intersection2D = class {
+        }, e.InputScript = XInputScript, e.Intersection2D = class {
             static lineLine(e, t, i, s) {
                 const a = (s.x - i.x) * (e.y - i.y) - (s.y - i.y) * (e.x - i.x),
                     n = (t.x - e.x) * (e.y - i.y) - (t.y - e.y) * (e.x - i.x),
@@ -19679,7 +19983,7 @@ define("js/bundle.js", function(require, module, exports) {
             enterGame() {
                 t.cfg.map.get(19)
             }
-        }, e.PlayerAI = _t, e.PlayerHeadScript = Ks, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
+        }, e.PlayerAI = _t, e.PlayerHeadScript = XPlayerHeadScript, e.PlayerManager = PlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
         e.PoisonSpringTowerScript = XPoisonSpringTowerScript, e.PolygonSeparator = class {
             static At(e, t) {
                 var i = t.length;

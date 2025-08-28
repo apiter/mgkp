@@ -347,15 +347,15 @@ export class XMapMgr {
                 if (s.x == x_ && s.y == y_) return room.id;
         return -1
     }
-    getRoomIdByGrid(e, t) {
-        let i = this.getTiledInfo(e, t);
+    getRoomIdByGrid(x_, y_) {
+        let i = this.getTiledInfo(x_, y_);
         if (i && i.roomId && i.buildName && i.buildName.includes("door")) return i.roomId;
         for (const i of this.rooms)
             for (const s of i.grids)
-                if (s.x == e && s.y == t) return i.id;
+                if (s.x == x_ && s.y == y_) return i.id;
         for (const i of this.rooms)
             for (const s of i.walls)
-                if (s.x == e && s.y == t) return i.id;
+                if (s.x == x_ && s.y == y_) return i.id;
         return -1
     }
     getRandomPosByRoomId(roomId_: number) {
@@ -382,52 +382,59 @@ export class XMapMgr {
         }
         return l
     }
-    limitMove(x_, y_, i, s, a = 0) {
-        if (0 == i && 0 == s) return {
-            x: x_,
-            y: y_
+    limitMove(oldX_, oldY_, deltaX_, deltaY, a = 0): { x: number, y: number } {
+        if (0 == deltaX_ && 0 == deltaY) return {
+            x: oldX_,
+            y: oldY_
         };
-        let n = x_ + (i = Math.min(i, XConst.GridHalfSize - .01)),
-            r = y_ + (s = Math.min(s, XConst.GridHalfSize - .01)),
-            o = x_ + i,
-            l = y_ + s,
-            h = this.mapPosToGridPos(x_, y_);
-        i > 0 ? o += a : i < 0 && (o -= a), s > 0 ? l += a : s < 0 && (l -= a);
-        let d = this.mapPosToGridPos(o, l);
-        if (XV2Util01.isV2Equal(h, d)) return {
-            x: n,
-            y: r
-        };
-        let u = !1;
-        if (h.y != d.y) {
-            let e = d.y > h.y ? 1 : -1,
-                t = this._grid.getNode(h.x, h.y + e);
-            t && !t.dynWalkable && (o = this.gridPosToMapPos(h.x, h.y + e).x - e * (XConst.GridHalfSize + .01) - e * a, u = !0)
+        let n = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01)),
+            r = oldY_ + (deltaY = Math.min(deltaY, XConst.GridHalfSize - .01)),
+            o = oldX_ + deltaX_,
+            l = oldY_ + deltaY,
+            oldGrid = this.mapPosToGridPos(oldX_, oldY_);
+        deltaX_ > 0 ? o += a : deltaX_ < 0 && (o -= a), deltaY > 0 ? l += a : deltaY < 0 && (l -= a);
+        let newGrid = this.mapPosToGridPos(o, l);
+        if (XV2Util01.isV2Equal(oldGrid, newGrid))
+            return { x: n, y: r };
+        let u = false;
+        if (oldGrid.y != newGrid.y) {
+            let deltaGridY = newGrid.y > oldGrid.y ? 1 : -1
+            let nextGridY = this._grid.getNode(oldGrid.x, oldGrid.y + deltaGridY);
+            if (nextGridY && !nextGridY.dynWalkable) {
+                o = this.gridPosToMapPos(oldGrid.x, oldGrid.y + deltaGridY).x - deltaGridY * (XConst.GridHalfSize + .01) - deltaGridY * a
+                u = true
+            }
         }
-        if (u || (o = n), u = !1, h.x != d.x) {
-            let e = d.x > h.x ? 1 : -1,
-                t = this._grid.getNode(h.x + e, h.y);
-            t && !t.dynWalkable && (l = this.gridPosToMapPos(h.x + e, h.y).y - e * (XConst.GridHalfSize + .01) - e * a, u = !0)
+        u || (o = n)
+        u = !1
+        if (oldGrid.x != newGrid.x) {
+            let deltaGridX = newGrid.x > oldGrid.x ? 1 : -1
+            let nextGridX = this._grid.getNode(oldGrid.x + deltaGridX, oldGrid.y)
+            if (nextGridX && !nextGridX.dynWalkable) {
+                l = this.gridPosToMapPos(oldGrid.x + deltaGridX, oldGrid.y).y - deltaGridX * (XConst.GridHalfSize + .01) - deltaGridX * a
+                u = true
+            }
         }
         u || (l = r);
-        let g = this.mapPosToGridPos(o, l),
-            c = this._grid.getNode(g.x, g.y);
-        return c && !c.dynWalkable && (o = x_, l = y_), {
+        let pos = this.mapPosToGridPos(o, l)
+        let gridCell = this._grid.getNode(pos.x, pos.y);
+        gridCell && !gridCell.dynWalkable && (o = oldX_, l = oldY_)
+        return {
             x: o,
             y: l
         }
     }
-    move(e, t, i, s, a = 0) {
-        if (0 == i && 0 == s) return {
-            x: e,
-            y: t
+    move(oldX_, oldY_, deltaX_, deltaY_, a = 0) {
+        if (0 == deltaX_ && 0 == deltaY_) return {
+            x: oldX_,
+            y: oldY_
         };
-        let n = e + (i = Math.min(i, XConst.GridHalfSize - .01)),
-            r = t + (s = Math.min(s, XConst.GridHalfSize - .01)),
-            o = e + i,
-            l = t + s,
-            h = this.mapPosToGridPos(e, t);
-        i > 0 ? o += a : i < 0 && (o -= a), s > 0 ? l += a : s < 0 && (l -= a);
+        let n = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01)),
+            r = oldY_ + (deltaY_ = Math.min(deltaY_, XConst.GridHalfSize - .01)),
+            o = oldX_ + deltaX_,
+            l = oldY_ + deltaY_,
+            h = this.mapPosToGridPos(oldX_, oldY_);
+        deltaX_ > 0 ? o += a : deltaX_ < 0 && (o -= a), deltaY_ > 0 ? l += a : deltaY_ < 0 && (l -= a);
         let d = this.mapPosToGridPos(o, l);
         return XV2Util01.isV2Equal(h, d), {
             x: n,
@@ -454,13 +461,13 @@ export class XMapMgr {
     }
 
     getActiveRoomCnt() {
-        let e = 0;
-        for (const t of this.rooms) t.active && e++;
-        return e
+        let cnt = 0;
+        for (const t of this.rooms) t.active && cnt++;
+        return cnt
     }
-    getRandomRoom(e) {
+    getRandomRoom(notInclude: XRoomModel) {
         let t = [];
-        for (const i of this.rooms) false != i.active && i != e && t.push(i);
+        for (const i of this.rooms) false != i.active && i != notInclude && t.push(i);
         return XRandomUtil.randomInArray(t)
     }
     getMapTiles() {

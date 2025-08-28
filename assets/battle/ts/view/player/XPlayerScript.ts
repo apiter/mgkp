@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2 } from 'cc';
-import { Direction as XDirection, XSkinType } from '../../xconfig/XEnum';
+import { Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
 import { XConst } from '../../xconfig/XConst';
@@ -12,7 +12,6 @@ const { ccclass, property } = _decorator;
 @ccclass('XPlayerScript')
 export class XPlayerScript extends Component {
     faceDir = 1
-    moveSpeedScale = 1
     canMove = true
     control = false
     direction = XDirection.Left
@@ -30,10 +29,10 @@ export class XPlayerScript extends Component {
     skinCfg: XCfgSkinData = null
 
     lastMovePos: Vec2 = null
+    moveSpeedScale = 1
+    moveSpeed = 1
 
-    start() {
-
-    }
+    isAtking = false
 
     init(data_: XPlayerModel) {
         this.data = data_
@@ -96,7 +95,7 @@ export class XPlayerScript extends Component {
     }
 
     playAnim(aniName_, reStart_ = false, callback_ = null) {
-        this.spineNode.getComponent(sp.Skeleton).animation = "idle"
+        this.spineNode.getComponent(sp.Skeleton).animation = aniName_
     }
 
 
@@ -105,6 +104,10 @@ export class XPlayerScript extends Component {
     }
 
     onDead() {
+
+    }
+
+    idle() {
 
     }
 
@@ -122,6 +125,49 @@ export class XPlayerScript extends Component {
         // 更新房间 ID
         this.data.roomId = XMgr.mapMgr.getRoomIdByMapPos(x_, y_);
     }
+
+    move(x_, y_, limit_ = true) {
+        // 如果当前不能移动 或者处于控制状态，就直接 return
+        if (!this.canMove || this.control) return;
+
+        let n;
+        // 如果 a 为 true，调用限制移动的方法（可能带碰撞检测/边界限制）
+        // 否则就是普通移动
+        n = limit_ ? XMgr.mapMgr.limitMove(this.node.x, this.node.y, x_, y_, 16)
+            : XMgr.mapMgr.move(this.node.x, this.node.y, x_, y_, 16);
+
+        // 更新位置
+        this.pos(n.x, n.y);
+
+        // 根据 i (横向输入) 设置朝向
+        if (x_ > 0) {
+            this.setFace(1);   // 面向右
+        } else if (x_ < 0) {
+            this.setFace(-1);  // 面向左
+        }
+
+        // 设置方向 (上下左右)
+        if (Math.abs(x_) > Math.abs(y_)) {
+            this.direction = x_ > 0 ? XDirection.Right : XDirection.Left;
+        } else if (Math.abs(x_) < Math.abs(y_)) {
+            this.direction = y_ > 0 ? XDirection.Down : XDirection.Up;
+        }
+
+        // 播放跑步动画
+        this.playAnim("run");
+    }
+
+    setFace(t) {
+        this.faceDir = t;
+
+        if (this.data.type == XPlayerType.E_Defender) {
+            // 防守者：皮肤镜像翻转，建筑保持一致
+
+        } else if (this.data.type == XPlayerType.E_Hunter) {
+
+        }
+    }
+
 
 }
 

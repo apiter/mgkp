@@ -9,7 +9,8 @@ export enum XEventNames {
     E_MapBuild_take = "E_MapBuild_take",
     E_Bed_Up = "E_Bed_Up",
     E_Door_State_Changed = "E_Door_State_Changed",
-
+    E_Look_Player = "E_Look_Player",
+    
     E_Player_Hurt = "E_Player_Hurt",
 
     E_Yanluo_Show = "E_Yanluo_Show",

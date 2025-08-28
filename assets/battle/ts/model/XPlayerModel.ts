@@ -45,6 +45,10 @@ export default class XPlayerModel extends XBaseModel {
     spwanPoint = 0
     bedModel:XBuildingModel
     takeMapBuild = false
+
+    dizzyDurSec = 0 
+    dizzyStartTime = 0
+
     getSpeedPow() {
         let e = 1;
         if (this.buffs)

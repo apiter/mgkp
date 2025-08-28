@@ -9,6 +9,7 @@ import { XEventNames } from "../event/XEventNames"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
 import { XCfgMapCfgItem, XCfgMapData, XDifficultCfgItem } from "../xconfig/XCfgData"
+import { XInputScript } from "../view/XInputScript"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -48,6 +49,8 @@ export class XBatleMgr implements ISchedulable {
     dCfg:XDifficultCfgItem
     playerNames: string[] = []
 
+    inputScript:XInputScript = null
+    
     constructor() {
     }
 

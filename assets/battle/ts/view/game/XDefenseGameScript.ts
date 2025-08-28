@@ -4,8 +4,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XDefenseGameScript')
 export class XDefenseGameScript extends XGameScript {
-    init(): void {
-        super.init()
+    onInit(): void {
+        super.onInit()
     }
 }
 
