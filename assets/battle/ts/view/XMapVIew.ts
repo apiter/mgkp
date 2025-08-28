@@ -60,15 +60,13 @@ export class XMapView extends Component {
     lookAt(worldX, worldY) {
         const row = XMgr.gameMgr.mapCfg.row
         const column = XMgr.gameMgr.mapCfg.column;
-        worldX += view.getVisibleSize().width * 0.5 
-        worldY -= view.getVisibleSize().height * 0.5 
-        const localPt = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(v3(worldX, worldY, 0))
+        const localPt = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(v3(worldX + view.getVisibleSize().width * 0.5 , worldY - view.getVisibleSize().height * 0.5 , 0))
         const localX = math.clamp(-localPt.x, -column * XConst.GridSize + view.getVisibleSize().width * 0.5, -view.getVisibleSize().width * 0.5) //Math.max(0, Math.min(row * XConst.GridSize, localPt.x))
         const localY = math.clamp(-localPt.y, view.getVisibleSize().height * 0.5, row * XConst.GridSize - view.getVisibleSize().height * 0.5)// Math.max(0, Math.min(-column * XConst.GridSize, localPt.y))
-        // this.lookPos.set(localX, localY)
+        this.lookPos.set(localX, localY)
         this.node.x = localX
         this.node.y = localY
-        console.debug(`map look at:(${localX}, ${localY})`)
+        console.debug(`地图 look at:(${worldX}, ${worldY}) 后:(${localX}, ${localY})`)
     }
 
     updateArea() {

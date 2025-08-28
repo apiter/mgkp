@@ -30,7 +30,7 @@ export class XPlayerScript extends Component {
 
     lastMovePos: Vec2 = null
     moveSpeedScale = 1
-    moveSpeed = 1
+    moveSpeed = 50
 
     isAtking = false
 
@@ -118,43 +118,46 @@ export class XPlayerScript extends Component {
             this.lastMovePos = new Vec2(this.node.x, this.node.y);
         }
 
+        const preWorld = this.node.worldPosition
         // 移动节点
         this.node.x = x_;
         this.node.y = y_;
+        const afterWorld = this.node.worldPosition
+
+        console.debug(`角色 移动前:${preWorld.toString()} 移动后:${this.node.getPosition().toString()}`)
 
         // 更新房间 ID
         this.data.roomId = XMgr.mapMgr.getRoomIdByMapPos(x_, y_);
     }
 
-    move(x_, y_, limit_ = true) {
+    move(deltaX_, deltaY_, limit_ = true) {
         // 如果当前不能移动 或者处于控制状态，就直接 return
         if (!this.canMove || this.control) return;
 
-        let n;
         // 如果 a 为 true，调用限制移动的方法（可能带碰撞检测/边界限制）
         // 否则就是普通移动
-        n = limit_ ? XMgr.mapMgr.limitMove(this.node.x, this.node.y, x_, y_, 16)
-            : XMgr.mapMgr.move(this.node.x, this.node.y, x_, y_, 16);
+        let nextPos = limit_ ? XMgr.mapMgr.limitMove(this.node.x, this.node.y, deltaX_, deltaY_, 16)
+            : XMgr.mapMgr.move(this.node.x, this.node.y, deltaX_, deltaY_, 16);
 
         // 更新位置
-        this.pos(n.x, n.y);
+        this.pos(nextPos.x, nextPos.y);
 
         // 根据 i (横向输入) 设置朝向
-        if (x_ > 0) {
+        if (deltaX_ > 0) {
             this.setFace(1);   // 面向右
-        } else if (x_ < 0) {
+        } else if (deltaX_ < 0) {
             this.setFace(-1);  // 面向左
         }
 
         // 设置方向 (上下左右)
-        if (Math.abs(x_) > Math.abs(y_)) {
-            this.direction = x_ > 0 ? XDirection.Right : XDirection.Left;
-        } else if (Math.abs(x_) < Math.abs(y_)) {
-            this.direction = y_ > 0 ? XDirection.Down : XDirection.Up;
+        if (Math.abs(deltaX_) > Math.abs(deltaY_)) {
+            this.direction = deltaX_ > 0 ? XDirection.Right : XDirection.Left;
+        } else if (Math.abs(deltaX_) < Math.abs(deltaY_)) {
+            this.direction = deltaY_ > 0 ? XDirection.Down : XDirection.Up;
         }
 
         // 播放跑步动画
-        this.playAnim("run");
+        this.playAnim("move");
     }
 
     setFace(t) {
@@ -167,8 +170,6 @@ export class XPlayerScript extends Component {
 
         }
     }
-
-
 }
 
 

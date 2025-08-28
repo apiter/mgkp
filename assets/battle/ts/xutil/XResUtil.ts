@@ -24,7 +24,7 @@ export default class XResUtil {
  * 给 spineNode 添加 Spine 动画
  */
     private static packSpineToNode(skeletonData: sp.SkeletonData) {
-        let node = new Node();
+        let node = new Node(skeletonData.name);
         let spine = node.addComponent(sp.Skeleton);
         spine.skeletonData = skeletonData;
 

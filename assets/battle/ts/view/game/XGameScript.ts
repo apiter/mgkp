@@ -134,10 +134,14 @@ export class XGameScript extends Component {
     }
 
     onInit() {
+        this.printCharactorPos("onInit")
+        this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
+    }
+
+    printCharactorPos(premsg:string = "") {
         const lookX = this.characterControl.node.worldPositionX
         const lookY = this.characterControl.node.worldPositionY
-        log(`characterControl:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
-        this.lookAt(lookX, lookY)
+        console.debug(`${premsg} characterControl:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
     }
 
     build(build_: XBuildingModel, s, cdTime_ = 0) {
@@ -229,7 +233,7 @@ export class XGameScript extends Component {
             return
         }
         const t033 = 0.033
-        this.moveTime += 0.033
+        this.moveTime += t033
         this.moveTime >= .5 && (this.moveTime = 0);
         this.moveDir.set(this.inputScript.input.x, this.inputScript.input.y)
         this.moveDir.normalize()
@@ -239,7 +243,9 @@ export class XGameScript extends Component {
         let x = speed * t033 * this.moveDir.x
         let y = speed * t033 * this.moveDir.y
         this.characterControl.move(x, y, !0)
-        // this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
+        this.printCharactorPos("update1")
+        this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
+        this.printCharactorPos("update2")
     }
 }
 
