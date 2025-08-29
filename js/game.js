@@ -3736,7 +3736,10 @@ define("js/bundle.js", function(require, module, exports) {
                                 if (h.x == e.x && h.y == e.y) return !1;
                             s.setCurTarget(o);
                             let d = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
-                            return d ? (d.splice(0), d.push(n)) : d = [n], i.blackboard.set(e.PropertiesKey.FILTERTARGET, d, i.tree.id), Laya.timer.clear(this, this.clearFilterTarget), Laya.timer.once(5e3, this, this.clearFilterTarget, [i.blackboard, i.tree.id]), !1
+                            d ? (d.splice(0), d.push(n)) : d = [n]
+                            i.blackboard.set(e.PropertiesKey.FILTERTARGET, d, i.tree.id)
+                            Laya.timer.clear(this, this.clearFilterTarget),
+                            return   Laya.timer.once(5e3, this, this.clearFilterTarget, [i.blackboard, i.tree.id]), !1
                         }
                         let l = n.bedModel ? n.bedModel : n;
                         if (l) {
@@ -4845,7 +4848,8 @@ define("js/bundle.js", function(require, module, exports) {
                 e != this.lastAtkTarget && (this.lastAtkTarget = e)
             }
             setCurTarget(e, t = !1) {
-                this.isFirstFind && (this.isFirstFind = !1), t && (this.forceTarget = e, this.data.curHp < this.data.maxHp) || e != this.curTarget && (this.curTarget && (this.lastAtkTarget = this.curTarget), this.curTarget = e, this.curPath = null)
+                this.isFirstFind && (this.isFirstFind = !1), 
+                t && (this.forceTarget = e, this.data.curHp < this.data.maxHp) || e != this.curTarget && (this.curTarget && (this.lastAtkTarget = this.curTarget), this.curTarget = e, this.curPath = null)
             }
             getTargetPos(e) {
                 if (!(e || this.curTarget && this.curTarget.owner)) return;
@@ -6613,9 +6617,12 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ai = new XMonsterAI(this);
                 let e = yt([this.ai.dizzy("dizzy"), 
                     this.ai.canEscape(this.ai.escape("escape")), 
-                    this.ai.usingSkill(), this.ai.OnCloseDoorCdt(this.ai.breakAway()), 
-                    this.ai.canPatrol(this.ai.patrol()), this.ai.skill(), 
-                    this.ai.attack(), this.ai.idle("idle")]);
+                    this.ai.usingSkill(), 
+                    this.ai.OnCloseDoorCdt(this.ai.breakAway()), 
+                    this.ai.canPatrol(this.ai.patrol()), 
+                    this.ai.skill(), 
+                    this.ai.attack(), 
+                    this.ai.idle("idle")]);
                 this.ai.load(e)
             }
             onUpdate() {
