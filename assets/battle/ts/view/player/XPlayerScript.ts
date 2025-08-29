@@ -30,7 +30,7 @@ export class XPlayerScript extends Component {
 
     lastMovePos: Vec2 = null
     moveSpeedScale = 1
-    moveSpeed = 50
+    moveSpeed = 100
 
     isAtking = false
 
@@ -67,7 +67,7 @@ export class XPlayerScript extends Component {
 
             const spineNode = await XResUtil.loadSpineFromBundle("spines", path);
             this.aniNode.addChild(spineNode)
-            spineNode.setPosition(v3(0, -XConst.GridHalfSize + 15))
+            spineNode.setPosition(v3(0, -XConst.GridHalfSize + 30))
             this.spineNode = spineNode
             spineNode.getComponent(sp.Skeleton).premultipliedAlpha = false
 
@@ -123,8 +123,6 @@ export class XPlayerScript extends Component {
         this.node.x = x_;
         this.node.y = y_;
         const afterWorld = this.node.worldPosition
-
-        console.debug(`角色 移动前:${preWorld.toString()} 移动后:${this.node.getPosition().toString()}`)
 
         // 更新房间 ID
         this.data.roomId = XMgr.mapMgr.getRoomIdByMapPos(x_, y_);

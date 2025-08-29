@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, log, math, Node, Prefab, Sprite, SpriteAtlas, UITransform, v2, v3, Vec2, view } from 'cc';
+import { _decorator, Component, director, instantiate, log, math, Node, Prefab, Sprite, SpriteAtlas, UITransform, v2, v3, Vec2, Vec3, view } from 'cc';
 import { XBattleEntrance } from 'db://assets/XBattleEntrance';
 import XMgr from '../XMgr';
 import { XConst } from '../xconfig/XConst';
@@ -39,7 +39,7 @@ export class XMapView extends Component {
     }
 
     private createGround() {
-        //TODO in view only
+        //TODO visible only
         const width = XMgr.mapMgr.width
         const height = XMgr.mapMgr.height
         for (let h = 0; h < height; h++) {
@@ -52,6 +52,9 @@ export class XMapView extends Component {
                     const sp = groundNode.getComponent(Sprite)
                     sp.spriteFrame = this.mapAtlas.getSpriteFrame(tiledInfo.groundBlock)
                     groundNode.parent = this.groundLayer
+                    let color = sp.color.clone()
+                    color.a = tiledInfo.walkable? 100: 255
+                    sp.color = color
                 }
             }
         }
@@ -60,13 +63,21 @@ export class XMapView extends Component {
     lookAt(worldX, worldY) {
         const row = XMgr.gameMgr.mapCfg.row
         const column = XMgr.gameMgr.mapCfg.column;
-        const localPt = this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(v3(worldX + view.getVisibleSize().width * 0.5 , worldY - view.getVisibleSize().height * 0.5 , 0))
-        const localX = math.clamp(-localPt.x, -column * XConst.GridSize + view.getVisibleSize().width * 0.5, -view.getVisibleSize().width * 0.5) //Math.max(0, Math.min(row * XConst.GridSize, localPt.x))
-        const localY = math.clamp(-localPt.y, view.getVisibleSize().height * 0.5, row * XConst.GridSize - view.getVisibleSize().height * 0.5)// Math.max(0, Math.min(-column * XConst.GridSize, localPt.y))
-        this.lookPos.set(localX, localY)
+
+        // 2. 获取屏幕中心在世界坐标中的位置
+        const uiTransform = director.getScene().getComponentInChildren(UITransform);
+        if (!uiTransform) return;
+
+        const screenLeftUp = new Vec3(0, 0, 0);
+        const screenLeftUpWorld = new Vec3();
+        uiTransform.convertToWorldSpaceAR(screenLeftUp, screenLeftUpWorld);
+
+        const offset = screenLeftUpWorld.subtract(v3(worldX, worldY));
+        this.node.worldPosition = this.node.worldPosition.add(offset);
+        const localX = math.clamp(this.node.x, -this.node.getComponent(UITransform).contentSize.width + view.getVisibleSize().width * 0.5, -view.getVisibleSize().width * 0.5)
+        const localY = math.clamp(this.node.y, view.getVisibleSize().height * 0.5, this.node.getComponent(UITransform).contentSize.height - view.getVisibleSize().height * 0.5)
         this.node.x = localX
         this.node.y = localY
-        console.debug(`地图 look at:(${worldX}, ${worldY}) 后:(${localX}, ${localY})`)
     }
 
     updateArea() {

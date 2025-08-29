@@ -15451,9 +15451,9 @@ define("js/bundle.js", function(require, module, exports) {
             getDefenderSpawnPos(e) {
                 return e = Math.clamp(e, 0, this._defenderSpawns.length - 1), this._defenderSpawns[e % this._defenderSpawns.length]
             }
-            mapPosToGridPos(e, t) {
-                let i = Math.floor(t / C.GridSize);
-                var s = Math.floor(e / C.GridSize);
+            mapPosToGridPos(x, y) {
+                let i = Math.floor(y / C.GridSize);
+                var s = Math.floor(x / C.GridSize);
                 return new fx.V2(i, s)
             }
             gridPosToMapPos(e, t) {

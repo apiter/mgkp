@@ -300,7 +300,7 @@ export class XMapMgr {
         return this._defenderSpawns[idx_ % this._defenderSpawns.length]
     }
     mapPosToGridPos(mapX_, mapY_) {
-        let h = Math.floor(mapY_ / XConst.GridSize);
+        let h = Math.floor(Math.abs(mapY_) / XConst.GridSize);
         var w = Math.floor(mapX_ / XConst.GridSize);
         return new Vec2(h, w)
     }
@@ -383,62 +383,66 @@ export class XMapMgr {
         return l
     }
     limitMove(oldX_, oldY_, deltaX_, deltaY, a = 0): { x: number, y: number } {
-        if (0 == deltaX_ && 0 == deltaY) return {
-            x: oldX_,
-            y: oldY_
-        };
-        let n = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01)),
-            r = oldY_ + (deltaY = Math.min(deltaY, XConst.GridHalfSize - .01)),
-            o = oldX_ + deltaX_,
-            l = oldY_ + deltaY,
-            oldGrid = this.mapPosToGridPos(oldX_, oldY_);
-        deltaX_ > 0 ? o += a : deltaX_ < 0 && (o -= a), deltaY > 0 ? l += a : deltaY < 0 && (l -= a);
-        let newGrid = this.mapPosToGridPos(o, l);
+        if (0 == deltaX_ && 0 == deltaY)
+            return {
+                x: oldX_,
+                y: oldY_
+            };
+        let newXClamp = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01))
+        let newYClamp = oldY_ + (deltaY = Math.min(deltaY, XConst.GridHalfSize - .01))
+        let newX = oldX_ + deltaX_
+        let newY = oldY_ + deltaY
+        let oldGrid = this.mapPosToGridPos(oldX_, oldY_);
+        deltaX_ > 0 ? newX += a : deltaX_ < 0 && (newX -= a)
+        deltaY > 0 ? newY += a : deltaY < 0 && (newY -= a);
+        let newGrid = this.mapPosToGridPos(newX, newY);
         if (XV2Util01.isV2Equal(oldGrid, newGrid))
-            return { x: n, y: r };
-        let u = false;
-        if (oldGrid.y != newGrid.y) {
-            let deltaGridY = newGrid.y > oldGrid.y ? 1 : -1
-            let nextGridY = this._grid.getNode(oldGrid.x, oldGrid.y + deltaGridY);
-            if (nextGridY && !nextGridY.dynWalkable) {
-                o = this.gridPosToMapPos(oldGrid.x, oldGrid.y + deltaGridY).x - deltaGridY * (XConst.GridHalfSize + .01) - deltaGridY * a
-                u = true
+            return { x: newXClamp, y: newYClamp };
+        // console.log(`原格子(${oldGrid.toString()} 新格子:(${newGrid.toString()}))`)
+        let adjust = false;
+        if (oldGrid.y != newGrid.y) {//水平
+            let deltaGridY = newGrid.y > oldGrid.y ? 1 : -1//1=向右 -1=向左
+            let nextGrid = this._grid.getNode(oldGrid.x, oldGrid.y + deltaGridY);
+            if (nextGrid && !nextGrid.dynWalkable) {
+                newX = this.gridPosToMapPos(oldGrid.x, oldGrid.y + deltaGridY).x - deltaGridY * (XConst.GridHalfSize + .01) - deltaGridY * a
+                adjust = true
             }
         }
-        u || (o = n)
-        u = !1
+        adjust || (newX = newXClamp)
+        adjust = false
         if (oldGrid.x != newGrid.x) {
             let deltaGridX = newGrid.x > oldGrid.x ? 1 : -1
-            let nextGridX = this._grid.getNode(oldGrid.x + deltaGridX, oldGrid.y)
-            if (nextGridX && !nextGridX.dynWalkable) {
-                l = this.gridPosToMapPos(oldGrid.x + deltaGridX, oldGrid.y).y - deltaGridX * (XConst.GridHalfSize + .01) - deltaGridX * a
-                u = true
+            let nextGrid = this._grid.getNode(oldGrid.x + deltaGridX, oldGrid.y)
+            if (nextGrid && !nextGrid.dynWalkable) {
+                newY = this.gridPosToMapPos(oldGrid.x + deltaGridX, oldGrid.y).y + deltaGridX * (XConst.GridHalfSize + .01) + deltaGridX * a
+                adjust = true
             }
         }
-        u || (l = r);
-        let pos = this.mapPosToGridPos(o, l)
+        adjust || (newY = newYClamp);
+        let pos = this.mapPosToGridPos(newX, newY)
         let gridCell = this._grid.getNode(pos.x, pos.y);
-        gridCell && !gridCell.dynWalkable && (o = oldX_, l = oldY_)
+        gridCell && !gridCell.dynWalkable && (newX = oldX_, newY = oldY_)
         return {
-            x: o,
-            y: l
+            x: newX,
+            y: newY
         }
     }
-    move(oldX_, oldY_, deltaX_, deltaY_, a = 0) {
-        if (0 == deltaX_ && 0 == deltaY_) return {
-            x: oldX_,
-            y: oldY_
-        };
-        let n = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01)),
-            r = oldY_ + (deltaY_ = Math.min(deltaY_, XConst.GridHalfSize - .01)),
-            o = oldX_ + deltaX_,
-            l = oldY_ + deltaY_,
-            h = this.mapPosToGridPos(oldX_, oldY_);
-        deltaX_ > 0 ? o += a : deltaX_ < 0 && (o -= a), deltaY_ > 0 ? l += a : deltaY_ < 0 && (l -= a);
-        let d = this.mapPosToGridPos(o, l);
-        return XV2Util01.isV2Equal(h, d), {
-            x: n,
-            y: r
+    move(oldX_, oldY_, deltaX_, deltaY_, a = 0): { x: number, y: number } {
+        if (0 == deltaX_ && 0 == deltaY_)
+            return {
+                x: oldX_,
+                y: oldY_
+            };
+        let newXClamp = oldX_ + (deltaX_ = Math.min(deltaX_, XConst.GridHalfSize - .01)),
+            newYClamp = oldY_ + (deltaY_ = Math.min(deltaY_, XConst.GridHalfSize - .01)),
+            newX = oldX_ + deltaX_,
+            newY = oldY_ + deltaY_
+        // oldGrid = this.mapPosToGridPos(oldX_, oldY_);
+        deltaX_ > 0 ? newX += a : deltaX_ < 0 && (newX -= a), deltaY_ > 0 ? newY += a : deltaY_ < 0 && (newY -= a);
+        // let pos = this.mapPosToGridPos(newX, newY);
+        return {
+            x: newXClamp,
+            y: newYClamp
         }
     }
     setWalkable(x_, y_, value_) {

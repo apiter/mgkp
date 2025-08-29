@@ -1,4 +1,4 @@
-import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2 } from 'cc';
+import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XBuildType } from '../../xconfig/XEnum';
@@ -141,7 +141,7 @@ export class XGameScript extends Component {
     printCharactorPos(premsg:string = "") {
         const lookX = this.characterControl.node.worldPositionX
         const lookY = this.characterControl.node.worldPositionY
-        console.debug(`${premsg} characterControl:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
+        console.debug(`${premsg} characterControl world:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
     }
 
     build(build_: XBuildingModel, s, cdTime_ = 0) {
@@ -243,9 +243,8 @@ export class XGameScript extends Component {
         let x = speed * t033 * this.moveDir.x
         let y = speed * t033 * this.moveDir.y
         this.characterControl.move(x, y, !0)
-        this.printCharactorPos("update1")
-        this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
-        this.printCharactorPos("update2")
+        const charactorWorldPt = this.characterControl.node.getComponent(UITransform).convertToWorldSpaceAR(Vec3.ZERO)
+        this.lookAt(charactorWorldPt.x, charactorWorldPt.y)
     }
 }
 
