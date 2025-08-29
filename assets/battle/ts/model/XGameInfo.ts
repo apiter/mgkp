@@ -68,18 +68,23 @@ export default class XGameInfo {
         this.clear()
     }
     clear() {
-        this.coin = 0, this.tian = 0, this.tempCoin = 0, this.curSkinId = 1001, this.curHunterSkinId = 10001, this.maxLevel = 1,
-            this.winCnt = 0, this.failCnt = 0, this.isStartLv = !1, this.weekMaxLv = 1,
-            this.curLv = 1, this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, this.todayExtraScore = 0,
-            this.isLastWin = !1, this.isMapByWeek = !1, this.maxWinCnt = 0, this.isUseSkinFragmentVideo = !1, this.getFragmentCnt = 0,
-            this.mapBuildRate = 0, this.taskIndex = 1, this.isExitGame = !1, this.magicGetCnt = 0, this.isFirstBuild = !0, this.dailyShareCnt = 0,
-            this.canPlayTurnTable = !0, this.showTurntableCnt = 0, this.dailyShare = !1, this.dailyBuyZr = !1, this.playHunter = !1, this.curHunterLv = 1,
-            this.lastHunterLv = 1, this.lowestHunterLv = 1, this.todayHunterMaxLv = 0, this.todayHunterExtraScore = 0, this.isLastHunterWin = !1,
-            this.maxHunterLevel = 1, this.hunterBox = 3, this.hunterUnlockLvl = 0, this.curSevenGhostLv = 1, this.isUnlockSevenGhost = !1,
-            this.isUnlockAngelOrGhost = !1, this.isUnlockHunter = !1, this.isGetTian = !1, this.clubClaimedList = [], this.isEvaluate = !1,
-            this.isOpenEvaluate = !1, this.inviteCnt = 0, this.inviteClaimed = 0, this.isOpenNewSkin = !1, this.isCommond = !1, this.isOpenCommond = !1,
-            this.clearOwnBuild(), this.clearOwnSkin(), this.clearOwnSkinFragment(), this.clearSkinTypeShow(), this.clearOwnPrize(), this.clearOwnBuff(),
-            this.clearOwnHunterSkin(), this.clearShowHunterSkillDes()
+        this.coin = 0
+        this.tian = 0
+        this.tempCoin = 0
+        this.curSkinId = 1001
+        this.curHunterSkinId = 10001
+        this.maxLevel = 1
+        this.winCnt = 0, this.failCnt = 0, this.isStartLv = !1, this.weekMaxLv = 1
+        this.curLv = 1, this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, this.todayExtraScore = 0
+        this.isLastWin = !1, this.isMapByWeek = !1, this.maxWinCnt = 0, this.isUseSkinFragmentVideo = !1, this.getFragmentCnt = 0
+        this.mapBuildRate = 0, this.taskIndex = 1, this.isExitGame = !1, this.magicGetCnt = 0, this.isFirstBuild = !0, this.dailyShareCnt = 0
+        this.canPlayTurnTable = !0, this.showTurntableCnt = 0, this.dailyShare = !1, this.dailyBuyZr = !1, this.playHunter = !1, this.curHunterLv = 1
+        this.lastHunterLv = 1, this.lowestHunterLv = 1, this.todayHunterMaxLv = 0, this.todayHunterExtraScore = 0, this.isLastHunterWin = !1
+        this.maxHunterLevel = 1, this.hunterBox = 3, this.hunterUnlockLvl = 0, this.curSevenGhostLv = 1, this.isUnlockSevenGhost = !1
+        this.isUnlockAngelOrGhost = !1, this.isUnlockHunter = !1, this.isGetTian = !1, this.clubClaimedList = [], this.isEvaluate = !1
+        this.isOpenEvaluate = !1, this.inviteCnt = 0, this.inviteClaimed = 0, this.isOpenNewSkin = !1, this.isCommond = !1, this.isOpenCommond = !1
+        this.clearOwnBuild(), this.clearOwnSkin(), this.clearOwnSkinFragment(), this.clearSkinTypeShow(), this.clearOwnPrize(), this.clearOwnBuff()
+        this.clearOwnHunterSkin(), this.clearShowHunterSkillDes()
     }
     init(e) {
         this.tempCoin > 0 && (this.coin += this.tempCoin)
@@ -201,7 +206,7 @@ export default class XGameInfo {
     clearOwnPrize() {
     }
     addOwnPrizeData(e, t = 1) {
-        
+
     }
     usePrizeData(e, i = 1) {
     }
@@ -225,7 +230,7 @@ export default class XGameInfo {
     isClubRewardClaimed(e) {
     }
     claimClubReward(e) {
-       
+
     }
     clearShowHunterSkillDes() {
     }

@@ -30,7 +30,7 @@ export class XPlayerScript extends Component {
 
     lastMovePos: Vec2 = null
     moveSpeedScale = 1
-    moveSpeed = 100
+    moveSpeed = 200
 
     isAtking = false
 

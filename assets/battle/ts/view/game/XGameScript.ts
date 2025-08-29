@@ -1,7 +1,7 @@
 import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
-import { XBuildType } from '../../xconfig/XEnum';
+import { XBuildType, XGameMode } from '../../xconfig/XEnum';
 import { XDoorScript } from '../building/XDoorScript';
 import { XBedScript } from '../building/XBedScript';
 import { XTowerScript } from '../building/XTowerScript';
@@ -54,6 +54,7 @@ export class XGameScript extends Component {
 
         this.map.init()
         this.initEvents()
+        this.initMapBuild()
         this.initBuildings()
         this.initDefenders()
         this.initHunters()
@@ -69,6 +70,22 @@ export class XGameScript extends Component {
     offEvents() {
         EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.off(XEventNames.E_Look_Player, this.lookAtPlayer, this)
+    }
+
+    initMapBuild() {
+        XMgr.buildingMgr.mapBuildScripts = []
+        XMgr.buildingMgr.mapBuildScriptArr = []
+        if (XMgr.gameMgr.gameMode != XGameMode.E_Defense) return;
+        // let gameInfo = XMgr.user.gameInfo
+        // let playCnt = gameInfo.winCnt + gameInfo.failCnt;
+        // if (gameInfo.isExitGame) return gameInfo.isExitGame = false, void XMgr.user.saveToServer();
+        // let a = .2;
+        // a = XMgr.user.gameInfo.ownBuff.size ? .2 : gameInfo.mapBuildRate;
+        // let n = XMgr.user.gameInfo.getBuffData(24);
+        // if (n) {
+        //     a += XMgr.cfg.buffCfg.get(24).values[n.lv] / 100
+        // }
+        // playCnt > 0 && XRandomUtil.random() <= a && XMgr.buildingMgr.addMapBuild()
     }
 
     initBuildings() {
@@ -108,7 +125,6 @@ export class XGameScript extends Component {
             }
             defenderScript.pos(spawnPos.x, spawnPos.y)
             this.defenders.push(defenderScript)
-            defNode.active = defender.uuid == myUuid
             defender.uuid == myUuid && (this.characterControl = defenderScript)
         }
     }
@@ -134,11 +150,10 @@ export class XGameScript extends Component {
     }
 
     onInit() {
-        this.printCharactorPos("onInit")
         this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
     }
 
-    printCharactorPos(premsg:string = "") {
+    printCharactorPos(premsg: string = "") {
         const lookX = this.characterControl.node.worldPositionX
         const lookY = this.characterControl.node.worldPositionY
         console.debug(`${premsg} characterControl world:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)

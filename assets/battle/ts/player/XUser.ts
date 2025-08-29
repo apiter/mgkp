@@ -8,7 +8,7 @@ export default class XUser {
     _uploadDirty = !1;
     infoMap = new Map<string, any>();
     userInfo = null;
-    gameInfo = null;
+    gameInfo: XGameInfo = null;
     commonInfo = null;
     navigateInfo = null;
 

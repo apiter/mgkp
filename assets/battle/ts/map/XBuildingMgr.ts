@@ -9,6 +9,7 @@ import XTowerModel from "../model/XTowerModel"
 import XBuildingModel from "../model/XBuildingModel"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
+import { XBuildingScript } from "../view/building/XBuildingScript"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -30,6 +31,7 @@ export default class XBuildingMgr {
     isInfiniteIncome = false
 
     mapBuildScripts: any[][] = []
+    mapBuildScriptArr:XBuildingScript[][] =[]
 
     constructor() {
         this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"]

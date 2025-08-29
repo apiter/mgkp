@@ -52,9 +52,9 @@ export class XMapView extends Component {
                     const sp = groundNode.getComponent(Sprite)
                     sp.spriteFrame = this.mapAtlas.getSpriteFrame(tiledInfo.groundBlock)
                     groundNode.parent = this.groundLayer
-                    let color = sp.color.clone()
-                    color.a = tiledInfo.walkable? 100: 255
-                    sp.color = color
+                    // let color = sp.color.clone()
+                    // color.a = tiledInfo.walkable? 100: 255
+                    // sp.color = color
                 }
             }
         }
