@@ -9,10 +9,10 @@ export class SequenceNode extends BTNode {
         super(name);
     }
 
-    tick(): NodeStatus {
+    tick(data): NodeStatus {
         while (this.currentIndex < this.children.length) {
             const child = this.children[this.currentIndex];
-            const status = child.tick();
+            const status = child.tick(data);
 
             if (status === NodeStatus.RUNNING) {
                 this.status = NodeStatus.RUNNING;

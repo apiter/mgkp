@@ -12,7 +12,7 @@ export abstract class BTNode {
     }
 
     // 每帧执行
-    abstract tick(): NodeStatus;
+    abstract tick(data): NodeStatus;
 
     // 重置节点状态
     reset() {

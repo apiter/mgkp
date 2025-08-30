@@ -3249,7 +3249,7 @@ define("js/bundle.js", function(require, module, exports) {
             ve = fx.BTCategory;
         var Me, xe, Be, Te, Ee;
         e.PropertiesKey = void 0, (Me = e.PropertiesKey || (e.PropertiesKey = {})).UPGRADE = "upgrade", Me.BUILD = "build", Me.WAITUPGRADE = "wait_upgrade", Me.WAITBUILD = "wait_build", Me.TIMESTAMP = "timeStamp", Me.FILTERTARGET = "filterTarget", Me.INTERVAL = "interval", Me.SKILLID = "skill_id", Me.NOWATTACK = "now_attack", Me.DESTPOS = "destination_pos", Me.ATTACK = "attack";
-        class XIdleNodeAction extends fx.BTAction {
+        class XIdleAction extends fx.BTAction {
             constructor(e) {
                 super({
                     name: "IdleNode",
@@ -3264,7 +3264,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return Ie.SUCCESS
             }
         }
-        XIdleNodeAction.register("IdleNode", ve.ACTION);
+        XIdleAction.register("IdleNode", ve.ACTION);
         class XRunAction extends fx.BTAction {
             constructor(e, t) {
                 super({
@@ -4218,7 +4218,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.blackboard = new fx.BTBlackboard
             }
             idle(e) {
-                return new XIdleNodeAction(e)
+                return new XIdleAction(e)
             }
             run(e, t) {
                 let i = new XRunAction(e, t);
@@ -5243,7 +5243,12 @@ define("js/bundle.js", function(require, module, exports) {
             initAI() {
                 t.cfg.constant.repairTime;
                 this.ai = new XPlayerAI(this);
-                let e = yt([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", !0))), this.ai.notInBed(this.ai.takeMapBuild()), this.ai.notInBed(this.ai.findBed(this.ai.run("run", !0))), this.ai.notInBed(this.ai.gotoBed()), this.ai.upOrBuild(), this.ai.idle("idle")]);
+                let e = yt([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", !0))), 
+                    this.ai.notInBed(this.ai.takeMapBuild()), 
+                    this.ai.notInBed(this.ai.findBed(this.ai.run("run", !0))), 
+                    this.ai.notInBed(this.ai.gotoBed()), 
+                    this.ai.upOrBuild(), 
+                    this.ai.idle("idle")]);
                 this.ai.load(e)
             }
             upBed(e) {
@@ -19807,7 +19812,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
         e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = XHunterChooseView, e.HunterDifficultChooseDialog = XHunterDifficultChooseDialog, e.HunterEquipCfg = Nt, 
         e.HunterFailDialog = XHunterFailDialog, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = XHunterScript, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
-        e.HunterUnlockDialog = XHunterUnlockDialog, e.HunterWinDialog = XHunterWinDialog, e.IconJumpScript = Gn, e.IdleAction = XIdleNodeAction, e.IncomeDownBuff = class extends XBaseBuff {
+        e.HunterUnlockDialog = XHunterUnlockDialog, e.HunterWinDialog = XHunterWinDialog, e.IconJumpScript = Gn, e.IdleAction = XIdleAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
             }
@@ -20167,7 +20172,8 @@ define("js/bundle.js", function(require, module, exports) {
             enterGame() {
                 t.cfg.map.get(19)
             }
-        }, e.PlayerAI = XPlayerAI, e.PlayerHeadScript = XPlayerHeadScript, e.PlayerManager = XPlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
+        }, e.PlayerAI = XPlayerAI, 
+        e.PlayerHeadScript = XPlayerHeadScript, e.PlayerManager = XPlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 
         e.PoisonSpringTowerScript = XPoisonSpringTowerScript, 
         e.PolygonSeparator = 
         class XPolygonSeparator {
