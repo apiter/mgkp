@@ -53,4 +53,30 @@ export default class XUtil {
         }
         return map;
     }
+
+    static createUUIDEx(len?: number, rangeLen?: number): string {
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
+        const uuid: string[] = [];
+        rangeLen = rangeLen || chars.length; 
+
+        if (len) {
+            // 如果传了 len，就生成一个指定长度的随机字符串
+            for (let i = 0; i < len; i++) {
+                uuid[i] = chars[Math.floor(Math.random() * rangeLen)];
+            }
+        } else {
+            // 否则，生成标准的 UUID 格式
+            uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+            uuid[14] = "4"; // UUID v4 标记位
+            for (let i = 0; i < 36; i++) {
+                if (!uuid[i]) {
+                    const n = Math.floor(Math.random() * 16);
+                    uuid[i] = chars[i == 19 ? (n & 0x3) | 0x8 : n];
+                }
+            }
+        }
+
+        return uuid.join("");
+    }
+
 }

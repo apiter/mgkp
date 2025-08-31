@@ -5064,11 +5064,13 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             }
         }
         var _, p, y;
-        t.BTStatus = void 0, (_ = t.BTStatus || (t.BTStatus = {}))[_.SUCCESS = 1] = "SUCCESS", _[_.FAILURE = 2] = "FAILURE", _[_.RUNNING = 3] = "RUNNING", t.EPolicy = void 0, (p = t.EPolicy || (t.EPolicy = {}))[p.RequireOne = 0] = "RequireOne", p[p.RequireAll = 1] = "RequireAll", t.BTCategory = void 0, (y = t.BTCategory || (t.BTCategory = {})).COMPOSITE = "composite", y.DECORATOR = "decorator", y.ACTION = "action", y.CONDITION = "condition";
-        const m = {},
-            b = {},
-            w = {},
-            x = {};
+        t.BTStatus = void 0, (_ = t.BTStatus || (t.BTStatus = {}))[_.SUCCESS = 1] = "SUCCESS", _[_.FAILURE = 2] = "FAILURE", _[_.RUNNING = 3] = "RUNNING", 
+        t.EPolicy = void 0, (p = t.EPolicy || (t.EPolicy = {}))[p.RequireOne = 0] = "RequireOne", p[p.RequireAll = 1] = "RequireAll", 
+        t.BTCategory = void 0, (y = t.BTCategory || (t.BTCategory = {})).COMPOSITE = "composite", y.DECORATOR = "decorator", y.ACTION = "action", y.CONDITION = "condition";
+        const XBTDecorators = {},
+            XBTComposites = {},
+            XBTActions = {},
+            XBTConditions = {};
         class XBTBaseNode {
             constructor({
                 category: t = "",
@@ -5077,22 +5079,27 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 description: n = "",
                 properties: u
             }) {
-                this.id = f.createUUID(), this.category = t, this.name = e, this.title = a || e, this.description = n, this.properties = u || {}
+                this.id = f.createUUID(), 
+                this.category = t, 
+                this.name = e, 
+                this.title = a || e, 
+                this.description = n, 
+                this.properties = u || {}
             }
             static register(e, a) {
                 let n = this;
                 switch (n.bt_category = a, n.bt_name = e, a) {
                     case t.BTCategory.COMPOSITE:
-                        b[e] = n;
+                        XBTComposites[e] = n;
                         break;
                     case t.BTCategory.DECORATOR:
-                        m[e] = n;
+                        XBTDecorators[e] = n;
                         break;
                     case t.BTCategory.ACTION:
-                        w[e] = n;
+                        XBTActions[e] = n;
                         break;
                     case t.BTCategory.CONDITION:
-                        x[e] = n;
+                        XBTConditions[e] = n;
                         break;
                     default:
                         throw Error("not found node category !")
@@ -5137,7 +5144,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return this.properties[t] = void 0, e
             }
         }
-        class S extends XBTBaseNode {
+        class XBTAction extends XBTBaseNode {
             constructor({
                 name: e = "Action",
                 title: a = "",
@@ -5151,7 +5158,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 })
             }
         }
-        class E {
+        class XBTTick {
             constructor() {
                 this.tree = null, this.debug = null, this.target = null, this.blackboard = null, this._openNodes = [], this._nodeCount = 0
             }
@@ -5165,7 +5172,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             }
             _exitNode(t) {}
         }
-        class C extends XBTBaseNode {
+        class XBTDecorator extends XBTBaseNode {
             constructor({
                 child: e = null,
                 name: a = "Decorator",
@@ -5183,7 +5190,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 this.child = t
             }
         }
-        class A extends XBTBaseNode {
+        class XBTComposite extends XBTBaseNode {
             constructor({
                 children: e = [],
                 name: a = "Composite",
@@ -8462,7 +8469,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 Lt.I.setStorage(e)
             }
         }
-        class Vt {
+        class XBase64Encrypt {
             static setBase64Chars(t) {
                 this.base64Chars = t
             }
@@ -8507,7 +8514,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return p
             }
         }
-        Vt.lookup = null, Vt.base64Chars = "SNPn2QBOR7A1ghiCj5klmY6opZqrEsDFdeG90HIJK8LMtuv3wxyzabTUVWXcf4+/";
+        XBase64Encrypt.lookup = null, XBase64Encrypt.base64Chars = "SNPn2QBOR7A1ghiCj5klmY6opZqrEsDFdeG90HIJK8LMtuv3wxyzabTUVWXcf4+/";
         class Xt {
             constructor() {
                 this._size = 0, this._size = 0, this._keys = new Array, this._values = new Array
@@ -8640,7 +8647,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 a && (e = a), e += t, this.setText(e)
             }
         }
-        class Yt extends S {
+        class XBTContinuous extends XBTAction {
             constructor({
                 duration: t = 0
             } = {}) {
@@ -8654,8 +8661,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return null == this.curFrame && (this.curFrame = n, this.startTime = a), n - this.curFrame > 1 && (this.startTime = a), this.curFrame = n, a - this.startTime >= this.duration ? t.BTStatus.SUCCESS : t.BTStatus.FAILURE
             }
         }
-        Yt.register("BTContinuous", t.BTCategory.ACTION);
-        class Gt extends S {
+        XBTContinuous.register("BTContinuous", t.BTCategory.ACTION);
+        class XBTRunner extends XBTAction {
             constructor() {
                 super({
                     name: "Runner"
@@ -8665,8 +8672,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return t.BTStatus.RUNNING
             }
         }
-        Gt.register("BTRunner", t.BTCategory.ACTION);
-        class jt extends S {
+        XBTRunner.register("BTRunner", t.BTCategory.ACTION);
+        class XBTFailer extends XBTAction {
             constructor() {
                 super({
                     name: "Failer"
@@ -8676,8 +8683,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return t.BTStatus.FAILURE
             }
         }
-        jt.register("BTFailer", t.BTCategory.ACTION);
-        class Wt extends S {
+        XBTFailer.register("BTFailer", t.BTCategory.ACTION);
+        class XBTError extends XBTAction {
             constructor() {
                 super({
                     name: "Error"
@@ -8687,8 +8694,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 throw Error("BTError !")
             }
         }
-        Wt.register("BTError", t.BTCategory.ACTION);
-        class Zt extends S {
+        XBTError.register("BTError", t.BTCategory.ACTION);
+        class XBTWait extends XBTAction {
             constructor({
                 milliseconds: t = 0
             } = {}) {
@@ -8708,8 +8715,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return (new Date).getTime() - e.blackboard.get("startTime", e.tree.id, this.id) > this.endTime ? t.BTStatus.SUCCESS : t.BTStatus.RUNNING
             }
         }
-        Zt.register("BTWait", t.BTCategory.ACTION);
-        class Kt extends S {
+        XBTWait.register("BTWait", t.BTCategory.ACTION);
+        class XBTSucceeder extends XBTAction {
             constructor() {
                 super({
                     name: "Succeeder"
@@ -8719,8 +8726,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return t.BTStatus.SUCCESS
             }
         }
-        Kt.register("BTSucceeder", t.BTCategory.ACTION);
-        class $t extends S {
+        XBTSucceeder.register("BTSucceeder", t.BTCategory.ACTION);
+        class XBTWaitUtil extends XBTAction {
             constructor({
                 condition: t = null,
                 child: e = null
@@ -8736,8 +8743,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return a == t.BTStatus.SUCCESS ? a : (this.child && this.child._execute(e), t.BTStatus.RUNNING)
             }
         }
-        $t.register("BTWaitUtil", t.BTCategory.ACTION);
-        class Qt extends A {
+        XBTWaitUtil.register("BTWaitUtil", t.BTCategory.ACTION);
+        class XBTParallel extends XBTComposite {
             constructor({
                 children: e = [],
                 successPolicy: a = t.EPolicy.RequireOne
@@ -8778,8 +8785,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return this.successPolicy == t.EPolicy.RequireAll && f == g || this.successPolicy == t.EPolicy.RequireOne && f > 0 ? t.BTStatus.SUCCESS : t.BTStatus.FAILURE
             }
         }
-        Qt.register("BTParallel", t.BTCategory.COMPOSITE);
-        class Jt extends A {
+        XBTParallel.register("BTParallel", t.BTCategory.COMPOSITE);
+        class XBTSequence extends XBTComposite {
             constructor({
                 children: e = [],
                 continuePolicy: a = t.BTStatus.FAILURE,
@@ -8804,8 +8811,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return 0 != n && (a += n), this.successPolicy == t.EPolicy.RequireOne && a > 0 || this.successPolicy == t.EPolicy.RequireAll && a == this.children.length ? t.BTStatus.SUCCESS : t.BTStatus.FAILURE
             }
         }
-        Jt.register("BTSequence", t.BTCategory.COMPOSITE);
-        class te extends C {
+        XBTSequence.register("BTSequence", t.BTCategory.COMPOSITE);
+        class XBTLimiter extends XBTDecorator {
             constructor({
                 child: t = null,
                 maxLoop: e = 0
@@ -8833,8 +8840,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return t.BTStatus.FAILURE
             }
         }
-        te.register("BTLimiter", t.BTCategory.DECORATOR);
-        class ee extends C {
+        XBTLimiter.register("BTLimiter", t.BTCategory.DECORATOR);
+        class ee extends XBTDecorator {
             constructor({
                 maxTime: t = 0,
                 child: e = null
@@ -8862,7 +8869,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             }
         }
         ee.register("BTMaxTime", t.BTCategory.DECORATOR);
-        class ie extends C {
+        class XBTInverter extends XBTDecorator {
             constructor({
                 child: t = null
             } = {}) {
@@ -8877,8 +8884,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return a == t.BTStatus.SUCCESS ? a = t.BTStatus.FAILURE : a == t.BTStatus.FAILURE && (a = t.BTStatus.SUCCESS), a
             }
         }
-        ie.register("BTInverter", t.BTCategory.DECORATOR);
-        class se extends C {
+        XBTInverter.register("BTInverter", t.BTCategory.DECORATOR);
+        class se extends XBTDecorator {
             constructor({
                 maxLoop: t = -1,
                 child: e = null
@@ -8905,7 +8912,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             }
         }
         se.register("BTRepeater", t.BTCategory.DECORATOR);
-        class ae extends C {
+        class XBTRepeatUntilFailure extends XBTDecorator {
             constructor({
                 maxLoop: t = -1,
                 child: e = null
@@ -8931,8 +8938,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return a = e.blackboard.set("i", a, e.tree.id, this.id), n
             }
         }
-        ae.register("BTRepeatUntilFailure", t.BTCategory.DECORATOR);
-        class ne extends C {
+        XBTRepeatUntilFailure.register("BTRepeatUntilFailure", t.BTCategory.DECORATOR);
+        class XBTRepeatUntilSuccess extends XBTDecorator {
             constructor({
                 maxLoop: t = -1,
                 child: e = null
@@ -8958,7 +8965,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 return a = e.blackboard.set("i", a, e.tree.id, this.id), n
             }
         }
-        return ne.register("BTRepeatUntilSuccess", t.BTCategory.DECORATOR), t.AniParam = class {
+        return XBTRepeatUntilSuccess.register("BTRepeatUntilSuccess", t.BTCategory.DECORATOR), t.AniParam = class {
             constructor(t, e, a, n, u, f, g) {
                 this.parent = t, this.pos = e, this.lbCaller = a, this.lbCb = n, this.completeCaller = u, this.completeCb = f, this.completeParams = g
             }
@@ -9003,7 +9010,12 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                     f.isNumber(a) && (e.enableShadow = a > 20, e.enableMultiLight = a > 15)
                 }
             }
-        }, t.AudioContextPool = ht, t.AutoReleaseManager = bt, t.BTAction = S, t.BTActions = w, t.BTBaseNode = XBTBaseNode, t.BTBlackboard = class {
+        }, t.AudioContextPool = ht, 
+        t.AutoReleaseManager = bt, 
+        t.BTAction = XBTAction, 
+        t.BTActions = XBTActions, 
+        t.BTBaseNode = XBTBaseNode, 
+        t.BTBlackboard = class {
             constructor() {
                 this._baseMemory = {}, this._treeMemory = {}
             }
@@ -9029,7 +9041,8 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             get(t, e, a) {
                 return this._getMemory(e, a)[t]
             }
-        }, t.BTComposite = A, t.BTComposites = b, t.BTCondition = class extends XBTBaseNode {
+        }, t.BTComposite = XBTComposite, t.BTComposites = XBTComposites, 
+        t.BTCondition = class extends XBTBaseNode {
             constructor({
                 child: e = null,
                 name: a = "Condition",
@@ -9063,7 +9076,16 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             add(t) {
                 this.child = t
             }
-        }, t.BTConditions = x, t.BTContinuous = Yt, t.BTDecorator = C, t.BTDecorators = m, t.BTError = Wt, t.BTFailer = jt, t.BTInverter = ie, t.BTLimiter = te, t.BTMaxTime = ee, t.BTParallel = Qt, t.BTRepeatUntilFailure = ae, t.BTRepeatUntilSuccess = ne, t.BTRepeater = se, t.BTRunner = Gt, t.BTSequence = Jt, t.BTSucceeder = Kt, t.BTTick = E, t.BTWait = Zt, t.BTWaitUtil = $t, t.Base64Encrypt = Vt, t.BaseData = class {
+        }, t.BTConditions = XBTConditions, t.BTContinuous = XBTContinuous, 
+        t.BTDecorator = XBTDecorator, t.BTDecorators = XBTDecorators, t.BTError = XBTError, 
+        t.BTFailer = XBTFailer, t.BTInverter = XBTInverter, 
+        t.BTLimiter = XBTLimiter, 
+        t.BTMaxTime = ee, t.BTParallel = XBTParallel, 
+        t.BTRepeatUntilFailure = XBTRepeatUntilFailure, 
+        t.BTRepeatUntilSuccess = XBTRepeatUntilSuccess, 
+        t.BTRepeater = se, t.BTRunner = XBTRunner, t.BTSequence = XBTSequence, t.BTSucceeder = XBTSucceeder, 
+        t.BTTick = XBTTick, t.BTWait = XBTWait, 
+        t.BTWaitUtil = XBTWaitUtil, t.Base64Encrypt = XBase64Encrypt, t.BaseData = class {
             constructor(t, e) {
                 this.id = t, this.gid = f.getGID(), null != e && (this.iniName = e, this.ini = st.instance.get(e, t))
             }
@@ -9131,9 +9153,17 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                     } else this.list.push(e)
                 }))), this.list
             }
-        }, t.BaseDialog = lt, t.BaseEvent = V, t.BaseEventDispatcher = nt, t.BaseExtend = it, t.BaseLogic = gt, t.BaseScene = rt, t.BaseStorage = pt, t.BaseStorageModel = _t, t.BaseView = ot, t.BehaviorTree = class {
+        }, t.BaseDialog = lt, t.BaseEvent = V, 
+        t.BaseEventDispatcher = nt, t.BaseExtend = it, t.BaseLogic = gt, 
+        t.BaseScene = rt, t.BaseStorage = pt, t.BaseStorageModel = _t, 
+        t.BaseView = ot, t.BehaviorTree = class {
             constructor() {
-                this.id = f.createUUIDEx(5), this.title = "The behavior tree", this.description = "Default description", this.properties = {}, this.root = null, this.debug = null
+                this.id = f.createUUIDEx(5), 
+                this.title = "The behavior tree", 
+                this.description = "Default description", 
+                this.properties = {}, 
+                this.root = null, 
+                this.debug = null
             }
             load(e, a) {
                 a = a || {}, this.title = e.title || this.title, this.description = e.description || this.description, this.properties = e.properties || this.properties;
@@ -9141,11 +9171,11 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 for (n in e.nodes) {
                     let t;
                     if (u = e.nodes[n], u.name in a) t = a[u.name];
-                    else if (u.name in m) t = m[u.name];
-                    else if (u.name in b) t = b[u.name];
+                    else if (u.name in XBTDecorators) t = XBTDecorators[u.name];
+                    else if (u.name in XBTComposites) t = XBTComposites[u.name];
                     else {
-                        if (!(u.name in w)) throw new EvalError('BehaviorTree.load: Invalid node name + "' + u.name + '".');
-                        t = w[u.name]
+                        if (!(u.name in XBTActions)) throw new EvalError('BehaviorTree.load: Invalid node name + "' + u.name + '".');
+                        t = XBTActions[u.name]
                     }
                     f = new t(u.properties), f.id = u.id || f.id, f.title = u.title || f.title, f.description = u.description || f.description, f.properties = u.properties || f.properties, g[n] = f
                 }
@@ -9168,7 +9198,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                     f.id = u.id, f.name = u.name, f.title = u.title, f.description = u.description, f.properties = u.properties;
                     let g = u.constructor && u.constructor.prototype,
                         _ = g && g.name || u.name;
-                    if (!m[_] && !b[_] && !w[_] && a.indexOf(_) < 0) {
+                    if (!XBTDecorators[_] && !XBTComposites[_] && !XBTActions[_] && a.indexOf(_) < 0) {
                         let t = {};
                         t.name = _, t.title = g && g.title || u.title, t.category = u.category, a.push(_), e.custom_nodes.push(t)
                     }
@@ -9184,7 +9214,7 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
             tick(t, e) {
                 if (!e) throw "The blackboard parameter is obligatory and must be an instance of b3.Blackboard";
                 if (!this.root) return;
-                let a = new E;
+                let a = new XBTTick;
                 a.debug = this.debug, a.target = t, a.blackboard = e, a.tree = this;
                 let n = e.get("tick_frame", a.tree.id);
                 null == n ? e.set("tick_frame", 0, a.tree.id) : e.set("tick_frame", n + 1, a.tree.id);
