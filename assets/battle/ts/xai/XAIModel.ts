@@ -1,18 +1,19 @@
-import { BehaviorTree } from "../bt/BehaviorTree"
-import { Blackboard } from "../bt/Blackboard"
 import { XBehaviorTree } from "../bt2/XBehaviorTree"
 import { XBTBlackboard } from "../bt2/XBTBlackboard"
 import { XBTStatus, XEPolicy } from "../bt2/XBTEnum"
 import { XBTSequence } from "../bt2/XBTSequence"
-import { XIdleAction } from "../xaction/XIdlection"
-import { XRunAction } from "../xaction/XRunAction"
+import XIdleAction from "../xaction/XIdlection"
+import XRunAction from "../xaction/XRunAction"
+import XHasPathCdt from "../xcdt/XHasPathCdt"
+import XHasTargetCdt from "../xcdt/XHasTargetCdt"
+import XNotInStopRangeCdt from "../xcdt/XNotInStopRangeCdt"
 
 export class XAIModel {
     blackboard: XBTBlackboard
     bt: XBehaviorTree = null
     data = null
     constructor(data_, blackBoard_) {
-        this.blackboard = blackBoard_ || new Blackboard
+        this.blackboard = blackBoard_ || new XBTBlackboard
         this.bt = new XBehaviorTree
         this.data = data_
     }
@@ -20,21 +21,21 @@ export class XAIModel {
         this.bt.root = root
     }
     exec() {
-        this.bt.tick(this.data, this.blackboard)
+        this.bt.tick(this.data, this.blackboard) 
     }
 
     clearAI() {
         this.blackboard = new XBTBlackboard
     }
 
-    idle(e) {
-        return new XIdleAction(e)
+    idle(aniName_) {
+        return new XIdleAction(aniName_)
     }
 
-    run(e, t) {
-        let i = new XRunAction(e, t);
+    run(aniName_, canThrough_) {
+        let i = new XRunAction(aniName_, canThrough_);
         return new XBTSequence({
-            children: [new XHasTargetCdt, (new XHasPathCdt).bindout(i), new XNotInStopRangeCdt(this.data.getAttackRange()), i],
+            children: [new XHasTargetCdt(null), (new XHasPathCdt(null, null)).bindout(i), new XNotInStopRangeCdt(this.data.getAttackRange(), null), i],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
         })

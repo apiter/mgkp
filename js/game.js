@@ -3248,7 +3248,10 @@ define("js/bundle.js", function(require, module, exports) {
         const Ie = fx.BTStatus,
             ve = fx.BTCategory;
         var Me, xe, Be, Te, Ee;
-        e.PropertiesKey = void 0, (Me = e.PropertiesKey || (e.PropertiesKey = {})).UPGRADE = "upgrade", Me.BUILD = "build", Me.WAITUPGRADE = "wait_upgrade", Me.WAITBUILD = "wait_build", Me.TIMESTAMP = "timeStamp", Me.FILTERTARGET = "filterTarget", Me.INTERVAL = "interval", Me.SKILLID = "skill_id", Me.NOWATTACK = "now_attack", Me.DESTPOS = "destination_pos", Me.ATTACK = "attack";
+        e.PropertiesKey = void 0, (Me = e.PropertiesKey || (e.PropertiesKey = {})).UPGRADE = "upgrade", 
+        Me.BUILD = "build", Me.WAITUPGRADE = "wait_upgrade", Me.WAITBUILD = "wait_build", Me.TIMESTAMP = "timeStamp", 
+        Me.FILTERTARGET = "filterTarget", Me.INTERVAL = "interval", Me.SKILLID = "skill_id", Me.NOWATTACK = "now_attack", 
+        Me.DESTPOS = "destination_pos", Me.ATTACK = "attack";
         class XIdleAction extends fx.BTAction {
             constructor(e) {
                 super({

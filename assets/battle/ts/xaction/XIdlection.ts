@@ -1,20 +1,23 @@
-import { ActionNode } from '../bt/ActionNode';
-import { NodeStatus } from '../bt/NodeStatus';
+import XBTAction from '../bt2/XBTAction';
+import { XBTCategory, XBTStatus } from '../bt2/XBTEnum';
 
-export class XIdleAction extends ActionNode {
-    aniName = ""
+export default class XIdleAction extends XBTAction {
+    _aniName = ""
     constructor(aniName_) {
-        super("XIdleAction")
-        this.aniName = aniName_
+        super({
+            name: "IdleNode",
+            title: "idle",
+            properties:null
+        })
+        this._aniName = aniName_
     }
-
     open(e) {
-        e.target.playAnim(this.aniName)
+        e.target.playAnim(this._aniName)
     }
-
     tick(e) {
-        return NodeStatus.SUCCESS
+        e.target;
+        return XBTStatus.SUCCESS
     }
 }
-
+XIdleAction.register("IdleNode", XBTCategory.ACTION);
 
