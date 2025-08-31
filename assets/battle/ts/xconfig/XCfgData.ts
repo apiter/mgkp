@@ -83,6 +83,8 @@ export interface XDifficultCfgItem {
     addExp: number;
     addMaxHp: number;
     addSkillLv: number;
+    lvlFloor?:number;
+    lvlCeil?:number
 }
 
 export interface XCfgBuffItem {
@@ -100,27 +102,49 @@ export interface XCfgBuffItem {
 }
 
 export interface XCfgHunterData {
-    attackList:number[]
-    hpList:number[]
-    upAtcCntList:number[]
-    hunterAttackList:number[]
-    hunterHpList:number[]
+    attackList: number[]
+    hpList: number[]
+    upAtcCntList: number[]
+    hunterAttackList: number[]
+    hunterHpList: number[]
 }
 
 export interface XCfgSpecialTowerData {
-    id:number,
-    oldname:string,
-    name:string
-    quality:string
-    weight:number
-    des:string
-    diIcon:string
+    id: number,
+    oldname: string,
+    name: string
+    quality: string
+    weight: number
+    des: string
+    diIcon: string
 }
 
 export interface XCfgSuperBuildingData {
-    id:number,
-    name:string,
-    icon:string
-    description:string
-    upDes:string
+    id: number,
+    name: string,
+    icon: string
+    description: string
+    upDes: string
+}
+
+export interface XConstant {
+    rewardGold: number,
+    timeGold: number,
+    winGold: number,
+    killGold: number,
+    rewardTimeMin: number,
+    rewardTimeMax: number,
+    repairTime: number,
+    startTime: number,
+    bossName: string,
+    hunterMoveSpeed: number,
+    playerMoveSpeed: number,
+    bulletSpeed: number,
+    ultSkillHunterName: string
+    rageSkillCD: number,
+    shockSkillCD: number,
+    gameEndBox: number[][],
+    skinFragmentArr: number[][],
+    magicGetArr: number[]
+    evaluateTime: number
 }

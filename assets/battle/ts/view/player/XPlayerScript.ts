@@ -33,7 +33,7 @@ export class XPlayerScript extends Component {
     moveSpeed = 200
 
     isAtking = false
-
+    type:XPlayerType
     init(data_: XPlayerModel) {
         this.data = data_
         data_.ownerScript = this

@@ -4200,7 +4200,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
 
-        function yt(e, t = fx.EPolicy.RequireOne) {
+        function bt_sequenceOr(e, t = fx.EPolicy.RequireOne) {
             return new fx.BTSequence({
                 children: e,
                 successPolicy: t
@@ -5179,7 +5179,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = e.PlayerType.E_Defender
             }
             onAwake() {
-                super.onAwake(), this.moveSpeed = t.cfg.constant.playerMoveSpeed
+                super.onAwake(), 
+                this.moveSpeed = t.cfg.constant.playerMoveSpeed
             }
             onInit() {
                 // 创建名字标签
@@ -5246,7 +5247,7 @@ define("js/bundle.js", function(require, module, exports) {
             initAI() {
                 t.cfg.constant.repairTime;
                 this.ai = new XPlayerAI(this);
-                let e = yt([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", !0))), 
+                let e = bt_sequenceOr([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", !0))), 
                     this.ai.notInBed(this.ai.takeMapBuild()), 
                     this.ai.notInBed(this.ai.findBed(this.ai.run("run", !0))), 
                     this.ai.notInBed(this.ai.gotoBed()), 
@@ -6341,7 +6342,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initAI() {
                 this.ai = new yi(this);
-                let e = yt([this.ai.canBack(this.ai.back("escape")), this.ai.OnCloseDoorCdt(this.ai.breakAway()), this.ai.canPatrol(this.ai.patrol()), this.ai.attack(), this.ai.idle("idle")]);
+                let e = bt_sequenceOr([this.ai.canBack(this.ai.back("escape")), this.ai.OnCloseDoorCdt(this.ai.breakAway()), this.ai.canPatrol(this.ai.patrol()), this.ai.attack(), this.ai.idle("idle")]);
                 this.ai.load(e)
             }
             onUpdate() {
@@ -6623,7 +6624,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initAI() {
                 this.ai = new XMonsterAI(this);
-                let e = yt([this.ai.dizzy("dizzy"), 
+                let e = bt_sequenceOr([this.ai.dizzy("dizzy"), 
                     this.ai.canEscape(this.ai.escape("escape")), 
                     this.ai.usingSkill(), 
                     this.ai.OnCloseDoorCdt(this.ai.breakAway()), 
@@ -20446,7 +20447,10 @@ define("js/bundle.js", function(require, module, exports) {
                 successPolicy: t,
                 continuePolicy: Ie.SUCCESS
             })
-        }, e.bt_sequenceOr = yt, e.cheatClass = ca, e.cheatGetValue = fa, e.cheatProperty = ma, e.checkCheat = pa, e.listen = function(e, t, i) {
+        }, e.bt_sequenceOr = bt_sequenceOr, 
+        e.cheatClass = ca, 
+        e.cheatGetValue = fa, 
+        e.cheatProperty = ma, e.checkCheat = pa, e.listen = function(e, t, i) {
             return function(s, a) {
                 let n = "string" == typeof i || i instanceof String,
                     r = "_" + a;

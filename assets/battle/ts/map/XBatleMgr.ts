@@ -425,7 +425,7 @@ export class XBatleMgr implements ISchedulable {
             let s = XRandomUtil.getIntRandom(0, i.length - 1);
             if (0 == (s = i.splice(s, 1)[0])) {
                 let gameInfo = XMgr.user.gameInfo
-                let diffcultyCfg = XMgr.cfg.difficultCfg.get(gameInfo.curLv);
+                let diffcultyCfg = XMgr.cfg.difficultCfg.get(gameInfo.curLv.toString());
                 XMgr.gameMgr.dCfg = diffcultyCfg;
                 let a = diffcultyCfg.addMaxHp + 1;
                 if (gameInfo.curLv == XMgr.cfg.difficultCfg.size) {
