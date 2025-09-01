@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2 } from 'cc';
+import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
 import { Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
@@ -7,6 +7,8 @@ import XMgr from '../../XMgr';
 import { XCfgSkinData } from '../../xconfig/XCfgData';
 import XUtil from '../../xutil/XUtil';
 import XResUtil from '../../xutil/XResUtil';
+import { XRandomUtil } from '../../xutil/XRandomUtil';
+import XBuildingModel from '../../model/XBuildingModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -33,7 +35,13 @@ export class XPlayerScript extends Component {
     moveSpeed = 200
 
     isAtking = false
-    type:XPlayerType
+    type: XPlayerType
+    forceTarget
+    curMapBuild
+    curPath
+    curTarget
+    lastAtkTarget
+
     init(data_: XPlayerModel) {
         this.data = data_
         data_.ownerScript = this
@@ -47,7 +55,11 @@ export class XPlayerScript extends Component {
         this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
 
         this.loadSkin()
+
+        this.onInit()
     }
+
+    onInit() { }
 
     async loadSkin() {
         this.skinCfg = XMgr.cfg.skin.get(this.data.skinId + "");
@@ -98,17 +110,13 @@ export class XPlayerScript extends Component {
         this.spineNode.getComponent(sp.Skeleton).animation = aniName_
     }
 
-
     onHpChanged() {
-
     }
 
     onDead() {
-
     }
 
     idle() {
-
     }
 
     pos(x_, y_) {
@@ -167,6 +175,210 @@ export class XPlayerScript extends Component {
         } else if (this.data.type == XPlayerType.E_Hunter) {
 
         }
+    }
+
+    getAttackRange() {
+        return this.data.stopRange
+    }
+
+    isInBed() {
+        return this.data.isBed
+    }
+
+    getMapBuildTarget() {
+        return this.curMapBuild
+    }
+    setMapBuildTarget(e, t = !1) {
+        if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+            // 情况1：t 为 true，并且 curHp < maxHp
+            // 同时会执行 this.forceTarget = e
+        } else if (e != this.curMapBuild) {
+            // 情况2：目标和当前不同
+            this.curMapBuild = e;
+            this.curPath = null;
+        }
+    }
+    takeMapBuild(e) {
+        if (e && !e.isUsed) {
+            // this.takeMapBuildNode.addChild(e.node);
+            // e.node.pos(0, 0);
+            // return XMgr.buildingMgr.takeMapBuild(e.x, e.y, this.data);
+        }
+    }
+
+    getTakeMapBuild() {
+        return this.data.takeMapBuild
+    }
+    getCurTarget() {
+        return this.curTarget
+    }
+
+    setCurTarget(e, t = false) {
+        // 如果是第一次找目标，标记已处理
+        if (this.isFirstFind) {
+            this.isFirstFind = false;
+        }
+
+        // 如果是强制目标，并且血量没满
+        if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+            // 不会继续往下执行
+            return;
+        }
+
+        // 否则，如果目标和当前目标不同
+        if (e !== this.curTarget) {
+            // 把当前目标存到 lastAtkTarget
+            if (this.curTarget) {
+                this.lastAtkTarget = this.curTarget;
+            }
+            // 更新目标
+            this.curTarget = e;
+            // 路径清空，等待重新寻路
+            this.curPath = null;
+        }
+    }
+
+    getAllRoomIdRand() {
+        let allRooms = XMgr.buildingMgr.rooms,
+            activeRoom = [];
+        for (const t in allRooms)
+            allRooms[t].active && activeRoom.push(+t);
+        return XRandomUtil.randomArray(activeRoom)
+    }
+
+    isBedUsed(bed_: XBuildingModel) {
+        return bed_.isUsed
+    }
+
+    getRoomModel(roomId_) {
+        void 0 === roomId_ && (roomId_ = this.getOwnerRoomId())
+        return XMgr.buildingMgr.getRoom(roomId_)
+    }
+
+    getOwnerRoomId() {
+        return this.data.roomId
+    }
+
+    targetIsOK(target) {
+        if (target instanceof XPlayerModel) {
+            return !target.isDie;
+        } else if (target instanceof XBuildingModel) {
+            return !target.isOpen && target.curHp > 0;
+        } else {
+            return !!target && !target.isDie;
+        }
+    }
+
+    getTargetPos(target) {
+        if (!(target || this.curTarget && this.curTarget.owner)) return;
+
+        let owner = target ? target.owner : this.curTarget.owner;
+        return owner ? new Vec2(owner.x, owner.y) : void 0
+    }
+
+    getCurPath() {
+        return this.curPath
+    }
+
+    setCurPath(e) {
+        this.curPath = e
+    }
+
+    getOwnerPos() {
+        return this.node.getPosition()
+    }
+
+    getOwnerGridPos() {
+        let e = this.getOwnerPos()
+        let worldPt = this.node.parent.getComponent(UITransform).convertToWorldSpaceAR(v3(e));
+        let s = XMgr.mapMgr.stagePosToGridPos(worldPt.x, worldPt.y);
+        e.set(s.x, s.y)
+        return e
+    }
+
+    breakAway() {
+        this.curPath && (this.curPath = []);
+        let grid = this.getOwnerGridPos()
+        let emptyGrids = XMgr.buildingMgr.getOutdoorEmptyGrids(grid.x, grid.y, 2);
+        let randGrid = XRandomUtil.randomInArray(emptyGrids)
+        let mapPos = XMgr.mapMgr.gridPosToMapPos(randGrid.x, randGrid.y)
+        this.node.x = mapPos.x
+        this.node.y = mapPos.y
+    }
+
+    getPath(startPos_, endPos_, slant_ = false) {
+        if (!this.node.isValid || this.getPathCd) return;
+        let pathPoints = XMgr.mapMgr.findPath(startPos_.x, startPos_.y, endPos_.x, endPos_.y, slant_);
+        if (!pathPoints || pathPoints.length === 0) {
+            this.getPathCd = true;
+            this.scheduleOnce(() => {
+                this.getPathCd = false;
+            }, 2)
+        }
+        return pathPoints
+    }
+
+    runWithPath(points_: Vec2[], canThrough_ = false) {
+        if (points_.length == 0)
+            return true;
+        let curerntPoint = points_[0];
+        let ownPos = this.getOwnerPos()
+        let deltaVec = (v2(ownPos.x, ownPos.y)).subtract(v2(curerntPoint.x, curerntPoint.y)).multiplyScalar(-1)
+        let dis = deltaVec.length()
+
+        // 已经到达目标点
+        if (dis <= 1e-6) {
+            points_.shift(); // 移除当前点
+            return this.runWithPath(points_); // 递归继续走下一个点
+        }
+
+        {
+            // 每帧的时间间隔
+            let dt = XUtil.getFrameDelta();
+
+            // 速度倍率
+            let pow = this.data ? this.data.getSpeedPow() : 1;
+
+            // 基础速度
+            let r = this.moveSpeed * pow;
+
+            if (this.data.type == XPlayerType.E_Hunter) {
+                // 猎人移动：X 轴会被放大处理
+                deltaVec = XUtil.normalize(deltaVec, Math.min(r * dt, dis))
+
+                if (deltaVec.x != 0) {
+                    deltaVec.x *= 2; // 横向速度更快？
+                    if (deltaVec.x > 0) {
+                        deltaVec.x = Math.min(deltaVec.x, dis);
+                    } else {
+                        deltaVec.x = Math.max(deltaVec.x, -dis);
+                    }
+                }
+            } else {
+                // 防守者移动
+                deltaVec = XUtil.normalize(deltaVec, Math.min(r * dt, dis))
+            }
+
+            // 检测是否可走
+            if (this.checkWalkAble(deltaVec.x, deltaVec.y)) {
+                this.move(deltaVec.x, deltaVec.y, !canThrough_);
+            } else {
+                this.setCurPath(null); // 走不通，清掉路径
+            }
+        }
+
+        return false;
+    }
+
+    checkWalkAble(x_, y_) {
+        let s = new Vec2(this.data.owner.x + x_, this.data.owner.y + y_)
+        let grid = XMgr.mapMgr.mapPosToGridPos(s.x, s.y)
+        let tileInfo = XMgr.mapMgr.getTiledInfo(grid.x, grid.y);
+        return tileInfo && (tileInfo.walkable !== false);
+    }
+    
+    getDataModel() {
+        return this.data
     }
 }
 

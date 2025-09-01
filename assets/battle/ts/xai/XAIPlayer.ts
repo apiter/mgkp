@@ -1,50 +1,56 @@
 import { XBTStatus, XEPolicy } from "../bt2/XBTEnum";
 import { XBTSequence } from "../bt2/XBTSequence";
+import { XPlayerScript } from "../view/player/XPlayerScript";
+import { XFindMapBuildAct } from "../xaction/XFindMapBuildAct";
+import { XGotoBedAction } from "../xaction/XGotoBedAction";
+import { XTakeMapBuildAction } from "../xaction/XTakeMapBuildAction";
+import { XUpgradeAction } from "../xaction/XUpgradeAction";
+import { XCanUpgradeCdt } from "../xcdt/XCanUpgradeCdt";
 import { XFindEmptyBedAct } from "../xcdt/XFindEmptyBedAct";
 import { XNotInBedCdt } from "../xcdt/XNotInBedCdt";
 import { XOneTrueCdt } from "../xcdt/XOneTrueCdt";
 import { XAIModel } from "./XAIModel";
 
 export class XPlayerAI extends XAIModel {
-    constructor(e, t = null) {
-        super(e, t)
+    constructor(playerScript: XPlayerScript, blackBoard = null) {
+        super(playerScript, blackBoard)
     }
-    notInBed(e) {
+    notInBed(child_) {
         let t = new XOneTrueCdt(new XNotInBedCdt);
-        return t.add(e), t
+        t.add(child_)
+        return t
     }
-    findBed(e) {
+    findBed(child_) {
         let t = new XFindEmptyBedAct;
+        return new XBTSequence({
+            children: [t, child_],
+            continuePolicy: XBTStatus.SUCCESS,
+            successPolicy: XEPolicy.RequireAll
+        })
+    }
+    findMapBuild(e) {
+        let t = new XFindMapBuildAct();
         return new XBTSequence({
             children: [t, e],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
         })
     }
-    // findMapBuild(e) {
-    //     let t = new XFindMapBuildAct;
-    //     return new fx.BTSequence({
-    //         children: [t, e],
-    //         continuePolicy: Ie.SUCCESS,
-    //         successPolicy: fx.EPolicy.RequireAll
-    //     })
-    // }
-    // takeMapBuild() {
-    //     let e = new XTakeMapBuildAction;
-    //     return new fx.BTSequence({
-    //         children: [e],
-    //         continuePolicy: Ie.SUCCESS,
-    //         successPolicy: fx.EPolicy.RequireAll
-    //     })
-    // }
-    // gotoBed() {
-    //     let e = new XGotoBedAction;
-    //     return new fx.BTSequence({
-    //         children: [e],
-    //         continuePolicy: Ie.SUCCESS,
-    //         successPolicy: fx.EPolicy.RequireAll
-    //     })
-    // }
+    takeMapBuild() {
+        return new XBTSequence({
+            children: [new XTakeMapBuildAction],
+            continuePolicy: XBTStatus.SUCCESS,
+            successPolicy: XEPolicy.RequireAll
+        })
+    }
+    gotoBed() {
+        let e = new XGotoBedAction;
+        return new XBTSequence({
+            children: [e],
+            continuePolicy: XBTStatus.SUCCESS,
+            successPolicy: XEPolicy.RequireAll
+        })
+    }
     // canRepaire(e, t) {
     //     let i = new XAllTrueCdt(new XShouldFixCdt, new XTimeIntervalCdt(e));
     //     return i.add(t), i
@@ -57,14 +63,14 @@ export class XPlayerAI extends XAIModel {
     //         successPolicy: fx.EPolicy.RequireAll
     //     })
     // }
-    // upOrBuild() {
-    //     let e = new XUpgradeAction;
-    //     return new fx.BTSequence({
-    //         children: [(new XCanUpgradeCdt).bindout(e), e],
-    //         continuePolicy: Ie.SUCCESS,
-    //         successPolicy: fx.EPolicy.RequireAll
-    //     })
-    // }
+    upOrBuild() {
+        let e = new XUpgradeAction;
+        return new XBTSequence({
+            children: [(new XCanUpgradeCdt).bindout(e), e],
+            continuePolicy: XBTStatus.SUCCESS,
+            successPolicy: XEPolicy.RequireAll
+        })
+    }
 }
 
 

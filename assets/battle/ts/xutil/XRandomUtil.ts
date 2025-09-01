@@ -25,6 +25,18 @@ export class XRandomUtil {
         if (!arr_ || 0 == arr_.length) return null;
         return arr_[Math.floor(this.random() * arr_.length)]
     }
+
+    static randomArrayEx(arr_: any[]) {
+        if (!arr_ || 0 == arr_.length)
+            return [];
+        arr_ = arr_.slice()
+        let len = arr_.length;
+        for (; len;) {
+            let rd = Math.floor(Math.random() * len--);
+            [arr_[rd], arr_[len]] = [arr_[len], arr_[rd]]
+        }
+        return arr_
+    }
 }
 
 

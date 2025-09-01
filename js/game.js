@@ -321,7 +321,7 @@ define("index.js", function(require, module, exports) {
 define("js/bundle.js", function(require, module, exports) {
     var BundleJs = function(e) {
         "use strict";
-        class t {}
+        class XMgr {}
         var i;
         e.AssetType = void 0, (i = e.AssetType || (e.AssetType = {}))[i.Prefab = 1] = "Prefab", i[i.Spine = 2] = "Spine", i[i.Sprite = 3] = "Sprite", i[i.Bmfont = 4] = "Bmfont";
         const s = {
@@ -984,11 +984,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isGhost ? (e.skin = "res/ui/angelOrGhost/choose/img_itemBg_1.png", i.visible = !1, t.on(Laya.Event.CLICK, this, this.changeCamp)) : (e.skin = "res/ui/angelOrGhost/choose/img_itemBg_2.png", t.visible = !1, i.on(Laya.Event.CLICK, this, this.closePanel))
             }
             changeCamp() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 e.tianEnough(1) ? (e.useTian(1), this.isGhost = !this.isGhost, this.closePanel()) : XToast.show("天师令不足")
             }
             closePanel() {
-                t.ui.close(this), this.cb && this.cb.runWith(this.isGhost)
+                XMgr.ui.close(this), this.cb && this.cb.runWith(this.isGhost)
             }
         }
         class XCoordinateUtil {
@@ -1226,7 +1226,7 @@ define("js/bundle.js", function(require, module, exports) {
             static setFont(e, i, s) {
                 s = s || a.main, e.___bmfontSize || (e.___bmfontSize = e.fontSize);
                 let n = 1.2 * e.___bmfontSize;
-                e.fontSize = n, t.assetLoader.setBmfont(e, s, i, !0)
+                e.fontSize = n, XMgr.assetLoader.setBmfont(e, s, i, !0)
             }
             static isClassInherited(e, t) {
                 let i = Object.getPrototypeOf(e);
@@ -1289,7 +1289,7 @@ define("js/bundle.js", function(require, module, exports) {
             hideCustomAd() {}
             share(e, i, s) {
                 XToast.show("pc分享成功");
-                let a = `&helpUserID=${t.user.userInfo.userID}`;
+                let a = `&helpUserID=${XMgr.user.userInfo.userID}`;
                 console.log("shareToFriend ", a), i && i(!0)
             }
             subscribeMessage() {}
@@ -1402,7 +1402,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             static loseLevel(e = "", i = "") {
-                let s = (t.gameTime.now - this.level_enterTime) / 1e3;
+                let s = (XMgr.gameTime.now - this.level_enterTime) / 1e3;
                 s = Math.round(100 * s) / 100;
                 let a = [];
                 for (const e in this.levelItems) a.push({
@@ -1419,7 +1419,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             static exitLevel(e = "", i = "") {
-                let s = (t.gameTime.now - this.level_enterTime) / 1e3;
+                let s = (XMgr.gameTime.now - this.level_enterTime) / 1e3;
                 s = Math.round(100 * s) / 100;
                 let a = [];
                 for (const e in this.levelItems) a.push({
@@ -1459,14 +1459,14 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             static getSkin(e) {
-                let i = t.user.gameInfo.getSkinCnt();
+                let i = XMgr.user.gameInfo.getSkinCnt();
                 this.track("get_skin", {
                     skin_id: e,
                     skin_cnt: i
                 })
             }
             static lotSkinCnt(e) {
-                let i = t.user.gameInfo.getFragmentCnt;
+                let i = XMgr.user.gameInfo.getFragmentCnt;
                 this.track("lot_skin_cnt", {
                     lot_skin_cnt: i,
                     lot_type: e
@@ -1563,14 +1563,14 @@ define("js/bundle.js", function(require, module, exports) {
                 let n = (e, i) => {
                     e ? this.getStorage(e => {
                         a && a(e)
-                    }) : 1005 == i ? t.ui.showMessageDialog({
+                    }) : 1005 == i ? XMgr.ui.showMessageDialog({
                         title: "提示",
                         content: "平台校验失败，请重试",
                         showSureBtn: !0,
                         onSure: () => {
                             j.I.login({
                                 onFinish: e => {
-                                    e.code == sdk.SdkCode.WX_LOGIN_SUCCESS ? this.loginServer(n) : t.ui.showMessageDialog({
+                                    e.code == sdk.SdkCode.WX_LOGIN_SUCCESS ? this.loginServer(n) : XMgr.ui.showMessageDialog({
                                         content: "平台登录失败，请重试",
                                         showSureBtn: !0,
                                         onSure: () => {
@@ -1627,26 +1627,26 @@ define("js/bundle.js", function(require, module, exports) {
                     shushuId: ""
                 };
                 if (window.TDAnalytics_Config) {
-                    if (!window.TDAnalytics_Config.gameID) return void t.ui.showMessageDialog({
+                    if (!window.TDAnalytics_Config.gameID) return void XMgr.ui.showMessageDialog({
                         content: "没有配置数数的gameID",
                         showSureBtn: !0,
                         onSure: () => {}
                     });
-                    if (this._gameID != window.TDAnalytics_Config.gameID) return void t.ui.showMessageDialog({
+                    if (this._gameID != window.TDAnalytics_Config.gameID) return void XMgr.ui.showMessageDialog({
                         content: "数数的gameID配置错误",
                         showSureBtn: !0,
                         onSure: () => {}
                     });
-                    if (this._platform != window.TDAnalytics_Config.platform) return void t.ui.showMessageDialog({
+                    if (this._platform != window.TDAnalytics_Config.platform) return void XMgr.ui.showMessageDialog({
                         content: "数数的platform配置错误",
                         showSureBtn: !0,
                         onSure: () => {}
                     });
                     g.shushuId = window.TDAnalytics_Config.shushuId
                 }
-                if ((u = await t.http.send(i, "POST", g, 10)) && u.jwt && u.user && u.user.udid) XAnalyticsUtil.onLoginServer(u.user.udid, u.user.pid, !!u.isNew), this._token = u.jwt, this._openID = u.user.udid, this._userID = u.user.uid, t.user.userInfo.userID = this._userID, t.user.userInfo.playerID = u.user.pid, t.user.userInfo.createTime = u.user.createTime || 0, console.log("http 登录成功!", u), t.gameTime.setTime(u.time), t.user.userInfo.token = this._token, t.user.userInfo.openid = this._openID, t.user.userInfo.isNewPlayer = !!u.isNew, fx.Utils.isOnPC() && (Laya.LocalStorage.setItem("_token", this._token), Laya.LocalStorage.setItem("_openid", this._openID)), e(!0);
+                if ((u = await XMgr.http.send(i, "POST", g, 10)) && u.jwt && u.user && u.user.udid) XAnalyticsUtil.onLoginServer(u.user.udid, u.user.pid, !!u.isNew), this._token = u.jwt, this._openID = u.user.udid, this._userID = u.user.uid, XMgr.user.userInfo.userID = this._userID, XMgr.user.userInfo.playerID = u.user.pid, XMgr.user.userInfo.createTime = u.user.createTime || 0, console.log("http 登录成功!", u), XMgr.gameTime.setTime(u.time), XMgr.user.userInfo.token = this._token, XMgr.user.userInfo.openid = this._openID, XMgr.user.userInfo.isNewPlayer = !!u.isNew, fx.Utils.isOnPC() && (Laya.LocalStorage.setItem("_token", this._token), Laya.LocalStorage.setItem("_openid", this._openID)), e(!0);
                 else {
-                    if (u && 5013 == u.code) return void t.ui.showMessageDialog({
+                    if (u && 5013 == u.code) return void XMgr.ui.showMessageDialog({
                         content: "数数id错误",
                         showSureBtn: !0,
                         onSure: () => {}
@@ -1681,7 +1681,7 @@ define("js/bundle.js", function(require, module, exports) {
                         openID: this._openID,
                         userID: this._userID
                     };
-                i = await t.http.send(s, "POST", a, 10, this._token), e && e(i)
+                i = await XMgr.http.send(s, "POST", a, 10, this._token), e && e(i)
             }
             async upload(e, i) {
                 if (!this._token) return console.log("upload 请先登录"), void(i && i(!1));
@@ -1693,7 +1693,7 @@ define("js/bundle.js", function(require, module, exports) {
                         userID: this._userID,
                         data: e
                     };
-                s = await t.http.send(a, "POST", n, 5, this._token), this.checkToken(s), i && i(s)
+                s = await XMgr.http.send(a, "POST", n, 5, this._token), this.checkToken(s), i && i(s)
             }
             async deleteStorage(e) {
                 if (!this._token) return console.log("deleteStorage 请先登录"), void(e && e(!1));
@@ -1705,7 +1705,7 @@ define("js/bundle.js", function(require, module, exports) {
                         userID: this._userID,
                         data: ""
                     };
-                i = await t.http.send(s, "POST", a, 5, this._token), this.checkToken(i), e && e(i)
+                i = await XMgr.http.send(s, "POST", a, 5, this._token), this.checkToken(i), e && e(i)
             }
             async getInviteList() {
                 let e, i = this._serverUrl + "/getInvite",
@@ -1715,14 +1715,14 @@ define("js/bundle.js", function(require, module, exports) {
                         openID: this._openID,
                         userID: this._userID
                     };
-                return e = await t.http.send(i, "POST", s, 5, this._token), this.checkToken(e), e
+                return e = await XMgr.http.send(i, "POST", s, 5, this._token), this.checkToken(e), e
             }
             async getIpInfo() {
                 let e, i = this._serverUrl + "/getIpInfo";
-                return (e = await t.http.send(i, "POST", {}, 5, this._token)) && e.info, this.checkToken(e), e
+                return (e = await XMgr.http.send(i, "POST", {}, 5, this._token)) && e.info, this.checkToken(e), e
             }
             checkToken(e) {
-                e && (5004 == e.code ? t.ui.showMessageDialog({
+                e && (5004 == e.code ? XMgr.ui.showMessageDialog({
                     content: "账号已在其他地方登录",
                     showSureBtn: !0,
                     onSure: () => {
@@ -1732,7 +1732,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             async send(e, i, s, a = 10, n, r) {
                 let o;
-                return o = await t.http.send(e, i, s, a, n, r), this.checkToken(o), o
+                return o = await XMgr.http.send(e, i, s, a, n, r), this.checkToken(o), o
             }
         }! function(e) {
             e[e.None = 0] = "None", e[e.Loading = 1] = "Loading", e[e.Loaded = 2] = "Loaded"
@@ -1777,11 +1777,11 @@ define("js/bundle.js", function(require, module, exports) {
             share(e, i, s, a = "") {
                 i && (this._shareTime = Date.now(), fx.EventCenter.I.off(fx.BaseEvent.E_APP_ON_RESUME, this, this.onShareAppResume), fx.EventCenter.I.once(fx.BaseEvent.E_APP_ON_RESUME, this, this.onShareAppResume, [e, i, s]));
                 let n = this.getShareInfo(),
-                    r = `&helpUserID=${t.user.userInfo.userID}&title=${n.title}&url=${n.url}&source=${a}`;
+                    r = `&helpUserID=${XMgr.user.userInfo.userID}&title=${n.title}&url=${n.url}&source=${a}`;
                 console.log("shareToFriend ", r), e ? sdk.Sdk.instance.shareCustom(n.title, "", "", r, "") : sdk.Sdk.instance.shareCustom(n.title, "", n.url, r, "")
             }
             getShareInfo() {
-                let e = t.controller.versionData;
+                let e = XMgr.controller.versionData;
                 if (e && e.shareCfg && e.shareCfg.length > 0) {
                     let t = fx.Utils.randomInArray(e.shareCfg);
                     return {
@@ -1798,7 +1798,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = "",
                     n = "分享失败，请分享到群",
                     r = ["该群分享过，请分享到不同群", "请分享到20人以上群", "操作失败，请换个群"],
-                    o = t.cfg.constant.shareOps;
+                    o = XMgr.cfg.constant.shareOps;
                 o && (n = n || o.firstTips, o.tipsList && o.tipsList.length > 0 && (r = o.tipsList)), a = e ? n : fx.Utils.randomInArray(r), sdk.Sdk.instance.showModal(a, "温馨提示", "分享到群", Laya.Handler.create(this, () => {
                     this.share(i, s, !0)
                 }), "不，谢谢", Laya.Handler.create(this, () => {
@@ -1806,15 +1806,15 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
             onShareAppResume(e, i, s) {
-                if (0 == t.user.commonInfo.shareCnt) return t.user.commonInfo.shareCnt++, t.user.saveToServer(), void this.tipsShareFail(!0, e, i);
-                t.user.commonInfo.shareCnt++, t.user.saveToServer();
+                if (0 == XMgr.user.commonInfo.shareCnt) return XMgr.user.commonInfo.shareCnt++, XMgr.user.saveToServer(), void this.tipsShareFail(!0, e, i);
+                XMgr.user.commonInfo.shareCnt++, XMgr.user.saveToServer();
                 let a = 1,
                     n = 3,
-                    r = t.cfg.constant.shareOps;
+                    r = XMgr.cfg.constant.shareOps;
                 r && (a = r.pro || .9, n = r.time || 3), s && fx.Utils.randomByRate(a) ? i(!0) : Date.now() - this._shareTime > 1e3 * n ? i(!0) : this.tipsShareFail(!1, e, i)
             }
             showShareImageMenu(e) {
-                let i = t.controller.versionData.shareImages;
+                let i = XMgr.controller.versionData.shareImages;
                 if (!i || 0 == i.length) return console.log(""), void this.share(!1, e);
                 let s = window.wx;
                 if (s) {
@@ -1840,8 +1840,8 @@ define("js/bundle.js", function(require, module, exports) {
             subscribeMessage() {
                 let e = wx.getSystemInfoSync().SDKVersion;
                 if (fx.Utils.compareVersion(e, "2.3.0") < 0) return void console.log(`当前微信版本过低（${e}）需升级到2.3.0及以上版本`);
-                if (t.user.commonInfo.isSubscribe) return;
-                let i = t.controller.versionData;
+                if (XMgr.user.commonInfo.isSubscribe) return;
+                let i = XMgr.controller.versionData;
                 if (i && i.subscribeCfg) {
                     let e = [],
                         s = [];
@@ -1850,7 +1850,7 @@ define("js/bundle.js", function(require, module, exports) {
                         a.id && a.type && (e.push(a.id), s.push(a.type))
                     }
                     if (0 == e.length) return;
-                    t.user.commonInfo.setSubscribe(), wx.requestSubscribeMessage({
+                    XMgr.user.commonInfo.setSubscribe(), wx.requestSubscribeMessage({
                         tmplIds: e,
                         async success(i) {
                             console.log("今天订阅成功", i);
@@ -1863,14 +1863,14 @@ define("js/bundle.js", function(require, module, exports) {
                             for (let n = 0; n < e.length; ++n)
                                 if ("accept" == i[e[n]]) {
                                     let i = {
-                                        openId: t.user.userInfo.openid,
+                                        openId: XMgr.user.userInfo.openid,
                                         templateID: e[n],
                                         type: s[n]
                                     };
                                     a.templates.push(i)
                                 }
                             let n = XEventDispatcher.I.serverUrl + "/wxSubscribe";
-                            await XEventDispatcher.I.send(n, "POST", a, 10, t.user.userInfo.token)
+                            await XEventDispatcher.I.send(n, "POST", a, 10, XMgr.user.userInfo.token)
                         },
                         fail(e) {
                             console.log("订阅失败", e)
@@ -1905,14 +1905,14 @@ define("js/bundle.js", function(require, module, exports) {
                 if (fx.Utils.setTimerSpeed(1), e.gid == this._videobindCtrlGId) {
                     if (e.code == sdk.SdkCode.REWARD_GAIN_SUCCESS) {
                         let e = "";
-                        this._videoGainWayParams && this._videoGainWayParams.source && (e = this._videoGainWayParams.source), t.reporter.playVideo(e), t.user.gameInfo.isGetTian || (t.user.gameInfo.isGetTian = !0, t.user.gameInfo.addTian(1), t.user.saveToServer(), XToast.show("获得天师令*1")), XAnalyticsUtil.onVideoFinish(e)
+                        this._videoGainWayParams && this._videoGainWayParams.source && (e = this._videoGainWayParams.source), XMgr.reporter.playVideo(e), XMgr.user.gameInfo.isGetTian || (XMgr.user.gameInfo.isGetTian = !0, XMgr.user.gameInfo.addTian(1), XMgr.user.saveToServer(), XToast.show("获得天师令*1")), XAnalyticsUtil.onVideoFinish(e)
                     }
                     this.onVideoComplete(e)
                 }
             }
             playVideo(e, i, s, a, n) {
-                window.__GMSkipAd ? i && s && s.apply(i, [!0]) : (t.reporter.startPlayVideo(e), XAnalyticsUtil.onVideoClick(e), fx.Utils.setTimerSpeed(0), this._videoCaller = i, this._videoCallBack = s, this._videoCbParam = a || [], this._videoShareCb = n, sdk.Sdk.isOnWeiXin() ? this.playWxVideo(e, i => {
-                    fx.Utils.setTimerSpeed(1), i ? (t.user.gameInfo.isGetTian || (t.user.gameInfo.isGetTian = !0, t.user.gameInfo.addTian(1), t.user.saveToServer(), XToast.show("获得天师令*1")), t.reporter.playVideo(e), XAnalyticsUtil.onVideoFinish(e), this.onVideoComplete({
+                window.__GMSkipAd ? i && s && s.apply(i, [!0]) : (XMgr.reporter.startPlayVideo(e), XAnalyticsUtil.onVideoClick(e), fx.Utils.setTimerSpeed(0), this._videoCaller = i, this._videoCallBack = s, this._videoCbParam = a || [], this._videoShareCb = n, sdk.Sdk.isOnWeiXin() ? this.playWxVideo(e, i => {
+                    fx.Utils.setTimerSpeed(1), i ? (XMgr.user.gameInfo.isGetTian || (XMgr.user.gameInfo.isGetTian = !0, XMgr.user.gameInfo.addTian(1), XMgr.user.saveToServer(), XToast.show("获得天师令*1")), XMgr.reporter.playVideo(e), XAnalyticsUtil.onVideoFinish(e), this.onVideoComplete({
                         code: sdk.SdkCode.REWARD_GAIN_SUCCESS
                     })) : this.onVideoComplete({
                         code: sdk.SdkCode.REWARD_GAIN_FAIL
@@ -1998,15 +1998,15 @@ define("js/bundle.js", function(require, module, exports) {
                 } else t()
             }
             async decryptClubData(e, i) {
-                let s = t.serverStorage.serverUrl + "/decryptClubData",
+                let s = XMgr.serverStorage.serverUrl + "/decryptClubData",
                     a = {
                         gameID: V.gameID,
                         platform: V.platform,
                         encryptedData: e,
                         iv: i,
-                        udid: t.serverStorage.openID
+                        udid: XMgr.serverStorage.openID
                     },
-                    n = await t.serverStorage.send(s, "POST", a, 10, t.user.userInfo.token),
+                    n = await XMgr.serverStorage.send(s, "POST", a, 10, XMgr.user.userInfo.token),
                     r = "";
                 n && (r = n.decodedData || "");
                 try {
@@ -2030,7 +2030,7 @@ define("js/bundle.js", function(require, module, exports) {
             playWxVideo(e, i) {
                 if (1004 == this._wxVideoCode) return XToast.show("无适合的广告"), void this.onWxVideoFinish(!1);
                 Laya.MouseManager.enabled = !1, console.log("调用激励视频show接口"), this._wxVideoCb = i, this._wxVideoSource = e, this._wxVideo.show().then(() => {
-                    console.log("激励视频显示成功"), t.reporter.onVideoShow(e), XAnalyticsUtil.onVideoShow(e)
+                    console.log("激励视频显示成功"), XMgr.reporter.onVideoShow(e), XAnalyticsUtil.onVideoShow(e)
                 }).catch(() => {
                     console.log("激励视频显示失败"), XToast.show("激励视频显示失败，请稍后重试"), this.onWxVideoFinish(!1)
                 })
@@ -2041,8 +2041,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this._wxVideoCb = null, t(e)
             }
             onWxVideoInterrupt() {
-                let e = t.cfg.constant.shareCntOnVideoInterrupt;
-                e && this._videoShareCb && t.user.commonInfo.shareCntOnVideo < e ? (t.user.commonInfo.shareCntOnVideo++, t.user.saveToServer(), this.onWxVideoFinish(!1), this._videoShareCb()) : sdk.Sdk.instance.showModal("看完视频才会有奖励哟！！！", "提示", "继续观看", Laya.Handler.create(this, () => {
+                let e = XMgr.cfg.constant.shareCntOnVideoInterrupt;
+                e && this._videoShareCb && XMgr.user.commonInfo.shareCntOnVideo < e ? (XMgr.user.commonInfo.shareCntOnVideo++, XMgr.user.saveToServer(), this.onWxVideoFinish(!1), this._videoShareCb()) : sdk.Sdk.instance.showModal("看完视频才会有奖励哟！！！", "提示", "继续观看", Laya.Handler.create(this, () => {
                     this.playWxVideo(this._wxVideoSource, this._wxVideoCb)
                 }), "一会再来", Laya.Handler.create(this, () => {
                     this.onWxVideoFinish(!1)
@@ -2101,7 +2101,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }), this.recommendPageManager.on("ready", () => {
                     console.log("recommend component ready")
                 }), this.recommendPageManager.on("destroy", e => {
-                    console.log("recommend component destroy：", e.isRecommended), e.isRecommended ? (t.user.gameInfo.isCommond = !0, t.user.saveToServer()) : this.loadRecommend()
+                    console.log("recommend component destroy：", e.isRecommended), e.isRecommended ? (XMgr.user.gameInfo.isCommond = !0, XMgr.user.saveToServer()) : this.loadRecommend()
                 }), await this.recommendPageManager.load({
                     openlink: "TWFRCqV5WeM2AkMXhKwJ03MhfPOieJfAsvXKUbWvQFQtLyyA5etMPabBehga950uzfZcH3Vi3QeEh41xRGEVFw"
                 })
@@ -2125,29 +2125,29 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0;
-                let e = t.playerMgr.player;
-                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_2.png" : this.initSkin(t.user.gameInfo.curSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
-                let i = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
+                XMgr.user.gameInfo.canPlayTurnTable = !0;
+                let e = XMgr.playerMgr.player;
+                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_2.png" : this.initSkin(XMgr.user.gameInfo.curSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
+                let i = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, i >= 210 && (this.coinNum += Math.floor(10 * Math.min(i / 330, 1))), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -2164,9 +2164,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "fail"
-                }), t.reporter.getCoinCnt("失败界面")
+                }), XMgr.reporter.getCoinCnt("失败界面")
             }
         }
         class Z extends e.ui.scenes.panel.angelOrGhost.AogUnlockDialogUI {
@@ -2174,17 +2174,17 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 e.winCnt + e.failCnt >= 3 ? (this.btn_show.visible = !1, this.btn_unlock.on(Laya.Event.CLICK, this, this.onClickUnlock)) : (this.btn_unlock.visible = !1, this.lb_show.text = `玩${3-(e.winCnt+e.failCnt)}局后开启`), this.img_close.on(Laya.Event.CLICK, this, this.closePanel)
             }
             onClickUnlock() {
-                let i = t.user.gameInfo;
-                i.tianEnough(3) ? (i.useTian(3), t.user.gameInfo.isUnlockAngelOrGhost = !0, t.user.saveToServer(), t.ui.close(this), XToast.show("大战木头人已解锁"), t.ui.open(l.MatchingView, {
+                let i = XMgr.user.gameInfo;
+                i.tianEnough(3) ? (i.useTian(3), XMgr.user.gameInfo.isUnlockAngelOrGhost = !0, XMgr.user.saveToServer(), XMgr.ui.close(this), XToast.show("大战木头人已解锁"), XMgr.ui.open(l.MatchingView, {
                     mode: e.GameMode.E_AngelOrGhost
-                })) : (t.ui.close(this), XToast.show("天师令不足"), t.ui.open(l.BuyTianDialog))
+                })) : (XMgr.ui.close(this), XToast.show("天师令不足"), XMgr.ui.open(l.BuyTianDialog))
             }
             closePanel() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class Q extends e.ui.scenes.panel.angelOrGhost.AogWinDialogUI {
@@ -2192,29 +2192,29 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0;
-                let e = t.playerMgr.player;
-                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_1.png" : (this.initSkin(t.user.gameInfo.curSkinId), this.img_mvp.visible = !!t.gameMgr.killCnt), this.checkOpenBox(), XChoreUtil.playSound(118);
-                let i = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
-                this.coinNum = 20, i >= 210 && (this.coinNum += Math.floor(10 * Math.min(i / 330, 1))), t.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
+                XMgr.user.gameInfo.canPlayTurnTable = !0;
+                let e = XMgr.playerMgr.player;
+                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_1.png" : (this.initSkin(XMgr.user.gameInfo.curSkinId), this.img_mvp.visible = !!XMgr.gameMgr.killCnt), this.checkOpenBox(), XChoreUtil.playSound(118);
+                let i = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
+                this.coinNum = 20, i >= 210 && (this.coinNum += Math.floor(10 * Math.min(i / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -2231,9 +2231,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "win"
-                }), t.reporter.getCoinCnt("胜利界面")
+                }), XMgr.reporter.getCoinCnt("胜利界面")
             }
         }
         class ee extends e.ui.scenes.panel.BuffChooseDialogUI {
@@ -2244,7 +2244,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initUI(), this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_sure.on(Laya.Event.CLICK, this, this.onClickSure), this.btn_refresh.on(Laya.Event.CLICK, this, this.onClickRefresh)
             }
             initUI() {
-                this.isRefreshing = !0, this.randomShow(), this.buffArr ? (this.initBuff(), this.btn_sure.visible = !1, this.btn_close.visible = !1, this.btn_refresh.visible = !1) : t.ui.close(this)
+                this.isRefreshing = !0, this.randomShow(), this.buffArr ? (this.initBuff(), this.btn_sure.visible = !1, this.btn_close.visible = !1, this.btn_refresh.visible = !1) : XMgr.ui.close(this)
             }
             onClickRefresh() {
                 j.I.playVideo("Buff刷新", this, e => {
@@ -2252,13 +2252,13 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             onClickSure() {
-                let e = t.user.gameInfo.buffLvArr;
-                e.push(t.gameMgr.chooseBuffLv), t.user.gameInfo.buffLvArr = e, t.user.gameInfo.addBuff(this.curChooseId), t.user.saveToServer(), t.ui.open(l.BuffShowDialog, {
+                let e = XMgr.user.gameInfo.buffLvArr;
+                e.push(XMgr.gameMgr.chooseBuffLv), XMgr.user.gameInfo.buffLvArr = e, XMgr.user.gameInfo.addBuff(this.curChooseId), XMgr.user.saveToServer(), XMgr.ui.open(l.BuffShowDialog, {
                     id: this.curChooseId
-                }), t.ui.close(this)
+                }), XMgr.ui.close(this)
             }
             onClickClose() {
-                t.ui.close(this), XToast.show("高手不需要庇护！"), XAnalyticsUtil.buffBack(t.user.gameInfo.curLv)
+                XMgr.ui.close(this), XToast.show("高手不需要庇护！"), XAnalyticsUtil.buffBack(XMgr.user.gameInfo.curLv)
             }
             initBuff() {
                 this.list_buff.height = 130 * this.buffArr.length;
@@ -2294,7 +2294,7 @@ define("js/bundle.js", function(require, module, exports) {
                 n.skin = l;
                 let h = i.des,
                     d = 0,
-                    u = t.user.gameInfo.getBuffData(i.id);
+                    u = XMgr.user.gameInfo.getBuffData(i.id);
                 u && (d = u.lv + 1);
                 let g = new RegExp("\\{0\\}", "g");
                 h = h.replace(g, `${i.values[d]}`), r.text = h;
@@ -2306,16 +2306,16 @@ define("js/bundle.js", function(require, module, exports) {
                     if (!this.btn_sure.visible) {
                         this.btn_sure.visible = !0, this.btn_close.visible = !1;
                         let e = 0;
-                        this.isRefresh || 1 != e || 1 == t.user.userInfo.loginDay ? (this.btn_refresh.visible = !1, this.btn_sure.centerX = 0) : this.btn_refresh.visible = !0
+                        this.isRefresh || 1 != e || 1 == XMgr.user.userInfo.loginDay ? (this.btn_refresh.visible = !1, this.btn_sure.centerX = 0) : this.btn_refresh.visible = !0
                     }
                     this.curChooseId = e.id, this.list_buff.refresh()
                 }
             }
             randomShow() {
                 let e = [];
-                t.cfg.buffCfg.foreach(i => {
+                XMgr.cfg.buffCfg.foreach(i => {
                     if (i.isOpen) {
-                        let s = t.user.gameInfo.getBuffData(i.id);
+                        let s = XMgr.user.gameInfo.getBuffData(i.id);
                         i.isRepeat ? (!s || s.lv < i.values.length - 1) && e.push(i) : s || e.push(i)
                     }
                 });
@@ -2328,21 +2328,21 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.ownBuff.size ? (this.img_null.visible = !1, this.initList()) : this.list_buff.visible = !1, this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
+                XMgr.user.gameInfo.ownBuff.size ? (this.img_null.visible = !1, this.initList()) : this.list_buff.visible = !1, this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             initList() {
-                let e = t.user.gameInfo.ownBuff,
+                let e = XMgr.user.gameInfo.ownBuff,
                     i = [];
                 for (const [t, s] of e) i.push(t);
                 this.list_buff.array = i, this.list_buff.renderHandler = new Laya.Handler(this, this.updateItem), this.list_buff.vScrollBarSkin = ""
             }
             updateItem(e) {
                 let i = e.dataSource,
-                    s = t.user.gameInfo.getBuffData(i),
-                    a = t.cfg.buffCfg.get(i),
+                    s = XMgr.user.gameInfo.getBuffData(i),
+                    a = XMgr.cfg.buffCfg.get(i),
                     n = e.getChildByName("img_show"),
                     r = n.getChildByName("lb_des"),
                     o = e.getChildByName("img_iconBg"),
@@ -2376,8 +2376,8 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 Laya.timer.frameLoop(1, this, this.updateGuang), this.on(Laya.Event.MOUSE_DOWN, this, this.onClickClose);
-                let e = t.user.gameInfo.getBuffData(this.id),
-                    i = t.cfg.buffCfg.get(this.id);
+                let e = XMgr.user.gameInfo.getBuffData(this.id),
+                    i = XMgr.cfg.buffCfg.get(this.id);
                 this.img_icon.skin = i.icon, this.lb_name.text = i.name;
                 let s = "";
                 switch (i.quality) {
@@ -2399,7 +2399,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_guang.rotation += 1, this.img_guang.rotation >= 360 && (this.img_guang.rotation -= 360)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class se extends e.ui.scenes.panel.BuyTianDialogUI {
@@ -2410,15 +2410,15 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_buy.on(Laya.Event.CLICK, this, this.onClickBuy), this.updateUI()
             }
             updateUI() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 this.lb_coin.text = `${e.coin}/50`, this.lb_tian.text = `${e.tian}`
             }
             onClickBuy() {
-                let e = t.user.gameInfo;
-                e.coinEnough(50) ? (e.useCoin(50), t.reporter.useCoinCnt("购买天师令"), e.addTian(1), this.updateUI()) : XToast.show("铜币不足")
+                let e = XMgr.user.gameInfo;
+                e.coinEnough(50) ? (e.useCoin(50), XMgr.reporter.useCoinCnt("购买天师令"), e.addTian(1), this.updateUI()) : XToast.show("铜币不足")
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class ae extends e.ui.scenes.panel.DailyShareDialogUI {
@@ -2433,7 +2433,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateItem(e) {
                 let i = e.dataSource,
-                    s = t.cfg.shopCfg.get(i),
+                    s = XMgr.cfg.shopCfg.get(i),
                     a = e.getChildByName("img_iconBg"),
                     n = a.getChildByName("img_icon"),
                     r = a.getChildByName("lb_name"),
@@ -2443,14 +2443,14 @@ define("js/bundle.js", function(require, module, exports) {
             onClickShare() {
                 XAnalyticsUtil.share("每日分享"), j.I.share(!1, e => {
                     if (e) {
-                        t.user.gameInfo.dailyShare = !0;
-                        for (const e of this.rewardArr) t.user.gameInfo.addOwnBuildData(e, 1);
-                        t.user.saveToServer(), t.ui.close(this), XToast.show("已领取奖励道具"), this.handler && this.handler.run()
+                        XMgr.user.gameInfo.dailyShare = !0;
+                        for (const e of this.rewardArr) XMgr.user.gameInfo.addOwnBuildData(e, 1);
+                        XMgr.user.saveToServer(), XMgr.ui.close(this), XToast.show("已领取奖励道具"), this.handler && this.handler.run()
                     }
                 }, "每日分享")
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class ne extends e.ui.scenes.panel.DifficultChooseDialogUI {
@@ -2459,33 +2459,33 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 this.initRank();
-                let e = t.user.gameInfo.curLv;
+                let e = XMgr.user.gameInfo.curLv;
                 this.canChoose ? (this.chooseArr = [e, e + 1], this.curChoose = e + 1) : (this.chooseArr = [e], this.curChoose = e), this.list_item.width = 321 * this.chooseArr.length - 50, this.list_item.array = this.chooseArr, this.list_item.renderHandler = new Laya.Handler(this, this.updateItem), this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_choose.on(Laya.Event.CLICK, this, this.onClickStart), this.img_rank.on(Laya.Event.CLICK, this, this.onClickRank), this.btn_buff.on(Laya.Event.CLICK, this, this.onClickBuff);
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 i.todayExtraScore && (this.box_extra.visible = !0, this.lb_num.value = `${i.todayExtraScore}`)
             }
             onClickBuff() {
-                t.ui.open(l.BuffOwnerDialog)
+                XMgr.ui.open(l.BuffOwnerDialog)
             }
             async initRank() {
                 this.img_rankBg.visible = !1;
-                let e = t.user.gameInfo.todayMaxLv;
-                if (e && await t.rankMgr.setCustomRankValue("score_day", e, t.user.gameInfo.curSkinId), this.destroyed) return;
-                let i = await t.rankMgr.getCustomRankList("score_day");
+                let e = XMgr.user.gameInfo.todayMaxLv;
+                if (e && await XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId), this.destroyed) return;
+                let i = await XMgr.rankMgr.getCustomRankList("score_day");
                 if (!this.destroyed) {
                     if (this.img_rankBg.visible = !0, this.img_rank.visible = !0, i && i.rank && i.rank <= 100 ? this.lb_rank.text = `${i.rank}` : this.lb_rank.text = "未上榜", i && i.value)
-                        if (i.value > t.cfg.difficultCfg.length) {
-                            let e = t.cfg.difficultCfg.get(t.cfg.difficultCfg.length);
-                            this.lb_score.text = `${e.name} ${i.value-t.cfg.difficultCfg.length}`
+                        if (i.value > XMgr.cfg.difficultCfg.length) {
+                            let e = XMgr.cfg.difficultCfg.get(XMgr.cfg.difficultCfg.length);
+                            this.lb_score.text = `${e.name} ${i.value-XMgr.cfg.difficultCfg.length}`
                         } else {
-                            let e = t.cfg.difficultCfg.get(i.value);
+                            let e = XMgr.cfg.difficultCfg.get(i.value);
                             this.lb_score.text = `${e.name}`
                         } else this.lb_score.text = "轻松";
-                    if (t.user.gameInfo.maxLevel) {
-                        let e = t.cfg.difficultCfg.get(t.user.gameInfo.maxLevel);
+                    if (XMgr.user.gameInfo.maxLevel) {
+                        let e = XMgr.cfg.difficultCfg.get(XMgr.user.gameInfo.maxLevel);
                         this.lb_name.text = e.title, this.lb_name.color = e.titleColor
                     } else {
-                        let e = t.cfg.difficultCfg.get(1);
+                        let e = XMgr.cfg.difficultCfg.get(1);
                         this.lb_name.text = e.title
                     }
                 }
@@ -2501,22 +2501,22 @@ define("js/bundle.js", function(require, module, exports) {
                 e != this.curChoose && (this.curChoose = e, this.list_item.refresh())
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onClickStart() {
-                XAnalyticsUtil.onLevelChange(this.curChoose), t.user.gameInfo.setCurLv(this.curChoose), t.ui.close(this), t.ui.open(l.MatchingView, {
+                XAnalyticsUtil.onLevelChange(this.curChoose), XMgr.user.gameInfo.setCurLv(this.curChoose), XMgr.ui.close(this), XMgr.ui.open(l.MatchingView, {
                     mode: e.GameMode.E_Defense
                 })
             }
             async onClickRank() {
-                if (await t.user.userInfo.checkUserProfile(), this.destroyed) return;
-                let e = t.user.gameInfo.todayMaxLv;
-                e && await t.rankMgr.setCustomRankValue("score_day", e, t.user.gameInfo.curSkinId);
-                let i = t.user.gameInfo.todayHunterMaxLv;
-                if (i && await t.rankMgr.setCustomRankValue("score_hunter_day", i, t.user.gameInfo.curHunterSkinId), this.destroyed) return;
-                let s = await t.rankMgr.getCustomRankList("score_day"),
-                    a = await t.rankMgr.getCustomRankList("score_hunter_day");
-                this.destroyed || t.ui.open(l.RankView, {
+                if (await XMgr.user.userInfo.checkUserProfile(), this.destroyed) return;
+                let e = XMgr.user.gameInfo.todayMaxLv;
+                e && await XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId);
+                let i = XMgr.user.gameInfo.todayHunterMaxLv;
+                if (i && await XMgr.rankMgr.setCustomRankValue("score_hunter_day", i, XMgr.user.gameInfo.curHunterSkinId), this.destroyed) return;
+                let s = await XMgr.rankMgr.getCustomRankList("score_day"),
+                    a = await XMgr.rankMgr.getCustomRankList("score_hunter_day");
+                this.destroyed || XMgr.ui.open(l.RankView, {
                     info: s,
                     hunterInfo: a
                 })
@@ -2527,27 +2527,27 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, this.checkOpenBox(), XChoreUtil.playSound(117);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.checkOpenBox(), XChoreUtil.playSound(117);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), this.initUI(), this.initSkin(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin() {
-                let e = t.cfg.skin.get(t.user.gameInfo.curSkinId);
-                e.skinPath.includes(".bin") && t.assetLoader.createSpine(e.skinPath, e => {
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curSkinId);
+                e.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(e.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -2564,9 +2564,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "fail"
-                }), t.reporter.getCoinCnt("失败界面")
+                }), XMgr.reporter.getCoinCnt("失败界面")
             }
         }
         class oe extends e.ui.scenes.panel.GameEndBoxDialogUI {
@@ -2610,7 +2610,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateItem(e, i) {
                 let s = e.dataSource,
-                    a = t.buildingMgr.getBuildCfg(s),
+                    a = XMgr.buildingMgr.getBuildCfg(s),
                     n = e.getChildByName("img_icon"),
                     r = e.getChildByName("lb_name");
                 if (n.skin = a.icon, r.text = a.name, !e.__seq) {
@@ -2620,12 +2620,12 @@ define("js/bundle.js", function(require, module, exports) {
             onClickVideo() {
                 j.I.playVideo("结算宝箱奖励", this, e => {
                     e && (this.rewardMap.forEach((e, i) => {
-                        t.user.gameInfo.addOwnBuildData(i, e), t.user.saveToServer()
+                        XMgr.user.gameInfo.addOwnBuildData(i, e), XMgr.user.saveToServer()
                     }), this.img_closeBox.visible = !1, this.img_openBox.visible = !0, this.btn_close.visible = !1, this.btn_video.visible = !1, this.initList(), XChoreUtil.playSound(127))
                 })
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XBaseModel {
@@ -2680,10 +2680,10 @@ define("js/bundle.js", function(require, module, exports) {
                 i.type = e.PlayerType.E_Defender, 
                 i.uuid = fx.Utils.createUUID(), 
                 i.name = this.randomName(), 
-                i.skinId = t.user.gameInfo.curSkinId;
-                let s = t.user.gameInfo.getBuffData(26);
+                i.skinId = XMgr.user.gameInfo.curSkinId;
+                let s = XMgr.user.gameInfo.getBuffData(26);
                 if (s) {
-                    let e = t.cfg.buffCfg.get(26);
+                    let e = XMgr.cfg.buffCfg.get(26);
                     i.invincibleCnt = e.values[s.lv] - 1
                 }
                 this.defenderArr = [i, null, null, null, null, null], 
@@ -2701,7 +2701,7 @@ define("js/bundle.js", function(require, module, exports) {
                     o = a.getChildByName("img_cur"),
                     l = a.getChildByName("img_people");
                 if (s) {
-                    let e = t.cfg.skin.get(s.skinId);
+                    let e = XMgr.cfg.skin.get(s.skinId);
                     0 == i ? (o.visible = !0, n.text = "自己") : n.text = s.name, r.skin = e.skinShowPath, l.visible = !1
                 } else r.skin = "", l.visible = !0, n.text = ""
             }
@@ -2711,25 +2711,25 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.matchingtime >= 3 && (i = 0), i < .7) {
                     let i = XRandomUtil.getIntRandom(0, this.idxArr.length - 1);
                     if (0 == (i = this.idxArr.splice(i, 1)[0])) {
-                        let i = t.user.gameInfo,
-                            s = t.cfg.difficultCfg.get(i.curLv);
-                        t.gameMgr.dCfg = s;
+                        let i = XMgr.user.gameInfo,
+                            s = XMgr.cfg.difficultCfg.get(i.curLv);
+                        XMgr.gameMgr.dCfg = s;
                         let a = s.addMaxHp + 1;
-                        i.curLv == t.cfg.difficultCfg.length && i.maxWinCnt && (s = t.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
+                        i.curLv == XMgr.cfg.difficultCfg.length && i.maxWinCnt && (s = XMgr.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
                         let n = new XPlayerModel;
                         if (n.type = e.PlayerType.E_Hunter, n.uuid = fx.Utils.createUUID(), n.name = this.randomName(), n.skinId = s.bossId, this.gameMode == e.GameMode.E_AngelOrGhost) n.skinId = 90001, a = 1;
                         else if (this.gameMode == e.GameMode.E_SevenGhost) {
-                            let e = t.user.gameInfo.curSevenGhostLv,
-                                i = t.cfg.sevenGhostCfg.get(e);
+                            let e = XMgr.user.gameInfo.curSevenGhostLv,
+                                i = XMgr.cfg.sevenGhostCfg.get(e);
                             n.skinId = i.bossId, a = 1
                         }
-                        n.attackPower = t.cfg.hunterCfg.attackList[0], n.curHp = t.cfg.hunterCfg.hpList[0] * a, n.maxHp = t.cfg.hunterCfg.hpList[0] * a, 
+                        n.attackPower = XMgr.cfg.hunterCfg.attackList[0], n.curHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, 
                         this.hunterArr.push(n), this.updateHunter(n)
                     } else {
                         let s = new XPlayerModel;
                         s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), 
                         s.name = this.randomName(), 
-                        s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), 
+                        s.skinId = fx.Utils.randomInArray(XMgr.cfg.getPlayerIdArr()), 
                         this.defenderArr[i] = s, 
                         this.initList()
                     }
@@ -2737,7 +2737,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
             }
             updateHunter(e) {
-                let i = t.cfg.skin.get(e.skinId);
+                let i = XMgr.cfg.skin.get(e.skinId);
                 this.img_hunter.skin = i.skinShowPath, this.lb_hunterName.text = i.name, this.img_people.visible = !1
             }
             updateLabel() {
@@ -2746,62 +2746,62 @@ define("js/bundle.js", function(require, module, exports) {
             startGame() {
                 let mapCfg = this.getMap();
                 Laya.loader.load(mapCfg.path, new Laya.Handler(this, mapData => {
-                    let matchData = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, mapCfg, mapData, !0),
+                    let matchData = XMgr.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, mapCfg, mapData, !0),
                         n = "";
                     switch (this.gameMode) {
                         case e.GameMode.E_Defense:
-                            n = "普通模式", XAnalyticsUtil.enterLevel(t.user.gameInfo.curLv, n);
+                            n = "普通模式", XAnalyticsUtil.enterLevel(XMgr.user.gameInfo.curLv, n);
                             break;
                         case e.GameMode.E_AngelOrGhost:
-                            n = "木头人模式", XAnalyticsUtil.enterLevel(t.user.gameInfo.curLv, n);
+                            n = "木头人模式", XAnalyticsUtil.enterLevel(XMgr.user.gameInfo.curLv, n);
                             break;
                         case e.GameMode.E_SevenGhost:
-                            n = "挑战模式", XAnalyticsUtil.enterLevel(t.user.gameInfo.curSevenGhostLv, n)
+                            n = "挑战模式", XAnalyticsUtil.enterLevel(XMgr.user.gameInfo.curSevenGhostLv, n)
                     }
-                    t.ui.changeScene(l.GameScene, {
+                    XMgr.ui.changeScene(l.GameScene, {
                         matchData: matchData
                     })
                 }))
             }
             getMap() {
                 if (Laya.__setMap) {
-                    let e = t.cfg.map.get(Laya.__setMap);
+                    let e = XMgr.cfg.map.get(Laya.__setMap);
                     if (e) return e
                 }
-                let i = t.cfg.map.get(1);
-                if (this.gameMode == e.GameMode.E_Defense && t.user.gameInfo.isMapByWeek) {
-                    switch (t.gameTime.nowDate.getDay()) {
+                let i = XMgr.cfg.map.get(1);
+                if (this.gameMode == e.GameMode.E_Defense && XMgr.user.gameInfo.isMapByWeek) {
+                    switch (XMgr.gameTime.nowDate.getDay()) {
                         case 0:
-                            i = t.cfg.map.get(7);
+                            i = XMgr.cfg.map.get(7);
                             break;
                         case 1:
-                            i = t.cfg.map.get(1);
+                            i = XMgr.cfg.map.get(1);
                             break;
                         case 2:
-                            i = t.cfg.map.get(2);
+                            i = XMgr.cfg.map.get(2);
                             break;
                         case 3:
-                            i = t.cfg.map.get(3);
+                            i = XMgr.cfg.map.get(3);
                             break;
                         case 4:
-                            i = t.cfg.map.get(4);
+                            i = XMgr.cfg.map.get(4);
                             break;
                         case 5:
-                            i = t.cfg.map.get(5);
+                            i = XMgr.cfg.map.get(5);
                             break;
                         case 6:
-                            i = t.cfg.map.get(6)
+                            i = XMgr.cfg.map.get(6)
                     }
-                } else if (this.gameMode == e.GameMode.E_AngelOrGhost) i = t.cfg.map.get(11);
+                } else if (this.gameMode == e.GameMode.E_AngelOrGhost) i = XMgr.cfg.map.get(11);
                 else if (this.gameMode == e.GameMode.E_SevenGhost) {
-                    let e = t.user.gameInfo.curSevenGhostLv,
-                        s = t.cfg.sevenGhostCfg.get(e);
-                    i = t.cfg.map.get(s.mapId)
+                    let e = XMgr.user.gameInfo.curSevenGhostLv,
+                        s = XMgr.cfg.sevenGhostCfg.get(e);
+                    i = XMgr.cfg.map.get(s.mapId)
                 }
                 return i
             }
             onClickClose() {
-                switch (Laya.timer.clear(this, this.timeLoop), t.ui.close(this), this.gameMode) {
+                switch (Laya.timer.clear(this, this.timeLoop), XMgr.ui.close(this), this.gameMode) {
                     case e.GameMode.E_Defense:
                         XAnalyticsUtil.clickBack("普通模式");
                         break;
@@ -2828,7 +2828,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class ge extends e.ui.scenes.panel.SettingDialogUI {
@@ -2836,10 +2836,10 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), t && (this.isInGame = t.isInGame)
             }
             onAwake() {
-                this.isInGame && (t.gameMgr.pauseGame(), fx.EventCenter.I.on(fx.BaseEvent.E_APP_ON_RESUME, this, this.onAppResume)), this.updateMusic(), this.updateSound(), this.img_music.on(Laya.Event.CLICK, this, this.toggleMusic), this.img_sound.on(Laya.Event.CLICK, this, this.toggleSound), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), this.label_version.text = "Version:" + V.version + `    Id:${t.user.userInfo.playerID}`
+                this.isInGame && (XMgr.gameMgr.pauseGame(), fx.EventCenter.I.on(fx.BaseEvent.E_APP_ON_RESUME, this, this.onAppResume)), this.updateMusic(), this.updateSound(), this.img_music.on(Laya.Event.CLICK, this, this.toggleMusic), this.img_sound.on(Laya.Event.CLICK, this, this.toggleSound), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), this.label_version.text = "Version:" + V.version + `    Id:${XMgr.user.userInfo.playerID}`
             }
             onAppResume() {
-                t.gameMgr.pauseGame()
+                XMgr.gameMgr.pauseGame()
             }
             toggleMusic() {
                 fx.SoundManager.instance.toggleMusic(), this.updateMusic()
@@ -2856,7 +2856,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_sound.skin = e ? "res/ui/setting/img_on.png" : "res/ui/setting/img_off.png"
             }
             onClickClose() {
-                t.ui.close(this), this.isInGame && t.gameMgr.resumeGame()
+                XMgr.ui.close(this), this.isInGame && XMgr.gameMgr.resumeGame()
             }
             onDestroy() {
                 fx.EventCenter.I.off(fx.BaseEvent.E_APP_ON_RESUME, this, this.onAppResume)
@@ -2870,7 +2870,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initTabList(), this.initList(), this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                t.ui.close(this), t.gameMgr.isShowTurntable ? (t.gameMgr.isShowTurntable = !1, t.user.userInfo.loginDay > 1 && t.user.gameInfo.dailyShareCnt < 3 && t.user.gameInfo.showTurntableCnt < 3 ? (t.ui.open(l.TurntableView), t.user.gameInfo.showTurntableCnt += 1) : t.gameMgr.canChooseBuff && t.gameMgr.isChooseBuff() && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))) : t.gameMgr.canChooseBuff && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))
+                XMgr.ui.close(this), XMgr.gameMgr.isShowTurntable ? (XMgr.gameMgr.isShowTurntable = !1, XMgr.user.userInfo.loginDay > 1 && XMgr.user.gameInfo.dailyShareCnt < 3 && XMgr.user.gameInfo.showTurntableCnt < 3 ? (XMgr.ui.open(l.TurntableView), XMgr.user.gameInfo.showTurntableCnt += 1) : XMgr.gameMgr.canChooseBuff && XMgr.gameMgr.isChooseBuff() && (XMgr.gameMgr.canChooseBuff = !1, XMgr.ui.open(l.BuffChooseDialog))) : XMgr.gameMgr.canChooseBuff && (XMgr.gameMgr.canChooseBuff = !1, XMgr.ui.open(l.BuffChooseDialog))
             }
             initTabList() {
                 this.list_tab.array = this.tabArr, this.list_tab.renderHandler = new Laya.Handler(this, this.updateTabItem)
@@ -2885,7 +2885,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.curTab != e && (this.curTab = e, this.list_tab.refresh(), this.initList())
             }
             initList() {
-                let e = t.cfg.getShopGroupArr(this.curTab);
+                let e = XMgr.cfg.getShopGroupArr(this.curTab);
                 this.list_item.array = e, this.list_item.renderHandler = new Laya.Handler(this, this.updateItem), this.list_item.vScrollBarSkin = ""
             }
             updateItem(e) {
@@ -2907,18 +2907,18 @@ define("js/bundle.js", function(require, module, exports) {
                     l.visible = !1, d.visible = !0;
                     let e = 1;
                     if (6666 == i.buildId) {
-                        let i = t.user.gameInfo.magicGetCnt;
-                        i < 3 ? e = t.cfg.constant.magicGetArr[i] : d.visible = !1
+                        let i = XMgr.user.gameInfo.magicGetCnt;
+                        i < 3 ? e = XMgr.cfg.constant.magicGetArr[i] : d.visible = !1
                     } else i.buildId, i.unlock.getCnt && (e = i.unlock.getCnt);
                     u.text = `获得x${e}`, c.text = `获得x${e}`
                 }
-                let f = t.user.gameInfo.getOwnBuildCnt(i.buildId);
+                let f = XMgr.user.gameInfo.getOwnBuildCnt(i.buildId);
                 i.limit ? (f == i.limit && (l.visible = !1, d.visible = !1, p.visible = !0), r.text = `${f}/${i.limit}`) : r.text = `${f}`, o.text = i.desc, l.off(Laya.Event.CLICK, this, this.onClickBuy), d.off(Laya.Event.CLICK, this, this.onClickVideo), g.off(Laya.Event.CLICK, this, this.onClickShare), l.on(Laya.Event.CLICK, this, this.onClickBuy, [i]), d.on(Laya.Event.CLICK, this, this.onClickVideo, [i]), g.on(Laya.Event.CLICK, this, this.onClickShare, [i])
             }
             onClickBuy(e) {
-                if (t.user.gameInfo.coinEnough(e.unlock.num)) {
+                if (XMgr.user.gameInfo.coinEnough(e.unlock.num)) {
                     let i = 1;
-                    e.unlock.getCnt && (i = e.unlock.getCnt), t.user.gameInfo.useCoin(e.unlock.num), t.reporter.useCoinCnt("商店购买道具"), t.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XChoreUtil.playSound(125), this.list_item.refresh(), t.reporter.shopBuyProp(e.name, 1), XAnalyticsUtil.shopBuyProp(e.name, 1), t.user.saveToServer()
+                    e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.useCoin(e.unlock.num), XMgr.reporter.useCoinCnt("商店购买道具"), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XChoreUtil.playSound(125), this.list_item.refresh(), XMgr.reporter.shopBuyProp(e.name, 1), XAnalyticsUtil.shopBuyProp(e.name, 1), XMgr.user.saveToServer()
                 } else XToast.show("铜币不足")
             }
             onClickVideo(e) {
@@ -2926,10 +2926,10 @@ define("js/bundle.js", function(require, module, exports) {
                     if (i) {
                         let i = 1;
                         if (6666 == e.buildId) {
-                            let e = t.user.gameInfo.magicGetCnt;
-                            e < 3 && (i = t.cfg.constant.magicGetArr[e])
+                            let e = XMgr.user.gameInfo.magicGetCnt;
+                            e < 3 && (i = XMgr.cfg.constant.magicGetArr[e])
                         } else e.unlock.getCnt && (i = e.unlock.getCnt);
-                        t.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), t.reporter.shopBuyProp(e.name, 2), XAnalyticsUtil.shopBuyProp(e.name, 2), XChoreUtil.playSound(125), 6666 == e.buildId && (t.user.gameInfo.magicGetCnt += 1, 3 == t.user.gameInfo.magicGetCnt && XToast.show("今日购买次数用完，明天再来")), t.user.saveToServer(), this.list_item.refresh()
+                        XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 2), XAnalyticsUtil.shopBuyProp(e.name, 2), XChoreUtil.playSound(125), 6666 == e.buildId && (XMgr.user.gameInfo.magicGetCnt += 1, 3 == XMgr.user.gameInfo.magicGetCnt && XToast.show("今日购买次数用完，明天再来")), XMgr.user.saveToServer(), this.list_item.refresh()
                     }
                 })
             }
@@ -2937,7 +2937,7 @@ define("js/bundle.js", function(require, module, exports) {
                 XAnalyticsUtil.share("商店分享"), j.I.share(!1, i => {
                     if (i) {
                         let i = 1;
-                        e.unlock.getCnt && (i = e.unlock.getCnt), t.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), t.reporter.shopBuyProp(e.name, 3), XAnalyticsUtil.shopBuyProp(e.name, 3), XChoreUtil.playSound(125), t.user.gameInfo.dailyBuyZr = !0, t.user.saveToServer(), this.list_item.refresh()
+                        e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 3), XAnalyticsUtil.shopBuyProp(e.name, 3), XChoreUtil.playSound(125), XMgr.user.gameInfo.dailyBuyZr = !0, XMgr.user.saveToServer(), this.list_item.refresh()
                     }
                 }, "商店分享")
             }
@@ -2962,15 +2962,15 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onClickOpen(e) {
                 let i = this.needCoin[this.curFragmentType];
-                if (10 == e && (i *= 9), t.user.gameInfo.coinEnough(i)) {
-                    t.ui.open(l.SkinFragmentGetDialog, {
+                if (10 == e && (i *= 9), XMgr.user.gameInfo.coinEnough(i)) {
+                    XMgr.ui.open(l.SkinFragmentGetDialog, {
                         from: this.from,
                         fragmentType: this.curFragmentType,
                         num: e,
                         cb: new Laya.Handler(this, () => {
-                            t.ui.close(this)
+                            XMgr.ui.close(this)
                         })
-                    }), t.user.gameInfo.useCoin(i), t.user.gameInfo.getFragmentCnt += e, t.reporter.useCoinCnt("抽皮肤碎片"), t.reporter.lotSkinCnt();
+                    }), XMgr.user.gameInfo.useCoin(i), XMgr.user.gameInfo.getFragmentCnt += e, XMgr.reporter.useCoinCnt("抽皮肤碎片"), XMgr.reporter.lotSkinCnt();
                     let s = "校园";
                     switch (this.curFragmentType) {
                         case 0:
@@ -2980,11 +2980,11 @@ define("js/bundle.js", function(require, module, exports) {
                             s = "童话"
                     }
                     let a = `${s}-${e}`;
-                    XAnalyticsUtil.lotSkinCnt(a), t.user.saveToServer()
+                    XAnalyticsUtil.lotSkinCnt(a), XMgr.user.saveToServer()
                 } else XToast.show("铜币不足")
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onDestroy() {
                 this.handler && this.handler.run()
@@ -2997,7 +2997,7 @@ define("js/bundle.js", function(require, module, exports) {
             onAwake() {
                 XChoreUtil.playSound(127);
                 let e = [];
-                for (let i = 0; i < this.num; i++) e = e.concat(fx.Utils.randomInArray(t.cfg.constant.skinFragmentArr));
+                for (let i = 0; i < this.num; i++) e = e.concat(fx.Utils.randomInArray(XMgr.cfg.constant.skinFragmentArr));
                 let i = new Map;
                 for (const t of e)
                     if (i.has(t)) {
@@ -3013,12 +3013,12 @@ define("js/bundle.js", function(require, module, exports) {
                 for (let e = 0; e < this.rewardArr.length; e++) {
                     let i = this.rewardArr[e].id,
                         s = this.rewardArr[e].cnt;
-                    t.user.gameInfo.addOwnSkinFragmentData(i, s, this.fragmentType)
+                    XMgr.user.gameInfo.addOwnSkinFragmentData(i, s, this.fragmentType)
                 }
-                t.user.saveToServer(), this.list_item.array = this.rewardArr, this.list_item.renderHandler = new Laya.Handler(this, this.updateItem), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_reward.on(Laya.Event.CLICK, this, this.onClickReward), this.btn_dh.on(Laya.Event.CLICK, this, this.onClickDh), this.btn_dh.visible = !1, this.btn_video.visible = !1, this.btn_reward.visible = !1, this.on(Laya.Event.CLICK, this, this.onClickSkip), Laya.timer.once(300 * this.rewardArr.length - 1, this, this.updateBtn)
+                XMgr.user.saveToServer(), this.list_item.array = this.rewardArr, this.list_item.renderHandler = new Laya.Handler(this, this.updateItem), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_reward.on(Laya.Event.CLICK, this, this.onClickReward), this.btn_dh.on(Laya.Event.CLICK, this, this.onClickDh), this.btn_dh.visible = !1, this.btn_video.visible = !1, this.btn_reward.visible = !1, this.on(Laya.Event.CLICK, this, this.onClickSkip), Laya.timer.once(300 * this.rewardArr.length - 1, this, this.updateBtn)
             }
             updateBtn() {
-                t.user.gameInfo.isUseSkinFragmentVideo || 1 != this.num ? (this.btn_dh.centerX = 0, this.btn_video.visible = !1) : (this.btn_dh.centerX = -165, this.btn_video.visible = !0), this.btn_dh.visible = !0, this.btn_reward.visible = !0
+                XMgr.user.gameInfo.isUseSkinFragmentVideo || 1 != this.num ? (this.btn_dh.centerX = 0, this.btn_video.visible = !1) : (this.btn_dh.centerX = -165, this.btn_video.visible = !0), this.btn_dh.visible = !0, this.btn_reward.visible = !0
             }
             onClickSkip() {
                 this.updateBtn(), this.isSkip = !0, this.list_item.refresh()
@@ -3030,8 +3030,8 @@ define("js/bundle.js", function(require, module, exports) {
                     r = e.getChildByName("img_icon"),
                     o = e.getChildByName("lb_name");
                 o.visible = !1, this.fragmentType ? r.skin = `res/ui/skin/skinFragment/${a}_${this.fragmentType}.png` : r.skin = `res/ui/skin/skinFragment/${a}.png`;
-                let l = t.cfg.getSkinArrBySkinType(a)[0],
-                    h = t.cfg.skin.get(l);
+                let l = XMgr.cfg.getSkinArrBySkinType(a)[0],
+                    h = XMgr.cfg.skin.get(l);
                 if (o.text = `碎片-${h.name} x${n}`, e.__seq) this.isSkip && (Laya.Tween.clearAll(r), r.scale(1.1, 1.1), o.visible = !0);
                 else {
                     e.__seq = !0, r.scale(0, 0), (new fx.Sequence).delay(300 * i).scaleOut(1.1, 300).exec(new Laya.Handler(this, () => {
@@ -3040,28 +3040,28 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             onClickDh() {
-                this.cb && this.cb.run(), t.ui.close(this), "SkinView" != this.from && t.ui.open(l.SkinView);
-                let e = t.cfg.getPlayerSkinTypeArr();
+                this.cb && this.cb.run(), XMgr.ui.close(this), "SkinView" != this.from && XMgr.ui.open(l.SkinView);
+                let e = XMgr.cfg.getPlayerSkinTypeArr();
                 for (const i of e)
                     if (7001 != i) {
-                        if (!t.user.gameInfo.isUnlockSkin(i)) return void XToast.show("解锁角色后可兑换皮肤")
+                        if (!XMgr.user.gameInfo.isUnlockSkin(i)) return void XToast.show("解锁角色后可兑换皮肤")
                     }
             }
             onClickVideo() {
                 j.I.playVideo("皮肤碎片获取", this, e => {
                     if (e) {
-                        t.user.gameInfo.isUseSkinFragmentVideo = !0;
+                        XMgr.user.gameInfo.isUseSkinFragmentVideo = !0;
                         for (let e = 0; e < this.rewardArr.length; e++) {
                             let i = this.rewardArr[e].id,
                                 s = this.rewardArr[e].cnt;
-                            t.user.gameInfo.addOwnSkinFragmentData(i, s, this.fragmentType)
+                            XMgr.user.gameInfo.addOwnSkinFragmentData(i, s, this.fragmentType)
                         }
-                        t.user.saveToServer(), t.ui.close(this)
+                        XMgr.user.saveToServer(), XMgr.ui.close(this)
                     }
                 })
             }
             onClickReward() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class me extends e.ui.scenes.panel.TurntableRewardDialogUI {
@@ -3069,7 +3069,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), t && (this.rewardArr = t.rewardArr)
             }
             onAwake() {
-                t.buildingMgr.initBuildingCfg(), this.btn_reward.on(Laya.Event.CLICK, this, this.onClickClose), this.initList()
+                XMgr.buildingMgr.initBuildingCfg(), this.btn_reward.on(Laya.Event.CLICK, this, this.onClickClose), this.initList()
             }
             initList() {
                 this.list_reward.array = this.rewardArr;
@@ -3080,7 +3080,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = e.dataSource.split("_"),
                     a = Number(s[0]),
                     n = Number(s[1]),
-                    r = t.buildingMgr.getBuildCfg(a, n),
+                    r = XMgr.buildingMgr.getBuildCfg(a, n),
                     o = e.getChildByName("img_icon"),
                     l = e.getChildByName("lb_name");
                 if (o.skin = r.icon, l.text = r.name, !e.__seq) {
@@ -3088,7 +3088,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class ye extends e.ui.scenes.panel.WinDialogUI {
@@ -3096,33 +3096,33 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, this.checkOpenBox(), XChoreUtil.playSound(118);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
-                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), t.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.propNum = XRandomUtil.getIntRandom(1, 2), this.initUI(), this.initSkin(), t.user.gameInfo.getBuffData(10) && (this.coinNum += 5, this.lb_buff.visible = !0, this.img_buff.visible = !0), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.checkOpenBox(), XChoreUtil.playSound(118);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
+                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.propNum = XRandomUtil.getIntRandom(1, 2), this.initUI(), this.initSkin(), XMgr.user.gameInfo.getBuffData(10) && (this.coinNum += 5, this.lb_buff.visible = !0, this.img_buff.visible = !0), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin() {
-                let e = t.cfg.skin.get(t.user.gameInfo.curSkinId);
-                e.skinPath.includes(".bin") && t.assetLoader.createSpine(e.skinPath, e => {
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curSkinId);
+                e.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(e.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
             }
             initUI() {
-                this.lb_coin.text = `x${this.coinNum}`, this.lb_prop.text = `x${this.propNum}`, this.img_mvp.visible = !!t.gameMgr.killCnt
+                this.lb_coin.text = `x${this.coinNum}`, this.lb_prop.text = `x${this.propNum}`, this.img_mvp.visible = !!XMgr.gameMgr.killCnt
             }
             onClickVideo() {
                 j.I.playVideo("胜利结算奖励", this, e => {
@@ -3133,9 +3133,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.gameInfo.addOwnBuildData(6666, this.propNum * e, 20), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.gameInfo.addOwnBuildData(6666, this.propNum * e, 20), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "win"
-                }), t.reporter.getCoinCnt("胜利界面")
+                }), XMgr.reporter.getCoinCnt("胜利界面")
             }
         }
         const Ce = {
@@ -3299,15 +3299,15 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s || s.length < 2) return Ie.SUCCESS;
                 let a = i.data,
                     n = i.getAttackCd(),
-                    r = t.gameTime.now;
+                    r = XMgr.gameTime.now;
                 if (r - this.atkIntervalTs >= 1e3 * n) {
                     this.atkIntervalTs = r;
                     let e = s[1],
-                        n = t.mapMgr.mapPosToGridPos(e.x, e.y),
-                        o = t.buildingMgr.getBuilding(n.x, n.y),
+                        n = XMgr.mapMgr.mapPosToGridPos(e.x, e.y),
+                        o = XMgr.buildingMgr.getBuilding(n.x, n.y),
                         l = s[0],
-                        h = t.mapMgr.mapPosToGridPos(l.x, l.y),
-                        d = t.buildingMgr.getBuilding(h.x, h.y);
+                        h = XMgr.mapMgr.mapPosToGridPos(l.x, l.y),
+                        d = XMgr.buildingMgr.getBuilding(h.x, h.y);
                     if (d) {
                         if (XV2Util01.pDistance(new fx.V2(a.owner.x, a.owner.y), new fx.V2(d.owner.x, d.owner.y)) <= i.getAttackRange()) return i.attack(d), Ie.FAILURE
                     }
@@ -3328,7 +3328,7 @@ define("js/bundle.js", function(require, module, exports) {
             tick(i) {
                 let s = i.target,
                     a = s.getAttackCd(),
-                    n = t.gameTime.now,
+                    n = XMgr.gameTime.now,
                     r = s.getCurTarget(),
                     o = s.getDataModel();
                 if (o.isRage && (this.atkRageStartTs = n), s.getLastAtkTarget() || (s.setLastAtkTarget(r), this.atkRageStartTs = n, this.atkEscapeStartTs = n, this.canDizzySkill = !0), this.lastTarget && this.lastTarget.owner == r.owner && this.atkEscapeStartTs || (this.atkRageStartTs = n, this.atkEscapeStartTs = n, this.lastTarget = r, this.canDizzySkill = !0, s.setStartAtkTime(n)), n - this.atkIntervalTs >= 1e3 * a) {
@@ -3343,16 +3343,16 @@ define("js/bundle.js", function(require, module, exports) {
                 if (l && (l.doorModel && !l.doorModel.isOpen || !l.doorModel)) return Ie.SUCCESS;
                 let h = this.atkEscapeStartTs,
                     d = 0;
-                if (t.user.gameInfo.isStartLv && t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                    let e = t.gameMgr.dCfg;
+                if (XMgr.user.gameInfo.isStartLv && XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    let e = XMgr.gameMgr.dCfg;
                     d = s.getDataModel().lv >= e.escLv ? e.atkEscTime : 10
                 } else d = s.getDataModel().lv >= 5 ? 20 : 10;
-                n = t.gameTime.now;
+                n = XMgr.gameTime.now;
                 let u = s.getEscapeTimeRand();
                 if (n - h > 1e3 * d) {
                     this.atkEscapeStartTs = n;
                     let a = XRandomUtil.random();
-                    if ((s.getHpPercent() < .8 || t.gameMgr.gameMode != e.GameMode.E_Defense || !t.gameMgr.diff) && a < u)
+                    if ((s.getHpPercent() < .8 || XMgr.gameMgr.gameMode != e.GameMode.E_Defense || !XMgr.gameMgr.diff) && a < u)
                         if (s.getHpPercent() > .5) {
                             this.lastTarget = null, s.setCurTarget(null), fx.EventCenter.I.event(XEventNames.E_HUNTER_LEAVE, [s.getDataModel()]);
                             let t = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
@@ -3378,7 +3378,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (i.getTakeMapBuild()) return i.setMapBuildTarget(null), this.lastMapBuild = void 0, !1;
                 let s, a = this.lastMapBuild;
                 if (!this.lastMapBuild || (s = this.lastMapBuild.isUsed)) {
-                    let e = t.buildingMgr.mapBuildScriptArr;
+                    let e = XMgr.buildingMgr.mapBuildScriptArr;
                     if (e && e.length) {
                         e = fx.Utils.randomArrayEx(e);
                         for (const t of e)
@@ -3429,8 +3429,8 @@ define("js/bundle.js", function(require, module, exports) {
                             r = [],
                             o = [];
                         for (; e--;) {
-                            if (0 == t.user.gameInfo.winCnt + t.user.gameInfo.failCnt && 3 == n[e]) continue;
-                            if (t.gameMgr.defenseFindRoomId.includes(n[e])) continue;
+                            if (0 == XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt && 3 == n[e]) continue;
+                            if (XMgr.gameMgr.defenseFindRoomId.includes(n[e])) continue;
                             let i = s.getRoomModel(n[e]);
                             i ? (i.doorModel && i.doorModel.isOpen || !i.doorModel) && (1 == i.bedModelList.length ? r.push(i) : i.bedModelList.length > 1 && o.push(i)) : console.log("FindEmptyBedAction not found room!")
                         }
@@ -3443,7 +3443,7 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                     }
                 }
-                return a ? (s.setCurTarget(a), t.gameMgr.defenseFindRoomId.includes(a.roomId) || t.gameMgr.defenseFindRoomId.push(a.roomId), this.lastBed = a, !0) : (s.setCurTarget(null), this.lastBed = void 0, !1)
+                return a ? (s.setCurTarget(a), XMgr.gameMgr.defenseFindRoomId.includes(a.roomId) || XMgr.gameMgr.defenseFindRoomId.push(a.roomId), this.lastBed = a, !0) : (s.setCurTarget(null), this.lastBed = void 0, !1)
             }
             findInOneBedRoom(e) {
                 if (0 == e.length) return [null, !1];
@@ -3483,7 +3483,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = e.target,
                     s = i.getCurTarget();
                 if (!s) return Ie.FAILURE;
-                let a = t.mapMgr.mapPosToGridPos(s.owner.x, s.owner.y);
+                let a = XMgr.mapMgr.mapPosToGridPos(s.owner.x, s.owner.y);
                 return i.gotoBed(a.x, a.y) ? Ie.SUCCESS : Ie.FAILURE
             }
         }
@@ -3514,7 +3514,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!n.isDie && n.isBed) {
                     let i = this.takeOut(e.PropertiesKey.BUILD);
                     if (i) {
-                        s.hasEnoughCoinEnergy(i) ? t.buildingMgr.build(n.uuid, i.id, i.x, i.y, 0, 1) : t.buildingMgr.buildFree(n.uuid, i.id, i.x, i.y, 0, 1), a = Ie.SUCCESS
+                        s.hasEnoughCoinEnergy(i) ? XMgr.buildingMgr.build(n.uuid, i.id, i.x, i.y, 0, 1) : XMgr.buildingMgr.buildFree(n.uuid, i.id, i.x, i.y, 0, 1), a = Ie.SUCCESS
                     } else {
                         let t = this.takeOut(e.PropertiesKey.UPGRADE);
                         t && (s.upgradeBuilding(t), a = Ie.SUCCESS)
@@ -3677,7 +3677,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!a) return !1;
                 for (const e of s) {
                     if (e.isDie) continue;
-                    if (e.uuid == t.playerMgr.mineUuid) continue;
+                    if (e.uuid == XMgr.playerMgr.mineUuid) continue;
                     if (a.distanceSq(i.getTargetPos(e)) < 1e4) return i.setCurTarget(e), !0
                 }
                 return !1
@@ -3699,22 +3699,22 @@ define("js/bundle.js", function(require, module, exports) {
                 if (a.isEntice) {
                     if (r) {
                         if (!n) return !1;
-                        let e = t.mapMgr.getRoomById(r.roomId),
-                            i = t.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
+                        let e = XMgr.mapMgr.getRoomById(r.roomId),
+                            i = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
                         for (const t of e.grids)
                             if (i.x == t.x && i.y == t.y) return s.setCurTarget(r), !0;
                         if (e.doorPosArr && e.doorPosArr.length)
                             for (const i of e.doorPosArr) {
                                 if (i.x == n.x && i.y == n.y) return s.setCurTarget(r), !0; {
-                                    let e = t.buildingMgr.getBuilding(i.x, i.y);
+                                    let e = XMgr.buildingMgr.getBuilding(i.x, i.y);
                                     if (e) {
-                                        let i = t.mapMgr.getRoomById(e.roomId);
+                                        let i = XMgr.mapMgr.getRoomById(e.roomId);
                                         if (i.doorPosArr && i.doorPosArr.length)
                                             for (const e of i.doorPosArr) {
                                                 if (e.x == n.x && e.y == n.y) return s.setCurTarget(r), !0; {
-                                                    let i = t.buildingMgr.getBuilding(e.x, e.y);
+                                                    let i = XMgr.buildingMgr.getBuilding(e.x, e.y);
                                                     if (i) {
-                                                        let e = t.mapMgr.getRoomById(i.roomId);
+                                                        let e = XMgr.mapMgr.getRoomById(i.roomId);
                                                         if (e.doorPosArr && e.doorPosArr.length)
                                                             for (const t of e.doorPosArr)
                                                                 if (t.x == n.x && t.y == n.y) return s.setCurTarget(r), !0
@@ -3731,10 +3731,10 @@ define("js/bundle.js", function(require, module, exports) {
                 if (o && o.includes(r)) return !1;
                 if (r && 6020 != r.id && 6027 != r.id) {
                     if (n) {
-                        let o = t.playerMgr.player;
+                        let o = XMgr.playerMgr.player;
                         if (n == r && r.roomId == o.roomId && o.isOutDoor) {
-                            let l = t.mapMgr.getRoomById(r.roomId),
-                                h = t.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
+                            let l = XMgr.mapMgr.getRoomById(r.roomId),
+                                h = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
                             for (const e of l.grids)
                                 if (h.x == e.x && h.y == e.y) return !1;
                             s.setCurTarget(o);
@@ -3750,14 +3750,14 @@ define("js/bundle.js", function(require, module, exports) {
                             if (i != r.roomId) {
                                 if (n.type == e.PlayerType.E_Defender) return s.setCurTarget(r), !0;
                                 if (n.type == e.BuildType.door || n.type == e.BuildType.bed) return s.setCurTarget(r), !0;
-                                let i = t.mapMgr.mapPosToGridPos(l.owner.x, l.owner.y),
-                                    a = t.mapMgr.getRoomById(r.roomId);
+                                let i = XMgr.mapMgr.mapPosToGridPos(l.owner.x, l.owner.y),
+                                    a = XMgr.mapMgr.getRoomById(r.roomId);
                                 for (const t of a.grids)
                                     if (i.x == t.x && i.y == t.y && r.type == e.BuildType.door) return s.setCurTarget(r), !0;
                                 return !1
                             } {
-                                let o = t.mapMgr.getRoomById(i),
-                                    l = t.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
+                                let o = XMgr.mapMgr.getRoomById(i),
+                                    l = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
                                 for (const t of o.grids)
                                     if (l.x == t.x && l.y == t.y && r.type == e.BuildType.door) return !o.players || !o.players.length || o.players[0].isDie || o.players[0].isOutDoor ? s.setCurTarget(r) : n == r && s.setCurTarget(o.players[0]), !0
                             }
@@ -3791,8 +3791,8 @@ define("js/bundle.js", function(require, module, exports) {
                     if (i.isDie) continue;
                     if (-1 != i.roomId) {
                         if (r && n.targetIsOK(r) && i.roomId == r.roomId) {
-                            let s = t.mapMgr.getRoomById(i.roomId),
-                                a = t.mapMgr.mapPosToGridPos(o.owner.x, o.owner.y);
+                            let s = XMgr.mapMgr.getRoomById(i.roomId),
+                                a = XMgr.mapMgr.mapPosToGridPos(o.owner.x, o.owner.y);
                             for (const t of s.grids)
                                 if (a.x == t.x && a.y == t.y && r.type == e.BuildType.door && !i.isDie && !i.isOutDoor) return n.setCurTarget(i), !0;
                             continue
@@ -3822,7 +3822,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s.getCurTarget()) {
                     let i = s.getAllRoomIdRand(),
                         a = s.getDataModel();
-                    a.isEntice && (i[0] = t.playerMgr.player.roomId);
+                    a.isEntice && (i[0] = XMgr.playerMgr.player.roomId);
                     let n, r = s.getRoomModel(i[0]);
                     if (r)
                         if (s.getIsFirstFind() && !a.isGhost) {
@@ -3836,13 +3836,13 @@ define("js/bundle.js", function(require, module, exports) {
                     if (n.type == e.BuildType.door) {
                         let i = s.getLastAtkTarget();
                         if (i && i.type == e.BuildType.door && !i.isDie) {
-                            let e = t.mapMgr.getRoomById(i.roomId);
+                            let e = XMgr.mapMgr.getRoomById(i.roomId);
                             if (e.doorPosArr && e.doorPosArr.length)
                                 for (const a of e.doorPosArr) {
                                     if (a.x == n.x && a.y == n.y) return s.setCurTarget(i), !0; {
-                                        let e = t.buildingMgr.getBuilding(a.x, a.y);
+                                        let e = XMgr.buildingMgr.getBuilding(a.x, a.y);
                                         if (e) {
-                                            let a = t.mapMgr.getRoomById(e.roomId);
+                                            let a = XMgr.mapMgr.getRoomById(e.roomId);
                                             if (a.doorPosArr && a.doorPosArr.length)
                                                 for (const e of a.doorPosArr)
                                                     if (e.x == n.x && e.y == n.y) return s.setCurTarget(i), !0
@@ -3919,7 +3919,7 @@ define("js/bundle.js", function(require, module, exports) {
                 s.getDataModel();
                 if (s.isEscapeHp() || s.isEscape()) {
                     let i = s.getDataModel();
-                    return t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i.isGhost ? XToast.show("执行人逃跑了") : XToast.show("木头人逃跑了") : i.isGhost ? XToast.show(`${i.name}逃跑了`) : XToast.show("噬魂者逃跑了"), s.setCurTarget(null), s.setLastAtkTarget(null), s.setEscape(!0), !0
+                    return XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i.isGhost ? XToast.show("执行人逃跑了") : XToast.show("木头人逃跑了") : i.isGhost ? XToast.show(`${i.name}逃跑了`) : XToast.show("噬魂者逃跑了"), s.setCurTarget(null), s.setLastAtkTarget(null), s.setEscape(!0), !0
                 }
                 return !1
             }
@@ -3960,10 +3960,10 @@ define("js/bundle.js", function(require, module, exports) {
                 super({
                     name: XTimeIntervalCdt.NAME,
                     child: i
-                }), e && (this.interval = 1e3 * e), this.startTs = t.gameTime.now
+                }), e && (this.interval = 1e3 * e), this.startTs = XMgr.gameTime.now
             }
             satisfy(i) {
-                let s = t.gameTime.now,
+                let s = XMgr.gameTime.now,
                     a = this.interval || this.takeOut(e.PropertiesKey.INTERVAL);
                 return a || (a = 0), s - this.startTs > a && (this.startTs = s, !0)
             }
@@ -3977,7 +3977,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }), this.skillBuildArr = ["6005_1", "6007_1", "6010_1", "6002_1", "6006_1", "6008_1", "6003_1", "6004_1", "6009_1", "6011_1", "6001_1", "5000_1", "5000_2", "5000_3", "5000_4"]
             }
             satisfy(i) {
-                let s = t.gameTime.now;
+                let s = XMgr.gameTime.now;
                 if (this.lastCheckTime && s - this.lastCheckTime < 1e3) return !1;
                 this.lastCheckTime = s;
                 let a = i.target,
@@ -3993,11 +3993,11 @@ define("js/bundle.js", function(require, module, exports) {
                         h = 0;
                     if (n.lv < 5) {
                         let s = .7;
-                        if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                             let e = a.getDataModel();
                             if (s = .65, e.randomCnt < 3) {
-                                h = t.gameMgr.dCfg.randomRate;
-                                let i = t.buildingMgr.magicConsumeArr[e.randomCnt];
+                                h = XMgr.gameMgr.dCfg.randomRate;
+                                let i = XMgr.buildingMgr.magicConsumeArr[e.randomCnt];
                                 (e.coin < i[0] || e.energy < i[1]) && (h = 0)
                             } else h = 0
                         }
@@ -4010,11 +4010,11 @@ define("js/bundle.js", function(require, module, exports) {
                             } else l = "3000_1", this.isBuild = !0;
                         else 13 == r.lv ? (l = "4000_1", this.isBuild = !0) : o = r
                     } else {
-                        if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                             let e = a.getDataModel();
                             if (e.randomCnt < 3) {
-                                h = t.gameMgr.dCfg.randomRate1;
-                                let i = t.buildingMgr.magicConsumeArr[e.randomCnt];
+                                h = XMgr.gameMgr.dCfg.randomRate1;
+                                let i = XMgr.buildingMgr.magicConsumeArr[e.randomCnt];
                                 (e.coin < i[0] || e.energy < i[1]) && (h = 0)
                             } else h = 0
                         }
@@ -4046,11 +4046,11 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 if (o)
                     if (this.lastUpObj = o, a.hasEnoughCoinEnergy(o)) {
-                        if (this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null, t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                            let e = t.mapMgr.getRoomById(o.roomId);
-                            1 == t.gameMgr.mapId ? o.lv > 4 && (e.aiMult = fx.Utils.randomInArray(t.gameMgr.aiMultArr)) : 2 == t.gameMgr.mapId ? o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(t.gameMgr.aiMultArr)) : o.lv > 6 ? 1 != e.aiMult && (e.aiMult = 1) : o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(t.gameMgr.aiMultArr))
+                        if (this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null, XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                            let e = XMgr.mapMgr.getRoomById(o.roomId);
+                            1 == XMgr.gameMgr.mapId ? o.lv > 4 && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr)) : 2 == XMgr.gameMgr.mapId ? o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr)) : o.lv > 6 ? 1 != e.aiMult && (e.aiMult = 1) : o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr))
                         }
-                    } else if (1 == t.gameMgr.difficultABTest && o == r && !this.isFreeUpDoor && r.curHp < .15 * r.maxHp && Math.random() > .4) this.isFreeUpDoor = !0, this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null;
+                    } else if (1 == XMgr.gameMgr.difficultABTest && o == r && !this.isFreeUpDoor && r.curHp < .15 * r.maxHp && Math.random() > .4) this.isFreeUpDoor = !0, this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null;
                 else {
                     XRandomUtil.random() < .2 && (this.lastBuildObj = this.lastUpObj = null), o = null
                 }
@@ -4177,10 +4177,10 @@ define("js/bundle.js", function(require, module, exports) {
                     n = s.getCurTarget();
                 if (a.isBack) return !1;
                 if (a.changeSideUuid) {
-                    let e = t.playerMgr.hunters[0];
+                    let e = XMgr.playerMgr.hunters[0];
                     return e != n && s.setCurTarget(e), !0
                 } {
-                    let i = t.playerMgr.player,
+                    let i = XMgr.playerMgr.player,
                         a = s.getNearestBuilding();
                     return a && a.type == e.BuildType.door && !a.isDie && a.playerUuid == i.uuid ? (n != a && s.setCurTarget(a), !0) : (i != n && s.setCurTarget(i), !0)
                 }
@@ -4351,19 +4351,19 @@ define("js/bundle.js", function(require, module, exports) {
                 let n = new Laya.Animation;
                 n.loadAtlas(e), n.play(0, !1);
                 let r = n.getGraphicBounds(!0);
-                return n.pivot(r.width / 2, r.height / 2), t.mapMgr.effectLayer.addChild(n), n.pos(i, s), n.play(0, a), a ? n : (n.on(Laya.Event.COMPLETE, this, () => {
+                return n.pivot(r.width / 2, r.height / 2), XMgr.mapMgr.effectLayer.addChild(n), n.pos(i, s), n.play(0, a), a ? n : (n.on(Laya.Event.COMPLETE, this, () => {
                     n.offAll(), n.destroy()
                 }), n)
             }
             playeEffect(e, i, s, a = !1, n) {
-                if (!t.mapMgr.isInStageByMapPos(e, i)) return;
+                if (!XMgr.mapMgr.isInStageByMapPos(e, i)) return;
                 if (!this.checkInterval(e, i, s)) return;
                 Laya.loader.getRes(s) ? this.loadAnimAndPlay(s, e, i, a, n) : Laya.loader.load(s, Laya.Handler.create(this, () => {
                     this.effectLayer.destroyed || this.loadAnimAndPlay(s, e, i, a, n)
                 }))
             }
             playUpgradeEffect(e, i) {
-                let s = t.mapMgr.gridPosToMapPos(e, i);
+                let s = XMgr.mapMgr.gridPosToMapPos(e, i);
                 this.playeEffect(s.x, s.y, "res/effect/buildUpgrade.atlas")
             }
             playHitEffect(e, t, i) {
@@ -4378,7 +4378,7 @@ define("js/bundle.js", function(require, module, exports) {
             playShoot(e, i, s, a, n = 500, r, o) {
                 o || (o = "res/game/arrow.png");
                 let l = new Laya.Image(o);
-                t.mapMgr.skillEffLayer.addChild(l), l.anchorX = 1, l.anchorY = .5, l.pos(e, i);
+                XMgr.mapMgr.skillEffLayer.addChild(l), l.anchorX = 1, l.anchorY = .5, l.pos(e, i);
                 let h = Math.atan2(a - i, s - e) * (180 / Math.PI);
                 l.rotation = h, (new fx.Sequence).pos(s, a, n).exec(Laya.Handler.create(this, () => {
                     r && r.run(), l.destroy()
@@ -4386,7 +4386,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             playBoomerang(e, i, s, a, n = 500, r) {
                 let o = new Laya.Image("res/game/singleFan.png");
-                t.mapMgr.skillEffLayer.addChild(o), o.anchorX = o.anchorY = .5, o.pos(e, i), (new fx.Sequence).parallel(2).pos(s, a, n).rotate(n, n).exec(Laya.Handler.create(this, () => {
+                XMgr.mapMgr.skillEffLayer.addChild(o), o.anchorX = o.anchorY = .5, o.pos(e, i), (new fx.Sequence).parallel(2).pos(s, a, n).rotate(n, n).exec(Laya.Handler.create(this, () => {
                     r && r.run(), o.destroy()
                 })).run(o)
             }
@@ -4399,7 +4399,7 @@ define("js/bundle.js", function(require, module, exports) {
                 for (let h = 0; h < 3; h++) {
                     let d = 1e3 * fx.Utils.getFrameDelta();
                     0 == h && (o = 0), 1 == h && (o = 12 * d), 2 == h && (o = 23 * d), setTimeout(() => {
-                        t.mapMgr.skillEffLayer.addChild(l[h]), l[h].pos(e, i), (new fx.Sequence).pos(s, a, n).exec(Laya.Handler.create(this, () => {
+                        XMgr.mapMgr.skillEffLayer.addChild(l[h]), l[h].pos(e, i), (new fx.Sequence).pos(s, a, n).exec(Laya.Handler.create(this, () => {
                             1 == h && r && r.run(), l[h].destroy()
                         })).run(l[h])
                     }, o)
@@ -4428,7 +4428,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.particleEffect || Laya.loader.load(e, Laya.Handler.create(this, e => {
                         this.particleEffect = new Laya.Particle2D(e), this.particleSettings = e, this.particleEffect.x = i, this.particleEffect.y = s;
                         let a = this.particleEffect.getGraphicBounds(!0);
-                        this.particleEffect.pivot(a.width / 2, a.height / 2), t.mapMgr.effectLayer.addChild(this.particleEffect), this.particleEffect.emitter.start(.65), this.particleEffect.play()
+                        this.particleEffect.pivot(a.width / 2, a.height / 2), XMgr.mapMgr.effectLayer.addChild(this.particleEffect), this.particleEffect.emitter.start(.65), this.particleEffect.play()
                     }), null, Laya.Loader.JSON), this.particleEffect) {
                     let e = new Float32Array;
                     e[0] = 0, e[1] = -50, e[2] = 0, this.particleSettings.minVerticalVelocity = -20, this.particleSettings.maxHorizontalVelocity = -20, this.particleSettings.gravity = e, this.particleEffect.setParticleSetting(this.particleSettings), this.particleEffect.emitter.start(.65), this.particleEffect.play()
@@ -4608,14 +4608,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onInit() {}
             loadSkin() {
-                let i = this.skinCfg = t.cfg.skin.get(this.data.skinId);
+                let i = this.skinCfg = XMgr.cfg.skin.get(this.data.skinId);
                 i.skinBedPath && (this.skinBedImg = new Laya.Image(i.skinBedPath), this.skinBedImg.anchorX = .5, 
                 this.skinBedImg.anchorY = .75, this.skinBedImg.scale(1, 1), this.skinNode.addChild(this.skinBedImg), 
                 this.skinBedImg.y = -15, this.skinBedImg.visible = !1), 
                 i.skinPath.includes(".bin") ? (this.skinAniNode = new Laya.Box, this.skinAniNode.name = "aniNode", 
                     this.skinAniNode.width = this.skinAniNode.height = C.GridSize, this.skinAniNode.anchorX = .5, 
                     this.skinAniNode.anchorY = .9, this.skinNode.addChild(this.skinAniNode), 
-                    t.assetLoader.createSpine(i.skinPath, t => {
+                    XMgr.assetLoader.createSpine(i.skinPath, t => {
                     this.skinSpine = t, 
                     i.type == e.SkinType.Human ? this.skinSpine.scale(.275, .275) : 
                     i.type == e.SkinType.Hunter ? this.skinSpine.scale(.5, .5) :
@@ -4661,7 +4661,7 @@ define("js/bundle.js", function(require, module, exports) {
                      "attack" == aniName && (new fx.Sequence).move(0, 20, 200).move(0, -20, 200).run(this.skinNode))
             }
             pos(e, i) {
-                this.lastMovePos ? this.lastMovePos.setValue(this.node.x, this.node.y) : this.lastMovePos = new fx.V2(this.node.x, this.node.y), this.node.pos(e, i), this.data.roomId = t.mapMgr.getRoomIdByMapPos(e, i)
+                this.lastMovePos ? this.lastMovePos.setValue(this.node.x, this.node.y) : this.lastMovePos = new fx.V2(this.node.x, this.node.y), this.node.pos(e, i), this.data.roomId = XMgr.mapMgr.getRoomIdByMapPos(e, i)
             }
             move(i, s, a = !0) {
                 // 如果当前不能移动 或者处于控制状态，就直接 return
@@ -4671,8 +4671,8 @@ define("js/bundle.js", function(require, module, exports) {
                 // 如果 a 为 true，调用限制移动的方法（可能带碰撞检测/边界限制）
                 // 否则就是普通移动
                 n = a 
-                    ? t.mapMgr.limitMove(this.node.x, this.node.y, i, s, 16) 
-                    : t.mapMgr.move(this.node.x, this.node.y, i, s, 16);
+                    ? XMgr.mapMgr.limitMove(this.node.x, this.node.y, i, s, 16) 
+                    : XMgr.mapMgr.move(this.node.x, this.node.y, i, s, 16);
             
                 // 更新位置
                 this.pos(n.x, n.y);
@@ -4696,51 +4696,51 @@ define("js/bundle.js", function(require, module, exports) {
             }
             
             onHpChanged(i) {
-                this.data.curHp <= 0 && i && i.playerUuid == t.playerMgr.mineUuid && t.gameMgr.killCnt++, this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (t.gameMgr.playerDeadCnt += 1), this.onDead())
+                this.data.curHp <= 0 && i && i.playerUuid == XMgr.playerMgr.mineUuid && XMgr.gameMgr.killCnt++, this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (XMgr.gameMgr.playerDeadCnt += 1), this.onDead())
             }
             onDead() {
                 this.data.isDie = !0, this.barNode && (this.barNode.visible = !1), this.healthBarNode && (this.healthBarNode.visible = !1), this.lb_name && (this.lb_name.visible = !1);
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = !1;
                 if (this.skinNode.visible = !1, this.data.type == e.PlayerType.E_Defender)
-                    if (fx.EventCenter.I.event(XEventNames.E_Player_Dead), t.gameMgr.gameMode == e.GameMode.E_Defense)
-                        if (this.data.uuid == t.playerMgr.mineUuid) i.failCnt += 1, t.user.gameInfo.mapBuildRate = .5, t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.FailDialog), t.reporter.finishGame(2), s = !0;
+                    if (fx.EventCenter.I.event(XEventNames.E_Player_Dead), XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
+                        if (this.data.uuid == XMgr.playerMgr.mineUuid) i.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog), XMgr.reporter.finishGame(2), s = !0;
                         else {
-                            if (XToast.show(`玩家${this.data.name}被淘汰`), t.user.gameInfo.getBuffData(3)) {
-                                let e = t.playerMgr.player;
+                            if (XToast.show(`玩家${this.data.name}被淘汰`), XMgr.user.gameInfo.getBuffData(3)) {
+                                let e = XMgr.playerMgr.player;
                                 if (e.isBed) {
-                                    let i = t.buildingMgr.getBuildCfg(1e3, e.bedModel.lv);
+                                    let i = XMgr.buildingMgr.getBuildCfg(1e3, e.bedModel.lv);
                                     if (i && i.effectList && i.effectList[0].value) {
                                         let s = i.effectList[0].value[0];
-                                        t.playerMgr.changePlayerIncomeByUuid(e.uuid, 3 * s), XToast.show(`获得队友临别馈赠${3*s}元宝`)
+                                        XMgr.playerMgr.changePlayerIncomeByUuid(e.uuid, 3 * s), XToast.show(`获得队友临别馈赠${3*s}元宝`)
                                     }
                                 }
                             }
                             if (this.data.isQxbm) {
-                                let e = t.cfg.skin.get(this.data.skinId);
+                                let e = XMgr.cfg.skin.get(this.data.skinId);
                                 this.changeToQxbmGhost(e.skinType)
                             }
-                        } else if (t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        } else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
                     let i = !0;
-                    if (this.data.uuid == t.playerMgr.mineUuid) return this.data.isGhost ? (i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : this.data.isAngel ? (t.playerMgr.angels = [], fx.EventCenter.I.event(XEventNames.E_Angel_Dead), t.gameUI.startAngelRevive(), void this.changeToGhost()) : (t.gameUI.hideUpgradeMenu(), t.gameUI.hideBuildMenu(), fx.EventCenter.I.event(XEventNames.E_BuildTips_Hide, [this.data.roomId]), 5 == t.gameMgr.defenseDeadCnt ? (t.ui.closeAll(), i = !1, t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void t.ui.open(l.AogFailDialog)) : void t.ui.open(l.AogChooseDialog, {
+                    if (this.data.uuid == XMgr.playerMgr.mineUuid) return this.data.isGhost ? (i = !1, XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void XMgr.ui.open(l.AogFailDialog)) : this.data.isAngel ? (XMgr.playerMgr.angels = [], fx.EventCenter.I.event(XEventNames.E_Angel_Dead), XMgr.gameUI.startAngelRevive(), void this.changeToGhost()) : (XMgr.gameUI.hideUpgradeMenu(), XMgr.gameUI.hideBuildMenu(), fx.EventCenter.I.event(XEventNames.E_BuildTips_Hide, [this.data.roomId]), 5 == XMgr.gameMgr.defenseDeadCnt ? (XMgr.ui.closeAll(), i = !1, XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void XMgr.ui.open(l.AogFailDialog)) : void XMgr.ui.open(l.AogChooseDialog, {
                         cb: new Laya.Handler(this, this.changeAngelOrGhost)
                     }));
-                    t.gameMgr.defenseDeadCnt += 1, 5 == t.gameMgr.defenseDeadCnt ? t.playerMgr.player.isGhost ? (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(2), t.gameMgr.gameover(!0), t.ui.open(l.AogWinDialog)) : t.playerMgr.player.isAngel ? (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.ui.open(l.AogFailDialog)) : this.changeToGhost() : i && this.changeToGhost()
-                } else t.gameMgr.gameMode == e.GameMode.E_Hunt ? (t.gameMgr.defenseDeadCnt += 1, 6 == t.gameMgr.defenseDeadCnt && (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.reporter.finishGame(1), t.gameMgr.gameover(!0), t.ui.open(l.HunterWinDialog))) : t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (this.data.uuid == t.playerMgr.mineUuid ? (t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.SevenGhostFailDialog), t.reporter.finishGame(2), s = !0) : XToast.show(`玩家${this.data.name}被淘汰`));
+                    XMgr.gameMgr.defenseDeadCnt += 1, 5 == XMgr.gameMgr.defenseDeadCnt ? XMgr.playerMgr.player.isGhost ? (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.AogWinDialog)) : XMgr.playerMgr.player.isAngel ? (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.ui.open(l.AogFailDialog)) : this.changeToGhost() : i && this.changeToGhost()
+                } else XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ? (XMgr.gameMgr.defenseDeadCnt += 1, 6 == XMgr.gameMgr.defenseDeadCnt && (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(1), XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.HunterWinDialog))) : XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (this.data.uuid == XMgr.playerMgr.mineUuid ? (XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostFailDialog), XMgr.reporter.finishGame(2), s = !0) : XToast.show(`玩家${this.data.name}被淘汰`));
                 else if (this.data.type == e.PlayerType.E_Hunter) {
-                    if (fx.EventCenter.I.event(XEventNames.E_Hunter_Dead, this.data), t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                        if (this.data.uuid == t.playerMgr.hunters[0].uuid) {
-                            i.winCnt += 1, t.user.gameInfo.mapBuildRate = .3;
+                    if (fx.EventCenter.I.event(XEventNames.E_Hunter_Dead, this.data), XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                        if (this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
+                            i.winCnt += 1, XMgr.user.gameInfo.mapBuildRate = .3;
                             let a = 1;
-                            t.gameMgr.killCnt && (a = 2), t.gameMgr.gameover(!0, a), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.WinDialog), t.reporter.finishGame(1, a), s = !0
+                            XMgr.gameMgr.killCnt && (a = 2), XMgr.gameMgr.gameover(!0, a), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.WinDialog), XMgr.reporter.finishGame(1, a), s = !0
                         }
-                    } else if (t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) this.data.uuid == t.playerMgr.hunters[0].uuid && (t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.playerMgr.player.isGhost ? (t.gameMgr.gameover(!1), t.ui.open(l.AogFailDialog), t.reporter.finishGame(2)) : (t.gameMgr.gameover(!0), t.ui.open(l.AogWinDialog), t.reporter.finishGame(1)), s = !0), this.data.isGhost && this.data.uuid == t.playerMgr.mineUuid && (t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.AogFailDialog), s = !0);
-                    else if (t.gameMgr.gameMode == e.GameMode.E_Hunt) this.data.uuid == t.playerMgr.mineUuid && (t.reporter.finishGame(2), t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.HunterFailDialog), s = !0);
-                    else if (t.gameMgr.gameMode == e.GameMode.E_SevenGhost && this.data.uuid == t.playerMgr.hunters[0].uuid) {
+                    } else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) this.data.uuid == XMgr.playerMgr.hunters[0].uuid && (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.playerMgr.player.isGhost ? (XMgr.gameMgr.gameover(!1), XMgr.ui.open(l.AogFailDialog), XMgr.reporter.finishGame(2)) : (XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.AogWinDialog), XMgr.reporter.finishGame(1)), s = !0), this.data.isGhost && this.data.uuid == XMgr.playerMgr.mineUuid && (XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.AogFailDialog), s = !0);
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) this.data.uuid == XMgr.playerMgr.mineUuid && (XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.HunterFailDialog), s = !0);
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
                         let i = 1;
-                        t.gameMgr.killCnt && (i = 2), t.gameMgr.gameover(!0, i), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.SevenGhostWinDialog), t.reporter.finishGame(1, i), s = !0
+                        XMgr.gameMgr.killCnt && (i = 2), XMgr.gameMgr.gameover(!0, i), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostWinDialog), XMgr.reporter.finishGame(1, i), s = !0
                     }
-                    s && (XChoreUtil.stopSound(128), t.user.saveToServer())
+                    s && (XChoreUtil.stopSound(128), XMgr.user.saveToServer())
                 }
             }
             changeAngelOrGhost(e) {
@@ -4756,21 +4756,21 @@ define("js/bundle.js", function(require, module, exports) {
             }
             ghost(i) {
                 i.isGhost = !0;
-                let s = t.playerMgr.hunters[0].lv;
+                let s = XMgr.playerMgr.hunters[0].lv;
                 i.lv = s, s > 1 && (s -= 1);
-                let a = t.cfg.hunterCfg.hpList[s - 1],
-                    n = t.cfg.hunterCfg.attackList[s - 1];
-                a *= .8, this.data.lv > 5 ? n *= .8 : n *= .6, i.lv = s, i.maxHp = a, i.curHp = a, i.attackPower = n, i.type = e.PlayerType.E_Hunter, t.playerMgr.addGhost(i)
+                let a = XMgr.cfg.hunterCfg.hpList[s - 1],
+                    n = XMgr.cfg.hunterCfg.attackList[s - 1];
+                a *= .8, this.data.lv > 5 ? n *= .8 : n *= .6, i.lv = s, i.maxHp = a, i.curHp = a, i.attackPower = n, i.type = e.PlayerType.E_Hunter, XMgr.playerMgr.addGhost(i)
             }
             changeToAngel() {
-                t.playerMgr.addAngel()
+                XMgr.playerMgr.addAngel()
             }
             createHealthBar() {
                 if (!this.node) return;
                 let i = fx.Utils.createPrefab(T.Prefab_HealthBar);
                 this.barNode = i;
                 let s = new Laya.Box;
-                s.anchorX = s.anchorY = .5, this.node.addChild(s), this.healthBarNode = s, t.mapMgr.barLayer.addChild(i), s.y -= 128, this.healthBar = i.addComponent(wt);
+                s.anchorX = s.anchorY = .5, this.node.addChild(s), this.healthBarNode = s, XMgr.mapMgr.barLayer.addChild(i), s.y -= 128, this.healthBar = i.addComponent(wt);
                 let a = this.data.type != e.PlayerType.E_Defender;
                 this.healthBar.init(this.data, a, s), this.healthBar.node.visible = !0;
                 let n = i.getChildByName("label_name");
@@ -4780,8 +4780,8 @@ define("js/bundle.js", function(require, module, exports) {
                     n.y = -16
                 }
                 let r = this.data.name;
-                if (this.data.uuid == t.playerMgr.mineUuid) {
-                    let e = t.user.userInfo;
+                if (this.data.uuid == XMgr.playerMgr.mineUuid) {
+                    let e = XMgr.user.userInfo;
                     r = e.name, e.name && e.name.length || (r = "玩家")
                 }
                 n.text = r, this.data.type == e.PlayerType.E_Hunter ? n.visible = !1 : n.visible = !0
@@ -4799,8 +4799,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = i.split("_"),
                     a = +s[0],
                     n = +s[1],
-                    r = t.buildingMgr.getBuildCfg(a, n),
-                    o = t.buildingMgr.createBuildingModelByCfg(this.data.uuid, a, this.getOwnerRoomId(), n, 0, 0, 0, r);
+                    r = XMgr.buildingMgr.getBuildCfg(a, n),
+                    o = XMgr.buildingMgr.createBuildingModelByCfg(this.data.uuid, a, this.getOwnerRoomId(), n, 0, 0, 0, r);
                 if (o.type == e.BuildType.tower) {
                     let e = this.getRoomModel().doorModel,
                         t = this.getEmptyBlock(new fx.V2(e.x, e.y));
@@ -4818,7 +4818,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             hasEnoughCoinEnergy(e, i) {
                 let s = i ? e.lv : e.lv + 1,
-                    a = t.buildingMgr.getBuildCfg(e.id, s);
+                    a = XMgr.buildingMgr.getBuildCfg(e.id, s);
                 if (a) {
                     let e = this.data;
                     if (e.coin >= a.coin && e.energy >= a.energy) return !0
@@ -4829,12 +4829,32 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.curMapBuild
             }
             setMapBuildTarget(e, t = !1) {
-                t && (this.forceTarget = e, this.data.curHp < this.data.maxHp) || e != this.curMapBuild && (this.curMapBuild = e, this.curPath = null)
+                if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+                    // 情况1：t 为 true，并且 curHp < maxHp
+                    // 同时会执行 this.forceTarget = e
+                } else if (e != this.curMapBuild) {
+                    // 情况2：目标和当前不同
+                    this.curMapBuild = e;
+                    this.curPath = null;
+                }
             }
             takeMapBuild(e) {
-                if (e && !e.isUsed) return this.takeMapBuildNode.addChild(e.node), e.node.anchorX = .5, e.node.anchorY = .5, "fhl" == e.buildName ? (e.node.anchorY = 0, e.node.pos(0, 0)) : e.node.pos(0, 0), 
-                t.buildingMgr.takeMapBuild(e.x, e.y, this.data)
+                if (e && !e.isUsed) {
+                    this.takeMapBuildNode.addChild(e.node);
+                    e.node.anchorX = 0.5;
+                    e.node.anchorY = 0.5;
+            
+                    if (e.buildName == "fhl") {
+                        e.node.anchorY = 0;   // 特殊建筑锚点不同
+                        e.node.pos(0, 0);
+                    } else {
+                        e.node.pos(0, 0);
+                    }
+            
+                    return XMgr.buildingMgr.takeMapBuild(e.x, e.y, this.data);
+                }
             }
+            
             getTakeMapBuild() {
                 return this.data.takeMapBuild
             }
@@ -4850,10 +4870,31 @@ define("js/bundle.js", function(require, module, exports) {
             setLastAtkTarget(e) {
                 e != this.lastAtkTarget && (this.lastAtkTarget = e)
             }
-            setCurTarget(e, t = !1) {
-                this.isFirstFind && (this.isFirstFind = !1), 
-                t && (this.forceTarget = e, this.data.curHp < this.data.maxHp) || e != this.curTarget && (this.curTarget && (this.lastAtkTarget = this.curTarget), this.curTarget = e, this.curPath = null)
+            setCurTarget(e, t = false) {
+                // 如果是第一次找目标，标记已处理
+                if (this.isFirstFind) {
+                    this.isFirstFind = false;
+                }
+            
+                // 如果是强制目标，并且血量没满
+                if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+                    // 不会继续往下执行
+                    return;
+                }
+            
+                // 否则，如果目标和当前目标不同
+                if (e !== this.curTarget) {
+                    // 把当前目标存到 lastAtkTarget
+                    if (this.curTarget) {
+                        this.lastAtkTarget = this.curTarget;
+                    }
+                    // 更新目标
+                    this.curTarget = e;
+                    // 路径清空，等待重新寻路
+                    this.curPath = null;
+                }
             }
+            
             getTargetPos(e) {
                 if (!(e || this.curTarget && this.curTarget.owner)) return;
                 let t = e ? e.owner : this.curTarget.owner;
@@ -4875,10 +4916,10 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.data.curHp >= this.data.maxHp
             }
             fixDoor(e) {
-                e.doorModel.isRepair || t.buildingMgr.repairDoor(e)
+                e.doorModel.isRepair || XMgr.buildingMgr.repairDoor(e)
             }
             getEmptyBlock(e) {
-                let i = t.buildingMgr.getEmptyGrids(this.getOwnerRoomId());
+                let i = XMgr.buildingMgr.getEmptyGrids(this.getOwnerRoomId());
                 if (0 == i.length) return;
                 if (0 == i.length) return;
                 let s = new fx.V2;
@@ -4893,16 +4934,16 @@ define("js/bundle.js", function(require, module, exports) {
             }
             upgradeBuilding(i) {
                 let s = this.hasEnoughCoinEnergy(i);
-                return t.buildingMgr.upgrade(this.data.uuid, i.x, i.y, s) == e.BuildResult.E_OK
+                return XMgr.buildingMgr.upgrade(this.data.uuid, i.x, i.y, s) == e.BuildResult.E_OK
             }
             attack(e) {}
 
-            runWithPath(t, i) {
+            runWithPath(points_, canThrough_) {
                 // t 是路径点数组，i 可能是是否允许穿越阻挡的标记
-                if (t.length == 0) return true;
+                if (points_.length == 0) return true;
             
                 // 当前目标点（路径的第一个点）
-                let s = t[0];
+                let s = points_[0];
             
                 // 从当前坐标到目标点的向量（注意这里做了 sub(s).scale(-1)）
                 let a = this.getOwnerPos().sub(s).scale(-1);
@@ -4910,8 +4951,8 @@ define("js/bundle.js", function(require, module, exports) {
             
                 // 已经到达目标点
                 if (n <= 1e-6) {
-                    t.shift(); // 移除当前点
-                    return this.runWithPath(t); // 递归继续走下一个点
+                    points_.shift(); // 移除当前点
+                    return this.runWithPath(points_); // 递归继续走下一个点
                 }
             
                 {
@@ -4946,7 +4987,7 @@ define("js/bundle.js", function(require, module, exports) {
             
                     // 检测是否可走
                     if (this.checkWalkAble(a.x, a.y)) {
-                        this.move(a.x, a.y, !i); // i 可能表示是否严格寻路
+                        this.move(a.x, a.y, !canThrough_); // i 可能表示是否严格寻路
                     } else {
                         this.setCurPath(null); // 走不通，清掉路径
                     }
@@ -4955,41 +4996,48 @@ define("js/bundle.js", function(require, module, exports) {
                 return false;
             }
             
-            checkWalkAble(e, i) {
-                let s = new fx.V2(this.data.owner.x + e, this.data.owner.y + i),
-                    a = t.mapMgr.mapPosToGridPos(s.x, s.y),
-                    n = t.mapMgr.getTiledInfo(a.x, a.y);
+            checkWalkAble(x_, y_) {
+                let s = new fx.V2(this.data.owner.x + x_, this.data.owner.y + y_),
+                    a = XMgr.mapMgr.mapPosToGridPos(s.x, s.y),
+                    n = XMgr.mapMgr.getTiledInfo(a.x, a.y);
                 return !(!n || null != n.walkable && !n.walkable)
             }
-            getPath(e, i, s = !1) {
+            getPath(startPos_, endPos_, s = !1) {
                 if (!this.owner || this.owner.destroyed || this.getPathCd) return;
-                let a = t.mapMgr.findPath(e.x, e.y, i.x, i.y, s);
+                let a = XMgr.mapMgr.findPath(startPos_.x, startPos_.y, endPos_.x, endPos_.y, s);
                 return a && 0 != a.length || (this.getPathCd = !0, this.owner.timerOnce(2e3, this, () => {
                     this.getPathCd = !1
                 })), a
             }
             getAllPlayersRand() {
                 let e = [];
-                for (const i of t.playerMgr.defenders) e.push(i);
+                for (const i of XMgr.playerMgr.defenders) e.push(i);
                 return e = fx.Utils.randomArrayEx(e)
             }
             getAllAngelsRand() {
                 let e = [];
-                for (const i of t.playerMgr.angels) e.push(i);
+                for (const i of XMgr.playerMgr.angels) e.push(i);
                 return e = fx.Utils.randomArrayEx(e)
             }
             getAllRoomIdRand() {
-                let e = t.buildingMgr.rooms,
+                let e = XMgr.buildingMgr.rooms,
                     i = [];
                 for (const t in e) e[t].active && i.push(+t);
                 return fx.Utils.randomArray(i)
             }
             getRoomModel(e) {
-                return void 0 === e && (e = this.getOwnerRoomId()), t.buildingMgr.getRoom(e)
+                return void 0 === e && (e = this.getOwnerRoomId()), XMgr.buildingMgr.getRoom(e)
             }
             targetIsOK(e) {
-                return e instanceof XPlayerModel ? !e.isDie : e instanceof XBuildingModel ? !e.isOpen && e.curHp > 0 : !!e && !e.isDie
+                if (e instanceof XPlayerModel) {
+                    return !e.isDie;
+                } else if (e instanceof XBuildingModel) {
+                    return !e.isOpen && e.curHp > 0;
+                } else {
+                    return !!e && !e.isDie;
+                }
             }
+            
             getAttackRange() {
                 return this.data.stopRange
             }
@@ -5004,7 +5052,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getNearestBuilding() {
                 let e = this.getOwnerPos(),
-                    i = t.buildingMgr.getNearBuildingByMapPos2(e.x, e.y);
+                    i = XMgr.buildingMgr.getNearBuildingByMapPos2(e.x, e.y);
                 if (i && !0 !== i.isOpen) return i
             }
             getNearestBuildingByPlayer() {
@@ -5023,10 +5071,10 @@ define("js/bundle.js", function(require, module, exports) {
                 return e.isUsed
             }
             gotoBed(i, s) {
-                return t.gameMgr.upBed(i, s, this.data.uuid) == e.BuildResult.E_OK
+                return XMgr.gameMgr.upBed(i, s, this.data.uuid) == e.BuildResult.E_OK
             }
             getBuildingByGridPos(e) {
-                return t.buildingMgr.getBuilding(e.x, e.y)
+                return XMgr.buildingMgr.getBuilding(e.x, e.y)
             }
             getOwnerAllBuildings(e) {
                 let t = this.data.roomId,
@@ -5050,10 +5098,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             findAttackTarget(i = 1) {
                 let s = [];
-                s = this.type == e.PlayerType.E_Hunter ? t.playerMgr.defenders : t.playerMgr.hunters;
+                s = this.type == e.PlayerType.E_Hunter ? XMgr.playerMgr.defenders : XMgr.playerMgr.hunters;
                 let a = !1;
                 40021 == this.data.skinId && (a = !0);
-                let n = t.buildingMgr.getNearBuildingByMapPos(this.node.x, this.node.y, void 0, i, a);
+                let n = XMgr.buildingMgr.getNearBuildingByMapPos(this.node.x, this.node.y, void 0, i, a);
                 if (n && !n.isDhls && (40021 == this.data.skinId ? s.push(n) : n.type == e.BuildType.door && n.isOpen || s.push(n)), 0 == s.length) return null;
                 let r = null,
                     o = this.data.attackRange;
@@ -5078,7 +5126,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.data.hpPercent
             }
             getRandomHealZonePos() {
-                let e = t.mapMgr.healZones;
+                let e = XMgr.mapMgr.healZones;
                 if (!e || 0 == e.length) return;
                 let i = new fx.V2,
                     s = new fx.V2,
@@ -5092,14 +5140,14 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.getOwnerPos(),
                     i = new Laya.Point(e.x, e.y);
                 this.owner.parent.localToGlobal(i);
-                let s = t.mapMgr.stagePosToGridPos(i.x, i.y);
+                let s = XMgr.mapMgr.stagePosToGridPos(i.x, i.y);
                 return e.setValue(s.x, s.y), e
             }
             breakAway() {
                 this.curPath && (this.curPath = []);
                 let e = this.getOwnerGridPos(),
-                    i = t.buildingMgr.getOutdoorEmptyGrids(e.x, e.y, 2);
-                e = fx.Utils.randomInArray(i), e = t.mapMgr.gridPosToMapPos(e.x, e.y), this.node.x = e.x, this.node.y = e.y
+                    i = XMgr.buildingMgr.getOutdoorEmptyGrids(e.x, e.y, 2);
+                e = fx.Utils.randomInArray(i), e = XMgr.mapMgr.gridPosToMapPos(e.x, e.y), this.node.x = e.x, this.node.y = e.y
             }
             performSkill(e) {}
             targetIsDoor() {
@@ -5140,13 +5188,13 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = this.findAttackTarget();
                 if (!i) return void(this.lastTarget = null);
                 let s = this.getAttackCd(),
-                    a = t.gameTime.now;
+                    a = XMgr.gameTime.now;
                 if (this.data.isRage && (this.atkRageStartTs = a), this.getLastAtkTarget() || (this.setLastAtkTarget(i), this.atkRageStartTs = a, this.canDizzySkill = !0), this.lastTarget && this.lastTarget.owner == i.owner || (this.atkRageStartTs = a, this.lastTarget = i, this.canDizzySkill = !0, this.setStartAtkTime(a)), a - this.atkIntervalTs >= 1e3 * s) {
-                    if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                         if (a - this.atkRageStartTs > 2e4) {
                             fx.EventCenter.I.event(XEventNames.E_Rage_Refresh);
                             let e = XRandomUtil.getIntRandom(1, 3);
-                            e = Math.min(15, e + this.data.lv), XRandomUtil.random() <= .3 && t.buildingMgr.addMapEquip(e, !1), this.atkRageStartTs = a
+                            e = Math.min(15, e + this.data.lv), XRandomUtil.random() <= .3 && XMgr.buildingMgr.addMapEquip(e, !1), this.atkRageStartTs = a
                         }
                         if (i.type == e.BuildType.door && !i.isOpen && i.curHp <= .2 * i.maxHp) {
                             XRandomUtil.random() <= .3 && fx.EventCenter.I.event(XEventNames.E_Dizzy_Refresh)
@@ -5159,17 +5207,17 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             startAddSpeed() {
-                this.img_angelAddSpeed.visible = !0, this.moveSpeed = 3 * t.cfg.constant.playerMoveSpeed * .87, this.moveSpeed /= t.gameMgr.speedRatio, this.owner.timerOnce(5e3, this, this.closeAddSpeed)
+                this.img_angelAddSpeed.visible = !0, this.moveSpeed = 3 * XMgr.cfg.constant.playerMoveSpeed * .87, this.moveSpeed /= XMgr.gameMgr.speedRatio, this.owner.timerOnce(5e3, this, this.closeAddSpeed)
             }
             closeAddSpeed() {
-                this.img_angelAddSpeed.visible = !1, this.moveSpeed = t.cfg.constant.playerMoveSpeed, this.moveSpeed /= t.gameMgr.speedRatio
+                this.img_angelAddSpeed.visible = !1, this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed, this.moveSpeed /= XMgr.gameMgr.speedRatio
             }
             useDizzy() {
-                let e = t.playerMgr.hunters[0];
+                let e = XMgr.playerMgr.hunters[0];
                 if (e && !e.isDie) {
                     if (Math.abs(this.data.owner.x - e.owner.x) > 300 || Math.abs(this.data.owner.y - e.owner.y) > 300) return !1;
                     let i = new Laya.Animation;
-                    return i.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(i, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), t.gameMgr.DizzyTarget(e, 2), !0
+                    return i.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(i, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(e, 2), !0
                 }
                 return !1
             }
@@ -5180,7 +5228,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 super.onAwake(), 
-                this.moveSpeed = t.cfg.constant.playerMoveSpeed
+                this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed
             }
             onInit() {
                 // 创建名字标签
@@ -5194,21 +5242,21 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.addChild(this.lb_name);
             
                 // 默认等级和速度系数
-                let level = t.user.gameInfo.maxLevel;
+                let level = XMgr.user.gameInfo.maxLevel;
                 let speedFactor = 1;
             
                 // 是否是自己玩家
-                if (this.data.uuid !== t.playerMgr.mineUuid) {
+                if (this.data.uuid !== XMgr.playerMgr.mineUuid) {
                     this.initAI();
             
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
                         speedFactor = 1.1;
-                    } else if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                    } else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                         // 随机生成等级
                         level = XRandomUtil.getIntRandom(
-                            t.gameMgr.dCfg.lvlFloor - 1,
-                            t.gameMgr.dCfg.lvlCeil
-                        ) + t.gameMgr.dCfg.id;
+                            XMgr.gameMgr.dCfg.lvlFloor - 1,
+                            XMgr.gameMgr.dCfg.lvlCeil
+                        ) + XMgr.gameMgr.dCfg.id;
                         level = Math.min(26, level);
                     } else {
                         // 其他模式
@@ -5216,18 +5264,18 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 } else {
                     // 如果是自己玩家并且在防御模式，额外加速
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
                         speedFactor = 1.5;
                     }
                     // 自己的移动速度要除以加速系数
-                    this.moveSpeed /= t.gameMgr.speedRatio;
+                    this.moveSpeed /= XMgr.gameMgr.speedRatio;
                 }
             
                 // 应用速度系数
                 this.moveSpeed *= speedFactor;
             
                 // 配置名字和颜色
-                let cfg = t.cfg.difficultCfg.get(level);
+                let cfg = XMgr.cfg.difficultCfg.get(level);
                 this.lb_name.text = cfg.title;
                 this.lb_name.color = cfg.titleColor;
             }
@@ -5242,10 +5290,10 @@ define("js/bundle.js", function(require, module, exports) {
                     if (randNum <= num) break;
                     randNum -= num, a += 1
                 }
-                return a > t.cfg.difficultCfg.length && (a = t.cfg.difficultCfg.length), a
+                return a > XMgr.cfg.difficultCfg.length && (a = XMgr.cfg.difficultCfg.length), a
             }
             initAI() {
-                t.cfg.constant.repairTime;
+                XMgr.cfg.constant.repairTime;
                 this.ai = new XPlayerAI(this);
                 let e = bt_sequenceOr([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", !0))), 
                     this.ai.notInBed(this.ai.takeMapBuild()), 
@@ -5256,14 +5304,14 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ai.load(e)
             }
             upBed(e) {
-                let i = t.mapMgr.gridPosToMapPos(e.x, e.y);
+                let i = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
                 this.pos(i.x, i.y), this.lb_name.visible = !1, this.skinBedImg ? (this.skinBedImg.visible = !0, this.skinSpine ? this.skinSpine.visible = !1 : this.skinImg && (this.skinImg.visible = !1)) : this.playAnim("idle"), this.takeMapBuildNode.visible = !1
             }
             downBed() {
                 this.skinBedImg ? (this.skinBedImg.visible = !1, this.skinSpine ? this.skinSpine.visible = !0 : this.skinImg && (this.skinImg.visible = !0)) : this.playAnim("run")
             }
             onUpdate() {
-                this.isSkinLoaded && (t.gameMgr.isPause || this.data.isDie || (this.data.isBed || (this.node.zOrder = this.node.y), this.ai && this.ai.exec()))
+                this.isSkinLoaded && (XMgr.gameMgr.isPause || this.data.isDie || (this.data.isBed || (this.node.zOrder = this.node.y), this.ai && this.ai.exec()))
             }
         }
         e.RewardType = void 0, (xe = e.RewardType || (e.RewardType = {})).Coin = "Coin", xe.Build = "Build", xe.Skin = "Skin";
@@ -5356,7 +5404,7 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {}
             getCurDoorModel() {
                 let i = [],
-                    s = t.buildingMgr.getRoom(this.data.roomId);
+                    s = XMgr.buildingMgr.getRoom(this.data.roomId);
                 if (s) {
                     for (const t of s.buildings)
                         if (t.type == e.BuildType.door) {
@@ -5367,7 +5415,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getBuildingHpLowest() {
-                let e = t.playerMgr.getPlayer(this.data.playerUuid);
+                let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                 if (e) {
                     let t, i, s = e.buildings;
                     for (const e of s) {
@@ -5392,15 +5440,15 @@ define("js/bundle.js", function(require, module, exports) {
                 super(i, s), this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
                 let n = 1e3,
                     r = s;
-                if (5001 == r.id) this.data.playerUuid == t.playerMgr.mineUuid && t.user.gameInfo.getBuffData(13) && (this.extra = 1);
+                if (5001 == r.id) this.data.playerUuid == XMgr.playerMgr.mineUuid && XMgr.user.gameInfo.getBuffData(13) && (this.extra = 1);
                 else if (1e3 == r.id) {
-                    let i = t.buildingMgr.getBuildCfg(r.id, r.lv);
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && this.data.playerUuid == t.playerMgr.mineUuid) {
-                        if (t.user.gameInfo.getBuffData(22)) {
-                            let e = t.user.gameInfo.getBuffData(22);
-                            n = n * (100 - t.cfg.buffCfg.get(22).values[e.lv]) / 100
+                    let i = XMgr.buildingMgr.getBuildCfg(r.id, r.lv);
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                        if (XMgr.user.gameInfo.getBuffData(22)) {
+                            let e = XMgr.user.gameInfo.getBuffData(22);
+                            n = n * (100 - XMgr.cfg.buffCfg.get(22).values[e.lv]) / 100
                         }
-                        t.user.gameInfo.getBuffData(11) && (this.extra = 1)
+                        XMgr.user.gameInfo.getBuffData(11) && (this.extra = 1)
                     }
                 }
                 this.node.timerLoop(n, this, this.exec)
@@ -5408,12 +5456,12 @@ define("js/bundle.js", function(require, module, exports) {
             exec() {
                 if (this.data.palsyTime) return;
                 let i = this.addValue;
-                this.canDouble && this.data.playerUuid == t.playerMgr.mineUuid && (i *= 2);
+                this.canDouble && this.data.playerUuid == XMgr.playerMgr.mineUuid && (i *= 2);
                 let s = i * this.data.coinRatio,
-                    a = s * t.mapMgr.getRoomById(this.data.roomId).aiMult,
-                    n = t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a + this.extra + this.godExtra),
+                    a = s * XMgr.mapMgr.getRoomById(this.data.roomId).aiMult,
+                    n = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a + this.extra + this.godExtra),
                     r = this.data;
-                n ? t.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra) : r.type && r.type == e.BuildType.bed || t.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra), this.showWorkEff()
+                n ? XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra) : r.type && r.type == e.BuildType.bed || XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra), this.showWorkEff()
             }
             clear() {
                 this.node.timer.clear(this, this.exec)
@@ -5428,11 +5476,11 @@ define("js/bundle.js", function(require, module, exports) {
             exec() {
                 if (this.data.palsyTime) return;
                 let i = this.addValue;
-                t.playerMgr.getPlayer(this.data.playerUuid) && (i = Math.floor(i * this.data.energyRatio));
-                let s = i * t.mapMgr.getRoomById(this.data.roomId).aiMult,
-                    a = t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, 0, s),
+                XMgr.playerMgr.getPlayer(this.data.playerUuid) && (i = Math.floor(i * this.data.energyRatio));
+                let s = i * XMgr.mapMgr.getRoomById(this.data.roomId).aiMult,
+                    a = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, 0, s),
                     n = this.data;
-                a ? t.gameUI.valueTips(e.TokenType.E_Energy, i, this.node.x, this.node.y) : n.type && n.type == e.BuildType.bed || t.gameUI.valueTips(e.TokenType.E_Energy, i, this.node.x, this.node.y), this.showWorkEff()
+                a ? XMgr.gameUI.valueTips(e.TokenType.E_Energy, i, this.node.x, this.node.y) : n.type && n.type == e.BuildType.bed || XMgr.gameUI.valueTips(e.TokenType.E_Energy, i, this.node.x, this.node.y), this.showWorkEff()
             }
             clear() {
                 this.node.timer.clear(this, this.exec)
@@ -5448,14 +5496,14 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.palsyTime) return;
                 let i = this.addCoinValue,
                     s = this.addEnergyValue,
-                    a = t.playerMgr.getPlayer(this.data.playerUuid);
+                    a = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                 a && (i = Math.floor(i * this.data.coinRatio)), a && (s = Math.floor(s * this.data.energyRatio));
-                let n = t.mapMgr.getRoomById(this.data.roomId),
+                let n = XMgr.mapMgr.getRoomById(this.data.roomId),
                     r = i * n.aiMult,
                     o = s * n.aiMult,
-                    l = t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
+                    l = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
                 this.data;
-                l && (t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y - 20), t.gameUI.valueTips(e.TokenType.E_Energy, s, this.node.x, this.node.y + 20)), this.showWorkEff()
+                l && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y - 20), XMgr.gameUI.valueTips(e.TokenType.E_Energy, s, this.node.x, this.node.y + 20)), this.showWorkEff()
             }
             clear() {
                 this.node.timer.clear(this, this.exec)
@@ -5468,15 +5516,15 @@ define("js/bundle.js", function(require, module, exports) {
             exec() {
                 let i = this.addValue,
                     s = this.data,
-                    a = t.buildingMgr.getBuildCfg(s.id, s.lv);
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && 6001 == s.id && a.buffId && a.buffId.includes(15) && t.user.gameInfo.getBuffData(15)) {
-                    i *= 1 + t.cfg.buffCfg.get(15).values[0] / 100
+                    a = XMgr.buildingMgr.getBuildCfg(s.id, s.lv);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && 6001 == s.id && a.buffId && a.buffId.includes(15) && XMgr.user.gameInfo.getBuffData(15)) {
+                    i *= 1 + XMgr.cfg.buffCfg.get(15).values[0] / 100
                 }
                 let n = this.getCurDoorModel();
                 if (n)
                     for (let e = 0; e < n.length; e++) {
                         let s = n[e];
-                        s.curHp != s.maxHp ? (t.gameMgr.AddHp(s, i), t.gameMgr.playSound(s, 119), s.ownerScript.showRepairEff()) : s.ownerScript.hideRepairEff()
+                        s.curHp != s.maxHp ? (XMgr.gameMgr.AddHp(s, i), XMgr.gameMgr.playSound(s, 119), s.ownerScript.showRepairEff()) : s.ownerScript.hideRepairEff()
                     }
             }
             clear() {
@@ -5496,7 +5544,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.palsyTime) return;
                 if (e != this.data.roomId || Math.random() > this.rate || !i) return;
                 let s = this.time;
-                t.user.gameInfo.getBuffData(4) && this.data.playerUuid == t.playerMgr.mineUuid && (s *= 1.5), t.gameMgr.DizzyTarget(i, s, !1);
+                XMgr.user.gameInfo.getBuffData(4) && this.data.playerUuid == XMgr.playerMgr.mineUuid && (s *= 1.5), XMgr.gameMgr.DizzyTarget(i, s, !1);
                 let a = "res/atlas/res/Ani/xuanyun.atlas";
                 if (Laya.loader.getRes(a)) {
                     let e = XEffectUtil.I.loadAnimAndPlayReturn(a, i.owner.x - 20, i.owner.y - 100, !0);
@@ -5504,7 +5552,7 @@ define("js/bundle.js", function(require, module, exports) {
                         e.destroy()
                     })
                 } else Laya.loader.load(a, Laya.Handler.create(this, () => {
-                    if (t.mapMgr.effectLayer.destroyed) return;
+                    if (XMgr.mapMgr.effectLayer.destroyed) return;
                     let e = XEffectUtil.I.loadAnimAndPlayReturn(a, i.owner.x - 20, i.owner.y - 100, !0);
                     e.timer.once(1e3 * s, this, () => {
                         e.destroy()
@@ -5520,9 +5568,9 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(i, s) {
                 super(i, s), this.threshold = i.value[0], this.time = i.value[1];
                 let a = s,
-                    n = t.buildingMgr.getBuildCfg(a.id, a.lv);
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(7) && t.user.gameInfo.getBuffData(7)) {
-                    let e = t.cfg.buffCfg.get(7);
+                    n = XMgr.buildingMgr.getBuildCfg(a.id, a.lv);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(7) && XMgr.user.gameInfo.getBuffData(7)) {
+                    let e = XMgr.cfg.buffCfg.get(7);
                     this.time += e.values[0]
                 }
                 let r = this.getCurDoorModel()[0];
@@ -5555,18 +5603,18 @@ define("js/bundle.js", function(require, module, exports) {
         class ei extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.curCnt = 0, this.buffMult = 1, this.bonusRate = i.value[0], this.node.timerLoop(1e3, this, this.exec);
-                let a = t.buildingMgr.getBuildCfg(this.data.id);
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(14) && t.user.gameInfo.getBuffData(14)) {
-                    let e = t.cfg.buffCfg.get(14);
+                let a = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(14) && XMgr.user.gameInfo.getBuffData(14)) {
+                    let e = XMgr.cfg.buffCfg.get(14);
                     this.buffMult = 1 + e.values[0] / 100
                 }
-                let n = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                let n = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 n && n.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
             addCoin(e) {
                 if (this.data.palsyTime) return;
-                let i = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0],
-                    s = t.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
+                let i = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0],
+                    s = XMgr.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
                     a = Math.ceil(s / 200 * e * this.buffMult);
                 this.curCnt += a
             }
@@ -5574,24 +5622,24 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.palsyTime) return;
                 if (!this.curCnt) return;
                 let i = this.bonusRate * this.data.coinRatio * this.curCnt;
-                this.curCnt = 0, i && t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && (t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.showWorkEff())
+                this.curCnt = 0, i && XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.showWorkEff())
             }
             clear() {
                 this.node.clearTimer(this, this.exec);
-                let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                let e = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
         class ti extends XBaseEffect {
             constructor(e, i) {
                 super(e, i), this.curCnt = 0, this.bonusRate = e.value[0], this.node.timerLoop(1e3, this, this.exec);
-                let s = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                let s = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 s && s.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
             addCoin(e) {
                 if (this.data.palsyTime) return;
-                let i = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0],
-                    s = t.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
+                let i = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0],
+                    s = XMgr.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
                     a = Math.ceil(s / 200 * e);
                 this.curCnt += a
             }
@@ -5599,11 +5647,11 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.palsyTime) return;
                 if (!this.curCnt) return;
                 let i = this.bonusRate * this.data.coinRatio * this.curCnt;
-                this.curCnt = 0, i && t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && (t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.showWorkEff())
+                this.curCnt = 0, i && XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.showWorkEff())
             }
             clear() {
                 this.node.clearTimer(this, this.exec);
-                let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                let e = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
@@ -5617,7 +5665,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s;
                 if (this.getCurDoorModel()[0]) {
                     if (this.map.has(e)) {
-                        this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5), s = new zt(this.slowRatio * this.slowMult);
+                        this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5), s = new zt(this.slowRatio * this.slowMult);
                         for (const [i, a] of this.map) {
                             if (!e.buffs) continue;
                             let i = !0;
@@ -5626,7 +5674,7 @@ define("js/bundle.js", function(require, module, exports) {
                                     i = !1;
                                     break
                                 }
-                            i && (t.buffMgr.addBuff(e, s), this.playerWorkEff())
+                            i && (XMgr.buffMgr.addBuff(e, s), this.playerWorkEff())
                         }
                     }
                     this.map.set(e, s)
@@ -5640,7 +5688,7 @@ define("js/bundle.js", function(require, module, exports) {
                     i.owner.off(be.Battle_Be_Hit, this, this.exec);
                     for (const [e, i] of this.map) {
                         let s = e.owner.getChildByName("skinNode");
-                        s && (s.filters = []), t.buffMgr.removeBuff(e, i)
+                        s && (s.filters = []), XMgr.buffMgr.removeBuff(e, i)
                     }
                     this.map.clear()
                 }
@@ -5655,7 +5703,7 @@ define("js/bundle.js", function(require, module, exports) {
                             for (const [i, s] of this.map)
                                 if (i == e) {
                                     let e = i.owner.getChildByName("skinNode");
-                                    e && (e.filters = []), t.buffMgr.removeBuff(i, s);
+                                    e && (e.filters = []), XMgr.buffMgr.removeBuff(i, s);
                                     break
                                 }
                         } else
@@ -5665,7 +5713,7 @@ define("js/bundle.js", function(require, module, exports) {
                                 if (a > 2 * C.GridSize && n > 2 * C.GridSize) break;
                                 if (a > C.GridSize || n > C.GridSize) {
                                     let s = e.owner.getChildByName("skinNode");
-                                    s && (s.filters = []), t.buffMgr.removeBuff(e, i);
+                                    s && (s.filters = []), XMgr.buffMgr.removeBuff(e, i);
                                     break
                                 }
                             }
@@ -5697,16 +5745,16 @@ define("js/bundle.js", function(require, module, exports) {
             exec() {
                 if (this.data.palsyTime) return;
                 let i = this.dizzyTime;
-                t.user.gameInfo.getBuffData(8) && this.data.playerUuid == t.playerMgr.mineUuid && (i += 1);
+                XMgr.user.gameInfo.getBuffData(8) && this.data.playerUuid == XMgr.playerMgr.mineUuid && (i += 1);
                 let s = this.getCurDoorModel();
                 if (!s[0]) return;
                 let a = [];
                 for (const n of s) {
                     for (const s of this.hunters)
                         if (Math.abs(n.owner.x - s.owner.x) > 150 || Math.abs(n.owner.y - s.owner.y) > 150)
-                            if (s.ownerScript.isEscape() || t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                            if (s.ownerScript.isEscape() || XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                                 let e = new Laya.Animation;
-                                e.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(e, s.owner.x - C.GridHalfSize, s.owner.y - C.GridHalfSize, !1), t.gameMgr.DizzyTarget(s, i), a.push(s)
+                                e.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(e, s.owner.x - C.GridHalfSize, s.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(s, i), a.push(s)
                             } else {
                                 let e = this.hunters.indexOf(s);
                                 e >= 0 && this.hunters.splice(e, 1)
@@ -5735,9 +5783,9 @@ define("js/bundle.js", function(require, module, exports) {
                 super(i, s), this.reboundDmgRatio = 0, this.mult = 1, this.reboundDmgRatio = this.cfg.value[0];
                 let a = this.getCurDoorModel()[0];
                 if (!a) return;
-                let n = t.buildingMgr.getBuildCfg(this.data.id);
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(16) && t.user.gameInfo.getBuffData(16)) {
-                    let e = t.cfg.buffCfg.get(16);
+                let n = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(16) && XMgr.user.gameInfo.getBuffData(16)) {
+                    let e = XMgr.cfg.buffCfg.get(16);
                     this.mult = 1 + e.values[0] / 100
                 }
                 this.create(a), a.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
@@ -5752,7 +5800,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onDoorBeHit(e) {
                 let i = e.maxHp * this.reboundDmgRatio * this.mult;
-                t.gameMgr.takeDamage(e, e, i), this.playerWorkEff()
+                XMgr.gameMgr.takeDamage(e, e, i), this.playerWorkEff()
             }
         }
         class EnemyOnHpLowBeAtk extends XBaseEffect {
@@ -5763,7 +5811,7 @@ define("js/bundle.js", function(require, module, exports) {
                     for (const e of i) e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e) {
-                this.hunter || e != t.playerMgr.hunters[0] || (this.hunter = e)
+                this.hunter || e != XMgr.playerMgr.hunters[0] || (this.hunter = e)
             }
             exec() {
                 if (this.data.palsyTime) return;
@@ -5775,10 +5823,10 @@ define("js/bundle.js", function(require, module, exports) {
                 if (e.curHp / e.maxHp > this.threshold) return;
                 this.canUse = !1;
                 let i = e.maxHp * this.dmgPer;
-                this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(19) && (i *= 1.5), t.gameMgr.takeDamage(null, e, i);
+                this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(19) && (i *= 1.5), XMgr.gameMgr.takeDamage(null, e, i);
                 let s = "res/atlas/res/Ani/chujue.atlas";
                 Laya.loader.getRes(s) ? XEffectUtil.I.loadAnimAndPlayReturn(s, e.owner.x - 20, e.owner.y - 30, !1) : Laya.loader.load(s, Laya.Handler.create(this, () => {
-                    t.mapMgr.effectLayer.destroyed || XEffectUtil.I.loadAnimAndPlayReturn(s, e.owner.x - 20, e.owner.y - 30, !1)
+                    XMgr.mapMgr.effectLayer.destroyed || XEffectUtil.I.loadAnimAndPlayReturn(s, e.owner.x - 20, e.owner.y - 30, !1)
                 })), this.clear(), this.playerWorkEff()
             }
             clear() {
@@ -5790,7 +5838,7 @@ define("js/bundle.js", function(require, module, exports) {
         class XTowerBuffEffect extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.map = new Map, this.changeVal = this.cfg.value[0];
-                let a = t.buildingMgr.getRoom(this.data.roomId);
+                let a = XMgr.buildingMgr.getRoom(this.data.roomId);
                 for (const t of a.buildings) t.type == e.BuildType.tower && this.addBuff(t);
                 fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
                 fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove)
@@ -5800,11 +5848,11 @@ define("js/bundle.js", function(require, module, exports) {
             }
             addBuff(e) {
                 let i = this.createBuff();
-                i && (t.buffMgr.addBuff(e, i), this.map.set(e, i))
+                i && (XMgr.buffMgr.addBuff(e, i), this.map.set(e, i))
             }
             removeBuff(e) {
                 let i = this.map.get(e);
-                t.buffMgr.removeBuff(e, i), this.map.delete(e)
+                XMgr.buffMgr.removeBuff(e, i), this.map.delete(e)
             }
             onBuildingBuild(t) {
                 t.roomId == this.data.roomId && t.type == e.BuildType.tower && this.addBuff(t)
@@ -5815,22 +5863,22 @@ define("js/bundle.js", function(require, module, exports) {
             clear() {
                 fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
                 fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove);
-                let i = t.buildingMgr.getRoom(this.data.roomId);
+                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
                 for (const t of i.buildings) t.type == e.BuildType.tower && this.removeBuff(t)
             }
         }
         class XTowerAddAtkDst extends XTowerBuffEffect {
             createBuff() {
                 let i = this.changeVal,
-                    s = t.buildingMgr.getBuildCfg(this.data.id);
-                return t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new qt(i)
+                    s = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                return XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new qt(i)
             }
         }
         class XTowerAddAtkSpd extends XTowerBuffEffect {
             createBuff() {
-                let i = t.buildingMgr.getBuildCfg(this.data.id);
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffId.includes(17) && t.user.gameInfo.getBuffData(17)) {
-                    let e = t.cfg.buffCfg.get(17).values[0] / 100 + 1;
+                let i = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffId.includes(17) && XMgr.user.gameInfo.getBuffData(17)) {
+                    let e = XMgr.cfg.buffCfg.get(17).values[0] / 100 + 1;
                     return new zt(-this.changeVal * e)
                 }
                 return new zt(-this.changeVal)
@@ -5851,7 +5899,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.data.palsyTime) return;
                 if (!this.getCurDoorModel()[0]) return;
                 let a = Math.floor(this.addValue * 2 * * i.lv);
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (t.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.showWorkEff())
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.showWorkEff())
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
@@ -5864,7 +5912,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             exec(i) {
                 let s = i * this.addValue;
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && t.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y)
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y)
             }
             clear() {
                 this.node.off(be.AddCoin_By_Cnt, this, this.exec)
@@ -5882,9 +5930,9 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s) return;
                 if (s.curHp / s.maxHp > this.threshold) return;
                 let a = new Laya.Animation;
-                a.source = "res/atlas/res/Ani/lanyincao.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridSize / 2, e.owner.y - C.GridSize, !1), t.gameMgr.DizzyTarget(e, this.dizzyTime, !1), this.clear();
+                a.source = "res/atlas/res/Ani/lanyincao.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridSize / 2, e.owner.y - C.GridSize, !1), XMgr.gameMgr.DizzyTarget(e, this.dizzyTime, !1), this.clear();
                 let n = this.data;
-                t.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
+                XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
@@ -5905,7 +5953,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = new Laya.Animation;
                 a.source = "res/atlas/res/Ani/xun.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), e.ownerScript.setEscape(!0), this.clear();
                 let n = this.data;
-                t.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
+                XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
             }
             clear() {
                 let e = this.getCurDoorModel()[0];
@@ -5928,11 +5976,11 @@ define("js/bundle.js", function(require, module, exports) {
                     let i = new Laya.Animation;
                     i.source = "res/atlas/res/Ani/gou.atlas", XEffectUtil.I.playAnimByTime(i, 0, -80, this.time, e.owner);
                     let s = new Vt(this.slowRatio);
-                    t.buffMgr.addBuff(e, s), this.map.set(e, s), e.owner.timerOnce(this.time, e, () => {
-                        t.buffMgr.removeBuff(e, s)
+                    XMgr.buffMgr.addBuff(e, s), this.map.set(e, s), e.owner.timerOnce(this.time, e, () => {
+                        XMgr.buffMgr.removeBuff(e, s)
                     }), this.clear();
                     let a = this.data;
-                    t.buildingMgr.destroyBuilding(this.data.playerUuid, a.x, a.y, !1)
+                    XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, a.x, a.y, !1)
                 }
             }
             clear() {
@@ -5962,11 +6010,11 @@ define("js/bundle.js", function(require, module, exports) {
                     let i = e.owner.x,
                         s = e.owner.y - C.GridSize,
                         a = new Laya.Image("res/bullet/iceBall/1.png");
-                    a.anchorX = 1, t.mapMgr.effectLayer.addChild(a), a.pos(i, s), (new fx.Sequence).rotate(-90, 500).exec(new Laya.Handler(this, () => {
-                        t.gameMgr.DizzyTarget(e, this.dizzyTime, !0), a.destroy()
+                    a.anchorX = 1, XMgr.mapMgr.effectLayer.addChild(a), a.pos(i, s), (new fx.Sequence).rotate(-90, 500).exec(new Laya.Handler(this, () => {
+                        XMgr.gameMgr.DizzyTarget(e, this.dizzyTime, !0), a.destroy()
                     })).run(a);
                     let n = this.data;
-                    t.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
+                    XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
                 }
                 this.hunterArr = []
             }
@@ -5990,7 +6038,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.addChild(this.aniNode), 
                 this.data = e, 
                 this.data.ownerScript = this, 
-                this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
+                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
                 this.initSkin(), 
                 this.node.on(be.Hp_Changed, this, this.onHpChanged), 
                 this.node.on(be.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
@@ -5998,14 +6046,14 @@ define("js/bundle.js", function(require, module, exports) {
             initCdUI(e) {
                 this.barNode = fx.Utils.createPrefab(T.Prefab_BuildingCD);
                 let i = this.barNode.getChildByName("img_building");
-                this.panel_buildCd = i.getChildByName("panel_bar"), this.panel_buildCd.width = .001, t.mapMgr.buildCdLayer.addChild(this.barNode);
-                let s = t.mapMgr.gridPosToMapPos(e.x, e.y);
+                this.panel_buildCd = i.getChildByName("panel_bar"), this.panel_buildCd.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.barNode);
+                let s = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
                 this.barNode.pos(s.x, s.y)
             }
             initSkin() {
                 this.skinNode.destroyChildren(), this.initDiSkin();
                 let i = !1;
-                this.data.playerUuid == t.playerMgr.player.uuid && (i = !0), i && this.cfg.buffId && t.user.gameInfo.getBuffData(this.cfg.buffId[0]) && t.gameMgr.gameMode == e.GameMode.E_Defense ? this.initBuffSkin() : this.cfg.buildAni ? XEffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode) : (this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5), this.data.isSpecial && this.updateIcon()
+                this.data.playerUuid == XMgr.playerMgr.player.uuid && (i = !0), i && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? this.initBuffSkin() : this.cfg.buildAni ? XEffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode) : (this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5), this.data.isSpecial && this.updateIcon()
             }
             initBuffSkin() {
                 if (this.cfg.buffBuildAni) XEffectUtil.I.playBuildAni(this.cfg.buffBuildAni, this.skinNode);
@@ -6022,7 +6070,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.isDie && (fx.EventCenter.I.event(XEventNames.E_BUILD_DEAD, [this.data]), this.onDead())
             }
             onDead() {
-                this.isDead || (t.playerMgr.mineUuid == this.data.playerUuid ? t.gameMgr.addDataInArr(this.data) : this.data.type && "door" == this.data.type && t.playerMgr.player.roomId == this.data.roomId && t.gameMgr.addDataInArr(this.data), t.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1))
+                this.isDead || (XMgr.playerMgr.mineUuid == this.data.playerUuid ? XMgr.gameMgr.addDataInArr(this.data) : this.data.type && "door" == this.data.type && XMgr.playerMgr.player.roomId == this.data.roomId && XMgr.gameMgr.addDataInArr(this.data), XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1))
             }
             onHit(e) {
                 this.onHitting || (this.onHitting = !0, this.node.scale(1, 1), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
@@ -6044,10 +6092,10 @@ define("js/bundle.js", function(require, module, exports) {
                         let s = Kt.createEffect(i, this.data);
                         if (s) {
                             if (s.clearFlag = !0, this.addEffect(s), i.type == e.EffectType.Enemy_SlowAtkSpd) {
-                                return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
+                                return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
                             }
                             if (i.type == e.EffectType.Door_FightBackOnBeAtk) {
-                                return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_2()
+                                return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_2()
                             }
                         }
                     }
@@ -6065,21 +6113,21 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = this.effects.findIndex(t => t == e); - 1 != t && (this.effects[t].clear(), this.effects.splice(t, 1))
             }
             upgrade() {
-                this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), t.gameMgr.gameMode == e.GameMode.E_Defense && this.data.playerUuid == t.playerMgr.mineUuid && this.cfg.buffId && t.user.gameInfo.getBuffData(this.cfg.buffId[0]) && this.cfg.buffIcon ? this.imgBody.skin = this.cfg.buffIcon : (this.imgBody.skin = this.cfg.icon, this.imgBody_1 && (this.imgBody_1.skin = this.cfg.icon)), this.cfg.diIcon && (this.imgDi.skin = this.cfg.diIcon, this.imgDi_1 && (this.imgDi_1.skin = this.cfg.diIcon)), this.initEffects()
+                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.data.playerUuid == XMgr.playerMgr.mineUuid && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && this.cfg.buffIcon ? this.imgBody.skin = this.cfg.buffIcon : (this.imgBody.skin = this.cfg.icon, this.imgBody_1 && (this.imgBody_1.skin = this.cfg.icon)), this.cfg.diIcon && (this.imgDi.skin = this.cfg.diIcon, this.imgDi_1 && (this.imgDi_1.skin = this.cfg.diIcon)), this.initEffects()
             }
             videoUpgrade() {}
             isInStage() {
-                let e = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                return !!t.mapMgr.isInStageByMapPos(e.x - C.GridHalfSize, e.y - C.GridHalfSize) || (!!t.mapMgr.isInStageByMapPos(e.x + C.GridHalfSize, e.y + C.GridHalfSize) || (!!t.mapMgr.isInStageByMapPos(this.node.x - C.GridHalfSize, this.node.y - C.GridHalfSize) || !!t.mapMgr.isInStageByMapPos(this.node.x + C.GridHalfSize, this.node.y + C.GridHalfSize)))
+                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                return !!XMgr.mapMgr.isInStageByMapPos(e.x - C.GridHalfSize, e.y - C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(e.x + C.GridHalfSize, e.y + C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(this.node.x - C.GridHalfSize, this.node.y - C.GridHalfSize) || !!XMgr.mapMgr.isInStageByMapPos(this.node.x + C.GridHalfSize, this.node.y + C.GridHalfSize)))
             }
             onUpdate() {
-                if (!t.gameMgr.isPause && this.updateBuildCd())
+                if (!XMgr.gameMgr.isPause && this.updateBuildCd())
                     if (this.data.palsyTime) this.checkPalsyTime();
                     else if (this.map)
                     if (this.isInStage()) {
-                        if (this.node.visible = !0, this.cfg.effectList && 0 != this.cfg.effectList.length && (this.node.alpha = 1, this.detlaAlpha = .05), !t.gameMgr.isHunter())
-                            if (t.gameMgr.canHandleGrid(this.data.x, this.data.y) && t.buildingMgr.canUpgrade(t.playerMgr.mineUuid, this.data)) {
-                                let i = this.data.type == e.BuildType.door ? t.playerMgr.mineRoomId == this.data.roomId : t.playerMgr.mineUuid == this.data.playerUuid;
+                        if (this.node.visible = !0, this.cfg.effectList && 0 != this.cfg.effectList.length && (this.node.alpha = 1, this.detlaAlpha = .05), !XMgr.gameMgr.isHunter())
+                            if (XMgr.gameMgr.canHandleGrid(this.data.x, this.data.y) && XMgr.buildingMgr.canUpgrade(XMgr.playerMgr.mineUuid, this.data)) {
+                                let i = this.data.type == e.BuildType.door ? XMgr.playerMgr.mineRoomId == this.data.roomId : XMgr.playerMgr.mineUuid == this.data.playerUuid;
                                 3008 != this.data.id && this.isActive && this.map.showUpTips(this.data.x, this.data.y, i)
                             } else this.map.hideUpTips(this.data.x, this.data.y)
                     } else this.node.visible = !1
@@ -6092,17 +6140,17 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgRepair.visible = !0, this.imgRepair.rotation = 0, Laya.Tween.clearAll(this.imgRepair), (new fx.Sequence).rotate(-30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !1])).rotate(30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !0])).run(this.imgRepair)
             }
             repairHandler(e, i) {
-                this.data.hpPercent < 1 && t.gameMgr.AddHp(this.data, .05), i && (this.imgRepair.visible = !1, t.buildingMgr.stopRepairDoor(this.data))
+                this.data.hpPercent < 1 && XMgr.gameMgr.AddHp(this.data, .05), i && (this.imgRepair.visible = !1, XMgr.buildingMgr.stopRepairDoor(this.data))
             }
             onDestroy() {
                 if (this.palsyEff && this.palsyEff.destroy(), this.barNode && this.barNode.destroy(), this.cfg.effectList && 0 != this.cfg.effectList.length) {
                     this.clearEffects();
                     for (const i of this.cfg.effectList) {
                         if (i.type == e.EffectType.Enemy_SlowAtkSpd) {
-                            return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.hideDoorEff_1()
+                            return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.hideDoorEff_1()
                         }
                         if (i.type == e.EffectType.Door_FightBackOnBeAtk) {
-                            return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.hideDoorEff_2()
+                            return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.hideDoorEff_2()
                         }
                     }
                 }
@@ -6317,13 +6365,13 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
             onAwake() {
-                super.onAwake(), this.moveSpeed = t.cfg.constant.hunterMoveSpeed, this.moveSpeed /= t.gameMgr.hunterSpeedRatio, this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1
+                super.onAwake(), this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1
             }
             init(e) {
                 super.init(e), this.lv = e.lv, e.invincible = !0
             }
             onInit() {
-                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, this.lb_name.anchorY = 1, this.lb_name.y = -170, this.lb_name.fontSize = 25, this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name), this.initBody(), this.data.uuid != t.playerMgr.mineUuid && this.initAI(), this.createHealthBar(), this.dCfg = t.gameMgr.dCfg, this.lb_name.text = "讨债鬼"
+                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, this.lb_name.anchorY = 1, this.lb_name.y = -170, this.lb_name.fontSize = 25, this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name), this.initBody(), this.data.uuid != XMgr.playerMgr.mineUuid && this.initAI(), this.createHealthBar(), this.dCfg = XMgr.gameMgr.dCfg, this.lb_name.text = "讨债鬼"
             }
             initBody() {
                 let t = {
@@ -6346,7 +6394,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ai.load(e)
             }
             onUpdate() {
-                if (t.gameMgr.gameStatus == e.GameStatus.E_GAME_START && this.isSkinLoaded && !t.gameMgr.isPause && !this.data.isDie) {
+                if (XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && this.isSkinLoaded && !XMgr.gameMgr.isPause && !this.data.isDie) {
                     if (this.node.zOrder = this.node.y, this.data.dizzyDurSec) {
                         if (this.data.dizzyDurSec -= fx.Utils.getFrameDelta(.33), !(this.data.dizzyDurSec <= 0)) return;
                         this.data.dizzyDurSec = 0
@@ -6358,7 +6406,7 @@ define("js/bundle.js", function(require, module, exports) {
                 XToast.show("讨债鬼拿着元宝离开了"), this.data.isDie = !0, this.barNode && (this.barNode.visible = !1), this.healthBarNode && (this.healthBarNode.visible = !1), this.skinNode && (this.skinNode.visible = !1), this.lb_name && (this.lb_name.visible = !1)
             }
             checkHealZone() {
-                let e = t.mapMgr.isInHealZone(this.node.x, this.node.y);
+                let e = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
                 this.isInHealZone = e, e ? (this.isOutHeal && (this.isOutHeal = !1), this.data.isBack && this.back(), this.data.invincible = !0) : (this.isOutHeal || (this.isFirstOutHeal && (this.isFirstOutHeal = !1), this.isOutHeal = !0), this.data.invincible = !1, this.lastHealTime = 0)
             }
             attack(i) {
@@ -6366,12 +6414,12 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isAtking = !0, this.playAnim("attack", !0, () => {
                     this.isAtking = !1, this.playAnim("idle")
                 });
-                let s = t.gameTime.now;
+                let s = XMgr.gameTime.now;
                 i.type == e.BuildType.door && s - this.startAtkTime >= 1e4 && (this.startAtkTime = s), this.lastAttackRoomId = i.roomId, this.owner.timer.once(100, this, () => {
                     if (i && !i.owner.destroyed) {
                         let s = !1,
                             a = Math.max(this.data.getAtkPow(), 1);
-                        this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), s && i.owner && !i.owner.destroyed && t.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", t.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? t.gameMgr.takeDamage(this.data, i.doorkeeper, a) : t.gameMgr.takeDamage(this.data, i, a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), t.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
+                        this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), s && i.owner && !i.owner.destroyed && XMgr.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", XMgr.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? XMgr.gameMgr.takeDamage(this.data, i.doorkeeper, a) : XMgr.gameMgr.takeDamage(this.data, i, a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), XMgr.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
                     }
                 }), this.atkCdScale > .5 ? this.setAtkFrqScale(this.atkCdScale - .05) : this.data.isRage ? this.setAtkFrqScale(this.lastAtkCdScale) : this.atkCdScale = 1
             }
@@ -6383,7 +6431,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isInHealZone
             }
             checkUpgrade() {
-                let e = t.cfg.hunterCfg.upAtcCntList;
+                let e = XMgr.cfg.hunterCfg.upAtcCntList;
                 if (this.lv <= e.length) {
                     let t = e[this.lv - 1];
                     t = Math.ceil(t * (1 + this.dCfg.upRate)), this.data.equipExp && (t = Math.ceil(t * (1 - this.data.equipExp))), t <= this.atkCnt && this.upgrade(t)
@@ -6391,12 +6439,12 @@ define("js/bundle.js", function(require, module, exports) {
             }
             upgrade(i) {
                 this.atkCnt -= i, this.lv++, this.data.lv = this.lv;
-                let s = t.cfg.hunterCfg.hpList,
-                    a = t.cfg.hunterCfg.attackList;
-                t.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = t.cfg.hunterCfg.hunterHpList, a = t.cfg.hunterCfg.hunterAttackList);
+                let s = XMgr.cfg.hunterCfg.hpList,
+                    a = XMgr.cfg.hunterCfg.attackList;
+                XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = XMgr.cfg.hunterCfg.hunterHpList, a = XMgr.cfg.hunterCfg.hunterAttackList);
                 let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
                     r = a[this.lv - 1];
-                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
+                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), this.data.attackPower = r, XMgr.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
             }
             dismissDizzy() {
                 this.data.dizzyDurSec = 0, this.data.dizzyStartTime = 0
@@ -6419,7 +6467,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAttackCd() {
                 let i = this.data.getAtkCD();
-                return t.gameMgr.gameMode == e.GameMode.E_Hunt && (i *= .6), i *= this.atkCdScale, this.data.equipAtkSpeed && (i *= 1 - this.data.equipAtkSpeed), this.data.skillAtkSquRate && (i /= 1 + this.data.skillAtkSquRate), i = Math.max(.2, i)
+                return XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (i *= .6), i *= this.atkCdScale, this.data.equipAtkSpeed && (i *= 1 - this.data.equipAtkSpeed), this.data.skillAtkSquRate && (i /= 1 + this.data.skillAtkSquRate), i = Math.max(.2, i)
             }
             setAtkFrqScale(e) {
                 e >= 0 && e <= 1.2 && (this.atkCdScale = e)
@@ -6531,9 +6579,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 super.onAwake(), 
-                this.moveSpeed = t.cfg.constant.hunterMoveSpeed, 
-                this.moveSpeed /= t.gameMgr.hunterSpeedRatio, 
-                this.maxHpAddRate = t.gameMgr.dCfg.addMaxHp ? t.gameMgr.dCfg.addMaxHp : 0, 
+                this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, 
+                this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, 
+                this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, 
                 this.atkCdScale = 1, this.lastAtkCdScale = 1, 
                 fx.EventCenter.I.on(XEventNames.E_Player_Dead, this, this.onPlayerDead)
             }
@@ -6556,7 +6604,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.invincible = !0, 
             
                 // 游戏模式判断
-                t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost 
+                XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost 
                     ? (
                         // 如果是鬼，移速翻倍
                         i.isGhost && (this.moveSpeed *= 2), 
@@ -6567,9 +6615,9 @@ define("js/bundle.js", function(require, module, exports) {
                     ) 
                     : (
                         // 不是 AngelOrGhost 模式，进入其它模式逻辑
-                        t.gameMgr.gameMode != e.GameMode.E_Defense 
-                        || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 
-                            && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)
+                        XMgr.gameMgr.gameMode != e.GameMode.E_Defense 
+                        || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 
+                            && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)
                     ) 
                     && (
                         // 皮肤判定
@@ -6592,18 +6640,18 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lb_name.stroke = 3, 
                 this.node.addChild(this.lb_name), 
                 this.initBody(), 
-                this.data.uuid != t.playerMgr.mineUuid && this.initAI(), 
+                this.data.uuid != XMgr.playerMgr.mineUuid && this.initAI(), 
                 this.createHealthBar(), 
-                this.dCfg = t.gameMgr.dCfg;
-                let i = t.user.gameInfo.maxHunterLevel;
-                t.gameMgr.gameMode == e.GameMode.E_Hunt || (i = this.dCfg.id);
-                let s = t.cfg.hunterDifficultCfg.get(i);
-                if (t.gameMgr.gameMode == e.GameMode.E_Hunt || t.gameMgr.gameMode == e.GameMode.E_Defense) 
+                this.dCfg = XMgr.gameMgr.dCfg;
+                let i = XMgr.user.gameInfo.maxHunterLevel;
+                XMgr.gameMgr.gameMode == e.GameMode.E_Hunt || (i = this.dCfg.id);
+                let s = XMgr.cfg.hunterDifficultCfg.get(i);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt || XMgr.gameMgr.gameMode == e.GameMode.E_Defense) 
                     this.data.isGhost || (this.lb_name.text = s.title, this.lb_name.color = s.titleColor);
-                else if (t.gameMgr.gameMode == e.GameMode.E_SevenGhost && !this.data.isGhost) {
-                    let e = t.user.gameInfo.curSevenGhostLv,
+                else if (XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && !this.data.isGhost) {
+                    let e = XMgr.user.gameInfo.curSevenGhostLv,
                         i = [1, 4, 7, 11, 14, 17, 26],
-                        s = t.cfg.hunterDifficultCfg.get(i[e - 1]);
+                        s = XMgr.cfg.hunterDifficultCfg.get(i[e - 1]);
                     this.lb_name.text = s.title, this.lb_name.color = s.titleColor
                 }
             }
@@ -6635,18 +6683,18 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ai.load(e)
             }
             onUpdate() {
-                if (t.gameMgr.gameStatus == e.GameStatus.E_GAME_START && this.isSkinLoaded && !t.gameMgr.isPause) {
+                if (XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && this.isSkinLoaded && !XMgr.gameMgr.isPause) {
                     if (this.node.zOrder = this.node.y, this.data.dizzyDurSec) {
                         if (this.data.dizzyDurSec -= fx.Utils.getFrameDelta(.33), !(this.data.dizzyDurSec <= 0)) return;
                         this.data.dizzyDurSec = 0
                     }
-                    !this.data.isGhost && (t.gameMgr.gameMode != e.GameMode.E_Defense || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)) && (this.canUseSkill ? this.useSkillsByTime() : (this.passiveSkillCd += fx.Utils.getFrameDelta(.033), 
+                    !this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && (this.canUseSkill ? this.useSkillsByTime() : (this.passiveSkillCd += fx.Utils.getFrameDelta(.033), 
                     this.passiveSkillCd >= this.passiveIntervalTime && (console.log("------------技能刷新------------"), 
                     this.canUseSkill = !0, this.isUsedSkill = !1)), this.checkAutoSkill()), this.checkHealZone(), this.ai && this.ai.exec()
                 }
             }
             checkHealZone() {
-                let e = t.mapMgr.isInHealZone(this.node.x, this.node.y);
+                let e = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
                 if (this.isInHealZone = e, e) {
                     if (this.isOutHeal) {
                         this.isOutHeal = !1;
@@ -6656,14 +6704,14 @@ define("js/bundle.js", function(require, module, exports) {
                     let e = this.owner.timer.delta / 1e3;
                     if (this.lastHealTime += e, this.lastHealTime >= 1 && (this.lastHealTime = 0, this.data.hpPercent < 1)) {
                         let e = this.healSpeed;
-                        if (t.user.gameInfo.isStartLv) {
-                            let i = t.gameMgr.dCfg;
+                        if (XMgr.user.gameInfo.isStartLv) {
+                            let i = XMgr.gameMgr.dCfg;
                             i.addHpLv && this.lv >= i.addHpLv && (e = i.addHpRate)
                         }
-                        t.gameMgr.AddHp(this.data, e)
+                        XMgr.gameMgr.AddHp(this.data, e)
                     }
                     this.data.invincible = !0
-                } else this.isOutHeal || (this.isFirstOutHeal ? this.isFirstOutHeal = !1 : 1 != t.gameMgr.difficultABTest && this.lv >= this.dCfg.addExpLv && this.dCfg.addExp && (this.atkCnt += this.dCfg.addExp, this.checkUpgrade()), this.isOutHeal = !0), this.data.invincible = !1, this.lastHealTime = 0
+                } else this.isOutHeal || (this.isFirstOutHeal ? this.isFirstOutHeal = !1 : 1 != XMgr.gameMgr.difficultABTest && this.lv >= this.dCfg.addExpLv && this.dCfg.addExp && (this.atkCnt += this.dCfg.addExp, this.checkUpgrade()), this.isOutHeal = !0), this.data.invincible = !1, this.lastHealTime = 0
             }
             switchTarget() {
                 let e = this.isSwitchTarget,
@@ -6678,25 +6726,25 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.isEntice && (this.data.isEntice = !1), this.isAtking = !0, this.playAnim("attack", !0, () => {
                     this.isAtking = !1, this.playAnim("idle")
                 });
-                let s = t.gameTime.now;
+                let s = XMgr.gameTime.now;
                 i.type == e.BuildType.door && s - this.startAtkTime >= 1e4 && (this.startAtkTime = s, this.data.skillIdArr.includes(14) && !this.data.skillIsUsed && (this.startAtkTime = 0, this.data.skillIsUsed = !0, this.changeSkin(!1), this.usePalsySkill(i))), this.lastAttackRoomId = i.roomId, this.owner.timer.once(100, this, () => {
                     if (i && !i.owner.destroyed) {
-                        if (!this.data.isGhost && (t.gameMgr.gameMode != e.GameMode.E_Defense || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)) && this.canUseSkill && !this.isUsedSkill) {
+                        if (!this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && this.canUseSkill && !this.isUsedSkill) {
                             let s = i;
                             if (10003 == this.data.skinId)
-                                if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
+                                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
                                     if (this.data.lv >= 4) {
-                                        let i = t.mapMgr.getRoomById(s.roomId);
+                                        let i = XMgr.mapMgr.getRoomById(s.roomId);
                                         s.type != e.BuildType.door || i.bedModelList[0].isDie || this.useSkillsOfAtk(s.roomId)
                                     }
                                 } else {
-                                    let i = t.mapMgr.getRoomById(s.roomId);
+                                    let i = XMgr.mapMgr.getRoomById(s.roomId);
                                     s.type != e.BuildType.door || i.bedModelList[0].isDie || this.useSkillsOfAtk(s.roomId)
                                 } else this.useSkillsOfAtk(s.roomId)
                         }
                         let s = !1,
                             a = Math.max(this.data.getAtkPow(), 1);
-                        !this.data.isGhost && (t.gameMgr.gameMode != e.GameMode.E_Defense || 1 == t.gameMgr.difficultABTest && t.user.gameInfo.curLv > 2 && (1 != t.gameMgr.skillABTest || t.user.userInfo.loginDay > 1)) && (a *= 1 + this.data.skillAtkRate, 10001 == this.data.skinId && this.canUseSkill && (this.critCurCnt > this.critCnt ? (this.critCurCnt = 1, this.closeSkillByAtk()) : (this.critCurCnt++, this.critScale = 2, s = !0))), this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), t.gameMgr.gameMode == e.GameMode.E_Hunt && i.type == e.BuildType.door && (a = (1 - this.dCfg.doorReduce) * a), a *= this.critScale, s && i.owner && !i.owner.destroyed && t.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", t.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? t.gameMgr.takeDamage(this.data, i.doorkeeper, a) : t.gameMgr.takeDamage(this.data, i, a), this.suckHp(a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), t.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
+                        !this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && (a *= 1 + this.data.skillAtkRate, 10001 == this.data.skinId && this.canUseSkill && (this.critCurCnt > this.critCnt ? (this.critCurCnt = 1, this.closeSkillByAtk()) : (this.critCurCnt++, this.critScale = 2, s = !0))), this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && i.type == e.BuildType.door && (a = (1 - this.dCfg.doorReduce) * a), a *= this.critScale, s && i.owner && !i.owner.destroyed && XMgr.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", XMgr.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? XMgr.gameMgr.takeDamage(this.data, i.doorkeeper, a) : XMgr.gameMgr.takeDamage(this.data, i, a), this.suckHp(a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), XMgr.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
                     }
                 }), this.atkCdScale > .5 ? this.setAtkFrqScale(this.atkCdScale - .05) : this.data.isRage ? this.setAtkFrqScale(this.lastAtkCdScale) : this.atkCdScale = 1
             }
@@ -6707,7 +6755,7 @@ define("js/bundle.js", function(require, module, exports) {
                     s += i, 
                     this.data.curHp = Math.min(s, this.data.maxHp), 
                     this.healthBar.updateHealth(), 
-                    t.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
+                    XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
                 }
             }
             playAnim(aniName, t = !1, i) {
@@ -6719,7 +6767,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isInHealZone
             }
             checkUpgrade() {
-                let e = t.cfg.hunterCfg.upAtcCntList;
+                let e = XMgr.cfg.hunterCfg.upAtcCntList;
                 if (this.lv <= e.length) {
                     let t = e[this.lv - 1];
                     t = Math.ceil(t * (1 + this.dCfg.upRate)), 
@@ -6731,13 +6779,13 @@ define("js/bundle.js", function(require, module, exports) {
                 this.atkCnt += e, this.checkUpgrade()
             }
             upgrade(i) {
-                this.atkCnt -= i, this.lv++, t.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || 2 == this.lv && (this.autoSkillId = XRandomUtil.getIntRandom(1, 4), this.autoSkillId < 3 ? this.autoSkillCd = 90 : this.autoSkillCd = 60, this.useAutoSkill(), this.curAutoSkillCd = 0, this.healthBar.showAutoSkillBar(), this.healthBar.updateAutoSkillBar(0)), this.data.lv = this.lv;
-                let s = t.cfg.hunterCfg.hpList,
-                    a = t.cfg.hunterCfg.attackList;
-                t.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = t.cfg.hunterCfg.hunterHpList, a = t.cfg.hunterCfg.hunterAttackList);
+                this.atkCnt -= i, this.lv++, XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || 2 == this.lv && (this.autoSkillId = XRandomUtil.getIntRandom(1, 4), this.autoSkillId < 3 ? this.autoSkillCd = 90 : this.autoSkillCd = 60, this.useAutoSkill(), this.curAutoSkillCd = 0, this.healthBar.showAutoSkillBar(), this.healthBar.updateAutoSkillBar(0)), this.data.lv = this.lv;
+                let s = XMgr.cfg.hunterCfg.hpList,
+                    a = XMgr.cfg.hunterCfg.attackList;
+                XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = XMgr.cfg.hunterCfg.hunterHpList, a = XMgr.cfg.hunterCfg.hunterAttackList);
                 let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
                     r = a[this.lv - 1];
-                this.data.isGhost ? (n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`${this.data.name} 执行人升到${this.lv}等级`) : XToast.show(`${this.data.name} 升到${this.lv}等级`)) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`木头人升到${this.lv}等级`) : XToast.show(`噬魂者升到${this.lv}等级`), this.data.attackPower = r, t.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), t.gameMgr.gameMode == e.GameMode.E_Defense && t.gameMgr.dCfg.addSkillLv == this.lv && this.getSkill(), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
+                this.data.isGhost ? (n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`${this.data.name} 执行人升到${this.lv}等级`) : XToast.show(`${this.data.name} 升到${this.lv}等级`)) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`木头人升到${this.lv}等级`) : XToast.show(`噬魂者升到${this.lv}等级`), this.data.attackPower = r, XMgr.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && XMgr.gameMgr.dCfg.addSkillLv == this.lv && this.getSkill(), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
             }
             takeEquip(e) {
                 this.refreshEquip(e), this.addUpgradeCnt()
@@ -6748,8 +6796,8 @@ define("js/bundle.js", function(require, module, exports) {
                         i ? this.data.equipAtk -= e.value : this.data.equipAtk += e.value;
                         break;
                     case 1:
-                        let s = t.cfg.hunterCfg.hunterHpList[this.lv - 1] * (1 + this.maxHpAddRate);
-                        i ? (this.data.equipHp -= e.value, t.gameMgr.changeMaxHp(this.data, s + this.data.equipHp, this.data.curHp)) : (this.data.equipHp += e.value, t.gameMgr.changeMaxHp(this.data, s + this.data.equipHp, this.data.curHp));
+                        let s = XMgr.cfg.hunterCfg.hunterHpList[this.lv - 1] * (1 + this.maxHpAddRate);
+                        i ? (this.data.equipHp -= e.value, XMgr.gameMgr.changeMaxHp(this.data, s + this.data.equipHp, this.data.curHp)) : (this.data.equipHp += e.value, XMgr.gameMgr.changeMaxHp(this.data, s + this.data.equipHp, this.data.curHp));
                         break;
                     case 2:
                         i ? (this.data.equipMoveSpeed -= e.value, e.extraValue && (this.data.equipAtkSpeed -= e.extraValue)) : (this.data.equipMoveSpeed += e.value, e.extraValue && (this.data.equipAtkSpeed += e.extraValue));
@@ -6765,13 +6813,13 @@ define("js/bundle.js", function(require, module, exports) {
                 this.refreshEquip(e, !0)
             }
             getSkill() {
-                let i = t.gameMgr.dCfg.skillWeight,
-                    s = t.gameMgr.difficultABTest;
-                if (1 == s && t.gameMgr.gameMode == e.GameMode.E_Defense && (i = t.gameMgr.dCfg.difficultSkillWeight), i) {
+                let i = XMgr.gameMgr.dCfg.skillWeight,
+                    s = XMgr.gameMgr.difficultABTest;
+                if (1 == s && XMgr.gameMgr.gameMode == e.GameMode.E_Defense && (i = XMgr.gameMgr.dCfg.difficultSkillWeight), i) {
                     let e = [];
                     for (let a = 0; a < i.length; a++) {
                         let n = a + 1,
-                            r = t.cfg.hunterSkillCfg.get(n);
+                            r = XMgr.cfg.hunterSkillCfg.get(n);
                         (r.isOpen || 1 == s && 4 == r.id) && !this.data.skillIdArr.includes(n) && e.push({
                             o: n,
                             weight: i[a]
@@ -6779,7 +6827,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     if (!e.length) return;
                     let a = fx.Utils.takeOneByWeight(e)[1].o,
-                        n = t.cfg.hunterSkillCfg.get(a);
+                        n = XMgr.cfg.hunterSkillCfg.get(a);
                     if (!n) return;
                     let r = n.des;
                     switch (this.data.skillIdArr.push(a), a) {
@@ -6795,7 +6843,7 @@ define("js/bundle.js", function(require, module, exports) {
                             let e = 0,
                                 i = XRandomUtil.getNumberRandom(0, 1);
                             e = i <= .85 ? 1 : i <= .9 ? 2 : 3;
-                            let s = t.cfg.skin.get(this.data.skinId);
+                            let s = XMgr.cfg.skin.get(this.data.skinId);
                             for (let t = 0; t < e; t++) this.createGhost(this.data.skinId, s.name + "镜像");
                             r = r.replace("{0}", `${e}`);
                             break;
@@ -6838,13 +6886,13 @@ define("js/bundle.js", function(require, module, exports) {
             addHpBySkill() {
                 if (!this.data.isDie && this.data.curHp < this.data.maxHp) {
                     let e = Math.ceil(.01 * this.data.maxHp);
-                    this.data.curHp += e, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.healthBar.updateHealth(), t.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
+                    this.data.curHp += e, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.healthBar.updateHealth(), XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
                 }
             }
             dizzySkill(i = 4, s = 3, a = !0) {
                 this.dismissDizzyFlag = !1;
-                let n = t.mapMgr.mapPosToGridPos(this.node.x, this.node.y),
-                    r = t.buildingMgr.getAroundBuildings(n.x, n.y, null, i),
+                let n = XMgr.mapMgr.mapPosToGridPos(this.node.x, this.node.y),
+                    r = XMgr.buildingMgr.getAroundBuildings(n.x, n.y, null, i),
                     o = this.owner.timer.currTimer;
                 for (const t of r) t.owner && t.type == e.BuildType.tower && (t.dizzyStartTime = o, t.dizzyDurSec = s, XEffectUtil.I.playDizzyEffect(t.owner.x, t.owner.y, s));
                 return a && XToast.show("玩家被震撼了！"), !0
@@ -6855,7 +6903,7 @@ define("js/bundle.js", function(require, module, exports) {
             rageSkill(i, s = !1) {
                 XChoreUtil.playSound(108);
                 let a = this.owner.timer.currTimer / 1e3;
-                this.skillAttackTime = a, this.data.isRage || (this.data.isRage = !0), t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了") : this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
+                this.skillAttackTime = a, this.data.isRage || (this.data.isRage = !0), XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了") : this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
                 let n = i || 8;
                 this.node.timerOnce(1e3 * n, this, this.cancelRage), fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
             }
@@ -6870,20 +6918,20 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAttackCd() {
                 let i = this.data.getAtkCD();
-                return t.gameMgr.gameMode == e.GameMode.E_Hunt && (i *= .6), i *= this.atkCdScale, this.data.equipAtkSpeed && (i *= 1 - this.data.equipAtkSpeed), this.data.skillAtkSquRate && (i /= 1 + this.data.skillAtkSquRate), i = Math.max(.2, i)
+                return XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (i *= .6), i *= this.atkCdScale, this.data.equipAtkSpeed && (i *= 1 - this.data.equipAtkSpeed), this.data.skillAtkSquRate && (i /= 1 + this.data.skillAtkSquRate), i = Math.max(.2, i)
             }
             setAtkFrqScale(e) {
                 e >= 0 && e <= 1.2 && (this.atkCdScale = e)
             }
             usePalsySkill(i) {
                 let s = i,
-                    a = t.mapMgr.getRoomById(s.roomId),
+                    a = XMgr.mapMgr.getRoomById(s.roomId),
                     n = [];
                 for (const t of a.buildings) t.type != e.BuildType.door && t.type != e.BuildType.bed && n.push(t);
                 if (n.length) {
                     let e = fx.Utils.randomInArray(n),
                         i = new Laya.Image("res/game/img_fanwan.png");
-                    i.anchorX = i.anchorY = .5, t.mapMgr.mapNode.addChild(i), i.pos(this.data.owner.x, this.data.owner.y), (new fx.Sequence).to({
+                    i.anchorX = i.anchorY = .5, XMgr.mapMgr.mapNode.addChild(i), i.pos(this.data.owner.x, this.data.owner.y), (new fx.Sequence).to({
                         x: e.owner.x,
                         y: e.owner.y
                     }, 500).exec(new Laya.Handler(this, () => {
@@ -6894,7 +6942,7 @@ define("js/bundle.js", function(require, module, exports) {
             autoHeal() {
                 this.data.curHp += .5 * this.data.maxHp, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.data.owner.event(be.Hp_Changed), this.healEff ? (this.healEff.visible = !0, this.healEff.play(0, !1), this.healEff.offAll(Laya.Event.STOPPED), this.healEff.on(Laya.Event.STOPPED, this, () => {
                     this.healEff.visible = !1
-                })) : t.assetLoader.createSpine("spines/effect/heal/huatuo_phyattack_2.bin", e => {
+                })) : XMgr.assetLoader.createSpine("spines/effect/heal/huatuo_phyattack_2.bin", e => {
                     this.healEff = e, this.node.addChild(e), this.healEff.play(0, !1), this.healEff.on(Laya.Event.STOPPED, this, () => {
                         this.healEff.visible = !1
                     })
@@ -6932,7 +6980,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.kuangbaoEff ? (this.kuangbaoEff.visible = !0, this.kuangbaoEff.play(0, !1), this.kuangbaoEff.offAll(Laya.Event.STOPPED), 
                 this.kuangbaoEff.on(Laya.Event.STOPPED, this, () => {
                     this.kuangbaoEff.visible = !1
-                })) : t.assetLoader.createSpine("spines/effect/kuangbao/skeleton.bin", e => {
+                })) : XMgr.assetLoader.createSpine("spines/effect/kuangbao/skeleton.bin", e => {
                     this.kuangbaoEff = e, this.node.addChild(e), 
                     this.kuangbaoEff.play(0, !1), 
                     this.kuangbaoEff.on(Laya.Event.STOPPED, this, () => {
@@ -6970,7 +7018,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.skinAniNode.addChild(this.img_yanluo), 
                 this.img_yanluo.anchorX = this.img_yanluo.anchorY = .5, 
                 this.img_yanluo.pos(C.GridHalfSize, C.GridSize), 
-                t.assetLoader.createSpine("spines/effect/yanluo/skeleton.bin", e => {
+                XMgr.assetLoader.createSpine("spines/effect/yanluo/skeleton.bin", e => {
                     this.img_yanluo.addChild(e), e.play(0, !0)
                 }), 
                 this.owner.timer.once(6e4, this, this.clearYanluo), this.data.owner.event(be.Hp_Changed)
@@ -6984,16 +7032,16 @@ define("js/bundle.js", function(require, module, exports) {
                         this.isUsedSkill = !0, this.critCnt = Math.min(Math.ceil(this.useSkillCnt / 3) - 1 + 5, 8);
                         break;
                     case 10003:
-                        let i = t.mapMgr.getRandomPosByRoomId(e);
+                        let i = XMgr.mapMgr.getRandomPosByRoomId(e);
                         if (i) {
-                            let e = t.mapMgr.gridPosToMapPos(i.x, i.y);
+                            let e = XMgr.mapMgr.gridPosToMapPos(i.x, i.y);
                             fx.EventCenter.I.event(XEventNames.E_Hurter_Dig, [e]), this.isUsedSkill = !0, this.owner.timer.once(2e3, this, this.closeSkillByAtk)
                         }
                         break;
                     case 10005:
                         this.isUsedSkill = !0;
                         let s = new Laya.Image("res/game/dizzy.png");
-                        s.anchorX = s.anchorY = .5, s.scale(0, 0), t.mapMgr.effectLayer.addChild(s), s.pos(this.node.x, this.node.y), (new fx.Sequence).scaleOut(4, 200).exec(new Laya.Handler(this, () => {
+                        s.anchorX = s.anchorY = .5, s.scale(0, 0), XMgr.mapMgr.effectLayer.addChild(s), s.pos(this.node.x, this.node.y), (new fx.Sequence).scaleOut(4, 200).exec(new Laya.Handler(this, () => {
                             s.destroy()
                         })).run(s);
                         let a = Math.min(6, Math.ceil(this.useSkillCnt / 2) + 2);
@@ -7005,7 +7053,7 @@ define("js/bundle.js", function(require, module, exports) {
                 switch (this.data.skinId) {
                     case 10002:
                         let i = Math.min(5, Math.ceil(this.useSkillCnt / 2)),
-                            s = t.cfg.skin.get(10002);
+                            s = XMgr.cfg.skin.get(10002);
                         for (let e = 0; e < i; e++) this.createGhost(this.data.skinId, s.name + "镜像");
                         this.owner.timer.once(4e4, this, this.closeSkillByTime), XToast.show("召唤镜像"), e = !0;
                         break;
@@ -7017,7 +7065,7 @@ define("js/bundle.js", function(require, module, exports) {
                             this.autoHealEff.offAll(Laya.Event.STOPPED), 
                             this.autoHealEff.on(Laya.Event.STOPPED, this, () => {
                                 this.autoHealEff.visible = !1
-                            })) : t.assetLoader.createSpine("spines/effect/heal/huatuo_phyattack_2.bin", e => {
+                            })) : XMgr.assetLoader.createSpine("spines/effect/heal/huatuo_phyattack_2.bin", e => {
                                 this.autoHealEff = e, this.node.addChild(e), e.pos(0, 20), this.autoHealEff.play(0, !1), 
                                 this.autoHealEff.on(Laya.Event.STOPPED, this, () => {
                                     this.autoHealEff.visible = !1
@@ -7027,7 +7075,7 @@ define("js/bundle.js", function(require, module, exports) {
                         break;
                     case 10007:
                         if (e = !0, this.createId < 10007) {
-                            let e = t.cfg.skin.get(this.createId);
+                            let e = XMgr.cfg.skin.get(this.createId);
                             this.createGhost(this.createId, e.name + "恶鬼"), this.createId += 1, XToast.show("召唤恶鬼")
                         }
                 }
@@ -7055,11 +7103,11 @@ define("js/bundle.js", function(require, module, exports) {
             createGhost(i, s) {
                 let a = new XPlayerModel;
                 a.isGhost = !0, a.uuid = fx.Utils.createUUID(), a.name = s;
-                let n = t.playerMgr.hunters[0].lv;
-                a.lv = n, n > 2 ? (a.curHp = a.maxHp = t.cfg.hunterCfg.hpList[n - 2], a.attackPower = t.cfg.hunterCfg.attackList[n - 2]) : 2 == n ? (a.curHp = a.maxHp = 400, a.attackPower = 4) : (a.curHp = a.maxHp = t.cfg.hunterCfg.hpList[0], a.attackPower = t.cfg.hunterCfg.attackList[0]), a.skinId = i, a.type = e.PlayerType.E_Hunter, t.playerMgr.addGhost(a)
+                let n = XMgr.playerMgr.hunters[0].lv;
+                a.lv = n, n > 2 ? (a.curHp = a.maxHp = XMgr.cfg.hunterCfg.hpList[n - 2], a.attackPower = XMgr.cfg.hunterCfg.attackList[n - 2]) : 2 == n ? (a.curHp = a.maxHp = 400, a.attackPower = 4) : (a.curHp = a.maxHp = XMgr.cfg.hunterCfg.hpList[0], a.attackPower = XMgr.cfg.hunterCfg.attackList[0]), a.skinId = i, a.type = e.PlayerType.E_Hunter, XMgr.playerMgr.addGhost(a)
             }
             deleteGhost() {
-                t.playerMgr.deleteGhost()
+                XMgr.playerMgr.deleteGhost()
             }
             digHole() {}
             onDestroy() {
@@ -7071,11 +7119,11 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.speed = 1e3, this.maxDistSquared = 1e6, this.subBullet = [], this.unlimitedRange = !1
             }
             onAwake() {
-                super.onAwake(), this.speed = t.cfg.constant.bulletSpeed, this.speed /= t.gameMgr.speedRatio
+                super.onAwake(), this.speed = XMgr.cfg.constant.bulletSpeed, this.speed /= XMgr.gameMgr.speedRatio
             }
             shoot(e, i, s, a, n, r, o, l, h, d) {
                 this.bulletKey = e, this.attack = i, this.moveDir = s, this.target = a, this.baseModel = n, this.collisionCb = h, this.isRotate = d;
-                for (let e of t.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
+                for (let e of XMgr.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
                 this.node = this.owner, this.node.rotation = 0, this.isActive = !0, this.originPos = new fx.V2(this.node.x, this.node.y), this.isDirZero() ? this.recover() : r || o || (this.initBody(l), this.node.on(Laya.Event.TRIGGER_ENTER, this, this.onCollision))
             }
             isDirZero() {
@@ -7115,15 +7163,15 @@ define("js/bundle.js", function(require, module, exports) {
             onCollision(e) {
                 if (!this.isActive) return;
                 let i, s = e.owner;
-                if (!s.destroyed && (t.gameMgr.playSoundByNode(this.node, 110), (i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie)) {
+                if (!s.destroyed && (XMgr.gameMgr.playSoundByNode(this.node, 110), (i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie)) {
                     let s = this.attack;
-                    t.gameMgr.takeDamage(this.baseModel, i.data, s), this.collisionCb && this.collisionCb.runWith(i.data);
+                    XMgr.gameMgr.takeDamage(this.baseModel, i.data, s), this.collisionCb && this.collisionCb.runWith(i.data);
                     for (const e of this.subBullet) e.recover();
                     this.recover(), XEffectUtil.I.playbulletEffect(e.owner.x, e.owner.y - C.GridHalfSize, this.fromModel)
                 }
             }
             recover() {
-                this.isActive = !1, this.removeBody(), t.bulletMgr.recoverBulletNode(this.bulletKey, this.node)
+                this.isActive = !1, this.removeBody(), XMgr.bulletMgr.recoverBulletNode(this.bulletKey, this.node)
             }
             onDestroy() {
                 this.removeBody()
@@ -7159,13 +7207,13 @@ define("js/bundle.js", function(require, module, exports) {
                         i = Math.clamp(i, 0, 1), e.Val = -(1 - i)
                     }
                 let e = this.data.getAtkCD(),
-                    i = t.user.gameInfo.getBuffData(2),
-                    s = t.mapMgr.getRoomById(this.data.roomId);
+                    i = XMgr.user.gameInfo.getBuffData(2),
+                    s = XMgr.mapMgr.getRoomById(this.data.roomId);
                 return !i || s.doorModel && !s.doorModel.isDie || (e /= 2), 1e3 * (e = Math.max(.21, e))
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -7195,7 +7243,7 @@ define("js/bundle.js", function(require, module, exports) {
                     r <= a && (r < s ? (s = r, e = t, i.splice(0, 0, t)) : i.push(t))
                 }
                 if (i.length > 1) {
-                    let e = t.playerMgr.getPlayer(this.data.playerUuid);
+                    let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                     if (e)
                         for (const t of e.buildings)
                             if (6022 == t.id) return i;
@@ -7204,7 +7252,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return i
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -7231,7 +7279,7 @@ define("js/bundle.js", function(require, module, exports) {
                 } else this.isWork = !1
             }
             fire(i) {
-                let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
                 let a = s.getComponent(XBulletScript);
@@ -7252,10 +7300,10 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody)
             }
             updateSpecial() {
-                this.isChange = !0, t.assetLoader.createSpine("spines/specialTower/dongbai_effect2_1.bin", e => {
-                    e.play(0, !0), this.destroyed ? e.destroy() : (this.specialSpine = e, t.mapMgr.effectLayer.addChild(e), e.pos(this.node.x, this.node.y))
+                this.isChange = !0, XMgr.assetLoader.createSpine("spines/specialTower/dongbai_effect2_1.bin", e => {
+                    e.play(0, !0), this.destroyed ? e.destroy() : (this.specialSpine = e, XMgr.mapMgr.effectLayer.addChild(e), e.pos(this.node.x, this.node.y))
                 }), this.owner.timer.once(2e3, this, () => {
-                    this.specialSpine && this.specialSpine.destroy(), t.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1), t.buildingMgr.buildSpecial(this.data)
+                    this.specialSpine && this.specialSpine.destroy(), XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1), XMgr.buildingMgr.buildSpecial(this.data)
                 })
             }
             getDamageMult() {
@@ -7265,19 +7313,19 @@ define("js/bundle.js", function(require, module, exports) {
                 super.upgrade(), this.data.isSpecial && this.updateIcon(), this.initEffects()
             }
             updateIcon() {
-                let e = t.buildingMgr.specialTowerCfg.get(this.data.specialId);
+                let e = XMgr.buildingMgr.specialTowerCfg.get(this.data.specialId);
                 e.diIcon && (this.imgDi.skin = e.diIcon)
             }
             addCoinByAtk() {}
             fireEvent() {
-                let e = t.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                let e = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 e && !e.isDie && e.owner.event(be.Tower_Be_fire, this.data.lv)
             }
         }
         class Ii extends XTowerScript {
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -7290,16 +7338,16 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onAwake(), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerGotoBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.onPlayerDownBed)
             }
             upgrade() {
-                this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.initEffects()
+                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.initEffects()
             }
             onPlayerGotoBed(i, s) {
                 if (!i || i != this.data) return;
-                let a = t.gameMgr.playTime,
-                    n = t.mapMgr.getRoomById(i.roomId),
+                let a = XMgr.gameMgr.playTime,
+                    n = XMgr.mapMgr.getRoomById(i.roomId),
                     r = 0,
                     o = 0;
                 for (const i of n.buildings) {
-                    let s = t.buildingMgr.getBuildCfg(i.id);
+                    let s = XMgr.buildingMgr.getBuildCfg(i.id);
                     if (s.effectList)
                         for (const t of s.effectList)
                             if (t.type == e.EffectType.Add_Coin) r += t.value[0] * a;
@@ -7308,9 +7356,9 @@ define("js/bundle.js", function(require, module, exports) {
                         o += Math.floor(t.value[0] * a / e)
                     }
                 }
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
                 for (const e of this.effects) e.data.playerUuid = i.playerUuid;
-                this.handcart && (this.handcart.visible = !0), i.playerUuid = s, 0 == this.effects.length && this.initEffects(), t.gameMgr.playSound(this.data, 124)
+                this.handcart && (this.handcart.visible = !0), i.playerUuid = s, 0 == this.effects.length && this.initEffects(), XMgr.gameMgr.playSound(this.data, 124)
             }
             onPlayerDownBed(e, t) {
                 e === this.data.playerUuid && (this.data.isUsed = !1, this.data.playerUuid = void 0, this.clearEffects())
@@ -7324,7 +7372,7 @@ define("js/bundle.js", function(require, module, exports) {
                     })).run(this.node), this.bedHead && (this.bedHead.scale(1, 1), (new fx.Sequence).scaleOut(1.025, 100).scaleIn(.975, 200).scaleOut(1, 100).exec(Laya.Handler.create(this, () => {
                         this.bedHead.scale(1, 1)
                     })).run(this.bedHead)), this.data.playerUuid)) {
-                    let e = t.playerMgr.getPlayer(this.data.playerUuid).owner;
+                    let e = XMgr.playerMgr.getPlayer(this.data.playerUuid).owner;
                     e.scale(1, 1), (new fx.Sequence).scaleOut(1.025, 100).scaleIn(.975, 200).scaleOut(1, 100).exec(Laya.Handler.create(this, () => {
                         e.scale(1, 1)
                     })).run(e)
@@ -7337,7 +7385,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.atkCnt = 0
             }
             fire(i) {
-                let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
                 let a = s.getComponent(XBulletScript);
@@ -7355,7 +7403,7 @@ define("js/bundle.js", function(require, module, exports) {
             freezeTarget(e) {
                 if (e) {
                     let i = new Laya.Animation;
-                    i.source = "res/atlas/res/Ani/freeze.atlas", i.interval = 200, XEffectUtil.I.playAnimByTime(i, e.owner.x - 150, e.owner.y - 195, 2e3), t.gameMgr.DizzyTarget(e, 2.1, !1)
+                    i.source = "res/atlas/res/Ani/freeze.atlas", i.interval = 200, XEffectUtil.I.playAnimByTime(i, e.owner.x - 150, e.owner.y - 195, 2e3), XMgr.gameMgr.DizzyTarget(e, 2.1, !1)
                 }
             }
         }
@@ -7365,7 +7413,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onInit() {
                 this.mult = 1, this.curBorrowMoney = 0, this.curHireMoney = 0;
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 this.doorModel = e.doorModel, fx.EventCenter.I.on(XEventNames.E_Hunter_Dead, this, this.onHunterDead)
             }
             onHunterDead(e) {
@@ -7385,37 +7433,37 @@ define("js/bundle.js", function(require, module, exports) {
                 this.borrowMoneyTime && (this.borrowMoneyTime -= 1, this.borrowMoneyTime <= 0 && !this.curFighter && (this.borrowMoneyTime = 0, this.createFighter()))
             }
             getBorrowAmount() {
-                let e = t.buildingMgr.getBuildCfg(this.doorModel.id, this.doorModel.lv + 1);
-                return e || (e = t.buildingMgr.getBuildCfg(this.doorModel.id, this.doorModel.lv)), e.coin * this.mult
+                let e = XMgr.buildingMgr.getBuildCfg(this.doorModel.id, this.doorModel.lv + 1);
+                return e || (e = XMgr.buildingMgr.getBuildCfg(this.doorModel.id, this.doorModel.lv)), e.coin * this.mult
             }
             repayMoney() {
-                let i = t.playerMgr.getPlayer(this.data.playerUuid),
+                let i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = i.coin;
                 if (s >= this.curBorrowMoney) {
-                    return t.playerMgr.changePlayerIncomeByUuid(i.uuid, -this.curBorrowMoney) && t.gameUI.valueTips(e.TokenType.E_Coin, -this.curBorrowMoney, this.node.x, this.node.y), this.curAmount = 0, this.mult += 1, this.borrowMoneyTime = 0, this.curBorrowMoney = 0, this.curHireMoney = 0, XToast.show("已还清！已提升借款额度"), this.imgBody.timer.clear(this, this.loopTime), this.curFighter && (this.curFighter.isBack = !0, this.curFighter = null), !0
+                    return XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, -this.curBorrowMoney) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -this.curBorrowMoney, this.node.x, this.node.y), this.curAmount = 0, this.mult += 1, this.borrowMoneyTime = 0, this.curBorrowMoney = 0, this.curHireMoney = 0, XToast.show("已还清！已提升借款额度"), this.imgBody.timer.clear(this, this.loopTime), this.curFighter && (this.curFighter.isBack = !0, this.curFighter = null), !0
                 } {
                     let a = (this.curBorrowMoney - s).toFixed(1);
-                    return this.curBorrowMoney = Number(a), t.playerMgr.changePlayerIncomeByUuid(i.uuid, -s) && t.gameUI.valueTips(e.TokenType.E_Coin, -s, this.node.x, this.node.y), XToast.show("未还清！请继续还款"), !1
+                    return this.curBorrowMoney = Number(a), XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, -s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -s, this.node.x, this.node.y), XToast.show("未还清！请继续还款"), !1
                 }
             }
             borrowMoney() {
                 let i = this.getBorrowAmount();
                 this.interestMult = .005, this.curAmount = i, this.curBorrowMoney = i, this.curHireMoney = i, this.borrowMoneyTime = 60;
-                let s = t.playerMgr.getPlayer(this.data.playerUuid);
-                t.playerMgr.changePlayerIncomeByUuid(s.uuid, i) && t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.imgBody.timerLoop(1e3, this, this.loopTime)
+                let s = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                XMgr.playerMgr.changePlayerIncomeByUuid(s.uuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.imgBody.timerLoop(1e3, this, this.loopTime)
             }
             hireFighter() {
-                let i = t.playerMgr.getPlayer(this.data.playerUuid),
+                let i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = i.coin;
                 if (s >= this.curHireMoney) {
-                    t.playerMgr.changePlayerIncomeByUuid(i.uuid, -s) && t.gameUI.valueTips(e.TokenType.E_Coin, -s, this.node.x, this.node.y), this.curHireFighter = this.curFighter, this.curFighter.ownerScript.changeSide(this.data.playerUuid), this.refreshBorrowMoneyTime(), XToast.show("收买成功！")
+                    XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, -s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -s, this.node.x, this.node.y), this.curHireFighter = this.curFighter, this.curFighter.ownerScript.changeSide(this.data.playerUuid), this.refreshBorrowMoneyTime(), XToast.show("收买成功！")
                 } else XToast.show("元宝不足，快去升级床铺吧！")
             }
             createFighter() {
                 let i = new XPlayerModel;
                 i.isGhost = !0, i.uuid = fx.Utils.createUUID(), i.name = "讨债鬼";
-                let s = t.playerMgr.hunters[0].lv;
-                i.lv = s, s > 2 ? (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[s - 2], i.attackPower = t.cfg.hunterCfg.attackList[s - 2]) : 2 == s ? (i.curHp = i.maxHp = 400, i.attackPower = 4) : (i.curHp = i.maxHp = t.cfg.hunterCfg.hpList[0], i.attackPower = t.cfg.hunterCfg.attackList[0]), i.skinId = 90004, i.type = e.PlayerType.E_Hunter, this.curFighter = i, t.playerMgr.addFighter(i), XToast.show("鬼市钱庄已派出讨债鬼！")
+                let s = XMgr.playerMgr.hunters[0].lv;
+                i.lv = s, s > 2 ? (i.curHp = i.maxHp = XMgr.cfg.hunterCfg.hpList[s - 2], i.attackPower = XMgr.cfg.hunterCfg.attackList[s - 2]) : 2 == s ? (i.curHp = i.maxHp = 400, i.attackPower = 4) : (i.curHp = i.maxHp = XMgr.cfg.hunterCfg.hpList[0], i.attackPower = XMgr.cfg.hunterCfg.attackList[0]), i.skinId = 90004, i.type = e.PlayerType.E_Hunter, this.curFighter = i, XMgr.playerMgr.addFighter(i), XToast.show("鬼市钱庄已派出讨债鬼！")
             }
         }
         class XBoxMonsterScript extends XBuildingScript {
@@ -7429,23 +7477,23 @@ define("js/bundle.js", function(require, module, exports) {
                 "宝箱怪" == e.name && (this.curClickNum = 0, this.monsterLv += 1, this.isOut = !1, this.isClick = !1, this.updateBox())
             }
             initOutDoorPos() {
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 if (!e) return;
                 let i, s = e.doorPos,
                     a = e.doorRot;
-                for (const e of t.mapMgr.rooms) {
+                for (const e of XMgr.mapMgr.rooms) {
                     if (this.getDoorPos(e, s)) {
                         s = e.doorPos, a = e.doorRot;
                         break
                     }
                 }
-                0 == a ? i = t.mapMgr.gridPosToMapPos(s.x + 1, s.y) : 90 == a ? i = t.mapMgr.gridPosToMapPos(s.x, s.y - 1) : 180 == a ? i = t.mapMgr.gridPosToMapPos(s.x - 1, s.y) : 270 == a && (i = t.mapMgr.gridPosToMapPos(s.x, s.y + 1)), this.outDoorPos = i
+                0 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x + 1, s.y) : 90 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x, s.y - 1) : 180 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x - 1, s.y) : 270 == a && (i = XMgr.mapMgr.gridPosToMapPos(s.x, s.y + 1)), this.outDoorPos = i
             }
             getDoorPos(e, i) {
                 if (e.doorPos.x == i.x && e.doorPos.y == i.y) return !0;
                 if (e.doorPosArr && e.doorPosArr.length)
                     for (const s of e.doorPosArr) {
-                        let e = t.mapMgr.getRoomByGridPos(s.x, s.y);
+                        let e = XMgr.mapMgr.getRoomByGridPos(s.x, s.y);
                         return this.getDoorPos(e, i)
                     }
             }
@@ -7456,10 +7504,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isOut || (this.isClick ? this.isClick = !1 : this.curClickNum > 0 && (this.curClickNum -= 1), this.addCoin())
             }
             addCoin() {
-                let i = t.gameMgr.playerDeadCnt,
+                let i = XMgr.gameMgr.playerDeadCnt,
                     s = Math.min(13, this.monsterLv + i),
                     a = 1 * Math.pow(2, s);
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (t.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.onWork(), this.updateBox())
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.onWork(), this.updateBox())
             }
             updateBox() {
                 if (30 == this.curClickNum) this.isOut = !0, this.imgBody.skin = "res/build/specialBuild/baoxiang/box_7.png", this.startCreateBoxMonster();
@@ -7470,12 +7518,12 @@ define("js/bundle.js", function(require, module, exports) {
             }
             startCreateBoxMonster() {
                 let e = new Laya.Image("res/build/specialBuild/baoxiang/monster.png");
-                e.anchorX = e.anchorY = .5, t.mapMgr.mapNode.addChild(e), e.pos(this.node.x, this.node.y);
-                let i = t.playerMgr.player;
+                e.anchorX = e.anchorY = .5, XMgr.mapMgr.mapNode.addChild(e), e.pos(this.node.x, this.node.y);
+                let i = XMgr.playerMgr.player;
                 if (!i) return;
                 let s = i.roomId;
                 if (!s) return;
-                if (!t.mapMgr.getRoomById(s)) return;
+                if (!XMgr.mapMgr.getRoomById(s)) return;
                 let a = this.outDoorPos,
                     n = (new fx.Sequence).to({
                         x: a.x,
@@ -7490,8 +7538,8 @@ define("js/bundle.js", function(require, module, exports) {
             createBoxMonster(i) {
                 let s = new XPlayerModel;
                 s.isGhost = !0, s.uuid = fx.Utils.createUUID(), s.name = "宝箱怪";
-                let a = t.playerMgr.hunters[0].lv;
-                s.lv = a, a > 2 ? (s.curHp = s.maxHp = t.cfg.hunterCfg.hpList[a - 2], s.attackPower = t.cfg.hunterCfg.attackList[a - 2]) : 2 == a ? (s.curHp = s.maxHp = 400, s.attackPower = 4) : (s.curHp = s.maxHp = t.cfg.hunterCfg.hpList[0], s.attackPower = t.cfg.hunterCfg.attackList[0]), s.skinId = 10001, s.type = e.PlayerType.E_Hunter, t.playerMgr.addBoxMonster(s, i)
+                let a = XMgr.playerMgr.hunters[0].lv;
+                s.lv = a, a > 2 ? (s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[a - 2], s.attackPower = XMgr.cfg.hunterCfg.attackList[a - 2]) : 2 == a ? (s.curHp = s.maxHp = 400, s.attackPower = 4) : (s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[0], s.attackPower = XMgr.cfg.hunterCfg.attackList[0]), s.skinId = 10001, s.type = e.PlayerType.E_Hunter, XMgr.playerMgr.addBoxMonster(s, i)
             }
             initSkin() {
                 this.skinNode.destroyChildren(), this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = .5, this.imgBody.anchorY = 1, this.imgBody.y += 40
@@ -7516,7 +7564,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             onUpdate() {
-                if (super.onUpdate(), t.gameMgr.isPause) return;
+                if (super.onUpdate(), XMgr.gameMgr.isPause) return;
                 if (!this.updateBuildCd()) return;
                 let e = fx.Utils.getFrameDelta();
                 if (this.fireCd > 0 && (this.fireCd -= e, this.fireCd <= 0 && (this.fireCd = 0, this.img_bullet.visible = !0)), 5103 == this.data.id && (this.fsTime += e, this.fsTime >= 10))
@@ -7528,17 +7576,17 @@ define("js/bundle.js", function(require, module, exports) {
                 this.addCoin()
             }
             addCoin() {
-                let i = t.gameMgr.playerDeadCnt,
+                let i = XMgr.gameMgr.playerDeadCnt,
                     s = 1 * Math.pow(2, i);
-                if (5103 == this.data.id && "res/build/mine_fs1.png" != this.imgBody.skin && (s *= 2), t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && (t.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y), 5104 != this.data.id && this.onWork()), 5105 == this.data.id)
-                    for (const i of t.playerMgr.players)
+                if (5103 == this.data.id && "res/build/mine_fs1.png" != this.imgBody.skin && (s *= 2), XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y), 5104 != this.data.id && this.onWork()), 5105 == this.data.id)
+                    for (const i of XMgr.playerMgr.players)
                         if (this.data.playerUuid != i.uuid && i.isBed && !i.isDie) {
-                            t.playerMgr.changePlayerIncomeByUuid(i.uuid, s) && t.gameUI.valueTips(e.TokenType.E_Coin, s, i.bedModel.owner.x, i.bedModel.owner.y + C.GridHalfSize)
+                            XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, i.bedModel.owner.x, i.bedModel.owner.y + C.GridHalfSize)
                         }
             }
             initEffects() {}
             onClickOwner() {
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, 1) && t.gameUI.valueTips(e.TokenType.E_Coin, 1, this.node.x, this.node.y), this.updateChongWu()
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, 1) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, 1, this.node.x, this.node.y), this.updateChongWu()
             }
             initChongWu() {
                 this.data.canHandle = !1
@@ -7554,7 +7602,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgBody.skin = "res/build/mine_fs1.png"
             }
             initXianYanBao() {
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 e.doorModel && e.doorModel.owner && e.doorModel.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit), this.initBullet()
             }
             initBullet() {
@@ -7562,11 +7610,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_bullet = e, e.anchorX = e.anchorY = .5, this.imgBody.addChild(this.img_bullet), this.img_bullet.centerX = this.img_bullet.centerY = 0
             }
             onDoorBeHit(e) {
-                t.mapMgr.getRoomById(this.data.roomId).doorModel.hpPercent <= .3 && 0 == this.fireCd && (this.fire(e), this.img_bullet.visible = !1, this.fireCd = 60)
+                XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.hpPercent <= .3 && 0 == this.fireCd && (this.fire(e), this.img_bullet.visible = !1, this.fireCd = 60)
             }
             fire(i) {
                 let s = "res/bullet/cat_xyb_bullet.png",
-                    a = t.bulletMgr.createBulletNode(s);
+                    a = XMgr.bulletMgr.createBulletNode(s);
                 if (!a) return;
                 a.rotation = this.node.rotation, a.x = this.node.x, a.y = this.node.y;
                 let n = a.getComponent(XBulletScript);
@@ -7600,7 +7648,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onInit() {
                 this.node.zOrder = 9998, this.initX = this.node.x, this.initY = this.node.y;
-                let i = t.buildingMgr.getRoom(this.data.roomId);
+                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
                 if (i)
                     for (const t of i.buildings)
                         if (t.type == e.BuildType.door) {
@@ -7641,7 +7689,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.atkTarget,
                     i = .03 * this.atkTarget.maxHp;
                 (new fx.Sequence).moveToTarget(this.atkTarget.owner, 300, fx.V2.ZERO).exec(new Laya.Handler(this, () => {
-                    t.gameMgr.takeDamage(this.data, e, i)
+                    XMgr.gameMgr.takeDamage(this.data, e, i)
                 })).to({
                     x: this.initX,
                     y: this.initY
@@ -7650,7 +7698,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XDoorkeeperScript extends XBuildingScript {
             onInit() {
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 if (e.doorModel && !e.doorModel.isDie) {
                     e.doorModel.doorkeeper = this.data;
                     let t = e.doorModel.maxHp;
@@ -7663,7 +7711,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(wt), this.healthBar.init(this.data), e.y = -C.GridHalfSize
             }
             onDestroy() {
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 e.doorModel && !e.doorModel.isDie && (e.doorModel.doorkeeper = null)
             }
         }
@@ -7708,36 +7756,36 @@ define("js/bundle.js", function(require, module, exports) {
                 }, 300, null, null, 0, !0) : Laya.Tween.to(this.node, {
                     y: this.originY
                 }, 300, null, null, 0, !0);
-                let i = t.playerMgr.player,
-                    s = t.playerMgr.hunters,
+                let i = XMgr.playerMgr.player,
+                    s = XMgr.playerMgr.hunters,
                     a = [i];
-                t.gameMgr.gameStatus == e.GameStatus.E_GAME_START && (a = a.concat(s));
+                XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && (a = a.concat(s));
                 for (const i of a) {
                     let s = new fx.V2(i.owner.x, i.owner.y),
                         a = new fx.V2(this.originX, this.originY);
-                    if (s.distanceSq(a) < 11236 && -1 != i.roomId && t.gameMgr.mineRoom) {
-                        let n = t.gameMgr.mineRoom.doorPos,
-                            r = t.buildingMgr.getIndoorEmptyGrids(n.x, n.y);
-                        i.type == e.PlayerType.E_Hunter && (r = t.buildingMgr.getOutdoorEmptyGrids(n.x, n.y));
+                    if (s.distanceSq(a) < 11236 && -1 != i.roomId && XMgr.gameMgr.mineRoom) {
+                        let n = XMgr.gameMgr.mineRoom.doorPos,
+                            r = XMgr.buildingMgr.getIndoorEmptyGrids(n.x, n.y);
+                        i.type == e.PlayerType.E_Hunter && (r = XMgr.buildingMgr.getOutdoorEmptyGrids(n.x, n.y));
                         let o = r.length - 1;
                         if (o >= 0) {
                             let e = 1 / 0,
                                 l = 0;
                             a.from(n);
-                            let h = t.mapMgr.gridPosToMapPos(a.x, a.y);
+                            let h = XMgr.mapMgr.gridPosToMapPos(a.x, a.y);
                             for (; o--;) {
                                 s.from(r[o]);
-                                let i = t.mapMgr.gridPosToMapPos(s.x, s.y).distanceSq(h);
+                                let i = XMgr.mapMgr.gridPosToMapPos(s.x, s.y).distanceSq(h);
                                 i < e && (s.x != n.x || s.y != n.y) && (e = i, l = o)
                             }
-                            let d = t.mapMgr.gridPosToMapPos(r[l].x, r[l].y);
-                            i.owner.pos(d.x, d.y), i.uuid == t.playerMgr.mineUuid && fx.EventCenter.I.event(XEventNames.E_Look_Player, i)
+                            let d = XMgr.mapMgr.gridPosToMapPos(r[l].x, r[l].y);
+                            i.owner.pos(d.x, d.y), i.uuid == XMgr.playerMgr.mineUuid && fx.EventCenter.I.event(XEventNames.E_Look_Player, i)
                         }
                     }
                 }
             }
             checkAutoClose() {
-                t.gameMgr.isRoomBedUsed(this.data.roomId) && t.buildingMgr.closeDoorByGridPos(this.data.x, this.data.y)
+                XMgr.gameMgr.isRoomBedUsed(this.data.roomId) && XMgr.buildingMgr.closeDoorByGridPos(this.data.x, this.data.y)
             }
             createHealthBar() {
                 let e = fx.Utils.createPrefab(T.Prefab_HealthBar);
@@ -7781,7 +7829,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timerOnce(5e3, this, this.createCoin)
             }
             createCoin() {
-                this.cnt++, this.cnt > 10 && (this.cnt = 1), this.createFlame(), this.eatCnt = 0, this.startTime = t.gameTime.now
+                this.cnt++, this.cnt > 10 && (this.cnt = 1), this.createFlame(), this.eatCnt = 0, this.startTime = XMgr.gameTime.now
             }
             createFlame() {
                 let e = "res/build/skillBuild/skillEff/foxFire.atlas";
@@ -7808,9 +7856,9 @@ define("js/bundle.js", function(require, module, exports) {
                 return 10 * Math.floor(9 * XRandomUtil.random())
             }
             onUpdate() {
-                if (super.onUpdate(), this.updateBuildCd() && !this.data.palsyTime && (this.cnt || this.eatCnt) && this.cnt != this.eatCnt && t.gameTime.now - this.startTime > 800 && this.flameArr.length) {
+                if (super.onUpdate(), this.updateBuildCd() && !this.data.palsyTime && (this.cnt || this.eatCnt) && this.cnt != this.eatCnt && XMgr.gameTime.now - this.startTime > 800 && this.flameArr.length) {
                     let e = this.flameArr.splice(0, 1)[0];
-                    this.startTime = t.gameTime.now;
+                    this.startTime = XMgr.gameTime.now;
                     let i = Math.min(700 / (this.cnt - this.eatCnt), 500);
                     this.attackImg.visible = !0, this.temp.setValue(e.x - C.GridHalfSize, e.y - C.GridHalfSize);
                     let s = this.temp.len();
@@ -7846,22 +7894,22 @@ define("js/bundle.js", function(require, module, exports) {
             onInit() {
                 this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let e = this.cdNode.getChildByName("img_building");
-                this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, t.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let i = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_entice = new Laya.Image("res/game/entice.png"), this.btn_entice.anchorX = this.btn_entice.anchorY = .5, t.gameUI.gameNode.addChild(this.btn_entice), this.btn_entice.addComponent(Ni), this.btn_entice.visible = !1, this.data.playerUuid == t.playerMgr.mineUuid && this.btn_entice.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let i = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_entice = new Laya.Image("res/game/entice.png"), this.btn_entice.anchorX = this.btn_entice.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_entice), this.btn_entice.addComponent(Ni), this.btn_entice.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_entice.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
             }
             onClickBtn() {
                 if (this.data.palsyTime) return;
                 if (this.isCd) return void XToast.show("冷却中");
-                let e = t.playerMgr.hunters[0];
+                let e = XMgr.playerMgr.hunters[0];
                 e && e.ownerScript.isEscaped ? XToast.show("噬魂者正在逃跑，无法引诱") : (e.isEntice = !0, e.ownerScript.setCurTarget(null), this.isCd = !0, this.curTime = 60, this.cdNode.visible = !0, this.btn_entice.visible = !1)
             }
             onUpdate() {
-                super.onUpdate(), t.gameMgr.isPause || this.updateBuildCd() && this.btn_entice && this.data.playerUuid == t.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_entice.visible = !0)) : this.btn_entice.visible || (this.btn_entice.visible = !0))
+                super.onUpdate(), XMgr.gameMgr.isPause || this.updateBuildCd() && this.btn_entice && this.data.playerUuid == XMgr.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_entice.visible = !0)) : this.btn_entice.visible || (this.btn_entice.visible = !0))
             }
             updateBtnPos() {
-                let e = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
-                    i = t.mapMgr.mapPosToStagePos(e.x, e.y);
+                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
+                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 this.btn_entice.pos(i.x, i.y + 20)
             }
             onDestroy() {
@@ -7883,7 +7931,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             shoot(e, i, s, a, n, r, o, l) {
                 this.bulletKey = e, this.attack = i, this.centerPos = new fx.V2(s.x, s.y), this.target = a, this.baseModel = n;
-                for (let e of t.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
+                for (let e of XMgr.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
                 this.node = this.owner;
                 let h = new fx.V2(this.node.x, this.node.y).subOut(this.centerPos);
                 this.length = h.len();
@@ -7893,7 +7941,7 @@ define("js/bundle.js", function(require, module, exports) {
             onCollision(e) {
                 if (!this.isActive) return;
                 let i, s = e.owner;
-                s.destroyed || ((i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie && (this.removeBody(), t.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
+                s.destroyed || ((i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie && (this.removeBody(), XMgr.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
             }
         }
         class XFlyCutterScript extends XBuildingScript {
@@ -7916,7 +7964,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -7946,7 +7994,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -7971,7 +8019,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
             }
             fire() {
-                let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
                 let s = i.getComponent(XBulletRotScript);
@@ -7988,12 +8036,12 @@ define("js/bundle.js", function(require, module, exports) {
             onFlyCutterEnd() {
                 if (this.lastAtkTime = this.owner.timer.currTimer, this.fireCnt--, 0 == this.fireCnt) {
                     if (this.lastAtkTime = this.owner.timer.currTimer, this.canAttack = !0, this.hitCnt) {
-                        let i = t.playerMgr.getPlayer(this.data.playerUuid);
+                        let i = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                         if (i.bedModel) {
                             let s = i.bedModel,
-                                a = t.buildingMgr.getBuildCfg(s.id, s.lv),
+                                a = XMgr.buildingMgr.getBuildCfg(s.id, s.lv),
                                 n = Math.ceil(5 * this.hitCnt * a.effectList[0].value[0]);
-                            t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, n) && t.gameUI.valueTips(e.TokenType.E_Coin, n, this.node.x, this.node.y)
+                            XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, n) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, n, this.node.x, this.node.y)
                         }
                     }
                     this.hitCnt = 0
@@ -8020,7 +8068,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -8074,7 +8122,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -8095,7 +8143,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.atkTarget = e, this.fire(), this.isWork = !0) : this.isWork = !1
             }
             fire() {
-                let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
                 let s = i.getComponent(XBulletScript);
@@ -8117,8 +8165,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node = this.owner
             }
             onUpdate() {
-                if (t.playerMgr.player) {
-                    let e = t.playerMgr.player.owner;
+                if (XMgr.playerMgr.player) {
+                    let e = XMgr.playerMgr.player.owner;
                     this.v2.setValue(e.x, e.y), this.v2_1.setValue(this.node.x, this.node.y), this.v2.distanceSq(this.v2_1) < 1e4 && this.node.destroy()
                 }
             }
@@ -8131,7 +8179,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initJiguang()
             }
             initJiguang() {
-                this.imgNum = 1, this.img_laser = new Laya.Image("res/bullet/laser/1.png"), this.img_laser.anchorX = .5, this.img_laser.anchorY = 1, t.mapMgr.bulletLayer.addChild(this.img_laser), this.img_laser.pos(this.node.x, this.node.y)
+                this.imgNum = 1, this.img_laser = new Laya.Image("res/bullet/laser/1.png"), this.img_laser.anchorX = .5, this.img_laser.anchorY = 1, XMgr.mapMgr.bulletLayer.addChild(this.img_laser), this.img_laser.pos(this.node.x, this.node.y)
             }
             onUpdate() {
                 this.owner.timer.delta;
@@ -8151,7 +8199,7 @@ define("js/bundle.js", function(require, module, exports) {
             faceToHunter() {
                 let e = this.getHunters()[0];
                 if (e && !e.isDie) {
-                    this.atkTime += fx.Utils.getFrameDelta(.033), this.atkTime >= 1 && (this.atkTime -= 1, t.gameMgr.takeDamage(this.data, e, .01 * e.maxHp)), XV2Util01.faceTo(this.node, e.owner.x, e.owner.y, 90), XV2Util01.faceTo(this.img_laser, e.owner.x, e.owner.y, 90), this.v2.setValue(e.owner.x, e.owner.y), this.v2_1.setValue(this.node.x, this.node.y);
+                    this.atkTime += fx.Utils.getFrameDelta(.033), this.atkTime >= 1 && (this.atkTime -= 1, XMgr.gameMgr.takeDamage(this.data, e, .01 * e.maxHp)), XV2Util01.faceTo(this.node, e.owner.x, e.owner.y, 90), XV2Util01.faceTo(this.img_laser, e.owner.x, e.owner.y, 90), this.v2.setValue(e.owner.x, e.owner.y), this.v2_1.setValue(this.node.x, this.node.y);
                     let i = this.v2.distance(this.v2_1);
                     this.img_laser.height = i
                 } else this.atkTime = 0
@@ -8176,15 +8224,15 @@ define("js/bundle.js", function(require, module, exports) {
             onInit() {
                 this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let e = this.cdNode.getChildByName("img_building");
-                this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, t.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let i = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_jiasu = new Laya.Image("res/game/img_jiasu.png"), this.btn_jiasu.anchorX = this.btn_jiasu.anchorY = .5, t.gameUI.gameNode.addChild(this.btn_jiasu), this.btn_jiasu.addComponent(Ni), this.btn_jiasu.visible = !1, this.data.playerUuid == t.playerMgr.mineUuid && this.btn_jiasu.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let i = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_jiasu = new Laya.Image("res/game/img_jiasu.png"), this.btn_jiasu.anchorX = this.btn_jiasu.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_jiasu), this.btn_jiasu.addComponent(Ni), this.btn_jiasu.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_jiasu.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
             }
             onClickBtn() {
                 this.data.palsyTime || (this.isCd ? XToast.show("冷却中") : (this.isBuff = !0, this.btn_jiasu.visible = !1, this.curBuffTime = 8))
             }
             onUpdate() {
-                if (super.onUpdate(), !t.gameMgr.isPause && !this.isChange && !this.isBuildCd && this.canAttack && this.updateBuildCd() && this.btn_jiasu && this.data.playerUuid == t.playerMgr.mineUuid) {
+                if (super.onUpdate(), !XMgr.gameMgr.isPause && !this.isChange && !this.isBuildCd && this.canAttack && this.updateBuildCd() && this.btn_jiasu && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
                     if (this.updateBtnPos(), this.isBuff) return this.curBuffTime -= fx.Utils.getFrameDelta(.033), void(this.curBuffTime <= 0 && (this.isCd = !0, this.cdNode.visible = !0, this.curCdTime = 60, this.isBuff = !1));
                     this.isCd ? (this.curCdTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curCdTime) / 60 * 89, this.curCdTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_jiasu.visible = !0)) : this.btn_jiasu.visible || (this.btn_jiasu.visible = !0)
                 }
@@ -8204,8 +8252,8 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.isBuff ? e /= 5 : e /= 3, 1e3 * (e = Math.max(.2, e))
             }
             updateBtnPos() {
-                let e = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
-                    i = t.mapMgr.mapPosToStagePos(e.x, e.y);
+                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
+                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 this.btn_jiasu.pos(i.x, i.y + 20)
             }
             onDestroy() {
@@ -8227,7 +8275,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XKnifeScript extends XBuildingScript {
             onInit() {
-                let i = t.buildingMgr.getRoom(this.data.roomId);
+                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
                 if (i)
                     for (const t of i.buildings)
                         if (t.type == e.BuildType.door) {
@@ -8236,25 +8284,25 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                 this.data.owner.timerLoop(100, this, this.timeLoop), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let s = this.cdNode.getChildByName("img_building");
-                this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, t.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let a = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(a.x, a.y), this.cdNode.visible = !1, this.btn_slash = new Laya.Image("res/game/slash.png"), this.btn_slash.anchorX = this.btn_slash.anchorY = .5, t.gameUI.gameNode.addChild(this.btn_slash), this.btn_slash.addComponent(Ni), this.btn_slash.visible = !1, this.data.playerUuid == t.playerMgr.mineUuid && this.btn_slash.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let a = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.cdNode.pos(a.x, a.y), this.cdNode.visible = !1, this.btn_slash = new Laya.Image("res/game/slash.png"), this.btn_slash.anchorX = this.btn_slash.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_slash), this.btn_slash.addComponent(Ni), this.btn_slash.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_slash.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
             }
             timeLoop() {
-                let e = t.playerMgr.hunters[0];
+                let e = XMgr.playerMgr.hunters[0];
                 e && this.door && this.door.owner && (Math.abs(this.door.owner.x - e.owner.x) < 2 * C.GridSize || Math.abs(this.door.owner.y - e.owner.y) < 2 * C.GridSize ? this.hunter = e : this.hunter && (this.hunter = null))
             }
             onClickBtn() {
                 if (this.data.palsyTime) return;
                 if (this.isCd) return void XToast.show("冷却中");
-                this.hunter ? (this.isCd = !0, this.curTime = 60, this.cdNode.visible = !0, this.btn_slash.visible = !1, this.fire()) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人太远了") : XToast.show("噬魂者太远了")
+                this.hunter ? (this.isCd = !0, this.curTime = 60, this.cdNode.visible = !0, this.btn_slash.visible = !1, this.fire()) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人太远了") : XToast.show("噬魂者太远了")
             }
             fire() {
                 let i = .1,
                     s = "res/bullet/knife/1.png";
                 this.data.isSuper && (i = .25, s = "res/bullet/knife/2.png");
                 let a = this.hunter,
-                    n = t.bulletMgr.createBulletNode(s);
+                    n = XMgr.bulletMgr.createBulletNode(s);
                 if (!n) return;
                 n.rotation = this.node.rotation, n.x = this.node.x, n.y = this.node.y;
                 let r = n.getComponent(XBulletScript);
@@ -8269,11 +8317,11 @@ define("js/bundle.js", function(require, module, exports) {
                 r.shoot(s, h, l, a, this.data, null, void 0, o, null, !0)
             }
             onUpdate() {
-                super.onUpdate(), t.gameMgr.isPause || this.updateBuildCd() && this.btn_slash && this.data.playerUuid == t.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_slash.visible = !0)) : this.btn_slash.visible || (this.btn_slash.visible = !0))
+                super.onUpdate(), XMgr.gameMgr.isPause || this.updateBuildCd() && this.btn_slash && this.data.playerUuid == XMgr.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_slash.visible = !0)) : this.btn_slash.visible || (this.btn_slash.visible = !0))
             }
             updateBtnPos() {
-                let e = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
-                    i = t.mapMgr.mapPosToStagePos(e.x, e.y);
+                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
+                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 this.btn_slash.pos(i.x, i.y + 20)
             }
             videoUpgrade() {
@@ -8286,44 +8334,44 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.cdNode && this.cdNode.destroy(), this.btn_slash && this.btn_slash.destroy()
             }
             updateIcon() {
-                let e = t.buildingMgr.superBuildCfg.get(this.data.superId);
+                let e = XMgr.buildingMgr.superBuildCfg.get(this.data.superId);
                 this.imgBody.skin = e.icon
             }
         }
         class Wi extends XBuildingScript {
             onInit() {
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense)
-                    if (this.data.playerUuid == t.playerMgr.mineUuid) XAnalyticsUtil.useLevelItem("摇签盒"), t.gameMgr.randomCnt += 1;
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
+                    if (this.data.playerUuid == XMgr.playerMgr.mineUuid) XAnalyticsUtil.useLevelItem("摇签盒"), XMgr.gameMgr.randomCnt += 1;
                     else {
-                        let e = t.playerMgr.getPlayer(this.data.playerUuid);
+                        let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                         e && (e.randomCnt += 1)
                     } else {
-                    let e = t.playerMgr.getPlayer(this.data.playerUuid);
+                    let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
                     e && (e.randomCnt += 1)
                 }
                 this.data.owner.timerOnce(1e3, this, this.randomBuild)
             }
             randomBuild() {
-                if (4 == t.gameMgr.randomCnt) {
+                if (4 == XMgr.gameMgr.randomCnt) {
                     this.specialTower();
                     let e = this.data.x,
                         i = this.data.y;
-                    return void t.buildingMgr.destroyBuilding(t.playerMgr.mineUuid, e, i, !1)
+                    return void XMgr.buildingMgr.destroyBuilding(XMgr.playerMgr.mineUuid, e, i, !1)
                 }
                 let e = "";
-                if (1 == t.gameMgr.randomCnt && t.taskMgr.getInit()) e = "5000_2";
+                if (1 == XMgr.gameMgr.randomCnt && XMgr.taskMgr.getInit()) e = "5000_2";
                 else {
-                    let i = t.cfg.magicBoxCfg.getList(),
+                    let i = XMgr.cfg.magicBoxCfg.getList(),
                         s = [];
                     for (let e = 0; e < i.length; e++) {
                         let a = i[e].sid.split("_"),
                             n = Number(a[0]),
                             r = Number(a[1]),
-                            o = t.buildingMgr.getBuildCfg(n, r),
+                            o = XMgr.buildingMgr.getBuildCfg(n, r),
                             l = !1;
                         if (o) {
                             if (o.maxCnt) {
-                                let e = t.playerMgr.player,
+                                let e = XMgr.playerMgr.player,
                                     i = 0;
                                 for (const t of e.buildings)
                                     if (t.id == o.buildId && ++i == o.maxCnt) {
@@ -8343,11 +8391,11 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = e.split("_"),
                     s = Number(i[0]),
                     a = Number(i[1]),
-                    n = t.buildingMgr.getBuildCfg(s, a);
+                    n = XMgr.buildingMgr.getBuildCfg(s, a);
                 s = (n = this.checkVariant(n)).buildId;
                 let r = this.data.x,
                     o = this.data.y;
-                t.buildingMgr.destroyBuilding(t.playerMgr.mineUuid, r, o, !1), t.buildingMgr.buildFree(this.data.playerUuid, s, r, o, 0, a)
+                XMgr.buildingMgr.destroyBuilding(XMgr.playerMgr.mineUuid, r, o, !1), XMgr.buildingMgr.buildFree(this.data.playerUuid, s, r, o, 0, a)
             }
             checkVariant(e) {
                 if (e.variantList && XRandomUtil.getNumberRandom(0, 10) < 3) {
@@ -8357,30 +8405,30 @@ define("js/bundle.js", function(require, module, exports) {
                         weight: t.weight
                     });
                     let s = fx.Utils.takeOneByWeight(i)[1].o;
-                    return t.buildingMgr.getBuildCfg(s)
+                    return XMgr.buildingMgr.getBuildCfg(s)
                 }
                 return e
             }
             specialTower() {
-                let e = t.mapMgr.getRoomById(this.data.roomId),
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId),
                     i = [];
                 if (e.buildings && e.buildings.length) {
                     for (const t of e.buildings) t.isSpecial || 3e3 != t.id || i.push(t);
                     if (i.length) {
-                        let e = t.user.gameInfo.getBuffData(20),
+                        let e = XMgr.user.gameInfo.getBuffData(20),
                             s = 2;
                         if (e) {
-                            s = t.cfg.buffCfg.get(20).values[e.lv] / 100
+                            s = XMgr.cfg.buffCfg.get(20).values[e.lv] / 100
                         }
                         let a = Math.min(s / i.length, 1);
                         s > 2 && (a = s / i.length), XToast.show(`当前所有炮台有${Math.round(100*a)}%几率变化底座`);
                         let n = 0;
                         for (const e of i)
                             if (XRandomUtil.getNumberRandom(0, 1) <= a) {
-                                let i = t.buildingMgr.getSpecialTowerByWeight();
+                                let i = XMgr.buildingMgr.getSpecialTowerByWeight();
                                 e.isSpecial = !0, e.specialId = i.id, console.log(`随机特殊炮台id---------${i.id}`), e.ownerScript.updateSpecial(), n++
                             }
-                        t.gameMgr.showSpecialTip(n)
+                        XMgr.gameMgr.showSpecialTip(n)
                     } else XToast.show("当前没有炮台")
                 } else XToast.show("当前没有炮台")
             }
@@ -8421,30 +8469,30 @@ define("js/bundle.js", function(require, module, exports) {
                 this.gridSize = C.GridSize, 
                 this.initViewLayer(), 
                 this.initHealZoneEffects(), 
-                t.mapMgr.groundLayer = this.groundLayer, 
-                t.mapMgr.viewLayer = this.viewLayer, 
-                t.mapMgr.buildLayer = this.buildLayer, 
-                t.mapMgr.playerLayer = this.playerLayer, 
-                t.mapMgr.bulletLayer = this.bulletLayer, 
-                t.mapMgr.effectLayer = this.effectLayer, 
-                t.mapMgr.hunterLayer = this.hunterLayer, 
-                t.mapMgr.petLayer = this.petLayer,
-                t.mapMgr.barLayer = this.barLayer, 
-                t.mapMgr.fogLayer = this.fogLayer, 
-                t.mapMgr.propLayer = this.propLayer, 
-                t.mapMgr.skillEffLayer = this.skillEffLayer, 
-                t.mapMgr.lowLayer = this.lowLayer, 
-                t.mapMgr.buildCdLayer = this.buildCdLayer, 
-                t.mapMgr.dropLayer = this.dropLayer, 
-                t.mapMgr.buildMoveLayer = this.buildMoveLayer
+                XMgr.mapMgr.groundLayer = this.groundLayer, 
+                XMgr.mapMgr.viewLayer = this.viewLayer, 
+                XMgr.mapMgr.buildLayer = this.buildLayer, 
+                XMgr.mapMgr.playerLayer = this.playerLayer, 
+                XMgr.mapMgr.bulletLayer = this.bulletLayer, 
+                XMgr.mapMgr.effectLayer = this.effectLayer, 
+                XMgr.mapMgr.hunterLayer = this.hunterLayer, 
+                XMgr.mapMgr.petLayer = this.petLayer,
+                XMgr.mapMgr.barLayer = this.barLayer, 
+                XMgr.mapMgr.fogLayer = this.fogLayer, 
+                XMgr.mapMgr.propLayer = this.propLayer, 
+                XMgr.mapMgr.skillEffLayer = this.skillEffLayer, 
+                XMgr.mapMgr.lowLayer = this.lowLayer, 
+                XMgr.mapMgr.buildCdLayer = this.buildCdLayer, 
+                XMgr.mapMgr.dropLayer = this.dropLayer, 
+                XMgr.mapMgr.buildMoveLayer = this.buildMoveLayer
             }
             initViewLayer() {
-                let views = t.mapMgr.views;
+                let views = XMgr.mapMgr.views;
                 for (const view of views) {
                     let e = view.image,
                         s = new Laya.Image(e);
                     this.viewLayer.addChild(s);
-                    let a = t.mapMgr.gridPosToMapPos(view.x, view.y);
+                    let a = XMgr.mapMgr.gridPosToMapPos(view.x, view.y);
                     a.x -= C.GridHalfSize, 
                     a.y -= C.GridHalfSize, 
                     s.pos(a.x, a.y), 
@@ -8492,7 +8540,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t >= this.curRange.minX && t <= this.curRange.maxX && e >= this.curRange.minY && e <= this.curRange.maxY
             }
             createGroundImg(e, i) {
-                let s, a = t.mapMgr.getTiledInfo(e, i);
+                let s, a = XMgr.mapMgr.getTiledInfo(e, i);
                 if (a) {
                     if(this.groundPool.length > 0) {
                         s = this.groundPool.pop()
@@ -8515,7 +8563,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e.visible = !1, this.groundPool.push(e)
             }
             initHealZoneEffects() {
-                let e = t.mapMgr.healZones;
+                let e = XMgr.mapMgr.healZones;
                 for (const t of e) {
                     let e = new fx.V2(0, 0);
                     this.createHealZoneEffect(t.x + e.x, t.y + e.y)
@@ -8553,7 +8601,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.buildTipsList[e][t].skin = "res/game/capture_bg.png"
             }
             hideAllBuildTips() {
-                for (const e of t.mapMgr.rooms)
+                for (const e of XMgr.mapMgr.rooms)
                     for (const t of e.grids) this.hideBuildTips(t.x, t.y)
             }
             clearHideTip(e, t) {
@@ -8632,8 +8680,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.doorTipsList[e] && this.doorTipsList[e][t] && (this.doorTipsList[e][t].destroy(), delete this.doorTipsList[e][t])
             }
             lookAt(e, i) {
-                let s = t.gameMgr.mapCfg.row,
-                    a = t.gameMgr.mapCfg.column;
+                let s = XMgr.gameMgr.mapCfg.row,
+                    a = XMgr.gameMgr.mapCfg.column;
                 e = Math.max(Laya.stage.width / 2 + 0 * C.GridSize, Math.min((s - 0) * C.GridSize - Laya.stage.width / 2, e)), i = Math.max(Laya.stage.height / 2 + 0 * C.GridSize, Math.min((a - 0) * C.GridSize - Laya.stage.height / 2, i)), this.lookPos.setValue(e, i), e = Laya.stage.width / 2 - e, i = Laya.stage.height / 2 - i, this.node.x = e, this.node.y = i
             }
             onUpdate() {
@@ -8644,12 +8692,12 @@ define("js/bundle.js", function(require, module, exports) {
                 e = Laya.stage.width / 2 - e, 
                 i = Laya.stage.height / 2 - i, 
                 this.updateSign = !0, 
-                t.gameMgr.inputScript.canHandle = !1, 
+                XMgr.gameMgr.inputScript.canHandle = !1, 
                 Laya.Tween.to(this.node, {
                     x: e,
                     y: i
                 }, s, null, Laya.Handler.create(this, () => {
-                    this.updateArea(), this.updateSign = !1, a && a.run(), t.gameMgr.inputScript.canHandle = !0
+                    this.updateArea(), this.updateSign = !1, a && a.run(), XMgr.gameMgr.inputScript.canHandle = !0
                 }))
             }
         }
@@ -8682,7 +8730,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.isUsingSkill = !1, this.isCanSkill = !1, this.buildTime = 90, this.skillTime = 5e3, this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
             onInit() {
-                this.bullet = new Laya.Image(this.cfg.bullet), this.bullet.anchorX = .5, this.bullet.anchorY = 1, t.mapMgr.bulletLayer.addChild(this.bullet), this.bullet.pos(this.node.x, this.node.y), this.atkTarget = this.getHunters()[0]
+                this.bullet = new Laya.Image(this.cfg.bullet), this.bullet.anchorX = .5, this.bullet.anchorY = 1, XMgr.mapMgr.bulletLayer.addChild(this.bullet), this.bullet.pos(this.node.x, this.node.y), this.atkTarget = this.getHunters()[0]
             }
             onUpdate() {
                 if (super.onUpdate(), this.isBuildCd) return;
@@ -8692,7 +8740,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.bullet.height = e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
         }
         class XPoisonSpringTowerScript extends XBuildingScript {
@@ -8712,7 +8760,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -8742,7 +8790,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -8763,7 +8811,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.atkTarget = e, this.fire(), this.isWork = !0) : this.isWork = !1
             }
             fire() {
-                let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
                 let s = i.getComponent(XBulletScript);
@@ -8780,13 +8828,13 @@ define("js/bundle.js", function(require, module, exports) {
         class XQianjinTowerScript extends XTowerScript {
             addCoinByAtk() {
                 let i = Math.round(.5 * this.cfg.atkDamage * .25);
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
             }
         }
         class XQianliTowerScript extends XTowerScript {
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -8811,7 +8859,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -8842,7 +8890,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.length > 1 && t.splice(1, t.length - 1), t
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -8867,7 +8915,7 @@ define("js/bundle.js", function(require, module, exports) {
                 } else this.isWork = !1
             }
             fire(i) {
-                let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
                 s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
                 let a = s.getComponent(XBulletScript);
@@ -8889,7 +8937,7 @@ define("js/bundle.js", function(require, module, exports) {
                         rotation: l
                     }, h / 4).run(this.node), this.curNum *= -1, this.isCoin) {
                     let i = 2 * * (this.data.lv - 1);
-                    i > 512 && (i = 512), t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                    i > 512 && (i = 512), XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
                 }
             }
             videoUpgrade() {
@@ -8899,7 +8947,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.upgrade(), this.data.isSuper && this.updateIcon()
             }
             updateIcon() {
-                let e = t.buildingMgr.superBuildCfg.get(this.data.superId);
+                let e = XMgr.buildingMgr.superBuildCfg.get(this.data.superId);
                 this.imgBody.skin = e.icon
             }
         }
@@ -8957,7 +9005,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             fire() {
                 for (let i = 0; i < 2; i++) {
-                    let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                    let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
                     let a = s.getComponent(XBulletScript);
@@ -8983,49 +9031,49 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.isUsedSkill = !1, this.isDouble = !1, this.isSuper = !1, this.v2 = new fx.V2
             }
             onInit() {
-                let i = this.roomData = t.buildingMgr.getRoom(this.data.roomId);
+                let i = this.roomData = XMgr.buildingMgr.getRoom(this.data.roomId);
                 if (i)
                     for (const t of i.buildings)
                         if (t.type == e.BuildType.bed) {
                             this.bed = t;
                             break
                         }
-                this.initOutDoorPos(), this.bedPos = new fx.V2(i.bedModelList[0].x, i.bedModelList[0].y), t.gameMgr.mapScript.changeBuildTips(this.bedPos.x, this.bedPos.y), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
+                this.initOutDoorPos(), this.bedPos = new fx.V2(i.bedModelList[0].x, i.bedModelList[0].y), XMgr.gameMgr.mapScript.changeBuildTips(this.bedPos.x, this.bedPos.y), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let s = this.cdNode.getChildByName("img_building");
-                this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, t.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let a = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let a = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
                 this.cdNode.pos(a.x, a.y), this.cdNode.visible = !1, this.skillBtn = new Laya.Image("res/game/out.png"), this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
-                let n = t.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                t.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(n.x, n.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill)
+                let n = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
+                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(n.x, n.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill)
             }
             initOutDoorPos() {
-                let e = t.mapMgr.getRoomById(this.data.roomId);
+                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
                 if (!e) return;
                 let i, s = e.doorPos,
                     a = e.doorRot;
-                for (const e of t.mapMgr.rooms) {
+                for (const e of XMgr.mapMgr.rooms) {
                     if (this.getDoorPos(e, s)) {
                         s = e.doorPos, a = e.doorRot;
                         break
                     }
                 }
-                0 == a ? i = t.mapMgr.gridPosToMapPos(s.x + 1, s.y) : 90 == a ? i = t.mapMgr.gridPosToMapPos(s.x, s.y - 1) : 180 == a ? i = t.mapMgr.gridPosToMapPos(s.x - 1, s.y) : 270 == a && (i = t.mapMgr.gridPosToMapPos(s.x, s.y + 1)), 
+                0 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x + 1, s.y) : 90 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x, s.y - 1) : 180 == a ? i = XMgr.mapMgr.gridPosToMapPos(s.x - 1, s.y) : 270 == a && (i = XMgr.mapMgr.gridPosToMapPos(s.x, s.y + 1)), 
                 this.outDoorPos = i
             }
             getDoorPos(e, i) {
                 if (e.doorPos.x == i.x && e.doorPos.y == i.y) return !0;
                 if (e.doorPosArr && e.doorPosArr.length)
                     for (const s of e.doorPosArr) {
-                        let e = t.mapMgr.getRoomByGridPos(s.x, s.y);
+                        let e = XMgr.mapMgr.getRoomByGridPos(s.x, s.y);
                         return this.getDoorPos(e, i)
                     }
             }
             onClickSkill() {
                 if (this.isTween) return;
                 let e = this.outDoorPos,
-                    i = t.mapMgr.gridPosToMapPos(this.bedPos.x, this.bedPos.y);
+                    i = XMgr.mapMgr.gridPosToMapPos(this.bedPos.x, this.bedPos.y);
                 if (this.isUsedSkill) {
-                    this.skillBtn.skin = "res/game/out.png", t.playerMgr.player.isOutDoor = !1, this.isUsedSkill = !1, this.isCd = !0, this.curTime = 90, this.cdNode.visible = !0, this.skillBtn.visible = !1, XChoreUtil.playSound(133), (new fx.Sequence).to({
+                    this.skillBtn.skin = "res/game/out.png", XMgr.playerMgr.player.isOutDoor = !1, this.isUsedSkill = !1, this.isCd = !0, this.curTime = 90, this.cdNode.visible = !0, this.skillBtn.visible = !1, XChoreUtil.playSound(133), (new fx.Sequence).to({
                         x: i.x,
                         y: i.y
                     }, 1e3).exec(new Laya.Handler(this, () => {
@@ -9035,19 +9083,19 @@ define("js/bundle.js", function(require, module, exports) {
                         y: i.y
                     }, 1e3).run(this.roomData.players[0].ownerScript.node)
                 } else {
-                    let i = t.playerMgr.hunters;
+                    let i = XMgr.playerMgr.hunters;
                     for (const e of i) {
                         if (e.isDie) continue;
                         if (e.changeSideUuid == this.data.playerUuid) continue;
-                        let i = t.mapMgr.mapPosToGridPos(e.owner.x, e.owner.y),
-                            s = t.mapMgr.mapPosToGridPos(this.outDoorPos.x, this.outDoorPos.y);
+                        let i = XMgr.mapMgr.mapPosToGridPos(e.owner.x, e.owner.y),
+                            s = XMgr.mapMgr.mapPosToGridPos(this.outDoorPos.x, this.outDoorPos.y);
                         if (i.x == s.x && i.y == s.y) return void XToast.show("怪物在门口无法使用")
                     }
                     this.skillBtn.skin = "res/game/back.png", XChoreUtil.playSound(133), (new fx.Sequence).to({
                         x: e.x,
                         y: e.y
                     }, 1e3).exec(new Laya.Handler(this, () => {
-                        this.isTween = !1, this.isUsedSkill = !0, t.playerMgr.player.isOutDoor = !0
+                        this.isTween = !1, this.isUsedSkill = !0, XMgr.playerMgr.player.isOutDoor = !0
                     })).run(this.roomData.bedModelList[0].owner), (new fx.Sequence).to({
                         x: e.x,
                         y: e.y
@@ -9056,14 +9104,14 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isTween = !0
             }
             onUpdate() {
-                super.onUpdate(), t.gameMgr.isPause || this.updateBuildCd() && (this.updateBtn(), this.updateExtra(), this.updateRun())
+                super.onUpdate(), XMgr.gameMgr.isPause || this.updateBuildCd() && (this.updateBtn(), this.updateExtra(), this.updateRun())
             }
             updateRun() {
                 if (this.isUsedSkill && this.isSuper) {
-                    let e = t.playerMgr.hunters[0];
+                    let e = XMgr.playerMgr.hunters[0];
                     this.moveSpeed = 2 * e.ownerScript.moveSpeed;
-                    let i = t.mapMgr.mapPosToGridPos(e.owner.x, e.owner.y),
-                        s = t.mapMgr.mapPosToGridPos(this.bed.owner.x, this.bed.owner.y);
+                    let i = XMgr.mapMgr.mapPosToGridPos(e.owner.x, e.owner.y),
+                        s = XMgr.mapMgr.mapPosToGridPos(this.bed.owner.x, this.bed.owner.y);
                     this.curPath && this.curPath.length ? this.runWithPath(this.curPath) : i.distanceSq(s) < 9 && this.setTargetPos(i, s)
                 }
             }
@@ -9084,22 +9132,22 @@ define("js/bundle.js", function(require, module, exports) {
             }
             move(e, i, s = !0) {
                 let a;
-                a = s ? t.mapMgr.limitMove(this.bed.owner.x, this.bed.owner.y, e, i, 16) : t.mapMgr.move(this.bed.owner.x, this.bed.owner.y, e, i, 16);
+                a = s ? XMgr.mapMgr.limitMove(this.bed.owner.x, this.bed.owner.y, e, i, 16) : XMgr.mapMgr.move(this.bed.owner.x, this.bed.owner.y, e, i, 16);
                 let n = this.roomData.players[0].ownerScript.node;
                 this.bed.owner.pos(a.x, a.y), n.pos(a.x, a.y)
             }
             checkWalkAble(e, i) {
                 let s = new fx.V2(this.data.owner.x + e, this.data.owner.y + i),
-                    a = t.mapMgr.mapPosToGridPos(s.x, s.y),
-                    n = t.mapMgr.getTiledInfo(a.x, a.y);
+                    a = XMgr.mapMgr.mapPosToGridPos(s.x, s.y),
+                    n = XMgr.mapMgr.getTiledInfo(a.x, a.y);
                 return !(!n || null != n.walkable && !n.walkable)
             }
             getPath(e, i, s = !1) {
                 if (!this.bed.owner || this.bed.owner.destroyed) return;
-                return t.mapMgr.findPath(e.x, e.y, i.x, i.y, s)
+                return XMgr.mapMgr.findPath(e.x, e.y, i.x, i.y, s)
             }
             setTargetPos(e, i, s = 3) {
-                let a = t.mapMgr.outRoomGrids,
+                let a = XMgr.mapMgr.outRoomGrids,
                     n = [];
                 for (const e of a) {
                     if (e.x < 3 || e.y < 3) continue;
@@ -9111,27 +9159,27 @@ define("js/bundle.js", function(require, module, exports) {
                         let i = e.distanceSq(t);
                         e.distanceSq(t) > a ? (a = i, s = t) : e.distanceSq(t) == a && s && e.distanceSq(t) > e.distanceSq(s) && (s = t)
                     }
-                    let r = t.mapMgr.gridPosToMapPos(i.x, i.y),
-                        o = t.mapMgr.gridPosToMapPos(s.x, s.y);
+                    let r = XMgr.mapMgr.gridPosToMapPos(i.x, i.y),
+                        o = XMgr.mapMgr.gridPosToMapPos(s.x, s.y);
                     this.curPath = this.getPath(r, o)
                 } else this.setTargetPos(e, i, s + 1)
             }
             updateBtn() {
-                if (this.skillBtn && this.data.playerUuid == t.playerMgr.mineUuid) {
-                    let e = t.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
+                if (this.skillBtn && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                    let e = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
                     this.skillBtn.pos(e.x, e.y + 50), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (90 - this.curTime) / 90 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.skillBtn.visible = !0)) : this.skillBtn.visible || (this.skillBtn.visible = !0)
                 }
             }
             updateExtra() {
                 if (this.isUsedSkill) {
-                    let e = t.buildingMgr.getBuildCfg(this.bed.id, this.bed.lv).effectList[0].value[0];
+                    let e = XMgr.buildingMgr.getBuildCfg(this.bed.id, this.bed.lv).effectList[0].value[0];
                     for (const i of this.bed.ownerScript.effects)
                         if (i instanceof Xt) {
                             let s = .5 * e;
                             if (this.isDouble) s = e;
                             else if (this.isSuper) {
-                                let i = t.mapMgr.mapPosToGridPos(this.bed.owner.x, this.bed.owner.y),
-                                    a = t.mapMgr.mapPosToGridPos(this.outDoorPos.x, this.outDoorPos.y).distanceSq(i);
+                                let i = XMgr.mapMgr.mapPosToGridPos(this.bed.owner.x, this.bed.owner.y),
+                                    a = XMgr.mapMgr.mapPosToGridPos(this.outDoorPos.x, this.outDoorPos.y).distanceSq(i);
                                 s = a <= 9 ? .5 * e : a <= 36 ? 1 * e : 2 * e
                             }
                             s != i.godExtra && (i.godExtra = s)
@@ -9153,7 +9201,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.upgrade(), this.data.isSuper && this.updateIcon()
             }
             updateIcon() {
-                let e = t.buildingMgr.superBuildCfg.get(this.data.superId);
+                let e = XMgr.buildingMgr.superBuildCfg.get(this.data.superId);
                 this.imgBody.skin = e.icon
             }
         }
@@ -9174,7 +9222,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -9204,7 +9252,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -9225,7 +9273,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.atkTarget = e, this.fire(), this.isWork = !0) : this.isWork = !1
             }
             fire() {
-                let i = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
                 i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
                 let s = i.getComponent(XBulletScript);
@@ -9264,7 +9312,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -9321,7 +9369,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -9359,7 +9407,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = t.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
                 if (i && !i.isDie && i.buffs)
                     for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
@@ -9399,7 +9447,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             getHunters() {
-                return t.playerMgr.hunters
+                return XMgr.playerMgr.hunters
             }
             getTargetDstSqu() {
                 let e = 1 / 0,
@@ -9421,7 +9469,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             fire() {
                 for (let i = 0; i < 2; i++) {
-                    let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                    let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
                     let a = s.getComponent(XBulletScript);
@@ -9442,15 +9490,15 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XTrapScript extends XBuildingScript {
             initBuild() {
-                let e = t.buildingMgr.getBuildCfg(this.data.id);
-                this.dizzyTime = e.effectList[0].value[0], t.user.gameInfo.getBuffData(8) && (this.dizzyTime += 1), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
+                let e = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                this.dizzyTime = e.effectList[0].value[0], XMgr.user.gameInfo.getBuffData(8) && (this.dizzyTime += 1), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let i = this.cdNode.getChildByName("img_building");
-                this.panel_bar = i.getChildByName("panel_bar"), this.panel_bar.width = .001, t.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let s = t.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.panel_bar = i.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let s = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
                 this.cdNode.pos(s.x, s.y), this.cdNode.visible = !1, this.skillBtn = new Laya.Image("res/game/trap.png"), this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
-                let a = t.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                t.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
-                let n = t.mapMgr.getRoomById(this.data.roomId);
+                let a = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
+                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
+                let n = XMgr.mapMgr.getRoomById(this.data.roomId);
                 (this.door = n.doorModel).owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             onDoorBeHit(e, t) {
@@ -9462,7 +9510,7 @@ define("js/bundle.js", function(require, module, exports) {
                     for (const i of this.hunters)
                         if (Math.abs(this.door.owner.x - i.owner.x) <= 150 || Math.abs(this.door.owner.y - i.owner.y) <= 150) {
                             let s = new Laya.Animation;
-                            s.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(s, i.owner.x - C.GridHalfSize, i.owner.y - C.GridHalfSize, !1), t.gameMgr.DizzyTarget(i, this.dizzyTime), e = !0
+                            s.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(s, i.owner.x - C.GridHalfSize, i.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(i, this.dizzyTime), e = !0
                         } else {
                             let e = this.hunters.indexOf(i);
                             e >= 0 && this.hunters.splice(e, 1)
@@ -9471,16 +9519,16 @@ define("js/bundle.js", function(require, module, exports) {
                 } else XToast.show("噬魂者太远了")
             }
             onUpdate() {
-                super.onUpdate(), this.data.palsyTime || t.gameMgr.isPause || this.updateBuildCd() && this.updateBtn()
+                super.onUpdate(), this.data.palsyTime || XMgr.gameMgr.isPause || this.updateBuildCd() && this.updateBtn()
             }
             updateBtn() {
-                if (this.skillBtn && this.data.playerUuid == t.playerMgr.mineUuid) {
-                    let e = t.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
+                if (this.skillBtn && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                    let e = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
                     this.skillBtn.pos(e.x, e.y + 50), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (20 - this.curTime) / 20 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.skillBtn.visible = !0)) : this.skillBtn.visible || (this.skillBtn.visible = !0)
                 }
             }
             initEffects() {
-                if (this.data.playerUuid == t.playerMgr.player.uuid && t.user.gameInfo.getBuffData(9)) this.initBuild();
+                if (this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(9)) this.initBuild();
                 else {
                     for (let e = this.effects.length - 1; e >= 0; --e) {
                         let t = this.effects[e];
@@ -9490,10 +9538,10 @@ define("js/bundle.js", function(require, module, exports) {
                         let s = Kt.createEffect(i, this.data);
                         if (s) {
                             if (s.clearFlag = !0, this.addEffect(s), i.type == e.EffectType.Enemy_SlowAtkSpd) {
-                                return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
+                                return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
                             }
                             if (i.type == e.EffectType.Door_FightBackOnBeAtk) {
-                                return void t.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_2()
+                                return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_2()
                             }
                         }
                     }
@@ -9506,14 +9554,14 @@ define("js/bundle.js", function(require, module, exports) {
         class ls extends XTowerScript {
             addCoinByAtk() {
                 let i = Math.round(.5 * this.cfg.atkDamage * .5);
-                t.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && t.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
             }
         }
         class hs extends XTowerScript {
             playFireEff() {
-                let e = t.playerMgr.getPlayer(this.data.playerUuid),
-                    i = t.mapMgr.getRoomById(e.roomId);
-                i && i.doorModel && (t.gameMgr.AddHp(i.doorModel, .01 * i.doorModel.maxHp), i.doorModel.ownerScript.showHuiFuEff()), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
+                let e = XMgr.playerMgr.getPlayer(this.data.playerUuid),
+                    i = XMgr.mapMgr.getRoomById(e.roomId);
+                i && i.doorModel && (XMgr.gameMgr.AddHp(i.doorModel, .01 * i.doorModel.maxHp), i.doorModel.ownerScript.showHuiFuEff()), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
                     this.imgBody.scale(1, 1)
                 })).run(this.imgBody)
             }
@@ -9543,7 +9591,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             fire() {
                 for (let i = 0; i < 2; i++) {
-                    let s = t.bulletMgr.createBulletNode(this.cfg.bullet);
+                    let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                     if (!s) return;
                     0 == i ? (s.rotation = this.imgBody.rotation, s.x = this.node.x - 30) : (s.rotation = this.imgBody_1.rotation, s.x = this.node.x + 30), s.y = this.node.y;
                     let a = s.getComponent(XBulletScript);
@@ -9564,12 +9612,12 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(this.imgBody_1), this.fireEvent()
             }
             updateIcon() {
-                if (this.cfg = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.imgBody_1)
+                if (this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.imgBody_1)
                     if (this.data.lv > 1) {
-                        let e = t.buildingMgr.getBuildCfg(this.data.id, this.data.lv - 1);
+                        let e = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv - 1);
                         this.imgBody_1.skin = e.icon
                     } else this.imgBody_1.skin = this.cfg.icon;
-                let e = t.buildingMgr.specialTowerCfg.get(this.data.specialId);
+                let e = XMgr.buildingMgr.specialTowerCfg.get(this.data.specialId);
                 e.diIcon && (this.imgDi.skin = e.diIcon)
             }
         }
@@ -9582,19 +9630,19 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.owner
             }
             init() {
-                let e = t.user.gameInfo;
-                this.inputScript = t.gameMgr.inputScript, 
+                let e = XMgr.user.gameInfo;
+                this.inputScript = XMgr.gameMgr.inputScript, 
                 this.inputScript.downHandler = new Laya.Handler(this, this.onDown, null, !1), 
                 this.inputScript.moveHandler = new Laya.Handler(this, this.onInputMove, null, !1), 
                 this.inputScript.clickHandler = new Laya.Handler(this, this.onClickMap, null, !1);
                 let i = this.owner.getChildByName("MapNode");
-                t.mapMgr.mapNode = i, 
-                this.map = t.gameMgr.mapScript = i.addComponent(XMapScript), 
+                XMgr.mapMgr.mapNode = i, 
+                this.map = XMgr.gameMgr.mapScript = i.addComponent(XMapScript), 
                 this.map.init(), 
-                XEffectUtil.I.init(t.mapMgr.effectLayer), 
+                XEffectUtil.I.init(XMgr.mapMgr.effectLayer), 
                 XMatterUtil.init(), 
-                t.bulletMgr.init(i.getChildByName("BulletLayer")), 
-                t.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), 
+                XMgr.bulletMgr.init(i.getChildByName("BulletLayer")), 
+                XMgr.gameUI.init(this.node, this.owner.parent.getChildByName("box_ui")), 
                 this.initEvents(), 
                 this.initMapBuild(), 
                 this.initBuildings(), 
@@ -9606,7 +9654,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (s && (s.notchTop && (this.node.top = -s.notchTop), s.notchBottom && (this.node.bottom = -s.notchBottom)), e.failCnt + e.winCnt < 3) {
                     this.img_guideHand = new Laya.Image("res/game/guide/finger1.png"), this.img_guideHand.pivotX = 26, 
                     this.img_guideHand.pivotY = 12, 
-                    t.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
+                    XMgr.mapMgr.effectLayer.addChild(this.img_guideHand), this.img_guideHand.visible = !1;
                     let e = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                     e.isRepeat = !0, e.run(this.img_guideHand)
                 }
@@ -9629,18 +9677,18 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
             }
             onGameStart() {
-                for (const e of this.defenders) e.moveSpeed = t.cfg.constant.playerMoveSpeed / t.gameMgr.speedRatio
+                for (const e of this.defenders) e.moveSpeed = XMgr.cfg.constant.playerMoveSpeed / XMgr.gameMgr.speedRatio
             }
             onInit() {
-                this.lookAt(this.characterControl.node.x, this.characterControl.node.y), t.gameUI.startGameCd()
+                this.lookAt(this.characterControl.node.x, this.characterControl.node.y), XMgr.gameUI.startGameCd()
             }
             initBuildings() {
-                let i = t.buildingMgr.buildings;
+                let i = XMgr.buildingMgr.buildings;
                 for (const t of i) this.build(t, !0), t.type == e.BuildType.door && this.map.createDoorTips(t.x, t.y, t.rotation)
             }
             initDefenders() {
-                let e = t.playerMgr.mineUuid,
-                    defenderArr = t.playerMgr.defenders;
+                let e = XMgr.playerMgr.mineUuid,
+                    defenderArr = XMgr.playerMgr.defenders;
                 for (let s = 0; s < defenderArr.length; ++s) {
                     let defender = defenderArr[s],
                         box = new Laya.Box;
@@ -9648,19 +9696,19 @@ define("js/bundle.js", function(require, module, exports) {
                     this.map.playerLayer.addChild(box);
                     let r = box.addComponent(XDefenderScript);
                     r.init(defender);
-                    let o = t.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
+                    let o = XMgr.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
                     if (!o) {
                         let e;
-                        for (const i of t.mapMgr.getMapTiles())
+                        for (const i of XMgr.mapMgr.getMapTiles())
                             for (const t of i)
                                 if (-1 !== t.groundBlock.indexOf("floor_2")) {
                                     e = t;
                                     break
                                 }
-                        if (e) o = t.mapMgr.gridPosToMapPos(e.x, e.y);
+                        if (e) o = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
                         else {
                             let e = C.GridSize;
-                            o = new fx.V2(t.mapMgr.width * e / 2, t.mapMgr.height * e / 2)
+                            o = new fx.V2(XMgr.mapMgr.width * e / 2, XMgr.mapMgr.height * e / 2)
                         }
                     }
                     r.pos(o.x, o.y), this.defenders.push(r), defender.uuid == e && (this.characterControl = r)
@@ -9673,15 +9721,15 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_ghostDoor = new Laya.Image("res/game/img_ghostDoor.png"), 
                 this.img_ghostDoor.width = this.img_ghostDoor.height = 180, 
                 this.panel_ghostDoor.addChild(this.img_ghostDoor), this.img_ghostDoor.pos(0, 180);
-                let e = t.playerMgr.mineUuid,
-                    i = t.playerMgr.hunters;
+                let e = XMgr.playerMgr.mineUuid,
+                    i = XMgr.playerMgr.hunters;
                 for (let s = 0; s < i.length; ++s) {
                     let a = i[s],
                         n = new Laya.Box;
                     n.width = n.height = 1, this.map.hunterLayer.addChild(n);
                     let r = n.addComponent(XHunterScript);
                     r.init(a);
-                    let o = t.mapMgr.getHunterSpawnPos(a.spwanPoint);
+                    let o = XMgr.mapMgr.getHunterSpawnPos(a.spwanPoint);
                     if (r.pos(o.x, o.y), this.hunters.push(r), a.uuid == e) {
                         this.characterControl = r;
                         break
@@ -9689,20 +9737,20 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             initMapBuild() {
-                if (t.buildingMgr.mapBuildScripts = [], t.buildingMgr.mapBuildScriptArr = [], t.gameMgr.gameMode != e.GameMode.E_Defense) return;
-                let i = t.user.gameInfo,
+                if (XMgr.buildingMgr.mapBuildScripts = [], XMgr.buildingMgr.mapBuildScriptArr = [], XMgr.gameMgr.gameMode != e.GameMode.E_Defense) return;
+                let i = XMgr.user.gameInfo,
                     s = i.winCnt + i.failCnt;
-                if (i.isExitGame) return i.isExitGame = !1, void t.user.saveToServer();
+                if (i.isExitGame) return i.isExitGame = !1, void XMgr.user.saveToServer();
                 let a = .2;
-                a = t.user.gameInfo.ownBuff.size ? .2 : i.mapBuildRate;
-                let n = t.user.gameInfo.getBuffData(24);
+                a = XMgr.user.gameInfo.ownBuff.size ? .2 : i.mapBuildRate;
+                let n = XMgr.user.gameInfo.getBuffData(24);
                 if (n) {
-                    a += t.cfg.buffCfg.get(24).values[n.lv] / 100
+                    a += XMgr.cfg.buffCfg.get(24).values[n.lv] / 100
                 }
-                s > 0 && XRandomUtil.random() <= a && t.buildingMgr.addMapBuild()
+                s > 0 && XRandomUtil.random() <= a && XMgr.buildingMgr.addMapBuild()
             }
             firstPlay() {
-                if (0 == t.user.gameInfo.winCnt + t.user.gameInfo.failCnt) {
+                if (0 == XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt) {
                     let e = [
                         [17, 15],
                         [18, 15],
@@ -9730,16 +9778,16 @@ define("js/bundle.js", function(require, module, exports) {
                         n = s[0] != a[0] ? a[0] - s[0] == 1 ? 90 : -90 : a[1] - s[1] == 1 ? 180 : 0;
                         let r = new Laya.Image("res/guideTips/guideTips.png");
                         r.anchorX = r.anchorY = .5, r.rotation = n;
-                        let o = t.mapMgr.gridPosToMapPos(s[1], s[0]),
-                            l = t.mapMgr.mapPosToStagePos(o.x, o.y);
-                        t.mapMgr.lowLayer.addChild(r), r.pos(l.x, l.y);
+                        let o = XMgr.mapMgr.gridPosToMapPos(s[1], s[0]),
+                            l = XMgr.mapMgr.mapPosToStagePos(o.x, o.y);
+                        XMgr.mapMgr.lowLayer.addChild(r), r.pos(l.x, l.y);
                         r.addComponent(XGuideArrowScript)
                     }
                     this.img_guideArrow = new Laya.Image("res/game/guideArrow.png"), 
                     this.img_guideArrow.anchorX = this.img_guideArrow.anchorY = .5, 
                     this.img_guideArrow.rotation = 180, 
-                    this.arrowEndPos = t.mapMgr.gridPosToMapPos(7, 20), 
-                    t.mapMgr.effectLayer.addChild(this.img_guideArrow), 
+                    this.arrowEndPos = XMgr.mapMgr.gridPosToMapPos(7, 20), 
+                    XMgr.mapMgr.effectLayer.addChild(this.img_guideArrow), 
                     this.img_guideArrow.pos(this.arrowEndPos.x, this.arrowEndPos.y - 100);
                     let i = (new fx.Sequence).move(0, 20, 500).move(0, -20, 500);
                     i.isRepeat = !0, i.run(this.img_guideArrow), 
@@ -9752,7 +9800,7 @@ define("js/bundle.js", function(require, module, exports) {
             onUpdate() {
                 this.updateMove(), 
                 this.updateOperateUI(),
-                 t.gameUI.update()
+                 XMgr.gameUI.update()
             }
             updateMove() {
                 if (!this.characterControl) return;
@@ -9771,7 +9819,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_guideArrow && !this.img_guideArrow.destroyed && (this.img_guideArrow.pos(this.characterControl.node.x, this.characterControl.node.y), XV2Util01.faceTo(this.img_guideArrow, this.arrowEndPos.x, this.arrowEndPos.y, 90))
             }
             onDown() {
-                t.gameUI.hideAllMenu()
+                XMgr.gameUI.hideAllMenu()
             }
             onInputMove(e, t) {
                 if (!this.isPlayerBed || this.characterControl) return;
@@ -9796,9 +9844,9 @@ define("js/bundle.js", function(require, module, exports) {
             
                 // 基础数据
                 let r;
-                const o = t.mapMgr.gridPosToMapPos(buildModel_.x, buildModel_.y);
+                const o = XMgr.mapMgr.gridPosToMapPos(buildModel_.x, buildModel_.y);
                 let l = !1;
-                const buildCfg = t.buildingMgr.getBuildCfg(buildModel_.id);
+                const buildCfg = XMgr.buildingMgr.getBuildCfg(buildModel_.id);
             
                 // 不同类型建造物处理
                 if (buildCfg.type == e.BuildType.door) {
@@ -9810,19 +9858,19 @@ define("js/bundle.js", function(require, module, exports) {
             
                     // 特殊床 1001
                     if (buildModel_.id == 1001) {
-                        let skins = t.cfg.skin.getList();
+                        let skins = XMgr.cfg.skin.getList();
                         let chosen = fx.Utils.randomInArray(skins);
             
                         if (buildModel_.playerUuid) {
-                            let p = t.playerMgr.getPlayer(buildModel_.playerUuid);
-                            chosen = t.cfg.skin.get(p.skinId);
+                            let p = XMgr.playerMgr.getPlayer(buildModel_.playerUuid);
+                            chosen = XMgr.cfg.skin.get(p.skinId);
                         }
             
                         const bedImg = new Laya.Image(chosen.skinBedPath);
                         bedImg.scale(1, 1);
                         bedImg.anchorX = .5;
                         bedImg.anchorY = .75;
-                        t.mapMgr.playerLayer.addChild(bedImg);
+                        XMgr.mapMgr.playerLayer.addChild(bedImg);
                         bedImg.pos(o.x, o.y - 15);
                         r.bedHead = bedImg;
                     }
@@ -9916,31 +9964,31 @@ define("js/bundle.js", function(require, module, exports) {
                 r.map = this.map;
             
                 // 播放特效
-                if (!s && t.mapMgr.isInStageByGridPos(buildModel_.x, buildModel_.y)) {
+                if (!s && XMgr.mapMgr.isInStageByGridPos(buildModel_.x, buildModel_.y)) {
                     XEffectUtil.I.playUpgradeEffect(buildModel_.x, buildModel_.y);
                 }
             }
 
             destroyBuilding(e) {
                 let i = this.getBuidling(e.x, e.y);
-                i ? (i.node.destroy(), this.buildingGrids[e.x] && this.buildingGrids[e.x][e.y] && delete this.buildingGrids[e.x][e.y], this.map.hideUpTips(e.x, e.y), t.mapMgr.isInStageByGridPos(e.x, e.y)) : e.owner && e.owner.destroy()
+                i ? (i.node.destroy(), this.buildingGrids[e.x] && this.buildingGrids[e.x][e.y] && delete this.buildingGrids[e.x][e.y], this.map.hideUpTips(e.x, e.y), XMgr.mapMgr.isInStageByGridPos(e.x, e.y)) : e.owner && e.owner.destroy()
             }
             onBuildingUpgrade(e) {
                 let i = this.getBuidling(e.x, e.y);
-                i && (i.upgrade(), t.mapMgr.isInStageByGridPos(e.x, e.y) && XEffectUtil.I.playUpgradeEffect(e.x, e.y))
+                i && (i.upgrade(), XMgr.mapMgr.isInStageByGridPos(e.x, e.y) && XEffectUtil.I.playUpgradeEffect(e.x, e.y))
             }
             onBuildingVideoUpgrade(e) {
                 let t = this.getBuidling(e.x, e.y);
                 t && t.videoUpgrade()
             }
             updateOperateUI() {
-                if (t.gameUI.hideOperateBtn(), !this.characterControl || this.characterControl.data.type != e.PlayerType.E_Defender) return;
+                if (XMgr.gameUI.hideOperateBtn(), !this.characterControl || this.characterControl.data.type != e.PlayerType.E_Defender) return;
                 let i = this.characterControl.node,
-                    s = t.buildingMgr.getNearBuildingByMapPos(i.x, i.y, [e.BuildType.door, e.BuildType.bed]);
-                if (s) s.type == e.BuildType.door ? t.gameUI.showDoorBtn(s.x, s.y, !s.isOpen) : s.type != e.BuildType.bed || 1e3 != s.id || s.isUsed || this.characterControl.type != e.PlayerType.E_Defender || t.gameUI.showBedBtn(s.x, s.y);
+                    s = XMgr.buildingMgr.getNearBuildingByMapPos(i.x, i.y, [e.BuildType.door, e.BuildType.bed]);
+                if (s) s.type == e.BuildType.door ? XMgr.gameUI.showDoorBtn(s.x, s.y, !s.isOpen) : s.type != e.BuildType.bed || 1e3 != s.id || s.isUsed || this.characterControl.type != e.PlayerType.E_Defender || XMgr.gameUI.showBedBtn(s.x, s.y);
                 else {
-                    let e = t.buildingMgr.getNearMapBuildingByMapPos(i.x, i.y);
-                    e && !t.playerMgr.player.takeMapBuild && t.gameUI.showMapBuildBtn(e.x, e.y)
+                    let e = XMgr.buildingMgr.getNearMapBuildingByMapPos(i.x, i.y);
+                    e && !XMgr.playerMgr.player.takeMapBuild && XMgr.gameUI.showMapBuildBtn(e.x, e.y)
                 }
             }
             getDefender(e) {
@@ -9969,24 +10017,24 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s) return;
                 s.upBed(e);
                 let a = e.roomId,
-                    n = t.buildingMgr.getRoom(a);
-                i == t.playerMgr.mineUuid && (this.room = n, this.isPlayerBed = !0, this.characterControl = null, this.img_guideArrow && this.img_guideArrow.destroy(), this.inputScript.hide(), this.showBuildTips(e.roomId)), this.map.removeDoorTips(n.doorPos.x, n.doorPos.y)
+                    n = XMgr.buildingMgr.getRoom(a);
+                i == XMgr.playerMgr.mineUuid && (this.room = n, this.isPlayerBed = !0, this.characterControl = null, this.img_guideArrow && this.img_guideArrow.destroy(), this.inputScript.hide(), this.showBuildTips(e.roomId)), this.map.removeDoorTips(n.doorPos.x, n.doorPos.y)
             }
             onPlayerDownBed(e, i) {
                 let s = this.getDefender(e);
-                s && (s.downBed(), e == t.playerMgr.mineUuid && (this.hideBuildTips(i), this.room = null, this.isPlayerBed = !1, this.characterControl = s, this.inputScript.show()))
+                s && (s.downBed(), e == XMgr.playerMgr.mineUuid && (this.hideBuildTips(i), this.room = null, this.isPlayerBed = !1, this.characterControl = s, this.inputScript.show()))
             }
             onPlayerTakeMapBuild(e, t) {
                 let i = this.getDefender(t);
                 i && i.takeMapBuild(e)
             }
             showBuildTips(e) {
-                let i = t.buildingMgr.getRoom(e);
+                let i = XMgr.buildingMgr.getRoom(e);
                 if (i)
                     for (const e of i.grids) this.map.hideBuildTips(e.x, e.y), this.map.showBuildTips(e.x, e.y)
             }
             hideBuildTips(e) {
-                let i = t.buildingMgr.getRoom(e);
+                let i = XMgr.buildingMgr.getRoom(e);
                 if (i)
                     for (const e of i.grids) this.map.hideBuildTips(e.x, e.y)
             }
@@ -10011,20 +10059,20 @@ define("js/bundle.js", function(require, module, exports) {
             }
             useDigHole(i) {
                 let s = this.hunters[0];
-                s.data.invincible_skill = !0, s.data.isUsingSkill = !0, this.panel_ghostDoor.pos(s.node.x, s.node.y), t.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = null), (new fx.Sequence).to({
+                s.data.invincible_skill = !0, s.data.isUsingSkill = !0, this.panel_ghostDoor.pos(s.node.x, s.node.y), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = null), (new fx.Sequence).to({
                     y: 0
                 }, 500).run(this.img_ghostDoor), (new fx.Sequence).delay(500).scaleOut(0, 2500).exec(new Laya.Handler(this, () => {
                     s.node.pos(i.x, i.y), s.data.invincible_skill = !1, this.img_ghostDoor.y = 180, this.panel_ghostDoor.pos(i.x, i.y), (new fx.Sequence).to({
                         y: 0
                     }, 500).run(this.img_ghostDoor), (new fx.Sequence).delay(500).scaleOut(1, 2500).exec(new Laya.Handler(this, () => {
                         s.data.isUsingSkill = !1, this.img_ghostDoor.y = 180
-                    })).run(s.node), t.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = s, this.lookAt(this.characterControl.node.x, this.characterControl.node.y))
+                    })).run(s.node), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = s, this.lookAt(this.characterControl.node.x, this.characterControl.node.y))
                 })).run(s.node)
             }
             guideHandShow(e) {
                 if (!this.img_guideHand) return;
                 let i, s = !1,
-                    a = t.playerMgr.player,
+                    a = XMgr.playerMgr.player,
                     n = a.roomId;
                 switch (e) {
                     case 2:
@@ -10032,23 +10080,23 @@ define("js/bundle.js", function(require, module, exports) {
                     case 6:
                         s = !0;
                         let r = a.bedModel;
-                        r && !r.isDie && (i = t.mapMgr.gridPosToMapPos(r.x, r.y), this.img_guideHand.pos(i.x, i.y));
+                        r && !r.isDie && (i = XMgr.mapMgr.gridPosToMapPos(r.x, r.y), this.img_guideHand.pos(i.x, i.y));
                         break;
                     case 4:
                         s = !0;
-                        let o = t.mapMgr.getRoomById(n);
-                        o.doorModel && !o.doorModel.isDie && (i = t.mapMgr.gridPosToMapPos(o.doorModel.x, o.doorModel.y), this.img_guideHand.pos(i.x, i.y));
+                        let o = XMgr.mapMgr.getRoomById(n);
+                        o.doorModel && !o.doorModel.isDie && (i = XMgr.mapMgr.gridPosToMapPos(o.doorModel.x, o.doorModel.y), this.img_guideHand.pos(i.x, i.y));
                         break;
                     case 3:
                         s = !0;
-                        let l = t.mapMgr.getRandomPosByRoomId(n);
-                        l && (i = t.mapMgr.gridPosToMapPos(l.x, l.y), this.img_guideHand.pos(i.x, i.y));
+                        let l = XMgr.mapMgr.getRandomPosByRoomId(n);
+                        l && (i = XMgr.mapMgr.gridPosToMapPos(l.x, l.y), this.img_guideHand.pos(i.x, i.y));
                         break;
                     case 7:
                         s = !0;
                         let h = a.ownerScript.getRoomModel().doorModel,
                             d = a.ownerScript.getEmptyBlock(new fx.V2(h.x, h.y));
-                        d && (i = t.mapMgr.gridPosToMapPos(d.x, d.y), this.img_guideHand.pos(i.x, i.y))
+                        d && (i = XMgr.mapMgr.gridPosToMapPos(d.x, d.y), this.img_guideHand.pos(i.x, i.y))
                 }
                 this.img_guideHand.visible = s
             }
@@ -10082,41 +10130,41 @@ define("js/bundle.js", function(require, module, exports) {
                 super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.on(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.on(XEventNames.E_Angel_Dead, this, this.clearControl)
             }
             onClickMap(e) {
-                if (!t.playerMgr.player.isBed) return;
+                if (!XMgr.playerMgr.player.isBed) return;
                 let i = e.stageX,
                     s = e.stageY,
-                    a = t.mapMgr.stagePosToMapPos(i, s),
-                    n = t.mapMgr.mapPosToGridPos(a.x, a.y);
-                if (!t.gameMgr.canHandleGrid(n.x, n.y)) return void t.gameUI.hideAllMenu();
-                let r = t.buildingMgr.getBuilding(n.x, n.y);
+                    a = XMgr.mapMgr.stagePosToMapPos(i, s),
+                    n = XMgr.mapMgr.mapPosToGridPos(a.x, a.y);
+                if (!XMgr.gameMgr.canHandleGrid(n.x, n.y)) return void XMgr.gameUI.hideAllMenu();
+                let r = XMgr.buildingMgr.getBuilding(n.x, n.y);
                 if (r) {
                     if (!r.canHandle) return;
-                    console.log("open upgrade ui"), t.gameUI.showUpgradeMeun(n.x, n.y, r)
-                } else console.log("open build ui"), t.gameUI.showBuildMeun(n.x, n.y)
+                    console.log("open upgrade ui"), XMgr.gameUI.showUpgradeMeun(n.x, n.y, r)
+                } else console.log("open build ui"), XMgr.gameUI.showBuildMeun(n.x, n.y)
             }
             onUpdate() {
-                super.onUpdate(), this.characterControl && (this.characterControl.data.type == e.PlayerType.E_Hunter ? (t.gameUI.hideOperateBtn(), this.characterControl.tryAttack()) : this.characterControl.data.isAngel && t.gameUI.hideOperateBtn())
+                super.onUpdate(), this.characterControl && (this.characterControl.data.type == e.PlayerType.E_Hunter ? (XMgr.gameUI.hideOperateBtn(), this.characterControl.tryAttack()) : this.characterControl.data.isAngel && XMgr.gameUI.hideOperateBtn())
             }
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
-                let e = t.gameMgr.mineRoom;
-                if (!t.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
-                if (!t.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
+                let e = XMgr.gameMgr.mineRoom;
+                if (!XMgr.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
+                if (!XMgr.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
                 let i = fx.CfgMgr.instance.getConstant("repairTime");
-                this.skill_repair._skillCD = !0, t.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, new Laya.Handler(this, () => {
+                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, new Laya.Handler(this, () => {
                     this.skill_repair._skillCD = !1
                 }))
             }
             onClickAddSpeed() {
                 if (this.skill_addSpeed._skillCD) return;
-                t.playerMgr.player.ownerScript.startAddSpeed();
+                XMgr.playerMgr.player.ownerScript.startAddSpeed();
                 this.skill_addSpeed._skillCD = !0, this.setBtnInCD(this.skill_addSpeed, 15, new Laya.Handler(this, () => {
                     this.skill_addSpeed._skillCD = !1
                 }))
             }
             onClickDizzy() {
                 if (this.skill_dizzy._skillCD) return;
-                if (t.playerMgr.player.ownerScript.useDizzy()) {
+                if (XMgr.playerMgr.player.ownerScript.useDizzy()) {
                     let e = 20;
                     this.skill_dizzy._skillCD = !0, this.setBtnInCD(this.skill_dizzy, e, new Laya.Handler(this, () => {
                         this.skill_dizzy._skillCD = !1
@@ -10124,14 +10172,14 @@ define("js/bundle.js", function(require, module, exports) {
                 } else XToast.show("木头人距离太远")
             }
             createGhost(e) {
-                let i = t.playerMgr.mineUuid,
+                let i = XMgr.playerMgr.mineUuid,
                     s = new Laya.Box;
                 s.width = s.height = 1, this.map.hunterLayer.addChild(s);
                 let a = s.addComponent(XHunterScript);
                 a.init(e);
-                let n = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
+                let n = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 a.pos(n.x, n.y), this.hunters.push(a), 
-                e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
+                e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, XMgr.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
             }
             createAngel(e) {
                 this.angel_skill.visible = !0, this.isPlayerBed = !1, this.inputScript.show();
@@ -10139,14 +10187,14 @@ define("js/bundle.js", function(require, module, exports) {
                 i.width = i.height = 1, this.map.playerLayer.addChild(i);
                 let s = i.addComponent(XDefenderScript);
                 s.init(e);
-                let a = t.mapMgr.getDefenderSpawnPos(e.spwanPoint);
-                s.pos(a.x, a.y), this.characterControl = s, t.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y), this.clearBtnCD(this.skill_addSpeed), this.clearBtnCD(this.skill_dizzy), XToast.show("我变成救援者")
+                let a = XMgr.mapMgr.getDefenderSpawnPos(e.spwanPoint);
+                s.pos(a.x, a.y), this.characterControl = s, XMgr.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y), this.clearBtnCD(this.skill_addSpeed), this.clearBtnCD(this.skill_dizzy), XToast.show("我变成救援者")
             }
             clearControl() {
                 this.isPlayerBed = !0, this.characterControl = null, this.inputScript.hide(), this.angel_skill.visible = !1, this.defender_skill.visible = !1
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.off(XEventNames.E_Angel_Dead, this, this.clearControl), Laya.timer.clear(t.gameUI, t.gameUI.countdownFunc)
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_Angel, this, this.createAngel), fx.EventCenter.I.off(XEventNames.E_Angel_Dead, this, this.clearControl), Laya.timer.clear(XMgr.gameUI, XMgr.gameUI.countdownFunc)
             }
         }
         class DefenseGameScript extends XGameScript {
@@ -10166,35 +10214,35 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.on(XEventNames.E_Create_Fighter, this, this.createFighter)
             }
             onClickMap(i) {
-                if (!t.playerMgr.player.isBed) return;
+                if (!XMgr.playerMgr.player.isBed) return;
                 let s = i.stageX,
                     a = i.stageY,
-                    n = t.mapMgr.stagePosToMapPos(s, a),
-                    r = t.mapMgr.mapPosToGridPos(n.x, n.y),
-                    o = t.user.gameInfo.getBuffData(18),
-                    l = t.user.gameInfo.getBuffData(6),
-                    h = t.mapMgr.getRoomIdByGridPos(r.x, r.y),
-                    d = t.mapMgr.getRoomById(h);
+                    n = XMgr.mapMgr.stagePosToMapPos(s, a),
+                    r = XMgr.mapMgr.mapPosToGridPos(n.x, n.y),
+                    o = XMgr.user.gameInfo.getBuffData(18),
+                    l = XMgr.user.gameInfo.getBuffData(6),
+                    h = XMgr.mapMgr.getRoomIdByGridPos(r.x, r.y),
+                    d = XMgr.mapMgr.getRoomById(h);
                 if (!d || !d.players || !d.players.length) return;
-                let u = t.gameMgr.canHandleGrid(r.x, r.y);
-                if (!u && !o && !l) return void t.gameUI.hideAllMenu();
-                let g = t.buildingMgr.getBuilding(r.x, r.y);
-                if (g && 6028 == g.id) console.log("open borrowMoney ui"), t.gameUI.showBorrowMoneyMeun(r.x, r.y, g);
+                let u = XMgr.gameMgr.canHandleGrid(r.x, r.y);
+                if (!u && !o && !l) return void XMgr.gameUI.hideAllMenu();
+                let g = XMgr.buildingMgr.getBuilding(r.x, r.y);
+                if (g && 6028 == g.id) console.log("open borrowMoney ui"), XMgr.gameUI.showBorrowMoneyMeun(r.x, r.y, g);
                 else if (g && (u || l || o)) {
                     if (!g.canHandle) return void(6025 != g.id && 5104 != g.id || g.ownerScript.onClickOwner());
                     if ((g.type == e.BuildType.bed || g.type == e.BuildType.door) && !u && l && !o) return;
-                    console.log("open upgrade ui"), t.gameUI.showUpgradeMeun(r.x, r.y, g)
-                } else(u || o) && (console.log("open build ui"), t.gameUI.showBuildMeun(r.x, r.y))
+                    console.log("open upgrade ui"), XMgr.gameUI.showUpgradeMeun(r.x, r.y, g)
+                } else(u || o) && (console.log("open build ui"), XMgr.gameUI.showBuildMeun(r.x, r.y))
             }
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
-                let e = t.gameMgr.mineRoom;
-                if (!t.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
-                if (!t.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
+                let e = XMgr.gameMgr.mineRoom;
+                if (!XMgr.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
+                if (!XMgr.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
                 let i = fx.CfgMgr.instance.getConstant("repairTime");
-                this.skill_repair._skillCD = !0, t.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
+                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
                     this.skill_repair._skillCD = !1
-                })), t.gameMgr.isClickRepair = !0, this.skill_repair.getChildByName("img_hand").visible = !1, !t.taskMgr.compeletAllTask() && t.taskMgr.startTask()
+                })), XMgr.gameMgr.isClickRepair = !0, this.skill_repair.getChildByName("img_hand").visible = !1, !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()
             }
             guideHandShow(e) {
                 if (8 == e) {
@@ -10206,7 +10254,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
                 let s = i.addComponent(XHunterScript);
                 s.init(e);
-                let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
+                let a = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             createBoxMonster(e, t) {
@@ -10220,11 +10268,11 @@ define("js/bundle.js", function(require, module, exports) {
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
                 let s = i.addComponent(XFighterScript);
                 s.init(e);
-                let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
+                let a = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.off(XEventNames.E_Create_Fighter, this, this.createFighter), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), fx.EventCenter.I.off(XEventNames.E_Create_BoxMonster, this, this.createBoxMonster), fx.EventCenter.I.off(XEventNames.E_Create_Fighter, this, this.createFighter), XMgr.buildingMgr.clearAllMapEquip()
             }
             }
         ////猜测是噬魂者模式
@@ -10233,7 +10281,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.equipArr = []
             }
             onInit() {
-                super.onInit(), t.gameUI.hideOperateBtn(), this.box_equip = this.owner.getChildByName("box_equip"), this.box_equip.visible = !0, this.list_equip = this.box_equip.getChildByName("list_equip");
+                super.onInit(), XMgr.gameUI.hideOperateBtn(), this.box_equip = this.owner.getChildByName("box_equip"), this.box_equip.visible = !0, this.list_equip = this.box_equip.getChildByName("list_equip");
                 let e = this.owner.getChildByName("box_skill");
                 e.getChildByName("defender_skill").visible = !1;
                 let i = e.getChildByName("hunter_skill");
@@ -10284,14 +10332,14 @@ define("js/bundle.js", function(require, module, exports) {
             onClickEquipDelete(e, i) {
                 i.stopPropagation(), this.curEquipIdx = null;
                 let s = this.equipArr.splice(e, 1);
-                this.list_equip.refresh(), t.playerMgr.hunters[0].ownerScript.deleteEquip(s[0])
+                this.list_equip.refresh(), XMgr.playerMgr.hunters[0].ownerScript.deleteEquip(s[0])
             }
             takeMapEquip(e) {
-                6 != this.equipArr.length ? (XChoreUtil.playSound(131), this.equipArr.push(e), t.playerMgr.hunters[0].ownerScript.takeEquip(e), this.list_equip.refresh()) : XToast.show("装备已满不可拾取")
+                6 != this.equipArr.length ? (XChoreUtil.playSound(131), this.equipArr.push(e), XMgr.playerMgr.hunters[0].ownerScript.takeEquip(e), this.list_equip.refresh()) : XToast.show("装备已满不可拾取")
             }
             onHunterUpgrade(e) {
                 let i = [2, 4, 7];
-                t.user.gameInfo.hunterBox <= 0 ? this.img_random.visible = !1 : (this.img_random.visible = i.includes(e), this.lb_random.text = `${Math.min(3,t.user.gameInfo.hunterBox)}/3`)
+                XMgr.user.gameInfo.hunterBox <= 0 ? this.img_random.visible = !1 : (this.img_random.visible = i.includes(e), this.lb_random.text = `${Math.min(3,XMgr.user.gameInfo.hunterBox)}/3`)
             }
             rageRefresh() {
                 this.img_kuangbao.visible = !0
@@ -10308,24 +10356,24 @@ define("js/bundle.js", function(require, module, exports) {
             onClickMap(e) {}
             onUpdate() {
                 super.onUpdate();
-                let i = t.playerMgr.player;
+                let i = XMgr.playerMgr.player;
                 if (i && i.owner) {
-                    let e = t.mapMgr.mapPosToStagePos(i.owner.x, i.owner.y);
+                    let e = XMgr.mapMgr.mapPosToStagePos(i.owner.x, i.owner.y);
                     this.img_kuangbao && this.img_kuangbao.pos(e.x - 65, e.y - 80), this.img_zhenhan && this.img_zhenhan.pos(e.x + 65, e.y - 80)
                 }
                 if (this.characterControl) {
                     if (this.owner.timer.currTimer - this.characterControl.data.dizzyStartTime < 1e3 * this.characterControl.data.dizzyDurSec) return;
                     this.characterControl.data.type == e.PlayerType.E_Hunter && this.characterControl.tryAttack();
                     let i = this.characterControl.node,
-                        s = t.buildingMgr.getNearMapEquipByMapPos(i.x, i.y);
-                    s && t.buildingMgr.takeMapEquip(s.x, s.y)
+                        s = XMgr.buildingMgr.getNearMapEquipByMapPos(i.x, i.y);
+                    s && XMgr.buildingMgr.takeMapEquip(s.x, s.y)
                 }
             }
             onClickYanluo() {
                 j.I.playVideo("猎梦者模式---阎罗降世", this, e => {
                     if (e) {
                         XAnalyticsUtil.useLevelItem("阎罗降世"), this.skill_yanluo.visible = !1;
-                        let e = t.playerMgr.hunters[0];
+                        let e = XMgr.playerMgr.hunters[0];
                         e && (XChoreUtil.playSound(132), e.ownerScript.useYanluo())
                     }
                 })
@@ -10335,7 +10383,7 @@ define("js/bundle.js", function(require, module, exports) {
                     if (e) {
                         XAnalyticsUtil.useLevelItem("召唤装备"), this.skill_equip.visible = !1;
                         let e = XRandomUtil.getIntRandom(1, 3);
-                        e = Math.min(15, e + t.playerMgr.player.lv), t.buildingMgr.addMapEquip(e, !0)
+                        e = Math.min(15, e + XMgr.playerMgr.player.lv), XMgr.buildingMgr.addMapEquip(e, !0)
                     }
                 })
             }
@@ -10349,18 +10397,18 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_zhenhan.visible && this.characterControl && (this.img_zhenhan.visible = !1, this.characterControl.performSkill("dizzy"))
             }
             onClickRandom() {
-                XAnalyticsUtil.useLevelItem("猎梦者摇签盒"), this.img_random.visible = !1, t.user.gameInfo.hunterBox -= 1, t.user.saveToServer(), t.playerMgr.hunters[0].ownerScript.getSkill()
+                XAnalyticsUtil.useLevelItem("猎梦者摇签盒"), this.img_random.visible = !1, XMgr.user.gameInfo.hunterBox -= 1, XMgr.user.saveToServer(), XMgr.playerMgr.hunters[0].ownerScript.getSkill()
             }
             createGhost(e) {
                 let i = new Laya.Box;
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
                 let s = i.addComponent(XHunterScript);
                 s.init(e);
-                let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
+                let a = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), XMgr.buildingMgr.clearAllMapEquip()
             }
         }
         class ServenGhostGameScript extends XGameScript {
@@ -10373,25 +10421,25 @@ define("js/bundle.js", function(require, module, exports) {
                 super.initEvents(), fx.EventCenter.I.on(XEventNames.E_Create_Ghost, this, this.createGhost)
             }
             onClickMap(i) {
-                if (!t.playerMgr.player.isBed) return;
+                if (!XMgr.playerMgr.player.isBed) return;
                 let s = i.stageX,
                     a = i.stageY,
-                    n = t.mapMgr.stagePosToMapPos(s, a),
-                    r = t.mapMgr.mapPosToGridPos(n.x, n.y);
-                if (!t.gameMgr.canHandleGrid(r.x, r.y)) return void t.gameUI.hideAllMenu();
-                let o = t.buildingMgr.getBuilding(r.x, r.y);
+                    n = XMgr.mapMgr.stagePosToMapPos(s, a),
+                    r = XMgr.mapMgr.mapPosToGridPos(n.x, n.y);
+                if (!XMgr.gameMgr.canHandleGrid(r.x, r.y)) return void XMgr.gameUI.hideAllMenu();
+                let o = XMgr.buildingMgr.getBuilding(r.x, r.y);
                 if (o) {
                     if (!o.canHandle) return;
-                    console.log("open upgrade ui"), t.gameUI.showUpgradeMeun(r.x, r.y, o), o.type == e.BuildType.bed || o.type == e.BuildType.door || (o.type, e.BuildType.tower)
-                } else console.log("open build ui"), t.gameUI.showBuildMeun(r.x, r.y)
+                    console.log("open upgrade ui"), XMgr.gameUI.showUpgradeMeun(r.x, r.y, o), o.type == e.BuildType.bed || o.type == e.BuildType.door || (o.type, e.BuildType.tower)
+                } else console.log("open build ui"), XMgr.gameUI.showBuildMeun(r.x, r.y)
             }
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
-                let e = t.gameMgr.mineRoom;
-                if (!t.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
-                if (!t.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
+                let e = XMgr.gameMgr.mineRoom;
+                if (!XMgr.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
+                if (!XMgr.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
                 let i = fx.CfgMgr.instance.getConstant("repairTime");
-                this.skill_repair._skillCD = !0, t.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
+                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
                     this.skill_repair._skillCD = !1
                 }))
             }
@@ -10400,11 +10448,11 @@ define("js/bundle.js", function(require, module, exports) {
                 i.width = i.height = 1, this.map.hunterLayer.addChild(i);
                 let s = i.addComponent(XHunterScript);
                 s.init(e);
-                let a = t.mapMgr.getHunterSpawnPos(e.spwanPoint);
+                let a = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), t.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), XMgr.buildingMgr.clearAllMapEquip()
             }
         }
         class XInputScript extends Laya.Script {
@@ -10412,7 +10460,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.visible = !0, this.moveFlag = !1, this.whetherControl = !0, this.canHandle = !0
             }
             onAwake() {
-                if (this.ownerUI = this.owner, !t.taskMgr.compeletAllTask()) {
+                if (this.ownerUI = this.owner, !XMgr.taskMgr.compeletAllTask()) {
                     this.box_guide = fx.Utils.createPrefab(T.Prefab_Guide)
                     this.ownerUI.addChild(this.box_guide), 
                     this.box_guide.centerX = 0, 
@@ -10479,16 +10527,16 @@ define("js/bundle.js", function(require, module, exports) {
                 return [T.Prefab_GuideFinger, T.Prefab_HealZoneEff, T.Prefab_IconTips, T.Prefab_OperateBtn, T.Prefab_BuildMenu, T.Prefab_UpgradeMenu, T.Prefab_BorrowMoney, T.Prefab_HealthBar, T.Prefab_BuildingCD, T.Prefab_SkillCD, T.Prefab_LabelTips, T.Prefab_Guide]
             }
             constructor(e, i) {
-                super(), t.gameMgr.start(i.matchData)
+                super(), XMgr.gameMgr.start(i.matchData)
             }
             onAdd() {
                 let i;
-                t.reporter.enterGame(), 
-                t.gameMgr.inputScript = this.InputLayer.getComponent(XInputScript), 
-                t.gameMgr.gameMode == e.GameMode.E_Defense ? i = this.game.addComponent(DefenseGameScript) : 
-                t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i = this.game.addComponent(AngelOrGhostGameScript) : 
-                t.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = this.game.addComponent(HuntGameScript), this.box_resNum.visible = !1) : 
-                t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = this.game.addComponent(ServenGhostGameScript)), i.init(), 
+                XMgr.reporter.enterGame(), 
+                XMgr.gameMgr.inputScript = this.InputLayer.getComponent(XInputScript), 
+                XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? i = this.game.addComponent(DefenseGameScript) : 
+                XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i = this.game.addComponent(AngelOrGhostGameScript) : 
+                XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ? (i = this.game.addComponent(HuntGameScript), this.box_resNum.visible = !1) : 
+                XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = this.game.addComponent(ServenGhostGameScript)), i.init(), 
                 XChoreUtil.playMusic(103), XChoreUtil.playSound(115)
             }
         }
@@ -10502,11 +10550,11 @@ define("js/bundle.js", function(require, module, exports) {
             onAdd() {
                 let e = "loading" == this.from;
                 XAnalyticsUtil.enterMainScene(e), this.checkOpenCommond(e), this.checkGetWxGameGift(e), XChoreUtil.playMusic(104);
-                if (t.user.gameInfo.failCnt + t.user.gameInfo.winCnt > 0 ? this.box_other.visible = !0 : this.box_other.visible = !1, "loading" == this.from) t.ui.open(l.TipsView);
+                if (XMgr.user.gameInfo.failCnt + XMgr.user.gameInfo.winCnt > 0 ? this.box_other.visible = !0 : this.box_other.visible = !1, "loading" == this.from) XMgr.ui.open(l.TipsView);
                 else if ("win" == this.from || "fail" == this.from) {
-                    let e = t.user.gameInfo;
-                    !e.isOpenEvaluate && e.winCnt + e.failCnt >= 2 && e.isLastWin ? t.ui.openPanel(l.EvaluateDialog) : t.gameMgr.isOpenSevenGhost ? t.ui.open(l.SevenGhostView) : (t.gameMgr.isShowTurntable = !0, t.ui.open(l.ShopDialog))
-                } else t.ui.open(l.ShopDialog);
+                    let e = XMgr.user.gameInfo;
+                    !e.isOpenEvaluate && e.winCnt + e.failCnt >= 2 && e.isLastWin ? XMgr.ui.openPanel(l.EvaluateDialog) : XMgr.gameMgr.isOpenSevenGhost ? XMgr.ui.open(l.SevenGhostView) : (XMgr.gameMgr.isShowTurntable = !0, XMgr.ui.open(l.ShopDialog))
+                } else XMgr.ui.open(l.ShopDialog);
                 this.initUI(), this.updateSkinShow(), this.initSeq(), this.updateRed()
             }
             initSeq() {
@@ -10537,117 +10585,117 @@ define("js/bundle.js", function(require, module, exports) {
                 l.isRepeat = !0, l.run(this.img_rotGuang)
             }
             initUI() {
-                t.user.gameInfo.isStartLv ? this.img_cjMask.visible = !1 : this.img_cjMask.visible = !0, this.btn_setting.on(Laya.Event.CLICK, this, this.onClickSetting), this.btn_hunter.on(Laya.Event.CLICK, this, this.onClickHunter), this.btn_angelOrGhost.on(Laya.Event.CLICK, this, this.onClickAngelOrGhost), this.btn_sevenGhost.on(Laya.Event.CLICK, this, this.onClickSevenGhost), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), this.btn_shop.on(Laya.Event.CLICK, this, this.onClickShop), this.btn_rank.on(Laya.Event.CLICK, this, this.onClickRank), this.btn_notice.on(Laya.Event.CLICK, this, this.onClickNotice), this.btn_skinChoujiang.on(Laya.Event.CLICK, this, this.onClickSkinChoujiang), this.btn_propChoujiang.on(Laya.Event.CLICK, this, this.onClickPropChoujiang), this.btn_share.on(Laya.Event.CLICK, this, this.onClickShare), this.box_tian.on(Laya.Event.CLICK, this, this.onClickTian), this.updateInvite(), this.btn_invite.on(Laya.Event.CLICK, this, this.onClickInvite), this.btn_invite.anchorX = this.btn_invite.anchorY = .5;
+                XMgr.user.gameInfo.isStartLv ? this.img_cjMask.visible = !1 : this.img_cjMask.visible = !0, this.btn_setting.on(Laya.Event.CLICK, this, this.onClickSetting), this.btn_hunter.on(Laya.Event.CLICK, this, this.onClickHunter), this.btn_angelOrGhost.on(Laya.Event.CLICK, this, this.onClickAngelOrGhost), this.btn_sevenGhost.on(Laya.Event.CLICK, this, this.onClickSevenGhost), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), this.btn_skin.on(Laya.Event.CLICK, this, this.onClickSkin), this.btn_shop.on(Laya.Event.CLICK, this, this.onClickShop), this.btn_rank.on(Laya.Event.CLICK, this, this.onClickRank), this.btn_notice.on(Laya.Event.CLICK, this, this.onClickNotice), this.btn_skinChoujiang.on(Laya.Event.CLICK, this, this.onClickSkinChoujiang), this.btn_propChoujiang.on(Laya.Event.CLICK, this, this.onClickPropChoujiang), this.btn_share.on(Laya.Event.CLICK, this, this.onClickShare), this.box_tian.on(Laya.Event.CLICK, this, this.onClickTian), this.updateInvite(), this.btn_invite.on(Laya.Event.CLICK, this, this.onClickInvite), this.btn_invite.anchorX = this.btn_invite.anchorY = .5;
                 let e = (new fx.Sequence).delay(2e3).rotate(-13, 60).rotate(13, 120).rotate(-13, 120).rotate(13, 120).rotate(-13, 120).rotate(0, 60);
                 e.isRepeat = !0, e.run(this.btn_invite), fx.EventCenter.I.on(we.Invite_Btn_Update, this, this.updateInvite)
             }
             updateInvite() {
-                this.btn_invite.visible = t.user.gameInfo.inviteClaimed < t.cfg.inviteCfg.length
+                this.btn_invite.visible = XMgr.user.gameInfo.inviteClaimed < XMgr.cfg.inviteCfg.length
             }
             onClickInvite() {
-                t.ui.open(l.InviteDialog)
+                XMgr.ui.open(l.InviteDialog)
             }
             onClickTian() {
-                t.ui.open(l.BuyTianDialog)
+                XMgr.ui.open(l.BuyTianDialog)
             }
             onClickNotice() {
-                t.ui.open(l.NoticeDialog)
+                XMgr.ui.open(l.NoticeDialog)
             }
             onClickSetting() {
-                t.ui.open(l.SettingDialog)
+                XMgr.ui.open(l.SettingDialog)
             }
             onClickAngelOrGhost() {
-                XAnalyticsUtil.clickStart("木头人模式"), t.user.gameInfo.isUnlockAngelOrGhost ? t.ui.open(l.MatchingView, {
+                XAnalyticsUtil.clickStart("木头人模式"), XMgr.user.gameInfo.isUnlockAngelOrGhost ? XMgr.ui.open(l.MatchingView, {
                     mode: e.GameMode.E_AngelOrGhost
-                }) : t.ui.open(l.AogUnlockDialog)
+                }) : XMgr.ui.open(l.AogUnlockDialog)
             }
             onClickSevenGhost() {
-                XAnalyticsUtil.clickStart("挑战模式"), t.user.gameInfo.isUnlockSevenGhost ? t.ui.open(l.SevenGhostView) : t.ui.open(l.SevenGhostUnlockDialog)
+                XAnalyticsUtil.clickStart("挑战模式"), XMgr.user.gameInfo.isUnlockSevenGhost ? XMgr.ui.open(l.SevenGhostView) : XMgr.ui.open(l.SevenGhostUnlockDialog)
             }
             onClickStart() {
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 if (XAnalyticsUtil.clickStart("普通模式"), i.todayMaxLv > 0) {
-                    1 == t.controller.checkABTest("expt_subscribe", [0, 1]) && j.I.subscribeMessage(), i.isLastWin && i.curLv == i.lastLv && i.curLv < t.cfg.difficultCfg.length ? t.ui.open(l.DifficultChooseDialog, {
+                    1 == XMgr.controller.checkABTest("expt_subscribe", [0, 1]) && j.I.subscribeMessage(), i.isLastWin && i.curLv == i.lastLv && i.curLv < XMgr.cfg.difficultCfg.length ? XMgr.ui.open(l.DifficultChooseDialog, {
                         canChoose: !0
-                    }) : t.ui.open(l.DifficultChooseDialog)
-                } else t.ui.open(l.MatchingView, {
+                    }) : XMgr.ui.open(l.DifficultChooseDialog)
+                } else XMgr.ui.open(l.MatchingView, {
                     mode: e.GameMode.E_Defense
                 })
             }
             onClickHunter() {
                 XAnalyticsUtil.clickStart("噬魂者模式");
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 if (i.failCnt + i.winCnt == 0) XToast.show("完成一局游戏后开启");
                 else if (i.isUnlockHunter) {
-                    let i = t.user.gameInfo;
-                    i.todayHunterMaxLv > 0 ? i.isLastHunterWin && i.curHunterLv == i.lastHunterLv && i.curHunterLv < t.cfg.hunterDifficultCfg.length ? t.ui.open(l.HunterDifficultChooseDialog, {
+                    let i = XMgr.user.gameInfo;
+                    i.todayHunterMaxLv > 0 ? i.isLastHunterWin && i.curHunterLv == i.lastHunterLv && i.curHunterLv < XMgr.cfg.hunterDifficultCfg.length ? XMgr.ui.open(l.HunterDifficultChooseDialog, {
                         canChoose: !0
-                    }) : t.ui.open(l.HunterDifficultChooseDialog) : t.ui.open(l.HunterMatchingView, {
+                    }) : XMgr.ui.open(l.HunterDifficultChooseDialog) : XMgr.ui.open(l.HunterMatchingView, {
                         mode: e.GameMode.E_Hunt
                     })
-                } else t.ui.open(l.HunterUnlockDialog)
+                } else XMgr.ui.open(l.HunterUnlockDialog)
             }
             onClickSkin() {
-                t.user.gameInfo.showSkinRed = !1, this.updateRedSkin(), t.ui.open(l.SkinView, {
+                XMgr.user.gameInfo.showSkinRed = !1, this.updateRedSkin(), XMgr.ui.open(l.SkinView, {
                     handler: new Laya.Handler(this, this.updateSkinShow.bind(this))
                 })
             }
             onClickShop() {
-                t.ui.open(l.ShopDialog)
+                XMgr.ui.open(l.ShopDialog)
             }
             async onClickRank() {
-                if (await t.user.userInfo.checkUserProfile(), this.destroyed) return;
-                let e = t.user.gameInfo.todayMaxLv;
-                e && await t.rankMgr.setCustomRankValue("score_day", e, t.user.gameInfo.curSkinId);
-                let i = t.user.gameInfo.todayHunterMaxLv;
-                if (i && await t.rankMgr.setCustomRankValue("score_hunter_day", i, t.user.gameInfo.curHunterSkinId), this.destroyed) return;
-                let s = await t.rankMgr.getCustomRankList("score_day"),
-                    a = await t.rankMgr.getCustomRankList("score_hunter_day");
-                this.destroyed || t.ui.open(l.RankView, {
+                if (await XMgr.user.userInfo.checkUserProfile(), this.destroyed) return;
+                let e = XMgr.user.gameInfo.todayMaxLv;
+                e && await XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId);
+                let i = XMgr.user.gameInfo.todayHunterMaxLv;
+                if (i && await XMgr.rankMgr.setCustomRankValue("score_hunter_day", i, XMgr.user.gameInfo.curHunterSkinId), this.destroyed) return;
+                let s = await XMgr.rankMgr.getCustomRankList("score_day"),
+                    a = await XMgr.rankMgr.getCustomRankList("score_hunter_day");
+                this.destroyed || XMgr.ui.open(l.RankView, {
                     info: s,
                     hunterInfo: a
                 })
             }
             onClickSkinChoujiang() {
-                t.ui.open(l.SkinFragmentDialog)
+                XMgr.ui.open(l.SkinFragmentDialog)
             }
             onClickPropChoujiang() {
-                t.user.gameInfo.isStartLv ? t.ui.open(l.TurntableView, {
+                XMgr.user.gameInfo.isStartLv ? XMgr.ui.open(l.TurntableView, {
                     handler: new Laya.Handler(this, this.updateRedCj.bind(this))
                 }) : XToast.show("功能未开放，请明日再来~")
             }
             updateSkinShow() {
-                let e = t.cfg.skin.get(t.user.gameInfo.curSkinId);
-                this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skin.skin = "", t.assetLoader.createSpine(e.skinPath, e => {
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curSkinId);
+                this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skin.skin = "", XMgr.assetLoader.createSpine(e.skinPath, e => {
                     this.skinSpine = e, e.speed = 1, this.box_skin.addChild(e), this.skinSpine.play(this.curAni, !0)
                 })) : this.img_skin.skin = e.skinShowPath
             }
             onClickShare() {
-                t.user.gameInfo.dailyShare, XAnalyticsUtil.share("主界面分享"), j.I.share(!1, null, "主界面分享")
+                XMgr.user.gameInfo.dailyShare, XAnalyticsUtil.share("主界面分享"), j.I.share(!1, null, "主界面分享")
             }
             updateRed() {
                 this.updateRedSkin(), this.updateRedCj(), this.updateRedShare()
             }
             updateRedSkin() {
-                this.img_redSkin.visible = t.user.gameInfo.showSkinRed
+                this.img_redSkin.visible = XMgr.user.gameInfo.showSkinRed
             }
             updateRedCj() {
                 let e = !1;
-                t.user.gameInfo.isStartLv && t.user.gameInfo.canPlayTurnTable && t.user.gameInfo.dailyShareCnt < 3 && (e = !0), this.img_redCj.visible = e
+                XMgr.user.gameInfo.isStartLv && XMgr.user.gameInfo.canPlayTurnTable && XMgr.user.gameInfo.dailyShareCnt < 3 && (e = !0), this.img_redCj.visible = e
             }
             updateRedShare() {
                 let e = !1;
-                t.user.gameInfo.dailyShare, this.img_redShare.visible = e
+                XMgr.user.gameInfo.dailyShare, this.img_redShare.visible = e
             }
             checkGetWxGameGift(e) {
                 let i = window.wx;
                 i && (i.onShow(() => {
-                    t.rewardMgr.getWxGameGift()
-                }), e && t.rewardMgr.getWxGameGift())
+                    XMgr.rewardMgr.getWxGameGift()
+                }), e && XMgr.rewardMgr.getWxGameGift())
             }
             checkOpenCommond(e) {
-                let i = t.user.gameInfo;
-                e || i.isOpenCommond || (i.isOpenCommond = !0, i.isCommond || (t.user.saveToServer(), j.I.showRecommend()))
+                let i = XMgr.user.gameInfo;
+                e || i.isOpenCommond || (i.isOpenCommond = !0, i.isCommond || (XMgr.user.saveToServer(), j.I.showRecommend()))
             }
             onDestroy() {
                 fx.EventCenter.I.off(we.Invite_Btn_Update, this, this.updateInvite)
@@ -10659,25 +10707,25 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 this.btn_continue.on(Laya.Event.CLICK, this, this.onClickContinue), this.btn_back.on(Laya.Event.CLICK, this, this.onClickBack);
-                let e = t.user.gameInfo;
-                e.winCnt + e.failCnt > 0 && (this.img_des.visible = !0), t.gameMgr.pauseGame(), fx.EventCenter.I.on(fx.BaseEvent.E_APP_ON_RESUME, this, this.onAppResume)
+                let e = XMgr.user.gameInfo;
+                e.winCnt + e.failCnt > 0 && (this.img_des.visible = !0), XMgr.gameMgr.pauseGame(), fx.EventCenter.I.on(fx.BaseEvent.E_APP_ON_RESUME, this, this.onAppResume)
             }
             onAppResume() {
-                t.gameMgr.pauseGame()
+                XMgr.gameMgr.pauseGame()
             }
             onClickContinue() {
-                t.ui.close(this), t.gameMgr.resumeGame()
+                XMgr.ui.close(this), XMgr.gameMgr.resumeGame()
             }
             onClickBack() {
-                t.ui.close(this), t.gameMgr.resumeGame(), t.user.gameInfo.isExitGame = !0, t.user.saveToServer(), t.reporter.exitGame(), t.ui.changeScene(l.MainScene);
+                XMgr.ui.close(this), XMgr.gameMgr.resumeGame(), XMgr.user.gameInfo.isExitGame = !0, XMgr.user.saveToServer(), XMgr.reporter.exitGame(), XMgr.ui.changeScene(l.MainScene);
                 let i = "",
                     s = "默认",
-                    a = t.user.gameInfo.curSkinId;
-                if (s = t.cfg.skin.get(a).name, t.gameMgr.gameMode == e.GameMode.E_Defense) i = "普通模式";
-                else if (t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) i = "木头人模式", t.playerMgr.player.isAngel ? s = "救援者" : t.playerMgr.player.isGhost && (s = "执行人");
-                else if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
-                    i = "噬魂者模式", s = t.cfg.skin.get(t.user.gameInfo.curHunterSkinId).name
-                } else t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = "挑战模式", t.user.gameInfo.curSevenGhostLv = 1, t.user.saveToServer());
+                    a = XMgr.user.gameInfo.curSkinId;
+                if (s = XMgr.cfg.skin.get(a).name, XMgr.gameMgr.gameMode == e.GameMode.E_Defense) i = "普通模式";
+                else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) i = "木头人模式", XMgr.playerMgr.player.isAngel ? s = "救援者" : XMgr.playerMgr.player.isGhost && (s = "执行人");
+                else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                    i = "噬魂者模式", s = XMgr.cfg.skin.get(XMgr.user.gameInfo.curHunterSkinId).name
+                } else XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (i = "挑战模式", XMgr.user.gameInfo.curSevenGhostLv = 1, XMgr.user.saveToServer());
                 XAnalyticsUtil.exitLevel(i, s)
             }
             onDestroy() {
@@ -10712,34 +10760,34 @@ define("js/bundle.js", function(require, module, exports) {
                         a = e.getChildByName("img_nameBg").getChildByName("lb_name"),
                         n = e.getChildByName("lb_score");
                     if (i.value)
-                        if (i.value > t.cfg.hunterDifficultCfg.length) {
-                            let e = t.cfg.hunterDifficultCfg.get(t.cfg.hunterDifficultCfg.length);
-                            0 != this.abTestNum ? n.text = `${e.name} ${i.value-t.cfg.hunterDifficultCfg.length}` : n.text = `${e.name}`
+                        if (i.value > XMgr.cfg.hunterDifficultCfg.length) {
+                            let e = XMgr.cfg.hunterDifficultCfg.get(XMgr.cfg.hunterDifficultCfg.length);
+                            0 != this.abTestNum ? n.text = `${e.name} ${i.value-XMgr.cfg.hunterDifficultCfg.length}` : n.text = `${e.name}`
                         } else {
-                            let e = t.cfg.hunterDifficultCfg.get(i.value);
+                            let e = XMgr.cfg.hunterDifficultCfg.get(i.value);
                             n.text = `${e.name}`
                         } else n.text = "未通关";
                     let r = 10001;
                     i.extraData && i.extraData.skinId && (r = Number(i.extraData.skinId), isNaN(r) && (r = 10001));
-                    let o = t.cfg.skin.get(r);
-                    o || (o = t.cfg.skin.get(10001)), s.skin = o.skinShowPath;
+                    let o = XMgr.cfg.skin.get(r);
+                    o || (o = XMgr.cfg.skin.get(10001)), s.skin = o.skinShowPath;
                     let l = i.name;
                     l ? l.length : l = `玩家${i.pid}`, a.text = l
                 }
             }
             initHunterSelf() {
                 if (this.hunterInfo && this.hunterInfo.rank && this.hunterInfo.rank <= 100 ? this.lb_rank_1.text = `${this.hunterInfo.rank}` : this.lb_rank_1.text = "未上榜", this.hunterInfo && this.hunterInfo.value)
-                    if (this.hunterInfo.value > t.cfg.hunterDifficultCfg.length) {
-                        let e = t.cfg.hunterDifficultCfg.get(t.cfg.hunterDifficultCfg.length);
-                        0 != this.abTestNum ? this.lb_score_1.text = `${e.name} ${this.hunterInfo.value-t.cfg.hunterDifficultCfg.length}` : this.lb_score_1.text = `${e.name} ${this.hunterInfo.value}`
+                    if (this.hunterInfo.value > XMgr.cfg.hunterDifficultCfg.length) {
+                        let e = XMgr.cfg.hunterDifficultCfg.get(XMgr.cfg.hunterDifficultCfg.length);
+                        0 != this.abTestNum ? this.lb_score_1.text = `${e.name} ${this.hunterInfo.value-XMgr.cfg.hunterDifficultCfg.length}` : this.lb_score_1.text = `${e.name} ${this.hunterInfo.value}`
                     } else {
-                        let e = t.cfg.hunterDifficultCfg.get(this.hunterInfo.value);
+                        let e = XMgr.cfg.hunterDifficultCfg.get(this.hunterInfo.value);
                         this.lb_score_1.text = `${e.name}`
                     } else this.lb_score_1.text = "未通关";
-                let e = t.cfg.skin.get(t.user.gameInfo.curHunterSkinId);
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curHunterSkinId);
                 this.img_head_1.skin = e.headIcon;
-                let i = t.user.userInfo.name;
-                i ? i.length : i = `玩家${t.user.userInfo.playerID}`, this.lb_name_1.text = i
+                let i = XMgr.user.userInfo.name;
+                i ? i.length : i = `玩家${XMgr.user.userInfo.playerID}`, this.lb_name_1.text = i
             }
             updateHunterItem(e) {
                 let i = e.dataSource;
@@ -10749,17 +10797,17 @@ define("js/bundle.js", function(require, module, exports) {
                     n = e.getChildByName("lb_name"),
                     r = e.getChildByName("lb_score");
                 if (s.text = `${i.rank}`, i.value)
-                    if (i.value > t.cfg.hunterDifficultCfg.length) {
-                        let e = t.cfg.hunterDifficultCfg.get(t.cfg.hunterDifficultCfg.length);
-                        0 != this.abTestNum ? r.text = `${e.name} ${i.value-t.cfg.hunterDifficultCfg.length}` : r.text = `${e.name}`
+                    if (i.value > XMgr.cfg.hunterDifficultCfg.length) {
+                        let e = XMgr.cfg.hunterDifficultCfg.get(XMgr.cfg.hunterDifficultCfg.length);
+                        0 != this.abTestNum ? r.text = `${e.name} ${i.value-XMgr.cfg.hunterDifficultCfg.length}` : r.text = `${e.name}`
                     } else {
-                        let e = t.cfg.hunterDifficultCfg.get(i.value);
+                        let e = XMgr.cfg.hunterDifficultCfg.get(i.value);
                         r.text = `${e.name}`
                     } else r.text = "轻松";
                 let o = 10001;
                 i.extraData && (o = Number(i.extraData.skinId), isNaN(o) && (o = 10001));
-                let l = t.cfg.skin.get(o);
-                l || (l = t.cfg.skin.get(10001)), a.skin = l.headIcon;
+                let l = XMgr.cfg.skin.get(o);
+                l || (l = XMgr.cfg.skin.get(10001)), a.skin = l.headIcon;
                 let h = i.name;
                 h ? h.length : h = `玩家${i.pid}`, n.text = h
             }
@@ -10775,34 +10823,34 @@ define("js/bundle.js", function(require, module, exports) {
                         a = e.getChildByName("img_nameBg").getChildByName("lb_name"),
                         n = e.getChildByName("lb_score");
                     if (i.value)
-                        if (i.value > t.cfg.difficultCfg.length) {
-                            let e = t.cfg.difficultCfg.get(t.cfg.difficultCfg.length);
-                            0 != this.abTestNum ? n.text = `${e.name} ${i.value-t.cfg.difficultCfg.length}` : n.text = `${e.name}`
+                        if (i.value > XMgr.cfg.difficultCfg.length) {
+                            let e = XMgr.cfg.difficultCfg.get(XMgr.cfg.difficultCfg.length);
+                            0 != this.abTestNum ? n.text = `${e.name} ${i.value-XMgr.cfg.difficultCfg.length}` : n.text = `${e.name}`
                         } else {
-                            let e = t.cfg.difficultCfg.get(i.value);
+                            let e = XMgr.cfg.difficultCfg.get(i.value);
                             n.text = `${e.name}`
                         } else n.text = "未通关";
                     let r = 1001;
                     i.extraData && i.extraData.skinId && (r = Number(i.extraData.skinId), isNaN(r) && (r = 1001));
-                    let o = t.cfg.skin.get(r);
-                    o || (o = t.cfg.skin.get(1001)), s.skin = o.skinBedPath;
+                    let o = XMgr.cfg.skin.get(r);
+                    o || (o = XMgr.cfg.skin.get(1001)), s.skin = o.skinBedPath;
                     let l = i.name;
                     l ? l.length : l = `玩家${i.pid}`, a.text = l
                 }
             }
             initDefenseSelf() {
                 if (this.info && this.info.rank && this.info.rank <= 100 ? this.lb_rank.text = `${this.info.rank}` : this.lb_rank.text = "未上榜", this.info && this.info.value)
-                    if (this.info.value > t.cfg.difficultCfg.length) {
-                        let e = t.cfg.difficultCfg.get(t.cfg.difficultCfg.length);
-                        0 != this.abTestNum ? this.lb_score.text = `${e.name} ${this.info.value-t.cfg.difficultCfg.length}` : this.lb_score.text = `${e.name}}`
+                    if (this.info.value > XMgr.cfg.difficultCfg.length) {
+                        let e = XMgr.cfg.difficultCfg.get(XMgr.cfg.difficultCfg.length);
+                        0 != this.abTestNum ? this.lb_score.text = `${e.name} ${this.info.value-XMgr.cfg.difficultCfg.length}` : this.lb_score.text = `${e.name}}`
                     } else {
-                        let e = t.cfg.difficultCfg.get(this.info.value);
+                        let e = XMgr.cfg.difficultCfg.get(this.info.value);
                         this.lb_score.text = `${e.name}`
                     } else this.lb_score.text = "未通关";
-                let e = t.cfg.skin.get(t.user.gameInfo.curSkinId);
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curSkinId);
                 this.img_head.skin = e.headIcon;
-                let i = t.user.userInfo.name;
-                i ? i.length : i = `玩家${t.user.userInfo.playerID}`, this.lb_name.text = i
+                let i = XMgr.user.userInfo.name;
+                i ? i.length : i = `玩家${XMgr.user.userInfo.playerID}`, this.lb_name.text = i
             }
             updateDefenseItem(e) {
                 let i = e.dataSource;
@@ -10812,22 +10860,22 @@ define("js/bundle.js", function(require, module, exports) {
                     n = e.getChildByName("lb_name"),
                     r = e.getChildByName("lb_score");
                 if (s.text = `${i.rank}`, i.value)
-                    if (i.value > t.cfg.difficultCfg.length) {
-                        let e = t.cfg.difficultCfg.get(t.cfg.difficultCfg.length);
-                        0 != this.abTestNum ? r.text = `${e.name} ${i.value-t.cfg.difficultCfg.length}` : r.text = `${e.name}`
+                    if (i.value > XMgr.cfg.difficultCfg.length) {
+                        let e = XMgr.cfg.difficultCfg.get(XMgr.cfg.difficultCfg.length);
+                        0 != this.abTestNum ? r.text = `${e.name} ${i.value-XMgr.cfg.difficultCfg.length}` : r.text = `${e.name}`
                     } else {
-                        let e = t.cfg.difficultCfg.get(i.value);
+                        let e = XMgr.cfg.difficultCfg.get(i.value);
                         r.text = `${e.name}`
                     } else r.text = "轻松";
                 let o = 1001;
                 i.extraData && (o = Number(i.extraData.skinId), isNaN(o) && (o = 1001));
-                let l = t.cfg.skin.get(o);
-                l || (l = t.cfg.skin.get(1001)), a.skin = l.headIcon;
+                let l = XMgr.cfg.skin.get(o);
+                l || (l = XMgr.cfg.skin.get(1001)), a.skin = l.headIcon;
                 let h = i.name;
                 h ? h.length : h = `玩家${i.pid}`, n.text = h
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onClickShare() {
                 XAnalyticsUtil.share("排行榜分享"), j.I.share(!1, null, "排行榜分享")
@@ -10838,33 +10886,33 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), t && (this.handler = t.handler)
             }
             onAwake() {
-                let e = t.cfg.skin.get(t.user.gameInfo.curSkinId);
+                let e = XMgr.cfg.skin.get(XMgr.user.gameInfo.curSkinId);
                 this.updateSkin(e), this.initSkinList(e), this.updateTypeSkinList(e), this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             updateSkin(e) {
-                this.lb_curSkinName.text = e.name, this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skinShow.skin = "", t.assetLoader.createSpine(e.skinPath, e => {
+                this.lb_curSkinName.text = e.name, this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skinShow.skin = "", XMgr.assetLoader.createSpine(e.skinPath, e => {
                     this.skinSpine = e, this.box_skin.addChild(e), this.skinSpine.play("idle", !0)
                 })) : this.img_skinShow.skin = e.skinShowPath
             }
             initSkinList(e) {
-                this.list_skin.array = t.cfg.getPlayerSkinTypeArr(), this.list_skin.renderHandler = new Laya.Handler(this, this.updateSkinItem), this.list_skin.hScrollBarSkin = "", this.timer.callLater(this, () => {
+                this.list_skin.array = XMgr.cfg.getPlayerSkinTypeArr(), this.list_skin.renderHandler = new Laya.Handler(this, this.updateSkinItem), this.list_skin.hScrollBarSkin = "", this.timer.callLater(this, () => {
                     this.list_skin.scrollTo(e.skinType - 1)
                 })
             }
             updateSkinItem(e) {
                 let i = e.dataSource,
-                    s = t.user.gameInfo.getSkinTypeShow(i),
-                    a = t.cfg.skin.get(s),
+                    s = XMgr.user.gameInfo.getSkinTypeShow(i),
+                    a = XMgr.cfg.skin.get(s),
                     n = e.getChildByName("img_itemBg"),
                     r = n.getChildByName("img_skin"),
                     o = n.getChildByName("img_using"),
                     l = n.getChildByName("img_mask"),
                     h = l.getChildByName("img_video");
-                r.skin = a.skinShowPath, o.visible = t.user.gameInfo.curSkinId == s;
-                let d = t.user.gameInfo.isUnlockSkin(s);
+                r.skin = a.skinShowPath, o.visible = XMgr.user.gameInfo.curSkinId == s;
+                let d = XMgr.user.gameInfo.isUnlockSkin(s);
                 l.visible = !d, h.visible = 1 == a.unlock.way, n.skin = d ? "res/ui/skin/img_cur.png" : "res/ui/skin/img_normal.png", n.off(Laya.Event.CLICK, this, this.onClickSkin), n.on(Laya.Event.CLICK, this, this.onClickSkin, [a, d])
             }
             onClickSkin(e, i) {
@@ -10872,13 +10920,13 @@ define("js/bundle.js", function(require, module, exports) {
                 else switch (e.unlock.way) {
                     case 1:
                         j.I.playVideo("解锁皮肤", this, i => {
-                            i && (t.user.gameInfo.unlockSkin(e.id), t.user.saveToServer(), this.updateTypeSkinList(e))
+                            i && (XMgr.user.gameInfo.unlockSkin(e.id), XMgr.user.saveToServer(), this.updateTypeSkinList(e))
                         });
                         break;
                     case 2:
                         break;
                     case 3:
-                        t.ui.open(l.InviteDialog, {
+                        XMgr.ui.open(l.InviteDialog, {
                             cb: new Laya.Handler(this, () => {
                                 this.updateTypeSkinList(e)
                             })
@@ -10886,50 +10934,50 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             updateTypeSkinList(e) {
-                if (!t.user.gameInfo.isUnlockSkin(e.id)) return;
-                let i = t.cfg.getSkinArrBySkinType(e.skinType);
-                this.list_typeSkin.array = i, this.list_typeSkin.renderHandler = new Laya.Handler(this, this.updateTypeSkinItem), this.list_typeSkin.width = 101 * i.length + 10 * (i.length - 1), t.user.gameInfo.curSkinId != e.id && (t.user.gameInfo.curSkinId = e.id, this.updateSkin(e), this.list_skin.refresh())
+                if (!XMgr.user.gameInfo.isUnlockSkin(e.id)) return;
+                let i = XMgr.cfg.getSkinArrBySkinType(e.skinType);
+                this.list_typeSkin.array = i, this.list_typeSkin.renderHandler = new Laya.Handler(this, this.updateTypeSkinItem), this.list_typeSkin.width = 101 * i.length + 10 * (i.length - 1), XMgr.user.gameInfo.curSkinId != e.id && (XMgr.user.gameInfo.curSkinId = e.id, this.updateSkin(e), this.list_skin.refresh())
             }
             updateTypeSkinItem(e) {
                 let i = e.dataSource,
-                    s = t.cfg.skin.get(i),
+                    s = XMgr.cfg.skin.get(i),
                     a = e.getChildByName("img_itemBg"),
                     n = a.getChildByName("img_skin"),
                     r = a.getChildByName("lb_fragment"),
                     o = r.getChildByName("img_fragment"),
                     l = a.getChildByName("img_mask");
-                if (a.skin = "res/ui/skin/img_normal_1.png", t.user.gameInfo.isUnlockSkin(i)) r.visible = !1, l.visible = !1, t.user.gameInfo.curSkinId == i && (a.skin = "res/ui/skin/img_cur_1.png");
+                if (a.skin = "res/ui/skin/img_normal_1.png", XMgr.user.gameInfo.isUnlockSkin(i)) r.visible = !1, l.visible = !1, XMgr.user.gameInfo.curSkinId == i && (a.skin = "res/ui/skin/img_cur_1.png");
                 else if (2 == s.unlock.way) {
-                    let e = t.user.gameInfo.getOwnSkinFragmentCnt(s.skinType, s.fragmentType);
+                    let e = XMgr.user.gameInfo.getOwnSkinFragmentCnt(s.skinType, s.fragmentType);
                     s.fragmentType ? o.skin = `res/ui/skin/skinFragment/${s.skinType}_${s.fragmentType}.png` : o.skin = `res/ui/skin/skinFragment/${s.skinType}.png`, r.text = `${e}/${s.unlock.num}`, e < s.unlock.num ? r.color = "#f03737" : r.color = "#69d675", o.visible = !0, r.visible = !0, l.visible = !0
                 } else o.visible = !1, r.visible = !1, l.visible = !0;
                 n.skin = s.skinShowPath, a.off(Laya.Event.CLICK, this, this.onClickTypeSkin), a.on(Laya.Event.CLICK, this, this.onClickTypeSkin, [s])
             }
             onClickTypeSkin(e) {
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 if (i.isUnlockSkin(e.id)) this.setSkinTypeShow(e);
                 else if (2 == e.unlock.way) {
                     let s = i.getOwnSkinFragmentCnt(e.skinType, e.fragmentType);
-                    if (s >= e.unlock.num) i.useSkinFragmentData(e.skinType, s, e.fragmentType), i.unlockSkin(e.id), t.user.saveToServer(), this.setSkinTypeShow(e), this.list_typeSkin.refresh();
+                    if (s >= e.unlock.num) i.useSkinFragmentData(e.skinType, s, e.fragmentType), i.unlockSkin(e.id), XMgr.user.saveToServer(), this.setSkinTypeShow(e), this.list_typeSkin.refresh();
                     else {
                         XToast.show("碎片不足");
                         let i = new Laya.Handler(this, () => {
                             this.list_skin.refresh(), this.list_typeSkin.refresh()
                         });
-                        t.ui.openPanel(l.SkinFragmentDialog, {
+                        XMgr.ui.openPanel(l.SkinFragmentDialog, {
                             handler: i,
                             curFragmentType: e.fragmentType,
                             from: "SkinView"
                         })
                     }
-                } else 3 == e.unlock.way ? (t.ui.open(l.InviteDialog, {
+                } else 3 == e.unlock.way ? (XMgr.ui.open(l.InviteDialog, {
                     cb: new Laya.Handler(this, () => {
                         i.isUnlockSkin(e.id) && this.setSkinTypeShow(e), this.list_typeSkin.refresh()
                     })
                 }), XToast.show("邀请新玩家解锁")) : 11 == e.unlock.way && XToast.show("通关挑战模式解锁")
             }
             setSkinTypeShow(e) {
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 i.setSkinTypeShow(e.id, e.skinType), i.curSkinId = e.id, this.updateSkin(e), this.list_skin.refresh(), this.list_typeSkin.refresh()
             }
             onDestroy() {
@@ -10944,15 +10992,15 @@ define("js/bundle.js", function(require, module, exports) {
                 XAnalyticsUtil.tipsShow(), this.btn_agree.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                if (XAnalyticsUtil.tipsClick(), t.user.userInfo.isNewPlayer) {
-                    let [i, s] = t.gameMgr.getPlayer(), a = t.cfg.map.get(1);
+                if (XAnalyticsUtil.tipsClick(), XMgr.user.userInfo.isNewPlayer) {
+                    let [i, s] = XMgr.gameMgr.getPlayer(), a = XMgr.cfg.map.get(1);
                     Laya.loader.load(a.path, new Laya.Handler(this, n => {
-                        let r = t.gameMgr.match(e.GameMode.E_Defense, i, s, a, n, !0);
-                        XAnalyticsUtil.enterLevel(t.user.gameInfo.curLv), t.ui.changeScene(l.GameScene, {
+                        let r = XMgr.gameMgr.match(e.GameMode.E_Defense, i, s, a, n, !0);
+                        XAnalyticsUtil.enterLevel(XMgr.user.gameInfo.curLv), XMgr.ui.changeScene(l.GameScene, {
                             matchData: r
                         })
                     }))
-                } else t.ui.close(this), t.user.gameInfo.isOpenNewSkin || (t.user.gameInfo.isOpenNewSkin = !0, t.user.saveToServer(), t.ui.openPanel(l.SkinFragmentDialog))
+                } else XMgr.ui.close(this), XMgr.user.gameInfo.isOpenNewSkin || (XMgr.user.gameInfo.isOpenNewSkin = !0, XMgr.user.saveToServer(), XMgr.ui.openPanel(l.SkinFragmentDialog))
             }
         }
         class XTurntableView extends e.ui.scenes.view.TurntableViewUI {
@@ -10963,8 +11011,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getPrizeCnt = 0, this.initReward(), this.updateUI(), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_share.on(Laya.Event.CLICK, this, this.onClickShare), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo)
             }
             initReward() {
-                let e = t.user.gameInfo;
-                !e.isGetPrize && e.prizeArr && 0 != e.prizeArr.length || (e.isGetPrize = !1, e.prizeArr = this.randomReward(), t.user.saveToServer()), this.initUI(e.prizeArr)
+                let e = XMgr.user.gameInfo;
+                !e.isGetPrize && e.prizeArr && 0 != e.prizeArr.length || (e.isGetPrize = !1, e.prizeArr = this.randomReward(), XMgr.user.saveToServer()), this.initUI(e.prizeArr)
             }
             randomReward() {
                 let e = [];
@@ -11040,11 +11088,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.box_turntable.timer.frameLoop(1, this, n)
             }
             onClickShare() {
-                t.user.gameInfo.dailyShareCnt >= 3 ? XToast.show("今日分享次数已达上限，请明日再来") : t.user.gameInfo.canPlayTurnTable ? (XAnalyticsUtil.share("抽奖分享"), j.I.share(!1, e => {
+                XMgr.user.gameInfo.dailyShareCnt >= 3 ? XToast.show("今日分享次数已达上限，请明日再来") : XMgr.user.gameInfo.canPlayTurnTable ? (XAnalyticsUtil.share("抽奖分享"), j.I.share(!1, e => {
                     if (e) {
-                        t.user.gameInfo.canPlayTurnTable = !1, t.user.gameInfo.dailyShareCnt += 1, t.user.saveToServer();
+                        XMgr.user.gameInfo.canPlayTurnTable = !1, XMgr.user.gameInfo.dailyShareCnt += 1, XMgr.user.saveToServer();
                         let e = this.getReward();
-                        this.rotate(e), t.reporter.lotteryCnt(1), XAnalyticsUtil.lotteryCnt(1), this.handler && this.handler.run()
+                        this.rotate(e), XMgr.reporter.lotteryCnt(1), XAnalyticsUtil.lotteryCnt(1), this.handler && this.handler.run()
                     }
                 }, "抽奖分享")) : XToast.show("完成一局后再来抽吧~")
             }
@@ -11052,7 +11100,7 @@ define("js/bundle.js", function(require, module, exports) {
                 j.I.playVideo("抽奖", this, e => {
                     if (e) {
                         let e = this.getReward();
-                        this.rotate(e), t.reporter.lotteryCnt(2), XAnalyticsUtil.lotteryCnt(2)
+                        this.rotate(e), XMgr.reporter.lotteryCnt(2), XAnalyticsUtil.lotteryCnt(2)
                     }
                 })
             }
@@ -11068,26 +11116,26 @@ define("js/bundle.js", function(require, module, exports) {
                 return e.length - 1
             }
             addReward(e) {
-                XChoreUtil.playSound(127), t.user.gameInfo.isGetPrize = !0;
+                XChoreUtil.playSound(127), XMgr.user.gameInfo.isGetPrize = !0;
                 let i = this.rewardArr[e],
                     s = i[1];
-                if (0 == i[0]) t.user.gameInfo.addCoin(s), XToast.show(`恭喜抽得${s}铜币`), t.reporter.getCoinCnt("抽奖界面");
-                else if (1 == i[0]) t.user.gameInfo.addOwnBuildData(6666, s, 20), XToast.show(`恭喜抽得${s}个摇签盒`);
+                if (0 == i[0]) XMgr.user.gameInfo.addCoin(s), XToast.show(`恭喜抽得${s}铜币`), XMgr.reporter.getCoinCnt("抽奖界面");
+                else if (1 == i[0]) XMgr.user.gameInfo.addOwnBuildData(6666, s, 20), XToast.show(`恭喜抽得${s}个摇签盒`);
                 else if (2 == i[0]) {
                     let e = [];
                     XToast.show(`恭喜抽得${s}个道具`);
                     for (let i = 0; i < s; i++) {
                         let i = fx.Utils.randomInArray(this.prizeArr);
-                        e.push(i), t.user.gameInfo.addOwnPrizeData(i)
+                        e.push(i), XMgr.user.gameInfo.addOwnPrizeData(i)
                     }
-                    t.ui.open(l.TurntableRewardDialog, {
+                    XMgr.ui.open(l.TurntableRewardDialog, {
                         rewardArr: e
                     })
                 }
-                t.user.saveToServer()
+                XMgr.user.saveToServer()
             }
             onClickClose() {
-                t.ui.close(this), t.gameMgr.canChooseBuff && t.gameMgr.isChooseBuff() && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))
+                XMgr.ui.close(this), XMgr.gameMgr.canChooseBuff && XMgr.gameMgr.isChooseBuff() && (XMgr.gameMgr.canChooseBuff = !1, XMgr.ui.open(l.BuffChooseDialog))
             }
         }
         class XHunterMatchingViewUI extends e.ui.scenes.view.HunterMatchingViewUI {
@@ -11095,12 +11143,12 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), this.idxArr = [0, 1, 2, 3, 4, 5], this.matchingtime = 0, t && (this.gameMode = t.mode)
             }
             onAwake() {
-                let i = t.user.gameInfo,
-                    s = t.cfg.hunterDifficultCfg.get(i.curHunterLv);
-                t.gameMgr.dCfg = s, this.isStart = !1;
+                let i = XMgr.user.gameInfo,
+                    s = XMgr.cfg.hunterDifficultCfg.get(i.curHunterLv);
+                XMgr.gameMgr.dCfg = s, this.isStart = !1;
                 let a = new XPlayerModel;
                 a.type = e.PlayerType.E_Hunter, a.uuid = fx.Utils.createUUID(), a.name = "自己";
-                let n = t.cfg.hunterCfg;
+                let n = XMgr.cfg.hunterCfg;
                 a.maxHp = a.curHp = n.hunterHpList[0], a.attackPower = n.hunterAttackList[0], 
                 this.defenderArr = [null, null, null, null, null, null], 
                 this.hunterArr = [a], 
@@ -11120,7 +11168,7 @@ define("js/bundle.js", function(require, module, exports) {
                     o = a.getChildByName("img_cur"),
                     l = a.getChildByName("img_people");
                 if (o.visible = !1, s) {
-                    let e = t.cfg.skin.get(s.skinId);
+                    let e = XMgr.cfg.skin.get(s.skinId);
                     n.text = s.name, r.skin = e.skinShowPath, l.visible = !1
                 } else r.skin = "", l.visible = !0, n.text = ""
             }
@@ -11134,15 +11182,15 @@ define("js/bundle.js", function(require, module, exports) {
                     s.type = e.PlayerType.E_Defender, 
                     s.uuid = fx.Utils.createUUID(), 
                     s.name = this.randomName(), 
-                    s.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), 
+                    s.skinId = fx.Utils.randomInArray(XMgr.cfg.getPlayerIdArr()), 
                     this.defenderArr[i] = s, this.initList()
                 }
                 this.updateLabel(), this.idxArr.length || (this.isMax = !0, this.isStart && this.startGame(), Laya.timer.clear(this, this.timeLoop))
             }
             updateHunter() {
                 let e = this.hunterArr[0];
-                e.skinId = t.user.gameInfo.curHunterSkinId;
-                let i = t.cfg.skin.get(e.skinId);
+                e.skinId = XMgr.user.gameInfo.curHunterSkinId;
+                let i = XMgr.cfg.skin.get(e.skinId);
                 this.img_hunter.skin = i.skinShowPath
             }
             updateLabel() {
@@ -11151,45 +11199,45 @@ define("js/bundle.js", function(require, module, exports) {
             startGame() {
                 let e = this.getMap();
                 Laya.loader.load(e.path, new Laya.Handler(this, i => {
-                    let s = t.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, e, i, !0);
-                    XAnalyticsUtil.enterLevel(t.user.gameInfo.curHunterLv, "噬魂者模式"), t.ui.changeScene(l.GameScene, {
+                    let s = XMgr.gameMgr.match(this.gameMode, this.defenderArr, this.hunterArr, e, i, !0);
+                    XAnalyticsUtil.enterLevel(XMgr.user.gameInfo.curHunterLv, "噬魂者模式"), XMgr.ui.changeScene(l.GameScene, {
                         matchData: s
                     })
                 }))
             }
             getMap() {
                 if (Laya.__setMap) {
-                    let e = t.cfg.map.get(Laya.__setMap);
+                    let e = XMgr.cfg.map.get(Laya.__setMap);
                     if (e) return e
                 }
-                let e = t.cfg.map.get(2);
-                if (!t.user.gameInfo.playHunter) return e;
-                switch (t.gameTime.nowDate.getDay()) {
+                let e = XMgr.cfg.map.get(2);
+                if (!XMgr.user.gameInfo.playHunter) return e;
+                switch (XMgr.gameTime.nowDate.getDay()) {
                     case 0:
-                        e = t.cfg.map.get(7);
+                        e = XMgr.cfg.map.get(7);
                         break;
                     case 1:
-                        e = t.cfg.map.get(1);
+                        e = XMgr.cfg.map.get(1);
                         break;
                     case 2:
-                        e = t.cfg.map.get(2);
+                        e = XMgr.cfg.map.get(2);
                         break;
                     case 3:
-                        e = t.cfg.map.get(3);
+                        e = XMgr.cfg.map.get(3);
                         break;
                     case 4:
-                        e = t.cfg.map.get(4);
+                        e = XMgr.cfg.map.get(4);
                         break;
                     case 5:
-                        e = t.cfg.map.get(5);
+                        e = XMgr.cfg.map.get(5);
                         break;
                     case 6:
-                        e = t.cfg.map.get(6)
+                        e = XMgr.cfg.map.get(6)
                 }
                 return e
             }
             onClickSkin() {
-                t.ui.open(l.HunterChooseView, {
+                XMgr.ui.open(l.HunterChooseView, {
                     cb: new Laya.Handler(this, this.updateHunter.bind(this))
                 })
             }
@@ -11197,7 +11245,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.btn_start.visible = !1, this.isStart = !0, this.isMax && this.startGame()
             }
             onClickClose() {
-                XAnalyticsUtil.clickBack("噬魂者模式"), Laya.timer.clear(this, this.timeLoop), t.ui.close(this)
+                XAnalyticsUtil.clickBack("噬魂者模式"), Laya.timer.clear(this, this.timeLoop), XMgr.ui.close(this)
             }
             randomName(e = 0) {
                 if (!this.playerNames) {
@@ -11215,47 +11263,47 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), t && (this.cb = t.cb)
             }
             onAwake() {
-                this.curId = t.user.gameInfo.curHunterSkinId, this.firstId = this.curId;
-                let i = t.cfg.skin.get(this.curId);
-                this.updateSkin(i), this.btn_back.on(Laya.Event.CLICK, this, this.onClickBack), this.curDiff = 0, t.user.gameInfo.todayMaxLv || (this.curDiff = 1), this.curDiff += 2 * Math.floor(t.user.gameInfo.hunterUnlockLvl / 2);
-                let s = t.cfg.getSkinArrByType(e.SkinType.Hunter);
+                this.curId = XMgr.user.gameInfo.curHunterSkinId, this.firstId = this.curId;
+                let i = XMgr.cfg.skin.get(this.curId);
+                this.updateSkin(i), this.btn_back.on(Laya.Event.CLICK, this, this.onClickBack), this.curDiff = 0, XMgr.user.gameInfo.todayMaxLv || (this.curDiff = 1), this.curDiff += 2 * Math.floor(XMgr.user.gameInfo.hunterUnlockLvl / 2);
+                let s = XMgr.cfg.getSkinArrByType(e.SkinType.Hunter);
                 this.list_hunter.array = s, this.list_hunter.renderHandler = new Laya.Handler(this, this.updateItem)
             }
             onClickBack() {
-                this.firstId != this.curId && (t.user.gameInfo.curHunterSkinId = this.curId, t.user.saveToServer(), this.cb && this.cb.run()), t.ui.close(this)
+                this.firstId != this.curId && (XMgr.user.gameInfo.curHunterSkinId = this.curId, XMgr.user.saveToServer(), this.cb && this.cb.run()), XMgr.ui.close(this)
             }
             updateSkin(e) {
-                this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skinShow.skin = "", t.assetLoader.createSpine(e.skinPath, t => {
+                this.skinSpine && (this.skinSpine.destroy(), this.skinSpine = null), e.skinPath.includes(".bin") ? (this.img_skinShow.skin = "", XMgr.assetLoader.createSpine(e.skinPath, t => {
                     this.skinSpine = t, this.box_skin.addChild(t), this.skinSpine.play("idle", !0), 10004 == e.id && this.skinSpine.showSkinByName("guaigun")
                 })) : this.img_skinShow.skin = e.skinShowPath
             }
             updateItem(e, i) {
                 let s = e.dataSource,
-                    a = t.cfg.skin.get(s),
+                    a = XMgr.cfg.skin.get(s),
                     n = e.getChildByName("img_itemBg"),
                     r = e.getChildByName("img_skin"),
                     o = e.getChildByName("img_lock"),
                     l = o.getChildByName("lb_difficult");
                 r.skin = a.skinShowPath;
                 let h = !1,
-                    d = t.user.gameInfo;
+                    d = XMgr.user.gameInfo;
                 if (i > 0)
                     if (d.isUnlockHunterSkin(a.id)) h = !0;
                     else {
                         this.curDiff += 2;
-                        let e = t.cfg.difficultCfg.get(this.curDiff);
+                        let e = XMgr.cfg.difficultCfg.get(this.curDiff);
                         l.text = e.name
                     } else h = !0;
                 o.visible = !h, this.curId == s ? n.skin = "res/ui/hunter/choose/img_select.png" : n.skin = "res/ui/hunter/choose/img_unselect.png", e.on(Laya.Event.CLICK, this, this.onClickSkin, [a.id, h])
             }
             onClickSkin(e, i) {
                 e != this.curId && (i ? (this.curId = e, this.updateList()) : j.I.playVideo("视频解锁噬魂者", this, i => {
-                    i && (t.user.gameInfo.unlockHunterSkin(e), t.user.saveToServer(), this.curId = e, this.updateList())
+                    i && (XMgr.user.gameInfo.unlockHunterSkin(e), XMgr.user.saveToServer(), this.curId = e, this.updateList())
                 }))
             }
             updateList() {
-                this.curDiff = 0, t.user.gameInfo.todayMaxLv || (this.curDiff = 1), this.curDiff += 2 * Math.floor(t.user.gameInfo.hunterUnlockLvl / 2), this.list_hunter.refresh();
-                let e = t.cfg.skin.get(this.curId);
+                this.curDiff = 0, XMgr.user.gameInfo.todayMaxLv || (this.curDiff = 1), this.curDiff += 2 * Math.floor(XMgr.user.gameInfo.hunterUnlockLvl / 2), this.list_hunter.refresh();
+                let e = XMgr.cfg.skin.get(this.curId);
                 this.updateSkin(e)
             }
         }
@@ -11264,27 +11312,27 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, t.user.gameInfo.playHunter = !0, this.initSkin(t.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
+                XMgr.user.gameInfo.canPlayTurnTable = !0, XMgr.user.gameInfo.playHunter = !0, this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -11301,9 +11349,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "fail"
-                }), t.reporter.getCoinCnt("失败界面")
+                }), XMgr.reporter.getCoinCnt("失败界面")
             }
         }
         class XHunterWinDialog extends e.ui.scenes.panel.hunter.HunterWinDialogUI {
@@ -11311,27 +11359,27 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, t.user.gameInfo.playHunter = !0, this.initSkin(t.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(118);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
-                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), t.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.propNum = XRandomUtil.getIntRandom(1, 2), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
+                XMgr.user.gameInfo.canPlayTurnTable = !0, XMgr.user.gameInfo.playHunter = !0, this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(118);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
+                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.propNum = XRandomUtil.getIntRandom(1, 2), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -11348,9 +11396,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.gameInfo.hunterBox += e * this.propNum, t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.gameInfo.hunterBox += e * this.propNum, XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "win"
-                }), t.reporter.getCoinCnt("胜利界面")
+                }), XMgr.reporter.getCoinCnt("胜利界面")
             }
         }
         class XHunterUnlockDialog extends e.ui.scenes.panel.hunter.HunterUnlockDialogUI {
@@ -11358,17 +11406,17 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 e.winCnt + e.failCnt >= 1 ? (this.btn_show.visible = !1, this.btn_unlock.on(Laya.Event.CLICK, this, this.onClickUnlock)) : (this.btn_unlock.visible = !1, this.lb_show.text = `玩${1-(e.winCnt+e.failCnt)}局后开启`), this.img_close.on(Laya.Event.CLICK, this, this.closePanel)
             }
             onClickUnlock() {
-                let i = t.user.gameInfo;
-                i.tianEnough(12) ? (i.useTian(12), t.user.gameInfo.isUnlockHunter = !0, t.user.saveToServer(), t.ui.close(this), XToast.show("噬魂者模式已解锁"), t.ui.open(l.HunterMatchingView, {
+                let i = XMgr.user.gameInfo;
+                i.tianEnough(12) ? (i.useTian(12), XMgr.user.gameInfo.isUnlockHunter = !0, XMgr.user.saveToServer(), XMgr.ui.close(this), XToast.show("噬魂者模式已解锁"), XMgr.ui.open(l.HunterMatchingView, {
                     mode: e.GameMode.E_Hunt
-                })) : (t.ui.close(this), XToast.show("天师令不足"), t.ui.open(l.BuyTianDialog))
+                })) : (XMgr.ui.close(this), XToast.show("天师令不足"), XMgr.ui.open(l.BuyTianDialog))
             }
             closePanel() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XHunterDifficultChooseDialog extends e.ui.scenes.panel.hunter.HunterDifficultChooseDialogUI {
@@ -11377,30 +11425,30 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 this.initRank();
-                let e = t.user.gameInfo.curHunterLv;
+                let e = XMgr.user.gameInfo.curHunterLv;
                 this.canChoose ? (this.chooseArr = [e, e + 1], this.curChoose = e + 1) : (this.chooseArr = [e], this.curChoose = e), this.list_item.width = 321 * this.chooseArr.length - 50, this.list_item.array = this.chooseArr, this.list_item.renderHandler = new Laya.Handler(this, this.updateItem), this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_choose.on(Laya.Event.CLICK, this, this.onClickStart), this.img_rank.on(Laya.Event.CLICK, this, this.onClickRank);
-                let i = t.user.gameInfo;
+                let i = XMgr.user.gameInfo;
                 i.todayHunterExtraScore && (this.box_extra.visible = !0, this.lb_num.value = `${i.todayHunterExtraScore}`)
             }
             async initRank() {
                 this.img_rankBg.visible = !1;
-                let e = t.user.gameInfo.todayHunterMaxLv;
-                if (e && await t.rankMgr.setCustomRankValue("score_hunter_day", e, t.user.gameInfo.curHunterSkinId), this.destroyed) return;
-                let i = await t.rankMgr.getCustomRankList("score_hunter_day");
+                let e = XMgr.user.gameInfo.todayHunterMaxLv;
+                if (e && await XMgr.rankMgr.setCustomRankValue("score_hunter_day", e, XMgr.user.gameInfo.curHunterSkinId), this.destroyed) return;
+                let i = await XMgr.rankMgr.getCustomRankList("score_hunter_day");
                 if (!this.destroyed) {
                     if (this.img_rankBg.visible = !0, this.img_rank.visible = !0, i && i.rank && i.rank <= 100 ? this.lb_rank.text = `${i.rank}` : this.lb_rank.text = "未上榜", i && i.value)
-                        if (i.value > t.cfg.hunterDifficultCfg.length) {
-                            let e = t.cfg.hunterDifficultCfg.get(t.cfg.hunterDifficultCfg.length);
-                            this.lb_score.text = `${e.name} ${i.value-t.cfg.hunterDifficultCfg.length}`
+                        if (i.value > XMgr.cfg.hunterDifficultCfg.length) {
+                            let e = XMgr.cfg.hunterDifficultCfg.get(XMgr.cfg.hunterDifficultCfg.length);
+                            this.lb_score.text = `${e.name} ${i.value-XMgr.cfg.hunterDifficultCfg.length}`
                         } else {
-                            let e = t.cfg.hunterDifficultCfg.get(i.value);
+                            let e = XMgr.cfg.hunterDifficultCfg.get(i.value);
                             this.lb_score.text = `${e.name}`
                         } else this.lb_score.text = "轻松";
-                    if (t.user.gameInfo.maxHunterLevel) {
-                        let e = t.cfg.hunterDifficultCfg.get(t.user.gameInfo.maxHunterLevel);
+                    if (XMgr.user.gameInfo.maxHunterLevel) {
+                        let e = XMgr.cfg.hunterDifficultCfg.get(XMgr.user.gameInfo.maxHunterLevel);
                         this.lb_name.text = e.title, this.lb_name.color = e.titleColor
                     } else {
-                        let e = t.cfg.hunterDifficultCfg.get(1);
+                        let e = XMgr.cfg.hunterDifficultCfg.get(1);
                         this.lb_name.text = e.title
                     }
                 }
@@ -11416,22 +11464,22 @@ define("js/bundle.js", function(require, module, exports) {
                 e != this.curChoose && (this.curChoose = e, this.list_item.refresh())
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onClickStart() {
-                XAnalyticsUtil.onHunterLevelChange(this.curChoose), t.user.gameInfo.setCurHunterLv(this.curChoose), t.ui.close(this), t.ui.open(l.HunterMatchingView, {
+                XAnalyticsUtil.onHunterLevelChange(this.curChoose), XMgr.user.gameInfo.setCurHunterLv(this.curChoose), XMgr.ui.close(this), XMgr.ui.open(l.HunterMatchingView, {
                     mode: e.GameMode.E_Hunt
                 })
             }
             async onClickRank() {
-                if (await t.user.userInfo.checkUserProfile(), this.destroyed) return;
-                let e = t.user.gameInfo.todayMaxLv;
-                e && await t.rankMgr.setCustomRankValue("score_day", e, t.user.gameInfo.curSkinId);
-                let i = t.user.gameInfo.todayHunterMaxLv;
-                if (i && await t.rankMgr.setCustomRankValue("score_hunter_day", i, t.user.gameInfo.curHunterSkinId), this.destroyed) return;
-                let s = await t.rankMgr.getCustomRankList("score_day"),
-                    a = await t.rankMgr.getCustomRankList("score_hunter_day");
-                this.destroyed || t.ui.open(l.RankView, {
+                if (await XMgr.user.userInfo.checkUserProfile(), this.destroyed) return;
+                let e = XMgr.user.gameInfo.todayMaxLv;
+                e && await XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId);
+                let i = XMgr.user.gameInfo.todayHunterMaxLv;
+                if (i && await XMgr.rankMgr.setCustomRankValue("score_hunter_day", i, XMgr.user.gameInfo.curHunterSkinId), this.destroyed) return;
+                let s = await XMgr.rankMgr.getCustomRankList("score_day"),
+                    a = await XMgr.rankMgr.getCustomRankList("score_hunter_day");
+                this.destroyed || XMgr.ui.open(l.RankView, {
                     info: s,
                     hunterInfo: a,
                     isHunter: !0
@@ -11457,34 +11505,34 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XClubRewardDialog extends e.ui.scenes.panel.ClubRewardDialogUI {
             onAdd() {
-                this.init(), this.img_gotoClub.on(Laya.Event.CLICK, this, this.onClickGotoClub), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), t.user.gameInfo.on(Ce.GameClubDataChange, this, this.onGameClubDataChange)
+                this.init(), this.img_gotoClub.on(Laya.Event.CLICK, this, this.onClickGotoClub), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose), XMgr.user.gameInfo.on(Ce.GameClubDataChange, this, this.onGameClubDataChange)
             }
             async init() {
-                this.list_items.visible = !1, await j.I.wxAuthorize("scope.gameClubData"), t.user.gameInfo.updateGameClubData(), this.checkReward(), this.initList()
+                this.list_items.visible = !1, await j.I.wxAuthorize("scope.gameClubData"), XMgr.user.gameInfo.updateGameClubData(), this.checkReward(), this.initList()
             }
             checkReward() {
                 let e = [],
-                    i = t.cfg.clubReward.getList().slice();
+                    i = XMgr.cfg.clubReward.getList().slice();
                 for (const s of i) {
-                    let i = t.user.gameInfo.isClubRewardClaimed(s.id),
-                        a = t.user.gameInfo.getClubValue(s.clubDataType),
+                    let i = XMgr.user.gameInfo.isClubRewardClaimed(s.id),
+                        a = XMgr.user.gameInfo.getClubValue(s.clubDataType),
                         n = s.clubDataValue;
                     !i && a >= n && e.push(s.id)
                 }
-                e.length > 0 && (t.user.gameInfo.claimClubReward(e), XToast.show("恭喜获得游戏圈奖励!"))
+                e.length > 0 && (XMgr.user.gameInfo.claimClubReward(e), XToast.show("恭喜获得游戏圈奖励!"))
             }
             onGameClubDataChange() {
                 this.checkReward(), this.list_items.refresh()
             }
             initList() {
-                let e = t.cfg.clubReward.getList().slice();
+                let e = XMgr.cfg.clubReward.getList().slice();
                 this.list_items.visible = !0, this.list_items.vScrollBarSkin = "", this.list_items.dataSource = e, this.list_items.renderHandler = new Laya.Handler(this, this.updateItem)
             }
             updateItem(e) {
                 if (!e.dataSource) return;
                 let i = e.dataSource,
-                    s = t.user.gameInfo.isClubRewardClaimed(i.id),
-                    a = t.user.gameInfo.getClubValue(i.clubDataType),
+                    s = XMgr.user.gameInfo.isClubRewardClaimed(i.id),
+                    a = XMgr.user.gameInfo.getClubValue(i.clubDataType),
                     n = i.clubDataValue,
                     r = e.getChildByName("img_icon_bg");
                 e.getChildByName("img_title").skin = `res/ui/clubReward/img_${i.clubDataType}.png`;
@@ -11493,11 +11541,11 @@ define("js/bundle.js", function(require, module, exports) {
                 let l = Math.min(a, n);
                 e.getChildByName("bar").getChildByName("label_progress").text = `${l} / ${n}`;
                 let h = i.reward;
-                r.getChildByName("img_reward").skin = t.rewardMgr.getRewardIcon(h.type, h.id);
+                r.getChildByName("img_reward").skin = XMgr.rewardMgr.getRewardIcon(h.type, h.id);
                 let d = r.getChildByName("label_num");
                 if ("Coin" == i.reward.type) d.text = `铜币x${h.cnt}`;
                 else if ("Build" == i.reward.type) {
-                    let e = t.cfg.shopCfg.get(h.id);
+                    let e = XMgr.cfg.shopCfg.get(h.id);
                     d.text = `${e.name}x${h.cnt}`
                 }
                 let u = e.getChildByName("img_claimed");
@@ -11517,10 +11565,10 @@ define("js/bundle.js", function(require, module, exports) {
                 } else fx.Utils.isOnPC() && this.timerOnce(1e3, this, this.onGameHubCallback.bind(this))
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onGameHubCallback() {
-                t.user.gameInfo.updateGameClubData()
+                XMgr.user.gameInfo.updateGameClubData()
             }
         }
         class XEvaluateDialog extends e.ui.scenes.panel.EvaluateDialogUI {
@@ -11528,7 +11576,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.isOpenEvaluate = !0, t.user.saveToServer();
+                XMgr.user.gameInfo.isOpenEvaluate = !0, XMgr.user.saveToServer();
                 let e = [{
                         type: "Coin",
                         id: 1,
@@ -11543,9 +11591,9 @@ define("js/bundle.js", function(require, module, exports) {
                         id: 1,
                         cnt: 200
                     }],
-                    s = t.user.gameInfo.getOwnBuildCnt(6666);
-                this.rewardArr = s < 20 ? e : i, this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.openTime = t.gameTime.now, fx.EventCenter.I.once(fx.BaseEvent.E_APP_ON_RESUME, this, () => {
-                    Math.floor((t.gameTime.now - this.openTime) / 1e3) >= t.cfg.constant.evaluateTime && this.getReward()
+                    s = XMgr.user.gameInfo.getOwnBuildCnt(6666);
+                this.rewardArr = s < 20 ? e : i, this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.openTime = XMgr.gameTime.now, fx.EventCenter.I.once(fx.BaseEvent.E_APP_ON_RESUME, this, () => {
+                    Math.floor((XMgr.gameTime.now - this.openTime) / 1e3) >= XMgr.cfg.constant.evaluateTime && this.getReward()
                 }), this.initList()
             }
             initList() {
@@ -11553,20 +11601,20 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateItem(e) {
                 let i = e.dataSource;
-                e.getChildByName("img_reward").skin = t.rewardMgr.getRewardIcon(i.type, i.id);
+                e.getChildByName("img_reward").skin = XMgr.rewardMgr.getRewardIcon(i.type, i.id);
                 let s = e.getChildByName("label_num");
                 if ("Coin" == i.type) s.text = `铜币x${i.cnt}`;
                 else if ("Build" == i.type) {
-                    let e = t.cfg.shopCfg.get(i.id);
+                    let e = XMgr.cfg.shopCfg.get(i.id);
                     s.text = `${e.name}x${i.cnt}`
                 }
             }
             getReward() {
-                for (const e of this.rewardArr) t.rewardMgr.addReward(e);
-                XAnalyticsUtil.evaluateReward(), t.user.gameInfo.isEvaluate = !0, t.user.saveToServer(), t.ui.close(this), t.gameMgr.canChooseBuff && t.gameMgr.isChooseBuff() && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))
+                for (const e of this.rewardArr) XMgr.rewardMgr.addReward(e);
+                XAnalyticsUtil.evaluateReward(), XMgr.user.gameInfo.isEvaluate = !0, XMgr.user.saveToServer(), XMgr.ui.close(this), XMgr.gameMgr.canChooseBuff && XMgr.gameMgr.isChooseBuff() && (XMgr.gameMgr.canChooseBuff = !1, XMgr.ui.open(l.BuffChooseDialog))
             }
             onClickClose() {
-                t.ui.close(this), t.gameMgr.canChooseBuff && t.gameMgr.isChooseBuff() && (t.gameMgr.canChooseBuff = !1, t.ui.open(l.BuffChooseDialog))
+                XMgr.ui.close(this), XMgr.gameMgr.canChooseBuff && XMgr.gameMgr.isChooseBuff() && (XMgr.gameMgr.canChooseBuff = !1, XMgr.ui.open(l.BuffChooseDialog))
             }
         }
         class XSevenGhostUnlockDialog extends e.ui.scenes.panel.sevenGhost.SevenGhostUnlockDialogUI {
@@ -11574,15 +11622,15 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), this.unlockNum = 1
             }
             onAwake() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 e.winCnt + e.failCnt >= this.unlockNum ? (this.btn_show.visible = !1, this.btn_unlock.on(Laya.Event.CLICK, this, this.onClickUnlock)) : (this.btn_unlock.visible = !1, this.lb_show.text = `玩${this.unlockNum-(e.winCnt+e.failCnt)}局后开启`), this.img_close.on(Laya.Event.CLICK, this, this.closePanel)
             }
             onClickUnlock() {
-                let e = t.user.gameInfo;
-                e.tianEnough(6) ? (e.useTian(6), t.user.gameInfo.isUnlockSevenGhost = !0, t.user.saveToServer(), t.ui.close(this), XToast.show("挑战模式已解锁"), t.ui.open(l.SevenGhostView)) : (t.ui.close(this), XToast.show("天师令不足"), t.ui.open(l.BuyTianDialog))
+                let e = XMgr.user.gameInfo;
+                e.tianEnough(6) ? (e.useTian(6), XMgr.user.gameInfo.isUnlockSevenGhost = !0, XMgr.user.saveToServer(), XMgr.ui.close(this), XToast.show("挑战模式已解锁"), XMgr.ui.open(l.SevenGhostView)) : (XMgr.ui.close(this), XToast.show("天师令不足"), XMgr.ui.open(l.BuyTianDialog))
             }
             closePanel() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XSevenGhostView extends e.ui.scenes.panel.sevenGhost.SevenGhostViewUI {
@@ -11590,10 +11638,10 @@ define("js/bundle.js", function(require, module, exports) {
                 super(), t && (this.cb = t.cb)
             }
             onAwake() {
-                this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), t.gameMgr.isOpenSevenGhost && (t.gameMgr.isOpenSevenGhost = !1, this.box_getMask.visible = !0, this.box_get.visible = !0, this.btn_share.on(Laya.Event.CLICK, this, this.onClickShare), this.btn_use.on(Laya.Event.CLICK, this, this.onClickUseSkin), this.box_get.on(Laya.Event.CLICK, this, this.onClickGet)), this.img_isGet.visible = t.user.gameInfo.isUnlockSkin(1003), this.initUI()
+                this.btn_back.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_start.on(Laya.Event.CLICK, this, this.onClickStart), XMgr.gameMgr.isOpenSevenGhost && (XMgr.gameMgr.isOpenSevenGhost = !1, this.box_getMask.visible = !0, this.box_get.visible = !0, this.btn_share.on(Laya.Event.CLICK, this, this.onClickShare), this.btn_use.on(Laya.Event.CLICK, this, this.onClickUseSkin), this.box_get.on(Laya.Event.CLICK, this, this.onClickGet)), this.img_isGet.visible = XMgr.user.gameInfo.isUnlockSkin(1003), this.initUI()
             }
             onClickUseSkin() {
-                t.user.gameInfo.curSkinId = 1003, t.ui.close(this), t.ui.open(l.SkinView)
+                XMgr.user.gameInfo.curSkinId = 1003, XMgr.ui.close(this), XMgr.ui.open(l.SkinView)
             }
             onClickShare(e) {
                 e.stopPropagation(), j.I.share(!1, null, "获得挑战模式皮肤分享"), XAnalyticsUtil.share("获得挑战模式皮肤分享")
@@ -11609,8 +11657,8 @@ define("js/bundle.js", function(require, module, exports) {
                         n = s.getChildByName("img_arrow"),
                         r = s.getChildByName("img_boss"),
                         o = s.getChildByName("img_cha"),
-                        l = t.cfg.sevenGhostCfg.get(a);
-                    t.user.gameInfo.curSevenGhostLv > a ? (o.visible = !0, s.skin = "res/ui/sevenGhost/view/img_itemBg.png", r.skin = `res/ui/sevenGhost/view/img_${l.bossId}.png`, n.skin = "res/ui/sevenGhost/view/img_arrow.png") : (o.visible = !1, s.skin = "res/ui/sevenGhost/view/img_itemBg_1.png", r.skin = `res/ui/sevenGhost/view/img_${l.bossId}_1.png`, n.skin = "res/ui/sevenGhost/view/img_arrow_1.png")
+                        l = XMgr.cfg.sevenGhostCfg.get(a);
+                    XMgr.user.gameInfo.curSevenGhostLv > a ? (o.visible = !0, s.skin = "res/ui/sevenGhost/view/img_itemBg.png", r.skin = `res/ui/sevenGhost/view/img_${l.bossId}.png`, n.skin = "res/ui/sevenGhost/view/img_arrow.png") : (o.visible = !1, s.skin = "res/ui/sevenGhost/view/img_itemBg_1.png", r.skin = `res/ui/sevenGhost/view/img_${l.bossId}_1.png`, n.skin = "res/ui/sevenGhost/view/img_arrow_1.png")
                 }
                 e = this.img_guang.getChildren();
                 for (let t = 0; t < e.length; t++) {
@@ -11620,12 +11668,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             onClickStart() {
-                t.ui.open(l.MatchingView, {
+                XMgr.ui.open(l.MatchingView, {
                     mode: e.GameMode.E_SevenGhost
                 })
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XSevenGhostFailDialog extends e.ui.scenes.panel.sevenGhost.SevenGhostFailDialogUI {
@@ -11633,27 +11681,27 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, this.initSkin(t.user.gameInfo.curSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -11670,9 +11718,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "fail"
-                }), t.reporter.getCoinCnt("失败界面")
+                }), XMgr.reporter.getCoinCnt("失败界面")
             }
         }
         class XSevenGhostWinDialog extends e.ui.scenes.panel.sevenGhost.SevenGhostWinDialogUI {
@@ -11680,27 +11728,27 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                t.user.gameInfo.canPlayTurnTable = !0, this.initSkin(t.user.gameInfo.curSkinId), this.img_mvp.visible = !!t.gameMgr.killCnt, this.checkOpenBox(), XChoreUtil.playSound(118);
-                let e = (t.gameTime.now - t.gameMgr.startTime) / 1e3;
-                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), t.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), this.img_mvp.visible = !!XMgr.gameMgr.killCnt, this.checkOpenBox(), XChoreUtil.playSound(118);
+                let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
+                this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             initSkin(e) {
-                let i = t.cfg.skin.get(e);
-                i.skinPath.includes(".bin") && t.assetLoader.createSpine(i.skinPath, e => {
+                let i = XMgr.cfg.skin.get(e);
+                i.skinPath.includes(".bin") && XMgr.assetLoader.createSpine(i.skinPath, e => {
                     this.box_skin.addChild(e), e.play("idle", !0)
                 })
             }
             checkOpenBox() {
-                let e, i = t.user.gameInfo,
+                let e, i = XMgr.user.gameInfo,
                     s = i.failCnt + i.winCnt;
-                if (2 == s) e = t.cfg.constant.gameEndBox[2];
+                if (2 == s) e = XMgr.cfg.constant.gameEndBox[2];
                 else if (s >= 2 && (s - 2) % 2 == 0) {
                     let i = [3, 0, 1, 2],
                         a = Math.floor((s - 2) / 2) % i.length;
-                    e = t.cfg.constant.gameEndBox[i[a]]
+                    e = XMgr.cfg.constant.gameEndBox[i[a]]
                 }
                 e && Laya.timer.callLater(this, () => {
-                    t.ui.open(l.GameEndBoxDialog, {
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 })
@@ -11717,9 +11765,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.getReward(1)
             }
             getReward(e) {
-                XToast.show(`获得铜币x${e*this.coinNum}`), t.user.gameInfo.addCoin(e * this.coinNum), t.user.saveToServer(), t.ui.changeScene(l.MainScene, {
+                XToast.show(`获得铜币x${e*this.coinNum}`), XMgr.user.gameInfo.addCoin(e * this.coinNum), XMgr.user.saveToServer(), XMgr.ui.changeScene(l.MainScene, {
                     from: "win"
-                }), t.reporter.getCoinCnt("胜利界面")
+                }), XMgr.reporter.getCoinCnt("胜利界面")
             }
         }
         class XRewardDialog extends e.ui.scenes.panel.RewardDialogUI {
@@ -11738,14 +11786,14 @@ define("js/bundle.js", function(require, module, exports) {
                     a = e.getChildByName("lb_cnt");
                 if ("Coin" == i.type) s.skin = "res/ui/common/img_coins.png";
                 else if ("Build" == i.type) {
-                    let e = t.cfg.shopCfg.get(i.id);
+                    let e = XMgr.cfg.shopCfg.get(i.id);
                     s.skin = e.icon
                 }
                 let n = i.cnt ? i.cnt : 1;
                 a.text = `x${n}`
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XInviteDialog extends e.ui.scenes.panel.InviteDialogUI {
@@ -11756,10 +11804,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose), this.btn_invite.on(Laya.Event.CLICK, this, this.onClickInvite), this.btn_reward.on(Laya.Event.CLICK, this, this.onClickReward), this.btn_tips.on(Laya.Event.CLICK, this, this.onClickTips), this.btn_refresh.on(Laya.Event.CLICK, this, this.onClickRefresh), this.img_bar.visible = !1, this.box_invite.visible = !1, this.img_rewardStage.visible = !1, this.list_reward.visible = !1, this.updateUI()
             }
             async updateUI() {
-                if (await t.user.updateInvite(), this.destroyed) return;
+                if (await XMgr.user.updateInvite(), this.destroyed) return;
                 this.img_bar.visible = !0, this.box_invite.visible = !0, this.img_rewardStage.visible = !0, this.list_reward.visible = !0;
-                let e = t.user.gameInfo.inviteClaimed + 1;
-                this.curCfg = t.cfg.inviteCfg.get(e), this.curCfg ? (this.updateBtn(), this.updateProgress(), this.img_rewardStage.skin = `res/ui/invite/lb_reward_${e}.png`, this.list_reward.array = this.curCfg.rewardArr, this.list_reward.width = 100 * this.curCfg.rewardArr.length, this.list_reward.renderHandler = new Laya.Handler(this, this.updateItem)) : this.onClickClose()
+                let e = XMgr.user.gameInfo.inviteClaimed + 1;
+                this.curCfg = XMgr.cfg.inviteCfg.get(e), this.curCfg ? (this.updateBtn(), this.updateProgress(), this.img_rewardStage.skin = `res/ui/invite/lb_reward_${e}.png`, this.list_reward.array = this.curCfg.rewardArr, this.list_reward.width = 100 * this.curCfg.rewardArr.length, this.list_reward.renderHandler = new Laya.Handler(this, this.updateItem)) : this.onClickClose()
             }
             updateItem(t) {
                 let i = t.dataSource,
@@ -11778,12 +11826,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             updateBtn() {
-                let e = t.user.gameInfo;
+                let e = XMgr.user.gameInfo;
                 this.btn_invite.visible = this.curCfg.inviteCnt > e.inviteCnt, this.btn_reward.visible = this.curCfg.inviteCnt <= e.inviteCnt
             }
             updateProgress() {
                 if (!this.curCfg) return void this.onClickClose();
-                let e = Math.min(this.curCfg.inviteCnt, t.user.gameInfo.inviteCnt);
+                let e = Math.min(this.curCfg.inviteCnt, XMgr.user.gameInfo.inviteCnt);
                 this.lb_progress.value = `${e}/${this.curCfg.inviteCnt}`, this.panel_bar.width = Math.max(.001, e / this.curCfg.inviteCnt * 448), this.lb_inviteCnt.value = `${this.curCfg.inviteCnt-e}`
             }
             onClickInvite() {
@@ -11791,21 +11839,21 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onClickReward() {
                 let i = "";
-                for (const e of this.curCfg.rewardArr) t.rewardMgr.addReward(e), i = e.type;
-                i == e.RewardType.Skin ? t.ui.open(l.SkinRewardDialog, {
+                for (const e of this.curCfg.rewardArr) XMgr.rewardMgr.addReward(e), i = e.type;
+                i == e.RewardType.Skin ? XMgr.ui.open(l.SkinRewardDialog, {
                     skinId: this.curCfg.rewardArr[0].id
-                }) : t.ui.open(l.RewardDialog, {
+                }) : XMgr.ui.open(l.RewardDialog, {
                     rewardArr: this.curCfg.rewardArr
-                }), t.user.gameInfo.inviteClaimed += 1, t.user.gameInfo.inviteClaimed >= t.cfg.inviteCfg.length ? (t.ui.close(this), fx.EventCenter.I.event(we.Invite_Btn_Update)) : this.updateUI(), t.user.saveToServer()
+                }), XMgr.user.gameInfo.inviteClaimed += 1, XMgr.user.gameInfo.inviteClaimed >= XMgr.cfg.inviteCfg.length ? (XMgr.ui.close(this), fx.EventCenter.I.event(we.Invite_Btn_Update)) : this.updateUI(), XMgr.user.saveToServer()
             }
             async onClickRefresh() {
-                await t.user.updateInvite(), this.destroyed || (this.updateProgress(), this.updateBtn())
+                await XMgr.user.updateInvite(), this.destroyed || (this.updateProgress(), this.updateBtn())
             }
             onClickTips() {
-                t.ui.open(l.QuestionDialog)
+                XMgr.ui.open(l.QuestionDialog)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             onDestroy() {
                 this.cb && this.cb.run()
@@ -11881,7 +11929,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             _close() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XSkinRewardDialog extends e.ui.scenes.panel.SkinRewardDialogUI {
@@ -11892,11 +11940,11 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.Effect.loopRotate(this.img_guang, 90), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose), this.initUI()
             }
             initUI() {
-                let e = t.cfg.skin.get(this.skinId);
+                let e = XMgr.cfg.skin.get(this.skinId);
                 this.img_icon.skin = e.skinShowPath
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
         }
         class XMessageDialog extends e.ui.scenes.panel.MessageDialogUI {
@@ -11908,11 +11956,11 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onClickCancel() {
                 let e = this.data.onCancel;
-                e && e(this), t.ui.close(this)
+                e && e(this), XMgr.ui.close(this)
             }
             onClickSure() {
                 let e = this.data.onSure;
-                e && e(this), 0 != this.data.sureClose && t.ui.close(this)
+                e && e(this), 0 != this.data.sureClose && XMgr.ui.close(this)
             }
         }
         class XRegClass {
@@ -12004,8 +12052,8 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XCoinScript extends Laya.Script {
             onUpdate() {
-                if (t.gameMgr.gameStatus != e.GameStatus.E_GAME_FINISH && t.playerMgr.isPlayerBed(t.playerMgr.mineUuid)) {
-                    let e = t.playerMgr.player;
+                if (XMgr.gameMgr.gameStatus != e.GameStatus.E_GAME_FINISH && XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid)) {
+                    let e = XMgr.playerMgr.player;
                     if (!e || !e.coin) return;
                     this.label_coin.text = this.unitNumToString(e.coin), this.label_energy.text = this.unitNumToString(e.energy)
                 }
@@ -12030,7 +12078,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.curHurt = e, this.list_player.refresh()) : this.curHurt = null
             }
             initPlayer() {
-                t.playerMgr.hunters.length;
+                XMgr.playerMgr.hunters.length;
                 this.list_player = this.owner.getChildByName("list_player"), 
                 this.list_player && (this.list_player.array = this.getPlayerList(), 
                 this.list_player.renderHandler = new Laya.Handler(this, this.updatePlayerItem))
@@ -12043,10 +12091,10 @@ define("js/bundle.js", function(require, module, exports) {
                     n = e.getChildByName("die"),
                     r = e.getChildByName("label_me"),
                     o = e.getChildByName("img_artifactState");
-                if (o && (o.visible = !1), s && (s.skin = t.cfg.skin.get(i.skinId).headIcon), a && (a.visible = !1), n.visible = i.isDie, r && (i.uuid == t.playerMgr.mineUuid ? (r.visible = !0, r.text = "你") : r.visible = !1), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
+                if (o && (o.visible = !1), s && (s.skin = XMgr.cfg.skin.get(i.skinId).headIcon), a && (a.visible = !1), n.visible = i.isDie, r && (i.uuid == XMgr.playerMgr.mineUuid ? (r.visible = !0, r.text = "你") : r.visible = !1), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
                         e.stopPropagation();
                         let i = e.target.dataSource.player;
-                        t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
+                        XMgr.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
                     })), this.curHurt == i.uuid) {
                     s.centerX = 0, (new fx.Sequence).to({
                         centerX: -6
@@ -12065,24 +12113,24 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getPlayerList() {
                 let i = [];
-                for (let e = 0; e < t.playerMgr.defenders.length; e++) {
-                    let s = t.playerMgr.defenders[e];
-                    s.uuid != t.playerMgr.mineUuid && i.push({
+                for (let e = 0; e < XMgr.playerMgr.defenders.length; e++) {
+                    let s = XMgr.playerMgr.defenders[e];
+                    s.uuid != XMgr.playerMgr.mineUuid && i.push({
                         player: s
                     })
                 }
-                return t.playerMgr.player.type == e.PlayerType.E_Defender && i.push({
-                    player: t.playerMgr.player
+                return XMgr.playerMgr.player.type == e.PlayerType.E_Defender && i.push({
+                    player: XMgr.playerMgr.player
                 }), i
             }
             initHunter() {
-                let i = t.playerMgr.hunters.length;
-                this.list_hunter = this.owner.getChildByName("list_hunter"), t.gameMgr.gameMode != e.GameMode.E_Defense && t.gameMgr.gameMode != e.GameMode.E_SevenGhost || (this.list_hunter.visible = !0), this.list_hunter.width = 94 * i + 10 * (i - 1), this.list_hunter && (this.list_hunter.array = this.getHunterList(), this.list_hunter.renderHandler = new Laya.Handler(this, this.updateHunterItem))
+                let i = XMgr.playerMgr.hunters.length;
+                this.list_hunter = this.owner.getChildByName("list_hunter"), XMgr.gameMgr.gameMode != e.GameMode.E_Defense && XMgr.gameMgr.gameMode != e.GameMode.E_SevenGhost || (this.list_hunter.visible = !0), this.list_hunter.width = 94 * i + 10 * (i - 1), this.list_hunter && (this.list_hunter.array = this.getHunterList(), this.list_hunter.renderHandler = new Laya.Handler(this, this.updateHunterItem))
             }
             getHunterList() {
                 let e = [];
-                for (let i = 0; i < t.playerMgr.hunters.length; i++) {
-                    let s = t.playerMgr.hunters[i];
+                for (let i = 0; i < XMgr.playerMgr.hunters.length; i++) {
+                    let s = XMgr.playerMgr.hunters[i];
                     e.push({
                         hunter: s
                     })
@@ -12096,11 +12144,11 @@ define("js/bundle.js", function(require, module, exports) {
                     a = e.getChildByName("die"),
                     n = e.getChildByName("label_name");
                 if (!i.skinId) return void(e.visible = !1);
-                let r = t.cfg.skin.get(i.skinId);
-                s && (s.skin = r.headIcon), a && (a.visible = !1), n && (i.uuid == t.playerMgr.mineUuid ? n.text = "你" : n.text = r.name), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
+                let r = XMgr.cfg.skin.get(i.skinId);
+                s && (s.skin = r.headIcon), a && (a.visible = !1), n && (i.uuid == XMgr.playerMgr.mineUuid ? n.text = "你" : n.text = r.name), e.reg || (e.reg = !0, e.on(Laya.Event.CLICK, this, e => {
                     e.stopPropagation();
                     let i = e.target.dataSource.hunter;
-                    t.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
+                    XMgr.gameMgr.canLocatePlayer() && (console.log(`切换到${i.roomId}`), fx.EventCenter.I.event(XEventNames.E_Look_Player, [i]))
                 }))
             }
             onDestroy() {
@@ -12113,34 +12161,34 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onAwake() {
                 this.node = this.owner, this.img_first = this.owner.getChildByName("img_first"), this.img_hand = this.owner.getChildByName("img_hand"), this.label_taskDes = this.owner.getChildByName("label_taskDes"), this.label_taskBtn = this.owner.getChildByName("label_taskBtn"), this.label_taskBtn.on(Laya.Event.CLICK, this, () => {
-                    if (this.img_first.visible && (this.img_first.visible = !1), t.taskMgr.index < t.user.gameInfo.taskIndex) t.taskMgr.index += 1;
+                    if (this.img_first.visible && (this.img_first.visible = !1), XMgr.taskMgr.index < XMgr.user.gameInfo.taskIndex) XMgr.taskMgr.index += 1;
                     else {
-                        let e = t.taskMgr.getCurTaskCfg();
+                        let e = XMgr.taskMgr.getCurTaskCfg();
                         if (!e) return void(this.node.visible = !1);
-                        t.user.gameInfo.addCoin(e.reward), t.reporter.getCoinCnt("新手任务"), XToast.show(`获得${e.reward}铜币`), t.taskMgr.index += 1, t.user.gameInfo.taskIndex += 1, t.user.saveToServer()
+                        XMgr.user.gameInfo.addCoin(e.reward), XMgr.reporter.getCoinCnt("新手任务"), XToast.show(`获得${e.reward}铜币`), XMgr.taskMgr.index += 1, XMgr.user.gameInfo.taskIndex += 1, XMgr.user.saveToServer()
                     }
-                    this.taskIndexChange(), t.taskMgr.startTask()
-                }), t.taskMgr.compeletAllTask() ? (this.node.visible = !1, t.gameMgr.isGuide = !1) : (this.taskIndexChange(), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.compeletFunc));
+                    this.taskIndexChange(), XMgr.taskMgr.startTask()
+                }), XMgr.taskMgr.compeletAllTask() ? (this.node.visible = !1, XMgr.gameMgr.isGuide = !1) : (this.taskIndexChange(), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.compeletFunc));
                 let e = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                 e.isRepeat = !0, e.run(this.img_hand)
             }
             taskIndexChange() {
-                if (this.img_hand.visible = !1, !t.taskMgr.compeletAllTask()) {
-                    let e = t.taskMgr.getCurTaskCfg();
+                if (this.img_hand.visible = !1, !XMgr.taskMgr.compeletAllTask()) {
+                    let e = XMgr.taskMgr.getCurTaskCfg();
                     if (!e) return;
-                    t.gameMgr.isGuide = !0, this.node.visible = !0, this.label_taskDes.text = `${e.id}.${e.description}`, this.label_taskBtn.mouseEnabled = !1, this.label_taskBtn.text = "未完成", this.label_taskBtn.color = "#675a59", this.label_taskBtn.underlineColor = "#675a59"
+                    XMgr.gameMgr.isGuide = !0, this.node.visible = !0, this.label_taskDes.text = `${e.id}.${e.description}`, this.label_taskBtn.mouseEnabled = !1, this.label_taskBtn.text = "未完成", this.label_taskBtn.color = "#675a59", this.label_taskBtn.underlineColor = "#675a59"
                 }
             }
             compeletFunc() {
-                if (this.label_taskBtn.mouseEnabled = !0, this.label_taskBtn.text = "领取", this.label_taskBtn.color = "#23af00", this.label_taskBtn.underlineColor = "#23af00", this.img_hand.visible = t.taskMgr.index <= 7, 1 == t.taskMgr.index && 1 == t.user.gameInfo.taskIndex && (this.img_first.visible = !0, !this.img_first.__seq)) {
+                if (this.label_taskBtn.mouseEnabled = !0, this.label_taskBtn.text = "领取", this.label_taskBtn.color = "#23af00", this.label_taskBtn.underlineColor = "#23af00", this.img_hand.visible = XMgr.taskMgr.index <= 7, 1 == XMgr.taskMgr.index && 1 == XMgr.user.gameInfo.taskIndex && (this.img_first.visible = !0, !this.img_first.__seq)) {
                     this.img_first.__seq = !0;
                     let e = (new fx.Sequence).fadeOut(500).fadeIn(500);
                     e.isRepeat = !0, e.run(this.img_first)
                 }
-                t.taskMgr.compeletAllTask() && (this.node.visible = !1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc))
+                XMgr.taskMgr.compeletAllTask() && (this.node.visible = !1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc))
             }
             onDisable() {
-                t.taskMgr.index = 1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc)
+                XMgr.taskMgr.index = 1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc)
             }
         }
         class Xs extends Laya.Script {
@@ -12154,11 +12202,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.visible = !1
             }
             checkShow() {
-                let i = t.playerMgr.hunters[0];
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && t.gameMgr.skillABTest && t.user.userInfo.loginDay > 1 && t.user.gameInfo.curLv > 3) {
-                    if (!t.user.gameInfo.getShowHunterSkillDes(i.skinId)) {
-                        let e = t.cfg.skin.get(i.skinId);
-                        this.label_hunterDes.text = e.skillDes, this.node.visible = !0, t.user.gameInfo.addShowHunterSkillDes(i.skinId)
+                let i = XMgr.playerMgr.hunters[0];
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && XMgr.gameMgr.skillABTest && XMgr.user.userInfo.loginDay > 1 && XMgr.user.gameInfo.curLv > 3) {
+                    if (!XMgr.user.gameInfo.getShowHunterSkillDes(i.skinId)) {
+                        let e = XMgr.cfg.skin.get(i.skinId);
+                        this.label_hunterDes.text = e.skillDes, this.node.visible = !0, XMgr.user.gameInfo.addShowHunterSkillDes(i.skinId)
                     }
                 }
             }
@@ -12193,8 +12241,8 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                     })
                 };
-                this.loadingNode ? n() : t.assetLoader.getBySign(o.loading, null, i => {
-                    this.loadingNode || (this.loadingNode = new Laya.Box, this.loadingNode.name = "loadingNode", this.loadingNode.width = Laya.stage.width, this.loadingNode.height = Laya.stage.height, this.loadingNode.mouseEnabled = !0, this.loadingNode.zOrder = e.ZOrder.Loading, Laya.stage.addChild(this.loadingNode), this.loadingNode.addChild(i), i.pos(Laya.stage.width / 2, Laya.stage.height / 2), this.label_title = i.getChildByName("label_title"), t.assetLoader.createSpine("spines/loading/skeleton.bin", e => {
+                this.loadingNode ? n() : XMgr.assetLoader.getBySign(o.loading, null, i => {
+                    this.loadingNode || (this.loadingNode = new Laya.Box, this.loadingNode.name = "loadingNode", this.loadingNode.width = Laya.stage.width, this.loadingNode.height = Laya.stage.height, this.loadingNode.mouseEnabled = !0, this.loadingNode.zOrder = e.ZOrder.Loading, Laya.stage.addChild(this.loadingNode), this.loadingNode.addChild(i), i.pos(Laya.stage.width / 2, Laya.stage.height / 2), this.label_title = i.getChildByName("label_title"), XMgr.assetLoader.createSpine("spines/loading/skeleton.bin", e => {
                         i.addChild(e), e.play(0, !0)
                     }), this.isShow ? n() : this.hide())
                 })
@@ -12263,7 +12311,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             static restDay(e) {
-                let i = Math.max(e - t.gameTime.now, 0);
+                let i = Math.max(e - XMgr.gameTime.now, 0);
                 return Math.floor(i / 864e5)
             }
             static diff(e, t) {
@@ -12301,7 +12349,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             static formatResetCD(e) {
                 let i = e,
-                    s = Zs(t.gameTime.now),
+                    s = Zs(XMgr.gameTime.now),
                     a = i.diff(s, "seconds");
                 if (a > _.DAY_SECONDS) {
                     return Math.floor(a / _.DAY_SECONDS) + "天"
@@ -12605,10 +12653,10 @@ define("js/bundle.js", function(require, module, exports) {
         function pa(e, i, s, a) {
             let n = e[i];
             try {
-                let i = t.cryptUtil.encryptXor(`${n}`),
+                let i = XMgr.cryptUtil.encryptXor(`${n}`),
                     r = e["__" + s];
                 if (r && i != r) {
-                    let i = t.cryptUtil.decryptXor(r);
+                    let i = XMgr.cryptUtil.decryptXor(r);
                     a || e.cheatScene
                 }
             } catch (e) {
@@ -12621,7 +12669,7 @@ define("js/bundle.js", function(require, module, exports) {
             pa(e, "_" + i, i, s);
             let r = e[n];
             if (r) {
-                let e = t.cryptUtil.decryptXor(r);
+                let e = XMgr.cryptUtil.decryptXor(r);
                 return a ? e : Number(e)
             }
         }
@@ -12634,7 +12682,7 @@ define("js/bundle.js", function(require, module, exports) {
                         return fa(this, i)
                     },
                     set: function(e) {
-                        isNaN(e) || this[s] != e && (pa(this, s, i), this[a] = t.cryptUtil.encryptXor(`${e}`), this[s] = e)
+                        isNaN(e) || this[s] != e && (pa(this, s, i), this[a] = XMgr.cryptUtil.encryptXor(`${e}`), this[s] = e)
                     }
                 })
             }
@@ -12652,9 +12700,9 @@ define("js/bundle.js", function(require, module, exports) {
                         let o = this,
                             u = void 0 !== this[h];
                         if (this[h] != i) {
-                            r && (pa(this, h, l, r), this[d] = t.cryptUtil.encryptXor(`${i}`));
+                            r && (pa(this, h, l, r), this[d] = XMgr.cryptUtil.encryptXor(`${i}`));
                             let g = this[h];
-                            if (this[h] = i, t.user && t.user.changeAccount) return;
+                            if (this[h] = i, XMgr.user && XMgr.user.changeAccount) return;
                             (u || "moment" == s) && (n && n(i, g), a && "x" != a && o.event(a, [i, g]), this.onPropertyChange && this.onPropertyChange(e))
                         }
                     }
@@ -12713,9 +12761,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.changeKeys.length = 0, this.needSaveLocal = !1, console.debug(this.StoreKey + " parseFromLocal...  value : " + e)
             }
             saveToLocal() {
-                if (t.user.changeAccount) return;
+                if (XMgr.user.changeAccount) return;
                 if (this.needSaveLocal = !1, !this.StoreKey) return;
-                t.user.addLocalVersion();
+                XMgr.user.addLocalVersion();
                 let e = JSON.stringify(this.toJson());
                 this.IsEncrypt ? aa.setEncrypt(this.StoreKey, e) : aa.setString(this.StoreKey, e)
             }
@@ -12755,9 +12803,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             clear() {
                 this.coin = 0, this.tian = 0, this.tempCoin = 0, this.curSkinId = 1001, 
-                this.curHunterSkinId = 10001, this.maxLevel = 1, t.reporter.setUserMaxLevel(this.maxLevel), 
+                this.curHunterSkinId = 10001, this.maxLevel = 1, XMgr.reporter.setUserMaxLevel(this.maxLevel), 
                 this.winCnt = 0, this.failCnt = 0, this.isStartLv = !1, this.weekMaxLv = 1, this.curLv = 1, 
-                t.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, 
+                XMgr.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, this.todayMaxLv = 0, 
                 this.todayExtraScore = 0, this.isLastWin = !1, this.isMapByWeek = !1, 
                 this.maxWinCnt = 0, this.isUseSkinFragmentVideo = !1, this.getFragmentCnt = 0, 
                 this.mapBuildRate = 0, this.taskIndex = 1, this.isExitGame = !1, this.magicGetCnt = 0, 
@@ -12776,14 +12824,14 @@ define("js/bundle.js", function(require, module, exports) {
                 this.tempCoin > 0 && (this.coin += this.tempCoin)
             }
             onNewDay() {
-                this.isStartLv = !0, this.curLv = 1, t.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, 
+                this.isStartLv = !0, this.curLv = 1, XMgr.reporter.setUserLevel(this.curLv), this.lastLv = 1, this.lowestLv = 1, 
                 this.todayMaxLv = 0, this.isLastWin = !1, this.isMapByWeek = !1, this.maxWinCnt = 0, this.dailyShareCnt = 0, 
                 this.canPlayTurnTable = !0, this.dailyShare = !1, this.dailyBuyZr = !1, this.playHunter = !1, this.curHunterLv = 1, 
                 this.lastHunterLv = 1, this.lowestHunterLv = 1, this.todayHunterMaxLv = 0, this.isLastHunterWin = !1, this.hunterUnlockLvl = 0,
                 this.isGetTian = !1, this.clearOwnBuff(), this.todayExtraScore = 0, this.todayHunterExtraScore = 0, this.isUseSkinFragmentVideo = !1, 
                 this.isExitGame = !1, this.magicGetCnt = 0, this.showSkinRed = !0, this.isOpenCommond = !1;
                 let e = [];
-                this.isClubRewardClaimed(1) && e.push(1), this.clubClaimedList = e, t.user.saveToServer()
+                this.isClubRewardClaimed(1) && e.push(1), this.clubClaimedList = e, XMgr.user.saveToServer()
             }
             coinEnough(e) {
                 return this.coin >= e
@@ -12792,13 +12840,13 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!fx.Utils.isNumber(e)) return;
                 if (!i && !this.coinEnough(e)) return !1;
                 let s = Math.max(this.coin - e, 0);
-                return this.coin = s, t.user.saveToServer(), !0
+                return this.coin = s, XMgr.user.saveToServer(), !0
             }
             addCoin(e) {
                 fx.Utils.isNumber(e) && (this.coin += e)
             }
             addTempCoin(e, i = !0) {
-                fx.Utils.isNumber(e) && (this.tempCoin += e, i && t.user.saveToServer())
+                fx.Utils.isNumber(e) && (this.tempCoin += e, i && XMgr.user.saveToServer())
             }
             subTempCoin(e) {
                 let t = this.tempCoin - e;
@@ -12811,19 +12859,19 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!fx.Utils.isNumber(e)) return;
                 if (!i && !this.coinEnough(e)) return !1;
                 let s = Math.max(this.tian - e, 0);
-                return this.tian = s, t.user.saveToServer(), !0
+                return this.tian = s, XMgr.user.saveToServer(), !0
             }
             addTian(e) {
                 fx.Utils.isNumber(e) && (this.tian += e)
             }
             setCurLv(e) {
-                this.curLv = e, t.reporter.setUserLevel(this.curLv), e - this.lowestLv > 1 && (this.lowestLv = e - 1), t.user.saveToServer()
+                this.curLv = e, XMgr.reporter.setUserLevel(this.curLv), e - this.lowestLv > 1 && (this.lowestLv = e - 1), XMgr.user.saveToServer()
             }
             setCurHunterLv(e) {
-                this.curHunterLv = e, e - this.lowestHunterLv > 1 && (this.lowestHunterLv = e - 1), t.user.saveToServer()
+                this.curHunterLv = e, e - this.lowestHunterLv > 1 && (this.lowestHunterLv = e - 1), XMgr.user.saveToServer()
             }
             clearOwnBuild() {
-                this.ownBuild = new Map, t.cfg.shopCfg.foreach(e => {
+                this.ownBuild = new Map, XMgr.cfg.shopCfg.foreach(e => {
                     let t = new ba;
                     t.cnt = e.initialHave, this.ownBuild.set(e.buildId, t)
                 }), this.onPropertyChange("ownBuild")
@@ -12842,10 +12890,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             useBuildData(e, i = 1) {
                 let s = this.ownBuild.get(e);
-                this.ownBuild.has(e) ? (s.cnt -= i, this.ownBuild.set(e, s), this.onPropertyChange("ownBuild"), t.user.saveToServer()) : s = new ba
+                this.ownBuild.has(e) ? (s.cnt -= i, this.ownBuild.set(e, s), this.onPropertyChange("ownBuild"), XMgr.user.saveToServer()) : s = new ba
             }
             clearOwnSkin() {
-                this.ownSkin = new Map, t.cfg.skin.foreach(t => {
+                this.ownSkin = new Map, XMgr.cfg.skin.foreach(t => {
                     let i = new wa;
                     i.cnt = 0, i.isUnlock = !1, t.unlock && 999 == t.unlock.way && t.type == e.SkinType.Human && (i.isUnlock = !0), this.ownSkin.set(t.id, i)
                 }), this.onPropertyChange("ownSkin")
@@ -12865,7 +12913,7 @@ define("js/bundle.js", function(require, module, exports) {
             unlockSkin(e) {
                 let i;
                 this.ownSkin.has(e) ? i = this.ownSkin.get(e) : (i = new wa).cnt = 0, i.isUnlock = !0;
-                let s = t.cfg.skin.get(e);
+                let s = XMgr.cfg.skin.get(e);
                 s && XAnalyticsUtil.getSkin(s.name), this.onPropertyChange("ownSkin")
             }
             getSkinCnt() {
@@ -12874,7 +12922,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             clearOwnSkinFragment() {
-                this.ownSkinFragment = new Map, t.cfg.skin.foreach(e => {
+                this.ownSkinFragment = new Map, XMgr.cfg.skin.foreach(e => {
                     if (!this.ownSkinFragment.has(e.skinType)) {
                         let t = new Sa;
                         t.cnt = 0, t.cnt_1 = 0, this.ownSkinFragment.set(e.skinType, t)
@@ -12923,7 +12971,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ownSkinFragment.set(e, s), this.onPropertyChange("ownSkinFragment")
             }
             clearSkinTypeShow() {
-                this.skinTypeShow = new Map, t.cfg.skin.foreach(e => {
+                this.skinTypeShow = new Map, XMgr.cfg.skin.foreach(e => {
                     if (!this.skinTypeShow.has(e.skinType)) {
                         let t = new Ia;
                         t.id = e.id, this.skinTypeShow.set(e.skinType, t)
@@ -12943,7 +12991,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let t = new Ia;
                     t.id = e, this.skinTypeShow.set(i, t)
                 }
-                this.onPropertyChange("ownSkinTypeShow"), t.user.saveToServer()
+                this.onPropertyChange("ownSkinTypeShow"), XMgr.user.saveToServer()
             }
             clearOwnPrize() {
                 this.ownPrize = new Map, this.onPropertyChange("ownPrize")
@@ -12954,7 +13002,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             usePrizeData(e, i = 1) {
                 let s = this.ownPrize.get(e);
-                this.ownPrize.has(e) || (s = new ba), s.cnt -= i, 0 == s.cnt ? this.ownPrize.delete(e) : this.ownPrize.set(e, s), this.onPropertyChange("ownPrize"), t.user.saveToServer()
+                this.ownPrize.has(e) || (s = new ba), s.cnt -= i, 0 == s.cnt ? this.ownPrize.delete(e) : this.ownPrize.set(e, s), this.onPropertyChange("ownPrize"), XMgr.user.saveToServer()
             }
             clearOwnBuff() {
                 this.ownBuff = new Map, this.buffLvArr = [], this.onPropertyChange("ownBuff")
@@ -12962,14 +13010,14 @@ define("js/bundle.js", function(require, module, exports) {
             addBuff(e) {
                 let i = this.ownBuff.get(e);
                 i ? i.lv += 1 : (i = new XBuffData).lv = 0;
-                let s = t.cfg.buffCfg.get(e);
+                let s = XMgr.cfg.buffCfg.get(e);
                 XAnalyticsUtil.buffGet(s.name, i.lv), this.ownBuff.set(e, i), this.onPropertyChange("ownBuff")
             }
             getBuffData(e) {
                 return this.ownBuff.get(e)
             }
             clearOwnHunterSkin() {
-                this.ownHunterSkin = new Map, t.cfg.skin.foreach(t => {
+                this.ownHunterSkin = new Map, XMgr.cfg.skin.foreach(t => {
                     let i = new wa;
                     i.cnt = 0, i.isUnlock = !1, t.unlock && 999 == t.unlock.way && t.type == e.SkinType.Hunter && (i.isUnlock = !0), this.ownHunterSkin.set(t.id, i)
                 }), this.onPropertyChange("ownHunterSkin")
@@ -12986,7 +13034,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateGameClubData() {
                 let e = [];
-                t.cfg.clubReward.getList().forEach(t => {
+                XMgr.cfg.clubReward.getList().forEach(t => {
                     e.includes(t.clubDataType) || e.push(t.clubDataType)
                 }), j.I.getGameClubData(e, e => {
                     this._clubDataList = e || [], this.event(Ce.GameClubDataChange)
@@ -13005,10 +13053,10 @@ define("js/bundle.js", function(require, module, exports) {
                 for (const s of e)
                     if (!i.includes(s)) {
                         i.push(s);
-                        let e = t.cfg.clubReward.get(s);
-                        t.rewardMgr.addReward(e.reward), XAnalyticsUtil.clubReward(e.clubDataType)
+                        let e = XMgr.cfg.clubReward.get(s);
+                        XMgr.rewardMgr.addReward(e.reward), XAnalyticsUtil.clubReward(e.clubDataType)
                     }
-                this.clubClaimedList = i, t.user.saveToServer(), this.event(Ce.GameClubRewardClaimed)
+                this.clubClaimedList = i, XMgr.user.saveToServer(), this.event(Ce.GameClubRewardClaimed)
             }
             clearShowHunterSkillDes() {
                 this.showHunterSkillDes = new Map, this.onPropertyChange("showHunterDes")
@@ -13096,7 +13144,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             get day() {
                 if (0 == this.createTime) return -1;
-                let e = Math.max(t.gameTime.now - this.createTime, 0);
+                let e = Math.max(XMgr.gameTime.now - this.createTime, 0);
                 return Math.floor(e / 864e5) + 1
             }
             clear() {
@@ -13109,11 +13157,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.loginDay++, this.todayLoginCnt = 1
             }
             checkDailyReset() {
-                let e = t.gameTime.now;
+                let e = XMgr.gameTime.now;
                 return this.dailyResetTime ? !!Ma(e).isAfter(this.dailyResetTime) && (this.dailyResetTime = Ma(e).subtract(8, "hours").startOf("days").add(8, "hour").add(1, "day"), !0) : (this.dailyResetTime = Ma(e).subtract(8, "hours").startOf("days").add(8, "hour").add(1, "day"), !1)
             }
             checkWeeklyReset() {
-                let e = t.gameTime.now;
+                let e = XMgr.gameTime.now;
                 return this.weeklyResetTime ? !!Ma(e).isAfter(this.weeklyResetTime) && (this.weeklyResetTime = Ma(e).weekday(1).startOf("days").add(8, "hour").add(7, "day"), !0) : (this.weeklyResetTime = Ma(e).weekday(1).startOf("days").add(8, "hour").add(7, "day"), !1)
             }
             getDailyResetTime() {
@@ -13155,15 +13203,15 @@ define("js/bundle.js", function(require, module, exports) {
                 this.name != t.nickName && t.nickName && (e = !0, this.name = t.nickName), this.avatarUrl != t.avatarUrl && t.avatarUrl && (e = !0, this.avatarUrl = t.avatarUrl)
             }
             setCityId(e) {
-                this.cityId = e, t.user.saveToServer()
+                this.cityId = e, XMgr.user.saveToServer()
             }
             isSelectCity() {
                 return !!this.cityId
             }
             async getCityByIp() {
                 let e = "https://ip.useragentinfo.com/json",
-                    i = await t.http.send(e, "Get", {}, 10);
-                return i && i.city ? i.city : (e = "https://cdwaterbear.cn/ip/queryex", (i = await t.http.send(e, "Get", {}, 10)) && i.data && i.data.city ? i.data.city : void 0)
+                    i = await XMgr.http.send(e, "Get", {}, 10);
+                return i && i.city ? i.city : (e = "https://cdwaterbear.cn/ip/queryex", (i = await XMgr.http.send(e, "Get", {}, 10)) && i.data && i.data.city ? i.data.city : void 0)
             }
         }, na([ya("lot", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "useLocalTime", void 0), na([ya("lt", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginTime", void 0), na([ya("ld", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "loginDay", void 0), na([ya("tlc", e.StreamType.Original, null, "x")], e.UserInfo.prototype, "todayLoginCnt", void 0), na([ya("crt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "dailyResetTime", void 0), na([ya("wrt", e.StreamType.Assembly, "moment", "x")], e.UserInfo.prototype, "weeklyResetTime", void 0), na([ya("cityId", e.StreamType.Original)], e.UserInfo.prototype, "cityId", void 0), e.UserInfo = na([_a(sa.User.UserInfo, !1)], e.UserInfo), 
         e.CommonInfo = class extends e.StoreStream {
@@ -13177,13 +13225,13 @@ define("js/bundle.js", function(require, module, exports) {
                 this.saveProgramClaimed = !1, this.addToDeskClaimed = !1, this.shareCnt = 0, this.shareCntOnVideo = 0, this.isSubscribe = !1
             }
             claimSaveProgramReward() {
-                this.saveProgramClaimed = !0, t.rewardMgr.addReward(t.cfg.constant.saveProgramReward), t.user.saveToServer()
+                this.saveProgramClaimed = !0, XMgr.rewardMgr.addReward(XMgr.cfg.constant.saveProgramReward), XMgr.user.saveToServer()
             }
             claimAddToDeskReward() {
-                this.addToDeskClaimed = !0, t.rewardMgr.addReward(t.cfg.constant.addToDeskReward), t.user.saveToServer()
+                this.addToDeskClaimed = !0, XMgr.rewardMgr.addReward(XMgr.cfg.constant.addToDeskReward), XMgr.user.saveToServer()
             }
             setSubscribe() {
-                this.isSubscribe = !0, t.user.saveToServer()
+                this.isSubscribe = !0, XMgr.user.saveToServer()
             }
         }, na([ya("saveProgramClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "saveProgramClaimed", void 0), na([ya("addToDeskClaimed", e.StreamType.Original)], e.CommonInfo.prototype, "addToDeskClaimed", void 0), na([ya("shareCnt", e.StreamType.Original)], e.CommonInfo.prototype, "shareCnt", void 0), na([ya("shareCntOnVideo", e.StreamType.Original)], e.CommonInfo.prototype, "shareCntOnVideo", void 0), na([ya("isSubscribe", e.StreamType.Original)], e.CommonInfo.prototype, "isSubscribe", void 0), e.CommonInfo = na([_a(sa.User.CommonInfo, !1)], e.CommonInfo), e.NavigateInfo = class extends e.StoreStream {
             constructor() {
@@ -13198,12 +13246,12 @@ define("js/bundle.js", function(require, module, exports) {
             async checkIp() {
                 if (this.isChecked || this.isChecking) return;
                 this.isChecking = !0;
-                let e = await t.user.userInfo.getCityByIp();
+                let e = await XMgr.user.userInfo.getCityByIp();
                 if (e) {
                     if (await this.getCfg(), !this.isBlackIp && this.cfg && this.cfg.blackCityList)
                         for (const i of this.cfg.blackCityList)
                             if (e.includes(i)) {
-                                this.isBlackIp = !0, t.user.saveToServer();
+                                this.isBlackIp = !0, XMgr.user.saveToServer();
                                 break
                             }
                     if (this.cfg && this.cfg.gameList) {
@@ -13232,10 +13280,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             async getCfg() {
                 if (this.cfg) return;
-                let e = await t.http.send("https://cdn.105775.cn/navigate/common2.json", "Get", {}, 10);
+                let e = await XMgr.http.send("https://cdn.105775.cn/navigate/common2.json", "Get", {}, 10);
                 if (e && e.navigate) {
-                    if (this.cfg = e.navigate, this._whiteIp = e.whiteIp, t.controller.versionData && t.controller.versionData.navigate)
-                        for (const e in t.controller.versionData.navigate) this.cfg[e] = t.controller.versionData.navigate[e]
+                    if (this.cfg = e.navigate, this._whiteIp = e.whiteIp, XMgr.controller.versionData && XMgr.controller.versionData.navigate)
+                        for (const e in XMgr.controller.versionData.navigate) this.cfg[e] = XMgr.controller.versionData.navigate[e]
                 } else;
             }
             getIconGameList() {
@@ -13359,28 +13407,28 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = !1;
                 0 == this.userInfo.loginTime && (e = !0);
                 let i = !1;
-                if (!this.userInfo.isNewPlayer && t.gameTime.now > this.userInfo.loginTime && !Qs.isSameDay(t.gameTime.now, this.userInfo.loginTime) && (i = !0, e = !0), this.userInfo.loginTime = t.gameTime.now, i) {
+                if (!this.userInfo.isNewPlayer && XMgr.gameTime.now > this.userInfo.loginTime && !Qs.isSameDay(XMgr.gameTime.now, this.userInfo.loginTime) && (i = !0, e = !0), this.userInfo.loginTime = XMgr.gameTime.now, i) {
                     let e = this.getStoreInfos();
                     for (const t of e) t.onNewDay && t.onNewDay()
                 }
             }
             fixUpdate() {
-                if (t.gameTime.now > this.userInfo.loginTime && !Qs.isSameDay(t.gameTime.now, this.userInfo.loginTime)) {
-                    this.userInfo.loginTime = t.gameTime.now;
+                if (XMgr.gameTime.now > this.userInfo.loginTime && !Qs.isSameDay(XMgr.gameTime.now, this.userInfo.loginTime)) {
+                    this.userInfo.loginTime = XMgr.gameTime.now;
                     let e = this.getStoreInfos();
                     for (const t of e) t.onNewDay && t.onNewDay()
                 }
             }
             async updateInvite() {
                 let e = await XEventDispatcher.I.getInviteList();
-                if (e && e.inviteCnt && e.inviteCnt > t.user.gameInfo.inviteCnt) {
-                    let i = Math.clamp(t.user.gameInfo.inviteCnt, e.inviteCnt, 20);
-                    t.user.gameInfo.inviteCnt = i, t.user.saveToServer()
+                if (e && e.inviteCnt && e.inviteCnt > XMgr.user.gameInfo.inviteCnt) {
+                    let i = Math.clamp(XMgr.user.gameInfo.inviteCnt, e.inviteCnt, 20);
+                    XMgr.user.gameInfo.inviteCnt = i, XMgr.user.saveToServer()
                 }
             }
             restartGame() {
                 this.changeAccount = !0, XEventDispatcher.I.deleteStorage(e => {
-                    this.changeAccount = !1, e && (Laya.LocalStorage.clear(), t.user.clear(), this.userInfo.loginTime = t.gameTime.now, t.user.init(), t.ui.changeScene(l.GameScene))
+                    this.changeAccount = !1, e && (Laya.LocalStorage.clear(), XMgr.user.clear(), this.userInfo.loginTime = XMgr.gameTime.now, XMgr.user.init(), XMgr.ui.changeScene(l.GameScene))
                 })
             }
         }
@@ -13395,7 +13443,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.defaultAnim && (this.spine ? this.play(this.defaultAnim, this.loop) : this.loadSpine(this.url))
             }
             loadSpine(e, i) {
-                t.assetLoader.createSpine(e, e => {
+                XMgr.assetLoader.createSpine(e, e => {
                     e && (this._sp = e, this.owner.addChild(this._sp), this.defaultAnim && this.play(this.defaultAnim, this.loop)), i && i(this._sp)
                 })
             }
@@ -13448,8 +13496,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = new Laya.Box;
                 i.width = i.height = 1;
                 let s = i.addComponent(XSpineScript),
-                    a = t.assetLoader.getSpineTemplet(e).buildArmature();
-                return t.assetLoader.addSpineSkeletonReference(a), a.name = "spine", i.addChild(a), s
+                    a = XMgr.assetLoader.getSpineTemplet(e).buildArmature();
+                return XMgr.assetLoader.addSpineSkeletonReference(a), a.name = "spine", i.addChild(a), s
             }
         }
         class AssetLoader {
@@ -13610,7 +13658,7 @@ define("js/bundle.js", function(require, module, exports) {
                     n = "",
                     r = () => {
                         let a = new Laya.Prefab;
-                        a.json = Laya.loader.getRes(e), n && (a.__spineUrl = n), s && t.assetPool.addPrefab(a, e), i(a)
+                        a.json = Laya.loader.getRes(e), n && (a.__spineUrl = n), s && XMgr.assetPool.addPrefab(a, e), i(a)
                     },
                     o = e => {
                         e.loadList && e.loadList.length > 0 ? Laya.loader.load(e.loadList, new Laya.Handler(this, () => {
@@ -13765,8 +13813,8 @@ define("js/bundle.js", function(require, module, exports) {
                     from: "",
                     userArgs: [i]
                 }, new Laya.Handler(this, i => {
-                    t.reporter.openUI(e), i.on(Laya.Event.DESTORYED, this, () => {
-                        t.assetLoader.destroyUnusedResources()
+                    XMgr.reporter.openUI(e), i.on(Laya.Event.DESTORYED, this, () => {
+                        XMgr.assetLoader.destroyUnusedResources()
                     }), s && s.runWith(i)
                 }))) : console.warn("Can not find scene: " + e)
             }
@@ -13784,7 +13832,7 @@ define("js/bundle.js", function(require, module, exports) {
                     this.addUICnt(e), this.addNode(e, i), i.on(Laya.Event.REMOVED, this, () => {
                         this.removeUICnt(e)
                     }), i.on(Laya.Event.DESTORYED, this, () => {
-                        this.removeNode(e, i), t.assetLoader.destroyUnusedResources(), r && r()
+                        this.removeNode(e, i), XMgr.assetLoader.destroyUnusedResources(), r && r()
                     }), n && n(i)
                 }))
             }
@@ -13808,7 +13856,7 @@ define("js/bundle.js", function(require, module, exports) {
                     this.addUICnt(e), this.addNode(e, i), i.on(Laya.Event.REMOVED, this, () => {
                         this.removeUICnt(e)
                     }), i.on(Laya.Event.DESTORYED, this, () => {
-                        this.removeNode(e, i), t.assetLoader.destroyUnusedResources(), o && o()
+                        this.removeNode(e, i), XMgr.assetLoader.destroyUnusedResources(), o && o()
                     }), l && this.enableCloseOnSide(i), r && r(i)
                 }))
             }
@@ -13828,7 +13876,7 @@ define("js/bundle.js", function(require, module, exports) {
                     a = i ? i.openCallback : null,
                     n = i ? i.closeCallback : null,
                     r = i ? i.mask : null;
-                t.assetLoader.createPrefab(e, i => {
+                XMgr.assetLoader.createPrefab(e, i => {
                     if (s = s || Laya.stage, r) {
                         let e = new Laya.Box;
                         e.size(Laya.stage.width, Laya.stage.height), s.addChild(e);
@@ -13836,7 +13884,7 @@ define("js/bundle.js", function(require, module, exports) {
                         t.size(Laya.stage.width, Laya.stage.height), t.bgColor = "#000000", t.alpha = .8, e.addChild(t), e.addChild(i), i.__prefabBgMask = e
                     } else s.addChild(i);
                     this.addUICnt(e), this.addNode(e, i), i.on(Laya.Event.DESTORYED, this, () => {
-                        this.removeNode(e, i), t.assetLoader.destroyUnusedResources(), n && n()
+                        this.removeNode(e, i), XMgr.assetLoader.destroyUnusedResources(), n && n()
                     }), a && a(i)
                 })
             }
@@ -13860,7 +13908,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !!this.uiCntMap.has(e) && this.uiCntMap.get(e) > 0
             }
             showPopup(e, i, s = !0, a) {
-                t.assetLoader.getBySign(e, null, t => {
+                XMgr.assetLoader.getBySign(e, null, t => {
                     let n = new Laya.Box;
                     fx.SceneManager.getCurScene().addChild(n), n.width = Laya.stage.width, n.height = Laya.stage.height, n.mouseEnabled = !1, n.on(Laya.Event.CLICK, this, () => {
                         let e = this.popupNodes.indexOf(n);
@@ -13873,11 +13921,11 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             open(e, i, s) {
-                if (e.includes(".json")) t.ui.openPrefabUI(e);
+                if (e.includes(".json")) XMgr.ui.openPrefabUI(e);
                 else {
                     let a = Laya.ClassUtils.getRegClass(e);
                     if (!a) return void console.warn("Can not find ui: " + e);
-                    a.__proto__.__proto__ == fx.BaseScene ? this.changeScene(e) : a.__proto__.__proto__ == fx.BaseView ? t.ui.openView(e, i, s) : a.__proto__.__proto__ == fx.BaseDialog && t.ui.openPanel(e, i, s)
+                    a.__proto__.__proto__ == fx.BaseScene ? this.changeScene(e) : a.__proto__.__proto__ == fx.BaseView ? XMgr.ui.openView(e, i, s) : a.__proto__.__proto__ == fx.BaseDialog && XMgr.ui.openPanel(e, i, s)
                 }
             }
             close(e, i = !0) {
@@ -13885,17 +13933,17 @@ define("js/bundle.js", function(require, module, exports) {
                     x: Laya.stage.width
                 }, 100, null, new Laya.Handler(this, () => {
                     fx.SceneManager.closeView(e)
-                })) : e.__pool__ ? t.assetPool.put(e) : e.__prefabBgMask ? e.__prefabBgMask.destroy() : e.destroy())
+                })) : e.__pool__ ? XMgr.assetPool.put(e) : e.__prefabBgMask ? e.__prefabBgMask.destroy() : e.destroy())
             }
             addNode(e, i) {
                 this.uiNodes.has(e) || this.uiNodes.set(e, []);
                 let s = this.uiNodes.get(e);
-                s.includes(i) || (s.push(i), t.reporter.openUI(e))
+                s.includes(i) || (s.push(i), XMgr.reporter.openUI(e))
             }
             removeNode(e, i) {
                 if (!this.uiNodes.has(e)) return;
                 let s = this.uiNodes.get(e),
-                    a = s.indexOf(i); - 1 != a && (s.splice(a, 1), t.reporter.closeUI(e))
+                    a = s.indexOf(i); - 1 != a && (s.splice(a, 1), XMgr.reporter.closeUI(e))
             }
             closeByName(e) {
                 if (!this.uiNodes.has(e)) return;
@@ -13947,7 +13995,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this._interval = 0
             }
             async syncFromServer() {
-                let e = await t.http.send("https://cdwaterbear.cn/servertime", "GET");
+                let e = await XMgr.http.send("https://cdwaterbear.cn/servertime", "GET");
                 if (e) {
                     let t = window.pako.inflate(e.data, {
                             to: "string"
@@ -13958,7 +14006,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !1
             }
             setTime(e) {
-                this._interval = (new Date).getTime() - e, console.log("time interval: " + this._interval), t.user.userInfo.useLocalTime && (this._interval = 0, console.log("use local time...")), console.log(Pa(this.now).format("YYYY-MM-DD HH:mm:ss")), this.event(_e.SyncFromServer)
+                this._interval = (new Date).getTime() - e, console.log("time interval: " + this._interval), XMgr.user.userInfo.useLocalTime && (this._interval = 0, console.log("use local time...")), console.log(Pa(this.now).format("YYYY-MM-DD HH:mm:ss")), this.event(_e.SyncFromServer)
             }
             get now() {
                 return (new Date).getTime() - this._interval
@@ -14001,12 +14049,12 @@ define("js/bundle.js", function(require, module, exports) {
                     if (i = e.create(), e.__spineUrl) {
                         let s = i.getComponent(XSpineScript);
                         s || (s = i.getComponentInChildren(XSpineScript));
-                        let a = t.assetLoader.getSpineTemplet(e.__spineUrl).buildArmature();
-                        t.assetLoader.addSpineSkeletonReference(a), a.name = "spine", s.node.addChild(a);
+                        let a = XMgr.assetLoader.getSpineTemplet(e.__spineUrl).buildArmature();
+                        XMgr.assetLoader.addSpineSkeletonReference(a), a.name = "spine", s.node.addChild(a);
                         let n = XCoordinateUtil.getAnchorPos(s.node);
                         a.pos(n.x, n.y)
                     }
-                } else e instanceof Laya.SpineTemplet_3_x && (i = e.buildArmature(), t.assetLoader.addSpineSkeletonReference(i));
+                } else e instanceof Laya.SpineTemplet_3_x && (i = e.buildArmature(), XMgr.assetLoader.addSpineSkeletonReference(i));
                 return i
             }
             addPrefab(e, t) {
@@ -14201,7 +14249,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             async queryVersionCfg(e) {
                 let i = `${V.cfg_url}/version/${V.platform}/${V.version}.json`,
-                    s = await t.http.send(i, "Get", {}, 10);
+                    s = await XMgr.http.send(i, "Get", {}, 10);
                 if (s) {
                     if (this.update(s), s && s.shareCfg && s.shareCfg.length > 0)
                         if (sdk.Sdk.isOnWeiXin()) wx.showShareMenu({
@@ -14219,7 +14267,7 @@ define("js/bundle.js", function(require, module, exports) {
                             sdk.Sdk.instance.enableShare(e.title, e.image)
                         }
                     e()
-                } else t.ui.showMessageDialog({
+                } else XMgr.ui.showMessageDialog({
                     content: "配置文件获取失败，请重试",
                     showSureBtn: !0,
                     onSure: () => {
@@ -14246,7 +14294,7 @@ define("js/bundle.js", function(require, module, exports) {
                         this.getCfg(n, n => {
                             s--, n && i.set(r, n), 0 == s && (i.size == a.length ? (i.forEach((e, t) => {
                                 fx.CfgMgr.instance.mData[t] = e
-                            }), e()) : t.ui.showMessageDialog({
+                            }), e()) : XMgr.ui.showMessageDialog({
                                 content: "游戏配置文件获取失败，请重试",
                                 showSureBtn: !0,
                                 onSure: () => {
@@ -14259,7 +14307,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             async getCfg(e, i) {
                 e = `${V.cfg_url}/resource/${e}`;
-                let s = await t.http.send(e, "Get", {}, 10);
+                let s = await XMgr.http.send(e, "Get", {}, 10);
                 i(s || null)
             }
             checkABTest(e, t) {
@@ -14287,10 +14335,10 @@ define("js/bundle.js", function(require, module, exports) {
                         i = "铜币";
                         break;
                     case "Build":
-                        i = t.cfg.shopCfg.get(e.id).name;
+                        i = XMgr.cfg.shopCfg.get(e.id).name;
                         break;
                     case "Skin":
-                        i = t.cfg.skin.get(e.id).name
+                        i = XMgr.cfg.skin.get(e.id).name
                 }
                 return i
             }
@@ -14301,7 +14349,7 @@ define("js/bundle.js", function(require, module, exports) {
                         s = "res/ui/common/img_coins.png";
                         break;
                     case "Build":
-                        s = t.cfg.shopCfg.get(i).icon
+                        s = XMgr.cfg.shopCfg.get(i).icon
                 }
                 return s
             }
@@ -14311,23 +14359,23 @@ define("js/bundle.js", function(require, module, exports) {
                     s = e.cnt || 1;
                 switch (e.type) {
                     case "Coin":
-                        t.user.gameInfo.addCoin(s), XToast.show(`获得${i} *${s}`);
+                        XMgr.user.gameInfo.addCoin(s), XToast.show(`获得${i} *${s}`);
                         break;
                     case "Build":
-                        let a = t.cfg.shopCfg.get(e.id);
-                        t.user.gameInfo.addOwnBuildData(a.buildId, s), XToast.show(`获得${i} *${s}`);
+                        let a = XMgr.cfg.shopCfg.get(e.id);
+                        XMgr.user.gameInfo.addOwnBuildData(a.buildId, s), XToast.show(`获得${i} *${s}`);
                         break;
                     case "Skin":
-                        t.user.gameInfo.unlockSkin(e.id), XToast.show(`获得皮肤: ${i}`)
+                        XMgr.user.gameInfo.unlockSkin(e.id), XToast.show(`获得皮肤: ${i}`)
                 }
             }
             async getWxGameGift() {
                 let e = `${V.serverURL}/wxGetGift`,
                     i = {
                         gameId: V.gameID,
-                        openId: t.user.userInfo.openid
+                        openId: XMgr.user.userInfo.openid
                     },
-                    s = await t.http.send(e, "POST", i, 10, t.user.userInfo.token);
+                    s = await XMgr.http.send(e, "POST", i, 10, XMgr.user.userInfo.token);
                 if (s && s.orderList && s.orderList.length) {
                     let e = new Map;
                     for (let t = 0; t < s.orderList.length; t++) {
@@ -14358,7 +14406,7 @@ define("js/bundle.js", function(require, module, exports) {
                                 XAnalyticsUtil.clubGiftReward(`${t.type}_${e}`), this.addReward(t), i.push(t)
                             }
                         }
-                    }), i.length && t.ui.open(l.RewardDialog, {
+                    }), i.length && XMgr.ui.open(l.RewardDialog, {
                         from: "",
                         rewardArr: i
                     })
@@ -14390,24 +14438,24 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initGravityengine()
             }
             reportToServer(e, i) {
-                if (!t.serverStorage.serverUrl || !t.user) return;
-                let s = t.serverStorage.serverUrl + "/customTrack",
+                if (!XMgr.serverStorage.serverUrl || !XMgr.user) return;
+                let s = XMgr.serverStorage.serverUrl + "/customTrack",
                     a = {
                         gameID: V.gameID,
                         platform: V.platform,
-                        openID: t.serverStorage.openID,
-                        pid: t.user.userInfo.playerID,
+                        openID: XMgr.serverStorage.openID,
+                        pid: XMgr.user.userInfo.playerID,
                         eventId: e,
                         data: JSON.stringify(i)
                     };
-                t.http.send(s, "POST", a, 5, t.serverStorage.token)
+                XMgr.http.send(s, "POST", a, 5, XMgr.serverStorage.token)
             }
             reportToUm(e, t) {
                 sdk.Sdk.instance.sendEvent(e, t)
             }
             initGravityengine() {
                 if (fx.Utils.isOnPC()) return;
-                let e = t.user.userInfo.openid;
+                let e = XMgr.user.userInfo.openid;
                 const i = {
                     accessToken: "",
                     clientId: e,
@@ -14428,7 +14476,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }).then(e => {
                     this.isInitGravityengine = !0, console.log("initialize success " + e);
                     for (const e of this.eventQueue) this.reportToGravityengine(e.event, e.param);
-                    t.user.userInfo.isNewPlayer && this.ge.registerEvent()
+                    XMgr.user.userInfo.isNewPlayer && this.ge.registerEvent()
                 }).catch(e => {
                     console.log("initialize failed, error is " + e)
                 })
@@ -14450,7 +14498,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return !Laya.isWXPlayable && !fx.Utils.isOnPC()
             }
             report(e, i) {
-                this.canReport() && ((i = i || {}).platform = V.platform, i.version = V.version, t.user && (i.day = t.user.userInfo.day), this.reportToWe(e, i), this.reportToGravityengine(e, i))
+                this.canReport() && ((i = i || {}).platform = V.platform, i.version = V.version, XMgr.user && (i.day = XMgr.user.userInfo.day), this.reportToWe(e, i), this.reportToGravityengine(e, i))
             }
             setUserLevel(e) {
                 this.isInitGravityengine && this.ge.userSet({
@@ -14473,7 +14521,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             startPlayVideo(e = "unknown") {
-                let i = t.user.gameInfo.curLv;
+                let i = XMgr.user.gameInfo.curLv;
                 this.report(Ka.play_video_start, {
                     source: e,
                     cur_level: i
@@ -14485,7 +14533,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             playVideo(e = "unknown") {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel,
                     n = i.failCnt + i.winCnt;
@@ -14496,8 +14544,8 @@ define("js/bundle.js", function(require, module, exports) {
                         fin_level_cnt: n
                     }), !this.isReportFirstVideo) {
                     this.isReportFirstVideo = !0;
-                    let i = t.user.userInfo.isNewPlayer ? 1 : 0,
-                        r = (t.gameTime.now - t.user.userInfo.loginTime) / 1e3;
+                    let i = XMgr.user.userInfo.isNewPlayer ? 1 : 0,
+                        r = (XMgr.gameTime.now - XMgr.user.userInfo.loginTime) / 1e3;
                     r = Math.floor(r), this.report(Ka.first_play_video, {
                         source: e,
                         game_time: r,
@@ -14509,16 +14557,16 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             finishGame(i, s = 1) {
-                let a = t.user.gameInfo,
+                let a = XMgr.user.gameInfo,
                     n = a.curLv,
                     r = a.maxLevel,
                     o = a.failCnt + a.winCnt,
-                    l = t.gameMgr.playTime,
-                    h = t.gameMgr.buildCnt,
-                    d = t.gameMgr.adCnt,
+                    l = XMgr.gameMgr.playTime,
+                    h = XMgr.gameMgr.buildCnt,
+                    d = XMgr.gameMgr.adCnt,
                     u = "普通模式",
                     g = "";
-                t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? (u = "木头人模式", g = t.playerMgr.player.isAngel ? "救援者" : t.playerMgr.player.isGhost ? "执行人" : "幸存者") : t.gameMgr.gameMode == e.GameMode.E_Hunt ? u = "噬魂者模式" : t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (u = "挑战模式"), this.report(Ka.pass_level, {
+                XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? (u = "木头人模式", g = XMgr.playerMgr.player.isAngel ? "救援者" : XMgr.playerMgr.player.isGhost ? "执行人" : "幸存者") : XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ? u = "噬魂者模式" : XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (u = "挑战模式"), this.report(Ka.pass_level, {
                     cur_level: n,
                     cur_level_high: r,
                     fin_level_cnt: o,
@@ -14532,13 +14580,13 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             enterGame() {
-                let e = t.user.gameInfo.curLv;
+                let e = XMgr.user.gameInfo.curLv;
                 this.report(Ka.enter_level, {
                     cur_level: e
                 })
             }
             useProp(e) {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel;
                 this.report(Ka.use_prop, {
@@ -14548,7 +14596,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             getCoinCnt(e) {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel,
                     n = i.failCnt + i.winCnt;
@@ -14560,7 +14608,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             useCoinCnt(e) {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel,
                     n = i.failCnt + i.winCnt;
@@ -14572,7 +14620,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             getSkin(e) {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel,
                     n = i.failCnt + i.winCnt,
@@ -14586,7 +14634,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             lotteryCnt(e) {
-                let i = t.user.gameInfo,
+                let i = XMgr.user.gameInfo,
                     s = i.curLv,
                     a = i.maxLevel,
                     n = i.failCnt + i.winCnt;
@@ -14598,7 +14646,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             lotSkinCnt() {
-                let e = t.user.gameInfo,
+                let e = XMgr.user.gameInfo,
                     i = e.curLv,
                     s = e.maxLevel,
                     a = e.failCnt + e.winCnt,
@@ -14611,13 +14659,13 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             exitGame() {
-                let e = t.user.gameInfo,
+                let e = XMgr.user.gameInfo,
                     i = e.curLv,
                     s = e.maxLevel,
                     a = e.failCnt + e.winCnt,
-                    n = t.gameMgr.playTime,
-                    r = t.gameMgr.buildCnt,
-                    o = t.gameMgr.adCnt;
+                    n = XMgr.gameMgr.playTime,
+                    r = XMgr.gameMgr.buildCnt,
+                    o = XMgr.gameMgr.adCnt;
                 this.report(Ka.exit_game, {
                     cur_level: i,
                     cur_level_high: s,
@@ -14628,7 +14676,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             shopBuyProp(e, i) {
-                let s = t.user.gameInfo,
+                let s = XMgr.user.gameInfo,
                     a = s.curLv,
                     n = s.maxLevel,
                     r = s.failCnt + s.winCnt;
@@ -14643,16 +14691,16 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class RankMgr {
             async addCityRankValue(e, i = 1) {
-                if (t.user.userInfo.cityId) {
+                if (XMgr.user.userInfo.cityId) {
                     let s = XEventDispatcher.I.serverUrl + "/addCityRankValue",
                         a = {
                             gameID: V.gameID,
                             platform: V.platform,
                             rankType: e,
-                            cityId: t.user.userInfo.cityId,
+                            cityId: XMgr.user.userInfo.cityId,
                             value: i
                         };
-                    return await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token)
+                    return await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token)
                 }
             }
             async getCityRankList(e) {
@@ -14662,7 +14710,7 @@ define("js/bundle.js", function(require, module, exports) {
                         platform: V.platform,
                         rankType: e
                     },
-                    a = await XEventDispatcher.I.send(i, "POST", s, 10, t.user.userInfo.token);
+                    a = await XEventDispatcher.I.send(i, "POST", s, 10, XMgr.user.userInfo.token);
                 if (a && a.list) {
                     a.list.sort((e, t) => e.value == t.value ? e.cityId - t.cityId : t.value - e.value);
                     for (let e = 0; e < a.list.length; ++e) a.list[e].rank = e + 1;
@@ -14678,23 +14726,23 @@ define("js/bundle.js", function(require, module, exports) {
                             platform: V.platform,
                             rankType: e,
                             value: i,
-                            pid: t.user.userInfo.playerID,
-                            playerName: t.user.userInfo.name,
-                            playerAvatar: t.user.userInfo.avatarUrl,
+                            pid: XMgr.user.userInfo.playerID,
+                            playerName: XMgr.user.userInfo.name,
+                            playerAvatar: XMgr.user.userInfo.avatarUrl,
                             extraData: JSON.stringify({
                                 skinId: s
                             })
                         };
-                    await XEventDispatcher.I.send(a, "POST", n, 10, t.user.userInfo.token)
+                    await XEventDispatcher.I.send(a, "POST", n, 10, XMgr.user.userInfo.token)
                 } else {
                     let i = XEventDispatcher.I.serverUrl + "/delCustomRank",
                         s = {
                             gameID: V.gameID,
                             platform: V.platform,
                             rankType: e,
-                            pid: t.user.userInfo.playerID
+                            pid: XMgr.user.userInfo.playerID
                         };
-                    await XEventDispatcher.I.send(i, "POST", s, 10, t.user.userInfo.token)
+                    await XEventDispatcher.I.send(i, "POST", s, 10, XMgr.user.userInfo.token)
                 }
             }
             async addCustomRankValue(e, i) {
@@ -14705,15 +14753,15 @@ define("js/bundle.js", function(require, module, exports) {
                             platform: V.platform,
                             rankType: e,
                             value: i,
-                            pid: t.user.userInfo.playerID,
-                            playerName: t.user.userInfo.name,
-                            playerAvatar: t.user.userInfo.avatarUrl
+                            pid: XMgr.user.userInfo.playerID,
+                            playerName: XMgr.user.userInfo.name,
+                            playerAvatar: XMgr.user.userInfo.avatarUrl
                         };
-                    await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token)
+                    await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token)
                 }
             }
             async getCustomRankList(e) {
-                let i = t.user.userInfo.playerID,
+                let i = XMgr.user.userInfo.playerID,
                     s = XEventDispatcher.I.serverUrl + "/getCustomRankList",
                     a = {
                         gameID: V.gameID,
@@ -14721,7 +14769,7 @@ define("js/bundle.js", function(require, module, exports) {
                         rankType: e,
                         pid: i
                     },
-                    n = await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token);
+                    n = await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token);
                 if (n) {
                     n.list = n.list || [];
                     for (let e = 0; e < n.list.length; ++e) n.list[e].rank = e + 1, n.list[e].extraData && (n.list[e].extraData = JSON.parse(n.list[e].extraData)), n.list[e].pid == i && (n.rank = e + 1)
@@ -14735,7 +14783,7 @@ define("js/bundle.js", function(require, module, exports) {
                         platform: V.platform,
                         rankType: e
                     },
-                    a = await XEventDispatcher.I.send(i, "POST", s, 10, t.user.userInfo.token);
+                    a = await XEventDispatcher.I.send(i, "POST", s, 10, XMgr.user.userInfo.token);
                 if (a) {
                     a.list = a.list || [];
                     for (const e of a.list) e.list = e.list || [];
@@ -14749,15 +14797,15 @@ define("js/bundle.js", function(require, module, exports) {
                         gameID: V.gameID,
                         platform: V.platform,
                         rankType: e,
-                        pid: t.user.userInfo.playerID,
+                        pid: XMgr.user.userInfo.playerID,
                         value: i,
-                        playerName: t.user.userInfo.name,
-                        playerAvatar: t.user.userInfo.avatarUrl
+                        playerName: XMgr.user.userInfo.name,
+                        playerAvatar: XMgr.user.userInfo.avatarUrl
                     };
-                return await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token)
+                return await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token)
             }
             async getPlayerRankList(e, i) {
-                let s = t.user.userInfo.playerID,
+                let s = XMgr.user.userInfo.playerID,
                     a = XEventDispatcher.I.serverUrl + "/getPlayerRankList",
                     n = {
                         gameID: V.gameID,
@@ -14765,7 +14813,7 @@ define("js/bundle.js", function(require, module, exports) {
                         rankType: e,
                         pid: s
                     },
-                    r = await XEventDispatcher.I.send(a, "POST", n, 10, t.user.userInfo.token);
+                    r = await XEventDispatcher.I.send(a, "POST", n, 10, XMgr.user.userInfo.token);
                 if (r && r.list)
                     for (let e = 0; e < r.list.length; ++e) r.list[e].value = r.list[e].value || 0, r.list[e].rank = e + 1, r.list[e].pid == s && (r.value = r.list[e].value, r.rank = e + 1);
                 return i && i(r), r
@@ -14801,27 +14849,27 @@ define("js/bundle.js", function(require, module, exports) {
                         gameID: V.gameID,
                         rankType: e,
                         value: i,
-                        pid: t.user.userInfo.playerID,
-                        name: t.user.userInfo.name,
-                        avatar: t.user.userInfo.avatarUrl
+                        pid: XMgr.user.userInfo.playerID,
+                        name: XMgr.user.userInfo.name,
+                        avatar: XMgr.user.userInfo.avatarUrl
                     };
-                return await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token)
+                return await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token)
             }
             async getGroupRankInfo(e, i) {
                 let s = XEventDispatcher.I.serverUrl + "/getGroupRankInfo",
                     a = {
                         gameID: V.gameID,
                         rankType: e,
-                        pid: t.user.userInfo.playerID,
-                        name: t.user.userInfo.name,
-                        avatar: t.user.userInfo.avatarUrl,
+                        pid: XMgr.user.userInfo.playerID,
+                        name: XMgr.user.userInfo.name,
+                        avatar: XMgr.user.userInfo.avatarUrl,
                         forceEnter: i
                     },
-                    n = await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token);
+                    n = await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token);
                 if (n && n.list) {
                     for (let e = 0; e < n.list.length; ++e) n.list[e].value = n.list[e].value || 0;
                     n.list.sort((e, t) => e.value != t.value ? t.value - e.value : e.time - t.time);
-                    for (let e = 0; e < n.list.length; ++e) n.list[e].rank = e + 1, n.list[e].pid == t.user.userInfo.playerID && (n.myRank = e + 1)
+                    for (let e = 0; e < n.list.length; ++e) n.list[e].rank = e + 1, n.list[e].pid == XMgr.user.userInfo.playerID && (n.myRank = e + 1)
                 }
                 return n
             }
@@ -14830,9 +14878,9 @@ define("js/bundle.js", function(require, module, exports) {
                     s = {
                         gameID: V.gameID,
                         rankType: e,
-                        pid: t.user.userInfo.playerID
+                        pid: XMgr.user.userInfo.playerID
                     },
-                    a = await XEventDispatcher.I.send(i, "POST", s, 10, t.user.userInfo.token);
+                    a = await XEventDispatcher.I.send(i, "POST", s, 10, XMgr.user.userInfo.token);
                 if (a && a.list)
                     for (let e = 0; e < a.list.length; ++e) a.list[e].value = a.list[e].value || 0;
                 return a
@@ -14842,13 +14890,13 @@ define("js/bundle.js", function(require, module, exports) {
                     s = {
                         gameID: V.gameID,
                         rankType: e,
-                        pid: t.user.userInfo.playerID
+                        pid: XMgr.user.userInfo.playerID
                     },
-                    a = await XEventDispatcher.I.send(i, "POST", s, 10, t.user.userInfo.token);
+                    a = await XEventDispatcher.I.send(i, "POST", s, 10, XMgr.user.userInfo.token);
                 return a && a.rewardRank, a
             }
             calcGroupRankEndTime(e) {
-                let i = t.gameTime.now,
+                let i = XMgr.gameTime.now,
                     s = new Date(i);
                 s.setHours(0, 0, 0);
                 let a = s.getTime() + 1e3 * (e.DailyResetTime || 0);
@@ -14859,7 +14907,7 @@ define("js/bundle.js", function(require, module, exports) {
                     i = {
                         gameID: V.gameID
                     },
-                    s = await XEventDispatcher.I.send(e, "POST", i, 10, t.user.userInfo.token);
+                    s = await XEventDispatcher.I.send(e, "POST", i, 10, XMgr.user.userInfo.token);
                 if (s && s.challengeInfo) return s.challengeInfo
             }
             async addChallengeValue(e) {
@@ -14868,39 +14916,39 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = XEventDispatcher.I.serverUrl + "/addChallengeValue",
                     s = {
                         gameID: V.gameID,
-                        pid: t.user.userInfo.playerID,
+                        pid: XMgr.user.userInfo.playerID,
                         value: e,
-                        name: t.user.userInfo.name,
-                        avatar: t.user.userInfo.avatarUrl
+                        name: XMgr.user.userInfo.name,
+                        avatar: XMgr.user.userInfo.avatarUrl
                     },
-                    a = await XEventDispatcher.I.send(i, "POST", s, 5, t.user.userInfo.token);
+                    a = await XEventDispatcher.I.send(i, "POST", s, 5, XMgr.user.userInfo.token);
                 return a && a.info ? a.info : void 0
             }
             async getChallengeGroup() {
                 let e = XEventDispatcher.I.serverUrl + "/getChallengeGroup",
                     i = {
                         gameID: V.gameID,
-                        pid: t.user.userInfo.playerID
+                        pid: XMgr.user.userInfo.playerID
                     },
-                    s = await XEventDispatcher.I.send(e, "POST", i, 5, t.user.userInfo.token);
+                    s = await XEventDispatcher.I.send(e, "POST", i, 5, XMgr.user.userInfo.token);
                 return s.code || (s.code = 0), s
             }
             async getChallengePlayerInfo() {
                 let e = XEventDispatcher.I.serverUrl + "/getChallengePlayerInfo",
                     i = {
                         gameID: V.gameID,
-                        pid: t.user.userInfo.playerID
+                        pid: XMgr.user.userInfo.playerID
                     },
-                    s = await XEventDispatcher.I.send(e, "POST", i, 5, t.user.userInfo.token);
+                    s = await XEventDispatcher.I.send(e, "POST", i, 5, XMgr.user.userInfo.token);
                 if (s && s.info) return s.info
             }
             async getChallengeReward() {
                 let e = XEventDispatcher.I.serverUrl + "/getChallengeReward",
                     i = {
                         gameID: V.gameID,
-                        pid: t.user.userInfo.playerID
+                        pid: XMgr.user.userInfo.playerID
                     },
-                    s = await XEventDispatcher.I.send(e, "POST", i, 5, t.user.userInfo.token);
+                    s = await XEventDispatcher.I.send(e, "POST", i, 5, XMgr.user.userInfo.token);
                 return s.code || (s.code = 0), s
             }
             async setLevelRankValue(e, i, s) {
@@ -14910,11 +14958,11 @@ define("js/bundle.js", function(require, module, exports) {
                         rankType: e,
                         levelId: i,
                         value: s,
-                        pid: t.user.userInfo.playerID,
-                        name: t.user.userInfo.name,
-                        avatar: t.user.userInfo.avatarUrl
+                        pid: XMgr.user.userInfo.playerID,
+                        name: XMgr.user.userInfo.name,
+                        avatar: XMgr.user.userInfo.avatarUrl
                     };
-                return await XEventDispatcher.I.send(a, "POST", n, 10, t.user.userInfo.token)
+                return await XEventDispatcher.I.send(a, "POST", n, 10, XMgr.user.userInfo.token)
             }
             async getLevelRankInfo(e, i) {
                 let s = XEventDispatcher.I.serverUrl + "/getLevelRankInfo",
@@ -14923,7 +14971,7 @@ define("js/bundle.js", function(require, module, exports) {
                         rankType: e,
                         levelId: i
                     },
-                    n = await XEventDispatcher.I.send(s, "POST", a, 10, t.user.userInfo.token);
+                    n = await XEventDispatcher.I.send(s, "POST", a, 10, XMgr.user.userInfo.token);
                 if (n && n.info) return n.info
             }
         }
@@ -14937,10 +14985,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this._isPause = !1, this.diff = 0, this.isShowTurntable = !1, this.skillABTest = -1, this.difficultABTest = 1, this.speedRatio = 1, this.hunterSpeedRatio = 1
             }
             isDefender() {
-                return t.playerMgr.player.type == e.PlayerType.E_Defender
+                return XMgr.playerMgr.player.type == e.PlayerType.E_Defender
             }
             isHunter() {
-                return t.playerMgr.player.type == e.PlayerType.E_Hunter
+                return XMgr.playerMgr.player.type == e.PlayerType.E_Hunter
             }
             randomDiff(e) {
                 let i = [
@@ -14948,7 +14996,7 @@ define("js/bundle.js", function(require, module, exports) {
                         [0, 1, 2],
                         [1, 2]
                     ],
-                    s = t.user.gameInfo.winCnt + t.user.gameInfo.failCnt,
+                    s = XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt,
                     a = 0;
                 if (1 == e)
                     for (let e = 0; e < 1; e++) a = s < 5 ? e : 1;
@@ -14961,7 +15009,7 @@ define("js/bundle.js", function(require, module, exports) {
                 h.gameMode = i, this.randomDiff(n.id), h.mapCfg = n, this.mapId = n.id, h.mapData = r, i == e.GameMode.E_Defense ? l = 0 : i == e.GameMode.E_Hunt ? l = 0 : i == e.GameMode.E_AngelOrGhost ? l = 0 : i == e.GameMode.E_SevenGhost && (l = 0);
                 let d = [];
                 for (let e = 0; e < n.defenderPointNum; ++e) d.push(e);
-                t.user.gameInfo.winCnt + t.user.gameInfo.failCnt != 0 && fx.Utils.randomArray(d);
+                XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt != 0 && fx.Utils.randomArray(d);
                 for (let t = 0; t < s.length; ++t) {
                     let a = s[t];
                     a.spwanPoint = d[t], i != e.GameMode.E_Hunt && t == l && (h.mineUuid = a.uuid), h.defenders.push(a)
@@ -14977,16 +15025,16 @@ define("js/bundle.js", function(require, module, exports) {
             }
             start(i) {
                 this._arrDatas = [], this.gameStatus = e.GameStatus.E_GAME_READY, 
-                this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, t.playerMgr.init(i), t.mapMgr.init(i.mapData, 0), t.buildingMgr.init(), t.taskMgr.init(), this.startTime = t.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
-                let s = t.user.gameInfo;
-                if (1 == this.difficultABTest ? (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = .75, this.hunterSpeedRatio = .75 / t.gameMgr.dCfg.moveSpeed || 1, console.log(1 / this.hunterSpeedRatio, t.gameMgr.dCfg.moveSpeed, "real Speed")) : (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = this.hunterSpeedRatio = 1), t.gameMgr.gameMode == e.GameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
+                this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, XMgr.playerMgr.init(i), XMgr.mapMgr.init(i.mapData, 0), XMgr.buildingMgr.init(), XMgr.taskMgr.init(), this.startTime = XMgr.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
+                let s = XMgr.user.gameInfo;
+                if (1 == this.difficultABTest ? (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = .75, this.hunterSpeedRatio = .75 / XMgr.gameMgr.dCfg.moveSpeed || 1, console.log(1 / this.hunterSpeedRatio, XMgr.gameMgr.dCfg.moveSpeed, "real Speed")) : (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = this.hunterSpeedRatio = 1), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
                     let e = this.dCfg;
                     s.curLv != s.lastLv ? s.isLastWin ? XToast.show(`难度上升：${e.name}`) : XToast.show(`难度降低：${e.name}`) : XToast.show(`难度：${e.name}`)
-                } else if (t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) XToast.show("大战木头人即将开始");
-                else if (t.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                } else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) XToast.show("大战木头人即将开始");
+                else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                     let e = this.dCfg;
                     s.curHunterLv != s.lastHunterLv ? s.isLastHunterWin ? XToast.show(`难度上升：${e.name}`) : XToast.show(`难度降低：${e.name}`) : XToast.show(`难度：${e.name}`)
-                } else t.gameMgr.gameMode == e.GameMode.E_SevenGhost && XToast.show("挑战模式开始");
+                } else XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && XToast.show("挑战模式开始");
                 this.aiMultArr = fx.Utils.randomInArray([
                     [1.6, 1.7, 1.8, 1.9, 2],
                     [1.3, 1.4, 1.5, 1.6, 1.7],
@@ -15019,30 +15067,30 @@ define("js/bundle.js", function(require, module, exports) {
             takeDamage(i, s, a) {
                 if (!s.isDie && !(s.invincible || s.invincible_skill || a <= 0)) {
                     if (s.reduceRate && (a *= 1 - s.reduceRate), s.type == e.BuildType.bed && s.playerUuid) {
-                        let e = t.playerMgr.getPlayer(s.playerUuid);
+                        let e = XMgr.playerMgr.getPlayer(s.playerUuid);
                         if (e.invincibleCnt) return void(e.invincibleCnt -= 1)
                     }
-                    if (s.skillEquipHp ? (s.skillEquipHp -= a, s.skillEquipHp <= 0 && (s.skillEquipHp = 0, s.ownerScript.changeSkin(!1))) : (s.curHp -= a, s.curHp = Math.max(s.curHp, 0), this.gameMode == e.GameMode.E_Hunt && s.curHp > 0 && s.curHp / s.maxHp < .1 && (s != t.playerMgr.player || s.isShowYanluo || (s.isShowYanluo = !0, fx.EventCenter.I.event(XEventNames.E_Yanluo_Show)))), s.isDie = 0 == s.curHp, s.owner && (s.owner.event(be.Hp_Changed, [i]), s.owner.event(be.Battle_Be_Hit, [i, a])), s.isDie) {
+                    if (s.skillEquipHp ? (s.skillEquipHp -= a, s.skillEquipHp <= 0 && (s.skillEquipHp = 0, s.ownerScript.changeSkin(!1))) : (s.curHp -= a, s.curHp = Math.max(s.curHp, 0), this.gameMode == e.GameMode.E_Hunt && s.curHp > 0 && s.curHp / s.maxHp < .1 && (s != XMgr.playerMgr.player || s.isShowYanluo || (s.isShowYanluo = !0, fx.EventCenter.I.event(XEventNames.E_Yanluo_Show)))), s.isDie = 0 == s.curHp, s.owner && (s.owner.event(be.Hp_Changed, [i]), s.owner.event(be.Battle_Be_Hit, [i, a])), s.isDie) {
                         let n = s;
                         if (n.type == e.BuildType.bed && n.playerUuid) {
-                            let e = t.playerMgr.getPlayer(n.playerUuid);
+                            let e = XMgr.playerMgr.getPlayer(n.playerUuid);
                             this.takeDamage(i, e, a)
                         }
                         if (n.type == e.BuildType.door) {
                             XChoreUtil.playSound(121);
-                            let e = t.playerMgr.getPlayer(n.playerUuid);
+                            let e = XMgr.playerMgr.getPlayer(n.playerUuid);
                             this.heartSound(e)
                         }
                     }
                     if (s.type == e.BuildType.door && this.curHunterAtkTarget != s && !i.isGhost) {
                         this.curHunterAtkTarget = s;
-                        let e = t.mapMgr.getRoomById(s.roomId);
+                        let e = XMgr.mapMgr.getRoomById(s.roomId);
                         fx.EventCenter.I.event(XEventNames.E_Player_Hurt, e.bedModelList[0].playerUuid)
                     }
                 }
             }
             heartSound(e) {
-                t.gameMgr.playSound(e, 128)
+                XMgr.gameMgr.playSound(e, 128)
             }
             AddHp(e, t) {
                 if (e.isDie) return;
@@ -15065,11 +15113,11 @@ define("js/bundle.js", function(require, module, exports) {
             }
             revive() {}
             get mineRoom() {
-                let e = t.playerMgr.player.roomId;
-                return t.buildingMgr.getRoom(e)
+                let e = XMgr.playerMgr.player.roomId;
+                return XMgr.buildingMgr.getRoom(e)
             }
             isRoomBedUsed(e) {
-                let i = t.buildingMgr.getRoom(e);
+                let i = XMgr.buildingMgr.getRoom(e);
                 if (i) {
                     for (const e of i.bedModelList)
                         if (e.isUsed && !e.isDie) return !0;
@@ -15077,16 +15125,16 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             upBed(i, s, a) {
-                let n = t.playerMgr.getPlayer(a),
-                    r = t.buildingMgr.getBuilding(i, s);
-                return r && r.type == e.BuildType.bed && t.buildingMgr.getRoom(r.roomId) ? r.isUsed ? e.BuildResult.E_BED_IS_USED : t.buildingMgr.upBed(i, s, n) : e.BuildResult.E_FAILD
+                let n = XMgr.playerMgr.getPlayer(a),
+                    r = XMgr.buildingMgr.getBuilding(i, s);
+                return r && r.type == e.BuildType.bed && XMgr.buildingMgr.getRoom(r.roomId) ? r.isUsed ? e.BuildResult.E_BED_IS_USED : XMgr.buildingMgr.upBed(i, s, n) : e.BuildResult.E_FAILD
             }
             canHandleGrid(i, s, a) {
-                let n = t.playerMgr.mineUuid;
+                let n = XMgr.playerMgr.mineUuid;
                 a = a || n;
-                let r = t.mapMgr.getRoomIdByGridPos(i, s),
-                    o = t.playerMgr.getPlayer(a),
-                    l = t.buildingMgr.getBuilding(i, s);
+                let r = XMgr.mapMgr.getRoomIdByGridPos(i, s),
+                    o = XMgr.playerMgr.getPlayer(a),
+                    l = XMgr.buildingMgr.getBuilding(i, s);
                 if (!l && r == o.roomId) return !0;
                 if (-1 != r && l)
                     if (l.type == e.BuildType.door) {
@@ -15095,26 +15143,26 @@ define("js/bundle.js", function(require, module, exports) {
                 return !1
             }
             canLocatePlayer() {
-                return this.isHunter() ? this.gameStatus == e.GameStatus.E_GAME_READY : this.isDefender() ? t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) : void 0
+                return this.isHunter() ? this.gameStatus == e.GameStatus.E_GAME_READY : this.isDefender() ? XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) : void 0
             }
             DizzyTarget(e, t, i = !0) {
                 e.dizzyStartTime = Laya.timer.currTimer, e.dizzyDurSec = t, i && XEffectUtil.I.playDizzyEffect(e.owner.x, e.owner.y - 100, t)
             }
             gameover(i, s = 1) {
-                let a = t.user.gameInfo,
-                    n = t.cfg.skin.get(a.curSkinId);
+                let a = XMgr.user.gameInfo,
+                    n = XMgr.cfg.skin.get(a.curSkinId);
                 if (this.gameMode == e.GameMode.E_Defense) {
                     if (a.isLastWin = i, a.lastLv = a.curLv, a.isStartLv && this.gameMode == e.GameMode.E_Defense && (a.isMapByWeek = !0), i) {
                         XAnalyticsUtil.passLevel(s, "普通模式", n.name);
-                        let e = t.cfg.difficultCfg.length;
+                        let e = XMgr.cfg.difficultCfg.length;
                         if (a.curLv > a.maxLevel) {
-                            a.maxLevel = a.curLv, t.reporter.setUserMaxLevel(a.maxLevel);
-                            let e = t.cfg.difficultCfg.get(a.maxLevel);
+                            a.maxLevel = a.curLv, XMgr.reporter.setUserMaxLevel(a.maxLevel);
+                            let e = XMgr.cfg.difficultCfg.get(a.maxLevel);
                             XToast.show(`称号上升：${e.title}`)
                         }
                         if (a.curLv == e && (a.maxWinCnt += 1), a.weekMaxLv < a.curLv && (a.weekMaxLv = a.curLv), a.todayMaxLv < a.curLv) {
                             if (a.hunterUnlockLvl += 1, a.hunterUnlockLvl && a.hunterUnlockLvl % 2 == 0) {
-                                let e = t.cfg.getHunterSkillArr();
+                                let e = XMgr.cfg.getHunterSkillArr();
                                 for (let t = 0; t < e.length; t++) {
                                     let i = e[t].id;
                                     if (!a.isUnlockHunterSkin(i)) {
@@ -15124,43 +15172,43 @@ define("js/bundle.js", function(require, module, exports) {
                                 }
                             }
                             a.todayMaxLv = a.curLv;
-                            let e = t.user.gameInfo.todayMaxLv;
-                            t.rankMgr.setCustomRankValue("score_day", e, t.user.gameInfo.curSkinId)
-                        } else a.curLv >= t.cfg.difficultCfg.length && (a.todayExtraScore += 1, a.todayMaxLv < a.curLv + a.todayExtraScore && (a.todayMaxLv += 1, t.rankMgr.setCustomRankValue("score_day", a.todayMaxLv, t.user.gameInfo.curSkinId)));
+                            let e = XMgr.user.gameInfo.todayMaxLv;
+                            XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId)
+                        } else a.curLv >= XMgr.cfg.difficultCfg.length && (a.todayExtraScore += 1, a.todayMaxLv < a.curLv + a.todayExtraScore && (a.todayMaxLv += 1, XMgr.rankMgr.setCustomRankValue("score_day", a.todayMaxLv, XMgr.user.gameInfo.curSkinId)));
                         a.buffLvArr.includes(a.curLv) || (this.canChooseBuff = !0, this.chooseBuffLv = a.curLv)
                     } else XAnalyticsUtil.loseLevel("普通模式", n.name), a.todayExtraScore ? a.todayExtraScore -= 1 : a.curLv > a.lowestLv && a.setCurLv(a.lowestLv);
-                    t.user.saveToServer()
+                    XMgr.user.saveToServer()
                 } else if (this.gameMode == e.GameMode.E_AngelOrGhost) {
                     let e = n.name;
-                    t.playerMgr.player.isAngel ? e = "救援者" : t.playerMgr.player.isGhost && (e = "执行人"), i ? XAnalyticsUtil.passLevel(s, "木头人模式", e) : XAnalyticsUtil.loseLevel("木头人模式", e)
+                    XMgr.playerMgr.player.isAngel ? e = "救援者" : XMgr.playerMgr.player.isGhost && (e = "执行人"), i ? XAnalyticsUtil.passLevel(s, "木头人模式", e) : XAnalyticsUtil.loseLevel("木头人模式", e)
                 } else if (this.gameMode == e.GameMode.E_Hunt) {
                     a.isLastHunterWin = i, a.lastHunterLv = a.curHunterLv;
-                    let e = t.cfg.skin.get(a.curHunterSkinId);
+                    let e = XMgr.cfg.skin.get(a.curHunterSkinId);
                     if (i) {
                         if (XAnalyticsUtil.passLevel(s, "噬魂者模式", e.name), a.curHunterLv > a.maxHunterLevel) {
                             a.maxHunterLevel = a.curHunterLv;
-                            let e = t.cfg.hunterDifficultCfg.get(a.maxHunterLevel);
+                            let e = XMgr.cfg.hunterDifficultCfg.get(a.maxHunterLevel);
                             XToast.show(`称号上升：${e.title}`)
                         }
                         if (a.todayHunterMaxLv < a.curHunterLv) {
                             a.todayHunterMaxLv = a.curHunterLv;
-                            let e = t.user.gameInfo.todayHunterMaxLv;
-                            t.rankMgr.setCustomRankValue("score_hunter_day", e, t.user.gameInfo.curHunterSkinId)
-                        } else a.curHunterLv >= t.cfg.hunterDifficultCfg.length && (a.todayHunterExtraScore += 1, a.todayHunterMaxLv < a.curHunterLv + a.todayHunterExtraScore && (a.todayHunterMaxLv += 1, t.rankMgr.setCustomRankValue("score_hunter_day", a.todayHunterMaxLv, t.user.gameInfo.curHunterSkinId)))
+                            let e = XMgr.user.gameInfo.todayHunterMaxLv;
+                            XMgr.rankMgr.setCustomRankValue("score_hunter_day", e, XMgr.user.gameInfo.curHunterSkinId)
+                        } else a.curHunterLv >= XMgr.cfg.hunterDifficultCfg.length && (a.todayHunterExtraScore += 1, a.todayHunterMaxLv < a.curHunterLv + a.todayHunterExtraScore && (a.todayHunterMaxLv += 1, XMgr.rankMgr.setCustomRankValue("score_hunter_day", a.todayHunterMaxLv, XMgr.user.gameInfo.curHunterSkinId)))
                     } else XAnalyticsUtil.loseLevel("噬魂者模式", e.name), a.todayHunterExtraScore ? a.todayHunterExtraScore -= 1 : a.curHunterLv > a.lowestHunterLv && a.setCurHunterLv(a.lowestHunterLv);
-                    t.user.saveToServer()
-                } else this.gameMode == e.GameMode.E_SevenGhost && (i ? (a.curSevenGhostLv == t.cfg.sevenGhostCfg.length ? (a.curSevenGhostLv = 1, a.isUnlockSkin(1003) || (a.unlockSkin(1003), this.isOpenSevenGhost = !0)) : a.curSevenGhostLv += 1, XAnalyticsUtil.passLevel(s, "挑战模式", n.name)) : (a.curSevenGhostLv = 1, XAnalyticsUtil.loseLevel("挑战模式", n.name)), t.user.saveToServer())
+                    XMgr.user.saveToServer()
+                } else this.gameMode == e.GameMode.E_SevenGhost && (i ? (a.curSevenGhostLv == XMgr.cfg.sevenGhostCfg.length ? (a.curSevenGhostLv = 1, a.isUnlockSkin(1003) || (a.unlockSkin(1003), this.isOpenSevenGhost = !0)) : a.curSevenGhostLv += 1, XAnalyticsUtil.passLevel(s, "挑战模式", n.name)) : (a.curSevenGhostLv = 1, XAnalyticsUtil.loseLevel("挑战模式", n.name)), XMgr.user.saveToServer())
             }
             takeMapBuild(x_, y_, data_) {
-                let player_ = t.playerMgr.getPlayer(data_),
-                    n = t.buildingMgr.getMapBuild(x_, y_);
-                return (!n || !n.isUsed) && t.buildingMgr.takeMapBuild(x_, y_, player_)
+                let player_ = XMgr.playerMgr.getPlayer(data_),
+                    n = XMgr.buildingMgr.getMapBuild(x_, y_);
+                return (!n || !n.isUsed) && XMgr.buildingMgr.takeMapBuild(x_, y_, player_)
             }
             playSoundByNode(t, i, s) {
                 this.gameStatus == e.GameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
             }
             nodeIsInPlayerView(e) {
-                let i = t.mapMgr.mapPosToStagePos(e.x, e.y);
+                let i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 return !(i.x < 0 || i.x > Laya.stage.width) && !(i.y < 0 || i.y > Laya.stage.height)
             }
             playSound(t, i, s) {
@@ -15176,9 +15224,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             isChooseBuff() {
                 let e = !1;
-                return t.cfg.buffCfg.foreach(i => {
+                return XMgr.cfg.buffCfg.foreach(i => {
                     if (i.isOpen) {
-                        let s = t.user.gameInfo.getBuffData(i.id);
+                        let s = XMgr.user.gameInfo.getBuffData(i.id);
                         if (i.isRepeat) {
                             if (!s || s.lv < i.values.length - 1) return e = !0, !1
                         } else if (!s) return e = !0, !1
@@ -15188,22 +15236,22 @@ define("js/bundle.js", function(require, module, exports) {
             getPlayer() {
                 let i = [0, 1, 2, 3, 4, 5],
                     s = new XPlayerModel;
-                s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = t.user.gameInfo.curSkinId;
+                s.type = e.PlayerType.E_Defender, s.uuid = fx.Utils.createUUID(), s.name = this.randomName(), s.skinId = XMgr.user.gameInfo.curSkinId;
                 let a = [s, null, null, null, null, null],
                     n = [];
                 for (let s = 0; s < 6; s++) {
                     let s = XRandomUtil.getIntRandom(0, i.length - 1);
                     if (0 == (s = i.splice(s, 1)[0])) {
-                        let i = t.user.gameInfo,
-                            s = t.cfg.difficultCfg.get(i.curLv);
-                        t.gameMgr.dCfg = s;
+                        let i = XMgr.user.gameInfo,
+                            s = XMgr.cfg.difficultCfg.get(i.curLv);
+                        XMgr.gameMgr.dCfg = s;
                         let a = s.addMaxHp + 1;
-                        i.curLv == t.cfg.difficultCfg.length && (s = t.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
+                        i.curLv == XMgr.cfg.difficultCfg.length && (s = XMgr.cfg.difficultCfg.get(i.maxWinCnt % i.curLv + 1));
                         let r = new XPlayerModel;
-                        r.type = e.PlayerType.E_Hunter, r.uuid = fx.Utils.createUUID(), r.name = this.randomName(), r.skinId = s.bossId, r.attackPower = t.cfg.hunterCfg.attackList[0], r.curHp = t.cfg.hunterCfg.hpList[0] * a, r.maxHp = t.cfg.hunterCfg.hpList[0] * a, n.push(r)
+                        r.type = e.PlayerType.E_Hunter, r.uuid = fx.Utils.createUUID(), r.name = this.randomName(), r.skinId = s.bossId, r.attackPower = XMgr.cfg.hunterCfg.attackList[0], r.curHp = XMgr.cfg.hunterCfg.hpList[0] * a, r.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.push(r)
                     } else {
                         let i = new XPlayerModel;
-                        i.type = e.PlayerType.E_Defender, i.uuid = fx.Utils.createUUID(), i.name = this.randomName(), i.skinId = fx.Utils.randomInArray(t.cfg.getPlayerIdArr()), a[s] = i
+                        i.type = e.PlayerType.E_Defender, i.uuid = fx.Utils.createUUID(), i.name = this.randomName(), i.skinId = fx.Utils.randomInArray(XMgr.cfg.getPlayerIdArr()), a[s] = i
                     }
                 }
                 return [a, n]
@@ -15840,10 +15888,10 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.atkCD,
                     i = e;
                 for (const t of this.buffs) t.Type != Ee.ATK_SPD && t.Type != Ee.DYC_ATK_SPD || (i += t.result(e));
-                if (3e3 == this.id && this.playerUuid == t.playerMgr.mineUuid) {
-                    let e = t.user.gameInfo.getBuffData(23);
+                if (3e3 == this.id && this.playerUuid == XMgr.playerMgr.mineUuid) {
+                    let e = XMgr.user.gameInfo.getBuffData(23);
                     if (e) {
-                        i *= (100 - t.cfg.buffCfg.get(23).values[e.lv]) / 100
+                        i *= (100 - XMgr.cfg.buffCfg.get(23).values[e.lv]) / 100
                     }
                 }
                 return i = Math.max(.2, i)
@@ -15885,14 +15933,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
             init() {
                 this.initBuildingCfg(), this.buildings = [], this.buildingGrids = [], this.turntableBuildArr = [], this.mapEquipScripts = [], this.mapEquipScriptArr = [], this.rooms = {};
-                for (const e of t.mapMgr.rooms) this.rooms[e.id] = e;
-                let i = t.mapMgr.buildings.slice(0),
+                for (const e of XMgr.mapMgr.rooms) this.rooms[e.id] = e;
+                let i = XMgr.mapMgr.buildings.slice(0),
                     s = [];
                 for (const e of i) {
                     let t = this.getRoom(e.roomId);
                     t && t.active && (s.push(e), this.build(null, e.buildId, e.x, e.y, e.buildRot, e.lv, !1))
                 }
-                this.openAllDoor(), t.gameMgr.gameMode == e.GameMode.E_Defense ? this.initRandomBuild() : t.gameMgr.gameMode == e.GameMode.E_Hunt ? this.initHunterRandomBuild() : t.gameMgr.gameMode == e.GameMode.E_SevenGhost && this.initSevenGhostRandomBuild()
+                this.openAllDoor(), XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? this.initRandomBuild() : XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ? this.initHunterRandomBuild() : XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && this.initSevenGhostRandomBuild()
             }
             initSevenGhostRandomBuild() {
                 let e = [6001, 6002, 6004, 6005, 6006, 6007, 6003, 6008, 6009, 6010, 6011, 1001, 6019, 6014];
@@ -15935,7 +15983,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getGridByPos(e, i) {
-                let s = t.buildingMgr.getEmptyGrids(e);
+                let s = XMgr.buildingMgr.getEmptyGrids(e);
                 if (0 == s.length) return;
                 let a = new fx.V2;
                 if (i) {
@@ -15975,7 +16023,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             changeDoorState(e, i) {
-                e.isOpen = i, t.mapMgr.setDynWalkable(e.x, e.y, i), fx.EventCenter.I.event(XEventNames.E_Door_State_Changed, [e])
+                e.isOpen = i, XMgr.mapMgr.setDynWalkable(e.x, e.y, i), fx.EventCenter.I.event(XEventNames.E_Door_State_Changed, [e])
             }
             openDoorByGridPos(t, i) {
                 let s = this.getBuilding(t, i);
@@ -15993,17 +16041,17 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!n || n.type != e.BuildType.bed || !r) return e.BuildResult.E_FAILD;
                 if (n.isUsed) return e.BuildResult.E_BED_IS_USED;
                 for (const i of r.buildings)
-                    if (i.playerUuid = a.uuid, 2e3 == i.id && a.uuid == t.playerMgr.player.uuid) {
-                        let e = t.user.gameInfo.getBuffData(21);
+                    if (i.playerUuid = a.uuid, 2e3 == i.id && a.uuid == XMgr.playerMgr.player.uuid) {
+                        let e = XMgr.user.gameInfo.getBuffData(21);
                         if (e) {
-                            let s = t.cfg.buffCfg.get(21).values[e.lv];
+                            let s = XMgr.cfg.buffCfg.get(21).values[e.lv];
                             i.maxHp = i.curHp = Math.round(i.maxHp * (s / 100 + 1))
                         }
-                    } else if (a.uuid == t.playerMgr.player.uuid) {
-                    let s = t.buildingMgr.getBuildCfg(i.id);
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId)
+                    } else if (a.uuid == XMgr.playerMgr.player.uuid) {
+                    let s = XMgr.buildingMgr.getBuildCfg(i.id);
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId)
                         for (const e of s.buffId)
-                            if (t.user.gameInfo.getBuffData(e)) {
+                            if (XMgr.user.gameInfo.getBuffData(e)) {
                                 (s.buffIcon || s.buffBuildAni) && i.ownerScript.initSkin(), i.ownerScript.clearEffects(), i.ownerScript.initEffects();
                                 break
                             }
@@ -16034,20 +16082,20 @@ define("js/bundle.js", function(require, module, exports) {
                 if (g && !g.isDie) return e.BuildResult.E_FAILD;
                 let c = this.getBuildCfg(s, o);
                 if (!c) return;
-                let p = t.mapMgr.getRoomIdByGrid(a, n),
+                let p = XMgr.mapMgr.getRoomIdByGrid(a, n),
                     f = c.coin,
                     m = c.energy,
-                    y = t.playerMgr.getPlayer(i);
+                    y = XMgr.playerMgr.getPlayer(i);
                 if (6666 == c.buildId)
-                    if (t.gameMgr.gameMode == e.GameMode.E_Hunt || 1 == t.gameMgr.difficultABTest && t.gameMgr.gameMode == e.GameMode.E_Defense)
-                        if (t.playerMgr.mineUuid == i) {
-                            let e = Math.clamp(t.gameMgr.randomCnt, 0, 3);
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt || 1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
+                        if (XMgr.playerMgr.mineUuid == i) {
+                            let e = Math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
                             f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
                         } else {
                             let e = Math.clamp(y.randomCnt, 0, 3);
                             f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
-                        } else f = this.magicConsumeArr[t.gameMgr.randomCnt][0], m = this.magicConsumeArr[t.gameMgr.randomCnt][1];
-                else t.gameMgr.gameMode == e.GameMode.E_Defense && c.buffId && c.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (f = Math.round(.9 * c.coin), m = Math.round(.9 * c.energy));
+                        } else f = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0], m = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
+                else XMgr.gameMgr.gameMode == e.GameMode.E_Defense && c.buffId && c.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (f = Math.round(.9 * c.coin), m = Math.round(.9 * c.energy));
                 if (p && y && l) {
                     let a = this.getRoom(p),
                         n = this.getBuildCntInRoom(a, s);
@@ -16055,45 +16103,45 @@ define("js/bundle.js", function(require, module, exports) {
                     if (!this.isInfiniteIncome && f && f > y.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
                     if (!this.isInfiniteIncome && m && m > y.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
                     if (c.preBuilding && !this.isHaveBuilding(p, c.preBuilding.buildId, c.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? t.playerMgr.changePlayerIncomeByUuid(i, f, m) : t.playerMgr.changePlayerIncomeByUuid(i, -f, -m)
+                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, f, m) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -f, -m)
                 }
                 let C = this.createBuildingModelByCfg(i, s, p, o, a, n, r, c);
-                return d && (C.curHp = C.maxHp = d), C.isInit = u, C.canHandle = h, this.addBuilding(C, y), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [C, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(C, 111), e.BuildResult.E_OK
+                return d && (C.curHp = C.maxHp = d), C.isInit = u, C.canHandle = h, this.addBuilding(C, y), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [C, !1]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(C, 111), e.BuildResult.E_OK
             }
             buildFree(i, s, a, n, r = 0, o = 1, l = !0, h) {
                 let d = this.getBuilding(a, n);
                 if (d && !d.isDie) return e.BuildResult.E_FAILD;
                 let u = this.getBuildCfg(s, o);
                 if (7777 == s && (u = this.getBuildCfg(3e3, o)), !u) return;
-                let g, c = t.mapMgr.getRoomIdByGrid(a, n),
-                    p = t.playerMgr.getPlayer(i);
-                return 7777 == s ? ((g = this.createBuildingModelByCfg(i, 3e3, c, o, a, n, r, u)).isSpecial = !0, !h || h > t.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(i, s, c, o, a, n, r, u), g.canHandle = l, this.addBuilding(g, p), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [g, !1]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(g, 111), e.BuildResult.E_OK
+                let g, c = XMgr.mapMgr.getRoomIdByGrid(a, n),
+                    p = XMgr.playerMgr.getPlayer(i);
+                return 7777 == s ? ((g = this.createBuildingModelByCfg(i, 3e3, c, o, a, n, r, u)).isSpecial = !0, !h || h > XMgr.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(i, s, c, o, a, n, r, u), g.canHandle = l, this.addBuilding(g, p), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [g, !1]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(g, 111), e.BuildResult.E_OK
             }
             buildCd(i, s, a, n, r = 0, o = 1, l = !0) {
                 let h = this.getBuilding(a, n);
                 if (h && !h.isDie) return e.BuildResult.E_FAILD;
                 let d = this.getBuildCfg(s, o);
                 if (7777 == s && (d = this.getBuildCfg(3e3, o)), !d) return;
-                let u, g = t.mapMgr.getRoomIdByGrid(a, n),
-                    c = t.playerMgr.getPlayer(i);
+                let u, g = XMgr.mapMgr.getRoomIdByGrid(a, n),
+                    c = XMgr.playerMgr.getPlayer(i);
                 if (7777 == s) {
                     (u = this.createBuildingModelByCfg(i, 3e3, g, o, a, n, r, d)).isSpecial = !0;
                     let e = this.getSpecialTower();
                     u.specialId = e.id, "罕见" == e.quality && (u.canChangeSpecial = !0)
                 } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
-                return u.canHandle = l, this.addBuilding(u, c), t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1, 60]), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask(), t.gameMgr.playSound(u, 111), e.BuildResult.E_OK
+                return u.canHandle = l, this.addBuilding(u, c), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1, 60]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(u, 111), e.BuildResult.E_OK
             }
             buildTurntable(i, s, a, n, r = 0, o = 1, l = !0) {
                 let h = this.getBuilding(a, n);
                 if (h && !h.isDie) return e.BuildResult.E_FAILD;
                 let d = this.getBuildCfg(s, o);
                 if (7777 == s && (d = this.getBuildCfg(3e3, o)), !d) return;
-                let u, g = t.mapMgr.getRoomIdByGrid(a, n),
-                    c = t.playerMgr.getPlayer(i);
+                let u, g = XMgr.mapMgr.getRoomIdByGrid(a, n),
+                    c = XMgr.playerMgr.getPlayer(i);
                 if (g && c) {
                     if (!this.isInfiniteIncome && 50 > c.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
                     if (d.preBuilding && !this.isHaveBuilding(g, d.preBuilding.buildId, d.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? t.playerMgr.changePlayerIncomeByUuid(i, 50, 0) : t.playerMgr.changePlayerIncomeByUuid(i, -50, -0)
+                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, 50, 0) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -50, -0)
                 }
                 if (7777 == s) {
                     (u = this.createBuildingModelByCfg(i, 3e3, g, o, a, n, r, d)).isSpecial = !0;
@@ -16102,14 +16150,14 @@ define("js/bundle.js", function(require, module, exports) {
                 } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
                 u.canHandle = l, u.turntableBuildId = `${s}_${o}`, this.turntableBuildArr.push(`${s}_${o}`)
                 this.addBuilding(u, c)
-                t.playerMgr.player.type != e.PlayerType.E_Defender && t.mapMgr.setDynWalkable(a, n, !1)
+                XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1)
                 fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1])
-                !t.taskMgr.compeletAllTask() && t.taskMgr.startTask()
-                t.gameMgr.playSound(u, 111)
+                !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()
+                XMgr.gameMgr.playSound(u, 111)
                 return    e.BuildResult.E_OK
             }
             buildSpecial(i) {
-                let s = t.playerMgr.getPlayer(i.playerUuid);
+                let s = XMgr.playerMgr.getPlayer(i.playerUuid);
                 return this.addBuilding(i, s), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [i, !1]), e.BuildResult.E_OK
             }
             createBuildingModelByCfg(i, s, a, n, r, o, l, h) {
@@ -16125,18 +16173,18 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 d.playerUuid = i, d.lv = n, d.type = h.type;
                 let u = h.hp || 1;
-                return t.gameMgr.changeMaxHp(d, u, u), d
+                return XMgr.gameMgr.changeMaxHp(d, u, u), d
             }
             updateBuildingModel(i, s) {
                 let a = s.hp || 1;
-                if (2e3 == i.id && i.playerUuid == t.playerMgr.player.uuid) {
-                    let e = t.user.gameInfo.getBuffData(21);
+                if (2e3 == i.id && i.playerUuid == XMgr.playerMgr.player.uuid) {
+                    let e = XMgr.user.gameInfo.getBuffData(21);
                     if (e) {
-                        let i = t.cfg.buffCfg.get(21).values[e.lv];
+                        let i = XMgr.cfg.buffCfg.get(21).values[e.lv];
                         a = Math.round(a * (i / 100 + 1))
                     }
                 }
-                switch (t.gameMgr.changeMaxHp(i, a, a), s.type) {
+                switch (XMgr.gameMgr.changeMaxHp(i, a, a), s.type) {
                     case e.BuildType.tower:
                         let n = i,
                             r = s;
@@ -16168,12 +16216,12 @@ define("js/bundle.js", function(require, module, exports) {
                     d = r.players[0];
                 if (d) {
                     let e = d.uuid;
-                    l = t.playerMgr.getPlayer(e)
+                    l = XMgr.playerMgr.getPlayer(e)
                 } else l = r;
                 if (l) {
-                    6666 == n.buildId && (h = this.magicConsumeArr[t.gameMgr.randomCnt][0]);
+                    6666 == n.buildId && (h = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0]);
                     let i = n.energy;
-                    if (6666 == n.buildId ? i = this.magicConsumeArr[t.gameMgr.randomCnt][1] : t.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (h = Math.round(.9 * n.coin), i = Math.round(.9 * n.energy)), h && h > l.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
+                    if (6666 == n.buildId ? i = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1] : XMgr.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (h = Math.round(.9 * n.coin), i = Math.round(.9 * n.energy)), h && h > l.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
                     if (i && i > l.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH
                 }
                 return e.BuildResult.E_OK
@@ -16190,31 +16238,31 @@ define("js/bundle.js", function(require, module, exports) {
                         n = s ? s.energy : 0;
                     if (r.isInit) {
                         if (s)
-                            if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                                if (t.user.gameInfo.getBuffData(6) && t.playerMgr.player.uuid != i) {
-                                    t.playerMgr.getPlayer(i).isQxbm = !0, i = t.playerMgr.player.uuid
+                            if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                                if (XMgr.user.gameInfo.getBuffData(6) && XMgr.playerMgr.player.uuid != i) {
+                                    XMgr.playerMgr.getPlayer(i).isQxbm = !0, i = XMgr.playerMgr.player.uuid
                                 }
-                                if (1 == t.gameMgr.difficultABTest)
+                                if (1 == XMgr.gameMgr.difficultABTest)
                                     if (n) {
-                                        let e = t.user.gameInfo.getBuffData(27);
+                                        let e = XMgr.user.gameInfo.getBuffData(27);
                                         if (e) {
-                                            let n = t.cfg.buffCfg.get(27);
-                                            t.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy * (n.values[e.lv] / 100)))
-                                        } else t.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), 1)
-                                    } else t.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2));
-                                else s && t.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
-                            } else a ? t.playerMgr.changePlayerIncomeByUuid(i, 1, 0) : t.playerMgr.changePlayerIncomeByUuid(i, 0, 1)
+                                            let n = XMgr.cfg.buffCfg.get(27);
+                                            XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy * (n.values[e.lv] / 100)))
+                                        } else XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), 1)
+                                    } else XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2));
+                                else s && XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
+                            } else a ? XMgr.playerMgr.changePlayerIncomeByUuid(i, 1, 0) : XMgr.playerMgr.changePlayerIncomeByUuid(i, 0, 1)
                     } else {
-                        if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                            if (t.user.gameInfo.getBuffData(6) && t.playerMgr.player.uuid != i) {
-                                t.playerMgr.getPlayer(i).isQxbm = !0, i = t.playerMgr.player.uuid
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                            if (XMgr.user.gameInfo.getBuffData(6) && XMgr.playerMgr.player.uuid != i) {
+                                XMgr.playerMgr.getPlayer(i).isQxbm = !0, i = XMgr.playerMgr.player.uuid
                             }
                         }
-                        s && t.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
+                        s && XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
                     }
                 }
-                t.mapMgr.setDynWalkable(s, a, !0), delete this.buildingGrids[s][a], -1 != (o = this.buildings.indexOf(r)) && this.buildings.splice(o, 1);
-                let h = t.playerMgr.getPlayer(r.playerUuid);
+                XMgr.mapMgr.setDynWalkable(s, a, !0), delete this.buildingGrids[s][a], -1 != (o = this.buildings.indexOf(r)) && this.buildings.splice(o, 1);
+                let h = XMgr.playerMgr.getPlayer(r.playerUuid);
                 if (h && -1 != (o = h.buildings.indexOf(r)) && h.buildings.splice(o, 1), XChoreUtil.playSound(113), r.turntableBuildId) {
                     let e = this.turntableBuildArr.indexOf(r.turntableBuildId);
                     e >= 0 && this.turntableBuildArr.splice(e, 0)
@@ -16224,9 +16272,9 @@ define("js/bundle.js", function(require, module, exports) {
             upgrade(i, s, a, n = !0, r = 0, o) {
                 let l = this.getBuilding(s, a);
                 if (!l) return e.BuildResult.E_FAILD;
-                let h = t.playerMgr.getPlayer(i);
+                let h = XMgr.playerMgr.getPlayer(i);
                 if (l.playerUuid && l.playerUuid != i && !l.playerUuid.includes(i)) return e.BuildResult.E_FAILD;
-                let d = t.mapMgr.getRoomIdByGridPos(s, a);
+                let d = XMgr.mapMgr.getRoomIdByGridPos(s, a);
                 if (!d) return e.BuildResult.E_FAILD;
                 if (l.lv >= this.getBuildMaxLv(l.id)) return e.BuildResult.E_MAX_LV;
                 let u = 1,
@@ -16234,29 +16282,29 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.getBuildCfg(l.id, l.lv + 1 + r) && (g = fx.Utils.clone(this.getBuildCfg(l.id, l.lv + 1 + r)), u = 1 + r), n) {
                     let s = g.coin,
                         a = g.energy;
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense && g.buffId && g.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (s = Math.round(.9 * g.coin), a = Math.round(.9 * g.energy)), !this.isInfiniteIncome && g.coin && s > h.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && g.buffId && g.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (s = Math.round(.9 * g.coin), a = Math.round(.9 * g.energy)), !this.isInfiniteIncome && g.coin && s > h.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
                     if (!this.isInfiniteIncome && g.energy && a > h.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
                     if (g.preBuilding && !this.isHaveBuilding(d, g.preBuilding.buildId, g.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? t.playerMgr.changePlayerIncomeByUuid(i, s, a) : t.playerMgr.changePlayerIncomeByUuid(i, -s, -a)
+                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, s, a) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -s, -a)
                 }
-                return l.lv += u, o && (g.hp = g.hp * Math.pow(.5, o)), this.updateBuildingModel(l, g), fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [l]), t.gameMgr.playSound(l, 112), e.BuildResult.E_OK
+                return l.lv += u, o && (g.hp = g.hp * Math.pow(.5, o)), this.updateBuildingModel(l, g), fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [l]), XMgr.gameMgr.playSound(l, 112), e.BuildResult.E_OK
             }
             videoSuper(i, s, a) {
                 let n = this.getBuilding(s, a);
-                return n ? n.playerUuid && n.playerUuid != i && !n.playerUuid.includes(i) ? e.BuildResult.E_FAILD : t.mapMgr.getRoomIdByGridPos(s, a) ? (n.isSuper = !0, fx.EventCenter.I.event(XEventNames.E_BUILDING_VIDEOUPGRADE, [n]), t.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
+                return n ? n.playerUuid && n.playerUuid != i && !n.playerUuid.includes(i) ? e.BuildResult.E_FAILD : XMgr.mapMgr.getRoomIdByGridPos(s, a) ? (n.isSuper = !0, fx.EventCenter.I.event(XEventNames.E_BUILDING_VIDEOUPGRADE, [n]), XMgr.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
             }
             getUpgradeRet(i, s, a, n) {
                 let r = this.getBuilding(s, a);
                 if (!r) return e.BuildResult.E_FAILD;
-                let o = t.mapMgr.getRoomIdByGridPos(s, a);
+                let o = XMgr.mapMgr.getRoomIdByGridPos(s, a);
                 if (!o) return e.BuildResult.E_FAILD;
                 if (r.lv >= this.getBuildMaxLv(r.id)) return e.BuildResult.E_MAX_LV;
                 let l = this.getBuildCfg(r.id, r.lv + 1);
                 if (l.preBuilding && !this.isHaveBuilding(o, l.preBuilding.buildId, l.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
                 if (n) {
-                    let s = t.playerMgr.getPlayer(i),
+                    let s = XMgr.playerMgr.getPlayer(i),
                         a = 1;
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense && l.buffId && l.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (a = .9), l.coin && Math.round(l.coin * a) > s.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && l.buffId && l.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (a = .9), l.coin && Math.round(l.coin * a) > s.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
                     if (l.energy && Math.round(l.energy * a) > s.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH
                 }
                 return e.BuildResult.E_OK
@@ -16285,12 +16333,12 @@ define("js/bundle.js", function(require, module, exports) {
             getRoomAroundOutGrids(e) {
                 if (!e) return;
                 let i = [],
-                    s = t.mapMgr.getRoomById(e);
+                    s = XMgr.mapMgr.getRoomById(e);
                 if (s) {
                     for (const e of s.walls) {
                         let s = this.getAroundGridsByGrid(e.x, e.y);
                         for (const e of s) {
-                            let s = t.mapMgr.getTiledInfo(e.x, e.y);
+                            let s = XMgr.mapMgr.getTiledInfo(e.x, e.y);
                             if (s && s.walkable && null == s.roomId) {
                                 let t = !1;
                                 for (const s of i)
@@ -16329,7 +16377,7 @@ define("js/bundle.js", function(require, module, exports) {
                         if (0 == r && 0 == o && !a) continue;
                         let s = e + r,
                             l = i + o,
-                            h = t.mapMgr.getTiledInfo(s, l);
+                            h = XMgr.mapMgr.getTiledInfo(s, l);
                         h.walkable && void 0 !== h.roomId && !this.getBuilding(s, l) && n.push(new fx.V2(s, l))
                     }
                 return n
@@ -16338,8 +16386,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let n = [],
                     r = this.getBuilding(e, i);
                 !r || s && !s.includes(r.type) || n.push(r);
-                let o = t.mapMgr.height,
-                    l = t.mapMgr.width,
+                let o = XMgr.mapMgr.height,
+                    l = XMgr.mapMgr.width,
                     h = Math.max(e - a, 0),
                     d = Math.max(i - a, 0),
                     u = Math.min(e + a, o),
@@ -16355,7 +16403,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return n
             }
             getNearBuildingByMapPos(i, s, a, n = 1, r = !1) {
-                let o = t.mapMgr.mapPosToGridPos(i, s),
+                let o = XMgr.mapMgr.mapPosToGridPos(i, s),
                     l = this.getAroundBuildings(o.x, o.y, a, n);
                 if (0 == l.length) return null;
                 if (1 == l.length && r) return l[0].type != e.BuildType.door || l[0].isOpen ? l[0].type !== e.BuildType.door ? l[0] : null : l[0]; {
@@ -16363,7 +16411,7 @@ define("js/bundle.js", function(require, module, exports) {
                         o = 1 / 0,
                         h = [];
                     for (let a = 0; a < l.length; ++a) {
-                        let r = t.mapMgr.gridPosToMapPos(l[a].x, l[a].y),
+                        let r = XMgr.mapMgr.gridPosToMapPos(l[a].x, l[a].y),
                             d = XV2Util01.pDistance({
                                 x: i,
                                 y: s
@@ -16372,7 +16420,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     if (o = 1 / 0, r && h.length > 0) {
                         for (const e of h) {
-                            let n = t.mapMgr.gridPosToMapPos(e.x, e.y),
+                            let n = XMgr.mapMgr.gridPosToMapPos(e.x, e.y),
                                 r = XV2Util01.pDistance({
                                     x: i,
                                     y: s
@@ -16385,14 +16433,14 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getNearBuildingByMapPos2(e, i, s, a = 1) {
-                let n = t.mapMgr.mapPosToGridPos(e, i),
+                let n = XMgr.mapMgr.mapPosToGridPos(e, i),
                     r = this.getAroundBuildings(n.x, n.y, s, a);
                 if (0 == r.length) return null;
                 if (1 == r.length) return r[0]; {
                     let s = r[0],
                         a = 1 / 0;
                     for (let n = 0; n < r.length; ++n) {
-                        let o = t.mapMgr.gridPosToMapPos(r[n].x, r[n].y),
+                        let o = XMgr.mapMgr.gridPosToMapPos(r[n].x, r[n].y),
                             l = XV2Util01.pDistance({
                                 x: e,
                                 y: i
@@ -16403,14 +16451,14 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getNearMapBuildingByMapPos(e, i) {
-                let s = t.mapMgr.mapPosToGridPos(e, i),
+                let s = XMgr.mapMgr.mapPosToGridPos(e, i),
                     a = this.getAroundMapBuildings(s.x, s.y);
                 if (0 == a.length) return null;
                 if (1 == a.length) return a[0]; {
                     let s = a[0],
                         n = 1 / 0;
                     for (let r = 0; r < a.length; ++r) {
-                        let o = t.mapMgr.gridPosToMapPos(a[r].x, a[r].y),
+                        let o = XMgr.mapMgr.gridPosToMapPos(a[r].x, a[r].y),
                             l = XV2Util01.pDistance({
                                 x: e,
                                 y: i
@@ -16421,7 +16469,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getNearMapEquipByMapPos(e, i) {
-                let s = t.mapMgr.mapPosToGridPos(e, i),
+                let s = XMgr.mapMgr.mapPosToGridPos(e, i),
                     a = this.getAroundMapEquips(s.x, s.y);
                 if (0 == a.length) return null;
                 if (1 == a.length) {
@@ -16446,8 +16494,8 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAroundMapBuildings(e, i, s = 1) {
                 let a = [],
-                    n = t.mapMgr.height,
-                    r = t.mapMgr.width,
+                    n = XMgr.mapMgr.height,
+                    r = XMgr.mapMgr.width,
                     o = Math.max(e - s, 0),
                     l = Math.max(i - s, 0),
                     h = Math.min(e + s, n),
@@ -16464,8 +16512,8 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAroundMapEquips(e, i, s = 1) {
                 let a = [],
-                    n = t.mapMgr.height,
-                    r = t.mapMgr.width,
+                    n = XMgr.mapMgr.height,
+                    r = XMgr.mapMgr.width,
                     o = Math.max(e - s, 0),
                     l = Math.max(i - s, 0),
                     h = Math.min(e + s, n),
@@ -16483,15 +16531,15 @@ define("js/bundle.js", function(require, module, exports) {
             canUpgrade(i, s, a = !0) {
                 if (!s.canHandle) return !1;
                 if (s.playerUuid && s.playerUuid != i) return !1;
-                let n = t.mapMgr.getRoomIdByGridPos(s.x, s.y);
+                let n = XMgr.mapMgr.getRoomIdByGridPos(s.x, s.y);
                 if (!s || !n) return !1;
                 if (s.lv >= this.getBuildMaxLv(s.id)) return !1;
                 let r = this.getBuildCfg(s.id, s.lv + 1);
                 if (!r) return !1;
-                let o = t.playerMgr.getPlayer(i);
+                let o = XMgr.playerMgr.getPlayer(i);
                 if (a) {
                     let i = 1;
-                    if (t.gameMgr.gameMode == e.GameMode.E_Defense && r.buffId && r.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && s.roomId == t.playerMgr.mineRoomId && (i = .9), r.coin && Math.round(r.coin * i) > o.coin) return !1;
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && r.buffId && r.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && s.roomId == XMgr.playerMgr.mineRoomId && (i = .9), r.coin && Math.round(r.coin * i) > o.coin) return !1;
                     if (r.energy && Math.round(r.energy * i) > o.energy) return !1
                 }
                 return !(r.preBuilding && !this.isHaveBuilding(n, r.preBuilding.buildId, r.preBuilding.lv))
@@ -16518,20 +16566,20 @@ define("js/bundle.js", function(require, module, exports) {
             stopRepairDoor(e) {
                 e.isRepair = !0
             }
-            getOutdoorEmptyGrids(e, i, s = 1) {
-                let a = [];
-                for (let n = -s; n <= s; n++)
-                    for (let r = -s; r <= s; r++) {
-                        let s = e + n,
-                            o = i + r,
-                            l = t.mapMgr.getTiledInfo(s, o);
-                        l.walkable && void 0 === l.roomId && a.push(new fx.V2(s, o))
+            getOutdoorEmptyGrids(x_, y_, delta_ = 1) {
+                let ret = [];
+                for (let n = -delta_; n <= delta_; n++)
+                    for (let r = -delta_; r <= delta_; r++) {
+                        let x = x_ + n,
+                            y = y_ + r,
+                            tileInfo = XMgr.mapMgr.getTiledInfo(x, y);
+                        tileInfo.walkable && void 0 === tileInfo.roomId && ret.push(new fx.V2(x, y))
                     }
-                return a
+                return ret
             }
             addMapBuild() {
                 let e = !1,
-                    i = t.mapMgr.mapBuildPoints,
+                    i = XMgr.mapMgr.mapBuildPoints,
                     s = fx.Utils.randomInArrayEx(i, XRandomUtil.getIntRandom(6, 11));
                 for (const i of s) {
                     let s = "",
@@ -16548,12 +16596,12 @@ define("js/bundle.js", function(require, module, exports) {
                     if (isNaN(l)) r = o[0], "fhl" == o[0] && (e = !0, h.skin = "res/build/specialBuild/fhl.png", h.anchorX = h.anchorY = .5);
                     else {
                         let e = Number(o[1]);
-                        n = t.buildingMgr.getBuildCfg(l, e), h.skin = n.icon, h.anchorX = h.anchorY = .5
+                        n = XMgr.buildingMgr.getBuildCfg(l, e), h.skin = n.icon, h.anchorX = h.anchorY = .5
                     }
-                    let d = t.mapMgr.mapPosToGridPos(i.x, i.y),
+                    let d = XMgr.mapMgr.mapPosToGridPos(i.x, i.y),
                         u = h.addComponentIntance(new XMapBuildingScript);
                     u.init(d, n, r), 
-                    t.mapMgr.propLayer.addChild(h), 
+                    XMgr.mapMgr.propLayer.addChild(h), 
                     h.pos(i.x, i.y), 
                     this.mapBuildScripts[d.x] || (this.mapBuildScripts[d.x] = []), 
                     this.mapBuildScripts[d.x][d.y] = u, 
@@ -16564,10 +16612,10 @@ define("js/bundle.js", function(require, module, exports) {
                 let a = this.getMapBuild(e, i);
                 if (!a || a.isUsed) return !1;
                 if (a.isUsed = !0, a.owner && !a.owner.destroyed) {
-                    if (t.gameMgr.playSoundByNode(a.owner, 126), this.mapBuildScripts[e][i] = null, "fhl" == a.buildName) {
-                        if (s.uuid == t.playerMgr.mineUuid) {
-                            let e = t.cfg.constant.playerMoveSpeed;
-                            e /= t.gameMgr.speedRatio, s.ownerScript.moveSpeed = 4.5 * e
+                    if (XMgr.gameMgr.playSoundByNode(a.owner, 126), this.mapBuildScripts[e][i] = null, "fhl" == a.buildName) {
+                        if (s.uuid == XMgr.playerMgr.mineUuid) {
+                            let e = XMgr.cfg.constant.playerMoveSpeed;
+                            e /= XMgr.gameMgr.speedRatio, s.ownerScript.moveSpeed = 4.5 * e
                         }
                         return !1
                     }
@@ -16575,23 +16623,23 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             clearMapBuild() {
-                this.mapBuildScripts = [], this.mapBuildScriptArr = [], t.mapMgr.propLayer.destroyChildren()
+                this.mapBuildScripts = [], this.mapBuildScriptArr = [], XMgr.mapMgr.propLayer.destroyChildren()
             }
             addMapEquip(e, i) {
                 XChoreUtil.playSound(130);
-                let s = t.mapMgr.mapEquipPoints,
+                let s = XMgr.mapMgr.mapEquipPoints,
                     a = XRandomUtil.getIntRandom(0, s.length - 1),
                     n = s[a],
                     r = XRandomUtil.getIntRandom(1, 3);
                 n = fx.Utils.randomInArrayEx(n, r);
                 for (const i of n) {
-                    let s = t.cfg.getHunterEquipCfg(XRandomUtil.getIntRandom(0, 5), e),
+                    let s = XMgr.cfg.getHunterEquipCfg(XRandomUtil.getIntRandom(0, 5), e),
                         a = new Laya.Image;
                     a.skin = s.url, a.anchorX = a.anchorY = .5;
-                    let n = t.mapMgr.mapPosToGridPos(i.x, i.y),
+                    let n = XMgr.mapMgr.mapPosToGridPos(i.x, i.y),
                         r = a.addComponentIntance(new nn);
                     r.init(n, s), 
-                    t.mapMgr.propLayer.addChild(a), 
+                    XMgr.mapMgr.propLayer.addChild(a), 
                     a.pos(i.x, i.y), 
                     this.mapEquipScripts[n.x] || (this.mapEquipScripts[n.x] = []), 
                     this.mapEquipScripts[n.x][n.y] = r, 
@@ -16616,12 +16664,12 @@ define("js/bundle.js", function(require, module, exports) {
             clearAllMapEquip() {
                 Laya.timer.clear(this, this.clearAllMapEquip), 
                 this.mapEquipScripts = [], this.mapEquipScriptArr = [], 
-                t.mapMgr.propLayer && t.mapMgr.propLayer.destroyChildren()
+                XMgr.mapMgr.propLayer && XMgr.mapMgr.propLayer.destroyChildren()
             }
             takeMapEquip(e, i) {
                 let s = this.getMapEquip(e, i);
                 if (!s.owner || s.owner.destroyed) return;
-                t.gameMgr.playSoundByNode(s.owner, 126);
+                XMgr.gameMgr.playSoundByNode(s.owner, 126);
                 let a = s.equipCfg;
                 fx.EventCenter.I.event(XEventNames.E_MapEquip_take, a), this.clearAllMapEquip()
             }
@@ -16679,16 +16727,16 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.player.roomId
             }
             addFighter(e) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), 
+                e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1), 
                 this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_Fighter, e), 
                 this.fighter = e
             }
             addBoxMonster(e, i) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), 
+                e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1), 
                 this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_BoxMonster, [e, i])
             }
             addGhost(e) {
-                e.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.hunterPointNum - 1), 
+                e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1), 
                 this.hunters.push(e), fx.EventCenter.I.event(XEventNames.E_Create_Ghost, e)
             }
             addAngel() {
@@ -16696,7 +16744,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.uuid = this.mineUuid, 
                 i.name = this.player.name, i.type = e.PlayerType.E_Defender, i.isAngel = !0, 
                 i.skinId = 90003, 
-                i.spwanPoint = XRandomUtil.getIntRandom(0, t.gameMgr.mapCfg.defenderPointNum - 1), 
+                i.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.defenderPointNum - 1), 
                 this.angels.push(i), fx.EventCenter.I.event(XEventNames.E_Create_Angel, i)
             }
             deleteGhost() {
@@ -16715,7 +16763,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_bg = this.owner.getChildByName("img_bg"), this.box_use = this.owner.getChildByName("box_use"), this.box_hire = this.owner.getChildByName("box_hire"), this.cancel_build = this.owner.getChildByName("cancel_build")
             }
             show(e, i, s) {
-                let a = t.mapMgr.getRoomById(s.roomId);
+                let a = XMgr.mapMgr.getRoomById(s.roomId);
                 this.img_bg.height = 290, this.box_hire.visible = !1, this.cancel_build.visible = !1;
                 let n = s.ownerScript;
                 if (0 == n.curBorrowMoney) this.cancel_build.visible = !0, this.img_bg.height = 440;
@@ -16731,7 +16779,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initUse(), this.initHire(), this.initCancelBuild()
             }
             initCancelBuild() {
-                let e = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
                 if (!e) return void this.hide();
                 let i = this.cancel_build.getChildByName("img_icon_bg"),
                     s = i.getChildByName("img_icon"),
@@ -16743,7 +16791,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.skin = "res/PlantingList/img_icon.png";
                 let h = e.coin;
                 s.skin = "res/build/TearDown.png", n.text = "拆除", r.text = "摧毁当前建筑，并返回\n一定的资源", a.visible = !0, h > 0 && !e.energy ? (o.text = (h / 2).toString(), o.centerY = 0, o.visible = !0, l.visible = !1, h >= 1e5 && (o.text = Math.floor(h / 1e3).toString() + "K")) : !h && e.energy > 0 ? (l.text = (e.energy / 2).toString(), l.centerY = 0, l.visible = !0, o.visible = !1) : h > 0 && e.energy > 0 ? (o.text = (h / 2).toString(), o.centerY = -20, o.visible = !0, h >= 1e5 && (o.text = Math.floor(h / 1e3).toString() + "K"), l.text = (e.energy / 2).toString(), l.centerY = 15, l.visible = !0) : (o.centerY = 0, o.visible = !0, l.visible = !1, o.text = "0"), a.offAll(Laya.Event.CLICK), a.on(Laya.Event.CLICK, this, () => {
-                    t.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildPos.x, this.buildPos.y, !0), this.hide()
+                    XMgr.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildPos.x, this.buildPos.y, !0), this.hide()
                 })
             }
             initHire() {
@@ -16764,7 +16812,7 @@ define("js/bundle.js", function(require, module, exports) {
                     s = i.getChildByName("img_btn"),
                     a = this.box_use.getChildByName("label_name"),
                     n = this.box_use.getChildByName("label_describe"),
-                    r = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                    r = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
                 e.skin = r.icon, a.text = r.name, i.off(Laya.Event.CLICK, this, this.onClickRepay), i.off(Laya.Event.CLICK, this, this.onClickBorrow);
                 let o = this.buildData.ownerScript;
                 o.curAmount ? (n.text = `还款: ${o.curBorrowMoney}`, s.skin = "res/game/lb_repay.png", i.on(Laya.Event.CLICK, this, this.onClickRepay)) : (n.text = `借钱: ${o.getBorrowAmount()}`, s.skin = "res/game/lb_borrow.png", i.on(Laya.Event.CLICK, this, this.onClickBorrow))
@@ -16826,8 +16874,8 @@ define("js/bundle.js", function(require, module, exports) {
                         this.curMenu = e, this.updateMenuUI(), this.initList(dn[e])
                     }), (!this.getBuildCfgsByGroup(e) || this.getBuildCfgsByGroup(e).length <= 0) && (t.visible = !1)
                 }
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense) {
-                    let e = t.user.gameInfo.ownPrize.size;
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    let e = XMgr.user.gameInfo.ownPrize.size;
                     this.img_hide.visible = !!e
                 } else this.img_hide.visible = !1;
                 fx.EventCenter.I.on(XEventNames.E_GuideHand_Show, this, this.guideHandShow), fx.EventCenter.I.on(XEventNames.E_Task_Compelet, this, this.guideHandHide)
@@ -16857,18 +16905,18 @@ define("js/bundle.js", function(require, module, exports) {
             getBuildCfgsByGroup(i) {
                 if (i == e.BuildGroup.HideBuild) {
                     this.buildCreateArr[i] = [];
-                    for (const [e, s] of t.user.gameInfo.ownPrize) {
+                    for (const [e, s] of XMgr.user.gameInfo.ownPrize) {
                         let s = e.split("_"),
                             a = Number(s[0]),
                             n = Number(s[1]),
-                            r = t.buildingMgr.getBuildCfg(a, n);
+                            r = XMgr.buildingMgr.getBuildCfg(a, n);
                         r && this.buildCreateArr[i].push(r)
                     }
                 } else if (this.buildCreateArr.length <= 0) {
-                    let e = t.cfg.buildCreate.getList();
+                    let e = XMgr.cfg.buildCreate.getList();
                     for (const i of e) {
                         this.buildCreateArr[i.group] || (this.buildCreateArr[i.group] = []);
-                        let e = t.buildingMgr.getBuildCfg(i.buildId, i.buildLv);
+                        let e = XMgr.buildingMgr.getBuildCfg(i.buildId, i.buildLv);
                         e && this.buildCreateArr[i.group].push(e)
                     }
                 }
@@ -16881,16 +16929,16 @@ define("js/bundle.js", function(require, module, exports) {
                     this.list_build.visible = !1, this.list_hide.visible = !0, this.list_hide.array = s, this.list_hide.renderHandler = new Laya.Handler(this, this.updateHideCell), this.list_hide.vScrollBarSkin = "", this.list_hide.on(Laya.Event.MOUSE_DOWN, this, this.onDownList), this.list_hide.on(Laya.Event.MOUSE_UP, this, this.onUpList), this.list_hide.on(Laya.Event.MOUSE_OUT, this, this.onUpList)
                 } else {
                     if (this.list_build.visible = !0, this.list_hide.visible = !1, !s || 0 == s.length) return;
-                    if ((t.gameMgr.gameMode != e.GameMode.E_Defense || this.roomId != t.playerMgr.mineRoomId) && i == e.BuildGroup.Build && (s = s.slice(0, 3), t.gameMgr.gameMode == e.GameMode.E_SevenGhost && 2 == t.user.gameInfo.curSevenGhostLv)) {
-                        let e = t.cfg.buildCreate.get(999),
-                            i = t.buildingMgr.getBuildCfg(e.buildId, e.buildLv);
+                    if ((XMgr.gameMgr.gameMode != e.GameMode.E_Defense || this.roomId != XMgr.playerMgr.mineRoomId) && i == e.BuildGroup.Build && (s = s.slice(0, 3), XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && 2 == XMgr.user.gameInfo.curSevenGhostLv)) {
+                        let e = XMgr.cfg.buildCreate.get(999),
+                            i = XMgr.buildingMgr.getBuildCfg(e.buildId, e.buildLv);
                         s.push(i)
                     }
                     this.list_build.repeatY = s.length, this.list_build.array = s, this.list_build.height = 148 * s.length, this.list_build.renderHandler = new Laya.Handler(this, this.updateCell)
                 }
                 this.isShowGuide && (this.img_guide.visible = i == e.BuildGroup.Build), this.img_bg.height = 220 + 592 * .9, this.firstNodeInfo.length || (this.firstNodeInfo.length = s.length);
-                let a = t.mapMgr.gridPosToMapPos(this.buildPos.x, this.buildPos.y),
-                    n = t.mapMgr.mapPosToStagePos(a.x, a.y);
+                let a = XMgr.mapMgr.gridPosToMapPos(this.buildPos.x, this.buildPos.y),
+                    n = XMgr.mapMgr.mapPosToStagePos(a.x, a.y);
                 n.y += this.touchGrid.height / 2, n.y + this.img_bg.height > Laya.stage.height ? (n.y -= this.img_bg.height + this.touchGrid.height, n.y = Math.clamp(n.y, 0, Laya.stage.height - this.img_bg.height - this.touchGrid.height)) : n.y - this.img_bg.height / 2 < 0 && (n.y = 0);
                 let r = fx.Utils.isNotchScreenDevice();
                 r && r.notchTop && (n.y -= r.notchTop), n.y < 35 && (n.y = 35), this.node.y = n.y
@@ -16917,14 +16965,14 @@ define("js/bundle.js", function(require, module, exports) {
                     p = i.getChildByName("img_discount"),
                     f = i.getChildByName("lb_buffDes"),
                     m = i.getChildByName("img_video");
-                if (f.visible = !1, m.visible = !1, a.skin = "res/PlantingList/img_icon.png", t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && t.gameMgr.gameMode == e.GameMode.E_Defense && this.roomId == t.playerMgr.mineRoomId) {
+                if (f.visible = !1, m.visible = !1, a.skin = "res/PlantingList/img_icon.png", XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.roomId == XMgr.playerMgr.mineRoomId) {
                     let e = "",
                         i = 0;
                     for (let a = 0; a < s.buffId.length; a++) {
-                        let n = t.user.gameInfo.getBuffData(s.buffId[a]);
+                        let n = XMgr.user.gameInfo.getBuffData(s.buffId[a]);
                         if (n) {
                             f.visible = !0;
-                            let r = t.cfg.buffCfg.get(s.buffId[a]),
+                            let r = XMgr.cfg.buffCfg.get(s.buffId[a]),
                                 o = r.buffDes,
                                 l = new RegExp("\\{0\\}", "g");
                             o = o.replace(l, `${r.values[n.lv]}`), e += i ? "，" + o : o, i += 1
@@ -16940,7 +16988,7 @@ define("js/bundle.js", function(require, module, exports) {
                     let t = r.getChildByName(`mod${e}`);
                     t && (t.visible = !1)
                 }
-                t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffIcon && t.user.gameInfo.getBuffData(s.buffId[0]) && this.roomId == t.playerMgr.mineRoomId ? n.skin = s.buffIcon : n.skin = s.icon, d.text = s.name, u.text = s.description;
+                XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffIcon && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && this.roomId == XMgr.playerMgr.mineRoomId ? n.skin = s.buffIcon : n.skin = s.icon, d.text = s.name, u.text = s.description;
                 let k, b = !1;
                 if (d.color = "#73e562", s.maxCnt) {
                     g.visible = !0;
@@ -16948,42 +16996,42 @@ define("js/bundle.js", function(require, module, exports) {
                         t = s.maxCnt;
                     6666 == s.buildId && (t = 4), g.text = `可建造${e}/${t}`, b = e == t, e >= 3 && 6666 == s.buildId && (d.color = "#ee82ff", u.text = "随机将炮塔的底座变化成一件法宝,并产生令人惊喜的效果(前提是得有炮塔)")
                 } else g.visible = !1;
-                let w = (k = t.mapMgr.getRoomById(this.roomId)).players[0];
+                let w = (k = XMgr.mapMgr.getRoomById(this.roomId)).players[0];
                 w || (w = k);
                 let S = !1;
                 p.visible = !1;
                 let I = s.coin,
                     v = s.energy;
                 if (6666 == s.buildId) {
-                    let e = t.buildingMgr.magicConsumeArr[t.gameMgr.randomCnt];
+                    let e = XMgr.buildingMgr.magicConsumeArr[XMgr.gameMgr.randomCnt];
                     e && (I = e[0], v = e[1])
-                } else t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && this.roomId == t.playerMgr.mineRoomId && (I = Math.round(.9 * s.coin), v = Math.round(.9 * s.energy), p.visible = !0);
+                } else XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && this.roomId == XMgr.playerMgr.mineRoomId && (I = Math.round(.9 * s.coin), v = Math.round(.9 * s.energy), p.visible = !0);
                 let M = Math.round(1 * I),
                     x = Math.round(1 * v);
                 if (I > 0 && !v ? (y.text = M.toString(), y.centerY = s.type == e.BuildType.skill ? -5 : 0, y.visible = !0, C.visible = !1, S = w.coin >= I) : !I && v > 0 ? (C.text = x.toString(), C.centerY = s.type == e.BuildType.skill ? -5 : 0, C.visible = !0, y.visible = !1, S = w.energy >= v) : I > 0 && v > 0 && (y.text = M.toString(), y.centerY = s.type == e.BuildType.skill ? -30 : -20, y.visible = !0, C.text = x.toString(), C.centerY = s.type == e.BuildType.skill ? 5 : 15, C.visible = !0, S = w.coin >= M && w.energy >= x), r.skin = S ? "res/game/menuBtn.png" : "res/game/menuBtnNo.png", c.visible = !1, r.visible = !0, o.visible = !1, l.visible = !1, h.visible = !1, s.type == e.BuildType.skill || 6666 == s.buildId) {
-                    c.visible = !0, c.getChildByName("counttext").text = t.user.gameInfo.getOwnBuildCnt(s.buildId) + "";
+                    c.visible = !0, c.getChildByName("counttext").text = XMgr.user.gameInfo.getOwnBuildCnt(s.buildId) + "";
                     let e = this.getBuildNum(s);
                     if (b) l.visible = !0, r.visible = !1;
-                    else if (t.user.gameInfo.getOwnBuildCnt(s.buildId)) {
+                    else if (XMgr.user.gameInfo.getOwnBuildCnt(s.buildId)) {
                         let t = s.maxCnt;
                         6666 == s.buildId ? (t = 4, r.visible = e < t, 3 == e && (r.visible = !1, h.visible = !0)) : r.visible = !t || e < t, o.visible = !1
-                    } else 6666 != s.buildId || t.gameMgr.isAdMagicBox ? o.visible = !0 : m.visible = !0, r.visible = !1
+                    } else 6666 != s.buildId || XMgr.gameMgr.isAdMagicBox ? o.visible = !0 : m.visible = !0, r.visible = !1
                 }
                 r.offAll(Laya.Event.CLICK), r.on(Laya.Event.CLICK, this, this.build, [s, !1]), m.offAll(Laya.Event.CLICK), m.on(Laya.Event.CLICK, this, () => {
                     j.I.playVideo("局内获得摇签盒", this, e => {
-                        e && (t.gameMgr.isAdMagicBox = !0, t.user.gameInfo.addOwnBuildData(s.buildId, 1), this.hide())
+                        e && (XMgr.gameMgr.isAdMagicBox = !0, XMgr.user.gameInfo.addOwnBuildData(s.buildId, 1), this.hide())
                     })
                 }), h.offAll(Laya.Event.CLICK), h.on(Laya.Event.CLICK, this, () => {
-                    t.user.gameInfo.getOwnBuildCnt(s.buildId) <= 0 ? XToast.show("快去神秘商店购买吧~") : (XAnalyticsUtil.share("摇签盒"), j.I.share(!1, e => {
+                    XMgr.user.gameInfo.getOwnBuildCnt(s.buildId) <= 0 ? XToast.show("快去神秘商店购买吧~") : (XAnalyticsUtil.share("摇签盒"), j.I.share(!1, e => {
                         e && this.build(s, !0)
                     }, "摇签盒"))
-                }), t.user.gameInfo.isFirstBuild && t.gameMgr.gameMode == e.GameMode.E_Defense && 6666 != s.buildId ? (i.alpha = .5, i.mouseEnabled = !1) : (i.alpha = 1, i.mouseEnabled = !0)
+                }), XMgr.user.gameInfo.isFirstBuild && XMgr.gameMgr.gameMode == e.GameMode.E_Defense && 6666 != s.buildId ? (i.alpha = .5, i.mouseEnabled = !1) : (i.alpha = 1, i.mouseEnabled = !0)
             }
             updateHideCell(i) {
                 if (!i.dataSource) return void(i.visible = !1);
                 let s = i.dataSource,
                     a = `${s.buildId}_${s.lv}`,
-                    n = t.user.gameInfo.ownPrize.get(a);
+                    n = XMgr.user.gameInfo.ownPrize.get(a);
                 if (!n) return;
                 let r, o = i.getChildByName("img_icon_bg").getChildByName("img_icon"),
                     l = i.getChildByName("img_upgrade"),
@@ -16991,17 +17039,17 @@ define("js/bundle.js", function(require, module, exports) {
                     d = i.getChildByName("label_describe"),
                     u = i.getChildByName("lb_maxCnt"),
                     g = i.getChildByName("count");
-                if (t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffIcon && t.user.gameInfo.getBuffData(s.buffId[0]) && this.roomId == t.playerMgr.mineRoomId ? o.skin = s.buffIcon : o.skin = s.icon, h.text = s.name, d.text = s.description, u.visible = !0, s.maxCnt) {
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffIcon && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && this.roomId == XMgr.playerMgr.mineRoomId ? o.skin = s.buffIcon : o.skin = s.icon, h.text = s.name, d.text = s.description, u.visible = !0, s.maxCnt) {
                     let e = 0;
-                    for (let i = 0; i < t.playerMgr.player.buildings.length; i++) {
-                        if (t.playerMgr.player.buildings[i].id == s.buildId && ++e >= s.maxCnt) {
+                    for (let i = 0; i < XMgr.playerMgr.player.buildings.length; i++) {
+                        if (XMgr.playerMgr.player.buildings[i].id == s.buildId && ++e >= s.maxCnt) {
                             u.text = "可建造1/1", r = !0;
                             break
                         }
                     }
                 }
-                r || (t.buildingMgr.turntableBuildArr.indexOf(a) >= 0 ? (u.text = "可建造1/1", r = !0) : u.text = "可建造0/1");
-                let c = t.playerMgr.player;
+                r || (XMgr.buildingMgr.turntableBuildArr.indexOf(a) >= 0 ? (u.text = "可建造1/1", r = !0) : u.text = "可建造0/1");
+                let c = XMgr.playerMgr.player;
                 if (!c) return;
                 let p = !1;
                 p = c.coin >= 50, l.skin = p && !r ? "res/game/menuBtn.png" : "res/game/menuBtnNo.png", g.getChildByName("counttext").text = n.cnt + "", l.visible = !0, l.offAll(Laya.Event.CLICK), l.on(Laya.Event.CLICK, this, this.buildHide, [s])
@@ -17013,7 +17061,7 @@ define("js/bundle.js", function(require, module, exports) {
                         a = i.getChildAt(1);
                     if (s.visible = !1, i)
                         if (i.skin = "res/PlantingList/img_unselect.png", a.skin = un[`menu${e}`][1], this.curMenu == e) i.skin = "res/PlantingList/img_select.png", a.skin = un[`menu${e}`][0];
-                        else if (12 == t.taskMgr.index && 2 == e && (s.visible = !0, !s.__seq)) {
+                        else if (12 == XMgr.taskMgr.index && 2 == e && (s.visible = !0, !s.__seq)) {
                         s.__seq = !0;
                         let e = (new fx.Sequence).fadeOut(500).fadeIn(500);
                         e.isRepeat = !0, e.run(s)
@@ -17021,34 +17069,34 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getBuildNum(e) {
-                let i = t.mapMgr.getRoomIdByGridPos(this.buildPos.x, this.buildPos.y),
-                    s = t.buildingMgr.getRoom(i),
+                let i = XMgr.mapMgr.getRoomIdByGridPos(this.buildPos.x, this.buildPos.y),
+                    s = XMgr.buildingMgr.getRoom(i),
                     a = 0;
                 if (s.buildings.length > 0)
                     for (let t = 0; t < s.buildings.length; t++) {
                         const i = s.buildings[t];
                         i && i.id == e.id && (a += 1)
                     }
-                return 6666 == e.buildId && (a = t.gameMgr.randomCnt), a
+                return 6666 == e.buildId && (a = XMgr.gameMgr.randomCnt), a
             }
             build(i, s = !1, a = !0) {
                 if ((i.type == e.BuildType.skill || 6666 == i.buildId) && !s) {
-                    if (!(t.user.gameInfo.getOwnBuildCnt(i.buildId) > 0)) return void XToast.show("快去神秘商店购买吧~"); {
+                    if (!(XMgr.user.gameInfo.getOwnBuildCnt(i.buildId) > 0)) return void XToast.show("快去神秘商店购买吧~"); {
                         let e = this.getBuildNum(i),
                             t = i.maxCnt;
                         if (6666 == i.buildId && (t = 4), e >= t) return void XToast.show("已达到建造上限~")
                     }
                 }
-                let n = t.buildingMgr.getBuildRet(this.roomId, i.buildId, i.lv);
+                let n = XMgr.buildingMgr.getBuildRet(this.roomId, i.buildId, i.lv);
                 switch (s && (n = e.BuildResult.E_OK), n) {
                     case e.BuildResult.E_OK:
-                        t.gameMgr.buildCnt++, 
-                        t.reporter.useProp(i.name), 
-                        t.user.gameInfo.isFirstBuild && 6666 == i.buildId && (t.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), 
+                        XMgr.gameMgr.buildCnt++, 
+                        XMgr.reporter.useProp(i.name), 
+                        XMgr.user.gameInfo.isFirstBuild && 6666 == i.buildId && (XMgr.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), 
                         this.hide(), 
-                        a && t.user.gameInfo.useBuildData(i.buildId),
+                        a && XMgr.user.gameInfo.useBuildData(i.buildId),
                         XAnalyticsUtil.useLevelItem(`商店道具-${i.name}`), 
-                        s ? t.buildingMgr.buildFree(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv) : t.buildingMgr.build(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv);
+                        s ? XMgr.buildingMgr.buildFree(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv) : XMgr.buildingMgr.build(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv);
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("建造失败！");
@@ -17070,7 +17118,7 @@ define("js/bundle.js", function(require, module, exports) {
                         break;
                     case e.BuildResult.E_NOT_HAVE_PREBUILD:
                         {
-                            let e = t.buildingMgr.getBuildCfg(i.preBuilding.buildId, i.preBuilding.lv);
+                            let e = XMgr.buildingMgr.getBuildCfg(i.preBuilding.buildId, i.preBuilding.lv);
                             XToast.show(`请建造前置建筑：${e.name}！`)
                         }
                         break;
@@ -17081,15 +17129,15 @@ define("js/bundle.js", function(require, module, exports) {
             buildHide(i) {
                 if (i.maxCnt) {
                     let e = 0;
-                    for (let s = 0; s < t.playerMgr.player.buildings.length; s++) {
-                        if (t.playerMgr.player.buildings[s].id == i.buildId && ++e >= i.maxCnt) return void XToast.show("已达到建造上限~")
+                    for (let s = 0; s < XMgr.playerMgr.player.buildings.length; s++) {
+                        if (XMgr.playerMgr.player.buildings[s].id == i.buildId && ++e >= i.maxCnt) return void XToast.show("已达到建造上限~")
                     }
                 }
                 let s = `${i.buildId}_${i.lv}`;
-                if (t.buildingMgr.turntableBuildArr.indexOf(s) >= 0) XToast.show("已达到建造上限~");
-                else switch (t.buildingMgr.buildTurntable(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv)) {
+                if (XMgr.buildingMgr.turntableBuildArr.indexOf(s) >= 0) XToast.show("已达到建造上限~");
+                else switch (XMgr.buildingMgr.buildTurntable(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv)) {
                     case e.BuildResult.E_OK:
-                        t.gameMgr.buildCnt++, t.reporter.useProp(i.name), t.user.gameInfo.usePrizeData(s), t.buildingMgr.turntableBuildArr.push(s), this.initList(e.BuildGroup.HideBuild), XToast.show("建造成功！"), this.hide(), t.user.gameInfo.useBuildData(i.buildId), XAnalyticsUtil.useLevelItem(`黑店道具-${i.name}`);
+                        XMgr.gameMgr.buildCnt++, XMgr.reporter.useProp(i.name), XMgr.user.gameInfo.usePrizeData(s), XMgr.buildingMgr.turntableBuildArr.push(s), this.initList(e.BuildGroup.HideBuild), XToast.show("建造成功！"), this.hide(), XMgr.user.gameInfo.useBuildData(i.buildId), XAnalyticsUtil.useLevelItem(`黑店道具-${i.name}`);
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("建造失败！");
@@ -17099,26 +17147,26 @@ define("js/bundle.js", function(require, module, exports) {
                         break;
                     case e.BuildResult.E_NOT_HAVE_PREBUILD:
                         {
-                            let e = t.buildingMgr.getBuildCfg(i.preBuilding.buildId, i.preBuilding.lv);
+                            let e = XMgr.buildingMgr.getBuildCfg(i.preBuilding.buildId, i.preBuilding.lv);
                             XToast.show(`请建造前置建筑：${e.name}！`)
                         }
                 }
             }
             show(i, s) {
                 this.buildPos.x = i, this.buildPos.y = s;
-                let a = t.mapMgr.getRoomIdByGridPos(i, s);
+                let a = XMgr.mapMgr.getRoomIdByGridPos(i, s);
                 this.roomId = a;
-                let n = t.mapMgr.getRoomById(a);
+                let n = XMgr.mapMgr.getRoomById(a);
                 this.playerUuid = n.players[0].uuid, this.node.visible = !0;
-                let r = t.mapMgr.gridPosToMapPos(i, s),
-                    o = t.mapMgr.mapPosToStagePos(r.x, r.y);
+                let r = XMgr.mapMgr.gridPosToMapPos(i, s),
+                    o = XMgr.mapMgr.mapPosToStagePos(r.x, r.y);
                 o.y += this.touchGrid.height / 2, this.firstNodeInfo = {
                     y: null,
                     length: null,
                     dir: null
-                }, o.y >= Laya.stage.height / 2 ? this.firstNodeInfo.dir = "bottom" : this.firstNodeInfo.dir = "top", this.updateMenuUI(), this.curMenu == e.BuildGroup.HideBuild && this.roomId != t.playerMgr.mineRoomId && (this.curMenu = e.BuildGroup.Build), this.initList(this.curMenu), o.y + this.img_bg.height > Laya.stage.height && (o.y -= this.img_bg.height + this.touchGrid.height, o.y = Math.clamp(o.y, 0, Laya.stage.height - this.img_bg.height - this.touchGrid.height));
+                }, o.y >= Laya.stage.height / 2 ? this.firstNodeInfo.dir = "bottom" : this.firstNodeInfo.dir = "top", this.updateMenuUI(), this.curMenu == e.BuildGroup.HideBuild && this.roomId != XMgr.playerMgr.mineRoomId && (this.curMenu = e.BuildGroup.Build), this.initList(this.curMenu), o.y + this.img_bg.height > Laya.stage.height && (o.y -= this.img_bg.height + this.touchGrid.height, o.y = Math.clamp(o.y, 0, Laya.stage.height - this.img_bg.height - this.touchGrid.height));
                 let l = fx.Utils.isNotchScreenDevice();
-                l && l.notchTop && (o.y -= l.notchTop), o.y < 35 && (o.y = 35), this.firstNodeInfo.y = o.y, this.node.pos(Laya.stage.width / 2, o.y), o = t.mapMgr.mapPosToStagePos(r.x, r.y);
+                l && l.notchTop && (o.y -= l.notchTop), o.y < 35 && (o.y = 35), this.firstNodeInfo.y = o.y, this.node.pos(Laya.stage.width / 2, o.y), o = XMgr.mapMgr.mapPosToStagePos(r.x, r.y);
                 let h = this.node.globalToLocal(new Laya.Point(o.x, o.y), !0);
                 this.touchGrid.pos(h.x, h.y)
             }
@@ -17141,23 +17189,23 @@ define("js/bundle.js", function(require, module, exports) {
             }
             show(i, s, a) {
                 this.isSuper = !1, this.isSpecial = !1;
-                let n = t.buildingMgr.getBuildCfg(a.id, a.lv);
-                switch (this.up_build.y = 185, this.show_build.y = 185, this.changeSpecial_build.visible = !1, a.isSuper ? (this.img_bg.height = 510, this.cancel_build.y = 395, this.up_build.y = 255, this.show_build.y = 255, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !0, this.isSuper = !0) : !t.gameMgr.isUsedSuper && n.videoUpgradeIdArr && n.videoUpgradeIdArr.length ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !0, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSuper = !0) : a.type == e.BuildType.tower && a.isSpecial ? (this.up_build.y = 255, a.canChangeSpecial ? (this.img_bg.height = 650, this.cancel_build.y = 535, this.changeSpecial_build.visible = !0) : (this.img_bg.height = 510, this.cancel_build.y = 395), this.specialTower_build.visible = !0, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSpecial = !0) : n.variantDes ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !0, this.videoUpgradeShow_build.visible = !1, this.isVariant = !0) : (this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.img_bg.height = 440, this.cancel_build.y = 325), this.node.visible = !0, this.show_build.visible = !1, this.buildData = a, this.buildPos.x = i, this.buildPos.y = s, a.type) {
+                let n = XMgr.buildingMgr.getBuildCfg(a.id, a.lv);
+                switch (this.up_build.y = 185, this.show_build.y = 185, this.changeSpecial_build.visible = !1, a.isSuper ? (this.img_bg.height = 510, this.cancel_build.y = 395, this.up_build.y = 255, this.show_build.y = 255, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !0, this.isSuper = !0) : !XMgr.gameMgr.isUsedSuper && n.videoUpgradeIdArr && n.videoUpgradeIdArr.length ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !0, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSuper = !0) : a.type == e.BuildType.tower && a.isSpecial ? (this.up_build.y = 255, a.canChangeSpecial ? (this.img_bg.height = 650, this.cancel_build.y = 535, this.changeSpecial_build.visible = !0) : (this.img_bg.height = 510, this.cancel_build.y = 395), this.specialTower_build.visible = !0, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSpecial = !0) : n.variantDes ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !0, this.videoUpgradeShow_build.visible = !1, this.isVariant = !0) : (this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.img_bg.height = 440, this.cancel_build.y = 325), this.node.visible = !0, this.show_build.visible = !1, this.buildData = a, this.buildPos.x = i, this.buildPos.y = s, a.type) {
                     case e.BuildType.bed:
-                        t.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initBed());
+                        XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initBed());
                         break;
                     case e.BuildType.door:
-                        t.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initDoor());
+                        XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initDoor());
                         break;
                     default:
                         {
-                            let e = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
-                            t.buildingMgr.getBuildMaxLv(this.buildData.id) != this.buildData.lv || e.videoUpgradeBuildId ? this.initOther() : e.coin || e.energy ? this.initMaxLv() : this.initShow()
+                            let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                            XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) != this.buildData.lv || e.videoUpgradeBuildId ? this.initOther() : e.coin || e.energy ? this.initMaxLv() : this.initShow()
                         }
                 }
                 this.buildData.type == e.BuildType.bed && (this.img_bg.height = 290);
-                let r = t.mapMgr.gridPosToMapPos(i, s),
-                    o = t.mapMgr.mapPosToStagePos(r.x, r.y);
+                let r = XMgr.mapMgr.gridPosToMapPos(i, s),
+                    o = XMgr.mapMgr.mapPosToStagePos(r.x, r.y);
                 o.y += this.touchGrid.height / 2, o.y + this.img_bg.height > Laya.stage.height ? o.y -= this.img_bg.height + this.touchGrid.height : o.y - this.img_bg.height / 2 < 0 && (o.y = 0), this.node.pos(Laya.stage.width / 2, (Laya.stage.height - this.node.height) / 2 - 100), this.node.width = this.img_bg.width, this.node.height = this.img_bg.height
             }
             hide() {
@@ -17165,9 +17213,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             upgrade(i = !0) {
                 let s = new Laya.Point;
-                switch (s.copy(this.buildPos), t.buildingMgr.getUpgradeRet(this.buildData.playerUuid, s.x, s.y, i)) {
+                switch (s.copy(this.buildPos), XMgr.buildingMgr.getUpgradeRet(this.buildData.playerUuid, s.x, s.y, i)) {
                     case e.BuildResult.E_OK:
-                        XToast.show("升级成功！"), t.buildingMgr.getBuilding(s.x, s.y) && (t.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, i, 0), !t.taskMgr.compeletAllTask() && t.taskMgr.startTask()), this.hide();
+                        XToast.show("升级成功！"), XMgr.buildingMgr.getBuilding(s.x, s.y) && (XMgr.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, i, 0), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()), this.hide();
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("升级失败！");
@@ -17189,9 +17237,9 @@ define("js/bundle.js", function(require, module, exports) {
                         break;
                     case e.BuildResult.E_NOT_HAVE_PREBUILD:
                         {
-                            let e = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1);
+                            let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1);
                             if (e.preBuilding) {
-                                let i = t.buildingMgr.getBuildCfg(e.preBuilding.buildId, e.preBuilding.lv);
+                                let i = XMgr.buildingMgr.getBuildCfg(e.preBuilding.buildId, e.preBuilding.lv);
                                 XToast.show(`请建造前置建筑：${i.name}！`)
                             }
                         }
@@ -17199,13 +17247,13 @@ define("js/bundle.js", function(require, module, exports) {
             }
             super() {
                 let e = new Laya.Point;
-                e.copy(this.buildPos), t.buildingMgr.getBuilding(e.x, e.y) && t.buildingMgr.videoSuper(this.buildData.playerUuid, e.x, e.y), this.hide()
+                e.copy(this.buildPos), XMgr.buildingMgr.getBuilding(e.x, e.y) && XMgr.buildingMgr.videoSuper(this.buildData.playerUuid, e.x, e.y), this.hide()
             }
             initBed() {
                 this.up_build.visible = !0, this.specialDoor_build.visible = !1, this.cancel_build.visible = !1, this.initUpBuild()
             }
             initDoor() {
-                this.up_build.visible = !0, this.specialDoor_build.visible = this.buildData.playerUuid == t.playerMgr.mineUuid, this.cancel_build.visible = !1, this.initUpBuild(), this.initDoorSpecialBuild()
+                this.up_build.visible = !0, this.specialDoor_build.visible = this.buildData.playerUuid == XMgr.playerMgr.mineUuid, this.cancel_build.visible = !1, this.initUpBuild(), this.initDoorSpecialBuild()
             }
             initOther() {
                 this.up_build.visible = !0, this.cancel_build.visible = !0, this.specialDoor_build.visible = !1, this.initUpBuild(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial && (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial())
@@ -17217,8 +17265,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.show_build.visible = !0, this.up_build.visible = !1, this.specialDoor_build.visible = !1, this.cancel_build.visible = !0, this.initShowBuild(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial ? (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial()) : this.isVariant && this.initVideoVariant()
             }
             initUpBuild(i = !1) {
-                let s, a = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
-                if (a.videoUpgradeBuildId ? s = t.buildingMgr.getBuildCfg(a.videoUpgradeBuildId) : (s = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1), i && (s = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv))), !s) return void this.hide();
+                let s, a = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                if (a.videoUpgradeBuildId ? s = XMgr.buildingMgr.getBuildCfg(a.videoUpgradeBuildId) : (s = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1), i && (s = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv))), !s) return void this.hide();
                 let n = this.up_build.getChildByName("img_bg"),
                     r = this.up_build.getChildByName("img_icon_bg"),
                     o = r.getChildByName("img_icon"),
@@ -17230,25 +17278,25 @@ define("js/bundle.js", function(require, module, exports) {
                     c = l.getChildByName("text_energy"),
                     p = this.up_build.getChildByName("img_discount"),
                     f = this.up_build.getChildByName("img_guide");
-                if (f.visible = !1, p.visible = !1, t.gameMgr.isGuide && (f.visible = !0, !f.__seq)) {
+                if (f.visible = !1, p.visible = !1, XMgr.gameMgr.isGuide && (f.visible = !0, !f.__seq)) {
                     let e = f.__seq = (new fx.Sequence).scaleOut(.4, 500).scaleOut(.5, 500);
                     e.isRepeat = !0, e.run(f)
                 }
                 if (a.videoUpgradeBuildId ? (h.visible = !0, l.visible = !1) : (h.visible = !1, l.visible = !0, g.getChildByName("gold1").visible = !0), this.buildData.type == e.BuildType.tower && this.buildData.isSpecial ? (r.skin = "res/PlantingList/img_icon_1.png", n.skin = "res/PlantingList/img_item_1.png") : (r.skin = "res/PlantingList/img_icon.png", n.skin = "res/PlantingList/img_item.png"), this.buildData.isSuper) {
                     r.skin = "res/PlantingList/img_icon_1.png", n.skin = "res/PlantingList/img_item_1.png";
-                    let e = t.buildingMgr.superBuildCfg.get(this.buildData.superId);
+                    let e = XMgr.buildingMgr.superBuildCfg.get(this.buildData.superId);
                     o.skin = e.icon, d.text = e.name
-                } else r.skin = "res/PlantingList/img_icon.png", n.skin = "res/PlantingList/img_item.png", t.gameMgr.gameMode == e.GameMode.E_Defense && this.buildData.playerUuid == t.playerMgr.mineUuid && s.buffId && s.buffIcon && t.user.gameInfo.getBuffData(s.buffId[0]) ? o.skin = s.buffIcon : o.skin = s.icon, d.text = s.name;
+                } else r.skin = "res/PlantingList/img_icon.png", n.skin = "res/PlantingList/img_item.png", XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.buildData.playerUuid == XMgr.playerMgr.mineUuid && s.buffId && s.buffIcon && XMgr.user.gameInfo.getBuffData(s.buffId[0]) ? o.skin = s.buffIcon : o.skin = s.icon, d.text = s.name;
                 u.text = s.description, this.img_pumpkin && (this.img_pumpkin.visible = !1);
                 let m = this.up_build.getChildByName("lb_buffDes");
-                if (m.visible = !1, t.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId) {
+                if (m.visible = !1, XMgr.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId) {
                     let e = "",
                         i = 0;
                     for (let s = 0; s < a.buffId.length; s++) {
-                        let n = t.user.gameInfo.getBuffData(a.buffId[s]);
+                        let n = XMgr.user.gameInfo.getBuffData(a.buffId[s]);
                         if (n) {
                             m.visible = !0;
-                            let r = t.cfg.buffCfg.get(a.buffId[s]),
+                            let r = XMgr.cfg.buffCfg.get(a.buffId[s]),
                                 o = r.buffDes,
                                 l = new RegExp("\\{0\\}", "g");
                             o = o.replace(l, `${r.values[n.lv]}`), e += i ? "，" + o : o, i += 1
@@ -17256,20 +17304,20 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     i && (m.text = "庇护：" + e, this.buildData.isSuper || (r.skin = "res/PlantingList/img_icon_2.png"))
                 }
-                if (this.buildData.playerUuid == t.playerMgr.mineUuid || t.user.gameInfo.getBuffData(18))
+                if (this.buildData.playerUuid == XMgr.playerMgr.mineUuid || XMgr.user.gameInfo.getBuffData(18))
                     if (i) this.up_build.visible = !1, l.visible = !1;
                     else {
-                        let i = t.playerMgr.getPlayer(this.buildData.playerUuid);
+                        let i = XMgr.playerMgr.getPlayer(this.buildData.playerUuid);
                         if (!i) return;
                         let a = !1,
                             n = s.coin,
                             r = s.energy;
-                        t.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (n = Math.round(.9 * s.coin), r = Math.round(.9 * s.energy), p.visible = !0), s.coin >= 0 && !s.energy ? (g.text = Math.floor(n).toString(), g.centerY = 0, g.visible = !0, c.visible = !1, n >= 1e6 && (g.text = Math.floor(n / 1e3).toString() + "K"), a = i.coin >= n) : !s.coin && s.energy >= 0 ? (c.text = r.toString(), c.centerY = 0, c.visible = !0, g.visible = !1, a = i.energy >= r) : s.coin >= 0 && s.energy >= 0 && (g.text = n.toString(), g.centerY = -20, g.visible = !0, n >= 1e5 && (g.text = Math.floor(n / 1e3).toString() + "K"), c.text = r.toString(), c.centerY = 15, c.visible = !0, a = i.coin >= n && i.energy >= r), l.skin = a ? "res/game/menuBtn.png" : "res/game/menuBtnNo.png", l.offAll(Laya.Event.CLICK), l.visible && l.on(Laya.Event.CLICK, this, this.upgrade, [!0]), h.offAll(Laya.Event.CLICK), h.visible && h.on(Laya.Event.CLICK, this, this.videoUpgrade)
+                        XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && s.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (n = Math.round(.9 * s.coin), r = Math.round(.9 * s.energy), p.visible = !0), s.coin >= 0 && !s.energy ? (g.text = Math.floor(n).toString(), g.centerY = 0, g.visible = !0, c.visible = !1, n >= 1e6 && (g.text = Math.floor(n / 1e3).toString() + "K"), a = i.coin >= n) : !s.coin && s.energy >= 0 ? (c.text = r.toString(), c.centerY = 0, c.visible = !0, g.visible = !1, a = i.energy >= r) : s.coin >= 0 && s.energy >= 0 && (g.text = n.toString(), g.centerY = -20, g.visible = !0, n >= 1e5 && (g.text = Math.floor(n / 1e3).toString() + "K"), c.text = r.toString(), c.centerY = 15, c.visible = !0, a = i.coin >= n && i.energy >= r), l.skin = a ? "res/game/menuBtn.png" : "res/game/menuBtnNo.png", l.offAll(Laya.Event.CLICK), l.visible && l.on(Laya.Event.CLICK, this, this.upgrade, [!0]), h.offAll(Laya.Event.CLICK), h.visible && h.on(Laya.Event.CLICK, this, this.videoUpgrade)
                     } else l.visible = !1;
                 g.centerX = 22
             }
             initCancelBuild() {
-                let i = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                let i = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
                 if (!i) return void this.hide();
                 let s = this.cancel_build.getChildByName("img_icon_bg"),
                     a = s.getChildByName("img_icon"),
@@ -17282,40 +17330,40 @@ define("js/bundle.js", function(require, module, exports) {
                 s.skin = "res/PlantingList/img_icon.png";
                 let u = i.coin;
                 a.skin = "res/build/TearDown.png", o.text = "拆除", l.text = "摧毁当前建筑，并返回\n一定的资源";
-                let g = t.user.gameInfo.getBuffData(28);
+                let g = XMgr.user.gameInfo.getBuffData(28);
                 if (!u && !i.energy) {
-                    if (!g || t.gameMgr.gameMode != e.GameMode.E_Defense) return r.visible = !0, void(n.visible = !1); {
+                    if (!g || XMgr.gameMgr.gameMode != e.GameMode.E_Defense) return r.visible = !0, void(n.visible = !1); {
                         s.skin = "res/PlantingList/img_icon_2.png";
-                        let e = t.cfg.buffCfg.get(28);
+                        let e = XMgr.cfg.buffCfg.get(28);
                         o.text = e.name, l.text = e.des
                     }
                 }
-                if (n.visible = !0, r.visible = !1, u > 0 && !i.energy) h.text = (u / 2).toString(), this.buildData.isInit && t.gameMgr.gameMode == e.GameMode.E_SevenGhost && (h.text = "1"), h.centerY = 0, h.visible = !0, d.visible = !1, u >= 1e5 && (h.text = Math.floor(u / 1e3).toString() + "K");
+                if (n.visible = !0, r.visible = !1, u > 0 && !i.energy) h.text = (u / 2).toString(), this.buildData.isInit && XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (h.text = "1"), h.centerY = 0, h.visible = !0, d.visible = !1, u >= 1e5 && (h.text = Math.floor(u / 1e3).toString() + "K");
                 else if (!u && i.energy > 0) {
-                    if (d.text = (i.energy / 2).toString(), this.buildData.isInit && (t.gameMgr.gameMode != e.GameMode.E_Defense || 1 == t.gameMgr.difficultABTest)) {
-                        let e = t.user.gameInfo.getBuffData(27);
+                    if (d.text = (i.energy / 2).toString(), this.buildData.isInit && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest)) {
+                        let e = XMgr.user.gameInfo.getBuffData(27);
                         if (e) {
-                            let s = t.cfg.buffCfg.get(27);
+                            let s = XMgr.cfg.buffCfg.get(27);
                             d.text = Math.floor(i.energy * (s.values[e.lv] / 100)).toString()
                         } else d.text = "1"
                     }
                     d.centerY = 0, d.visible = !0, h.visible = !1
                 } else u > 0 && i.energy > 0 ? (h.text = (u / 2).toString(), h.centerY = -20, h.visible = !0, u >= 1e5 && (h.text = Math.floor(u / 1e3).toString() + "K"), d.text = (i.energy / 2).toString(), d.centerY = 15, d.visible = !0) : (h.centerY = 0, h.visible = !0, d.visible = !1, h.text = "0");
                 n.offAll(Laya.Event.CLICK), n.on(Laya.Event.CLICK, this, () => {
-                    t.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildPos.x, this.buildPos.y, !0), this.hide()
+                    XMgr.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildPos.x, this.buildPos.y, !0), this.hide()
                 })
             }
             initDoorSpecialBuild() {
-                let e = t.buildingMgr.getBuildCfg(2999);
+                let e = XMgr.buildingMgr.getBuildCfg(2999);
                 if (!e) return;
                 let i = this.specialDoor_build.getChildByName("img_icon_bg").getChildByName("img_icon"),
                     s = this.specialDoor_build.getChildByName("img_upgrade"),
                     a = this.specialDoor_build.getChildByName("label_name"),
                     n = this.specialDoor_build.getChildByName("label_describe");
-                s.visible = !0, i.skin = e.icon, a.text = e.name, n.text = e.description, t.playerMgr.getPlayer(this.buildData.playerUuid) && (t.gameMgr.isfreeUpDoor ? s.visible = !1 : s.visible = !0, s.offAll(Laya.Event.CLICK), t.user.gameInfo.getOwnBuildCnt(2999) ? (s.skin = "res/game/menuBtn_free.png", s.on(Laya.Event.CLICK, this, this.freeUpUpgrade)) : (s.skin = "res/game/menuBtn_ad.png", s.on(Laya.Event.CLICK, this, this.videoUpgradeDoor)))
+                s.visible = !0, i.skin = e.icon, a.text = e.name, n.text = e.description, XMgr.playerMgr.getPlayer(this.buildData.playerUuid) && (XMgr.gameMgr.isfreeUpDoor ? s.visible = !1 : s.visible = !0, s.offAll(Laya.Event.CLICK), XMgr.user.gameInfo.getOwnBuildCnt(2999) ? (s.skin = "res/game/menuBtn_free.png", s.on(Laya.Event.CLICK, this, this.freeUpUpgrade)) : (s.skin = "res/game/menuBtn_ad.png", s.on(Laya.Event.CLICK, this, this.videoUpgradeDoor)))
             }
             initShowBuild() {
-                let i = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
+                let i = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
                     s = this.show_build.getChildByName("img_bg"),
                     a = this.show_build.getChildByName("img_icon_bg"),
                     n = a.getChildByName("img_icon"),
@@ -17323,19 +17371,19 @@ define("js/bundle.js", function(require, module, exports) {
                     o = this.show_build.getChildByName("label_describe");
                 if (this.buildData.isSuper) {
                     a.skin = "res/PlantingList/img_icon_1.png", s.skin = "res/PlantingList/img_item_1.png";
-                    let e = t.buildingMgr.superBuildCfg.get(this.buildData.superId);
+                    let e = XMgr.buildingMgr.superBuildCfg.get(this.buildData.superId);
                     n.skin = e.icon, r.text = e.name
-                } else a.skin = "res/PlantingList/img_icon.png", s.skin = "res/PlantingList/img_item.png", t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffIcon && t.user.gameInfo.getBuffData(i.buffId[0]) ? n.skin = i.buffIcon : n.skin = i.icon, r.text = i.name;
+                } else a.skin = "res/PlantingList/img_icon.png", s.skin = "res/PlantingList/img_item.png", XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffIcon && XMgr.user.gameInfo.getBuffData(i.buffId[0]) ? n.skin = i.buffIcon : n.skin = i.icon, r.text = i.name;
                 o.text = i.description;
                 let l = this.show_build.getChildByName("lb_buffDes");
-                if (l.visible = !1, t.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId) {
+                if (l.visible = !1, XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId) {
                     let e = "",
                         s = 0;
                     for (let a = 0; a < i.buffId.length; a++) {
-                        let n = t.user.gameInfo.getBuffData(i.buffId[a]);
+                        let n = XMgr.user.gameInfo.getBuffData(i.buffId[a]);
                         if (n) {
                             l.visible = !0;
-                            let r = t.cfg.buffCfg.get(i.buffId[a]),
+                            let r = XMgr.cfg.buffCfg.get(i.buffId[a]),
                                 o = r.buffDes,
                                 h = new RegExp("\\{0\\}", "g");
                             o = o.replace(h, `${r.values[n.lv]}`), e += s ? "，" + o : o, s += 1
@@ -17345,7 +17393,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             initVideoSuper() {
-                let e = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
+                let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
                     i = this.videoUpgrade_build.getChildByName("img_icon_bg"),
                     s = i.getChildByName("img_icon"),
                     a = this.videoUpgrade_build.getChildByName("label_name"),
@@ -17354,16 +17402,16 @@ define("js/bundle.js", function(require, module, exports) {
                     o = this.videoUpgrade_build.getChildByName("img_upgrade");
                 if (o.offAll(Laya.Event.CLICK), this.buildData.superId) {
                     o.visible = !1, i.visible = !1, r.visible = !0;
-                    let e = t.buildingMgr.superBuildCfg.get(this.buildData.superId);
+                    let e = XMgr.buildingMgr.superBuildCfg.get(this.buildData.superId);
                     n.text = e.description, a.text = e.name
                 } else {
                     o.visible = !0, i.visible = !0, r.visible = !1;
-                    let l = t.buildingMgr.superBuildCfg.get(e.videoUpgradeIdArr[0]);
+                    let l = XMgr.buildingMgr.superBuildCfg.get(e.videoUpgradeIdArr[0]);
                     n.text = l.upDes, s.skin = l.icon, a.text = l.name, o.on(Laya.Event.CLICK, this, this.videoSuper)
                 }
             }
             initVideoVariant() {
-                let e = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
+                let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv),
                     i = this.videoVariant_build.getChildByName("img_icon_bg").getChildByName("img_icon"),
                     s = this.videoVariant_build.getChildByName("label_name"),
                     a = this.videoVariant_build.getChildByName("label_describe"),
@@ -17371,13 +17419,13 @@ define("js/bundle.js", function(require, module, exports) {
                 a.text = e.variantDes, i.skin = e.icon, s.text = e.name, n.offAll(Laya.Event.CLICK), n.on(Laya.Event.CLICK, this, this.videoVariant)
             }
             initChangeSpecial() {
-                t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv), this.changeSpecial_build.getChildByName("img_icon_bg").getChildByName("img_icon");
+                XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv), this.changeSpecial_build.getChildByName("img_icon_bg").getChildByName("img_icon");
                 let e = this.changeSpecial_build.getChildByName("img_upgrade");
                 e.offAll(Laya.Event.CLICK), e.on(Laya.Event.CLICK, this, this.videoChangeSpecial)
             }
             initSpecialTower() {
                 let e = this.buildData,
-                    i = t.buildingMgr.specialTowerCfg.get(e.specialId),
+                    i = XMgr.buildingMgr.specialTowerCfg.get(e.specialId),
                     s = (this.specialTower_build.getChildByName("label_name"), this.specialTower_build.getChildByName("label_describe")),
                     a = this.specialTower_build.getChildByName("img_quality"),
                     n = "";
@@ -17395,18 +17443,18 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initSuperShow() {
                 let e = this.buildData,
-                    i = t.buildingMgr.superBuildCfg.get(e.superId);
+                    i = XMgr.buildingMgr.superBuildCfg.get(e.superId);
                 this.videoUpgradeShow_build.getChildByName("label_describe").text = i.description
             }
             freeUpUpgrade() {
-                t.user.gameInfo.useBuildData(2999), XAnalyticsUtil.useLevelItem("学校技工"), this.upgrade(!1)
+                XMgr.user.gameInfo.useBuildData(2999), XAnalyticsUtil.useLevelItem("学校技工"), this.upgrade(!1)
             }
             videoUpgrade() {
                 let e = this.buildData,
-                    i = t.buildingMgr.getBuildCfg(e.id, e.lv),
-                    s = t.buildingMgr.getBuildCfg(i.videoUpgradeBuildId);
+                    i = XMgr.buildingMgr.getBuildCfg(e.id, e.lv),
+                    s = XMgr.buildingMgr.getBuildCfg(i.videoUpgradeBuildId);
                 if (s.maxCnt) {
-                    let e = t.playerMgr.getPlayer(this.buildData.playerUuid),
+                    let e = XMgr.playerMgr.getPlayer(this.buildData.playerUuid),
                         i = 0,
                         a = !1;
                     for (const t of e.buildings)
@@ -17417,25 +17465,25 @@ define("js/bundle.js", function(require, module, exports) {
                     if (a) return void XToast.show("不能再建造了")
                 }
                 j.I.playVideo("视频升级", this, s => {
-                    s && (t.gameMgr.adCnt++, t.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), t.buildingMgr.buildFree(e.playerUuid, i.videoUpgradeBuildId, e.x, e.y), this.hide(), t.gameMgr.isUsedSuper = !0)
+                    s && (XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), XMgr.buildingMgr.buildFree(e.playerUuid, i.videoUpgradeBuildId, e.x, e.y), this.hide(), XMgr.gameMgr.isUsedSuper = !0)
                 })
             }
             videoUpgradeDoor() {
                 j.I.playVideo("门升级", this, e => {
-                    e && (t.gameMgr.adCnt++, t.gameMgr.isfreeUpDoor = !0, this.upgrade(!1), XAnalyticsUtil.useLevelItem("学校技工"))
+                    e && (XMgr.gameMgr.adCnt++, XMgr.gameMgr.isfreeUpDoor = !0, this.upgrade(!1), XAnalyticsUtil.useLevelItem("学校技工"))
                 })
             }
             videoSuper() {
                 j.I.playVideo("特殊升级", this, e => {
-                    e && (t.gameMgr.adCnt++, t.gameMgr.isUsedSuper = !0, this.super())
+                    e && (XMgr.gameMgr.adCnt++, XMgr.gameMgr.isUsedSuper = !0, this.super())
                 })
             }
             videoChangeSpecial() {
                 j.I.playVideo("重新附魔", this, e => {
                     if (e) {
-                        t.gameMgr.adCnt++;
+                        XMgr.gameMgr.adCnt++;
                         let e = this.buildData;
-                        e.canChangeSpecial = !1, e.specialId = t.buildingMgr.getSpecialTower(!0).id, t.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildData.x, this.buildData.y, !1), t.buildingMgr.buildSpecial(this.buildData), this.hide()
+                        e.canChangeSpecial = !1, e.specialId = XMgr.buildingMgr.getSpecialTower(!0).id, XMgr.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildData.x, this.buildData.y, !1), XMgr.buildingMgr.buildSpecial(this.buildData), this.hide()
                     }
                 })
             }
@@ -17443,9 +17491,9 @@ define("js/bundle.js", function(require, module, exports) {
                 j.I.playVideo("异种变化", this, e => {
                     if (e) {
                         let e = this.buildData,
-                            i = t.buildingMgr.getBuildCfg(e.id, e.lv),
+                            i = XMgr.buildingMgr.getBuildCfg(e.id, e.lv),
                             s = fx.Utils.randomInArray(i.variantList);
-                        t.gameMgr.adCnt++, t.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), t.buildingMgr.buildFree(e.playerUuid, s.id, e.x, e.y), this.hide()
+                        XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), XMgr.buildingMgr.buildFree(e.playerUuid, s.id, e.x, e.y), this.hide()
                     }
                 })
             }
@@ -17453,12 +17501,12 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!this.node.visible) return;
                 if (!this.buildData) return;
                 let i = this.up_build.getChildByName("img_upgrade"),
-                    s = t.playerMgr.getPlayer(this.buildData.playerUuid);
+                    s = XMgr.playerMgr.getPlayer(this.buildData.playerUuid);
                 if (!s) return;
-                let a = t.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1),
+                let a = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv + 1),
                     n = a.coin,
                     r = a.energy;
-                t.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(1) && t.user.gameInfo.getBuffData(1) && (n = Math.round(.9 * a.coin), r = Math.round(.9 * a.energy));
+                XMgr.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (n = Math.round(.9 * a.coin), r = Math.round(.9 * a.energy));
                 let o = s.coin >= n && s.energy >= r;
                 i.skin = o ? "res/game/menuBtn.png" : "res/game/menuBtnNo.png"
             }
@@ -17477,31 +17525,31 @@ define("js/bundle.js", function(require, module, exports) {
                 this.gameNode.parent.addChild(a), this.borrowMoneyMenu = a.getComponent(XBorrowMoneyMenuScript), a.visible = !1, this.tipsList = [], this.iconList = [], t.getChildByName("btn_back").on(Laya.Event.CLICK, this, this.onClickBack), t.getChildByName("btn_setting").on(Laya.Event.CLICK, this, this.onClickSetting)
             }
             onClickBack() {
-                t.ui.open(l.ExitView)
+                XMgr.ui.open(l.ExitView)
             }
             onClickSetting() {
-                t.ui.open(l.SettingDialog, {
+                XMgr.ui.open(l.SettingDialog, {
                     isInGame: !0
                 })
             }
             startGameCd() {
-                let e = t.cfg.constant.startTime;
+                let e = XMgr.cfg.constant.startTime;
                 this.label_cd.visible = !0, this.label_cd.value = e.toString(), Laya.timer.loop(1e3, this, this.countdownFunc)
             }
             countdownFunc() {
                 if (this.gameNode.destroyed) return void Laya.timer.clear(this, this.countdownFunc);
                 let i = Number(this.label_cd.value);
-                i -= 1, this.label_cd.value = i.toString(), i <= 10 && XChoreUtil.playSound(116), i <= 0 && (this.gameNode.destroyed || (XChoreUtil.playSound(109), Laya.timer.clear(this, this.countdownFunc), this.label_cd.visible = !1, t.gameMgr.gameMode == e.GameMode.E_Defense ? Laya.timer.once(5e3, this, () => {
-                    t.buildingMgr.clearMapBuild()
-                }) : t.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人开始攻击~") : XToast.show("噬魂者开始攻击~"), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_START)))
+                i -= 1, this.label_cd.value = i.toString(), i <= 10 && XChoreUtil.playSound(116), i <= 0 && (this.gameNode.destroyed || (XChoreUtil.playSound(109), Laya.timer.clear(this, this.countdownFunc), this.label_cd.visible = !1, XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? Laya.timer.once(5e3, this, () => {
+                    XMgr.buildingMgr.clearMapBuild()
+                }) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人开始攻击~") : XToast.show("噬魂者开始攻击~"), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_START)))
             }
             startAngelRevive() {
                 this.box_angelRevive.visible = !0, this.lb_angelRevive.value = "10", Laya.timer.loop(1e3, this, this.countdownRevive)
             }
             countdownRevive() {
-                if (this.gameNode.destroyed || t.gameMgr.gameStatus == e.GameStatus.E_GAME_FINISH) return void Laya.timer.clear(this, this.countdownRevive);
+                if (this.gameNode.destroyed || XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_FINISH) return void Laya.timer.clear(this, this.countdownRevive);
                 let i = Number(this.lb_angelRevive.value);
-                i -= 1, this.lb_angelRevive.value = i.toString(), i <= 0 && (this.gameNode.destroyed || (Laya.timer.clear(this, this.countdownRevive), this.box_angelRevive.visible = !1, t.playerMgr.addAngel()))
+                i -= 1, this.lb_angelRevive.value = i.toString(), i <= 0 && (this.gameNode.destroyed || (Laya.timer.clear(this, this.countdownRevive), this.box_angelRevive.visible = !1, XMgr.playerMgr.addAngel()))
             }
             showUpgradeMeun(e, t, i) {
                 this.hideAllMenu(), this.upgradeMenu.show(e, t, i)
@@ -17537,7 +17585,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateBtn.visible = !0, this.operateImg.skin = s ? "res/game/img_kaimen.png" : "res/game/img_guanmen.png", this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.door, t, i, s]), this.operateGrid.setValue(t, i)
             }
             showBedBtn(i, s) {
-                if (t.gameMgr.isGuide) {
+                if (XMgr.gameMgr.isGuide) {
                     if (this.img_hand) this.img_hand.visible = !0;
                     else {
                         this.img_hand = new Laya.Image("res/game/guide/finger1.png"), this.img_hand.pivot(26, 12), this.img_hand.scale(.5, .5), this.operateBtn.addChild(this.img_hand), this.img_hand.pos(70, 40);
@@ -17546,7 +17594,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !1)
                 }
-                let a = t.playerMgr.player;
+                let a = XMgr.playerMgr.player;
                 this.operateBtn.visible = !0, this.operateImg.skin = this.switchOperateImg(a.skinId), this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.bed, i, s, null]), this.operateGrid.setValue(i, s)
             }
             showMapBuildBtn(e, t) {
@@ -17557,15 +17605,15 @@ define("js/bundle.js", function(require, module, exports) {
                 return t = "res/game/img_shangchuang.png"
             }
             onClickOperateBtn(i, s, a, n, r) {
-                if (r.stopPropagation(), this.hideOperateBtn(), i == e.BuildType.door) n ? (XChoreUtil.playSound(123), t.buildingMgr.openDoorByGridPos(s, a)) : (XChoreUtil.playSound(122), t.buildingMgr.closeDoorByGridPos(s, a));
+                if (r.stopPropagation(), this.hideOperateBtn(), i == e.BuildType.door) n ? (XChoreUtil.playSound(123), XMgr.buildingMgr.openDoorByGridPos(s, a)) : (XChoreUtil.playSound(122), XMgr.buildingMgr.closeDoorByGridPos(s, a));
                 else if (i == e.BuildType.bed) {
-                    0 == t.gameMgr.upBed(s, a, t.playerMgr.mineUuid) && t.mapMgr.lowLayer.destroyChildren()
+                    0 == XMgr.gameMgr.upBed(s, a, XMgr.playerMgr.mineUuid) && XMgr.mapMgr.lowLayer.destroyChildren()
                 }
             }
             onClickShiqu(e, i, s) {
                 s.stopPropagation(), this.hideOperateBtn();
-                let a = t.buildingMgr.getMapBuild(e, i);
-                t.playerMgr.player.ownerScript.takeMapBuild(a)
+                let a = XMgr.buildingMgr.getMapBuild(e, i);
+                XMgr.playerMgr.player.ownerScript.takeMapBuild(a)
             }
             hideOperateBtn() {
                 fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !0), this.img_hand && (this.img_hand.visible = !1), this.operateBtn.visible && (this.operateBtn.visible = !1)
@@ -17575,17 +17623,17 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateOperateBtn() {
                 if (!this.operateBtn.visible) return;
-                let e = t.mapMgr.gridPosToMapPos(this.operateGrid.x, this.operateGrid.y),
-                    i = t.mapMgr.mapPosToStagePos(e.x, e.y);
+                let e = XMgr.mapMgr.gridPosToMapPos(this.operateGrid.x, this.operateGrid.y),
+                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 this.operateBtn.pos(i.x, i.y)
             }
             getTokenIcon(t) {
                 return t == e.TokenType.E_Coin ? "res/game/img_coin.png" : t == e.TokenType.E_Energy ? "res/game/img_energy.png" : void 0
             }
             valueTips(e, i, s, a, n = 0, r = !0, o = !1) {
-                if (!t.mapMgr.isInStageByMapPos(s, a)) return;
+                if (!XMgr.mapMgr.isInStageByMapPos(s, a)) return;
                 let l;
-                (l = this.tipsList.length > 0 ? this.tipsList.pop() : fx.Utils.createPrefab(T.Prefab_IconTips)).visible = !0, t.mapMgr.mapNode.addChild(l);
+                (l = this.tipsList.length > 0 ? this.tipsList.pop() : fx.Utils.createPrefab(T.Prefab_IconTips)).visible = !0, XMgr.mapMgr.mapNode.addChild(l);
                 let h = l.getChildByName("labelValue");
                 if (i > 999) {
                     const e = i / 1e3;
@@ -17614,8 +17662,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let n;
                 if ((n = this.iconList.length > 0 ? this.iconList.pop() : fx.Utils.createPrefab(T.Prefab_LabelTips)).visible = !0, a) a.addChild(n);
                 else {
-                    if (!t.mapMgr.isInStageByMapPos(e, i)) return;
-                    t.mapMgr.mapNode.addChild(n)
+                    if (!XMgr.mapMgr.isInStageByMapPos(e, i)) return;
+                    XMgr.mapMgr.mapNode.addChild(n)
                 }
                 let r = n.getChildByName("imgToken");
                 r.skin = s, r.scale(.75, .75), n.pos(e, i), n.alpha = 1, Laya.Tween.clearAll(n);
@@ -17662,7 +17710,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return (t = t || new Laya.Point).x = .5 * e.width, t.y = .5 * e.height, e.localToGlobal(t), t
             }
             show(e) {
-                t.gameMgr.isPause = !0, this.stepIndex = e.step, this.node.visible = !0, this.node.alpha = 1, this.node.width = Laya.stage.width, this.node.height = Laya.stage.height, this.clickMask || (this.clickMask = new Laya.Image("res/mask.png"), this.clickMask.alpha = 0, this.clickMask.anchorX = this.clickMask.anchorY = .5, this.node.addChild(this.clickMask));
+                XMgr.gameMgr.isPause = !0, this.stepIndex = e.step, this.node.visible = !0, this.node.alpha = 1, this.node.width = Laya.stage.width, this.node.height = Laya.stage.height, this.clickMask || (this.clickMask = new Laya.Image("res/mask.png"), this.clickMask.alpha = 0, this.clickMask.anchorX = this.clickMask.anchorY = .5, this.node.addChild(this.clickMask));
                 let i, s = this.node.getChildByName("img_mask"),
                     a = s.getChildAt(0);
                 a.anchorX = a.anchorY = .5, a.blendMode = "destination-out", s.cacheAs = "bitmap", e.clickNode ? i = this.localCenterToGlobal(e.clickNode) : e.clickPos && (i = new Laya.Point(e.clickPos.x, e.clickPos.y)), i ? (s.globalToLocal(i), a.pos(i.x, i.y), a.size(e.clickWidth, e.clickHeight)) : a.size(1, 1), this.clickMask.offAll(Laya.Event.CLICK), this.clickMask.on(Laya.Event.CLICK, this, t => {
@@ -18061,14 +18109,14 @@ define("js/bundle.js", function(require, module, exports) {
         class wn {
             static check(e) {
                 this.callback = e;
-                let i = t.controller.versionData.hotFixVer;
+                let i = XMgr.controller.versionData.hotFixVer;
                 if (!this.checked) {
                     if (this.checked = !0, !i) return void this.callback(0);
                     this.onChecked(null)
                 }
             }
             static onChecked(e) {
-                let i = t.controller.versionData.hotFixVer;
+                let i = XMgr.controller.versionData.hotFixVer;
                 if (e && e.version == i) this.callback(1);
                 else {
                     let e = `${V.patch_url}/${this.patchFileName}.${i}.bin`;
@@ -18084,7 +18132,7 @@ define("js/bundle.js", function(require, module, exports) {
                         Math: Math,
                         window: window,
                         BundleJs: BundleJs,
-                        Game: t,
+                        Game: XMgr,
                         fx: fx,
                         sdk: sdk,
                         Laya: Laya
@@ -18118,8 +18166,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.taskTextArr = [], this.isInit = !1, this.index = 1
             }
             init() {
-                if (t.gameMgr.gameMode != e.GameMode.E_Defense) return void(this.isInit = !1);
-                let i = t.user.gameInfo;
+                if (XMgr.gameMgr.gameMode != e.GameMode.E_Defense) return void(this.isInit = !1);
+                let i = XMgr.user.gameInfo;
                 if (i.winCnt + i.failCnt >= 3) return void(this.isInit = !1);
                 let s = fx.CfgMgr.instance.get("taskCfg");
                 s = fx.CfgMgr.instance.get("taskCfg_test"), this.taskTextArr = [];
@@ -18137,36 +18185,36 @@ define("js/bundle.js", function(require, module, exports) {
                 return t = fx.CfgMgr.instance.get("taskCfg_test", e)
             }
             isBedLvEnough(e) {
-                let i = t.playerMgr.player;
+                let i = XMgr.playerMgr.player;
                 return !(!i || !i.bedModel) && i.bedModel.lv > e
             }
             compeletAllTask() {
                 return !this.isInit || !(this.index <= this.taskTextArr.length) && (fx.EventCenter.I.off(XEventNames.E_Bed_Up, this, this.startTask), !0)
             }
             Task1() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.taskCompelet()
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.taskCompelet()
             }
             Task2() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(1) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 2)
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.isBedLvEnough(1) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 2)
             }
             Task3() {
-                t.gameMgr.randomCnt > 0 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 3)
+                XMgr.gameMgr.randomCnt > 0 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 3)
             }
             Task4() {
                 {
-                    let e = t.gameMgr.mineRoom;
+                    let e = XMgr.gameMgr.mineRoom;
                     e && e.doorModel && e.doorModel.lv > 1 ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 4)
                 }
             }
             Task5() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(2) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 5)
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.isBedLvEnough(2) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 5)
             }
             Task6() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(3) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 6)
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.isBedLvEnough(3) ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 6)
             }
             Task7() {
-                let e = t.gameMgr.mineRoom;
-                if (t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && e && e.buildings) {
+                let e = XMgr.gameMgr.mineRoom;
+                if (XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && e && e.buildings) {
                     let t = 0;
                     for (let i = 0; i < e.buildings.length; i++) {
                         const s = e.buildings[i];
@@ -18176,14 +18224,14 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             Task8() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && (t.gameMgr.isClickRepair ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 8))
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && (XMgr.gameMgr.isClickRepair ? this.taskCompelet() : fx.EventCenter.I.event(XEventNames.E_GuideHand_Show, 8))
             }
             Task9() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(4) && this.taskCompelet()
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.isBedLvEnough(4) && this.taskCompelet()
             }
             Task10() {
-                let e = t.gameMgr.mineRoom;
-                if (t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && e && e.buildings) {
+                let e = XMgr.gameMgr.mineRoom;
+                if (XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && e && e.buildings) {
                     let t = 0;
                     for (let i = 0; i < e.buildings.length; i++) {
                         const s = e.buildings[i];
@@ -18193,11 +18241,11 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             Task11() {
-                t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && this.isBedLvEnough(6) && this.taskCompelet()
+                XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && this.isBedLvEnough(6) && this.taskCompelet()
             }
             Task12() {
-                let e = t.gameMgr.mineRoom;
-                if (t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && e && e.buildings) {
+                let e = XMgr.gameMgr.mineRoom;
+                if (XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && e && e.buildings) {
                     let t = 0;
                     for (let i = 0; i < e.buildings.length; i++) {
                         const s = e.buildings[i];
@@ -18207,8 +18255,8 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             Task13() {
-                let e = t.gameMgr.mineRoom;
-                if (t.playerMgr.isPlayerBed(t.playerMgr.mineUuid) && e && e.buildings) {
+                let e = XMgr.gameMgr.mineRoom;
+                if (XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) && e && e.buildings) {
                     let t = 0;
                     for (let i = 0; i < e.buildings.length; i++) {
                         const s = e.buildings[i];
@@ -18293,17 +18341,17 @@ define("js/bundle.js", function(require, module, exports) {
                 }), fx.Utils.isOnMiniGame() && (sdk.Sdk.isOnWeiXin() ? V.channel_AdIds.videoId.length > 0 && (sdk.Sdk.instance.adIds = V.channel_AdIds) : sdk.Sdk.instance.adIds = V.channel_AdIds, sdk.Sdk.isOnWeiXin() ? j.I.initWxVideo() : sdk.Sdk.instance.preloadVideo()), XRegClass.init(), this.initGame(), this.initConfig()
             }
             initGame() {
-                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, 
-                t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, 
-                t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, 
-                t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new XGameUI, t.mapMgr = new MapMgr, 
-                t.buildingMgr = new XBuildingMgr, t.playerMgr = new XPlayerMgr, t.bulletMgr = new XBulletMgr, 
-                t.guideMgr = new XGuildMgr, t.buffMgr = new BuffMgr, t.taskMgr = new TaskMgr
+                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, 
+                XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, 
+                XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, 
+                XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new GameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new MapMgr, 
+                XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, 
+                XMgr.guideMgr = new XGuildMgr, XMgr.buffMgr = new BuffMgr, XMgr.taskMgr = new TaskMgr
             }
             initConfig() {
-                this.cfgTime = Date.now(), LoadingUtil.show("同步配置文件"), t.controller.queryVersionCfg(() => {
+                this.cfgTime = Date.now(), LoadingUtil.show("同步配置文件"), XMgr.controller.queryVersionCfg(() => {
                     wn.check(() => {
-                        t.controller.queryCfgs(() => {
+                        XMgr.controller.queryCfgs(() => {
                             LoadingUtil.hide(), this.onConfigInited()
                         })
                     })
@@ -18313,11 +18361,11 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = (Date.now() - this.cfgTime) / 1e3;
                 e = Math.round(100 * e) / 100, XAnalyticsUtil.track("load_cfg", {
                     load_time: e
-                }), t.cfg = new XCfgMgr, t.user = new XUser, fx.EventCenter.I.event("InfoNeedInit"), t.user.parseFromLocal(), this.getServerData()
+                }), XMgr.cfg = new XCfgMgr, XMgr.user = new XUser, fx.EventCenter.I.event("InfoNeedInit"), XMgr.user.parseFromLocal(), this.getServerData()
             }
             getServerData() {
                 this.syncTime = Date.now(), LoadingUtil.show("数据同步中"), XEventDispatcher.I.init(V.serverURL, V.gameID, V.platform, e => {
-                    LoadingUtil.hide(), e ? (e.data && t.user.parseFromServer(e.data), this.onSyncdData()) : t.ui.showMessageDialog({
+                    LoadingUtil.hide(), e ? (e.data && XMgr.user.parseFromServer(e.data), this.onSyncdData()) : XMgr.ui.showMessageDialog({
                         content: "数据同步失败，请重试",
                         showSureBtn: !0,
                         onSure: () => {
@@ -18330,7 +18378,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = (Date.now() - this.syncTime) / 1e3;
                 e = Math.round(100 * e) / 100, XAnalyticsUtil.track("sync_data", {
                     sync_time: e
-                }), t.reporter.init(), t.user.init(), t.language.init(), t.user.checkNewDay(), t.user.saveToLocal(), t.user.saveToServer(), t.user.updateInvite(), this.loadResource()
+                }), XMgr.reporter.init(), XMgr.user.init(), XMgr.language.init(), XMgr.user.checkNewDay(), XMgr.user.saveToLocal(), XMgr.user.saveToServer(), XMgr.user.updateInvite(), this.loadResource()
             }
             async loadResource() {
                 let e = 0,
@@ -18339,12 +18387,12 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = () => {
                     ++e >= i.length && this.enterGame()
                 };
-                for (const e of i) e.includes("fnt") ? t.assetLoader.loadBMFont(e, s) : t.assetLoader.loadPrefab(e, s, !0)
+                for (const e of i) e.includes("fnt") ? XMgr.assetLoader.loadBMFont(e, s) : XMgr.assetLoader.loadPrefab(e, s, !0)
             }
             enterGame() {
                 let e = Laya.timer.currTimer;
-                XRandomUtil.init(e), XAnalyticsUtil.onLevelChange(t.user.gameInfo.curLv), XAnalyticsUtil.onHunterLevelChange(t.user.gameInfo.curHunterLv), t.gameMgr.skillABTest = 1, Laya.timer.callLater(this, function() {
-                    console.log("切换游戏场景！"), t.ui.changeScene(l.MainScene, {
+                XRandomUtil.init(e), XAnalyticsUtil.onLevelChange(XMgr.user.gameInfo.curLv), XAnalyticsUtil.onHunterLevelChange(XMgr.user.gameInfo.curHunterLv), XMgr.gameMgr.skillABTest = 1, Laya.timer.callLater(this, function() {
+                    console.log("切换游戏场景！"), XMgr.ui.changeScene(l.MainScene, {
                         from: "loading"
                     })
                 })
@@ -18363,21 +18411,21 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.owner
             }
             onAwake() {
-                this.onTianChange(), t.user.gameInfo.on(Ce.TianChange, this, this.onTianChange)
+                this.onTianChange(), XMgr.user.gameInfo.on(Ce.TianChange, this, this.onTianChange)
             }
             onTianChange() {
-                let e = t.user.gameInfo.tian;
+                let e = XMgr.user.gameInfo.tian;
                 this.lb_num.text = `${e}`
             }
             onDestroy() {
-                t.user.gameInfo.off(Ce.TianChange, this, this.onTianChange)
+                XMgr.user.gameInfo.off(Ce.TianChange, this, this.onTianChange)
             }
         }
         class xn extends Laya.Script {get node() {
                 return this.owner
             }
             onAwake() {
-                t.controller.versionData.ServiceChat && sdk.Sdk.isOnWeiXin() ? this.node.on(Laya.Event.CLICK, this, () => {
+                XMgr.controller.versionData.ServiceChat && sdk.Sdk.isOnWeiXin() ? this.node.on(Laya.Event.CLICK, this, () => {
                     sdk.Sdk.instance.openCustomerServiceConversation()
                 }) : this.node.visible = !1
             }
@@ -18386,27 +18434,27 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.owner
             }
             onAwake() {
-                this.onCoinChange(), t.user.gameInfo.on(Ce.CoinChange, this, this.onCoinChange)
+                this.onCoinChange(), XMgr.user.gameInfo.on(Ce.CoinChange, this, this.onCoinChange)
             }
             onCoinChange() {
-                let e = t.user.gameInfo.coin;
+                let e = XMgr.user.gameInfo.coin;
                 this.lb_num.text = `${e}`
             }
             onDestroy() {
-                t.user.gameInfo.off(Ce.CoinChange, this, this.onCoinChange)
+                XMgr.user.gameInfo.off(Ce.CoinChange, this, this.onCoinChange)
             }
         }
         class Tn extends Laya.Script {get node() {
                 return this.owner
             }
             onAwake() {
-                this.img_dot = this.node.seekChildByName("img_dot"), this.updateUI(), t.user.gameInfo.on(Ce.GameClubDataChange, this, this.updateUI), t.user.gameInfo.on(Ce.GameClubRewardClaimed, this, this.updateUI)
+                this.img_dot = this.node.seekChildByName("img_dot"), this.updateUI(), XMgr.user.gameInfo.on(Ce.GameClubDataChange, this, this.updateUI), XMgr.user.gameInfo.on(Ce.GameClubRewardClaimed, this, this.updateUI)
             }
             updateUI() {
                 let e = !1,
-                    i = t.cfg.clubReward.getList().slice();
+                    i = XMgr.cfg.clubReward.getList().slice();
                 for (const s of i) {
-                    if (!t.user.gameInfo.isClubRewardClaimed(s.id)) {
+                    if (!XMgr.user.gameInfo.isClubRewardClaimed(s.id)) {
                         e = !0;
                         break
                     }
@@ -18414,7 +18462,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_dot.visible = e
             }
             onClick(e) {
-                t.ui.openPanel(l.ClubRewardDialog)
+                XMgr.ui.openPanel(l.ClubRewardDialog)
             }
         }
         class En extends Laya.Script {
@@ -18809,7 +18857,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.initList(), this.img_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
             onClickClose() {
-                t.ui.close(this)
+                XMgr.ui.close(this)
             }
             initList() {
                 let e = [];
@@ -19022,7 +19070,7 @@ define("js/bundle.js", function(require, module, exports) {
                 qn.sDisableGpu = !0
             }
             static clearStorage() {
-                t.user.changeAccount = !0, XEventDispatcher.I.deleteStorage(e => {
+                XMgr.user.changeAccount = !0, XEventDispatcher.I.deleteStorage(e => {
                     e && (Laya.LocalStorage.clear(), XToast.show("存档已清除，请重启游戏"))
                 })
             }
@@ -19030,81 +19078,81 @@ define("js/bundle.js", function(require, module, exports) {
                 window.__GMSkipAd = !0
             }
             static addCityRankValue(e) {
-                e = Number(e), isNaN(e) || t.rankMgr.addCityRankValue("pass", e)
+                e = Number(e), isNaN(e) || XMgr.rankMgr.addCityRankValue("pass", e)
             }
             static openCityRankDialog() {
-                t.user.userInfo.isSelectCity() ? t.ui.open(l.CityRankDialog) : t.ui.open(l.SelectCityDialog)
+                XMgr.user.userInfo.isSelectCity() ? XMgr.ui.open(l.CityRankDialog) : XMgr.ui.open(l.SelectCityDialog)
             }
             static async openFriendRankUI() {
-                t.ui.openWxOpenDataContext("FriendRankUI")
+                XMgr.ui.openWxOpenDataContext("FriendRankUI")
             }
             static async setWxUserCloudStorage(e, i) {
-                i = Number(i), isNaN(i) || t.rankMgr.setFriendRank(e, i)
+                i = Number(i), isNaN(i) || XMgr.rankMgr.setFriendRank(e, i)
             }
             static async setCustomRankValue(e, i) {
-                i = Number(i), isNaN(i) || t.rankMgr.setCustomRankValue(e, i, t.user.gameInfo.curSkinId)
+                i = Number(i), isNaN(i) || XMgr.rankMgr.setCustomRankValue(e, i, XMgr.user.gameInfo.curSkinId)
             }
             static addMapEquip() {
-                t.buildingMgr.addMapEquip(1, !1)
+                XMgr.buildingMgr.addMapEquip(1, !1)
             }
             static hunterUpgrade() {
-                let e = t.playerMgr.hunters[0];
+                let e = XMgr.playerMgr.hunters[0];
                 if (e) {
-                    let i = t.cfg.hunterCfg.upAtcCntList;
+                    let i = XMgr.cfg.hunterCfg.upAtcCntList;
                     if (e.lv <= i.length) {
                         let s = i[e.lv - 1];
-                        s = Math.ceil(s * (1 + t.gameMgr.dCfg.upRate)), e.ownerScript.atkCnt += s, e.ownerScript.checkUpgrade()
+                        s = Math.ceil(s * (1 + XMgr.gameMgr.dCfg.upRate)), e.ownerScript.atkCnt += s, e.ownerScript.checkUpgrade()
                     }
                 }
             }
             static useYanluo() {
-                let e = t.playerMgr.hunters[0];
+                let e = XMgr.playerMgr.hunters[0];
                 e && e.ownerScript.useYanluo()
             }
             static addCoin() {
-                let e = t.playerMgr.mineUuid;
-                t.playerMgr.changePlayerIncomeByUuid(e, 1e5, 1e5)
+                let e = XMgr.playerMgr.mineUuid;
+                XMgr.playerMgr.changePlayerIncomeByUuid(e, 1e5, 1e5)
             }
             static buildById(e, i) {
                 if (e = Number(e), isNaN(e)) return;
                 i = Number(i), isNaN(i) && (i = 1);
-                let s = t.playerMgr.mineUuid,
-                    a = t.playerMgr.getPlayer(s);
+                let s = XMgr.playerMgr.mineUuid,
+                    a = XMgr.playerMgr.getPlayer(s);
                 if (-1 == a.roomId) return;
-                let n = t.mapMgr.getRandomPosByRoomId(a.roomId);
-                n && t.buildingMgr.buildFree(t.playerMgr.mineUuid, e, n.x, n.y, 0, i)
+                let n = XMgr.mapMgr.getRandomPosByRoomId(a.roomId);
+                n && XMgr.buildingMgr.buildFree(XMgr.playerMgr.mineUuid, e, n.x, n.y, 0, i)
             }
             static specialById(e) {
                 if (e = Number(e), isNaN(e)) return;
-                let i = t.playerMgr.mineUuid,
-                    s = t.playerMgr.getPlayer(i);
+                let i = XMgr.playerMgr.mineUuid,
+                    s = XMgr.playerMgr.getPlayer(i);
                 if (-1 == s.roomId) return;
-                let a = t.mapMgr.getRandomPosByRoomId(s.roomId);
-                a && t.buildingMgr.buildFree(t.playerMgr.mineUuid, 7777, a.x, a.y, 0, 1, !0, e)
+                let a = XMgr.mapMgr.getRandomPosByRoomId(s.roomId);
+                a && XMgr.buildingMgr.buildFree(XMgr.playerMgr.mineUuid, 7777, a.x, a.y, 0, 1, !0, e)
             }
             static setMap(e) {
                 e = Number(e), isNaN(e) || (Laya.__setMap = e)
             }
             static getCoin(e) {
-                e = Number(e), !isNaN(e) && e || (e = 5e3), t.user.gameInfo.addCoin(e)
+                e = Number(e), !isNaN(e) && e || (e = 5e3), XMgr.user.gameInfo.addCoin(e)
             }
             static getTian(e) {
-                e = Number(e), !isNaN(e) && e || (e = 5e3), t.user.gameInfo.addTian(e)
+                e = Number(e), !isNaN(e) && e || (e = 5e3), XMgr.user.gameInfo.addTian(e)
             }
             static openGameEndBox() {
-                if (t.buildingMgr.getBuildCfg(6001)) {
-                    let e = t.cfg.constant.gameEndBox[2];
-                    t.ui.open(l.GameEndBoxDialog, {
+                if (XMgr.buildingMgr.getBuildCfg(6001)) {
+                    let e = XMgr.cfg.constant.gameEndBox[2];
+                    XMgr.ui.open(l.GameEndBoxDialog, {
                         rewardArr: e
                     })
                 }
             }
             static openBuffChoose() {
-                t.gameMgr.isChooseBuff() && t.ui.open(l.BuffChooseDialog)
+                XMgr.gameMgr.isChooseBuff() && XMgr.ui.open(l.BuffChooseDialog)
             }
             static addBuffById(e) {
-                if (t.gameMgr.isChooseBuff()) {
-                    e = Number(e), t.cfg.buffCfg.get(e) && t.user.gameInfo.addBuff(e)
+                if (XMgr.gameMgr.isChooseBuff()) {
+                    e = Number(e), XMgr.cfg.buffCfg.get(e) && XMgr.user.gameInfo.addBuff(e)
                 }
             }
             static setQuickMatch() {
@@ -19112,73 +19160,73 @@ define("js/bundle.js", function(require, module, exports) {
             }
             static addAllPrize() {
                 let e = ["1001_1", "5002_1", "6018_1", "3005_1", "3007_1", "3002_1", "6021_1", "6017_1", "5005_1", "3008_1", "3009_1", "7777_1", "3006_1", "6023_1", "5000_1", "5000_2", "5000_3", "4000_1", "4000_2", "4000_3", "4000_5"];
-                for (const i of e) t.user.gameInfo.addOwnPrizeData(i)
+                for (const i of e) XMgr.user.gameInfo.addOwnPrizeData(i)
             }
             static chooseDifficult(e) {
                 if (e = Number(e), isNaN(e) || !e) return;
-                let i = t.cfg.difficultCfg.length;
-                t.user.gameInfo.setCurLv(Math.max(1, Math.min(e, i)))
+                let i = XMgr.cfg.difficultCfg.length;
+                XMgr.user.gameInfo.setCurLv(Math.max(1, Math.min(e, i)))
             }
             static openWin() {
-                t.user.gameInfo.winCnt += 1, t.user.gameInfo.mapBuildRate = .3, t.gameMgr.gameover(!0), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.WinDialog)
+                XMgr.user.gameInfo.winCnt += 1, XMgr.user.gameInfo.mapBuildRate = .3, XMgr.gameMgr.gameover(!0), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.WinDialog)
             }
             static openFail() {
-                t.user.gameInfo.failCnt += 1, t.user.gameInfo.mapBuildRate = .5, t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.FailDialog)
+                XMgr.user.gameInfo.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog)
             }
             static chooseHunterDifficult(e) {
                 if (e = Number(e), isNaN(e) || !e) return;
-                let i = t.cfg.hunterDifficultCfg.length;
-                t.user.gameInfo.setCurHunterLv(Math.max(1, Math.min(e, i)))
+                let i = XMgr.cfg.hunterDifficultCfg.length;
+                XMgr.user.gameInfo.setCurHunterLv(Math.max(1, Math.min(e, i)))
             }
             static openHunterWin() {
-                t.gameMgr.gameover(!0), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.HunterWinDialog)
+                XMgr.gameMgr.gameover(!0), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.HunterWinDialog)
             }
             static openHunterFail() {
-                t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.HunterFailDialog)
+                XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.HunterFailDialog)
             }
             static newDay() {
-                t.user.userInfo.onNewDay(), t.user.gameInfo.onNewDay()
+                XMgr.user.userInfo.onNewDay(), XMgr.user.gameInfo.onNewDay()
             }
             static openDailyShare() {
-                t.ui.openPanel(l.DailyShareDialog)
+                XMgr.ui.openPanel(l.DailyShareDialog)
             }
             static unlockBuff() {
-                t.user.gameInfo.isUnlockBuff = !0
+                XMgr.user.gameInfo.isUnlockBuff = !0
             }
             static addBuff(e) {
                 if (e = Number(e), !isNaN(e) && e)
                     for (let i = 0; i < e; i++) {
                         let e = [];
-                        if (t.cfg.buffCfg.foreach(i => {
+                        if (XMgr.cfg.buffCfg.foreach(i => {
                                 if (i.isOpen) {
-                                    let s = t.user.gameInfo.getBuffData(i.id);
+                                    let s = XMgr.user.gameInfo.getBuffData(i.id);
                                     i.isRepeat ? (!s || s.lv < i.values.length - 1) && e.push(i) : s || e.push(i)
                                 }
                             }), Math.min(3, e.length)) {
                             let i = fx.Utils.randomInArray(e);
-                            t.user.gameInfo.addBuff(i.id)
+                            XMgr.user.gameInfo.addBuff(i.id)
                         }
                     }
             }
             static openChooseLv() {
-                t.user.gameInfo.isStartLv = !0
+                XMgr.user.gameInfo.isStartLv = !0
             }
             static chooseSeven(e) {
                 if (e = Number(e), isNaN(e) || !e) return;
-                let i = t.cfg.sevenGhostCfg.length;
-                e = Math.max(1, Math.min(e, i)), t.user.gameInfo.curSevenGhostLv = e
+                let i = XMgr.cfg.sevenGhostCfg.length;
+                e = Math.max(1, Math.min(e, i)), XMgr.user.gameInfo.curSevenGhostLv = e
             }
             static openSevenWin() {
-                t.gameMgr.gameover(!0), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.SevenGhostWinDialog)
+                XMgr.gameMgr.gameover(!0), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostWinDialog)
             }
             static openSevenFail() {
-                t.gameMgr.gameover(!1), t.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), t.ui.open(l.SevenGhostFailDialog)
+                XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostFailDialog)
             }
             static unlockSkin(e) {
-                e = Number(e), !isNaN(e) && e && t.user.gameInfo.unlockSkin(e)
+                e = Number(e), !isNaN(e) && e && XMgr.user.gameInfo.unlockSkin(e)
             }
             static addInviteCnt(e) {
-                e = Number(e), !isNaN(e) && e && (t.user.gameInfo.inviteCnt += e)
+                e = Number(e), !isNaN(e) && e && (XMgr.user.gameInfo.inviteCnt += e)
             }
         }
         qn.sDisableGpu = !1, qn.logsArray = [], qn.logs = [] 
@@ -19661,7 +19709,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })).run(e), this.node.destroy()
             }
             onDestroy() {
-                t.user.gameInfo.subTempCoin(this.coin), this.autoSaveToServer && t.user.saveToServer()
+                XMgr.user.gameInfo.subTempCoin(this.coin), this.autoSaveToServer && XMgr.user.saveToServer()
             }
         }, e.CoinScript = XCoinScript, e.ConstantCfg = class extends fx.BaseData {}, e.Controller = Controller, e.CryptUtil = CryptUtil, e.CustomerServiceScript = xn, e.DaTowerScript = Ei, e.DailyShareDialog = ae, e.DateUtil = Qs, e.DefRoiBuff = class extends XBaseBuff {
             constructor() {
@@ -19681,7 +19729,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.DynamicAtkSpdBuff = Wt, e.EatMosquito = XEatMosquito, e.EatMosquitoScript = XEatMosquitoScript, e.EffectBuilder = Kt, 
         e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
             onAwake() {
-                t.effectMgr = this, t.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), t.assetLoader.createPrefab(r.ClickEff, e => {
+                XMgr.effectMgr = this, XMgr.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), XMgr.assetLoader.createPrefab(r.ClickEff, e => {
                     this.clickEff = e, Laya.stage.addChild(this.clickEff)
                 })
             }
@@ -19693,11 +19741,11 @@ define("js/bundle.js", function(require, module, exports) {
                 this.clickEff.visible = !1
             }
             playCoinEff(e, i, s = 0) {
-                let a = t.assetPool.createNode(r.CoinEff);
+                let a = XMgr.assetPool.createNode(r.CoinEff);
                 if (!a) return;
                 0 == s && Laya.stage.addChild(a), a.getChildByName("label_coin").text = "+" + XChoreUtil.NumberToSize(e, 2), a.getChildByName("label_z").visible = !!i, a.scale(1, 1), a.alpha = 0, a.y = 0, Laya.Tween.clearAll(a), a.pos(Laya.stage.width / 2, .4 * Laya.stage.height);
                 let n = new Laya.Handler(this, () => {
-                    t.assetPool.put(a)
+                    XMgr.assetPool.put(a)
                 });
                 (new fx.Sequence).parallel(2).to({
                     alpha: 1
@@ -19805,7 +19853,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
             }
-        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = t, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
+        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
         e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
         e.GameInfoEvent = Ce, e.GameManager = GameMgr, 
         e.GameScene = XGameScene, e.GameScript = XGameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
@@ -20167,14 +20215,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.PlayableLoadingScript = class extends Laya.Script {
             onEnable() {
-                XRegClass.init(), this.initGame(), t.cfg = new XCfgMgr, t.user = new XUser, t.user.init(), t.language.init(), 
+                XRegClass.init(), this.initGame(), XMgr.cfg = new XCfgMgr, XMgr.user = new XUser, XMgr.user.init(), XMgr.language.init(), 
                 Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
-                t.cryptUtil = new CryptUtil, t.http = new Js, t.assetLoader = new AssetLoader, t.assetPool = new AssetPool, t.ui = new Aa, t.gameTime = new GameTime, t.language = LanguageMgr.instance, t.controller = new Controller, t.rewardMgr = new RewardMgr, t.reporter = new Reporter, t.serverStorage = XEventDispatcher.I, t.rankMgr = new RankMgr, t.gameMgr = new GameMgr, t.gameUI = new XGameUI, t.mapMgr = new MapMgr, t.buildingMgr = new XBuildingMgr, t.playerMgr = new XPlayerMgr, t.bulletMgr = new XBulletMgr, t.guideMgr = new XGuildMgr
+                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new GameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new MapMgr, XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, XMgr.guideMgr = new XGuildMgr
             }
             enterGame() {
-                t.cfg.map.get(19)
+                XMgr.cfg.map.get(19)
             }
         }, e.PlayerAI = XPlayerAI, 
         e.PlayerHeadScript = XPlayerHeadScript, e.PlayerManager = XPlayerMgr, e.PlayerModel = XPlayerModel, e.PlayerScript = XPlayerScript, 

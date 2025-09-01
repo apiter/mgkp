@@ -19,6 +19,7 @@ export default class XBuildingModel extends XBaseModel {
     type:XBuildType
     isUsed = false
     ownerScript:XBuildingScript
+    isOpen = false
     
     constructor(id_, roomId_, lv_, x_, y_, rotation_) {
         super()

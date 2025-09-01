@@ -1,3 +1,5 @@
+import { director, game, Vec2 } from "cc";
+
 export default class XUtil {
     static deepClone<T>(arr: T[]): T[] {
         return JSON.parse(JSON.stringify(arr));
@@ -57,7 +59,7 @@ export default class XUtil {
     static createUUIDEx(len?: number, rangeLen?: number): string {
         const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
         const uuid: string[] = [];
-        rangeLen = rangeLen || chars.length; 
+        rangeLen = rangeLen || chars.length;
 
         if (len) {
             // 如果传了 len，就生成一个指定长度的随机字符串
@@ -79,4 +81,33 @@ export default class XUtil {
         return uuid.join("");
     }
 
+    /**
+     * 获取帧增量时间，单位秒
+     * @param maxDelta 可选，最大增量，防止帧率过低时跳跃
+     */
+    static getFrameDelta(maxDelta?: number): number {
+        let dt = game.deltaTime;
+        if (maxDelta !== undefined) {
+            dt = Math.min(dt, maxDelta);
+        }
+        return dt;
+    }
+
+    /**
+        * 归一化 Vec2 并可指定长度
+        * @param v 待归一化的向量
+        * @param length 目标长度（可选，默认 1）
+        */
+    static normalize(v: Vec2, length: number = 1): Vec2 {
+        let result = v.clone(); // 避免修改原向量
+        const mag = result.length();
+        if (mag > 0) {
+            result.x = (result.x / mag) * length;
+            result.y = (result.y / mag) * length;
+        } else {
+            result.x = 0;
+            result.y = 0;
+        }
+        return result;
+    }
 }

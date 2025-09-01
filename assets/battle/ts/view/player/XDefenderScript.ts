@@ -10,7 +10,7 @@ const { ccclass, property } = _decorator;
 @ccclass('XDefenderScript')
 export class XDefenderScript extends XPlayerScript {
     skinBedImg: Node = null
-    ai:XPlayerAI = null
+    _ai: XPlayerAI = null
 
     constructor() {
         super()
@@ -71,15 +71,15 @@ export class XDefenderScript extends XPlayerScript {
     }
 
     initAI() {
-        this.ai = new XPlayerAI(this);
+        this._ai = new XPlayerAI(this);
 
-        let e = XBTUtil.bt_sequenceOr([this.ai.notInBed(this.ai.findMapBuild(this.ai.run("run", true))), 
-            this.ai.notInBed(this.ai.takeMapBuild()), 
-            this.ai.notInBed(this.ai.findBed(this.ai.run("run", !0))), 
-            this.ai.notInBed(this.ai.gotoBed()), 
-            this.ai.upOrBuild(), 
-            this.ai.idle("idle")]);
-        this.ai.load(e)
+        let root = XBTUtil.bt_sequenceOr([this._ai.notInBed(this._ai.findMapBuild(this._ai.run("move", true))),
+        this._ai.notInBed(this._ai.takeMapBuild()),
+        this._ai.notInBed(this._ai.findBed(this._ai.run("move", !0))),
+        this._ai.notInBed(this._ai.gotoBed()),
+        this._ai.upOrBuild(),
+        this._ai.idle("idle")]);
+        this._ai.load(root)
     }
 
     upBed(e) {
@@ -99,7 +99,7 @@ export class XDefenderScript extends XPlayerScript {
             //     this.skinImg.visible = true;
             // }
         } else {
-            this.playAnim("run");
+            this.playAnim("move");
         }
     }
 
@@ -109,8 +109,8 @@ export class XDefenderScript extends XPlayerScript {
                 if (!this.data.isBed) {
                     this.node.setSiblingIndex(this.node.y)
                 }
-                if (this.ai) {
-                    this.ai.exec();
+                if (this._ai) {
+                    this._ai.exec();
                 }
             }
         }

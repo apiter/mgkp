@@ -35,32 +35,36 @@ export default class XPlayerModel extends XBaseModel {
     isBack = false
     randomCnt = 0
     reduceRate = 0
-    ownerScript:XPlayerScript
-    owner:Node
+    ownerScript: XPlayerScript
+    owner: Node
 
     type = XPlayerType.E_Defender
     uuid = ""
     name = ""
     skinId = 0
     spwanPoint = 0
-    bedModel:XBuildingModel
+    bedModel: XBuildingModel
     takeMapBuild = false
 
-    dizzyDurSec = 0 
+    dizzyDurSec = 0
     dizzyStartTime = 0
 
     getSpeedPow() {
-        let e = 1;
+        let speedPow = 1;
         if (this.buffs)
-            for (const t of this.buffs) {
-                if (t.Type == XBuffType.SPEED) return e = t.result(1);
-                t.Type == XBuffType.SPEED_POW && (e *= t.result(1))
+            for (const buff of this.buffs) {
+                if (buff.Type == XBuffType.SPEED) return speedPow = buff.result(1);
+                buff.Type == XBuffType.SPEED_POW && (speedPow *= buff.result(1))
             }
-        return this.skillMoveSpeedRate && (e *= 1 + this.skillMoveSpeedRate), this.equipMoveSpeed && (e *= 1 + this.equipMoveSpeed), e
+        this.skillMoveSpeedRate && (speedPow *= 1 + this.skillMoveSpeedRate)
+        this.equipMoveSpeed && (speedPow *= 1 + this.equipMoveSpeed)
+        return speedPow
     }
+
     get stopRange() {
         return this.type == XPlayerType.E_Hunter ? this.attackRange : this.type == XPlayerType.E_Defender ? this.canBedRange : void 0
     }
+
     getAtkCD() {
         let attackCd = this.attackCd, t = attackCd;
         if (this.buffs)
@@ -74,6 +78,7 @@ export default class XPlayerModel extends XBaseModel {
     getPoison() {
         this.poisonTimes = 5
     }
+    
     refreshEquip() {
         this.equipAtk = 0
         this.equipHp = 0
