@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
-import { Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
+import { XBuildResult, Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
 import { XConst } from '../../xconfig/XConst';
@@ -213,26 +213,26 @@ export class XPlayerScript extends Component {
         return this.curTarget
     }
 
-    setCurTarget(e, t = false) {
+    setCurTarget(target_, force_ = false) {
         // 如果是第一次找目标，标记已处理
         if (this.isFirstFind) {
             this.isFirstFind = false;
         }
 
         // 如果是强制目标，并且血量没满
-        if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+        if (force_ && (this.forceTarget = target_, this.data.curHp < this.data.maxHp)) {
             // 不会继续往下执行
             return;
         }
 
         // 否则，如果目标和当前目标不同
-        if (e !== this.curTarget) {
+        if (target_ !== this.curTarget) {
             // 把当前目标存到 lastAtkTarget
             if (this.curTarget) {
                 this.lastAtkTarget = this.curTarget;
             }
             // 更新目标
-            this.curTarget = e;
+            this.curTarget = target_;
             // 路径清空，等待重新寻路
             this.curPath = null;
         }
@@ -269,7 +269,7 @@ export class XPlayerScript extends Component {
         }
     }
 
-    getTargetPos(target) {
+    getTargetPos(target = null) {
         if (!(target || this.curTarget && this.curTarget.owner)) return;
 
         let owner = target ? target.owner : this.curTarget.owner;
@@ -379,6 +379,11 @@ export class XPlayerScript extends Component {
     
     getDataModel() {
         return this.data
+    }
+
+    
+    gotoBed(i, s) {
+        return XMgr.gameMgr.upBed(i, s, this.data.uuid) == XBuildResult.E_OK
     }
 }
 

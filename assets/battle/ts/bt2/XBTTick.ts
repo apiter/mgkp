@@ -1,11 +1,11 @@
 import XBTBaseNode from "./XBTBaseNode"
+import { XBTBlackboard } from "./XBTBlackboard"
 
 export default class XBTTick {
     _openNodes: XBTBaseNode[] = []
     _nodeCount = 0
     tree = null
-    debug = null
-    blackboard = null
+    blackboard:XBTBlackboard = null
     target = null
 
     _enterNode(t) {

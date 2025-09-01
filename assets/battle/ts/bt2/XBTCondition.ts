@@ -1,41 +1,44 @@
 import XBTBaseNode from './XBTBaseNode';
 import { XBTCategory, XBTStatus } from './XBTEnum';
+import XBTTick from './XBTTick';
 
 export class XBTCondition extends XBTBaseNode {
-    child = null
+    child: XBTBaseNode = null
     constructor({
-        child: e = null,
-        name: a = "Condition",
-        title: n = "",
-        properties: u
+        child: child_ = null,
+        name: name_ = "Condition",
+        title: title_ = "",
+        properties: prop_
     }) {
         super({
             category: XBTCategory.CONDITION,
-            name: a,
-            title: n,
-            properties: u
+            name: name_,
+            title: title_,
+            properties: prop_
         })
-        this.child = e
+        this.child = child_
     }
     satisfy(data_) {
         return false
     }
 
-    tick(data_) {
+    tick(data_: XBTTick) {
         if (data_.blackboard.get("runningChild", data_.tree.id, this.id)) {
             let status = this.child._execute(data_);
-            return status != XBTStatus.RUNNING && data_.blackboard.set("runningChild", !1, data_.tree.id, this.id), status
+            status != XBTStatus.RUNNING && data_.blackboard.set("runningChild", false, data_.tree.id, this.id)
+            return status
         }
         if (this.satisfy(data_)) {
             if (this.child) {
-                let a = this.child._execute(data_);
-                return a == XBTStatus.RUNNING && data_.blackboard.set("runningChild", !0, data_.tree.id, this.id), a
+                let status = this.child._execute(data_);
+                status == XBTStatus.RUNNING && data_.blackboard.set("runningChild", true, data_.tree.id, this.id)
+                return status
             }
             return XBTStatus.SUCCESS
         }
         return XBTStatus.FAILURE
     }
-    
+
     add(t) {
         this.child = t
     }

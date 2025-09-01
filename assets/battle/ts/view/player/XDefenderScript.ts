@@ -5,6 +5,7 @@ import XMgr from '../../XMgr';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import { XPlayerAI } from '../../xai/XAIPlayer';
 import XBTUtil from '../../bt2/XBTUtil';
+import { XEPolicy } from '../../bt2/XBTEnum';
 const { ccclass, property } = _decorator;
 
 @ccclass('XDefenderScript')
@@ -73,12 +74,18 @@ export class XDefenderScript extends XPlayerScript {
     initAI() {
         this._ai = new XPlayerAI(this);
 
-        let root = XBTUtil.bt_sequenceOr([this._ai.notInBed(this._ai.findMapBuild(this._ai.run("move", true))),
-        this._ai.notInBed(this._ai.takeMapBuild()),
-        this._ai.notInBed(this._ai.findBed(this._ai.run("move", !0))),
-        this._ai.notInBed(this._ai.gotoBed()),
-        this._ai.upOrBuild(),
-        this._ai.idle("idle")]);
+        let root = XBTUtil.bt_sequenceOr(
+            [
+                this._ai.notInBed(this._ai.findMapBuild(this._ai.run("move", true))),
+                this._ai.notInBed(this._ai.takeMapBuild()),
+                this._ai.notInBed(this._ai.findBed(this._ai.run("move", !0))),
+                this._ai.notInBed(this._ai.gotoBed()),
+                this._ai.upOrBuild(),
+                this._ai.idle("idle")
+            ],
+            XEPolicy.RequireOne,
+            "init"
+        );
         this._ai.load(root)
     }
 

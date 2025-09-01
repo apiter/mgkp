@@ -28,7 +28,7 @@ export class XBatleMgr implements ISchedulable {
     playTime: number = 0
     _arrDatas = []
     matchData: XMatchData = null
-    mapCfg:XCfgMapCfgItem = null
+    mapCfg: XCfgMapCfgItem = null
     startTime = 0
     killCnt = 0
     randomCnt = 0
@@ -46,11 +46,11 @@ export class XBatleMgr implements ISchedulable {
     aiRatios = []
     aiMultArr = []
     curHunterAtkTarget = null
-    dCfg:XDifficultCfgItem
+    dCfg: XDifficultCfgItem
     playerNames: string[] = []
 
-    inputScript:XInputScript = null
-    
+    inputScript: XInputScript = null
+
     constructor() {
     }
 
@@ -393,24 +393,19 @@ export class XBatleMgr implements ISchedulable {
     }
     showSpecialTip(e) {
         director.getScheduler().schedule((dt) => {
-
         }, this, 2, 0)
-
-
-        // Laya.timer.once(2e3, this, () => {
-        //     XToast.show(`${e}个炮台更换了底座`)
-        // })
     }
     isChooseBuff() {
-        let e = !1;
-        return XMgr.cfg.buffCfg.forEach(i => {
-            if (i.isOpen) {
-                let s = XMgr.user.gameInfo.getBuffData(i.id);
-                if (i.isRepeat) {
-                    if (!s || s.lv < i.values.length - 1) return e = !0, !1
-                } else if (!s) return e = !0, !1
-            }
-        }), e
+        let e = false;
+        // XMgr.cfg.buffCfg.forEach(i => {
+        //     if (i.isOpen) {
+        //         let s = XMgr.user.gameInfo.getBuffData(i.id);
+        //         if (i.isRepeat) {
+        //             if (!s || s.lv < i.values.length - 1) return e = !0, !1
+        //         } else if (!s) return e = !0, !1
+        //     }
+        // })
+        return e
     }
     getPlayer() {
         let i = [0, 1, 2, 3, 4, 5]

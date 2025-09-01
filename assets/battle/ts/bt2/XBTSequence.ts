@@ -1,21 +1,23 @@
+import { log } from "cc";
 import XBTComposite from "./XBTComposite";
 import { XBTCategory, XBTStatus, XEPolicy } from "./XBTEnum";
 
 
 export class XBTSequence extends XBTComposite {
-    continuePolicy: XBTStatus = null
-    successPolicy: XEPolicy = null
+    _continuePolicy: XBTStatus = null
+    _successPolicy: XEPolicy = null
     constructor({
-        children: e = [],
-        continuePolicy: a = XBTStatus.FAILURE,
-        successPolicy: n = XEPolicy.RequireOne
+        children: children_ = [],
+        title: _title = "",
+        continuePolicy: continuePolicy_ = XBTStatus.FAILURE,
+        successPolicy: successPolicy_ = XEPolicy.RequireOne
     } = {}) {
         super({
-            name: "Sequence", title: "", properties: null,
-            children: e
+            name: "Sequence", title: _title, properties: null,
+            children: children_
         })
-        this.continuePolicy = a
-        this.successPolicy = n
+        this._continuePolicy = continuePolicy_
+        this._successPolicy = successPolicy_
     }
 
     open(t) {
@@ -23,20 +25,21 @@ export class XBTSequence extends XBTComposite {
     }
 
     tick(data_) {
-        let successCnt = 0,
-            n = data_.blackboard.get("runningChild", data_.tree.id, this.id);
-        for (let idx = n; idx < this.children.length; idx++) {
+        let runningIdx = data_.blackboard.get("runningChild", data_.tree.id, this.id);
+        let successCnt = runningIdx
+        for (let idx = runningIdx; idx < this.children.length; idx++) {
             let status = this.children[idx]._execute(data_);
             if (status === XBTStatus.RUNNING) {
                 data_.blackboard.set("runningChild", idx, data_.tree.id, this.id)
                 return status;
             }
             status == XBTStatus.SUCCESS && successCnt++
-            if (status != this.continuePolicy) break
+            if (status != this._continuePolicy)
+                break
         }
-        0 != n && (successCnt += n)
-        return this.successPolicy == XEPolicy.RequireOne && successCnt > 0 ||
-            this.successPolicy == XEPolicy.RequireAll && successCnt == this.children.length ? XBTStatus.SUCCESS : XBTStatus.FAILURE
+        let ret = this._successPolicy == XEPolicy.RequireOne && successCnt > 0 || this._successPolicy == XEPolicy.RequireAll && successCnt == this.children.length
+        log(`XBTSequence[${this.id}][${this.title}] 执行结果:${ret}`)
+        return ret ? XBTStatus.SUCCESS : XBTStatus.FAILURE
     }
 }
 

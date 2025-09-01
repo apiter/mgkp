@@ -1,33 +1,34 @@
-import { _decorator, Component, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
-@ccclass('XBTBlackboard')
 export class XBTBlackboard {
     _baseMemory = {}
     _treeMemory = {}
 
-    _getTreeMemory(key_) {
-        this._treeMemory[key_] || (this._treeMemory[key_] = {
+    _getTreeMemory(treeKey_) {
+        this._treeMemory[treeKey_] || (this._treeMemory[treeKey_] = {
             nodeMemory: {},
             openNodes: [],
             traversalDepth: 0,
             traversalCycle: 0
         })
-        return this._treeMemory[key_]
+        return this._treeMemory[treeKey_]
     }
-    _getNodeMemory(t, key_) {
-        let a = t.nodeMemory;
-        return a[key_] || (a[key_] = {}), a[key_]
+    _getNodeMemory(node_, key_) {
+        let nodeMemory = node_.nodeMemory;
+        nodeMemory[key_] || (nodeMemory[key_] = {})
+        return nodeMemory[key_]
     }
-    _getMemory(t, e) {
-        let a = this._baseMemory;
-        return t && (a = this._getTreeMemory(t), e && (a = this._getNodeMemory(a, e))), a
+    _getMemory(treeKey_, nodeKey_) {
+        let memory = this._baseMemory;
+        if (treeKey_) {
+            memory = this._getTreeMemory(treeKey_)
+            nodeKey_ && (memory = this._getNodeMemory(memory, nodeKey_))
+        }
+        return memory
     }
-    set(t, e, a, n) {
-        this._getMemory(a, n)[t] = e
+    set(key_, value_, treeKey_, nodeKey_ = null) {
+        this._getMemory(treeKey_, nodeKey_)[key_] = value_
     }
-    get(t, e, a) {
-        return this._getMemory(e, a)[t]
+    get(key_, treeKey_, nodeKey_ = null) {
+        return this._getMemory(treeKey_, nodeKey_)[key_]
     }
 }
 
