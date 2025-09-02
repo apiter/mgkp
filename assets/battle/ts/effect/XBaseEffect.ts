@@ -1,16 +1,18 @@
-import { Node } from "cc";
+import { ISchedulable, Node } from "cc";
 import XBuildingModel from "../model/XBuildingModel";
 import { XCfgEffectData } from "../xconfig/XCfgData";
 import { XBuildType, XEffectType } from "../xconfig/XEnum";
 import XMgr from "../XMgr";
 import { XBuildingScript } from "../view/building/XBuildingScript";
 
-export class XBaseEffect {
+export class XBaseEffect implements ISchedulable {
     cfg: XCfgEffectData
     type: string
     _data: XBuildingModel
     _node: Node
     _ownerScript: XBuildingScript
+    clearFlag = true
+    
     constructor(cfg_: XCfgEffectData, data_: XBuildingModel) {
         cfg_ && (this.type = cfg_.type, this.cfg = cfg_)
         this._data = data_
@@ -55,6 +57,10 @@ export class XBaseEffect {
     showWorkEff() {
         // let e = this.data.ownerScript;
         // e && e.onWork()
+    }
+
+    update(dt: number): void {
+        
     }
 }
 

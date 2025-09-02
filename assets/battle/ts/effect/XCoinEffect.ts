@@ -1,3 +1,4 @@
+import { director, Scheduler } from "cc";
 import XBuildingModel from "../model/XBuildingModel";
 import { XCfgEffectData } from "../xconfig/XCfgData";
 import { XGameMode } from "../xconfig/XEnum";
@@ -12,21 +13,24 @@ export class XCoinEffect extends XBaseEffect {
     addValue = 0
     canDouble = 0
 
-    constructor(cfg_: XCfgEffectData, buildModel_: XBuildingModel, a = true) {
+    constructor(cfg_: XCfgEffectData, buildModel_: XBuildingModel) {
         super(cfg_, buildModel_)
         this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
         let duration = 1
         //TODO
+
         if (1e3 == buildModel_.id) {
             let i = XMgr.buildingMgr.getBuildCfg(buildModel_.id, buildModel_.lv);
             if (XMgr.gameMgr.gameMode == XGameMode.E_Defense && i.buffId && this._data.playerUuid == XMgr.playerMgr.mineUuid) {
                 //TODO
             }
         }
-
-        this._ownerScript?.schedule(this.exec, duration)
+        Scheduler.enableForTarget(this)
+        director.getScheduler().schedule(this.exec, this, duration)
     }
     exec() {
+        if(!this._data.playerUuid)
+            return
         let addValue = this.addValue;
         this.canDouble && this._data.playerUuid == XMgr.playerMgr.mineUuid && (addValue *= 2);
         let value = addValue * this._data.coinRatio
@@ -38,7 +42,7 @@ export class XCoinEffect extends XBaseEffect {
     }
 
     clear() {
-        this._ownerScript?.unschedule(this.exec)
+        director.getScheduler().unschedule(this.exec, this)
     }
 }
 

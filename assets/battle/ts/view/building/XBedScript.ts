@@ -35,9 +35,10 @@ export class XBedScript extends XBuildingScript {
                         energy += Math.floor(t.value[0] * playTime / e)
                     }
         }
+        console.log(`玩家[${playerUuid_}] 上床收益金币:${coin} 能量:${energy}`)
         XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin, energy);
         for (const effect of this.effects)
-            effect.data.playerUuid = buildMode_.playerUuid;
+            effect._data.playerUuid = buildMode_.playerUuid;
         buildMode_.playerUuid = playerUuid_
         0 == this.effects.length && this.initEffects()
     }

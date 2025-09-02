@@ -4489,7 +4489,7 @@ define("js/bundle.js", function(require, module, exports) {
                 i.loadAtlas(e), i.interval = 1e3, i.pivot(45, 45), t.addChild(i), i.pos(0, 0), i.play(0, !0)
             }
         }
-        class wt extends Laya.Script {
+        class XHealthBar extends Laya.Script {
             constructor() {
                 super(...arguments), this.hide = !1
             }
@@ -4787,7 +4787,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = fx.Utils.createPrefab(T.Prefab_HealthBar);
                 this.barNode = i;
                 let s = new Laya.Box;
-                s.anchorX = s.anchorY = .5, this.node.addChild(s), this.healthBarNode = s, XMgr.mapMgr.barLayer.addChild(i), s.y -= 128, this.healthBar = i.addComponent(wt);
+                s.anchorX = s.anchorY = .5, this.node.addChild(s), this.healthBarNode = s, XMgr.mapMgr.barLayer.addChild(i), s.y -= 128, this.healthBar = i.addComponent(XHealthBar);
                 let a = this.data.type != e.PlayerType.E_Defender;
                 this.healthBar.init(this.data, a, s), this.healthBar.node.visible = !0;
                 let n = i.getChildByName("label_name");
@@ -7782,7 +7782,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             createHealthBar() {
                 let e = fx.Utils.createPrefab(T.Prefab_HealthBar);
-                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(wt), this.healthBar.init(this.data), e.y = -C.GridHalfSize
+                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(XHealthBar), this.healthBar.init(this.data), e.y = -C.GridHalfSize
             }
             onDestroy() {
                 let e = XMgr.mapMgr.getRoomById(this.data.roomId);
@@ -7863,7 +7863,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             createHealthBar() {
                 let e = fx.Utils.createPrefab(T.Prefab_HealthBar);
-                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(wt), this.healthBar.init(this.data), e.y = -C.GridHalfSize
+                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(XHealthBar), this.healthBar.init(this.data), e.y = -C.GridHalfSize
             }
             showDoorEff_1() {
                 this.img_doorEff_1.visible = !0
@@ -9049,7 +9049,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             createHealthBar() {
                 let e = fx.Utils.createPrefab(T.Prefab_HealthBar);
-                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(wt), this.healthBar.init(this.data), e.y = -C.GridHalfSize
+                this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(XHealthBar), this.healthBar.init(this.data), e.y = -C.GridHalfSize
             }
         }
         class XShuangtouTowerScript extends XTowerScript {
@@ -19067,7 +19067,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", XCoinBoxScript), e("game/component/WxClubBtnScript.ts", Tn), 
                 e("game/component/ProgressBar.ts", XProgressBar), e("game/component/HBoxScript.ts", En), 
                 e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", XBuildMenuScript),
-                 e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), 
+                 e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", XHealthBar), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), 
                  e("modules/WXJump/BannerJumpScript.ts", XBannerJumpScript), e("modules/WXJump/IconJumpScript.ts", Gn), 
                  e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
             }
@@ -19967,7 +19967,7 @@ define("js/bundle.js", function(require, module, exports) {
         e.GuideConfig = class extends fx.BaseData {}, e.GuideManager = XGuildMgr, e.HBoxScript = En, e.HasAngelAroundCdt = XHasAngelAroundCdt, 
         e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, 
         e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
-        e.HealthBar = wt, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = XHunterChooseView, e.HunterDifficultChooseDialog = XHunterDifficultChooseDialog, e.HunterEquipCfg = Nt, 
+        e.HealthBar = XHealthBar, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = XHunterChooseView, e.HunterDifficultChooseDialog = XHunterDifficultChooseDialog, e.HunterEquipCfg = Nt, 
         e.HunterFailDialog = XHunterFailDialog, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = XHunterScript, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
         e.HunterUnlockDialog = XHunterUnlockDialog, e.HunterWinDialog = XHunterWinDialog, e.IconJumpScript = Gn, e.IdleAction = XIdleAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {

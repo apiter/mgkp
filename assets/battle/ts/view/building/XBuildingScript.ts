@@ -7,6 +7,7 @@ import { XMapView } from '../XMapVIew';
 import { XEffectType, XGameMode } from '../../xconfig/XEnum';
 import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XEffectBuilder } from '../../effect/XEffectBuilder';
+import { XBaseEffect } from '../../effect/XBaseEffect';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBuildingScript')
@@ -23,7 +24,7 @@ export class XBuildingScript extends Component {
     isBuildCd = false
     buildCdTime = 0
 
-    effects = []
+    effects: XBaseEffect[] = []
 
     hpLabel: Label = null
 
@@ -46,8 +47,14 @@ export class XBuildingScript extends Component {
         this.initSkin()
         this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
         this.node.on(XEventNames.Battle_Be_Hit, this.onHit, this)
-        cdTime_ ? (this.isBuildCd = true, this.buildCdTime = cdTime_, this.initCdUI(buildModel_)) : (this.onInit(), this.initEffects())
-
+        if(cdTime_) {
+            this.isBuildCd = true
+            this.buildCdTime = cdTime_
+            this.initCdUI(buildModel_)
+        }else{
+            this.onInit()
+            // this.initEffects()
+        }
         const hpNode = new Node("hpNode")
         this.hpLabel = hpNode.addComponent(Label)
         this.hpLabel.string = buildModel_.curHp.toString()
@@ -69,7 +76,7 @@ export class XBuildingScript extends Component {
             }
             this.effects = []
             for (const effectCfg of this.cfg.effectList) {
-                let effect = XEffectBuilder.createEffect(effectCfg, this.data);
+                let effect: XBaseEffect = XEffectBuilder.createEffect(effectCfg, this.data);
                 if (effect) {
                     effect.clearFlag = true
                     this.addEffect(effect)
@@ -133,10 +140,6 @@ export class XBuildingScript extends Component {
     }
 
     onHit() {
-
-    }
-
-    start() {
 
     }
 }
