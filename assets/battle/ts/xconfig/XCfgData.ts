@@ -148,3 +148,8 @@ export interface XConstant {
     magicGetArr: number[]
     evaluateTime: number
 }
+
+export interface XCfgEffectData {
+    type:string,
+    value:number[]
+}

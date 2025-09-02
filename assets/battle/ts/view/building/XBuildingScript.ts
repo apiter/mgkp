@@ -4,8 +4,9 @@ import XBuildingModel from '../../model/XBuildingModel';
 import XMgr from '../../XMgr';
 import { XEventNames } from '../../event/XEventNames';
 import { XMapView } from '../XMapVIew';
-import { XGameMode } from '../../xconfig/XEnum';
+import { XEffectType, XGameMode } from '../../xconfig/XEnum';
 import XAtlasLoader from 'db://assets/XAtlasLoader';
+import { XEffectBuilder } from '../../effect/XEffectBuilder';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBuildingScript')
@@ -22,9 +23,9 @@ export class XBuildingScript extends Component {
     isBuildCd = false
     buildCdTime = 0
 
-    effects =[]
+    effects = []
 
-    hpLabel:Label = null
+    hpLabel: Label = null
 
     init(buildModel_: XBuildingModel, cdTime_ = 0) {
         this.skinNode = new Node("SkinNode")
@@ -57,11 +58,37 @@ export class XBuildingScript extends Component {
 
     }
 
-    initEffects() {
-
+    initCdUI(e) {
     }
 
-    initCdUI(e) {
+    initEffects() {
+        if (this.cfg.effectList && 0 != this.cfg.effectList.length) {
+            for (let idx = this.effects.length - 1; idx >= 0; --idx) {
+                let t = this.effects[idx];
+                t.clearFlag && t.clear()
+            }
+            this.effects = []
+            for (const effectCfg of this.cfg.effectList) {
+                let effect = XEffectBuilder.createEffect(effectCfg, this.data);
+                if (effect) {
+                    effect.clearFlag = true
+                    this.addEffect(effect)
+                    //TODO
+                }
+            }
+        }
+    }
+
+    addEffect(e) {
+        this.effects.push(e)
+    }
+    clearEffects() {
+        for (const e of this.effects) e.clear();
+        this.effects = []
+    }
+    removeEffect(e) {
+        if (!this.effects || !this.effects.length) return;
+        let t = this.effects.findIndex(t => t == e); - 1 != t && (this.effects[t].clear(), this.effects.splice(t, 1))
     }
 
     async initSkin() {

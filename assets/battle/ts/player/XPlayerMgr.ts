@@ -33,7 +33,7 @@ export default class XPlayerMgr {
     getPlayer(id_: string) {
         return id_ ? this.playerMap[id_] : null
     }
-    changePlayerIncomeByUuid(uuid_, coin_, energy_) {
+    changePlayerIncomeByUuid(uuid_, coin_ = 0, energy_ = 0) {
         if (!uuid_) return;
         let player = this.getPlayer(uuid_);
         if (!player) return false;

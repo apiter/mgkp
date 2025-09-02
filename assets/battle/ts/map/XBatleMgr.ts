@@ -118,16 +118,18 @@ export class XBatleMgr implements ISchedulable {
         XMgr.buildingMgr.init()
         // t.taskMgr.init()
         this.startTime = XMgr.gameTime.getTime()
-        this.killCnt = 0, this.randomCnt = 0
-        this.isfreeUpDoor = !1
+        this.killCnt = 0
+        this.randomCnt = 0
+        this.isfreeUpDoor = false
         this.curHunterAtkTarget = null
         this.playTime = 0
         this.buildCnt = 0
         this.adCnt = 0
-        this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0
+        this.playerDeadCnt = 0
+        this.isUsedSuper = false
+        this.defenseDeadCnt = 0
         this.defenseFindRoomId = []
-        this.isAdMagicBox = !1
-        // Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
+        this.isAdMagicBox = false
         let s = XMgr.user.gameInfo;
         if (1 == this.difficultABTest) {
             this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
@@ -158,18 +160,18 @@ export class XBatleMgr implements ISchedulable {
         } else if (XMgr.gameMgr.gameMode == XGameMode.E_AngelOrGhost) {
             XToast.show("大战木头人即将开始");
         } else if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt) {
-            let e = this.dCfg;
+            let diffCfg = this.dCfg;
             if (s.curHunterLv != s.lastHunterLv) {
                 if (s.isLastHunterWin) {
-                    XToast.show(`难度上升：${e.name}`);
+                    XToast.show(`难度上升：${diffCfg.name}`);
                 } else {
-                    XToast.show(`难度降低：${e.name}`);
+                    XToast.show(`难度降低：${diffCfg.name}`);
                 }
             } else {
-                XToast.show(`难度：${e.name}`);
+                XToast.show(`难度：${diffCfg.name}`);
             }
         } else if (XMgr.gameMgr.gameMode == XGameMode.E_SevenGhost) {
-            XToast.show("挑战模式开始");
+            // XToast.show("挑战模式开始");
         }
 
         this.aiMultArr = XRandomUtil.randomInArray([

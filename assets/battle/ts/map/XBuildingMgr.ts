@@ -114,7 +114,7 @@ export default class XBuildingMgr {
         return arr
     }
 
-    build(playerID, buildId_, x_, y_, buildRot_ = 0, lv_ = 1, check = true, canHandle_ = true, maxHp = null, isInit_ = !1) {
+    build(playerID, buildId_, x_, y_, buildRot_ = 0, lv_ = 1, check = true, canHandle_ = true, maxHp = null, isInit_ = false) {
         // 检查目标格子是否已有建筑
         const buildModel = this.getBuilding(x_, y_);
         if (buildModel && !buildModel.isDie) return XBuildResult.E_FAILD;

@@ -895,7 +895,24 @@ define("js/bundle.js", function(require, module, exports) {
                 WEEK_SECONDS: 604800
             };
         var k, b, w, S, I, v, M, x, B;
-        e.RewardId = void 0, (k = e.RewardId || (e.RewardId = {}))[k.Coin = 1] = "Coin", e.GameClubDataType = void 0, (b = e.GameClubDataType || (e.GameClubDataType = {}))[b.JoinClubTime = 1] = "JoinClubTime", b[b.SpeakStat = 3] = "SpeakStat", b[b.DayLickNum = 4] = "DayLickNum", b[b.DayCommentNum = 5] = "DayCommentNum", b[b.DayPublishNum = 6] = "DayPublishNum", b[b.DayPublishVideoNum = 7] = "DayPublishVideoNum", b[b.DayLickOfficialNum = 8] = "DayLickOfficialNum", b[b.DayPublishOfficiaVideolNum = 9] = "DayPublishOfficiaVideolNum", e.GameMode = void 0, (w = e.GameMode || (e.GameMode = {}))[w.E_Defense = 0] = "E_Defense", w[w.E_Hunt = 1] = "E_Hunt", w[w.E_AngelOrGhost = 2] = "E_AngelOrGhost", w[w.E_SevenGhost = 3] = "E_SevenGhost", e.PlayerType = void 0, (S = e.PlayerType || (e.PlayerType = {}))[S.E_Defender = 0] = "E_Defender", S[S.E_Hunter = 1] = "E_Hunter", e.BuildType = void 0, (I = e.BuildType || (e.BuildType = {})).bed = "bed", I.door = "door", I.tower = "tower", I.energy = "energy", I.mine = "mine", I.skill = "skill", I.eatMosquito = "eatMosquito", I.springBox = "springBox", I.knife = "knife", I.random = "random", I.entice = "entice", I.special = "special", I.stone = "stone", I.boxMonster = "boxMonster", I.doorkeeper = "doorkeeper", I.borrowMoney = "borrowMoney", e.EffectType = void 0, (v = e.EffectType || (e.EffectType = {})).Add_Coin = "Add_Coin", v.Add_Energy = "Add_Energy", v.Add_CoinAndEnergy = "Add_CoinAndEnergy", v.Door_AlwaysAddHp = "Door_AlwaysAddHp", v.Enemy_UseSkillBeDizzy = "Enemy_UseSkillBeDizzy", v.Door_NotGetDmgOnHpLow = "Door_NotGetDmgOnHpLow", v.Tower_GetCoinOnAtk = "Tower_GetCoinOnAtk", v.Tower_GetCoinOnAtk_1 = "Tower_GetCoinOnAtk_1", v.Enemy_SlowAtkSpd = "Enemy_SlowAtkSpd", v.Enemy_EscapeBeDizzy = "Enemy_EscapeBeDizzy", v.Door_FightBackOnBeAtk = "Door_FightBackOnBeAtk", v.Enemy_OnHpLowBeAtk = "Enemy_OnHpLowBeAtk", v.Tower_AddAtkDst = "Tower_AddAtkDst", v.Tower_AddAtkSpd = "Tower_AddAtkSpd", v.Tower_AddAtkSpdOnEnemyNear = "Tower_AddAtkSpdOnEnemyNear", v.Heal_Buildings = "Heal_Buildings", v.Door_GetCoinOnHurt = "Door_GetCoinOnHurt", v.Eat_Mosquito = "Eat_Mosquito", v.Door_EnemyBeDizzy = "Door_EnemyBeDizzy", v.Door_EnemyBeEscape = "Door_EnemyBeEscape", v.Enemy_EscapeBeSlowdown = "Enemy_EscapeBeSlowdown", v.Enemy_HpRateBeDizzy = "Enemy_HpRateBeDizzy",
+        e.RewardId = void 0, (k = e.RewardId || (e.RewardId = {}))[k.Coin = 1] = "Coin", 
+        e.GameClubDataType = void 0, (b = e.GameClubDataType || (e.GameClubDataType = {}))[b.JoinClubTime = 1] = "JoinClubTime", 
+            b[b.SpeakStat = 3] = "SpeakStat", b[b.DayLickNum = 4] = "DayLickNum", b[b.DayCommentNum = 5] = "DayCommentNum", b[b.DayPublishNum = 6] = "DayPublishNum", 
+            b[b.DayPublishVideoNum = 7] = "DayPublishVideoNum", b[b.DayLickOfficialNum = 8] = "DayLickOfficialNum", 
+            b[b.DayPublishOfficiaVideolNum = 9] = "DayPublishOfficiaVideolNum",
+        e.GameMode = void 0, (w = e.GameMode || (e.GameMode = {}))[w.E_Defense = 0] = "E_Defense", w[w.E_Hunt = 1] = "E_Hunt", w[w.E_AngelOrGhost = 2] = "E_AngelOrGhost", 
+            w[w.E_SevenGhost = 3] = "E_SevenGhost", 
+        e.PlayerType = void 0, (S = e.PlayerType || (e.PlayerType = {}))[S.E_Defender = 0] = "E_Defender", S[S.E_Hunter = 1] = "E_Hunter", 
+        e.BuildType = void 0, (I = e.BuildType || (e.BuildType = {})).bed = "bed", I.door = "door", I.tower = "tower", I.energy = "energy", 
+            I.mine = "mine", I.skill = "skill", I.eatMosquito = "eatMosquito", I.springBox = "springBox", I.knife = "knife", I.random = "random", 
+            I.entice = "entice", I.special = "special", I.stone = "stone", I.boxMonster = "boxMonster", I.doorkeeper = "doorkeeper", I.borrowMoney = "borrowMoney", 
+        e.EffectType = void 0, (v = e.EffectType || (e.EffectType = {})).Add_Coin = "Add_Coin", v.Add_Energy = "Add_Energy", v.Add_CoinAndEnergy = "Add_CoinAndEnergy", 
+            v.Door_AlwaysAddHp = "Door_AlwaysAddHp", v.Enemy_UseSkillBeDizzy = "Enemy_UseSkillBeDizzy", v.Door_NotGetDmgOnHpLow = "Door_NotGetDmgOnHpLow", 
+            v.Tower_GetCoinOnAtk = "Tower_GetCoinOnAtk", v.Tower_GetCoinOnAtk_1 = "Tower_GetCoinOnAtk_1", v.Enemy_SlowAtkSpd = "Enemy_SlowAtkSpd", 
+            v.Enemy_EscapeBeDizzy = "Enemy_EscapeBeDizzy", v.Door_FightBackOnBeAtk = "Door_FightBackOnBeAtk", v.Enemy_OnHpLowBeAtk = "Enemy_OnHpLowBeAtk", 
+            v.Tower_AddAtkDst = "Tower_AddAtkDst", v.Tower_AddAtkSpd = "Tower_AddAtkSpd", v.Tower_AddAtkSpdOnEnemyNear = "Tower_AddAtkSpdOnEnemyNear", 
+            v.Heal_Buildings = "Heal_Buildings", v.Door_GetCoinOnHurt = "Door_GetCoinOnHurt", v.Eat_Mosquito = "Eat_Mosquito", v.Door_EnemyBeDizzy = "Door_EnemyBeDizzy", 
+            v.Door_EnemyBeEscape = "Door_EnemyBeEscape", v.Enemy_EscapeBeSlowdown = "Enemy_EscapeBeSlowdown", v.Enemy_HpRateBeDizzy = "Enemy_HpRateBeDizzy",
             function(e) {
                 e[e.ATK_POW = 1] = "ATK_POW", e[e.ATK_SPD = 2] = "ATK_SPD", e[e.ATK_DST = 3] = "ATK_DST", e[e.ATK_SPLIT = 4] = "ATK_SPLIT", e[e.DYC_ATK_SPD = 5] = "DYC_ATK_SPD", e[e.INCOME_DOWN = 6] = "INCOME_DOWN", e[e.ENERGY_RATIO = 7] = "ENERGY_RATIO", e[e.FIGHT_BACK = 8] = "FIGHT_BACK", e[e.SPEED_POW = 9] = "SPEED_POW", e[e.DEF_ROI = 10] = "DEF_ROI", e[e.DOOR_HP_INCREASE = 11] = "DOOR_HP_INCREASE", e[e.SPEED = 12] = "SPEED"
             }(M || (M = {})), e.SkinType = void 0, (x = e.SkinType || (e.SkinType = {})).Human = "Human", x.Hunter = "Hunter", x.Angel = "Angel", x.Ghost = "Ghost", x.Fighter = "Fighter", 
@@ -2453,7 +2470,7 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.ui.close(this)
             }
         }
-        class ne extends e.ui.scenes.panel.DifficultChooseDialogUI {
+        class XDifficultChooseDialog extends e.ui.scenes.panel.DifficultChooseDialogUI {
             constructor(e, t) {
                 super(), t && (this.canChoose = t.canChoose)
             }
@@ -5374,7 +5391,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = Ee.ATK_DST
             }
         }
-        class Wt extends XBaseBuff {
+        class XDynamicAtkSpdBuff extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.DYC_ATK_SPD, this.val = 0
             }
@@ -5387,10 +5404,30 @@ define("js/bundle.js", function(require, module, exports) {
         }! function(e) {
             e[e.ATK_POW = 1] = "ATK_POW", e[e.ATK_SPD = 2] = "ATK_SPD", e[e.ATK_DST = 3] = "ATK_DST", e[e.ATK_SPLIT = 4] = "ATK_SPLIT", e[e.DYC_ATK_SPD = 5] = "DYC_ATK_SPD", e[e.INCOME_DOWN = 6] = "INCOME_DOWN", e[e.ENERGY_RATIO = 7] = "ENERGY_RATIO", e[e.FIGHT_BACK = 8] = "FIGHT_BACK", e[e.SPEED_POW = 9] = "SPEED_POW", e[e.DEF_ROI = 10] = "DEF_ROI", e[e.DOOR_HP_INCREASE = 11] = "DOOR_HP_INCREASE", e[e.SPEED = 12] = "SPEED"
         }(Ee || (Ee = {}));
-        class Kt {
+        class XEffectBuilder {
             static init() {
                 this.effectMap = {
-                    [e.EffectType.Add_Coin]: Xt, [e.EffectType.Add_Energy]: EnergyEffect, [e.EffectType.Add_CoinAndEnergy]: jt, [e.EffectType.Door_AlwaysAddHp]: Jt, [e.EffectType.Enemy_UseSkillBeDizzy]: EnemyUseSkillBeDizzy, [e.EffectType.Door_NotGetDmgOnHpLow]: Qt, [e.EffectType.Tower_GetCoinOnAtk]: ei, [e.EffectType.Tower_GetCoinOnAtk_1]: ti, [e.EffectType.Enemy_SlowAtkSpd]: EnemySlowAtkSpd, [e.EffectType.Enemy_EscapeBeDizzy]: EnemyEscapeBeDizzy, [e.EffectType.Door_FightBackOnBeAtk]: ai, [e.EffectType.Enemy_OnHpLowBeAtk]: EnemyOnHpLowBeAtk, [e.EffectType.Tower_AddAtkDst]: XTowerAddAtkDst, [e.EffectType.Tower_AddAtkSpd]: XTowerAddAtkSpd, [e.EffectType.Tower_AddAtkSpdOnEnemyNear]: hi, [e.EffectType.Door_GetCoinOnHurt]: di, [e.EffectType.Eat_Mosquito]: XEatMosquito, [e.EffectType.Door_EnemyBeDizzy]: gi, [e.EffectType.Door_EnemyBeEscape]: ci, [e.EffectType.Enemy_EscapeBeSlowdown]: EnemyEscapeBeSlowdown, [e.EffectType.Enemy_HpRateBeDizzy]: EnemyHpRateBeDizzy
+                    [e.EffectType.Add_Coin]: XCoinEffect, 
+                    [e.EffectType.Add_Energy]: XEnergyEffect, 
+                    [e.EffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
+                    [e.EffectType.Door_AlwaysAddHp]: XDoorAlwaysAddHp, 
+                    [e.EffectType.Enemy_UseSkillBeDizzy]: EnemyUseSkillBeDizzy, 
+                    [e.EffectType.Door_NotGetDmgOnHpLow]: XDoorNotGetDmgOnHpLow, 
+                    [e.EffectType.Tower_GetCoinOnAtk]: XTowerGetCoinOnAtk, 
+                    [e.EffectType.Tower_GetCoinOnAtk_1]: XTowerGetCoinOnAtk_1, 
+                    [e.EffectType.Enemy_SlowAtkSpd]: EnemySlowAtkSpd, 
+                    [e.EffectType.Enemy_EscapeBeDizzy]: EnemyEscapeBeDizzy, 
+                    [e.EffectType.Door_FightBackOnBeAtk]: XDoorFightBackOnBeAtk, 
+                    [e.EffectType.Enemy_OnHpLowBeAtk]: EnemyOnHpLowBeAtk, 
+                    [e.EffectType.Tower_AddAtkDst]: XTowerAddAtkDst, 
+                    [e.EffectType.Tower_AddAtkSpd]: XTowerAddAtkSpd, 
+                    [e.EffectType.Tower_AddAtkSpdOnEnemyNear]: XTowerAddAtkSpdOnEnemyNear, 
+                    [e.EffectType.Door_GetCoinOnHurt]: XDoorGetCoinOnHurt, 
+                    [e.EffectType.Eat_Mosquito]: XEatMosquito, 
+                    [e.EffectType.Door_EnemyBeDizzy]: XDoorEnemyBeDizzy, 
+                    [e.EffectType.Door_EnemyBeEscape]: XDoorEnemyBeEscape, 
+                    [e.EffectType.Enemy_EscapeBeSlowdown]: EnemyEscapeBeSlowdown, 
+                    [e.EffectType.Enemy_HpRateBeDizzy]: EnemyHpRateBeDizzy
                 }
             }
             static createEffect(e, t) {
@@ -5437,7 +5474,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.onWork()
             }
         }
-        class Xt extends XBaseEffect {
+        class XCoinEffect extends XBaseEffect {
             constructor(i, s, a = !0) {
                 super(i, s), this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
                 let n = 1e3,
@@ -5469,7 +5506,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class EnergyEffect extends XBaseEffect {
+        class XEnergyEffect extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addValue = this.cfg.value[0];
                 let i = this.cfg.value[1] ? this.cfg.value[1] : 1;
@@ -5488,7 +5525,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class jt extends XBaseEffect {
+        class XCoinAndEnergyEffect extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addCoinValue = this.cfg.value[0], this.addEnergyValue = this.cfg.value[1];
                 let i = this.cfg.value[2] ? this.cfg.value[2] : 1;
@@ -5511,7 +5548,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class Jt extends XBaseEffect {
+        class XDoorAlwaysAddHp extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.addValue = this.cfg.value[0], this.node.timerLoop(1e3, this, this.exec)
             }
@@ -5566,7 +5603,7 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.off(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
         }
-        class Qt extends XBaseEffect {
+        class XDoorNotGetDmgOnHpLow extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.threshold = i.value[0], this.time = i.value[1];
                 let a = s,
@@ -5602,7 +5639,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class ei extends XBaseEffect {
+        class XTowerGetCoinOnAtk extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.curCnt = 0, this.buffMult = 1, this.bonusRate = i.value[0], this.node.timerLoop(1e3, this, this.exec);
                 let a = XMgr.buildingMgr.getBuildCfg(this.data.id);
@@ -5632,7 +5669,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
-        class ti extends XBaseEffect {
+        class XTowerGetCoinOnAtk_1 extends XBaseEffect {
             constructor(e, i) {
                 super(e, i), this.curCnt = 0, this.bonusRate = e.value[0], this.node.timerLoop(1e3, this, this.exec);
                 let s = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
@@ -5780,7 +5817,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.hunters.includes(e) || this.hunters.push(e)
             }
         }
-        class ai extends XBaseEffect {
+        class XDoorFightBackOnBeAtk extends XBaseEffect {
             constructor(i, s) {
                 super(i, s), this.reboundDmgRatio = 0, this.mult = 1, this.reboundDmgRatio = this.cfg.value[0];
                 let a = this.getCurDoorModel()[0];
@@ -5886,12 +5923,12 @@ define("js/bundle.js", function(require, module, exports) {
                 return new zt(-this.changeVal)
             }
         }
-        class hi extends XTowerBuffEffect {
+        class XTowerAddAtkSpdOnEnemyNear extends XTowerBuffEffect {
             createBuff() {
-                return new Wt(-this.changeVal)
+                return new XDynamicAtkSpdBuff(-this.changeVal)
             }
         }
-        class di extends XBaseEffect {
+        class XDoorGetCoinOnHurt extends XBaseEffect {
             constructor(e, t, i = !0) {
                 super(e, t), this.addValue = this.cfg.value[0];
                 let s = this.getCurDoorModel()[0];
@@ -5900,7 +5937,7 @@ define("js/bundle.js", function(require, module, exports) {
             exec(i, s) {
                 if (this.data.palsyTime) return;
                 if (!this.getCurDoorModel()[0]) return;
-                let a = Math.floor(this.addValue * 2 * * i.lv);
+                let a = Math.floor(this.addValue * 2 * i.lv);
                 XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.showWorkEff())
             }
             clear() {
@@ -5920,7 +5957,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.off(be.AddCoin_By_Cnt, this, this.exec)
             }
         }
-        class gi extends XBaseEffect {
+        class XDoorEnemyBeDizzy extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
@@ -5941,7 +5978,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Battle_Be_Hit, this, this.exec)
             }
         }
-        class ci extends XBaseEffect {
+        class XDoorEnemyBeEscape extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0];
                 let i = this.getCurDoorModel()[0];
@@ -6043,7 +6080,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
                 this.initSkin(), 
                 this.node.on(be.Hp_Changed, this, this.onHpChanged), 
-                this.node.on(be.Battle_Be_Hit, this, this.onHit), i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
+                this.node.on(be.Battle_Be_Hit, this, this.onHit), 
+                i ? (this.isBuildCd = !0, this.buildCdTime = i, this.initCdUI(e)) : (this.onInit(), this.initEffects())
             }
             initCdUI(e) {
                 this.barNode = fx.Utils.createPrefab(T.Prefab_BuildingCD);
@@ -6091,7 +6129,7 @@ define("js/bundle.js", function(require, module, exports) {
                         t.clearFlag && (t.clear(), this.effects.splice(e, 1))
                     }
                     for (const i of this.cfg.effectList) {
-                        let s = Kt.createEffect(i, this.data);
+                        let s = XEffectBuilder.createEffect(i, this.data);
                         if (s) {
                             if (s.clearFlag = !0, this.addEffect(s), i.type == e.EffectType.Enemy_SlowAtkSpd) {
                                 return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
@@ -6115,7 +6153,10 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = this.effects.findIndex(t => t == e); - 1 != t && (this.effects[t].clear(), this.effects.splice(t, 1))
             }
             upgrade() {
-                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.data.playerUuid == XMgr.playerMgr.mineUuid && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && this.cfg.buffIcon ? this.imgBody.skin = this.cfg.buffIcon : (this.imgBody.skin = this.cfg.icon, this.imgBody_1 && (this.imgBody_1.skin = this.cfg.icon)), this.cfg.diIcon && (this.imgDi.skin = this.cfg.diIcon, this.imgDi_1 && (this.imgDi_1.skin = this.cfg.diIcon)), this.initEffects()
+                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
+                XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.data.playerUuid == XMgr.playerMgr.mineUuid && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && this.cfg.buffIcon ? this.imgBody.skin = this.cfg.buffIcon : (this.imgBody.skin = this.cfg.icon, this.imgBody_1 && (this.imgBody_1.skin = this.cfg.icon)), 
+                this.cfg.diIcon && (this.imgDi.skin = this.cfg.diIcon, this.imgDi_1 && (this.imgDi_1.skin = this.cfg.diIcon)), 
+                this.initEffects()
             }
             videoUpgrade() {}
             isInStage() {
@@ -6123,16 +6164,41 @@ define("js/bundle.js", function(require, module, exports) {
                 return !!XMgr.mapMgr.isInStageByMapPos(e.x - C.GridHalfSize, e.y - C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(e.x + C.GridHalfSize, e.y + C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(this.node.x - C.GridHalfSize, this.node.y - C.GridHalfSize) || !!XMgr.mapMgr.isInStageByMapPos(this.node.x + C.GridHalfSize, this.node.y + C.GridHalfSize)))
             }
             onUpdate() {
-                if (!XMgr.gameMgr.isPause && this.updateBuildCd())
-                    if (this.data.palsyTime) this.checkPalsyTime();
-                    else if (this.map)
-                    if (this.isInStage()) {
-                        if (this.node.visible = !0, this.cfg.effectList && 0 != this.cfg.effectList.length && (this.node.alpha = 1, this.detlaAlpha = .05), !XMgr.gameMgr.isHunter())
-                            if (XMgr.gameMgr.canHandleGrid(this.data.x, this.data.y) && XMgr.buildingMgr.canUpgrade(XMgr.playerMgr.mineUuid, this.data)) {
-                                let i = this.data.type == e.BuildType.door ? XMgr.playerMgr.mineRoomId == this.data.roomId : XMgr.playerMgr.mineUuid == this.data.playerUuid;
-                                3008 != this.data.id && this.isActive && this.map.showUpTips(this.data.x, this.data.y, i)
-                            } else this.map.hideUpTips(this.data.x, this.data.y)
-                    } else this.node.visible = !1
+                if (!XMgr.gameMgr.isPause && this.updateBuildCd())   // ① 游戏未暂停 + 冷却更新成功
+                    if (this.data.palsyTime)                         // ② 如果建筑存在麻痹时间，处理麻痹
+                        this.checkPalsyTime();
+                    else if (this.map)                               // ③ 有地图对象才继续
+                    if (this.isInStage()) {                          // ④ 如果建筑在有效的舞台中
+                        // ---- 状态刷新 ----
+                        this.node.visible = !0;                      // 建筑显示
+                        if (this.cfg.effectList && 0 != this.cfg.effectList.length) {
+                            this.node.alpha = 1;                     // 不透明
+                            this.detlaAlpha = .05;                   // 可能用于闪烁效果
+                        }
+            
+                        // ---- 如果不是猎人身份 ----
+                        if (!XMgr.gameMgr.isHunter()) {
+                            // 检查当前位置是否可交互，并且能否升级建筑
+                            if (XMgr.gameMgr.canHandleGrid(this.data.x, this.data.y) &&
+                                XMgr.buildingMgr.canUpgrade(XMgr.playerMgr.mineUuid, this.data)) {
+            
+                                // ---- 是否是自己房间/建筑 ----
+                                let i = this.data.type == e.BuildType.door
+                                    ? XMgr.playerMgr.mineRoomId == this.data.roomId  // 门需要房间ID匹配
+                                    : XMgr.playerMgr.mineUuid == this.data.playerUuid; // 其它建筑需要归属玩家匹配
+            
+                                // 不是特殊 ID(3008)，建筑激活时才显示升级提示
+                                if (3008 != this.data.id && this.isActive)
+                                    this.map.showUpTips(this.data.x, this.data.y, i);
+                            } else {
+                                // 否则隐藏提示
+                                this.map.hideUpTips(this.data.x, this.data.y);
+                            }
+                        }
+                    } else {
+                        // ---- 不在舞台中 ----
+                        this.node.visible = !1;
+                    }
             }
             repair(e) {
                 this.imgRepair || (this.imgRepair = new Laya.Image("res/game/img_repair.png"), this.node.addChild(this.imgRepair), this.imgRepair.anchorX = .5, this.imgRepair.anchorY = .5, this.imgRepair.pos(0, 0)), this.imgRepair.clearTimer(this, this.repairOnce);
@@ -6364,7 +6430,7 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XFighterScript extends XPlayerScript {
             constructor() {
-                super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
+                super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
             onAwake() {
                 super.onAwake(), this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1
@@ -6569,7 +6635,7 @@ define("js/bundle.js", function(require, module, exports) {
         class XHunterScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, 
-                this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new Wt(0), 
+                this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), 
                 this.addPowSkillBuff_1 = new Ft(.25), 
                 this.addPowSkillBuff_2 = new zt(-.3), 
                 this.rageSkillBuff = new zt(-.3), 
@@ -7363,7 +7429,10 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin, energy);
                 for (const e of this.effects) e.data.playerUuid = buildMode_.playerUuid;
-                this.handcart && (this.handcart.visible = !0), buildMode_.playerUuid = playerUuid_, 0 == this.effects.length && this.initEffects(), XMgr.gameMgr.playSound(this.data, 124)
+                this.handcart && (this.handcart.visible = !0), 
+                buildMode_.playerUuid = playerUuid_, 
+                0 == this.effects.length && this.initEffects(), 
+                XMgr.gameMgr.playSound(this.data, 124)
             }
             onPlayerDownBed(e, t) {
                 e === this.data.playerUuid && (this.data.isUsed = !1, this.data.playerUuid = void 0, this.clearEffects())
@@ -8985,7 +9054,16 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XShuangtouTowerScript extends XTowerScript {
             initSkin() {
-                this.cfg.diIcon && (this.imgDi = new Laya.Image(this.cfg.diIcon), this.imgDi.anchorX = this.imgDi.anchorY = .5, this.skinNode.addChild(this.imgDi), this.imgDi.pos(0, 0)), this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5, this.imgBody.pos(-25, 0), this.imgBody_1 = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody_1), this.imgBody_1.anchorX = this.imgBody_1.anchorY = .5, this.imgBody_1.pos(25, 0), this.initEffects(), this.updateIcon()
+                this.cfg.diIcon && (this.imgDi = new Laya.Image(this.cfg.diIcon), this.imgDi.anchorX = this.imgDi.anchorY = .5, this.skinNode.addChild(this.imgDi), this.imgDi.pos(0, 0)), 
+                this.imgBody = new Laya.Image(this.cfg.icon), 
+                this.skinNode.addChild(this.imgBody), 
+                this.imgBody.anchorX = this.imgBody.anchorY = .5, 
+                this.imgBody.pos(-25, 0), 
+                this.imgBody_1 = new Laya.Image(this.cfg.icon), 
+                this.skinNode.addChild(this.imgBody_1), 
+                this.imgBody_1.anchorX = this.imgBody_1.anchorY = .5, 
+                this.imgBody_1.pos(25, 0), 
+                this.initEffects(), this.updateIcon()
             }
             findTarget() {
                 let e, t = 1 / 0,
@@ -9179,7 +9257,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (this.isUsedSkill) {
                     let e = XMgr.buildingMgr.getBuildCfg(this.bed.id, this.bed.lv).effectList[0].value[0];
                     for (const i of this.bed.ownerScript.effects)
-                        if (i instanceof Xt) {
+                        if (i instanceof XCoinEffect) {
                             let s = .5 * e;
                             if (this.isDouble) s = e;
                             else if (this.isSuper) {
@@ -9191,7 +9269,7 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                 } else
                     for (const e of this.bed.ownerScript.effects)
-                        if (e instanceof Xt) {
+                        if (e instanceof XCoinEffect) {
                             let t = 0;
                             t != e.godExtra && (e.godExtra = t)
                         }
@@ -9540,7 +9618,7 @@ define("js/bundle.js", function(require, module, exports) {
                         t.clearFlag && (t.clear(), this.effects.splice(e, 1))
                     }
                     for (const i of this.cfg.effectList) {
-                        let s = Kt.createEffect(i, this.data);
+                        let s = XEffectBuilder.createEffect(i, this.data);
                         if (s) {
                             if (s.clearFlag = !0, this.addEffect(s), i.type == e.EffectType.Enemy_SlowAtkSpd) {
                                 return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
@@ -12001,7 +12079,7 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.ClassUtils.regClass(l.MatchingView, XMatchingView), 
                 Laya.ClassUtils.regClass(l.HunterMatchingView, XHunterMatchingViewUI), 
                 Laya.ClassUtils.regClass(l.ShopDialog, ce), 
-                Laya.ClassUtils.regClass(l.DifficultChooseDialog, ne), 
+                Laya.ClassUtils.regClass(l.DifficultChooseDialog, XDifficultChooseDialog), 
                 Laya.ClassUtils.regClass(l.RankView, XRankView), 
                 Laya.ClassUtils.regClass(l.SkinFragmentDialog, pe), 
                 Laya.ClassUtils.regClass(l.SkinFragmentGetDialog, fe), 
@@ -18452,7 +18530,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }) : this.node.visible = !1
             }
         }
-        class Bn extends Laya.Script {get node() {
+        class XCoinBoxScript extends Laya.Script {get node() {
                 return this.owner
             }
             onAwake() {
@@ -18986,7 +19064,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e("game/core/HunterSkillDesScript.ts", Xs), 
                 e("script/LoadingScript.ts", LoadingScript), 
                 e("game/ui/script/TianBoxScript.ts", XTianBoxScript), 
-                e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", Bn), e("game/component/WxClubBtnScript.ts", Tn), 
+                e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", XCoinBoxScript), e("game/component/WxClubBtnScript.ts", Tn), 
                 e("game/component/ProgressBar.ts", XProgressBar), e("game/component/HBoxScript.ts", En), 
                 e("game/core/BorrowMoneyMenuScript.ts", XBorrowMoneyMenuScript), e("game/core/BuildMenuScript.ts", XBuildMenuScript),
                  e("common/GMScript.ts", Ln), e("game/core/HealthBar.ts", wt), e("game/core/UpgradeMenuScript.ts", XUpgradeMenuScript), 
@@ -19696,7 +19774,9 @@ define("js/bundle.js", function(require, module, exports) {
                     a = this.maskSprite.height >> 1;
                 return this.maskSprite.graphics.clear(), this.maskSprite.graphics.drawPie(s, a, s, t, i, "#000000"), e
             }
-        }, e.CityCfg = class extends fx.BaseData {}, e.ClearTargetAction = XClearTargetAction, e.ClubRewardCfg = Gt, e.ClubRewardDialog = XClubRewardDialog, e.CoinAndEnergyEffect = jt, e.CoinBoxScript = Bn, e.CoinEffect = Xt, e.CoinFlyScript = class extends Laya.Script {get node() {
+        }, e.CityCfg = class extends fx.BaseData {}, e.ClearTargetAction = XClearTargetAction, 
+        e.ClubRewardCfg = Gt, e.ClubRewardDialog = XClubRewardDialog, e.CoinAndEnergyEffect = XCoinAndEnergyEffect, 
+        e.CoinBoxScript = XCoinBoxScript, e.CoinEffect = XCoinEffect, e.CoinFlyScript = class extends Laya.Script {get node() {
                 return this.owner
             }
             flyTo(e, t, i = !0) {
@@ -19738,8 +19818,11 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = Ee.DEF_ROI
             }
         }, e.DefenderScript = XDefenderScript, e.DepsConditionAnd = XAllTrueCdt, e.DepsConditionOr = XOneTrueCdt, 
-        e.DifficultCfg = Et, e.DifficultChooseDialog = ne, e.DizzyAction = XDizzyAction, e.DoorAlwaysAddHp = Jt, e.DoorEnemyBeDizzy = gi, e.DoorEnemyBeEscape = ci, 
-        e.DoorFightBackOnBeAtk = ai, e.DoorGetCoinOnHurt = di, e.DoorGuardTowerScript = XDoorGuardTowerScript, e.DoorHpIncrease = class extends XBaseBuff {
+        e.DifficultCfg = Et, e.DifficultChooseDialog = XDifficultChooseDialog, 
+        e.DizzyAction = XDizzyAction, e.DoorAlwaysAddHp = XDoorAlwaysAddHp, e.DoorEnemyBeDizzy = XDoorEnemyBeDizzy, 
+        e.DoorEnemyBeEscape = XDoorEnemyBeEscape, 
+        e.DoorFightBackOnBeAtk = XDoorFightBackOnBeAtk, e.DoorGetCoinOnHurt = XDoorGetCoinOnHurt, 
+        e.DoorGuardTowerScript = XDoorGuardTowerScript, e.DoorHpIncrease = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.DOOR_HP_INCREASE
             }
@@ -19747,8 +19830,8 @@ define("js/bundle.js", function(require, module, exports) {
                 return Math.round(this.val * e)
             }
         }, e.DoorModel = class extends XBuildingModel {}, 
-        e.DoorNotGetDmgOnHpLow = Qt, e.DoorScript = XDoorScript, e.DoorkeeperScript = XDoorkeeperScript, 
-        e.DynamicAtkSpdBuff = Wt, e.EatMosquito = XEatMosquito, e.EatMosquitoScript = XEatMosquitoScript, e.EffectBuilder = Kt, 
+        e.DoorNotGetDmgOnHpLow = XDoorNotGetDmgOnHpLow, e.DoorScript = XDoorScript, e.DoorkeeperScript = XDoorkeeperScript, 
+        e.DynamicAtkSpdBuff = XDynamicAtkSpdBuff, e.EatMosquito = XEatMosquito, e.EatMosquitoScript = XEatMosquitoScript, e.EffectBuilder = XEffectBuilder, 
         e.EffectCfg = class {}, e.EffectMgr = class extends Laya.Script {
             onAwake() {
                 XMgr.effectMgr = this, XMgr.assetLoader.loadPrefab(r.CoinEff, () => {}, !0), XMgr.assetLoader.createPrefab(r.ClickEff, e => {
@@ -19781,7 +19864,7 @@ define("js/bundle.js", function(require, module, exports) {
                     alpha: 0
                 }, 50).exec(n).run(a)
             }
-        }, e.EffectUtil = XEffectUtil, e.EnemyEscapeBeDizzy = EnemyEscapeBeDizzy, e.EnemyEscapeBeSlowdown = EnemyEscapeBeSlowdown, e.EnemyHpRateBeDizzy = EnemyHpRateBeDizzy, e.EnemyOnHpLowBeAtk = EnemyOnHpLowBeAtk, e.EnemySlowAtkSpd = EnemySlowAtkSpd, e.EnemyUseSkillBeDizzy = EnemyUseSkillBeDizzy, e.EnergyEffect = EnergyEffect, e.EnergyRatio = class extends XBaseBuff {
+        }, e.EffectUtil = XEffectUtil, e.EnemyEscapeBeDizzy = EnemyEscapeBeDizzy, e.EnemyEscapeBeSlowdown = EnemyEscapeBeSlowdown, e.EnemyHpRateBeDizzy = EnemyHpRateBeDizzy, e.EnemyOnHpLowBeAtk = EnemyOnHpLowBeAtk, e.EnemySlowAtkSpd = EnemySlowAtkSpd, e.EnemyUseSkillBeDizzy = EnemyUseSkillBeDizzy, e.EnergyEffect = XEnergyEffect, e.EnergyRatio = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ENERGY_RATIO
             }
@@ -20453,9 +20536,12 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.TianBoxScript = XTianBoxScript, e.TianShiTowerScript = XTianShiTowerScript, e.TiledInfo = XTiledInfo, e.TimeIntervalCdt = XTimeIntervalCdt, 
         e.TimeValue = _, e.TipsUtil = XToast, e.TipsView = XTipsView, e.TowerAddAtkDst = XTowerAddAtkDst, e.TowerAddAtkSpd = XTowerAddAtkSpd, 
-        e.TowerAddAtkSpdOnEnemyNear = hi, e.TowerBuffEffect = XTowerBuffEffect, e.TowerCfg = class extends xt {}, e.TowerDoubleScript = XTowerDoubleScript, 
-        e.TowerGetCoinOnAtk = ei,
-         e.TowerGetCoinOnAtk_1 = ti, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = XTrapScript, 
+        e.TowerAddAtkSpdOnEnemyNear = XTowerAddAtkSpdOnEnemyNear, 
+        e.TowerBuffEffect = XTowerBuffEffect, 
+        e.TowerCfg = class extends xt {}, 
+        e.TowerDoubleScript = XTowerDoubleScript, 
+        e.TowerGetCoinOnAtk = XTowerGetCoinOnAtk,
+         e.TowerGetCoinOnAtk_1 = XTowerGetCoinOnAtk_1, e.TowerModel = XTowerModel, e.TowerScript = XTowerScript, e.TrapScript = XTrapScript, 
          e.TurntableRewardDialog = me, e.TurntableView = XTurntableView, e.UIManager = Aa, e.UIUtil = XCoordinateUtil, 
          e.UpOrBuildAction = XUpgradeAction, e.UpgradeMenuScript = XUpgradeMenuScript, e.User = XUser, e.UsingSkillCdt = XHasSkillId02, 
          e.Util = XChoreUtil, e.VBoxScript = class extends Laya.Script {
