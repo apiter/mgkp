@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, sp, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Component, Node, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
 import { XBuildResult, Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
@@ -28,6 +28,7 @@ export class XPlayerScript extends Component {
     skinNode: Node = null
     aniNode: Node = null
     spineNode: Node = null
+    skinBedImgNode: Node = null
     skinCfg: XCfgSkinData = null
 
     lastMovePos: Vec2 = null
@@ -66,6 +67,16 @@ export class XPlayerScript extends Component {
 
         // 1. 床的图片
         if (this.skinCfg.skinBedPath) {
+            this.skinBedImgNode = new Node(this.skinCfg.skinBedPath)
+            let uiTrans = this.skinBedImgNode.addComponent(UITransform)
+            uiTrans.anchorX = .5
+            uiTrans.anchorY = .25
+            this.skinNode.addChild(this.skinBedImgNode)
+            this.skinBedImgNode.y = 15
+            this.skinBedImgNode.active = false
+            XResUtil.loadSpriteFromBundle(XResUtil.ResBundleName, this.skinCfg.skinBedPath.replace(".png", "")).then((frame)=>{
+                this.skinBedImgNode.addComponent(Sprite).spriteFrame = frame
+            })
         }
 
         // 2. spine 动画资源（.bin 格式）
@@ -77,7 +88,7 @@ export class XPlayerScript extends Component {
             uiTrans.anchorPoint = v2(0.5, 0.9)
             this.skinNode.addChild(this.aniNode);
 
-            const spineNode = await XResUtil.loadSpineFromBundle("spines", path);
+            const spineNode = await XResUtil.loadSpineFromBundle(XResUtil.SpineBundleName, path);
             this.aniNode.addChild(spineNode)
             spineNode.setPosition(v3(0, -XConst.GridHalfSize + 30))
             this.spineNode = spineNode
@@ -376,14 +387,14 @@ export class XPlayerScript extends Component {
         let tileInfo = XMgr.mapMgr.getTiledInfo(grid.x, grid.y);
         return tileInfo && (tileInfo.walkable !== false);
     }
-    
+
     getDataModel() {
         return this.data
     }
 
-    
-    gotoBed(i, s) {
-        return XMgr.gameMgr.upBed(i, s, this.data.uuid) == XBuildResult.E_OK
+
+    gotoBed(gridX_, gridY_) {
+        return XMgr.gameMgr.upBed(gridX_, gridY_, this.data.uuid) == XBuildResult.E_OK
     }
 }
 

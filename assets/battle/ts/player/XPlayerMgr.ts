@@ -14,7 +14,7 @@ export default class XPlayerMgr {
     players = [];
     playerMap: { [key: string]: XPlayerModel } = {};
     player = null;
-    isGoldlessMode = !1;
+    isGoldlessMode = false;
     fighter = null;
 
     init(matchData_: XMatchData) {
@@ -33,55 +33,60 @@ export default class XPlayerMgr {
     getPlayer(id_: string) {
         return id_ ? this.playerMap[id_] : null
     }
-    changePlayerIncomeByUuid(e, t, i) {
-        if (!e) return;
-        let s = this.getPlayer(e);
-        if (!s) return !1;
-        if (this.isGoldlessMode && e == this.mineUuid) return !0;
-        t = t || 0, i = i || 0;
-        let a = Math.max(s.coin + t, 0).toFixed(1),
-            n = Math.max(s.energy + i, 0).toFixed(1);
-        return s.coin = Number(a), s.energy = Number(n), !0
+    changePlayerIncomeByUuid(uuid_, coin_, energy_) {
+        if (!uuid_) return;
+        let player = this.getPlayer(uuid_);
+        if (!player) return false;
+        if (this.isGoldlessMode && uuid_ == this.mineUuid) return true;
+        coin_ = coin_ || 0, energy_ = energy_ || 0;
+        let coin = Math.max(player.coin + coin_, 0).toFixed(1)
+        let energy = Math.max(player.energy + energy_, 0).toFixed(1);
+        player.coin = Number(coin)
+        player.energy = Number(energy)
+        return true
     }
-    isPlayerBed(e) {
-        if (!this.player) return !1;
-        if (!e) return this.player.isBed;
-        for (const t of this.defenders)
-            if (t.uuid == e) return t.isBed
+
+    isPlayerBed(uuid_) {
+        if (!this.player) return false;
+        if (!uuid_) return this.player.isBed;
+        for (const defender of this.defenders)
+            if (defender.uuid == uuid_)
+                return defender.isBed
+        return false
     }
     get mineRoomId() {
         return this.player.roomId
     }
-    addFighter(e) {
-        e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1)
-        this.hunters.push(e)
-        EventCenter.emit(XEventNames.E_Create_Fighter, e)
-        this.fighter = e
+    addFighter(fighter_: XPlayerModel) {
+        fighter_.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1)
+        this.hunters.push(fighter_)
+        EventCenter.emit(XEventNames.E_Create_Fighter, fighter_)
+        this.fighter = fighter_
     }
-    addBoxMonster(e, i) {
-        e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1),
-            this.hunters.push(e)
-        EventCenter.emit(XEventNames.E_Create_BoxMonster, [e, i])
+    addBoxMonster(boxMonster: XPlayerModel, i) {
+        boxMonster.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1)
+        this.hunters.push(boxMonster)
+        EventCenter.emit(XEventNames.E_Create_BoxMonster, boxMonster, i)
     }
-    addGhost(e) {
-        e.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1)
-        this.hunters.push(e)
-        EventCenter.emit(XEventNames.E_Create_Ghost, e)
+    addGhost(ghost_: XPlayerModel) {
+        ghost_.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.hunterPointNum - 1)
+        this.hunters.push(ghost_)
+        EventCenter.emit(XEventNames.E_Create_Ghost, ghost_)
     }
     addAngel() {
-        let i = new XPlayerModel;
-        i.uuid = this.mineUuid,
-            i.name = this.player.name,
-            i.type = XPlayerType.E_Defender,
-            i.isAngel = true,
-            i.skinId = 90003,
-            i.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.defenderPointNum - 1),
-            this.angels.push(i),
-            EventCenter.emit(XEventNames.E_Create_Angel, i)
+        let angel = new XPlayerModel;
+        angel.uuid = this.mineUuid
+        angel.name = this.player.name
+        angel.type = XPlayerType.E_Defender
+        angel.isAngel = true
+        angel.skinId = 90003
+        angel.spwanPoint = XRandomUtil.getIntRandom(0, XMgr.gameMgr.mapCfg.defenderPointNum - 1)
+        this.angels.push(angel)
+        EventCenter.emit(XEventNames.E_Create_Angel, angel)
     }
     deleteGhost() {
         let hunters = this.hunters.splice(1);
-        for (const hun of hunters) 
+        for (const hun of hunters)
             hun && hun.owner && hun.owner.isValid && (hun.ownerScript.onDead(), hun.owner.destroy())
     }
 }

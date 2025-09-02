@@ -19,6 +19,7 @@ import { XHunterScript } from '../player/XHunterScript';
 import { XInputScript } from '../XInputScript';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XV2Util01 } from '../../xutil/XV2Util01';
+import { XRoomModel } from '../../model/XRoomModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -37,6 +38,8 @@ export class XGameScript extends Component {
     moveDir: Vec2 = v2(0)
 
     moveTime = 0
+
+    room:XRoomModel = null
 
     protected onLoad(): void {
         this.map = this.node.getChildByName("map").getComponent(XMapView)
@@ -65,11 +68,13 @@ export class XGameScript extends Component {
     initEvents() {
         EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.on(XEventNames.E_Look_Player, this.lookAtPlayer, this)
+        EventCenter.on(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
     }
 
     offEvents() {
         EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.off(XEventNames.E_Look_Player, this.lookAtPlayer, this)
+        EventCenter.off(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
     }
 
     initMapBuild() {
@@ -100,10 +105,10 @@ export class XGameScript extends Component {
     initDefenders() {
         let myUuid = XMgr.playerMgr.mineUuid
         let defenderArr = XMgr.playerMgr.defenders
-        for (let i = 0; i < defenderArr.length; ++i) {
+        for (let i = 0; i < 2; ++i) {
             let defender = defenderArr[i]
             let defNode = new Node(`defender${i}`);
-            defNode.addComponent(UITransform).setContentSize(1, 1)
+            defNode.addComponent(UITransform).setContentSize(10, 10)
             this.map.playerLayer.addChild(defNode);
             let defenderScript = defNode.addComponent(XDefenderScript);
             defenderScript.init(defender);
@@ -260,6 +265,33 @@ export class XGameScript extends Component {
         this.characterControl.move(x, y, !0)
         const charactorWorldPt = this.characterControl.node.getComponent(UITransform).convertToWorldSpaceAR(Vec3.ZERO)
         this.lookAt(charactorWorldPt.x, charactorWorldPt.y)
+    }
+
+    getDefender(uuid_: string) {
+        for (const def of this.defenders)
+            if (def.data.uuid == uuid_)
+                return def
+    }
+
+    onPlayerUpBed(build_, uuid_) {
+        let defender = this.getDefender(uuid_);
+        if (!defender) return;
+
+        defender.upBed(build_);
+
+        let roomId = build_.roomId;
+        let room = XMgr.buildingMgr.getRoom(roomId);
+
+        if (uuid_ == XMgr.playerMgr.mineUuid) {
+            this.room = room;
+            this.isPlayerBed = true;
+            this.characterControl = null;
+
+            this.inputScript.hide();
+            // this.showBuildTips(build_.roomId);
+        }
+
+        // this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
     }
 }
 

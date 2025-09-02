@@ -1,8 +1,11 @@
-import { assetManager, Node, sp } from "cc";
+import { assetManager, ImageAsset, Node, sp, SpriteFrame } from "cc";
 
 export default class XResUtil {
-    public static loadSpineFromBundle(bundleName: string, path: string):Promise<Node> {
-        return new Promise((resolve)=>{
+    static ResBundleName = "res"
+    static SpineBundleName = "spines"
+
+    public static loadSpineFromBundle(bundleName: string, path: string): Promise<Node> {
+        return new Promise((resolve) => {
             assetManager.loadBundle(bundleName, (err, bundle) => {
                 if (err) {
                     console.error('加载 bundle 出错:', err);
@@ -21,8 +24,8 @@ export default class XResUtil {
     }
 
     /**
- * 给 spineNode 添加 Spine 动画
- */
+     * 给 spineNode 添加 Spine 动画
+     */
     private static packSpineToNode(skeletonData: sp.SkeletonData) {
         let node = new Node(skeletonData.name);
         let spine = node.addComponent(sp.Skeleton);
@@ -31,6 +34,25 @@ export default class XResUtil {
         // 播放动画
         spine.setAnimation(0, "idle", true);
         return node
+    }
+
+    public static loadSpriteFromBundle(bundleName_: string, pathInBundle_: string): Promise<SpriteFrame> {
+        return new Promise((resolve) => {
+            assetManager.loadBundle(bundleName_, (err, bundle) => {
+                if (err) {
+                    console.error('加载 bundle 出错:', err);
+                    return;
+                }
+                
+                bundle.load(pathInBundle_, ImageAsset, (err, frame) => {
+                    if (err) {
+                        console.error('加载 SpriteFrame 出错:', err);
+                        return;
+                    }
+                    resolve(SpriteFrame.createWithImage(frame))
+                });
+            });
+        })
     }
 }
 

@@ -5,9 +5,9 @@
     "type": "Human",
     "skinType": 1,
     "skinPath": "player/smw/smw.bin",
-    "headIcon": "res/icon/headIcon/playerHead1.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/player/player_1.png",
+    "headIcon": "icon/headIcon/playerHead1.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "player/player_1.png",
     "unlock": {
       "way": 999
     }
@@ -19,9 +19,9 @@
     "skinType": 1,
     "fragmentType": 0,
     "skinPath": "player/smwshuiqun/smwshuiqun.bin",
-    "headIcon": "res/icon/headIcon/playerHead1_1.png",
-    "skinBedPath": "res/icon/bedIcon/player1_1.png",
-    "skinShowPath": "res/player/player_1_1.png",
+    "headIcon": "icon/headIcon/playerHead1_1.png",
+    "skinBedPath": "icon/bedIcon/player1_1.png",
+    "skinShowPath": "player/player_1_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -33,9 +33,9 @@
     "type": "Human",
     "skinType": 1,
     "skinPath": "player/xzs_smw/xzs_smw.bin",
-    "headIcon": "res/icon/headIcon/playerHead1_2.png",
-    "skinBedPath": "res/icon/bedIcon/player1_2.png",
-    "skinShowPath": "res/player/player_1_2.png",
+    "headIcon": "icon/headIcon/playerHead1_2.png",
+    "skinBedPath": "icon/bedIcon/player1_2.png",
+    "skinShowPath": "player/player_1_2.png",
     "unlock": {
       "way": 11
     }
@@ -47,9 +47,9 @@
     "skinType": 1,
     "fragmentType": 1,
     "skinPath": "player/baixue/baixue.bin",
-    "headIcon": "res/icon/headIcon/playerHead1_3.png",
-    "skinBedPath": "res/icon/bedIcon/player1_3.png",
-    "skinShowPath": "res/player/player_1_3.png",
+    "headIcon": "icon/headIcon/playerHead1_3.png",
+    "skinBedPath": "icon/bedIcon/player1_3.png",
+    "skinShowPath": "player/player_1_3.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -61,9 +61,9 @@
     "type": "Human",
     "skinType": 2,
     "skinPath": "player/xuezha/xuezha.bin",
-    "headIcon": "res/icon/headIcon/playerHead2.png",
-    "skinBedPath": "res/icon/bedIcon/player2.png",
-    "skinShowPath": "res/player/player_2.png",
+    "headIcon": "icon/headIcon/playerHead2.png",
+    "skinBedPath": "icon/bedIcon/player2.png",
+    "skinShowPath": "player/player_2.png",
     "unlock": {
       "way": 1,
       "num": 1
@@ -76,9 +76,9 @@
     "skinType": 2,
     "fragmentType": 0,
     "skinPath": "player/jikun/jikun.bin",
-    "headIcon": "res/icon/headIcon/playerHead2_1.png",
-    "skinBedPath": "res/icon/bedIcon/player2_1.png",
-    "skinShowPath": "res/player/player_2_1.png",
+    "headIcon": "icon/headIcon/playerHead2_1.png",
+    "skinBedPath": "icon/bedIcon/player2_1.png",
+    "skinShowPath": "player/player_2_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -91,9 +91,9 @@
     "skinType": 2,
     "fragmentType": 1,
     "skinPath": "player/pinuocao/pinuocao.bin",
-    "headIcon": "res/icon/headIcon/playerHead2_2.png",
-    "skinBedPath": "res/icon/bedIcon/player2_2.png",
-    "skinShowPath": "res/player/player_2_2.png",
+    "headIcon": "icon/headIcon/playerHead2_2.png",
+    "skinBedPath": "icon/bedIcon/player2_2.png",
+    "skinShowPath": "player/player_2_2.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -105,9 +105,9 @@
     "type": "Human",
     "skinType": 3,
     "skinPath": "player/xiaoshusheng/xiaoshusheng.bin",
-    "headIcon": "res/icon/headIcon/playerHead3.png",
-    "skinBedPath": "res/icon/bedIcon/player3.png",
-    "skinShowPath": "res/player/player_3.png",
+    "headIcon": "icon/headIcon/playerHead3.png",
+    "skinBedPath": "icon/bedIcon/player3.png",
+    "skinShowPath": "player/player_3.png",
     "unlock": {
       "way": 1,
       "num": 1
@@ -120,9 +120,9 @@
     "skinType": 3,
     "fragmentType": 0,
     "skinPath": "player/daoshi/daoshi.bin",
-    "headIcon": "res/icon/headIcon/playerHead3_1.png",
-    "skinBedPath": "res/icon/bedIcon/player3_1.png",
-    "skinShowPath": "res/player/player_3_1.png",
+    "headIcon": "icon/headIcon/playerHead3_1.png",
+    "skinBedPath": "icon/bedIcon/player3_1.png",
+    "skinShowPath": "player/player_3_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -135,9 +135,9 @@
     "skinType": 3,
     "fragmentType": 1,
     "skinPath": "player/xwz/xwz.bin",
-    "headIcon": "res/icon/headIcon/playerHead3_2.png",
-    "skinBedPath": "res/icon/bedIcon/player3_2.png",
-    "skinShowPath": "res/player/player_3_2.png",
+    "headIcon": "icon/headIcon/playerHead3_2.png",
+    "skinBedPath": "icon/bedIcon/player3_2.png",
+    "skinShowPath": "player/player_3_2.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -149,9 +149,9 @@
     "type": "Human",
     "skinType": 4,
     "skinPath": "player/beishubao/beishubao.bin",
-    "headIcon": "res/icon/headIcon/playerHead4.png",
-    "skinBedPath": "res/icon/bedIcon/player4.png",
-    "skinShowPath": "res/player/player_4.png",
+    "headIcon": "icon/headIcon/playerHead4.png",
+    "skinBedPath": "icon/bedIcon/player4.png",
+    "skinShowPath": "player/player_4.png",
     "unlock": {
       "way": 1,
       "num": 1
@@ -164,9 +164,9 @@
     "skinType": 4,
     "fragmentType": 0,
     "skinPath": "player/yingmuhuadao/yingmuhuadao.bin",
-    "headIcon": "res/icon/headIcon/playerHead4_1.png",
-    "skinBedPath": "res/icon/bedIcon/player4_1.png",
-    "skinShowPath": "res/player/player_4_1.png",
+    "headIcon": "icon/headIcon/playerHead4_1.png",
+    "skinBedPath": "icon/bedIcon/player4_1.png",
+    "skinShowPath": "player/player_4_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -179,9 +179,9 @@
     "skinType": 4,
     "fragmentType": 1,
     "skinPath": "player/alading/alading.bin",
-    "headIcon": "res/icon/headIcon/playerHead4_2.png",
-    "skinBedPath": "res/icon/bedIcon/player4_2.png",
-    "skinShowPath": "res/player/player_4_2.png",
+    "headIcon": "icon/headIcon/playerHead4_2.png",
+    "skinBedPath": "icon/bedIcon/player4_2.png",
+    "skinShowPath": "player/player_4_2.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -193,9 +193,9 @@
     "type": "Human",
     "skinType": 5,
     "skinPath": "player/nvjiaoshi/nvjiaoshi.bin",
-    "headIcon": "res/icon/headIcon/playerHead5.png",
-    "skinBedPath": "res/icon/bedIcon/player5.png",
-    "skinShowPath": "res/player/player_5.png",
+    "headIcon": "icon/headIcon/playerHead5.png",
+    "skinBedPath": "icon/bedIcon/player5.png",
+    "skinShowPath": "player/player_5.png",
     "unlock": {
       "way": 1,
       "num": 1
@@ -208,9 +208,9 @@
     "skinType": 5,
     "fragmentType": 0,
     "skinPath": "player/xiaohongmao/xiaohongmao.bin",
-    "headIcon": "res/icon/headIcon/playerHead5_1.png",
-    "skinBedPath": "res/icon/bedIcon/player5_1.png",
-    "skinShowPath": "res/player/player_5_1.png",
+    "headIcon": "icon/headIcon/playerHead5_1.png",
+    "skinBedPath": "icon/bedIcon/player5_1.png",
+    "skinShowPath": "player/player_5_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -223,9 +223,9 @@
     "skinType": 5,
     "fragmentType": 1,
     "skinPath": "player/wanghou/wanghou.bin",
-    "headIcon": "res/icon/headIcon/playerHead5_2.png",
-    "skinBedPath": "res/icon/bedIcon/player5_2.png",
-    "skinShowPath": "res/player/player_5_2.png",
+    "headIcon": "icon/headIcon/playerHead5_2.png",
+    "skinBedPath": "icon/bedIcon/player5_2.png",
+    "skinShowPath": "player/player_5_2.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -237,9 +237,9 @@
     "type": "Human",
     "skinType": 6,
     "skinPath": "player/baoan/baoan.bin",
-    "headIcon": "res/icon/headIcon/playerHead6.png",
-    "skinBedPath": "res/icon/bedIcon/player6.png",
-    "skinShowPath": "res/player/player_6.png",
+    "headIcon": "icon/headIcon/playerHead6.png",
+    "skinBedPath": "icon/bedIcon/player6.png",
+    "skinShowPath": "player/player_6.png",
     "unlock": {
       "way": 1,
       "num": 1
@@ -252,9 +252,9 @@
     "skinType": 6,
     "fragmentType": 0,
     "skinPath": "player/aiyinsitan/aiyinsitan.bin",
-    "headIcon": "res/icon/headIcon/playerHead6_1.png",
-    "skinBedPath": "res/icon/bedIcon/player6_1.png",
-    "skinShowPath": "res/player/player_6_1.png",
+    "headIcon": "icon/headIcon/playerHead6_1.png",
+    "skinBedPath": "icon/bedIcon/player6_1.png",
+    "skinShowPath": "player/player_6_1.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -267,9 +267,9 @@
     "skinType": 6,
     "fragmentType": 1,
     "skinPath": "player/luobinhan/luobinhan.bin",
-    "headIcon": "res/icon/headIcon/playerHead6_2.png",
-    "skinBedPath": "res/icon/bedIcon/player6_2.png",
-    "skinShowPath": "res/player/player_6_2.png",
+    "headIcon": "icon/headIcon/playerHead6_2.png",
+    "skinBedPath": "icon/bedIcon/player6_2.png",
+    "skinShowPath": "player/player_6_2.png",
     "unlock": {
       "way": 2,
       "num": 25
@@ -281,9 +281,9 @@
     "type": "Human",
     "skinType": 7,
     "skinPath": "player/xiaoshuai/xiaoshuai.bin",
-    "headIcon": "res/icon/headIcon/playerHead7.png",
-    "skinBedPath": "res/icon/bedIcon/player7.png",
-    "skinShowPath": "res/player/player_7.png",
+    "headIcon": "icon/headIcon/playerHead7.png",
+    "skinBedPath": "icon/bedIcon/player7.png",
+    "skinShowPath": "player/player_7.png",
     "unlock": {
       "way": 3
     }
@@ -294,9 +294,9 @@
     "type": "Human",
     "skinType": 7,
     "skinPath": "player/bazong/bazong.bin",
-    "headIcon": "res/icon/headIcon/playerHead7_1.png",
-    "skinBedPath": "res/icon/bedIcon/player7_1.png",
-    "skinShowPath": "res/player/player_7_1.png",
+    "headIcon": "icon/headIcon/playerHead7_1.png",
+    "skinBedPath": "icon/bedIcon/player7_1.png",
+    "skinShowPath": "player/player_7_1.png",
     "unlock": {
       "way": 3
     }
@@ -306,9 +306,9 @@
     "name": "疯女",
     "type": "Hunter",
     "skinPath": "hunter/zhenzi/zhenzi.bin",
-    "headIcon": "res/icon/headIcon/hunterHead1.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_1.png",
+    "headIcon": "icon/headIcon/hunterHead1.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_1.png",
     "unlock": {
       "way": 999
     },
@@ -320,9 +320,9 @@
     "name": "戏子鬼",
     "type": "Hunter",
     "skinPath": "hunter/xizi/xizi.bin",
-    "headIcon": "res/icon/headIcon/hunterHead2.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_2.png",
+    "headIcon": "icon/headIcon/hunterHead2.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_2.png",
     "defaultRight": 1,
     "skillDes": "噬魂者技能：戏子鬼会召唤若干分身，一段时间后会自动消失"
   },
@@ -331,9 +331,9 @@
     "name": "鬼新娘",
     "type": "Hunter",
     "skinPath": "hunter/guixinniang/guixinniang.bin",
-    "headIcon": "res/icon/headIcon/hunterHead3.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_3.png",
+    "headIcon": "icon/headIcon/hunterHead3.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_3.png",
     "defaultRight": 1,
     "skillDes": "噬魂者技能：鬼新娘会使用传送，铺满房间所有格子可以阻止她进入！"
   },
@@ -342,9 +342,9 @@
     "name": "猫脸老太",
     "type": "Hunter",
     "skinPath": "hunter/maolianpopo/maolianpopo.bin",
-    "headIcon": "res/icon/headIcon/hunterHead4.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_4.png",
+    "headIcon": "icon/headIcon/hunterHead4.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_4.png",
     "defaultRight": 0
   },
   "10005": {
@@ -352,9 +352,9 @@
     "name": "幽灵护士",
     "type": "Hunter",
     "skinPath": "hunter/nvhushi/nvhushi.bin",
-    "headIcon": "res/icon/headIcon/hunterHead5.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_5.png",
+    "headIcon": "icon/headIcon/hunterHead5.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_5.png",
     "defaultRight": 1,
     "skillDes": "噬魂者技能：幽灵护士会眩晕一定范围内的所有炮台"
   },
@@ -363,9 +363,9 @@
     "name": "兵马俑",
     "type": "Hunter",
     "skinPath": "hunter/bingmayong/bingmayong.bin",
-    "headIcon": "res/icon/headIcon/hunterHead6.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_6.png",
+    "headIcon": "icon/headIcon/hunterHead6.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_6.png",
     "defaultRight": 1,
     "skillDes": "噬魂者技能：兵马俑的初始移动速度更快"
   },
@@ -374,9 +374,9 @@
     "name": "僵尸",
     "type": "Hunter",
     "skinPath": "hunter/jiangshi/jiangshi.bin",
-    "headIcon": "res/icon/headIcon/hunterHead7.png",
-    "skinBedPath": "res/icon/bedIcon/player1.png",
-    "skinShowPath": "res/hunter/hunter_7.png",
+    "headIcon": "icon/headIcon/hunterHead7.png",
+    "skinBedPath": "icon/bedIcon/player1.png",
+    "skinShowPath": "hunter/hunter_7.png",
     "defaultRight": 0,
     "skillDes": "噬魂者技能：僵尸会召唤其他噬魂者，使用人参果树会有奇效！"
   },
@@ -427,7 +427,7 @@
     "name": "木头",
     "type": "Ghost",
     "skinPath": "hunter/mutou/mutou.bin",
-    "skinShowPath": "res/hunter/hunter_1.png",
+    "skinShowPath": "hunter/hunter_1.png",
     "defaultRight": 0
   },
   "90002": {

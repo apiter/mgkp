@@ -10,7 +10,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XDefenderScript')
 export class XDefenderScript extends XPlayerScript {
-    skinBedImg: Node = null
+    skinBedImgNode: Node = null
     _ai: XPlayerAI = null
 
     constructor() {
@@ -19,7 +19,7 @@ export class XDefenderScript extends XPlayerScript {
     }
 
     protected onLoad(): void {
-        this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed
+        this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed * 1.5
     }
 
     onInit() {
@@ -78,13 +78,13 @@ export class XDefenderScript extends XPlayerScript {
             [
                 this._ai.notInBed(this._ai.findMapBuild(this._ai.run("move", true))),
                 this._ai.notInBed(this._ai.takeMapBuild()),
-                this._ai.notInBed(this._ai.findBed(this._ai.run("move", !0))),
+                this._ai.notInBed(this._ai.findBed(this._ai.run("move", true))),
                 this._ai.notInBed(this._ai.gotoBed()),
                 this._ai.upOrBuild(),
                 this._ai.idle("idle")
             ],
             XEPolicy.RequireOne,
-            "init"
+            "root"
         );
         this._ai.load(root)
     }
@@ -93,11 +93,11 @@ export class XDefenderScript extends XPlayerScript {
         let mapPos = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
         this.pos(mapPos.x, mapPos.y)
         // this.lb_name.visible = !1, 
-        // this.skinBedImg ? (this.skinBedImg.visible = !0, this.skinSpine ? this.skinSpine.visible = !1 : this.skinImg && (this.skinImg.visible = !1)) : this.playAnim("idle"), 
+        this.skinBedImgNode ? (this.skinBedImgNode.active = true, this.spineNode && (this.spineNode.active = false)) : this.playAnim("idle") 
         // this.takeMapBuildNode.visible = !1
     }
     downBed() {
-        if (this.skinBedImg) {
+        if (this.skinBedImgNode) {
             // this.skinBedImg.visible = false;
 
             // if (this.skinSpine) {
@@ -110,7 +110,12 @@ export class XDefenderScript extends XPlayerScript {
         }
     }
 
+    dtWait = 0
     update(dt) {
+        this.dtWait += dt
+        // if (this.dtWait < 0.1)
+        //     return
+        this.dtWait = 0
         if (this.isSkinLoaded) {
             if (!XMgr.gameMgr.isPause && !this.data.isDie) {
                 if (!this.data.isBed) {

@@ -190,7 +190,7 @@ export default class XBuildingMgr {
         }
 
         // 广播事件
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildingModel, false]);
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildingModel, false);
 
         // 任务/音效（目前注释掉）
         // !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask();
@@ -232,7 +232,7 @@ export default class XBuildingMgr {
             XMgr.mapMgr.setDynWalkable(gridX_, gridY_, false);
         }
 
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildModel, false]);
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildModel, false);
 
         return XBuildResult.E_OK;
     }
@@ -277,9 +277,9 @@ export default class XBuildingMgr {
     }
 
     takeMapBuild(x_, y_, data_) {
-        let a = this.getMapBuild(x_, y_);
-        if (!a || a.isUsed) return false;
-        if (a.isUsed = !0, a.owner && !a.owner.destroyed) {
+        let build = this.getMapBuild(x_, y_);
+        if (!build || build.isUsed) return false;
+        if (build.isUsed = !0, build.owner && !build.owner.destroyed) {
             this.mapBuildScripts[x_][y_] = null
             // if ("fhl" == a.buildName) {
             //     if (data_.uuid == XMgr.playerMgr.mineUuid) {
@@ -288,8 +288,8 @@ export default class XBuildingMgr {
             //     }
             //     return false
             // }
-            data_.takeMapBuild = a
-            EventCenter.emit(XEventNames.E_MapBuild_take, [a, data_.uuid])
+            data_.takeMapBuild = build
+            EventCenter.emit(XEventNames.E_MapBuild_take, build, data_.uuid)
             return true
         }
     }
@@ -346,7 +346,8 @@ export default class XBuildingMgr {
     }
 
     getBuilding(gridX_, gridY_) {
-        if (this.buildingGrids[gridX_]) return this.buildingGrids[gridX_][gridY_]
+        if (this.buildingGrids[gridX_])
+            return this.buildingGrids[gridX_][gridY_]
     }
 
     getGridByPos(roomId_, i) {
@@ -405,10 +406,10 @@ export default class XBuildingMgr {
         }
     }
 
-    changeDoorState(e, isOpen_) {
-        e.isOpen = isOpen_
-        XMgr.mapMgr.setDynWalkable(e.x, e.y, isOpen_)
-        EventCenter.emit(XEventNames.E_Door_State_Changed, [e])
+    changeDoorState(door:XBuildingModel, isOpen_) {
+        door.isOpen = isOpen_
+        XMgr.mapMgr.setDynWalkable(door.x, door.y, isOpen_)
+        EventCenter.emit(XEventNames.E_Door_State_Changed, door)
     }
 
     upBed(x_: number, y_: number, player_: XPlayerModel) {
@@ -475,7 +476,7 @@ export default class XBuildingMgr {
         }
 
         // 触发上床事件
-        EventCenter.emit(XEventNames.E_Bed_Up, [bed, player_.uuid])
+        EventCenter.emit(XEventNames.E_Bed_Up, bed, player_.uuid)
 
         // 搬建筑逻辑
         // if (player_.takeMapBuild) {
@@ -542,7 +543,7 @@ export default class XBuildingMgr {
         }
 
         // 派发建造事件
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, [buildModel, false, 60]);
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildModel, false, 60);
         // 任务检查
         // if (!XMgr.taskMgr.compeletAllTask()) {
         //     XMgr.taskMgr.startTask();

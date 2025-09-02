@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, UITransform, v3 } from 'cc';
+import { _decorator, Component, Label, Node, Sprite, UITransform, v3 } from 'cc';
 import { XConst } from '../../xconfig/XConst';
 import XBuildingModel from '../../model/XBuildingModel';
 import XMgr from '../../XMgr';
@@ -16,11 +16,15 @@ export class XBuildingScript extends Component {
     skinNode: Node = null
     aniNode: Node = null
     diNode: Node = null
-    iconNode:Node = null
+    iconNode: Node = null
 
     cfg: any = null
     isBuildCd = false
     buildCdTime = 0
+
+    effects =[]
+
+    hpLabel:Label = null
 
     init(buildModel_: XBuildingModel, cdTime_ = 0) {
         this.skinNode = new Node("SkinNode")
@@ -42,6 +46,11 @@ export class XBuildingScript extends Component {
         this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
         this.node.on(XEventNames.Battle_Be_Hit, this.onHit, this)
         cdTime_ ? (this.isBuildCd = true, this.buildCdTime = cdTime_, this.initCdUI(buildModel_)) : (this.onInit(), this.initEffects())
+
+        const hpNode = new Node("hpNode")
+        this.hpLabel = hpNode.addComponent(Label)
+        this.hpLabel.string = buildModel_.curHp.toString()
+        this.node.addChild(hpNode)
     }
 
     onInit() {
@@ -60,15 +69,16 @@ export class XBuildingScript extends Component {
         this.initDiSkin();
         let isSelf = false;
         this.data.playerUuid == XMgr.playerMgr.player.uuid && (isSelf = true)
-        if (isSelf && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
-            this.initBuffSkin();
-        } else if (this.cfg.buildAni) {
-            // EffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode);
-        } else {
+        // if (isSelf && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
+        //     this.initBuffSkin();
+        // } else if (this.cfg.buildAni) {
+        //      EffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode);
+        // } else 
+        {
             this.iconNode = new Node("iconNode")
             const spr = this.iconNode.addComponent(Sprite)
             spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon)
-            spr.trim  = true
+            spr.trim = true
             spr.sizeMode = Sprite.SizeMode.CUSTOM
             this.skinNode.addChild(this.iconNode);
         }
@@ -80,7 +90,7 @@ export class XBuildingScript extends Component {
                 this.diNode = new Node("diNode")
                 const spr = this.diNode.addComponent(Sprite)
                 spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon)
-                spr.trim  = true
+                spr.trim = true
                 spr.sizeMode = Sprite.SizeMode.CUSTOM
                 this.skinNode.addChild(this.diNode);
             }
@@ -92,7 +102,7 @@ export class XBuildingScript extends Component {
     }
 
     onHpChanged() {
-
+        this.hpLabel.string = this.data.curHp.toString()
     }
 
     onHit() {

@@ -5305,7 +5305,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             upBed(e) {
                 let i = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
-                this.pos(i.x, i.y), this.lb_name.visible = !1, this.skinBedImg ? (this.skinBedImg.visible = !0, this.skinSpine ? this.skinSpine.visible = !1 : this.skinImg && (this.skinImg.visible = !1)) : this.playAnim("idle"), this.takeMapBuildNode.visible = !1
+                this.pos(i.x, i.y), 
+                this.lb_name.visible = !1, 
+                this.skinBedImg ? (this.skinBedImg.visible = !0, this.skinSpine ? this.skinSpine.visible = !1 : this.skinImg && (this.skinImg.visible = !1)) : this.playAnim("idle"), this.takeMapBuildNode.visible = !1
             }
             downBed() {
                 this.skinBedImg ? (this.skinBedImg.visible = !1, this.skinSpine ? this.skinSpine.visible = !0 : this.skinImg && (this.skinImg.visible = !0)) : this.playAnim("run")
@@ -7335,30 +7337,33 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XBedScript extends XBuildingScript {
             onAwake() {
-                super.onAwake(), fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerGotoBed), fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.onPlayerDownBed)
+                super.onAwake(), 
+                fx.EventCenter.I.on(XEventNames.E_Bed_Up, this, this.onPlayerGotoBed), 
+                fx.EventCenter.I.on(XEventNames.E_Bed_Down, this, this.onPlayerDownBed)
             }
             upgrade() {
                 this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), this.imgBody.skin = this.cfg.icon, this.initEffects()
             }
-            onPlayerGotoBed(i, s) {
-                if (!i || i != this.data) return;
-                let a = XMgr.gameMgr.playTime,
-                    n = XMgr.mapMgr.getRoomById(i.roomId),
-                    r = 0,
-                    o = 0;
-                for (const i of n.buildings) {
+            onPlayerGotoBed(buildMode_, playerUuid_) {
+                if (!buildMode_ || buildMode_ != this.data) return;
+                let playTime = XMgr.gameMgr.playTime,
+                    roomModel = XMgr.mapMgr.getRoomById(buildMode_.roomId),
+                    coin = 0,
+                    energy = 0;
+                for (const i of roomModel.buildings) {
                     let s = XMgr.buildingMgr.getBuildCfg(i.id);
                     if (s.effectList)
                         for (const t of s.effectList)
-                            if (t.type == e.EffectType.Add_Coin) r += t.value[0] * a;
+                            if (t.type == e.EffectType.Add_Coin) 
+                                coin += t.value[0] * playTime;
                             else if (t.type == e.EffectType.Add_Energy) {
                         let e = t.value[1] ? t.value[1] : 1;
-                        o += Math.floor(t.value[0] * a / e)
+                        energy += Math.floor(t.value[0] * playTime / e)
                     }
                 }
-                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
-                for (const e of this.effects) e.data.playerUuid = i.playerUuid;
-                this.handcart && (this.handcart.visible = !0), i.playerUuid = s, 0 == this.effects.length && this.initEffects(), XMgr.gameMgr.playSound(this.data, 124)
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin, energy);
+                for (const e of this.effects) e.data.playerUuid = buildMode_.playerUuid;
+                this.handcart && (this.handcart.visible = !0), buildMode_.playerUuid = playerUuid_, 0 == this.effects.length && this.initEffects(), XMgr.gameMgr.playSound(this.data, 124)
             }
             onPlayerDownBed(e, t) {
                 e === this.data.playerUuid && (this.data.isUsed = !1, this.data.playerUuid = void 0, this.clearEffects())
@@ -10012,14 +10017,31 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!e.doorModel.owner || e.doorModel.owner.destroyed) return !1;
                 e.doorModel.owner.getComponent(XBuildingScript).repair(5)
             }
-            onPlayerUpBed(e, i) {
-                let s = this.getDefender(i);
-                if (!s) return;
-                s.upBed(e);
-                let a = e.roomId,
-                    n = XMgr.buildingMgr.getRoom(a);
-                i == XMgr.playerMgr.mineUuid && (this.room = n, this.isPlayerBed = !0, this.characterControl = null, this.img_guideArrow && this.img_guideArrow.destroy(), this.inputScript.hide(), this.showBuildTips(e.roomId)), this.map.removeDoorTips(n.doorPos.x, n.doorPos.y)
+            onPlayerUpBed(build_, uuid_) {
+                let defender = this.getDefender(uuid_);
+                if (!defender) return;
+            
+                defender.upBed(build_);
+            
+                let roomId = build_.roomId;
+                let room = XMgr.buildingMgr.getRoom(roomId);
+            
+                if (uuid_ == XMgr.playerMgr.mineUuid) {
+                    this.room = room;
+                    this.isPlayerBed = true;
+                    this.characterControl = null;
+            
+                    if (this.img_guideArrow) {
+                        this.img_guideArrow.destroy();
+                    }
+            
+                    this.inputScript.hide();
+                    this.showBuildTips(build_.roomId);
+                }
+            
+                this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
             }
+            
             onPlayerDownBed(e, i) {
                 let s = this.getDefender(e);
                 s && (s.downBed(), e == XMgr.playerMgr.mineUuid && (this.hideBuildTips(i), this.room = null, this.isPlayerBed = !1, this.characterControl = s, this.inputScript.show()))

@@ -23,6 +23,7 @@ export class XPlayerAI extends XAIModel {
     findBed(child_) {
         let t = new XFindEmptyBedAct;
         return new XBTSequence({
+            title: "findBed",
             children: [t, child_],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
@@ -31,6 +32,7 @@ export class XPlayerAI extends XAIModel {
     findMapBuild(e) {
         let t = new XFindMapBuildAct();
         return new XBTSequence({
+            title: "findMapBuild",
             children: [t, e],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
@@ -38,6 +40,7 @@ export class XPlayerAI extends XAIModel {
     }
     takeMapBuild() {
         return new XBTSequence({
+            title:"takeMapBuild",
             children: [new XTakeMapBuildAction],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
@@ -46,6 +49,7 @@ export class XPlayerAI extends XAIModel {
     gotoBed() {
         let e = new XGotoBedAction;
         return new XBTSequence({
+            title:"gotoBed",
             children: [e],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
@@ -66,6 +70,7 @@ export class XPlayerAI extends XAIModel {
     upOrBuild() {
         let e = new XUpgradeAction;
         return new XBTSequence({
+            title: "upOrBuild",
             children: [(new XCanUpgradeCdt).bindout(e), e],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll

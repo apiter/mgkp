@@ -38,7 +38,7 @@ export class XBTSequence extends XBTComposite {
                 break
         }
         let ret = this._successPolicy == XEPolicy.RequireOne && successCnt > 0 || this._successPolicy == XEPolicy.RequireAll && successCnt == this.children.length
-        log(`XBTSequence[${this.id}][${this.title}] 执行结果:${ret}`)
+        // console.log(`XBTSequence[${this.id}][${this.title}] 执行结果:${ret}`)
         return ret ? XBTStatus.SUCCESS : XBTStatus.FAILURE
     }
 }

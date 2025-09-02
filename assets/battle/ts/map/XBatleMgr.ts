@@ -324,15 +324,15 @@ export class XBatleMgr implements ISchedulable {
             return !1
         }
     }
-    upBed(i, s, a) {
+    upBed(gridX_, gridY_, a) {
         let playModel = XMgr.playerMgr.getPlayer(a);
-        let r = XMgr.buildingMgr.getBuilding(i, s);
+        let buildModel = XMgr.buildingMgr.getBuilding(gridX_, gridY_);
 
-        if (r && r.type == XBuildType.bed && XMgr.buildingMgr.getRoom(r.roomId)) {
-            if (r.isUsed) {
+        if (buildModel && buildModel.type == XBuildType.bed && XMgr.buildingMgr.getRoom(buildModel.roomId)) {
+            if (buildModel.isUsed) {
                 return XBuildResult.E_BED_IS_USED;
             } else {
-                return XMgr.buildingMgr.upBed(i, s, playModel);
+                return XMgr.buildingMgr.upBed(gridX_, gridY_, playModel);
             }
         }
         return XBuildResult.E_FAILD;
