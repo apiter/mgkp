@@ -35,7 +35,7 @@ export class XAIModel {
     run(aniName_, canThrough_) {
         let run = new XRunAction(aniName_, canThrough_);
         return new XBTSequence({
-            children: [new XHasTargetCdt(null), (new XHasPathCdt(null, null)), new XNotInStopRangeCdt(this.data.getAttackRange(), null), run],
+            children: [new XHasTargetCdt(null), (new XHasPathCdt(null, null).bindout(run)), new XNotInStopRangeCdt(this.data.getAttackRange(), null), run],
             title:"run",
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll

@@ -3995,92 +3995,206 @@ define("js/bundle.js", function(require, module, exports) {
             }
             satisfy(i) {
                 let s = XMgr.gameTime.now;
+            
+                // 检查冷却
                 if (this.lastCheckTime && s - this.lastCheckTime < 1e3) return !1;
                 this.lastCheckTime = s;
-                let a = i.target,
-                    n = a.getOwnerBed(),
-                    r = a.getRoomDoor();
-                if (!n || !r) return !1;
-                r.curHp < .5 * r.maxHp && (this.lastUpObj = r, this.lastBuildObj = null, this.isBuild = !0);
-                let o = this.lastUpObj,
-                    l = this.lastBuildObj;
+            
+                let playerScript = i.target;
+                let ownerBed = playerScript.getOwnerBed();
+                let roomDoor = playerScript.getRoomDoor();
+            
+                if (!ownerBed || !roomDoor) return !1;
+            
+                // 如果门血量低于一半，优先修复门
+                if (roomDoor.curHp < 0.5 * roomDoor.maxHp) {
+                    this.lastUpObj = roomDoor;
+                    this.lastBuildObj = null;
+                    this.isBuild = !0;
+                }
+            
+                let lastUpObj = this.lastUpObj;
+                let lastBuildObj = this.lastBuildObj;
+            
+                // 不是建造状态，进入升级或建造决策逻辑
                 if (!this.isBuild) {
-                    let i = a.getOwnerAllBuildings(e.BuildType.tower),
-                        s = a.getOwnerAllBuildings(e.BuildType.energy),
-                        h = 0;
-                    if (n.lv < 5) {
-                        let s = .7;
+                    let allTowerBuildings = playerScript.getOwnerAllBuildings(e.BuildType.tower);
+                    let allEnergyBuildings = playerScript.getOwnerAllBuildings(e.BuildType.energy);
+                    let randomRate = 0;
+            
+                    // 床等级 < 5 的逻辑
+                    if (ownerBed.lv < 5) {
+                        let s = 0.7;
+            
+                        // 狩猎模式下调整概率
                         if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
-                            let e = a.getDataModel();
-                            if (s = .65, e.randomCnt < 3) {
-                                h = XMgr.gameMgr.dCfg.randomRate;
-                                let i = XMgr.buildingMgr.magicConsumeArr[e.randomCnt];
-                                (e.coin < i[0] || e.energy < i[1]) && (h = 0)
-                            } else h = 0
+                            let playerModel = playerScript.getDataModel();
+                            s = 0.65;
+            
+                            if (playerModel.randomCnt < 3) {
+                                randomRate = XMgr.gameMgr.dCfg.randomRate;
+                                let consumeParam = XMgr.buildingMgr.magicConsumeArr[playerModel.randomCnt];
+                                if (playerModel.coin < consumeParam[0] || playerModel.energy < consumeParam[1]) {
+                                    randomRate = 0;
+                                }
+                            } else {
+                                randomRate = 0;
+                            }
                         }
-                        let d = XRandomUtil.random();
-                        if (h > d) l = "6666_1";
-                        else if (d < s) 10 == n.lv ? l = "3000_1" : o = n.lv < 13 ? n : r;
-                        else if (d < .75)
-                            if (i.length > 0) {
-                                o = i[XRandomUtil.getIntRandom(0, i.length - 1)]
-                            } else l = "3000_1", this.isBuild = !0;
-                        else 13 == r.lv ? (l = "4000_1", this.isBuild = !0) : o = r
-                    } else {
-                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
-                            let e = a.getDataModel();
-                            if (e.randomCnt < 3) {
-                                h = XMgr.gameMgr.dCfg.randomRate1;
-                                let i = XMgr.buildingMgr.magicConsumeArr[e.randomCnt];
-                                (e.coin < i[0] || e.energy < i[1]) && (h = 0)
-                            } else h = 0
-                        }
-                        let d = XRandomUtil.random();
-                        if (h > d) l = "6666_1";
-                        else if (d < .65) {
-                            let e = XRandomUtil.random();
-                            if (e < .4) 10 == n.lv ? (l = "3000_1", this.isBuild = !0) : o = n.lv < 13 ? n : r;
-                            else if (e < .7)
-                                if (i.length > 0) {
-                                    o = i[XRandomUtil.getIntRandom(0, i.length - 1)]
-                                } else l = "3000_1", this.isBuild = !0;
-                            else if (e < .85) 13 == r.lv ? (l = "4000_1", this.isBuild = !0) : o = r;
-                            else if (s.length > 0) {
-                                o = s[XRandomUtil.getIntRandom(0, s.length - 1)]
-                            } else l = "4000_1", this.isBuild = !0
+            
+                        let rd = XRandomUtil.random();
+                        if (randomRate > rd) {
+                            lastBuildObj = "6666_1";
+                        } else if (rd < s) {
+                            lastUpObj = (ownerBed.lv == 10) ? "3000_1" : (ownerBed.lv < 13 ? ownerBed : roomDoor);
+                        } else if (rd < 0.75) {
+                            if (allTowerBuildings.length > 0) {
+                                lastUpObj = allTowerBuildings[XRandomUtil.getIntRandom(0, allTowerBuildings.length - 1)];
+                            } else {
+                                lastBuildObj = "3000_1";
+                                this.isBuild = !0;
+                            }
                         } else {
-                            let e = XRandomUtil.random(),
-                                t = 1;
-                            if (s.length > 0)
-                                for (const e of s)
-                                    if (e.lv >= 2) {
-                                        t = .5;
-                                        break
-                                    }
-                            e < t ? (l = s.length > 7 ? "3000_1" : XRandomUtil.random() < .5 ? "3000_1" : "4000_1", this.isBuild = !0) : (l = fx.Utils.randomInArray(this.skillBuildArr), this.isBuild = !0)
+                            if (roomDoor.lv == 13) {
+                                lastBuildObj = "4000_1";
+                                this.isBuild = !0;
+                            } else {
+                                lastUpObj = roomDoor;
+                            }
                         }
-                    }
-                }
-                if (o)
-                    if (this.lastUpObj = o, a.hasEnoughCoinEnergy(o)) {
-                        if (this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null, XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                            let e = XMgr.mapMgr.getRoomById(o.roomId);
-                            1 == XMgr.gameMgr.mapId ? o.lv > 4 && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr)) : 2 == XMgr.gameMgr.mapId ? o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr)) : o.lv > 6 ? 1 != e.aiMult && (e.aiMult = 1) : o.lv >= 4 && 1 == e.aiMult && (e.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr))
-                        }
-                    } else if (1 == XMgr.gameMgr.difficultABTest && o == r && !this.isFreeUpDoor && r.curHp < .15 * r.maxHp && Math.random() > .4) this.isFreeUpDoor = !0, this.output(e.PropertiesKey.UPGRADE, o), this.lastBuildObj = this.lastUpObj = null;
-                else {
-                    XRandomUtil.random() < .2 && (this.lastBuildObj = this.lastUpObj = null), o = null
-                }
-                if (l) {
-                    this.lastBuildObj = l;
-                    let t = a.createBuilding(l);
-                    if (t && a.hasEnoughCoinEnergy(t, !0)) this.output(e.PropertiesKey.BUILD, t), this.isBuild = this.lastBuildObj = this.lastUpObj = null;
+                    } 
+                    // 床等级 >= 5 的逻辑
                     else {
-                        XRandomUtil.random() < .2 && (this.isBuild = this.lastBuildObj = this.lastUpObj = null), l = null
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                            let model = playerScript.getDataModel();
+                            if (model.randomCnt < 3) {
+                                randomRate = XMgr.gameMgr.dCfg.randomRate1;
+                                let consumeParam = XMgr.buildingMgr.magicConsumeArr[model.randomCnt];
+                                if (model.coin < consumeParam[0] || model.energy < consumeParam[1]) {
+                                    randomRate = 0;
+                                }
+                            } else {
+                                randomRate = 0;
+                            }
+                        }
+            
+                        let d = XRandomUtil.random();
+                        if (randomRate > d) {
+                            lastBuildObj = "6666_1";
+                        } else if (d < 0.65) {
+                            let r = XRandomUtil.random();
+                            if (r < 0.4) {
+                                lastUpObj = (ownerBed.lv == 10) ? "3000_1" : (ownerBed.lv < 13 ? ownerBed : roomDoor);
+                            } else if (r < 0.7) {
+                                if (allTowerBuildings.length > 0) {
+                                    lastUpObj = allTowerBuildings[XRandomUtil.getIntRandom(0, allTowerBuildings.length - 1)];
+                                } else {
+                                    lastBuildObj = "3000_1";
+                                    this.isBuild = !0;
+                                }
+                            } else if (r < 0.85) {
+                                if (roomDoor.lv == 13) {
+                                    lastBuildObj = "4000_1";
+                                    this.isBuild = !0;
+                                } else {
+                                    lastUpObj = roomDoor;
+                                }
+                            } else {
+                                if (allEnergyBuildings.length > 0) {
+                                    lastUpObj = allEnergyBuildings[XRandomUtil.getIntRandom(0, allEnergyBuildings.length - 1)];
+                                } else {
+                                    lastBuildObj = "4000_1";
+                                    this.isBuild = !0;
+                                }
+                            }
+                        } else {
+                            let r = XRandomUtil.random();
+                            let threshold = 1;
+            
+                            for (const b of allEnergyBuildings) {
+                                if (b.lv >= 2) {
+                                    threshold = 0.5;
+                                    break;
+                                }
+                            }
+            
+                            if (r < threshold) {
+                                lastBuildObj = allEnergyBuildings.length > 7 
+                                    ? "3000_1" 
+                                    : (XRandomUtil.random() < 0.5 ? "3000_1" : "4000_1");
+                                this.isBuild = !0;
+                            } else {
+                                lastBuildObj = fx.Utils.randomInArray(this.skillBuildArr);
+                                this.isBuild = !0;
+                            }
+                        }
                     }
                 }
-                return !(!o && !l)
+            
+                // 处理升级逻辑
+                if (lastUpObj) {
+                    this.lastUpObj = lastUpObj;
+            
+                    if (playerScript.hasEnoughCoinEnergy(lastUpObj)) {
+                        this.output(e.PropertiesKey.UPGRADE, lastUpObj);
+                        this.lastBuildObj = this.lastUpObj = null;
+            
+                        // 防御模式下 AI 参数调整
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                            let room = XMgr.mapMgr.getRoomById(lastUpObj.roomId);
+                            if (XMgr.gameMgr.mapId == 1) {
+                                if (lastUpObj.lv > 4) room.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr);
+                            } else if (XMgr.gameMgr.mapId == 2) {
+                                if (lastUpObj.lv >= 4 && room.aiMult == 1) {
+                                    room.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr);
+                                }
+                            } else if (lastUpObj.lv > 6) {
+                                if (room.aiMult != 1) room.aiMult = 1;
+                            } else if (lastUpObj.lv >= 4 && room.aiMult == 1) {
+                                room.aiMult = fx.Utils.randomInArray(XMgr.gameMgr.aiMultArr);
+                            }
+                        }
+                    } 
+                    // 免费升级门逻辑
+                    else if (
+                        XMgr.gameMgr.difficultABTest == 1 &&
+                        lastUpObj == roomDoor &&
+                        !this.isFreeUpDoor &&
+                        roomDoor.curHp < 0.15 * roomDoor.maxHp &&
+                        Math.random() > 0.4
+                    ) {
+                        this.isFreeUpDoor = !0;
+                        this.output(e.PropertiesKey.UPGRADE, lastUpObj);
+                        this.lastBuildObj = this.lastUpObj = null;
+                    } 
+                    // 放弃升级概率
+                    else {
+                        if (XRandomUtil.random() < 0.2) {
+                            this.lastBuildObj = this.lastUpObj = null;
+                        }
+                        lastUpObj = null;
+                    }
+                }
+            
+                // 处理建造逻辑
+                if (lastBuildObj) {
+                    this.lastBuildObj = lastBuildObj;
+                    let build = playerScript.createBuilding(lastBuildObj);
+            
+                    if (build && playerScript.hasEnoughCoinEnergy(build, !0)) {
+                        this.output(e.PropertiesKey.BUILD, build);
+                        this.isBuild = this.lastBuildObj = this.lastUpObj = null;
+                    } else {
+                        if (XRandomUtil.random() < 0.2) {
+                            this.isBuild = this.lastBuildObj = this.lastUpObj = null;
+                        }
+                        lastBuildObj = null;
+                    }
+                }
+            
+                return !!(lastUpObj || lastBuildObj);
             }
+            
         }
         XCanUpgradeCdt.NAME = "CanUpgrade", XCanUpgradeCdt.register(XCanUpgradeCdt.NAME, ve.CONDITION);
         class XIsMaxHpCdt extends fx.BTCondition {
@@ -4812,8 +4926,8 @@ define("js/bundle.js", function(require, module, exports) {
             getDataModel() {
                 return this.data
             }
-            createBuilding(i) {
-                let s = i.split("_"),
+            createBuilding(buildModel_) {
+                let s = buildModel_.split("_"),
                     a = +s[0],
                     n = +s[1],
                     r = XMgr.buildingMgr.getBuildCfg(a, n),
@@ -4833,9 +4947,9 @@ define("js/bundle.js", function(require, module, exports) {
             createBuildingByGrid(e, t) {
                 throw new Error("Method not implemented.")
             }
-            hasEnoughCoinEnergy(e, i) {
-                let s = i ? e.lv : e.lv + 1,
-                    a = XMgr.buildingMgr.getBuildCfg(e.id, s);
+            hasEnoughCoinEnergy(buildModel_, i) {
+                let s = i ? buildModel_.lv : buildModel_.lv + 1,
+                    a = XMgr.buildingMgr.getBuildCfg(buildModel_.id, s);
                 if (a) {
                     let e = this.data;
                     if (e.coin >= a.coin && e.energy >= a.energy) return !0
@@ -4935,19 +5049,18 @@ define("js/bundle.js", function(require, module, exports) {
             fixDoor(e) {
                 e.doorModel.isRepair || XMgr.buildingMgr.repairDoor(e)
             }
-            getEmptyBlock(e) {
-                let i = XMgr.buildingMgr.getEmptyGrids(this.getOwnerRoomId());
-                if (0 == i.length) return;
-                if (0 == i.length) return;
-                let s = new fx.V2;
-                if (e) {
+            getEmptyBlock(pos) {
+                let grids = XMgr.buildingMgr.getEmptyGrids(this.getOwnerRoomId());
+                if (0 == grids.length) return;
+                let ret = new fx.V2;
+                if (pos) {
                     let t = 9999999;
-                    for (const a of i) {
-                        let i = e.distanceSq(a);
-                        i < t && (t = i, s.from(a))
+                    for (const a of grids) {
+                        let i = pos.distanceSq(a);
+                        i < t && (t = i, ret.from(a))
                     }
-                } else s.from(fx.Utils.randomInArray(i));
-                return s
+                } else ret.from(fx.Utils.randomInArray(grids));
+                return ret
             }
             upgradeBuilding(i) {
                 let s = this.hasEnoughCoinEnergy(i);
@@ -6245,7 +6358,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.doorRepair && (this.doorRepair.visible = !1)
             }
         }
-        class yi extends XAIModel {
+        class XAIFighter extends XAIModel {
             constructor(e) {
                 super(e)
             }
@@ -6457,7 +6570,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.body = XMatterUtil.createRectangle(this.node, C.GridSize, C.GridSize, t, !0)
             }
             initAI() {
-                this.ai = new yi(this);
+                this.ai = new XAIFighter(this);
                 let e = bt_sequenceOr([this.ai.canBack(this.ai.back("escape")), this.ai.OnCloseDoorCdt(this.ai.breakAway()), this.ai.canPatrol(this.ai.patrol()), this.ai.attack(), this.ai.idle("idle")]);
                 this.ai.load(e)
             }
@@ -8412,7 +8525,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgBody.skin = e.icon
             }
         }
-        class Wi extends XBuildingScript {
+        class XMagicBoxScript extends XBuildingScript {
             onInit() {
                 if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
                     if (this.data.playerUuid == XMgr.playerMgr.mineUuid) XAnalyticsUtil.useLevelItem("摇签盒"), XMgr.gameMgr.randomCnt += 1;
@@ -10010,7 +10123,7 @@ define("js/bundle.js", function(require, module, exports) {
                     } else if (buildCfg.type == e.BuildType.knife) {
                         r = n.addComponent(XKnifeScript);
                     } else if (buildCfg.type == e.BuildType.random) {
-                        r = n.addComponent(Wi);
+                        r = n.addComponent(XMagicBoxScript);
                     } else if (buildCfg.type == e.BuildType.mine) {
                         if ([5002, 5103, 5104, 5105, 5106].includes(buildCfg.buildId)) {
                             r = n.addComponent(XCatBedScript);
@@ -16369,25 +16482,34 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 fx.EventCenter.I.event(XEventNames.E_BUILDING_REMOVED, [r])
             }
-            upgrade(i, s, a, n = !0, r = 0, o) {
-                let l = this.getBuilding(s, a);
-                if (!l) return e.BuildResult.E_FAILD;
-                let h = XMgr.playerMgr.getPlayer(i);
-                if (l.playerUuid && l.playerUuid != i && !l.playerUuid.includes(i)) return e.BuildResult.E_FAILD;
-                let d = XMgr.mapMgr.getRoomIdByGridPos(s, a);
-                if (!d) return e.BuildResult.E_FAILD;
-                if (l.lv >= this.getBuildMaxLv(l.id)) return e.BuildResult.E_MAX_LV;
-                let u = 1,
-                    g = fx.Utils.clone(this.getBuildCfg(l.id, l.lv + 1));
-                if (this.getBuildCfg(l.id, l.lv + 1 + r) && (g = fx.Utils.clone(this.getBuildCfg(l.id, l.lv + 1 + r)), u = 1 + r), n) {
-                    let s = g.coin,
-                        a = g.energy;
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && g.buffId && g.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (s = Math.round(.9 * g.coin), a = Math.round(.9 * g.energy)), !this.isInfiniteIncome && g.coin && s > h.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
-                    if (!this.isInfiniteIncome && g.energy && a > h.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
-                    if (g.preBuilding && !this.isHaveBuilding(d, g.preBuilding.buildId, g.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, s, a) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -s, -a)
+            upgrade(playerUuid_, x_, y_, n = !0, r = 0, o) {
+                let build = this.getBuilding(x_, y_);
+                if (!build) return e.BuildResult.E_FAILD;
+                let player = XMgr.playerMgr.getPlayer(playerUuid_);
+                if (build.playerUuid && build.playerUuid != playerUuid_ && !build.playerUuid.includes(playerUuid_)) 
+                    return e.BuildResult.E_FAILD;
+                let roomId = XMgr.mapMgr.getRoomIdByGridPos(x_, y_);
+                if (!roomId) return e.BuildResult.E_FAILD;
+                if (build.lv >= this.getBuildMaxLv(build.id)) 
+                    return e.BuildResult.E_MAX_LV;
+                let u = 1, nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1));
+                this.getBuildCfg(build.id, build.lv + 1 + r) && (nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1 + r)), u = 1 + r)
+                if (n) {
+                    let coinNeed = nextLvBuildCfg.coin,
+                        energyNeed = nextLvBuildCfg.energy;
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && nextLvBuildCfg.buffId && nextLvBuildCfg.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (coinNeed = Math.round(.9 * nextLvBuildCfg.coin), energyNeed = Math.round(.9 * nextLvBuildCfg.energy)), !this.isInfiniteIncome && nextLvBuildCfg.coin && coinNeed > player.coin) 
+                        return e.BuildResult.E_COIN_NOT_ENOUGH;
+                    if (!this.isInfiniteIncome && nextLvBuildCfg.energy && energyNeed > player.energy) 
+                        return e.BuildResult.E_ENERGY_NOT_ENOUGH;
+                    if (nextLvBuildCfg.preBuilding && !this.isHaveBuilding(roomId, nextLvBuildCfg.preBuilding.buildId, nextLvBuildCfg.preBuilding.lv)) 
+                        return e.BuildResult.E_NOT_HAVE_PREBUILD;
+                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, coinNeed, energyNeed) : XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
                 }
-                return l.lv += u, o && (g.hp = g.hp * Math.pow(.5, o)), this.updateBuildingModel(l, g), fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [l]), XMgr.gameMgr.playSound(l, 112), e.BuildResult.E_OK
+                build.lv += u, 
+                o && (nextLvBuildCfg.hp = nextLvBuildCfg.hp * Math.pow(.5, o)), 
+                this.updateBuildingModel(build, nextLvBuildCfg)
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [build]), XMgr.gameMgr.playSound(build, 112)
+                return e.BuildResult.E_OK
             }
             videoSuper(i, s, a) {
                 let n = this.getBuilding(s, a);
@@ -19951,7 +20073,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return e * this.Val
             }
-        }, e.FighterAI = yi, e.FighterAICdt = XHasPlayerBorrowCdt, e.FighterScript = XFighterScript, 
+        }, e.FighterAI = XAIFighter, e.FighterAICdt = XHasPlayerBorrowCdt, e.FighterScript = XFighterScript, 
         e.FindEmptyBedAction = XFindEmptyBedAct, e.FindMapBuildAction = XFindMapBuildAct, e.FlyCutterScript = XFlyCutterScript, 
         e.FollowSpringTowerScript = XFollowSpringTowerScript, e.FontLabelScript = class extends Laya.Script {
             onAwake() {
@@ -20190,7 +20312,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = LanguageMgr.instance.getLabel(this._key, this._params);
                 this.text = e
             }
-        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = Wi, e.MainScene = XMainScene, e.MapBuildingScript = XMapBuildingScript, e.MapCfg = XMapCfg, 
+        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = XMagicBoxScript, e.MainScene = XMainScene, e.MapBuildingScript = XMapBuildingScript, e.MapCfg = XMapCfg, 
         e.MapEquipScript = nn, e.MapManager = MapMgr, 
         e.MapScript = XMapScript, e.Markup = tr, e.MarkupList = class extends tr {
             constructor(e) {

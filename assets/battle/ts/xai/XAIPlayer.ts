@@ -68,10 +68,10 @@ export class XPlayerAI extends XAIModel {
     //     })
     // }
     upOrBuild() {
-        let e = new XUpgradeAction;
+        let upgradeAction = new XUpgradeAction;
         return new XBTSequence({
             title: "upOrBuild",
-            children: [(new XCanUpgradeCdt).bindout(e), e],
+            children: [(new XCanUpgradeCdt).bindout(upgradeAction), upgradeAction],
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
         })

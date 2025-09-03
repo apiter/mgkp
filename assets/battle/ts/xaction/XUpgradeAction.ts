@@ -1,5 +1,6 @@
 import XBTAction from "../bt2/XBTAction";
 import { XBTCategory, XBTStatus } from "../bt2/XBTEnum";
+import { XPlayerScript } from "../view/player/XPlayerScript";
 import { XPropertiesKey } from "../xcdt/XPropertiesKey";
 import XMgr from "../XMgr";
 
@@ -10,15 +11,15 @@ export class XUpgradeAction extends XBTAction {
             name: XUpgradeAction.NAME, title: "", properties: null
         })
     }
-    
+
     tick(i) {
-        let target = i.target;
+        let target = i.target as XPlayerScript;
         let status = XBTStatus.FAILURE;
         let model = target.getDataModel();
-    
+
         if (!model.isDie && model.isBed) {
             let buildData = this.takeOut(XPropertiesKey.BUILD);
-    
+
             if (buildData) {
                 if (target.hasEnoughCoinEnergy(buildData)) {
                     XMgr.buildingMgr.build(model.uuid, buildData.id, buildData.x, buildData.y, 0, 1);

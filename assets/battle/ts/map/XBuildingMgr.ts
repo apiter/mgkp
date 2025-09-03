@@ -10,6 +10,7 @@ import XBuildingModel from "../model/XBuildingModel"
 import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
 import { XBuildingScript } from "../view/building/XBuildingScript"
+import { XMapMgr } from "./XMapMgr"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -299,11 +300,11 @@ export default class XBuildingMgr {
         let model: XBuildingModel;
         switch (buildCfg.type) {
             case XBuildType.tower:
-                let t = model = new XTowerModel(id_, roomId_, lv_, x_, y_, rotation_),
-                    i = buildCfg;
-                t.atkCD = i.atkInterval
-                t.atkDst = i.atkRange
-                t.atk = i.atkDamage;
+                let tower = new XTowerModel(id_, roomId_, lv_, x_, y_, rotation_)
+                tower.atkCD = buildCfg.atkInterval
+                tower.atkDst = buildCfg.atkRange
+                tower.atk = buildCfg.atkDamage;
+                model = tower
                 break;
             default:
                 model = new XBuildingModel(id_, roomId_, lv_, x_, y_, rotation_)
@@ -391,10 +392,10 @@ export default class XBuildingMgr {
         return this.rooms[roomID]
     }
 
-    getBuildCfg(buildId_, minIdx_ = 1) {
+    getBuildCfg(buildId_, lv_ = 1) {
         if (this.buildCfgs[buildId_]) {
             const list = this.buildCfgs[buildId_];
-            const index = Math.min(minIdx_, list.length) - 1;
+            const index = Math.min(lv_, list.length) - 1;
             return list[index];
         }
     }
@@ -406,7 +407,7 @@ export default class XBuildingMgr {
         }
     }
 
-    changeDoorState(door:XBuildingModel, isOpen_) {
+    changeDoorState(door: XBuildingModel, isOpen_) {
         door.isOpen = isOpen_
         XMgr.mapMgr.setDynWalkable(door.x, door.y, isOpen_)
         EventCenter.emit(XEventNames.E_Door_State_Changed, door)
@@ -581,5 +582,41 @@ export default class XBuildingMgr {
                 tileInfo.walkable && void 0 === tileInfo.roomId && ret.push(new Vec2(x, y))
             }
         return ret
+    }
+
+
+    getBuildMaxLv(buildId_) {
+        return this.buildCfgs[buildId_] ? this.buildCfgs[buildId_].length : 1
+    }
+    upgrade(playerUuid_: string, gridX_: number, gridY_: number) {
+        const build = this.getBuilding(gridX_, gridY_)
+        if (!build)
+            return XBuildResult.E_FAILD
+        if (build.playerUuid && build.playerUuid != playerUuid_) {
+            console.error(`[XBuildingMgr] 升级人[${playerUuid_}] 拥有人[${build.playerUuid}]`)
+            return XBuildResult.E_FAILD
+        }
+        if (build.lv >= this.getBuildMaxLv(build.id))
+            return XBuildResult.E_MAX_LV
+        const nextLvBuildCfg = this.getBuildCfg(build.id, build.lv + 1)
+        const player = XMgr.playerMgr.getPlayer(playerUuid_)
+        if (!nextLvBuildCfg || !player)
+            return XBuildResult.E_FAILD
+        const coinNeed = nextLvBuildCfg.coin
+        const energyNeed = nextLvBuildCfg.energy
+        if (coinNeed > player.coin)
+            return XBuildResult.E_COIN_NOT_ENOUGH
+        if (energyNeed > player.energy)
+            return XBuildResult.E_ENERGY_NOT_ENOUGH
+        const roomId = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
+        if (nextLvBuildCfg.preBuilding && false === this.isHaveBuilding(roomId, build.id, build.lv + 1)) {
+            return XBuildResult.E_NOT_HAVE_PREBUILD
+        }
+        XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
+        build.lv += 1
+        console.debug(`[XBuildingMgr] 玩家${playerUuid_} 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
+
+        EventCenter.emit(XEventNames.E_BUILDING_BUILD, build)
+        return XBuildResult.E_OK
     }
 }

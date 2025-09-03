@@ -1,5 +1,5 @@
-import { _decorator, Component, Node, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
-import { XBuildResult, Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
+import { _decorator, Component, Label, Node, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
+import { XBuildResult, XBuildType, Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
 import { XConst } from '../../xconfig/XConst';
@@ -43,6 +43,8 @@ export class XPlayerScript extends Component {
     curTarget
     lastAtkTarget
 
+    lbName:Label = null
+
     init(data_: XPlayerModel) {
         this.data = data_
         data_.ownerScript = this
@@ -55,6 +57,10 @@ export class XPlayerScript extends Component {
         this.node.addChild(this.skinNode)
         this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
 
+        let nameNode = new Node('name')
+        this.lbName = nameNode.addComponent(Label)
+        this.node.addChild(nameNode)
+        nameNode.y = 40
         this.loadSkin()
 
         this.onInit()
@@ -74,7 +80,7 @@ export class XPlayerScript extends Component {
             this.skinNode.addChild(this.skinBedImgNode)
             this.skinBedImgNode.y = 15
             this.skinBedImgNode.active = false
-            XResUtil.loadSpriteFromBundle(XResUtil.ResBundleName, this.skinCfg.skinBedPath.replace(".png", "")).then((frame)=>{
+            XResUtil.loadSpriteFromBundle(XResUtil.ResBundleName, this.skinCfg.skinBedPath.replace(".png", "")).then((frame) => {
                 this.skinBedImgNode.addComponent(Sprite).spriteFrame = frame
             })
         }
@@ -115,6 +121,8 @@ export class XPlayerScript extends Component {
         } else {
             // 3. 静态图片皮肤
         }
+
+        this.lbName.string  = this.skinCfg.name
     }
 
     playAnim(aniName_, reStart_ = false, callback_ = null) {
@@ -261,8 +269,8 @@ export class XPlayerScript extends Component {
         return bed_.isUsed
     }
 
-    getRoomModel(roomId_) {
-        void 0 === roomId_ && (roomId_ = this.getOwnerRoomId())
+    getRoomModel(roomId_ = undefined) {
+        !roomId_ && (roomId_ = this.getOwnerRoomId())
         return XMgr.buildingMgr.getRoom(roomId_)
     }
 
@@ -395,6 +403,76 @@ export class XPlayerScript extends Component {
 
     gotoBed(gridX_, gridY_) {
         return XMgr.gameMgr.upBed(gridX_, gridY_, this.data.uuid) == XBuildResult.E_OK
+    }
+
+    hasEnoughCoinEnergy(buildModel_: XBuildingModel, i = null) {
+        let lv = i ? buildModel_.lv : buildModel_.lv + 1
+        let buildCfg = XMgr.buildingMgr.getBuildCfg(buildModel_.id, lv);
+        if (buildCfg) {
+            let playModel = this.data;
+            if (playModel.coin >= buildCfg.coin && playModel.energy >= buildCfg.energy)
+                return true
+        }
+        return false
+    }
+
+    upgradeBuilding(i) {
+        let s = this.hasEnoughCoinEnergy(i);
+        return XMgr.buildingMgr.upgrade(this.data.uuid, i.x, i.y) == XBuildResult.E_OK
+    }
+
+
+    getOwnerAllBuildings(buildType = null) {
+        let roomModel = this.getRoomModel();
+        if (!roomModel) return [];
+        let playUuid = this.data.uuid,
+            a = playUuid.indexOf("_");
+        playUuid = playUuid.slice(a + 1);
+        let ret = [];
+        for (const build of roomModel.buildings) !build.playerUuid || build.playerUuid != playUuid || buildType && build.type != buildType || ret.push(build);
+        return ret
+    }
+
+    getOwnerBed() {
+        let beds = this.getOwnerAllBuildings(XBuildType.bed);
+        return beds[0]
+    }
+    getRoomDoor() {
+        let roomModel = this.getRoomModel();
+        return roomModel && roomModel.doorModel && !roomModel.doorModel.isDie ? roomModel.doorModel : null
+    }
+
+    createBuilding(buildModel_) {
+        let splitArr = buildModel_.split("_")
+        let buildId = splitArr[0]
+        let lv = +splitArr[1]
+        let buildCfg = XMgr.buildingMgr.getBuildCfg(buildId, lv)
+        let buildModel = XMgr.buildingMgr.createBuildingModelByCfg(this.data.uuid, buildId, this.getOwnerRoomId(), lv, 0, 0, 0, buildCfg);
+        if (buildModel.type == XBuildType.tower) {
+            let doorModel = this.getRoomModel().doorModel as XBuildingModel
+            let emptyBlock = this.getEmptyBlock(v2(doorModel.x, doorModel.y));
+            if (!emptyBlock) return;
+            buildModel.x = emptyBlock.x, buildModel.y = emptyBlock.y
+        } else {
+            let emptyBlock = this.getEmptyBlock();
+            if (!emptyBlock) return;
+            buildModel.x = emptyBlock.x, buildModel.y = emptyBlock.y
+        }
+        return buildModel
+    }
+
+    getEmptyBlock(pos: Vec2 = null) {
+        let grids = XMgr.buildingMgr.getEmptyGrids(this.getOwnerRoomId());
+        if (0 == grids.length) return;
+        let ret;
+        if (pos) {
+            let nowMinDis = Number.MAX_SAFE_INTEGER;
+            for (const grid of grids) {
+                let dis = Vec2.squaredDistance(pos, grid);
+                dis < nowMinDis && (nowMinDis = dis, ret.from(grid))
+            }
+        } else ret = XRandomUtil.randomInArray(grids);
+        return ret
     }
 }
 

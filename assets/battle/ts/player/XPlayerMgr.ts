@@ -43,7 +43,6 @@ export default class XPlayerMgr {
         let energy = Math.max(player.energy + energy_, 0).toFixed(1);
         player.coin = Number(coin)
         player.energy = Number(energy)
-        console.log(`玩家[${uuid_}] 金币能量  金币变化${coin} 能量变化${energy} 金币变化后:${player.coin} 能量变化后${player.energy}`)
         return true
     }
 

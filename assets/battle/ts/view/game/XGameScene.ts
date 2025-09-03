@@ -44,7 +44,7 @@ export class XGameScene extends Component {
         let addMaxHp = diffCfg.addMaxHp + 1;
         let hunterModel = new XPlayerModel;
         hunterModel.type = XPlayerType.E_Hunter
-        hunterModel.uuid = XUtil.createUUID()
+        hunterModel.uuid = XUtil.createUUIDEx(10)
         hunterModel.name = "随机名字"
         hunterModel.skinId = diffCfg.bossId
         hunterModel.attackPower = XMgr.cfg.hunterCfg.attackList[0]
@@ -55,7 +55,7 @@ export class XGameScene extends Component {
         for (let i = 0; i < 6; ++i) {
             let playerModel = new XPlayerModel;
             playerModel.type = XPlayerType.E_Defender
-            playerModel.uuid = XUtil.createUUID()
+            playerModel.uuid = XUtil.createUUIDEx(10)
             playerModel.name = "随机名字"
             playerModel.skinId = XRandomUtil.randomInArray(XMgr.cfg.getPlayerIdArr())
             defenderArr.push(playerModel)

@@ -135,27 +135,22 @@ export class XBatleMgr implements ISchedulable {
             this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
             this.speedRatio = 0.75;
             this.hunterSpeedRatio = 0.75 / XMgr.gameMgr.dCfg.moveSpeed || 1;
-
-            console.log(
-                1 / this.hunterSpeedRatio,
-                XMgr.gameMgr.dCfg.moveSpeed,
-                "real Speed"
-            );
+   
         } else {
             this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
             this.speedRatio = this.hunterSpeedRatio = 1;
         }
 
         if (XMgr.gameMgr.gameMode == XGameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
-            let e = this.dCfg;
+            let diffCfg = this.dCfg;
             if (s.curLv != s.lastLv) {
                 if (s.isLastWin) {
-                    XToast.show(`难度上升：${e.name}`);
+                    XToast.show(`难度上升：${diffCfg.name}`);
                 } else {
-                    XToast.show(`难度降低：${e.name}`);
+                    XToast.show(`难度降低：${diffCfg.name}`);
                 }
             } else {
-                XToast.show(`难度：${e.name}`);
+                XToast.show(`难度：${diffCfg.name}`);
             }
         } else if (XMgr.gameMgr.gameMode == XGameMode.E_AngelOrGhost) {
             XToast.show("大战木头人即将开始");

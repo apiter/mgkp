@@ -53,7 +53,7 @@ export class XBuildingScript extends Component {
             this.initCdUI(buildModel_)
         }else{
             this.onInit()
-            // this.initEffects()
+            this.initEffects()
         }
         const hpNode = new Node("hpNode")
         this.hpLabel = hpNode.addComponent(Label)

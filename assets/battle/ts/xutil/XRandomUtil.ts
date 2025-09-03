@@ -21,7 +21,7 @@ export class XRandomUtil {
         }
         return arr_
     }
-    static randomInArray(arr_) {
+    static randomInArray<T>(arr_:T[]) {
         if (!arr_ || 0 == arr_.length) return null;
         return arr_[Math.floor(this.random() * arr_.length)]
     }
