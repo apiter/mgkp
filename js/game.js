@@ -3834,43 +3834,84 @@ define("js/bundle.js", function(require, module, exports) {
                     child: e
                 })
             }
-            satisfy(i) {
-                let s = i.target;
-                if (!s.getCurTarget()) {
-                    let i = s.getAllRoomIdRand(),
-                        a = s.getDataModel();
-                    a.isEntice && (i[0] = XMgr.playerMgr.player.roomId);
-                    let n, r = s.getRoomModel(i[0]);
-                    if (r)
-                        if (s.getIsFirstFind() && !a.isGhost) {
-                            if (!r.bedModelList[0] || r.bedModelList[0].isDie) return a.isEntice = !1, !1;
-                            n = r.doorModel && (r.doorModel.isOpen || r.doorModel.isDie) ? r.bedModelList[0] : r.doorModel
+            satisfy(trik) {
+                let playerScript = trik.target;
+            
+                // 没有当前目标时才会寻找新目标
+                if (!playerScript.getCurTarget()) {
+                    let allRoomIds = playerScript.getAllRoomIdRand();
+                    let playerModel = playerScript.getDataModel();
+            
+                    // 如果被诱导，优先进入玩家的房间
+                    if (playerModel.isEntice) {
+                        allRoomIds[0] = XMgr.playerMgr.player.roomId;
+                    }
+            
+                    let targetBuildModel;
+                    let roomModel = playerScript.getRoomModel(allRoomIds[0]);
+            
+                    if (roomModel) {
+                        if (playerScript.getIsFirstFind() && !playerModel.isGhost) {
+                            // 第一次找目标且不是幽灵
+                            if (!roomModel.bedModelList[0] || roomModel.bedModelList[0].isDie) {
+                                playerModel.isEntice = false;
+                                return false;
+                            }
+                            targetBuildModel = (roomModel.doorModel && (roomModel.doorModel.isOpen || roomModel.doorModel.isDie))
+                                ? roomModel.bedModelList[0]
+                                : roomModel.doorModel;
                         } else {
-                            if (r.doorModel && (r.doorModel.isOpen || r.doorModel.isDie)) return a.isEntice = !1, !1;
-                            n = r.doorModel
+                            // 非第一次找目标
+                            if (roomModel.doorModel && (roomModel.doorModel.isOpen || roomModel.doorModel.isDie)) {
+                                playerModel.isEntice = false;
+                                return false;
+                            }
+                            targetBuildModel = roomModel.doorModel;
                         }
-                    if (!n) return !1;
-                    if (n.type == e.BuildType.door) {
-                        let i = s.getLastAtkTarget();
-                        if (i && i.type == e.BuildType.door && !i.isDie) {
-                            let e = XMgr.mapMgr.getRoomById(i.roomId);
-                            if (e.doorPosArr && e.doorPosArr.length)
-                                for (const a of e.doorPosArr) {
-                                    if (a.x == n.x && a.y == n.y) return s.setCurTarget(i), !0; {
-                                        let e = XMgr.buildingMgr.getBuilding(a.x, a.y);
-                                        if (e) {
-                                            let a = XMgr.mapMgr.getRoomById(e.roomId);
-                                            if (a.doorPosArr && a.doorPosArr.length)
-                                                for (const e of a.doorPosArr)
-                                                    if (e.x == n.x && e.y == n.y) return s.setCurTarget(i), !0
+                    }
+            
+                    if (!targetBuildModel) {
+                        return false;
+                    }
+            
+                    // 如果目标是门，处理特殊逻辑
+                    if (targetBuildModel.type == e.BuildType.door) {
+                        let lastAtkTarget = playerScript.getLastAtkTarget();
+            
+                        if (lastAtkTarget && lastAtkTarget.type == e.BuildType.door && !lastAtkTarget.isDie) {
+                            let lastRoom = XMgr.mapMgr.getRoomById(lastAtkTarget.roomId);
+            
+                            if (lastRoom.doorPosArr && lastRoom.doorPosArr.length) {
+                                for (const a of lastRoom.doorPosArr) {
+                                    // 门坐标匹配 -> 继续攻击上次的门
+                                    if (a.x == targetBuildModel.x && a.y == targetBuildModel.y) {
+                                        playerScript.setCurTarget(lastAtkTarget);
+                                        return true;
+                                    }
+            
+                                    // 检查相邻的房间门
+                                    let building = XMgr.buildingMgr.getBuilding(a.x, a.y);
+                                    if (building) {
+                                        let aRoom = XMgr.mapMgr.getRoomById(building.roomId);
+                                        if (aRoom.doorPosArr && aRoom.doorPosArr.length) {
+                                            for (const e of aRoom.doorPosArr) {
+                                                if (e.x == targetBuildModel.x && e.y == targetBuildModel.y) {
+                                                    playerScript.setCurTarget(lastAtkTarget);
+                                                    return true;
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                            }
                         }
                     }
-                    s.setCurTarget(n)
+            
+                    // 设置新的目标
+                    playerScript.setCurTarget(targetBuildModel);
                 }
-                return !0
+            
+                return true;
             }
         }
         XRandomRoomCdt.NAME = "RandomRoom", XRandomRoomCdt.register(XRandomRoomCdt.NAME, ve.CONDITION);
@@ -6864,16 +6905,58 @@ define("js/bundle.js", function(require, module, exports) {
                 this.ai.load(e)
             }
             onUpdate() {
-                if (XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && this.isSkinLoaded && !XMgr.gameMgr.isPause) {
-                    if (this.node.zOrder = this.node.y, this.data.dizzyDurSec) {
-                        if (this.data.dizzyDurSec -= fx.Utils.getFrameDelta(.33), !(this.data.dizzyDurSec <= 0)) return;
-                        this.data.dizzyDurSec = 0
+                // 游戏进行中 & 皮肤已加载 & 游戏未暂停
+                if (
+                    XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START &&
+                    this.isSkinLoaded &&
+                    !XMgr.gameMgr.isPause
+                ) {
+                    // 排序：zOrder = y坐标
+                    this.node.zOrder = this.node.y;
+            
+                    // 处理眩晕（dizzy）状态
+                    if (this.data.dizzyDurSec) {
+                        this.data.dizzyDurSec -= fx.Utils.getFrameDelta(.33);
+                        if (this.data.dizzyDurSec > 0) {
+                            return; // 仍在眩晕中，跳过后续逻辑
+                        }
+                        this.data.dizzyDurSec = 0; // 眩晕结束
                     }
-                    !this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && (this.canUseSkill ? this.useSkillsByTime() : (this.passiveSkillCd += fx.Utils.getFrameDelta(.033), 
-                    this.passiveSkillCd >= this.passiveIntervalTime && (console.log("------------技能刷新------------"), 
-                    this.canUseSkill = !0, this.isUsedSkill = !1)), this.checkAutoSkill()), this.checkHealZone(), this.ai && this.ai.exec()
+            
+                    // 非幽灵 & 技能触发条件
+                    if (
+                        !this.data.isGhost &&
+                        (
+                            XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
+                            (
+                                1 == XMgr.gameMgr.difficultABTest &&
+                                XMgr.user.gameInfo.curLv > 2 &&
+                                (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)
+                            )
+                        )
+                    ) {
+                        // 技能处理
+                        if (this.canUseSkill) {
+                            this.useSkillsByTime();
+                        } else {
+                            this.passiveSkillCd += fx.Utils.getFrameDelta(.033);
+                            if (this.passiveSkillCd >= this.passiveIntervalTime) {
+                                console.log("------------技能刷新------------");
+                                this.canUseSkill = true;
+                                this.isUsedSkill = false;
+                            }
+                        }
+                        this.checkAutoSkill();
+                    }
+            
+                    // 其他逻辑
+                    this.checkHealZone();
+                    if (this.ai) {
+                        this.ai.exec();
+                    }
                 }
             }
+            
             checkHealZone() {
                 let e = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
                 if (this.isInHealZone = e, e) {

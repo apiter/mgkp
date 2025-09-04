@@ -1,7 +1,7 @@
 import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
-import { XBuildType, XGameMode } from '../../xconfig/XEnum';
+import { XBuildType, XGameMode, XGameStatus } from '../../xconfig/XEnum';
 import { XDoorScript } from '../building/XDoorScript';
 import { XBedScript } from '../building/XBedScript';
 import { XTowerScript } from '../building/XTowerScript';
@@ -63,6 +63,8 @@ export class XGameScript extends Component {
         this.initHunters()
 
         this.onInit()
+
+        XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_START)
     }
 
     initEvents() {

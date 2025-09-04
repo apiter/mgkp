@@ -6,10 +6,10 @@ import { XPlayerScript } from "../view/player/XPlayerScript";
 import XBuildingModel from "../model/XBuildingModel";
 
 export default class XHasTargetCdt extends XBTCondition {
-    constructor(e) {
+    constructor(child_ = null) {
         super({
             name: "XHasTargetCdt", title: "", properties: null,
-            child: e
+            child: child_
         })
     }
     satisfy(e) {

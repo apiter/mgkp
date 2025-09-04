@@ -6,7 +6,7 @@ import { XPropertiesKey } from "./XPropertiesKey";
 export default class XHasPathCdt extends XBTCondition {
     _dstPos = null
 
-    constructor(dstPos_, child_ = null) {
+    constructor(dstPos_ = null, child_ = null) {
         super({
             name: "XHasPathCdt", title: "", properties: null,
             child: child_

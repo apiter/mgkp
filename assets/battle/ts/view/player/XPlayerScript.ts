@@ -9,6 +9,7 @@ import XUtil from '../../xutil/XUtil';
 import XResUtil from '../../xutil/XResUtil';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import XBuildingModel from '../../model/XBuildingModel';
+import { XRoomModel } from '../../model/XRoomModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -132,7 +133,7 @@ export class XPlayerScript extends Component {
         if (spine.animation != aniName_) {
             spine.animation = aniName_
         }
-            // spine.setAnimation(0, aniName_, true)
+        // spine.setAnimation(0, aniName_, true)
 
     }
 
@@ -268,7 +269,7 @@ export class XPlayerScript extends Component {
         let allRooms = XMgr.buildingMgr.rooms,
             activeRoom = [];
         for (const t in allRooms)
-            allRooms[t].active && activeRoom.push(+t);
+            allRooms[t].active && activeRoom.push(t);
         return XRandomUtil.randomArray(activeRoom)
     }
 

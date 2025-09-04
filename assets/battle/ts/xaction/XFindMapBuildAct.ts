@@ -19,12 +19,12 @@ export class XFindMapBuildAct extends XBTCondition {
     satisfy(data_) {
         let target = data_.target as XPlayerScript;
         if (target.getTakeMapBuild()) {
-            target.setMapBuildTarget(null),
-                this.lastMapBuild = undefined
+            target.setMapBuildTarget(null)
+            this.lastMapBuild = undefined
             return false;
         }
-        let s, findBuild = this.lastMapBuild;
-        if (!this.lastMapBuild || (s = this.lastMapBuild.isUsed)) {
+        let isUsed, lastMapBuild = this.lastMapBuild;
+        if (!this.lastMapBuild || (isUsed = this.lastMapBuild.isUsed)) {
             let randomBuildArr = XMgr.buildingMgr.mapBuildScriptArr;
             randomBuildArr = XRandomUtil.randomArrayEx(randomBuildArr);
             for (const build of randomBuildArr) {
@@ -32,19 +32,19 @@ export class XFindMapBuildAct extends XBTCondition {
                 if (!build.isTarget && !build.isUsed) {
                     //@ts-ignore
                     build.isTarget = true
-                    findBuild = build;
+                    lastMapBuild = build;
                     break
                 }
             }
         }
-        if (findBuild) {
-            target.setMapBuildTarget(findBuild);
-            target.setCurTarget(findBuild);
-            this.lastMapBuild = findBuild;
+        if (lastMapBuild) {
+            target.setMapBuildTarget(lastMapBuild);
+            target.setCurTarget(lastMapBuild);
+            this.lastMapBuild = lastMapBuild;
             return true;
         } else {
             target.setMapBuildTarget(null);
-            this.lastMapBuild = void 0;
+            this.lastMapBuild = undefined
             return false;
         }
     }

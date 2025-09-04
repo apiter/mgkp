@@ -1,11 +1,13 @@
 import { XBTCondition } from "../bt2/XBTCondition";
 import { XBTCategory } from "../bt2/XBTEnum";
+import XBuildingModel from "../model/XBuildingModel";
+import { XRoomModel } from "../model/XRoomModel";
 import { XPlayerScript } from "../view/player/XPlayerScript";
 import XMgr from "../XMgr";
 import { XRandomUtil } from "../xutil/XRandomUtil";
 
 export class XFindEmptyBedAct extends XBTCondition {
-    lastBed = null
+    lastBed: XBuildingModel = null
     static NAME = "XFindEmptyBedAct"
     constructor(child_ = null) {
         super({
@@ -20,54 +22,46 @@ export class XFindEmptyBedAct extends XBTCondition {
         let lastBed = this.lastBed;
 
         if (!this.lastBed || (isBedUsed = playerScript.isBedUsed(this.lastBed))) {
-            let n = data_.blackboard.get(XFindEmptyBedAct.NAME);
+            let allRoomIdsRand = data_.blackboard.get(XFindEmptyBedAct.NAME);
 
-            if (!n || n.length === 0) {
-                n = playerScript.getAllRoomIdRand();
-                data_.blackboard.set(XFindEmptyBedAct.NAME, n);
+            if (!allRoomIdsRand || allRoomIdsRand.length === 0) {
+                allRoomIdsRand = playerScript.getAllRoomIdRand();
+                data_.blackboard.set(XFindEmptyBedAct.NAME, allRoomIdsRand);
             }
 
             lastBed = null;
 
-            if (isBedUsed) {
-                let roomModel = playerScript.getRoomModel(this.lastBed.roomId);
-                let [t, i] = this.findInMoreBedRoom([roomModel]);
-                lastBed = t;
-                if (i && t) {
-                    n.splice(n.indexOf(lastBed.roomId), 1);
-                }
-            }
+            // if (isBedUsed) {
+            //     let roomModel = playerScript.getRoomModel(this.lastBed.roomId);
+            //     let [t, i] = this.findInMoreBedRoom([roomModel]);
+            //     lastBed = t;
+            //     if (i && t) {
+            //         allRoomIdsRand.splice(allRoomIdsRand.indexOf(lastBed.roomId), 1);
+            //     }
+            // }
 
             if (!lastBed) {
-                let e = n.length,
-                    i = XRandomUtil.random(),
-                    r: any[] = [],
-                    o: any[] = [];
+                let roomIdx = allRoomIdsRand.length
+                let roomsCanUse: any[] = []
 
-                for (; e--;) {
-                    if (XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt === 0 && n[e] === 3) continue;
-                    if (XMgr.gameMgr.defenseFindRoomId.indexOf(n[e]) >= 0) continue;
+                for (; roomIdx--;) {
+                    // if (XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt === 0 && allRoomIdsRand[roomLength] === 3) continue;
+                    if (XMgr.gameMgr.defenseFindRoomId.indexOf(allRoomIdsRand[roomIdx]) >= 0)
+                        continue;
 
-                    let room = playerScript.getRoomModel(n[e]);
+                    let room = playerScript.getRoomModel(allRoomIdsRand[roomIdx]);
                     if (room) {
                         if ((room.doorModel && room.doorModel.isOpen) || !room.doorModel) {
-                            if (room.bedModelList.length === 1) r.push(room);
-                            else if (room.bedModelList.length > 1) o.push(room);
+                            roomsCanUse.push(room)
                         }
                     } else {
                         console.log("FindEmptyBedAction not found room!");
                     }
                 }
 
-                if (i < 0.5) {
-                    let [e, t] = this.findInOneBedRoom(r);
-                    lastBed = e;
-                    if (t) n.splice(n.indexOf(lastBed.roomId), 1);
-                } else {
-                    let [e, t] = this.findInMoreBedRoom(o);
-                    lastBed = e;
-                    if (t) n.splice(n.indexOf(lastBed.roomId), 1);
-                }
+                let bed = this.findInOneBedRoom(roomsCanUse);
+                lastBed = bed;
+                if (lastBed) allRoomIdsRand.splice(allRoomIdsRand.indexOf(lastBed.roomId), 1);
             }
         }
 
@@ -77,6 +71,7 @@ export class XFindEmptyBedAct extends XBTCondition {
                 XMgr.gameMgr.defenseFindRoomId.push(lastBed.roomId);
             }
             this.lastBed = lastBed;
+            console.debug(`[${playerScript.skinCfg.name}] 奔向房间:${lastBed.roomId}`)
             return true;
         } else {
             playerScript.setCurTarget(null);
@@ -85,60 +80,19 @@ export class XFindEmptyBedAct extends XBTCondition {
         }
     }
 
-    findInOneBedRoom(e) {
-        if (0 == e.length) return [null, !1];
-        XRandomUtil.randomArray(e);
-        let t, i, s = e.length;
-        for (; s--;) {
-            let a = e[s].bedModelList[0];
-            if (!a.isUsed) {
-                t = a, i = !0;
+    findInOneBedRoom(rooms) {
+        if (0 == rooms.length) return null;
+        XRandomUtil.randomArray(rooms);
+        let findBed, roomLen = rooms.length;
+        for (; roomLen--;) {
+            let bed = rooms[roomLen].bedModelList[0];
+            if (!bed.isUsed) {
+                findBed = bed
                 break
             }
         }
-        return [t, i]
+        return findBed
     }
-
-    findInMoreBedRoom(rooms) {
-        if (rooms.length === 0) return [null, false];  // 没有房间
-
-        XRandomUtil.randomArray(rooms);
-
-        let retBed;                // 选中的床
-        let roomCnt = rooms.length;
-        let isFind = false;   // 是否找到可用的房间
-
-        while (roomCnt--) {
-            let curBed;                      // 临时记录一个未使用的床
-            let room = rooms[roomCnt];           // 当前房间
-            let bedLength = room.bedModelList.length; // 当前房间床数量
-
-            for (const bed of room.bedModelList) {
-                if (bed.isUsed) {
-                    bedLength--;  // 已使用的床，数量减掉
-                } else {
-                    curBed = bed;  // 记录一个没用的床（最后会是房间里最后一个空床）
-                }
-            }
-
-            // 如果有可用床，先记录下来
-            if (bedLength > 0) {
-                bedLength--;
-                retBed = curBed; // 把这个床作为候选
-            }
-
-            // 如果只剩最后一张空床，并且找到了候选床
-            if (bedLength === 0 && retBed) {
-                isFind = true;
-            }
-
-            // 已经找到就跳出循环
-            if (retBed) break;
-        }
-
-        return [retBed, isFind];
-    }
-
 }
 XFindEmptyBedAct.register(XFindEmptyBedAct.NAME, XBTCategory.ACTION);
 

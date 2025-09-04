@@ -14,10 +14,10 @@ export class XRandomUtil {
     }
     static randomArray(arr_) {
         if (!arr_ || 0 == arr_.length) return;
-        let t = arr_.length;
-        for (; t;) {
-            let i = Math.floor(this.random() * t--);
-            [arr_[i], arr_[t]] = [arr_[t], arr_[i]]
+        let len = arr_.length;
+        for (; len;) {
+            let i = Math.floor(this.random() * len--);
+            [arr_[i], arr_[len]] = [arr_[len], arr_[i]]
         }
         return arr_
     }

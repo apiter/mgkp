@@ -1,4 +1,5 @@
 import { Vec2 } from "cc"
+import XBuildingModel from "./XBuildingModel"
 
 export class XRoomModel {
     id: number = 0
@@ -12,13 +13,13 @@ export class XRoomModel {
     walls = []
     buildings = []
     preBuildings = []
-    bedModelList = []
+    bedModelList:XBuildingModel[] = []
     active = true
     towers = []
     doorPosArr: Vec2[] = []
     doorPos: Vec2
     doorRot:number
-    doorModel: any
+    doorModel: XBuildingModel
 
     players = []
 }

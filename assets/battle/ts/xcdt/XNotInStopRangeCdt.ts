@@ -5,7 +5,7 @@ import { XPlayerScript } from "../view/player/XPlayerScript";
 
 export default class XNotInStopRangeCdt extends XBTCondition {
     range = null
-    constructor(range_, child_) {
+    constructor(range_, child_ = null) {
         super({
             name: "XNotInStopRangeCdt", title: "", properties: null,
             child: child_
