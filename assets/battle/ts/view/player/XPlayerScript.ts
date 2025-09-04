@@ -43,7 +43,7 @@ export class XPlayerScript extends Component {
     curTarget
     lastAtkTarget
 
-    lbName:Label = null
+    lbName: Label = null
 
     init(data_: XPlayerModel) {
         this.data = data_
@@ -60,7 +60,8 @@ export class XPlayerScript extends Component {
         let nameNode = new Node('name')
         this.lbName = nameNode.addComponent(Label)
         this.node.addChild(nameNode)
-        nameNode.y = 40
+        nameNode.y = 100
+        this.lbName.fontSize = 18
         this.loadSkin()
 
         this.onInit()
@@ -122,11 +123,17 @@ export class XPlayerScript extends Component {
             // 3. 静态图片皮肤
         }
 
-        this.lbName.string  = this.skinCfg.name
+        this.lbName.string = this.skinCfg.name
+        this.data.name = this.skinCfg.name
     }
 
     playAnim(aniName_, reStart_ = false, callback_ = null) {
-        this.spineNode.getComponent(sp.Skeleton).animation = aniName_
+        const spine = this.spineNode.getComponent(sp.Skeleton)
+        if (spine.animation != aniName_) {
+            spine.animation = aniName_
+        }
+            // spine.setAnimation(0, aniName_, true)
+
     }
 
     onHpChanged() {
@@ -405,8 +412,8 @@ export class XPlayerScript extends Component {
         return XMgr.gameMgr.upBed(gridX_, gridY_, this.data.uuid) == XBuildResult.E_OK
     }
 
-    hasEnoughCoinEnergy(buildModel_: XBuildingModel, i = null) {
-        let lv = i ? buildModel_.lv : buildModel_.lv + 1
+    hasEnoughCoinEnergy(buildModel_: XBuildingModel, currentLv_ = null) {
+        let lv = currentLv_ ? buildModel_.lv : buildModel_.lv + 1
         let buildCfg = XMgr.buildingMgr.getBuildCfg(buildModel_.id, lv);
         if (buildCfg) {
             let playModel = this.data;
@@ -469,7 +476,7 @@ export class XPlayerScript extends Component {
             let nowMinDis = Number.MAX_SAFE_INTEGER;
             for (const grid of grids) {
                 let dis = Vec2.squaredDistance(pos, grid);
-                dis < nowMinDis && (nowMinDis = dis, ret.from(grid))
+                dis < nowMinDis && (nowMinDis = dis, ret = grid)
             }
         } else ret = XRandomUtil.randomInArray(grids);
         return ret

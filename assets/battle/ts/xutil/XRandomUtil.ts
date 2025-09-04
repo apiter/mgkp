@@ -23,7 +23,8 @@ export class XRandomUtil {
     }
     static randomInArray<T>(arr_:T[]) {
         if (!arr_ || 0 == arr_.length) return null;
-        return arr_[Math.floor(this.random() * arr_.length)]
+        let rd = Math.floor(this.random() * arr_.length)
+        return arr_[rd]
     }
 
     static randomArrayEx(arr_: any[]) {

@@ -37,7 +37,7 @@ export class XCoinEffect extends XBaseEffect {
         let aiMult = value * XMgr.mapMgr.getRoomById(this._data.roomId).aiMult
         let changeRet = XMgr.playerMgr.changePlayerIncomeByUuid(this._data.playerUuid, aiMult + this.extra + this.godExtra)
         //let r = this.data;
-        console.log(`玩家[${this._data.playerUuid}] [${this._data.ownerScript.cfg.name}]金币变化${aiMult + this.extra + this.godExtra} `)
+        console.log(`玩家[${XMgr.playerMgr.getPlayerName(this._data.playerUuid)}] [${this._data.ownerScript.cfg.name}]金币变化${aiMult + this.extra + this.godExtra} 现金币:${XMgr.playerMgr.getPlayerCoin(this._data.playerUuid)} `)
         //TODO
         this.showWorkEff()
     }

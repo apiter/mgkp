@@ -105,7 +105,7 @@ export class XGameScript extends Component {
     initDefenders() {
         let myUuid = XMgr.playerMgr.mineUuid
         let defenderArr = XMgr.playerMgr.defenders
-        for (let i = 0; i < 2; ++i) {
+        for (let i = 0; i < defenderArr.length; ++i) {
             let defender = defenderArr[i]
             let defNode = new Node(`defender${i}`);
             defNode.addComponent(UITransform).setContentSize(10, 10)

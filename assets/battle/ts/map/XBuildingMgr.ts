@@ -192,6 +192,8 @@ export default class XBuildingMgr {
 
         // 广播事件
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildingModel, false);
+        
+        console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级 消耗金币${consumeCoin} 能量:${consumeEnergy}`)
 
         // 任务/音效（目前注释掉）
         // !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask();
@@ -608,13 +610,13 @@ export default class XBuildingMgr {
             return XBuildResult.E_COIN_NOT_ENOUGH
         if (energyNeed > player.energy)
             return XBuildResult.E_ENERGY_NOT_ENOUGH
-        const roomId = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
-        if (nextLvBuildCfg.preBuilding && false === this.isHaveBuilding(roomId, build.id, build.lv + 1)) {
+        const room = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
+        if (nextLvBuildCfg.preBuilding && false === this.isHaveBuilding(room.id, build.id, build.lv + 1)) {
             return XBuildResult.E_NOT_HAVE_PREBUILD
         }
         XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
         build.lv += 1
-        console.debug(`[XBuildingMgr] 玩家${playerUuid_} 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
+        console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
 
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, build)
         return XBuildResult.E_OK

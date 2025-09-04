@@ -40,7 +40,7 @@ export class XCanUpgradeCdt extends XBTCondition {
         }
         let lastUpObj = this.lastUpObj
         let lastBuildObj = this.lastBuildObj
-        if (false === this.isBuild) {
+        if (!this.isBuild) {
             let allTowers = playerScript.getOwnerAllBuildings(XBuildType.tower)
             let allEnergys = playerScript.getOwnerAllBuildings(XBuildType.energy)
             const rd = XRandomUtil.random()
@@ -54,6 +54,7 @@ export class XCanUpgradeCdt extends XBTCondition {
                     } else {
                         lastBuildObj = "3000_1" //1级塔
                         this.isBuild = true
+                        console.debug(`[${playerScript.skinCfg.name}] 准备创建1级炮台`)
                     }
                 } else {
                     lastUpObj = roomDoor
@@ -96,18 +97,20 @@ export class XCanUpgradeCdt extends XBTCondition {
                 this.lastBuildObj = lastBuildObj;
                 let build = playerScript.createBuilding(lastBuildObj);
 
-                if (build && playerScript.hasEnoughCoinEnergy(build, !0)) {
+                if (build && playerScript.hasEnoughCoinEnergy(build, true)) {
                     this.output(XPropertiesKey.BUILD, build);
-                    this.isBuild = this.lastBuildObj = this.lastUpObj = null;
+                    this.isBuild = false;
+                    this.lastBuildObj = this.lastUpObj = null;
                 } else {
                     if (XRandomUtil.random() < 0.2) {
-                        this.isBuild = this.lastBuildObj = this.lastUpObj = null;
+                        this.isBuild = false;
+                        this.lastBuildObj = this.lastUpObj = null;
                     }
                     lastBuildObj = null;
                 }
             }
         }
-        return true
+        return !!(lastUpObj || lastBuildObj);
     }
 }
 XCanUpgradeCdt.register(XCanUpgradeCdt.NAME, XBTCategory.CONDITION);

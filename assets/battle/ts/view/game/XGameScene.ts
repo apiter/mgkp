@@ -16,7 +16,7 @@ export class XGameScene extends Component {
     gameNode: Node = null
 
     @property(Node)
-    inputNode:Node = null
+    inputNode: Node = null
 
     gameScript: XGameScript = null
 

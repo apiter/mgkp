@@ -33,6 +33,14 @@ export default class XPlayerMgr {
     getPlayer(id_: string) {
         return id_ ? this.playerMap[id_] : null
     }
+    getPlayerName(id_:string) {
+        let player = this.getPlayer(id_)
+        return player?.name
+    }
+    getPlayerCoin(id_:string) {
+        let player = this.getPlayer(id_)
+        return player?.coin
+    }
     changePlayerIncomeByUuid(uuid_, coin_ = 0, energy_ = 0) {
         if (!uuid_) return;
         let player = this.getPlayer(uuid_);
