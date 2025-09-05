@@ -135,7 +135,7 @@ export class XBatleMgr implements ISchedulable {
             this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
             this.speedRatio = 0.75;
             this.hunterSpeedRatio = 0.75 / XMgr.gameMgr.dCfg.moveSpeed || 1;
-   
+
         } else {
             this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
             this.speedRatio = this.hunterSpeedRatio = 1;
@@ -223,63 +223,43 @@ export class XBatleMgr implements ISchedulable {
         e.owner && e.owner.event(XEventNames.Hp_Changed);
     }
 
-    takeDamage(i, s, a) {
-        if (!s.isDie && !(s.invincible || s.invincible_skill || a <= 0)) {
-            if (s.reduceRate && (a *= 1 - s.reduceRate), s.type == XBuildType.bed && s.playerUuid) {
-                let e = XMgr.playerMgr.getPlayer(s.playerUuid);
-                if (e.invincibleCnt) return void (e.invincibleCnt -= 1)
+    takeDamage(playerModel_, target_, atk_) {
+        if (!target_.isDie && !target_.invincible && !target_.invincible_skill && atk_ > 0) {
+            if (target_.reduceRate && (atk_ *= 1 - target_.reduceRate), target_.type == XBuildType.bed && target_.playerUuid) {
+                let player = XMgr.playerMgr.getPlayer(target_.playerUuid);
+                if (player.invincibleCnt) 
+                    return void (player.invincibleCnt -= 1)
             }
 
-            if (s.skillEquipHp) {
+            if (target_.skillEquipHp) {
                 // 技能护盾减血
-                s.skillEquipHp -= a;
-                if (s.skillEquipHp <= 0) {
-                    s.skillEquipHp = 0;
-                    s.ownerScript.changeSkin(false);
+                target_.skillEquipHp -= atk_;
+                if (target_.skillEquipHp <= 0) {
+                    target_.skillEquipHp = 0;
+                    target_.ownerScript.changeSkin(false);
                 }
             } else {
                 // 扣血
-                s.curHp -= a;
-                s.curHp = Math.max(s.curHp, 0);
-
-                // 狩猎模式下，血量小于10%，触发阎罗显示
-                if (this.gameMode == XGameMode.E_Hunt && s.curHp > 0 && (s.curHp / s.maxHp < 0.1)) {
-                    if (s != XMgr.playerMgr.player && !s.isShowYanluo) {
-                        s.isShowYanluo = true;
-                        EventCenter.emit(XEventNames.E_Yanluo_Show);
-                    }
-                }
+                target_.curHp -= atk_;
+                target_.curHp = Math.max(target_.curHp, 0);
             }
 
             // 是否死亡
-            s.isDie = (s.curHp == 0);
+            target_.isDie = (target_.curHp <= 0);
 
             // 通知事件
-            if (s.owner) {
-                s.owner.event(XEventNames.Hp_Changed, [i]);
-                s.owner.event(XEventNames.Battle_Be_Hit, [i, a]);
+            if (target_.owner) {
+                target_.owner.emit(XEventNames.Hp_Changed, target_)
+                // target_.owner.emit(XEventNames.Battle_Be_Hit, [playerModel_, atk_]);
             }
 
-            if (s.isDie) {
-                let n = s;
+            if (target_.isDie) {
+                let target = target_;
 
-                // 床被打爆，递归调用伤害
-                if (n.type == XBuildType.bed && n.playerUuid) {
-                    let e = XMgr.playerMgr.getPlayer(n.playerUuid);
-                    this.takeDamage(i, e, a);
+                if (target.type == XBuildType.bed && target.playerUuid) {
+                    let player = XMgr.playerMgr.getPlayer(target.playerUuid);
+                    this.takeDamage(playerModel_, player, atk_);
                 }
-
-                // 门被打爆，触发心跳声
-                if (n.type == XBuildType.door) {
-                    let e = XMgr.playerMgr.getPlayer(n.playerUuid);
-                    this.heartSound(e);
-                }
-            }
-
-            if (s.type == XBuildType.door && this.curHunterAtkTarget != s && !i.isGhost) {
-                this.curHunterAtkTarget = s;
-                let room = XMgr.mapMgr.getRoomById(s.roomId);
-                EventCenter.emit(XEventNames.E_Player_Hurt, room.bedModelList[0].playerUuid)
             }
         }
     }
@@ -424,13 +404,14 @@ export class XBatleMgr implements ISchedulable {
                     const newLv = gameInfo.maxWinCnt % gameInfo.curLv + 1
                     diffcultyCfg = XMgr.cfg.difficultCfg.get(newLv.toString())
                 }
-                let r = new XPlayerModel;
-                r.type = XPlayerType.E_Hunter
-                r.uuid = XUtil.createUUID()
-                r.name = this.randomName()
-                r.skinId = diffcultyCfg.bossId, r.attackPower = XMgr.cfg.hunterCfg.attackList[0]
-                r.curHp = XMgr.cfg.hunterCfg.hpList[0] * a
-                r.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.push(r)
+                let playerModel = new XPlayerModel;
+                playerModel.type = XPlayerType.E_Hunter
+                playerModel.uuid = XUtil.createUUID()
+                playerModel.name = this.randomName()
+                playerModel.skinId = diffcultyCfg.bossId,
+                    playerModel.attackPower = XMgr.cfg.hunterCfg.attackList[0]
+                playerModel.curHp = XMgr.cfg.hunterCfg.hpList[0] * a
+                playerModel.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.push(playerModel)
             } else {
                 let i = new XPlayerModel;
                 i.type = XPlayerType.E_Defender,

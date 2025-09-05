@@ -47,11 +47,11 @@ export class XBuildingScript extends Component {
         this.initSkin()
         this.node.on(XEventNames.Hp_Changed, this.onHpChanged, this)
         this.node.on(XEventNames.Battle_Be_Hit, this.onHit, this)
-        if(cdTime_) {
+        if (cdTime_) {
             this.isBuildCd = true
             this.buildCdTime = cdTime_
             this.initCdUI(buildModel_)
-        }else{
+        } else {
             this.onInit()
             this.initEffects()
         }
@@ -135,7 +135,7 @@ export class XBuildingScript extends Component {
 
     }
 
-    onHpChanged() {
+    onHpChanged(target_: XBuildingModel) {
         this.hpLabel.string = this.data.curHp.toString()
     }
 

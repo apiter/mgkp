@@ -3,6 +3,7 @@ import { XBTStatus, XEPolicy } from '../bt2/XBTEnum';
 import { XBTInverter } from '../bt2/XBTInverter';
 import { XBTSequence } from '../bt2/XBTSequence';
 import { XPlayerScript } from '../view/player/XPlayerScript';
+import { XAttackAction } from '../xaction/XAttackAction';
 import XRunAction from '../xaction/XRunAction';
 import XHasPathCdt from '../xcdt/XHasPathCdt';
 import XHasTargetCdt from '../xcdt/XHasTargetCdt';
@@ -36,8 +37,8 @@ export class XAIHunter extends XAIModel {
                 child:new XNotInStopRangeCdt(this.data.getAttackRange())
             }
         )
-        new XBTSequence({
-            children:[inRangeCdt, new XHasTargetCdt()],
+        return new XBTSequence({
+            children:[inRangeCdt, new XHasTargetCdt(), new XAttackAction()],
             title:"Attack",
             continuePolicy:XBTStatus.SUCCESS,
             successPolicy:XEPolicy.RequireAll

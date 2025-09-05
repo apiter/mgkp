@@ -3342,42 +3342,126 @@ define("js/bundle.js", function(require, module, exports) {
                     name: XAttackAction.NAME
                 }), this.atkIntervalTs = 0
             }
-            tick(i) {
-                let s = i.target,
-                    a = s.getAttackCd(),
-                    n = XMgr.gameTime.now,
-                    r = s.getCurTarget(),
-                    o = s.getDataModel();
-                if (o.isRage && (this.atkRageStartTs = n), s.getLastAtkTarget() || (s.setLastAtkTarget(r), this.atkRageStartTs = n, this.atkEscapeStartTs = n, this.canDizzySkill = !0), this.lastTarget && this.lastTarget.owner == r.owner && this.atkEscapeStartTs || (this.atkRageStartTs = n, this.atkEscapeStartTs = n, this.lastTarget = r, this.canDizzySkill = !0, s.setStartAtkTime(n)), n - this.atkIntervalTs >= 1e3 * a) {
-                    if (n - this.atkRageStartTs > 2e4) i.blackboard.set(e.PropertiesKey.SKILLID, "rage", i.tree.id), this.atkRageStartTs = n;
-                    else if (this.canDizzySkill && !o.isGhost && r.type == e.BuildType.door && !r.isOpen && r.curHp <= .2 * r.maxHp) {
-                        XRandomUtil.random() <= .3 && (i.blackboard.set(e.PropertiesKey.SKILLID, "dizzy", i.tree.id), this.canDizzySkill = !1)
+            tick(tick_) {
+                let playerScript = tick_.target;
+                let attackCd = playerScript.getAttackCd();
+                let timeNow = XMgr.gameTime.now;
+                let curTarget = playerScript.getCurTarget();
+                let playerModel = playerScript.getDataModel();
+            
+                // --- 怒气状态处理 ---
+                if (playerModel.isRage) {
+                    this.atkRageStartTs = timeNow;
+                }
+            
+                // --- 初始攻击目标设置 ---
+                if (!playerScript.getLastAtkTarget()) {
+                    playerScript.setLastAtkTarget(curTarget);
+                    this.atkRageStartTs = timeNow;
+                    this.atkEscapeStartTs = timeNow;
+                    this.canDizzySkill = true;
+                }
+            
+                // --- 攻击目标变化时重置计时 ---
+                if (!this.lastTarget || this.lastTarget.owner != curTarget.owner || !this.atkEscapeStartTs) {
+                    this.atkRageStartTs = timeNow;
+                    this.atkEscapeStartTs = timeNow;
+                    this.lastTarget = curTarget;
+                    this.canDizzySkill = true;
+                    playerScript.setStartAtkTime(timeNow);
+                }
+            
+                // --- 攻击冷却结束 ---
+                if (timeNow - this.atkIntervalTs >= attackCd * 1000) {
+            
+                    // 触发怒气技能
+                    if (timeNow - this.atkRageStartTs > 20000) {
+                        tick_.blackboard.set(e.PropertiesKey.SKILLID, "rage", tick_.tree.id);
+                        this.atkRageStartTs = timeNow;
                     }
-                    return s.attack(r), this.atkIntervalTs = n, i.blackboard.set(e.PropertiesKey.NOWATTACK, !0, i.tree.id), Ie.SUCCESS
+                    // 触发眩晕技能
+                    else if (
+                        this.canDizzySkill &&
+                        !playerModel.isGhost &&
+                        curTarget.type == e.BuildType.door &&
+                        !curTarget.isOpen &&
+                        curTarget.curHp <= 0.2 * curTarget.maxHp
+                    ) {
+                        if (XRandomUtil.random() <= 0.3) {
+                            tick_.blackboard.set(e.PropertiesKey.SKILLID, "dizzy", tick_.tree.id);
+                            this.canDizzySkill = false;
+                        }
+                    }
+            
+                    // 攻击
+                    playerScript.attack(curTarget);
+                    this.atkIntervalTs = timeNow;
+                    tick_.blackboard.set(e.PropertiesKey.NOWATTACK, true, tick_.tree.id);
+            
+                    return Ie.SUCCESS;
                 }
-                i.blackboard.set(e.PropertiesKey.NOWATTACK, !1, i.tree.id);
-                let l = s.getRoomModel();
-                if (l && (l.doorModel && !l.doorModel.isOpen || !l.doorModel)) return Ie.SUCCESS;
-                let h = this.atkEscapeStartTs,
-                    d = 0;
+            
+                // --- 攻击未冷却 ---
+                tick_.blackboard.set(e.PropertiesKey.NOWATTACK, false, tick_.tree.id);
+            
+                // --- 房间门检测 ---
+                let roomModel = playerScript.getRoomModel();
+                if (roomModel && (roomModel.doorModel && !roomModel.doorModel.isOpen || !roomModel.doorModel)) {
+                    return Ie.SUCCESS;
+                }
+            
+                // --- 逃跑逻辑 ---
+                let atkEscapeStartTs = this.atkEscapeStartTs;
+                let escapeTime = 0;
+            
                 if (XMgr.user.gameInfo.isStartLv && XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                    let e = XMgr.gameMgr.dCfg;
-                    d = s.getDataModel().lv >= e.escLv ? e.atkEscTime : 10
-                } else d = s.getDataModel().lv >= 5 ? 20 : 10;
-                n = XMgr.gameTime.now;
-                let u = s.getEscapeTimeRand();
-                if (n - h > 1e3 * d) {
-                    this.atkEscapeStartTs = n;
-                    let a = XRandomUtil.random();
-                    if ((s.getHpPercent() < .8 || XMgr.gameMgr.gameMode != e.GameMode.E_Defense || !XMgr.gameMgr.diff) && a < u)
-                        if (s.getHpPercent() > .5) {
-                            this.lastTarget = null, s.setCurTarget(null), fx.EventCenter.I.event(XEventNames.E_HUNTER_LEAVE, [s.getDataModel()]);
-                            let t = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
-                            t ? (t.splice(0), t.push(r)) : t = [r], i.blackboard.set(e.PropertiesKey.FILTERTARGET, t, i.tree.id), Laya.timer.clear(this, this.clearFilterTarget), Laya.timer.once(5e3, this, this.clearFilterTarget, [i.blackboard, i.tree.id]), this.atkEscapeStartTs = 0
-                        } else this.lastTarget = null, s.setEscape(!0)
+                    let cfg = XMgr.gameMgr.dCfg;
+                    escapeTime = playerScript.getDataModel().lv >= cfg.escLv ? cfg.atkEscTime : 10;
+                } else {
+                    escapeTime = playerScript.getDataModel().lv >= 5 ? 20 : 10;
                 }
-                return Ie.SUCCESS
+            
+                timeNow = XMgr.gameTime.now;
+                let escapeRand = playerScript.getEscapeTimeRand();
+            
+                if (timeNow - atkEscapeStartTs > escapeTime * 1000) {
+                    this.atkEscapeStartTs = timeNow;
+                    let randVal = XRandomUtil.random();
+            
+                    if ( (playerScript.getHpPercent() < 0.8 || XMgr.gameMgr.gameMode != e.GameMode.E_Defense || !XMgr.gameMgr.diff) && randVal < escapeRand) {
+                        // 血量大于 50%：直接离开
+                        if (playerScript.getHpPercent() > 0.5) {
+                            this.lastTarget = null;
+                            playerScript.setCurTarget(null);
+            
+                            fx.EventCenter.I.event(XEventNames.E_HUNTER_LEAVE, [playerScript.getDataModel()]);
+            
+                            let filterList = tick_.blackboard.get(e.PropertiesKey.FILTERTARGET, tick_.tree.id);
+                            if (filterList) {
+                                filterList.splice(0);
+                                filterList.push(curTarget);
+                            } else {
+                                filterList = [curTarget];
+                            }
+                            tick_.blackboard.set(e.PropertiesKey.FILTERTARGET, filterList, tick_.tree.id);
+            
+                            // 5 秒后清空过滤目标
+                            Laya.timer.clear(this, this.clearFilterTarget);
+                            Laya.timer.once(5000, this, this.clearFilterTarget, [tick_.blackboard, tick_.tree.id]);
+            
+                            this.atkEscapeStartTs = 0;
+                        }
+                        // 血量较低：进入逃跑状态
+                        else {
+                            this.lastTarget = null;
+                            playerScript.setEscape(true);
+                        }
+                    }
+                }
+            
+                return Ie.SUCCESS;
             }
+            
             clearFilterTarget(t, i) {
                 t.set(e.PropertiesKey.FILTERTARGET, null, i)
             }
@@ -5358,9 +5442,11 @@ define("js/bundle.js", function(require, module, exports) {
             tryAttack() {
                 let i = this.findAttackTarget();
                 if (!i) return void(this.lastTarget = null);
-                let s = this.getAttackCd(),
-                    a = XMgr.gameTime.now;
-                if (this.data.isRage && (this.atkRageStartTs = a), this.getLastAtkTarget() || (this.setLastAtkTarget(i), this.atkRageStartTs = a, this.canDizzySkill = !0), this.lastTarget && this.lastTarget.owner == i.owner || (this.atkRageStartTs = a, this.lastTarget = i, this.canDizzySkill = !0, this.setStartAtkTime(a)), a - this.atkIntervalTs >= 1e3 * s) {
+                let s = this.getAttackCd(), a = XMgr.gameTime.now;
+                this.data.isRage && (this.atkRageStartTs = a)
+                this.getLastAtkTarget() || (this.setLastAtkTarget(i), this.atkRageStartTs = a, this.canDizzySkill = !0)
+                this.lastTarget && this.lastTarget.owner == i.owner || (this.atkRageStartTs = a, this.lastTarget = i, this.canDizzySkill = !0, this.setStartAtkTime(a))
+                if (a - this.atkIntervalTs >= 1e3 * s) {
                     if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                         if (a - this.atkRageStartTs > 2e4) {
                             fx.EventCenter.I.event(XEventNames.E_Rage_Refresh);
@@ -6985,33 +7071,151 @@ define("js/bundle.js", function(require, module, exports) {
                     tempTarget: t
                 }
             }
-            attack(i) {
+            attack(target_) {
                 if (this.control || this.data.isDie) return;
-                this.data.isEntice && (this.data.isEntice = !1), this.isAtking = !0, this.playAnim("attack", !0, () => {
-                    this.isAtking = !1, this.playAnim("idle")
+            
+                // 取消诱导状态
+                if (this.data.isEntice) this.data.isEntice = !1;
+            
+                // 播放攻击动画
+                this.isAtking = !0;
+                this.playAnim("attack", !0, () => {
+                    this.isAtking = !1;
+                    this.playAnim("idle");
                 });
+            
                 let s = XMgr.gameTime.now;
-                i.type == e.BuildType.door && s - this.startAtkTime >= 1e4 && (this.startAtkTime = s, this.data.skillIdArr.includes(14) && !this.data.skillIsUsed && (this.startAtkTime = 0, this.data.skillIsUsed = !0, this.changeSkin(!1), this.usePalsySkill(i))), this.lastAttackRoomId = i.roomId, this.owner.timer.once(100, this, () => {
-                    if (i && !i.owner.destroyed) {
-                        if (!this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && this.canUseSkill && !this.isUsedSkill) {
-                            let s = i;
-                            if (10003 == this.data.skinId)
-                                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                                    if (this.data.lv >= 4) {
-                                        let i = XMgr.mapMgr.getRoomById(s.roomId);
-                                        s.type != e.BuildType.door || i.bedModelList[0].isDie || this.useSkillsOfAtk(s.roomId)
-                                    }
-                                } else {
-                                    let i = XMgr.mapMgr.getRoomById(s.roomId);
-                                    s.type != e.BuildType.door || i.bedModelList[0].isDie || this.useSkillsOfAtk(s.roomId)
-                                } else this.useSkillsOfAtk(s.roomId)
-                        }
-                        let s = !1,
-                            a = Math.max(this.data.getAtkPow(), 1);
-                        !this.data.isGhost && (XMgr.gameMgr.gameMode != e.GameMode.E_Defense || 1 == XMgr.gameMgr.difficultABTest && XMgr.user.gameInfo.curLv > 2 && (1 != XMgr.gameMgr.skillABTest || XMgr.user.userInfo.loginDay > 1)) && (a *= 1 + this.data.skillAtkRate, 10001 == this.data.skinId && this.canUseSkill && (this.critCurCnt > this.critCnt ? (this.critCurCnt = 1, this.closeSkillByAtk()) : (this.critCurCnt++, this.critScale = 2, s = !0))), this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && i.type == e.BuildType.door && (a = (1 - this.dCfg.doorReduce) * a), a *= this.critScale, s && i.owner && !i.owner.destroyed && XMgr.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", XMgr.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? XMgr.gameMgr.takeDamage(this.data, i.doorkeeper, a) : XMgr.gameMgr.takeDamage(this.data, i, a), this.suckHp(a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), XMgr.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
+            
+                // 攻击门类目标时，每10秒触发一次特殊技能
+                if (target_.type == e.BuildType.door && s - this.startAtkTime >= 1e4) {
+                    this.startAtkTime = s;
+                    if (this.data.skillIdArr.includes(14) && !this.data.skillIsUsed) {
+                        this.startAtkTime = 0;
+                        this.data.skillIsUsed = !0;
+                        this.changeSkin(!1);
+                        this.usePalsySkill(target_);
                     }
-                }), this.atkCdScale > .5 ? this.setAtkFrqScale(this.atkCdScale - .05) : this.data.isRage ? this.setAtkFrqScale(this.lastAtkCdScale) : this.atkCdScale = 1
+                }
+            
+                this.lastAttackRoomId = target_.roomId;
+            
+                // 延迟 100ms 结算攻击
+                this.owner.timer.once(100, this, () => {
+                    if (target_ && !target_.owner.destroyed) {
+                        
+                        // 技能触发逻辑
+                        if (
+                            !this.data.isGhost &&
+                            (
+                                XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
+                                (
+                                    XMgr.gameMgr.difficultABTest == 1 &&
+                                    XMgr.user.gameInfo.curLv > 2 &&
+                                    (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)
+                                )
+                            ) &&
+                            this.canUseSkill && !this.isUsedSkill
+                        ) {
+                            let s = target_;
+                            if (this.data.skinId == 10003) {
+                                let room = XMgr.mapMgr.getRoomById(s.roomId);
+                                if (
+                                    XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                                    this.data.lv >= 4 &&
+                                    (s.type != e.BuildType.door || !room.bedModelList[0].isDie)
+                                ) {
+                                    this.useSkillsOfAtk(s.roomId);
+                                } else if (
+                                    s.type != e.BuildType.door || !room.bedModelList[0].isDie
+                                ) {
+                                    this.useSkillsOfAtk(s.roomId);
+                                }
+                            } else {
+                                this.useSkillsOfAtk(s.roomId);
+                            }
+                        }
+            
+                        // 计算攻击力
+                        let crit = !1;
+                        let a = Math.max(this.data.getAtkPow(), 1);
+            
+                        if (
+                            !this.data.isGhost &&
+                            (
+                                XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
+                                (
+                                    XMgr.gameMgr.difficultABTest == 1 &&
+                                    XMgr.user.gameInfo.curLv > 2 &&
+                                    (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)
+                                )
+                            )
+                        ) {
+                            a *= 1 + this.data.skillAtkRate;
+            
+                            if (this.data.skinId == 10001 && this.canUseSkill) {
+                                if (this.critCurCnt > this.critCnt) {
+                                    this.critCurCnt = 1;
+                                    this.closeSkillByAtk();
+                                } else {
+                                    this.critCurCnt++;
+                                    this.critScale = 2;
+                                    crit = !0;
+                                }
+                            }
+                        }
+            
+                        if (this.data.equipAtk) {
+                            a += this.data.equipAtk;
+                        }
+            
+                        if (this.data.critRate + this.data.equipCritRate > XRandomUtil.random()) {
+                            a *= 2;
+                            crit = !0;
+                        }
+            
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && target_.type == e.BuildType.door) {
+                            a = (1 - this.dCfg.doorReduce) * a;
+                        }
+            
+                        a *= this.critScale;
+            
+                        // 暴击特效
+                        if (crit && target_.owner && !target_.owner.destroyed) {
+                            XMgr.gameUI.iconTips(
+                                -C.GridHalfSize + target_.owner.x,
+                                -C.GridHalfSize + target_.owner.y,
+                                "res/game/crit.png",
+                                XMgr.mapMgr.effectLayer
+                            );
+                        }
+            
+                        // 伤害结算
+                        if (target_.type == e.BuildType.door && target_.doorkeeper) {
+                            XMgr.gameMgr.takeDamage(this.data, target_.doorkeeper, a);
+                        } else {
+                            XMgr.gameMgr.takeDamage(this.data, target_, a);
+                        }
+            
+                        // 附加效果
+                        this.suckHp(a);
+                        XEffectUtil.I.playHitEffect(target_.owner.x, target_.owner.y, this.data);
+                        XMgr.gameMgr.playSound(this.data, 106);
+            
+                        this.atkCnt++;
+                        this.checkUpgrade();
+                    }
+                });
+            
+                // 攻速动态调整
+                if (this.atkCdScale > 0.5) {
+                    this.setAtkFrqScale(this.atkCdScale - 0.05);
+                } else if (this.data.isRage) {
+                    this.setAtkFrqScale(this.lastAtkCdScale);
+                } else {
+                    this.atkCdScale = 1;
+                }
             }
+            
             suckHp(e) {
                 if (this.data.skillSuckHpRate) {
                     let i = e * this.data.skillSuckHpRate,
@@ -7181,8 +7385,31 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isEscaped = e, e && (this.atkCdScale = 1)
             }
             getAttackCd() {
-                let i = this.data.getAtkCD();
-                return XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (i *= .6), i *= this.atkCdScale, this.data.equipAtkSpeed && (i *= 1 - this.data.equipAtkSpeed), this.data.skillAtkSquRate && (i /= 1 + this.data.skillAtkSquRate), i = Math.max(.2, i)
+                // 1. 角色基础攻击CD
+                let atkCd = this.data.getAtkCD();
+            
+                // 2. 如果游戏模式是猎杀(E_Hunt)，CD减少 40%（即加快攻速）
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                    atkCd *= 0.6;
+                }
+            
+                // 3. 攻速缩放因子（角色本身或buff带来的攻速加成/减益）
+                atkCd *= this.atkCdScale;
+            
+                // 4. 装备提供的攻速加成（例如 +20% 攻速 → equipAtkSpeed = 0.2）
+                if (this.data.equipAtkSpeed) {
+                    atkCd *= 1 - this.data.equipAtkSpeed;
+                }
+            
+                // 5. 技能攻速加成（skillAtkSquRate 可能是技能倍率）
+                if (this.data.skillAtkSquRate) {
+                    atkCd /= 1 + this.data.skillAtkSquRate;
+                }
+            
+                // 6. 最小CD限制：不能低于 0.2 秒
+                atkCd = Math.max(0.2, atkCd);
+            
+                return atkCd;
             }
             setAtkFrqScale(e) {
                 e >= 0 && e <= 1.2 && (this.atkCdScale = e)
@@ -15360,31 +15587,89 @@ define("js/bundle.js", function(require, module, exports) {
             changeMaxHp(e, t, i) {
                 t < e.maxHp && (e.curHp = Math.clamp(e.curHp, 0, t)), e.maxHp = t, e.doorkeeper && (e.doorkeeper.maxHp = t, e.doorkeeper.curHp = i, e.doorkeeper.owner && e.doorkeeper.owner.event(be.Hp_Changed)), null != i && (e.curHp = i, e.curHp = Math.clamp(e.curHp, 0, e.maxHp), e.isDie = 0 == e.curHp), e.owner && e.owner.event(be.Hp_Changed)
             }
-            takeDamage(i, s, a) {
-                if (!s.isDie && !(s.invincible || s.invincible_skill || a <= 0)) {
-                    if (s.reduceRate && (a *= 1 - s.reduceRate), s.type == e.BuildType.bed && s.playerUuid) {
-                        let e = XMgr.playerMgr.getPlayer(s.playerUuid);
-                        if (e.invincibleCnt) return void(e.invincibleCnt -= 1)
-                    }
-                    if (s.skillEquipHp ? (s.skillEquipHp -= a, s.skillEquipHp <= 0 && (s.skillEquipHp = 0, s.ownerScript.changeSkin(!1))) : (s.curHp -= a, s.curHp = Math.max(s.curHp, 0), this.gameMode == e.GameMode.E_Hunt && s.curHp > 0 && s.curHp / s.maxHp < .1 && (s != XMgr.playerMgr.player || s.isShowYanluo || (s.isShowYanluo = !0, fx.EventCenter.I.event(XEventNames.E_Yanluo_Show)))), s.isDie = 0 == s.curHp, s.owner && (s.owner.event(be.Hp_Changed, [i]), s.owner.event(be.Battle_Be_Hit, [i, a])), s.isDie) {
-                        let n = s;
-                        if (n.type == e.BuildType.bed && n.playerUuid) {
-                            let e = XMgr.playerMgr.getPlayer(n.playerUuid);
-                            this.takeDamage(i, e, a)
-                        }
-                        if (n.type == e.BuildType.door) {
-                            XChoreUtil.playSound(121);
-                            let e = XMgr.playerMgr.getPlayer(n.playerUuid);
-                            this.heartSound(e)
-                        }
-                    }
-                    if (s.type == e.BuildType.door && this.curHunterAtkTarget != s && !i.isGhost) {
-                        this.curHunterAtkTarget = s;
-                        let e = XMgr.mapMgr.getRoomById(s.roomId);
-                        fx.EventCenter.I.event(XEventNames.E_Player_Hurt, e.bedModelList[0].playerUuid)
+            takeDamage(playerModel_, target_, atk_) {
+                if (target_.isDie || target_.invincible || target_.invincible_skill || atk_ <= 0) return;
+            
+                // 护甲减伤
+                if (target_.reduceRate) {
+                    atk_ *= 1 - target_.reduceRate;
+                }
+            
+                // 床位受击时，玩家可能无敌抵消伤害
+                if (target_.type == e.BuildType.bed && target_.playerUuid) {
+                    let e = XMgr.playerMgr.getPlayer(target_.playerUuid);
+                    if (e.invincibleCnt) {
+                        e.invincibleCnt -= 1;
+                        return;
                     }
                 }
+            
+                // 处理技能护盾或直接掉血
+                if (target_.skillEquipHp) {
+                    target_.skillEquipHp -= atk_;
+                    if (target_.skillEquipHp <= 0) {
+                        target_.skillEquipHp = 0;
+                        target_.ownerScript.changeSkin(!1);
+                    }
+                } else {
+                    target_.curHp -= atk_;
+                    target_.curHp = Math.max(target_.curHp, 0);
+            
+                    // 狩猎模式下，低血量时触发“阎罗”事件
+                    if (
+                        this.gameMode == e.GameMode.E_Hunt &&
+                        target_.curHp > 0 &&
+                        target_.curHp / target_.maxHp < 0.1
+                    ) {
+                        if (
+                            target_ == XMgr.playerMgr.player &&
+                            !target_.isShowYanluo
+                        ) {
+                            target_.isShowYanluo = !0;
+                            fx.EventCenter.I.event(XEventNames.E_Yanluo_Show);
+                        }
+                    }
+                }
+            
+                // 死亡判定
+                target_.isDie = (target_.curHp == 0);
+            
+                // 通知UI事件
+                if (target_.owner) {
+                    target_.owner.event(be.Hp_Changed, [playerModel_]);
+                    target_.owner.event(be.Battle_Be_Hit, [playerModel_, atk_]);
+                }
+            
+                // 额外死亡处理
+                if (target_.isDie) {
+                    let n = target_;
+            
+                    // 床位死亡 -> 递归伤害玩家本体
+                    if (n.type == e.BuildType.bed && n.playerUuid) {
+                        let e = XMgr.playerMgr.getPlayer(n.playerUuid);
+                        this.takeDamage(playerModel_, e, atk_);
+                    }
+            
+                    // 门死亡 -> 播放心跳音效
+                    if (n.type == e.BuildType.door) {
+                        XChoreUtil.playSound(121);
+                        let e = XMgr.playerMgr.getPlayer(n.playerUuid);
+                        this.heartSound(e);
+                    }
+                }
+            
+                // 攻击门时，记录猎人当前目标并触发受伤事件
+                if (
+                    target_.type == e.BuildType.door &&
+                    this.curHunterAtkTarget != target_ &&
+                    !playerModel_.isGhost
+                ) {
+                    this.curHunterAtkTarget = target_;
+                    let e = XMgr.mapMgr.getRoomById(target_.roomId);
+                    fx.EventCenter.I.event(XEventNames.E_Player_Hurt, e.bedModelList[0].playerUuid);
+                }
             }
+            
             heartSound(e) {
                 XMgr.gameMgr.playSound(e, 128)
             }

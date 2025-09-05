@@ -482,6 +482,22 @@ export class XPlayerScript extends Component {
         } else ret = XRandomUtil.randomInArray(grids);
         return ret
     }
+
+    getAttackCd() {
+        return this.data.getAtkCD()
+    }
+
+    getLastAtkTarget() {
+        return this.lastAtkTarget
+    }
+
+    setLastAtkTarget(target_) {
+        this.lastAtkTarget = target_
+    }
+
+    attack(target_) {
+        
+    }
 }
 
 
