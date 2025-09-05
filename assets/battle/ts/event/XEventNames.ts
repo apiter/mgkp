@@ -7,6 +7,8 @@ export enum XEventNames {
 
     E_BUILDING_BUILD = "E_BUILDING_BUILD",
     E_BUILDING_UPGRADE = "E_BUILDING_UPGRADE",
+    E_BUILD_DEAD = "E_BUILD_DEAD",
+    E_BUILDING_REMOVED = "E_BUILDING_REMOVED",
     E_MapBuild_take = "E_MapBuild_take",
     E_Bed_Up = "E_Bed_Up",
     E_Bed_Down="E_Bed_Down",

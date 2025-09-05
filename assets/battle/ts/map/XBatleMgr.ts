@@ -198,36 +198,36 @@ export class XBatleMgr implements ISchedulable {
         game.resume()
         this.gameStatus != XGameStatus.E_GAME_READY && this.setGameStatus(XGameStatus.E_GAME_START)
     }
-    changeMaxHp(e, t, i) {
+    changeMaxHp(buildModel_, maxHp_, curHp_) {
         // 如果新 maxHp 小于原来的 maxHp，限制当前血量在 [0, t] 范围内
-        t < e.maxHp && (e.curHp = math.clamp(e.curHp, 0, t));
+        maxHp_ < buildModel_.maxHp && (buildModel_.curHp = math.clamp(buildModel_.curHp, 0, maxHp_));
 
         // 更新 maxHp
-        e.maxHp = t;
+        buildModel_.maxHp = maxHp_;
 
         // 如果有 doorkeeper，顺带修改它的血量
-        e.doorkeeper && (
-            e.doorkeeper.maxHp = t,
-            e.doorkeeper.curHp = i,
-            e.doorkeeper.owner && e.doorkeeper.owner.event(XEventNames.Hp_Changed)
+        buildModel_.doorkeeper && (
+            buildModel_.doorkeeper.maxHp = maxHp_,
+            buildModel_.doorkeeper.curHp = curHp_,
+            buildModel_.doorkeeper.owner && buildModel_.doorkeeper.owner.event(XEventNames.Hp_Changed)
         );
 
         // 如果 i 不为 null，则设置 curHp，并处理死亡状态
-        null != i && (
-            e.curHp = i,
-            e.curHp = math.clamp(e.curHp, 0, e.maxHp),
-            e.isDie = (0 == e.curHp)
+        null != curHp_ && (
+            buildModel_.curHp = curHp_,
+            buildModel_.curHp = math.clamp(buildModel_.curHp, 0, buildModel_.maxHp),
+            buildModel_.isDie = (0 == buildModel_.curHp)
         );
 
         // 通知血量变化
-        e.owner && e.owner.event(XEventNames.Hp_Changed);
+        buildModel_.owner && buildModel_.owner.emit(XEventNames.Hp_Changed);
     }
 
     takeDamage(playerModel_, target_, atk_) {
         if (!target_.isDie && !target_.invincible && !target_.invincible_skill && atk_ > 0) {
             if (target_.reduceRate && (atk_ *= 1 - target_.reduceRate), target_.type == XBuildType.bed && target_.playerUuid) {
                 let player = XMgr.playerMgr.getPlayer(target_.playerUuid);
-                if (player.invincibleCnt) 
+                if (player.invincibleCnt)
                     return void (player.invincibleCnt -= 1)
             }
 
@@ -282,9 +282,10 @@ export class XBatleMgr implements ISchedulable {
         this._arrDatas = e
     }
     addDataInArr(e) {
-        for (let t = 0; t < this.arrDatas.length; t++) {
-            let i = this.arrDatas[t];
-            if (i.x == e.x && i.y == e.y) return void (this.arrDatas[t] = e)
+        for (let idx = 0; idx < this.arrDatas.length; idx++) {
+            let data = this.arrDatas[idx];
+            if (data.x == e.x && data.y == e.y)
+                return void (this.arrDatas[idx] = e)
         }
         this.arrDatas.push(e)
     }

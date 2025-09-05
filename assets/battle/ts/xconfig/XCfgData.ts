@@ -153,3 +153,35 @@ export interface XCfgEffectData {
     type:string,
     value:number[]
 }
+
+export interface XCfgTowerData {
+    id: number,
+    buildId:number,
+    name:string,
+    oldname:string,
+    icon:string,
+    diIcon:string,
+    description:string,
+    coin:number,
+    energy:number,
+    atkRange:number,
+    atkDamage:number,
+    bullet:string,
+    bulletType:string
+    atkInterval:number,
+    buffId:number[]
+}
+
+export interface XCfgDoorData {
+    id: number,
+    buildId:number,
+    name:string,
+    oldname:string,
+    icon:string,
+    description:string,
+    coin:number,
+    energy:number,
+    maxCnt:number,
+    hp:number,
+    buffId:number[]
+}

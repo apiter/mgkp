@@ -5,6 +5,7 @@ import { XBuildingScript } from "../view/building/XBuildingScript"
 
 export default class XBuildingModel extends XBaseModel {
     canHandle = true
+    //初始建筑
     isInit = false
     isPlayerDelete = false
     isSpecial = false

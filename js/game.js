@@ -4952,7 +4952,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             
             onHpChanged(i) {
-                this.data.curHp <= 0 && i && i.playerUuid == XMgr.playerMgr.mineUuid && XMgr.gameMgr.killCnt++, this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (XMgr.gameMgr.playerDeadCnt += 1), this.onDead())
+                this.data.curHp <= 0 && i && i.playerUuid == XMgr.playerMgr.mineUuid && XMgr.gameMgr.killCnt++, 
+                this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (XMgr.gameMgr.playerDeadCnt += 1), 
+                this.onDead())
             }
             onDead() {
                 this.data.isDie = !0, this.barNode && (this.barNode.visible = !1), this.healthBarNode && (this.healthBarNode.visible = !1), this.lb_name && (this.lb_name.visible = !1);
@@ -6350,8 +6352,23 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.isDie && (fx.EventCenter.I.event(XEventNames.E_BUILD_DEAD, [this.data]), this.onDead())
             }
             onDead() {
-                this.isDead || (XMgr.playerMgr.mineUuid == this.data.playerUuid ? XMgr.gameMgr.addDataInArr(this.data) : this.data.type && "door" == this.data.type && XMgr.playerMgr.player.roomId == this.data.roomId && XMgr.gameMgr.addDataInArr(this.data), XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1))
+                // 如果已经死了，就不处理
+                if (this.isDead) return;
+            
+                // 如果是自己玩家死亡
+                if (XMgr.playerMgr.mineUuid == this.data.playerUuid) {
+                    XMgr.gameMgr.addDataInArr(this.data);
+            
+                // 如果是“门”，并且门所在的房间 == 自己房间
+                } else if (this.data.type && this.data.type == "door" && 
+                           XMgr.playerMgr.player.roomId == this.data.roomId) {
+                    XMgr.gameMgr.addDataInArr(this.data);
+                }
+            
+                // 最后无论如何都要销毁建筑
+                XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, false);
             }
+            
             onHit(e) {
                 this.onHitting || (this.onHitting = !0, this.node.scale(1, 1), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
                     this.node.scale(1, 1), this.onHitting = !1
@@ -6727,7 +6744,10 @@ define("js/bundle.js", function(require, module, exports) {
                     if (i && !i.owner.destroyed) {
                         let s = !1,
                             a = Math.max(this.data.getAtkPow(), 1);
-                        this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), s && i.owner && !i.owner.destroyed && XMgr.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", XMgr.mapMgr.effectLayer), i.type == e.BuildType.door && i.doorkeeper ? XMgr.gameMgr.takeDamage(this.data, i.doorkeeper, a) : XMgr.gameMgr.takeDamage(this.data, i, a), XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), XMgr.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
+                        this.data.equipAtk && (a += this.data.equipAtk), this.data.critRate + this.data.equipCritRate > XRandomUtil.random() && (a *= 2, s = !0), 
+                        s && i.owner && !i.owner.destroyed && XMgr.gameUI.iconTips(-C.GridHalfSize + i.owner.x, -C.GridHalfSize + i.owner.y, "res/game/crit.png", XMgr.mapMgr.effectLayer), 
+                        i.type == e.BuildType.door && i.doorkeeper ? XMgr.gameMgr.takeDamage(this.data, i.doorkeeper, a) : XMgr.gameMgr.takeDamage(this.data, i, a), 
+                        XEffectUtil.I.playHitEffect(i.owner.x, i.owner.y, this.data), XMgr.gameMgr.playSound(this.data, 106), this.atkCnt++, this.checkUpgrade()
                     }
                 }), this.atkCdScale > .5 ? this.setAtkFrqScale(this.atkCdScale - .05) : this.data.isRage ? this.setAtkFrqScale(this.lastAtkCdScale) : this.atkCdScale = 1
             }
@@ -6752,7 +6772,11 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = XMgr.cfg.hunterCfg.hunterHpList, a = XMgr.cfg.hunterCfg.hunterAttackList);
                 let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
                     r = a[this.lv - 1];
-                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), this.data.attackPower = r, XMgr.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
+                n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XToast.show(`${this.data.name} 升到${this.lv}等级`), 
+                this.data.attackPower = r, 
+                XMgr.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), 
+                XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), 
+                fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
             }
             dismissDizzy() {
                 this.data.dizzyDurSec = 0, this.data.dizzyStartTime = 0
@@ -6992,11 +7016,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             onUpdate() {
                 // 游戏进行中 & 皮肤已加载 & 游戏未暂停
-                if (
-                    XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START &&
+                if ( XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START &&
                     this.isSkinLoaded &&
-                    !XMgr.gameMgr.isPause
-                ) {
+                    !XMgr.gameMgr.isPause ) {
                     // 排序：zOrder = y坐标
                     this.node.zOrder = this.node.y;
             
@@ -7010,8 +7032,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
             
                     // 非幽灵 & 技能触发条件
-                    if (
-                        !this.data.isGhost &&
+                    if ( !this.data.isGhost &&
                         (
                             XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
                             (
@@ -7044,25 +7065,79 @@ define("js/bundle.js", function(require, module, exports) {
             }
             
             checkHealZone() {
-                let e = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
-                if (this.isInHealZone = e, e) {
+                // 1. 判断当前是否在治疗区
+                let inZone = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
+                this.isInHealZone = inZone;
+            
+                if (inZone) {
+                    // ---- 刚进入治疗区 ----
                     if (this.isOutHeal) {
-                        this.isOutHeal = !1;
-                        for (const e of this.data.skillIdArr) 13 == e || 8 == e ? this.data.skillEquipHp += .5 * this.data.maxHp : 14 == e && this.data.skillIsUsed && (this.data.skillIsUsed = !1);
-                        this.changeSkin(!0)
-                    }
-                    let e = this.owner.timer.delta / 1e3;
-                    if (this.lastHealTime += e, this.lastHealTime >= 1 && (this.lastHealTime = 0, this.data.hpPercent < 1)) {
-                        let e = this.healSpeed;
-                        if (XMgr.user.gameInfo.isStartLv) {
-                            let i = XMgr.gameMgr.dCfg;
-                            i.addHpLv && this.lv >= i.addHpLv && (e = i.addHpRate)
+                        this.isOutHeal = false;
+            
+                        // 处理技能效果
+                        for (const skillId of this.data.skillIdArr) {
+                            if (skillId == 13 || skillId == 8) {
+                                // 13、8 技能：回血量 +50% 最大血量
+                                this.data.skillEquipHp += 0.5 * this.data.maxHp;
+                            } else if (skillId == 14 && this.data.skillIsUsed) {
+                                // 14 技能：如果已经用过，则重置
+                                this.data.skillIsUsed = false;
+                            }
                         }
-                        XMgr.gameMgr.AddHp(this.data, e)
+            
+                        // 切换皮肤效果（可能是回血特效）
+                        this.changeSkin(true);
                     }
-                    this.data.invincible = !0
-                } else this.isOutHeal || (this.isFirstOutHeal ? this.isFirstOutHeal = !1 : 1 != XMgr.gameMgr.difficultABTest && this.lv >= this.dCfg.addExpLv && this.dCfg.addExp && (this.atkCnt += this.dCfg.addExp, this.checkUpgrade()), this.isOutHeal = !0), this.data.invincible = !1, this.lastHealTime = 0
+            
+                    // ---- 区域内持续回血逻辑 ----
+                    let dt = this.owner.timer.delta / 1000; // 秒
+                    this.lastHealTime += dt;
+            
+                    // 每秒执行一次回血
+                    if (this.lastHealTime >= 1 && this.data.hpPercent < 1) {
+                        this.lastHealTime = 0;
+            
+                        let healValue = this.healSpeed;
+            
+                        // 开局时根据配置加成回血
+                        if (XMgr.user.gameInfo.isStartLv) {
+                            let cfg = XMgr.gameMgr.dCfg;
+                            if (cfg.addHpLv && this.lv >= cfg.addHpLv) {
+                                healValue = cfg.addHpRate;
+                            }
+                        }
+            
+                        // 执行回血
+                        XMgr.gameMgr.AddHp(this.data, healValue);
+                    }
+            
+                    // 在回血区时无敌
+                    this.data.invincible = true;
+            
+                } else {
+                    // ---- 离开治疗区 ----
+                    if (!this.isOutHeal) {
+                        if (this.isFirstOutHeal) {
+                            this.isFirstOutHeal = false;
+                        } else {
+                            // 如果不是难度ABTest=1 并且等级达到加经验条件 → 获得经验
+                            if (XMgr.gameMgr.difficultABTest != 1 &&
+                                this.lv >= this.dCfg.addExpLv &&
+                                this.dCfg.addExp) {
+                                this.atkCnt += this.dCfg.addExp;
+                                this.checkUpgrade();
+                            }
+                        }
+            
+                        this.isOutHeal = true;
+                    }
+            
+                    // 离开治疗区 → 取消无敌 & 重置计时
+                    this.data.invincible = false;
+                    this.lastHealTime = 0;
+                }
             }
+            
             switchTarget() {
                 let e = this.isSwitchTarget,
                     t = this.tempTarget;
@@ -7139,17 +7214,8 @@ define("js/bundle.js", function(require, module, exports) {
                         let crit = !1;
                         let a = Math.max(this.data.getAtkPow(), 1);
             
-                        if (
-                            !this.data.isGhost &&
-                            (
-                                XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
-                                (
-                                    XMgr.gameMgr.difficultABTest == 1 &&
-                                    XMgr.user.gameInfo.curLv > 2 &&
-                                    (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)
-                                )
-                            )
-                        ) {
+                        if ( !this.data.isGhost && ( XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
+                                ( XMgr.gameMgr.difficultABTest == 1 && XMgr.user.gameInfo.curLv > 2 && (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)) )) {
                             a *= 1 + this.data.skillAtkRate;
             
                             if (this.data.skinId == 10001 && this.canUseSkill) {
@@ -7235,28 +7301,96 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isInHealZone
             }
             checkUpgrade() {
-                let e = XMgr.cfg.hunterCfg.upAtcCntList;
-                if (this.lv <= e.length) {
-                    let t = e[this.lv - 1];
-                    t = Math.ceil(t * (1 + this.dCfg.upRate)), 
-                    this.data.equipExp && (t = Math.ceil(t * (1 - this.data.equipExp))), 
-                    t <= this.atkCnt && this.upgrade(t)
+                let upAtcCntList = XMgr.cfg.hunterCfg.upAtcCntList;
+                if (this.lv <= upAtcCntList.length) {
+                    let atcCnt = upAtcCntList[this.lv - 1];
+                    atcCnt = Math.ceil(atcCnt * (1 + this.dCfg.upRate)), 
+                    this.data.equipExp && (atcCnt = Math.ceil(atcCnt * (1 - this.data.equipExp))), 
+                    atcCnt <= this.atkCnt && this.upgrade(atcCnt)
                 }
             }
             addUpgradeCnt(e = 30) {
                 this.atkCnt += e, this.checkUpgrade()
             }
-            upgrade(i) {
-                this.atkCnt -= i, this.lv++, XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || 2 == this.lv && (this.autoSkillId = XRandomUtil.getIntRandom(1, 4), this.autoSkillId < 3 ? this.autoSkillCd = 90 : this.autoSkillCd = 60, this.useAutoSkill(), this.curAutoSkillCd = 0, this.healthBar.showAutoSkillBar(), this.healthBar.updateAutoSkillBar(0)), this.data.lv = this.lv;
-                let s = XMgr.cfg.hunterCfg.hpList,
-                    a = XMgr.cfg.hunterCfg.attackList;
-                XMgr.gameMgr.gameMode != e.GameMode.E_Hunt || this.data.isGhost || (s = XMgr.cfg.hunterCfg.hunterHpList, a = XMgr.cfg.hunterCfg.hunterAttackList);
-                let n = s[this.lv - 1] * (1 + this.maxHpAddRate),
-                    r = a[this.lv - 1];
-                this.data.isGhost ? (n *= .8, this.data.lv > 5 ? r *= .8 : r *= .6, XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`${this.data.name} 执行人升到${this.lv}等级`) : XToast.show(`${this.data.name} 升到${this.lv}等级`)) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show(`木头人升到${this.lv}等级`) : XToast.show(`噬魂者升到${this.lv}等级`), this.data.attackPower = r, XMgr.gameMgr.changeMaxHp(this.data, n + this.data.equipHp, this.data.curHp + n - this.data.maxHp + this.data.equipHp), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && XMgr.gameMgr.dCfg.addSkillLv == this.lv && this.getSkill(), XChoreUtil.playSound(107), this.healthBar.setLv(this.lv), fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv)
+            upgrade(atcCnt_) {
+                // 基础升级处理
+                this.atkCnt -= atcCnt_;
+                this.lv++;
+                
+                // 特殊：猎杀模式，非幽灵，升到2级时触发自动技能
+                if ( XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && !this.data.isGhost && this.lv == 2) {
+                    this.autoSkillId = XRandomUtil.getIntRandom(1, 4);
+                    this.autoSkillId < 3 ? this.autoSkillCd = 90 : this.autoSkillCd = 60;
+                    
+                    this.useAutoSkill();
+                    this.curAutoSkillCd = 0;
+            
+                    this.healthBar.showAutoSkillBar();
+                    this.healthBar.updateAutoSkillBar(0);
+                }
+            
+                // 同步等级
+                this.data.lv = this.lv;
+            
+                // 基础属性配置
+                let hpList = XMgr.cfg.hunterCfg.hpList;
+                let attackList = XMgr.cfg.hunterCfg.attackList;
+            
+                // 特殊：猎杀模式非幽灵，用另一套表
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && !this.data.isGhost) {
+                    hpList = XMgr.cfg.hunterCfg.hunterHpList;
+                    attackList = XMgr.cfg.hunterCfg.hunterAttackList;
+                }
+            
+                // 计算属性
+                let n = hpList[this.lv - 1] * (1 + this.maxHpAddRate);
+                let r = attackList[this.lv - 1];
+            
+                // 幽灵：额外衰减
+                if (this.data.isGhost) {
+                    n *= 0.8;
+                    r *= this.data.lv > 5 ? 0.8 : 0.6;
+            
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        XToast.show(`${this.data.name} 执行人升到${this.lv}等级`);
+                    } else {
+                        XToast.show(`${this.data.name} 升到${this.lv}等级`);
+                    }
+                } else {
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        XToast.show(`木头人升到${this.lv}等级`);
+                    } else {
+                        XToast.show(`噬魂者升到${this.lv}等级`);
+                    }
+                }
+            
+                // 更新战斗属性
+                this.data.attackPower = r;
+                XMgr.gameMgr.changeMaxHp(
+                    this.data,
+                    n + this.data.equipHp,
+                    this.data.curHp + n - this.data.maxHp + this.data.equipHp
+                );
+            
+                // 特殊：防御模式达到指定等级获得技能
+                if (
+                    XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                    XMgr.gameMgr.dCfg.addSkillLv == this.lv
+                ) {
+                    this.getSkill();
+                }
+            
+                // 音效 & UI
+                XChoreUtil.playSound(107);
+                this.healthBar.setLv(this.lv);
+            
+                // 广播升级事件
+                fx.EventCenter.I.event(XEventNames.E_Hunter_Upgrade, this.lv);
             }
+            
             takeEquip(e) {
-                this.refreshEquip(e), this.addUpgradeCnt()
+                this.refreshEquip(e)
+                this.addUpgradeCnt()
             }
             refreshEquip(e, i = !1) {
                 switch (e.type) {
@@ -10931,7 +11065,13 @@ define("js/bundle.js", function(require, module, exports) {
                 s.pos(a.x, a.y), this.hunters.push(s)
             }
             onDestroy() {
-                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), XMgr.buildingMgr.clearAllMapEquip()
+                super.onDestroy(), fx.EventCenter.I.off(XEventNames.E_Rage_Refresh, this, this.rageRefresh), 
+                fx.EventCenter.I.off(XEventNames.E_Dizzy_Refresh, this, this.dizzyRefresh), 
+                fx.EventCenter.I.off(XEventNames.E_Yanluo_Show, this, this.yanluoShow), 
+                fx.EventCenter.I.off(XEventNames.E_MapEquip_take, this, this.takeMapEquip), 
+                fx.EventCenter.I.off(XEventNames.E_Hunter_Upgrade, this, this.onHunterUpgrade), 
+                fx.EventCenter.I.off(XEventNames.E_Create_Ghost, this, this.createGhost), 
+                XMgr.buildingMgr.clearAllMapEquip()
             }
         }
         class ServenGhostGameScript extends XGameScript {
@@ -15584,9 +15724,35 @@ define("js/bundle.js", function(require, module, exports) {
             resumeGame() {
                 Laya.timer.scale = 1, Laya.updateTimer.scale = 1, this.gameStatus != e.GameStatus.E_GAME_READY && this.setGameStatus(e.GameStatus.E_GAME_START)
             }
-            changeMaxHp(e, t, i) {
-                t < e.maxHp && (e.curHp = Math.clamp(e.curHp, 0, t)), e.maxHp = t, e.doorkeeper && (e.doorkeeper.maxHp = t, e.doorkeeper.curHp = i, e.doorkeeper.owner && e.doorkeeper.owner.event(be.Hp_Changed)), null != i && (e.curHp = i, e.curHp = Math.clamp(e.curHp, 0, e.maxHp), e.isDie = 0 == e.curHp), e.owner && e.owner.event(be.Hp_Changed)
+            changeMaxHp(buildModel_, maxHp_, curHp_) {
+                // 如果新上限 < 旧上限，则把当前血量 clamp 在 [0, hp_]
+                maxHp_ < buildModel_.maxHp && (
+                    buildModel_.curHp = Math.clamp(buildModel_.curHp, 0, maxHp_)
+                );
+            
+                // 更新最大血量
+                buildModel_.maxHp = maxHp_;
+            
+                // 如果有 doorkeeper（看起来是附属对象）
+                if (buildModel_.doorkeeper) {
+                    buildModel_.doorkeeper.maxHp = maxHp_;
+                    buildModel_.doorkeeper.curHp = curHp_;
+                    // 如果 doorkeeper 有 owner，就发一个 Hp_Changed 事件
+                    buildModel_.doorkeeper.owner && 
+                        buildModel_.doorkeeper.owner.event(be.Hp_Changed);
+                }
+            
+                if (curHp_ != null) {
+                    buildModel_.curHp = curHp_;
+                    buildModel_.curHp = Math.clamp(buildModel_.curHp, 0, buildModel_.maxHp);
+                    buildModel_.isDie = (buildModel_.curHp == 0);
+                }
+            
+                // 自己也广播 Hp_Changed
+                buildModel_.owner && 
+                    buildModel_.owner.event(be.Hp_Changed);
             }
+            
             takeDamage(playerModel_, target_, atk_) {
                 if (target_.isDie || target_.invincible || target_.invincible_skill || atk_ <= 0) return;
             
@@ -16756,20 +16922,23 @@ define("js/bundle.js", function(require, module, exports) {
                 let u = h.hp || 1;
                 return XMgr.gameMgr.changeMaxHp(d, u, u), d
             }
-            updateBuildingModel(i, s) {
-                let a = s.hp || 1;
-                if (2e3 == i.id && i.playerUuid == XMgr.playerMgr.player.uuid) {
+            updateBuildingModel(buildModel_, cfg_) {
+                let hp = cfg_.hp || 1;
+                if (2e3 == buildModel_.id && buildModel_.playerUuid == XMgr.playerMgr.player.uuid) {
                     let e = XMgr.user.gameInfo.getBuffData(21);
                     if (e) {
                         let i = XMgr.cfg.buffCfg.get(21).values[e.lv];
-                        a = Math.round(a * (i / 100 + 1))
+                        hp = Math.round(hp * (i / 100 + 1))
                     }
                 }
-                switch (XMgr.gameMgr.changeMaxHp(i, a, a), s.type) {
+                XMgr.gameMgr.changeMaxHp(buildModel_, hp, hp)
+                switch (cfg_.type) {
                     case e.BuildType.tower:
-                        let n = i,
-                            r = s;
-                        n.atkCD = r.atkInterval, n.atkDst = r.atkRange, n.atk = r.atkDamage
+                        let n = buildModel_,
+                            r = cfg_;
+                        n.atkCD = r.atkInterval, 
+                        n.atkDst = r.atkRange, 
+                        n.atk = r.atkDamage
                 }
             }
             getBuilding(e, t) {
@@ -16807,49 +16976,131 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 return e.BuildResult.E_OK
             }
-            destroyBuilding(i, s, a, n = !0) {
-                let r = this.getBuilding(s, a);
-                if (!r) return;
-                let o, l = this.getRoom(r.roomId);
-                if (!l && 8888 !== r.id) return;
-                if (l && (r.ownerScript.clearEffects(), -1 != (o = l.buildings.indexOf(r)) && (l.buildings.splice(o, 1), n && i))) {
-                    r.isPlayerDelete = !0;
-                    let s = this.getBuildCfg(r.id, r.lv),
-                        a = s ? s.coin : 0,
-                        n = s ? s.energy : 0;
-                    if (r.isInit) {
-                        if (s)
-                            if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                                if (XMgr.user.gameInfo.getBuffData(6) && XMgr.playerMgr.player.uuid != i) {
-                                    XMgr.playerMgr.getPlayer(i).isQxbm = !0, i = XMgr.playerMgr.player.uuid
+            destroyBuilding(playerUuid_, x_, y_, playerDelete_ = true) {
+                let buildModel = this.getBuilding(x_, y_);
+                if (!buildModel) return;
+            
+                let buildIndex, room = this.getRoom(buildModel.roomId);
+            
+                if (!room && buildModel.id !== 8888) return;
+            
+                if (room) {
+                    buildModel.ownerScript.clearEffects();
+            
+                    buildIndex = room.buildings.indexOf(buildModel);
+                    if (buildIndex !== -1) {
+                        room.buildings.splice(buildIndex, 1);
+            
+                        if (playerDelete_ && playerUuid_) {
+                            buildModel.isPlayerDelete = true;
+            
+                            let buildCfg = this.getBuildCfg(buildModel.id, buildModel.lv);
+                            let coin   = buildCfg ? buildCfg.coin   : 0;
+                            let energy = buildCfg ? buildCfg.energy : 0;
+            
+                            if (buildModel.isInit) {
+                                if (buildCfg) {
+                                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                                        // 特殊处理：防御模式 Buff 逻辑
+                                        if (XMgr.user.gameInfo.getBuffData(6) && 
+                                            XMgr.playerMgr.player.uuid != playerUuid_) {
+                                            XMgr.playerMgr.getPlayer(playerUuid_).isQxbm = true;
+                                            playerUuid_ = XMgr.playerMgr.player.uuid;
+                                        }
+            
+                                        if (XMgr.gameMgr.difficultABTest == 1) {
+                                            if (energy) {
+                                                let buffData = XMgr.user.gameInfo.getBuffData(27);
+                                                if (buffData) {
+                                                    let cfg = XMgr.cfg.buffCfg.get(27);
+                                                    XMgr.playerMgr.changePlayerIncomeByUuid(
+                                                        playerUuid_,
+                                                        Math.floor(coin / 2),
+                                                        Math.floor(buildCfg.energy * (cfg.values[buffData.lv] / 100))
+                                                    );
+                                                } else {
+                                                    XMgr.playerMgr.changePlayerIncomeByUuid(
+                                                        playerUuid_,
+                                                        Math.floor(coin / 2),
+                                                        1
+                                                    );
+                                                }
+                                            } else {
+                                                XMgr.playerMgr.changePlayerIncomeByUuid(
+                                                    playerUuid_,
+                                                    Math.floor(coin / 2),
+                                                    Math.floor(buildCfg.energy / 2)
+                                                );
+                                            }
+                                        } else {
+                                            XMgr.playerMgr.changePlayerIncomeByUuid(
+                                                playerUuid_,
+                                                Math.floor(coin / 2),
+                                                Math.floor(buildCfg.energy / 2)
+                                            );
+                                        }
+                                    } else {
+                                        // 非防御模式：金币/能量收支
+                                        if (coin) {
+                                            XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, 1, 0);
+                                        } else {
+                                            XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, 0, 1);
+                                        }
+                                    }
                                 }
-                                if (1 == XMgr.gameMgr.difficultABTest)
-                                    if (n) {
-                                        let e = XMgr.user.gameInfo.getBuffData(27);
-                                        if (e) {
-                                            let n = XMgr.cfg.buffCfg.get(27);
-                                            XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy * (n.values[e.lv] / 100)))
-                                        } else XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), 1)
-                                    } else XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2));
-                                else s && XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
-                            } else a ? XMgr.playerMgr.changePlayerIncomeByUuid(i, 1, 0) : XMgr.playerMgr.changePlayerIncomeByUuid(i, 0, 1)
-                    } else {
-                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                            if (XMgr.user.gameInfo.getBuffData(6) && XMgr.playerMgr.player.uuid != i) {
-                                XMgr.playerMgr.getPlayer(i).isQxbm = !0, i = XMgr.playerMgr.player.uuid
+                            } else {
+                                // 非初始建筑
+                                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                                    if (XMgr.user.gameInfo.getBuffData(6) && 
+                                        XMgr.playerMgr.player.uuid != playerUuid_) {
+                                        XMgr.playerMgr.getPlayer(playerUuid_).isQxbm = true;
+                                        playerUuid_ = XMgr.playerMgr.player.uuid;
+                                    }
+                                }
+            
+                                if (buildCfg) {
+                                    XMgr.playerMgr.changePlayerIncomeByUuid(
+                                        playerUuid_,
+                                        Math.floor(coin / 2),
+                                        Math.floor(buildCfg.energy / 2)
+                                    );
+                                }
                             }
                         }
-                        s && XMgr.playerMgr.changePlayerIncomeByUuid(i, Math.floor(a / 2), Math.floor(s.energy / 2))
                     }
                 }
-                XMgr.mapMgr.setDynWalkable(s, a, !0), delete this.buildingGrids[s][a], -1 != (o = this.buildings.indexOf(r)) && this.buildings.splice(o, 1);
-                let h = XMgr.playerMgr.getPlayer(r.playerUuid);
-                if (h && -1 != (o = h.buildings.indexOf(r)) && h.buildings.splice(o, 1), XChoreUtil.playSound(113), r.turntableBuildId) {
-                    let e = this.turntableBuildArr.indexOf(r.turntableBuildId);
-                    e >= 0 && this.turntableBuildArr.splice(e, 0)
+            
+                // 更新地图数据
+                XMgr.mapMgr.setDynWalkable(x_, y_, true);
+                delete this.buildingGrids[x_][y_];
+            
+                buildIndex = this.buildings.indexOf(buildModel);
+                if (buildIndex !== -1) {
+                    this.buildings.splice(buildIndex, 1);
                 }
-                fx.EventCenter.I.event(XEventNames.E_BUILDING_REMOVED, [r])
+            
+                let player = XMgr.playerMgr.getPlayer(buildModel.playerUuid);
+                if (player) {
+                    buildIndex = player.buildings.indexOf(buildModel);
+                    if (buildIndex !== -1) {
+                        player.buildings.splice(buildIndex, 1);
+                    }
+                }
+            
+                // 音效 & 转盘建筑处理
+                XChoreUtil.playSound(113);
+            
+                if (buildModel.turntableBuildId) {
+                    let idx = this.turntableBuildArr.indexOf(buildModel.turntableBuildId);
+                    if (idx >= 0) {
+                        this.turntableBuildArr.splice(idx, 0);
+                    }
+                }
+            
+                // 事件派发：建筑被移除
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_REMOVED, [buildModel]);
             }
+            
             upgrade(playerUuid_, x_, y_, n = !0, r = 0, o) {
                 let build = this.getBuilding(x_, y_);
                 if (!build) return e.BuildResult.E_FAILD;
@@ -19575,14 +19826,14 @@ define("js/bundle.js", function(require, module, exports) {
                 "()" == (n = n.substring(n.indexOf("("), n.indexOf(")") + 1)) && (n = ""), a.toString = (() => e + n)
             }
         }
-        class qn {
+        class XGM {
             static enableLog() {
                 let e = console.log,
                     t = this;
                 const i = (i, ...s) => {
                     if (Fn) {
                         let e = Fn.getComponent(Ln),
-                            t = qn.logs;
+                            t = XGM.logs;
                         for (let i = 0; i < t.length; i += 2) {
                             let s = t[i],
                                 a = t[i + 1];
@@ -19590,7 +19841,7 @@ define("js/bundle.js", function(require, module, exports) {
                         }
                         t.length = 0, e.log(i, ...s)
                     } else
-                        for (const e of s) qn.logs.push(i, e);
+                        for (const e of s) XGM.logs.push(i, e);
                     e(...s);
                     let a = t.logType(i);
                     this.logsArray.push(new Date(+new Date + 288e5).toISOString().replace(/T/, " ").replace(/\..+/, "") + " - [" + a + "] " + s), "ERROR" == a && t.postLog()
@@ -19608,7 +19859,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }))
             }
             static init() {
-                window.GM = qn;
+                window.GM = XGM;
                 const e = "scenes/prefab/GMBox.json";
                 Laya.loader.load(e, Laya.Handler.create(this, () => {
                     let t = fx.Utils.createPrefab(e);
@@ -19657,7 +19908,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return t
             }
             static disableGPUTips() {
-                qn.sDisableGpu = !0
+                XGM.sDisableGpu = !0
             }
             static clearStorage() {
                 XMgr.user.changeAccount = !0, XEventDispatcher.I.deleteStorage(e => {
@@ -19819,41 +20070,41 @@ define("js/bundle.js", function(require, module, exports) {
                 e = Number(e), !isNaN(e) && e && (XMgr.user.gameInfo.inviteCnt += e)
             }
         }
-        qn.sDisableGpu = !1, qn.logsArray = [], qn.logs = [] 
-        na([zn("显示性能面板")], qn, "showStat", null) 
-        na([zn("隐藏性能面板")], qn, "hideStat", null) 
-        na([zn("发送日志到内网FTP--\x3ehttp://192.168.0.179/logs/")], qn, "postLog", null)
-        na([zn("禁用内存过高提示")], qn, "disableGPUTips", null)
-        na([zn("清除存档数据")], qn, "clearStorage", null)
-        na([zn("跳过广告")], qn, "skipAd", null)
-        na([zn("猎梦者模式加地图装备")], qn, "addMapEquip", null)
-        na([zn("猎梦者升级")], qn, "hunterUpgrade", null)
-        na([zn("猎梦者使用阎罗降世")], qn, "useYanluo", null)
-        na([zn("加钱")], qn, "addCoin", null)
-        na([zn("根据buildId建造")], qn, "buildById", null)
-        na([zn("根据Id建造特殊炮台")], qn, "specialById", null)
-        na([zn("设置地图")], qn, "setMap", null)
-        na([zn("获得铜币")], qn, "getCoin", null)
-        na([zn("获得天师令")], qn, "getTian", null)
-        na([zn("打开结算宝箱界面(游戏内打开)")], qn, "openGameEndBox", null) 
-        na([zn("打开Buff选取")], qn, "openBuffChoose", null)
-        na([zn("根据id加buff")], qn, "addBuffById", null)
-        na([zn("快速匹配")], qn, "setQuickMatch", null), na([zn("增加黑店道具")], qn, "addAllPrize", null), na([zn("难度选择")], qn, "chooseDifficult", null), 
-        na([zn("打开胜利")], qn, "openWin", null), na([zn("打开失败")], qn, "openFail", null), na([zn("噬魂者难度选择")], qn, "chooseHunterDifficult", null), 
-        na([zn("打开噬魂者胜利")], qn, "openHunterWin", null), na([zn("打开噬魂者失败")], qn, "openHunterFail", null), na([zn("新的一天")], qn, "newDay", null), 
-        na([zn("打开每日分享")], qn, "openDailyShare", null), na([zn("解锁Buff")], qn, "unlockBuff", null), na([zn("加buff数量")], qn, "addBuff", null), 
-        na([zn("打开难度选择")], qn, "openChooseLv", null), na([zn("挑战模式难度选择")], qn, "chooseSeven", null), 
-        na([zn("打开挑战模式胜利")], qn, "openSevenWin", null), na([zn("打开挑战模式失败")], qn, "openSevenFail", null), 
-        na([zn("解锁皮肤")], qn, "unlockSkin", null), na([zn("加邀请新玩家数量")], qn, "addInviteCnt", null);
+        XGM.sDisableGpu = !1, XGM.logsArray = [], XGM.logs = [] 
+        na([zn("显示性能面板")], XGM, "showStat", null) 
+        na([zn("隐藏性能面板")], XGM, "hideStat", null) 
+        na([zn("发送日志到内网FTP--\x3ehttp://192.168.0.179/logs/")], XGM, "postLog", null)
+        na([zn("禁用内存过高提示")], XGM, "disableGPUTips", null)
+        na([zn("清除存档数据")], XGM, "clearStorage", null)
+        na([zn("跳过广告")], XGM, "skipAd", null)
+        na([zn("猎梦者模式加地图装备")], XGM, "addMapEquip", null)
+        na([zn("猎梦者升级")], XGM, "hunterUpgrade", null)
+        na([zn("猎梦者使用阎罗降世")], XGM, "useYanluo", null)
+        na([zn("加钱")], XGM, "addCoin", null)
+        na([zn("根据buildId建造")], XGM, "buildById", null)
+        na([zn("根据Id建造特殊炮台")], XGM, "specialById", null)
+        na([zn("设置地图")], XGM, "setMap", null)
+        na([zn("获得铜币")], XGM, "getCoin", null)
+        na([zn("获得天师令")], XGM, "getTian", null)
+        na([zn("打开结算宝箱界面(游戏内打开)")], XGM, "openGameEndBox", null) 
+        na([zn("打开Buff选取")], XGM, "openBuffChoose", null)
+        na([zn("根据id加buff")], XGM, "addBuffById", null)
+        na([zn("快速匹配")], XGM, "setQuickMatch", null), na([zn("增加黑店道具")], XGM, "addAllPrize", null), na([zn("难度选择")], XGM, "chooseDifficult", null), 
+        na([zn("打开胜利")], XGM, "openWin", null), na([zn("打开失败")], XGM, "openFail", null), na([zn("噬魂者难度选择")], XGM, "chooseHunterDifficult", null), 
+        na([zn("打开噬魂者胜利")], XGM, "openHunterWin", null), na([zn("打开噬魂者失败")], XGM, "openHunterFail", null), na([zn("新的一天")], XGM, "newDay", null), 
+        na([zn("打开每日分享")], XGM, "openDailyShare", null), na([zn("解锁Buff")], XGM, "unlockBuff", null), na([zn("加buff数量")], XGM, "addBuff", null), 
+        na([zn("打开难度选择")], XGM, "openChooseLv", null), na([zn("挑战模式难度选择")], XGM, "chooseSeven", null), 
+        na([zn("打开挑战模式胜利")], XGM, "openSevenWin", null), na([zn("打开挑战模式失败")], XGM, "openSevenFail", null), 
+        na([zn("解锁皮肤")], XGM, "unlockSkin", null), na([zn("加邀请新玩家数量")], XGM, "addInviteCnt", null);
         new class extends fx.AppBase {
             constructor() {
                 Laya.isWXPlayable = !1, Laya.Laya.isWXPlayable = !1;
                 let e = Vn;
                 !e.stat && fx.Utils.isOnPC() && (e.stat = !0)
-                e.stat && qn.enableLog()
+                e.stat && XGM.enableLog()
                 Laya.isWXPlayable || sdk.Sdk.sInit(V)
                 super(e, "version.json")
-                e.stat && (Laya.isWXPlayable || qn.init())
+                e.stat && (Laya.isWXPlayable || XGM.init())
                 if ( fx.Utils.isOnMiniGame() && !fx.Utils.isOnPC() && V.remoteUrl && !Laya.isWXPlayable) {
                     Laya.URL.basePath = V.remoteUrl;
                     let e = sdk.Sdk.instance.getMiniAdapter();
@@ -20448,7 +20699,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
             }
-        }, e.GM = qn, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
+        }, e.GM = XGM, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
         e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
         e.GameInfoEvent = Ce, e.GameManager = GameMgr, 
         e.GameScene = XGameScene, e.GameScript = XGameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 

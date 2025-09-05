@@ -4,10 +4,11 @@ import XBuildingModel from '../../model/XBuildingModel';
 import XMgr from '../../XMgr';
 import { XEventNames } from '../../event/XEventNames';
 import { XMapView } from '../XMapVIew';
-import { XEffectType, XGameMode } from '../../xconfig/XEnum';
+import { XBuildType, XEffectType, XGameMode } from '../../xconfig/XEnum';
 import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XEffectBuilder } from '../../effect/XEffectBuilder';
 import { XBaseEffect } from '../../effect/XBaseEffect';
+import EventCenter from '../../event/EventCenter';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBuildingScript')
@@ -137,10 +138,26 @@ export class XBuildingScript extends Component {
 
     onHpChanged(target_: XBuildingModel) {
         this.hpLabel.string = this.data.curHp.toString()
+        if (this.data.isDie) {
+            EventCenter.emit(XEventNames.E_BUILDING_BUILD, this.data)
+            this.onDead()
+        }
     }
 
     onHit() {
 
+    }
+
+    onDead() {
+        // 如果是自己玩家死亡
+        if (XMgr.playerMgr.mineUuid == this.data.playerUuid) {
+            XMgr.gameMgr.addDataInArr(this.data);
+        } else if (this.data.type && this.data.type == XBuildType.door && XMgr.playerMgr.player.roomId == this.data.roomId) {
+            XMgr.gameMgr.addDataInArr(this.data);
+        }
+
+        // 最后无论如何都要销毁建筑
+        XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, false);
     }
 }
 

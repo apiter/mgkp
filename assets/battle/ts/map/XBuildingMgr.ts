@@ -11,6 +11,7 @@ import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
 import { XBuildingScript } from "../view/building/XBuildingScript"
 import { XMapMgr } from "./XMapMgr"
+import { XCfgTowerData } from "../xconfig/XCfgData"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -192,7 +193,7 @@ export default class XBuildingMgr {
 
         // 广播事件
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildingModel, false);
-        
+
         console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级 消耗金币${consumeCoin} 能量:${consumeEnergy}`)
 
         // 任务/音效（目前注释掉）
@@ -314,8 +315,8 @@ export default class XBuildingMgr {
         model.playerUuid = playerUuid_
         model.lv = lv_
         model.type = buildCfg.type;
-        let u = buildCfg.hp || 1;
-        XMgr.gameMgr.changeMaxHp(model, u, u)
+        let maxHp = buildCfg.hp || 1;
+        XMgr.gameMgr.changeMaxHp(model, maxHp, maxHp)
         return model
     }
 
@@ -618,7 +619,80 @@ export default class XBuildingMgr {
         build.lv += 1
         console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
 
+        this.updateBuildingModel(build, nextLvBuildCfg)
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, build)
         return XBuildResult.E_OK
+    }
+
+    updateBuildingModel(buildModel_: XBuildingModel, upgradeCfg_) {
+        const hp = upgradeCfg_.hp || 1;
+        XMgr.gameMgr.changeMaxHp(buildModel_, hp, hp)
+        if (upgradeCfg_.type === XBuildType.tower) {
+            const towerModel = buildModel_ as XTowerModel
+            const towerCfg = upgradeCfg_ as XCfgTowerData
+            towerModel.atkCD = towerCfg.atkInterval
+            towerModel.atkDst = towerCfg.atkRange
+            towerModel.atk = towerCfg.atkDamage
+        }
+    }
+
+    destroyBuilding(playerUuid_, x_, y_, playerDelete_ = true) {
+        let buildModel = this.getBuilding(x_, y_);
+        if (!buildModel) return;
+
+        let buildIndex, room = this.getRoom(buildModel.roomId);
+        if (room) {
+            buildIndex = room.buildings.indexOf(buildModel);
+            if (buildIndex !== -1) {
+                room.buildings.splice(buildIndex, 1);
+
+                if (playerDelete_ && playerUuid_) {
+                    buildModel.isPlayerDelete = true;
+
+                    let buildCfg = this.getBuildCfg(buildModel.id, buildModel.lv);
+                    let coin = buildCfg ? buildCfg.coin : 0;
+                    let energy = buildCfg ? buildCfg.energy : 0;
+
+                    if (buildModel.isInit) {
+                        if (buildCfg) {
+                            XMgr.playerMgr.changePlayerIncomeByUuid(
+                                playerUuid_,
+                                Math.floor(coin / 2),
+                                Math.floor(energy / 2)
+                            );
+                        }
+                    } else {
+                        // 非初始建筑
+                        if (buildCfg) {
+                            XMgr.playerMgr.changePlayerIncomeByUuid(
+                                playerUuid_,
+                                Math.floor(coin / 2),
+                                Math.floor(energy / 2)
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        // 更新地图数据
+        XMgr.mapMgr.setDynWalkable(x_, y_, true);
+        this.buildingGrids[x_][y_] = null
+
+        buildIndex = this.buildings.indexOf(buildModel);
+        if (buildIndex !== -1) {
+            this.buildings.splice(buildIndex, 1);
+        }
+
+        let player = XMgr.playerMgr.getPlayer(buildModel.playerUuid);
+        if (player) {
+            buildIndex = player.buildings.indexOf(buildModel);
+            if (buildIndex !== -1) {
+                player.buildings.splice(buildIndex, 1);
+            }
+        }
+
+        // 事件派发：建筑被移除
+        EventCenter.emit(XEventNames.E_BUILDING_REMOVED, buildModel);
     }
 }

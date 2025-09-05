@@ -6,6 +6,7 @@ import XMgr from '../../XMgr';
 import { XAIHunter } from '../../xai/XAIHunter';
 import XBTUtil from '../../bt2/XBTUtil';
 import { XEPolicy } from '../../bt2/XBTEnum';
+import { XDifficultCfgItem } from '../../xconfig/XCfgData';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHunterScript')
@@ -14,6 +15,8 @@ export class XHunterScript extends XPlayerScript {
     _bt: XAIHunter = null
     isAtking = false
     atkCnt = 0
+    lv = 1
+    dCfg:XDifficultCfgItem
 
     constructor() {
         super()
@@ -25,6 +28,7 @@ export class XHunterScript extends XPlayerScript {
     }
 
     onInit(): void {
+        this.dCfg = XMgr.gameMgr.dCfg
         this.data.uuid != XMgr.playerMgr.mineUuid && this.initBt()
     }
 
@@ -57,18 +61,39 @@ export class XHunterScript extends XPlayerScript {
         this.isAtking = true
         const spine = this.spineNode.getComponent(sp.Skeleton)
         spine.setAnimation(0, "attack1", false)
-        spine.setEndListener((trackEntry)=>{
-            if(trackEntry.animation.name == 'attack1') {
+        spine.setEndListener((trackEntry) => {
+            if (trackEntry.animation.name == 'attack1') {
                 spine.setAnimation(0, "idle", false)
                 this.isAtking = false
             }
         })
 
-        //结算伤害
-        let baseAtkPow = this.data.getAtkPow()
-        baseAtkPow = Math.max(baseAtkPow, 1)
-        XMgr.gameMgr.takeDamage(this.data, target_, baseAtkPow)
-        this.atkCnt++
+        this.scheduleOnce(() => {
+            //结算伤害
+            let baseAtkPow = this.data.getAtkPow()
+            baseAtkPow = Math.max(baseAtkPow, 1)
+            XMgr.gameMgr.takeDamage(this.data, target_, baseAtkPow)
+            this.atkCnt++
+            this.checkUpgrade()
+        }, 0.1)
+    }
+
+    checkUpgrade() {
+        let upAtcCntList = XMgr.cfg.hunterCfg.upAtcCntList;
+        if (this.lv <= upAtcCntList.length) {
+            let atkNeedCnt = upAtcCntList[this.lv - 1];
+            atkNeedCnt = Math.ceil(atkNeedCnt * (1 + this.dCfg.upRate)),
+                this.data.equipExp && (atkNeedCnt = Math.ceil(atkNeedCnt * (1 - this.data.equipExp))),
+                atkNeedCnt <= this.atkCnt && this.upgrade(atkNeedCnt)
+        }
+    }
+
+    upgrade(atkCnt_) {
+        this.atkCnt -= atkCnt_
+        this.lv += 1
+
+        this.data.lv = this.lv;
+        //TODO
     }
 }
 
