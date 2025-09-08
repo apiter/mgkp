@@ -500,6 +500,14 @@ export class XPlayerScript extends Component {
         if (nearBuilding && true !== nearBuilding.isOpen)
             return nearBuilding
     }
+
+
+    getAllPlayersRand() {
+        let ret = [];
+        for (const i of XMgr.playerMgr.defenders)
+            ret.push(i);
+        return ret = XRandomUtil.randomArrayEx(ret)
+    }
 }
 
 

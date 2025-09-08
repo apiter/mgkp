@@ -98,7 +98,7 @@ export class XHunterScript extends XPlayerScript {
         this.lv += 1
 
         this.data.lv = this.lv;
-        console.debug(`噬魂者升到${this.lv}等级`)
+        console.debug(`[噬魂者]升到${this.lv}等级`)
 
         // 计算属性
         let hpList = XMgr.cfg.hunterCfg.hpList;

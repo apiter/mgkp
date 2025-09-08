@@ -7,6 +7,7 @@ import { XAttackAction } from '../xaction/XAttackAction';
 import XRunAction from '../xaction/XRunAction';
 import { XHasBuildingAroundCdt } from '../xcdt/XHasBuildingAroundCdt';
 import XHasPathCdt from '../xcdt/XHasPathCdt';
+import { XHasPlayerAtkCdt } from '../xcdt/XHasPlayerAtkCdt';
 import XHasTargetCdt from '../xcdt/XHasTargetCdt';
 import { XHunterFindRoomCdt } from '../xcdt/XHunterFindRoomCdt';
 import XNotInStopRangeCdt from '../xcdt/XNotInStopRangeCdt';
@@ -19,7 +20,7 @@ export class XAIHunter extends XAIModel {
     }
 
     canPatrol(child_: XBTBaseNode) {
-        const ret = new XOneTrueCdt(new XHasBuildingAroundCdt(), new XHunterFindRoomCdt())
+        const ret = new XOneTrueCdt(new XHasBuildingAroundCdt(), new XHasPlayerAtkCdt(), new XHunterFindRoomCdt())
         ret.add(child_)
         return ret
     }

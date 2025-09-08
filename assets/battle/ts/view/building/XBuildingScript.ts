@@ -139,7 +139,7 @@ export class XBuildingScript extends Component {
     onHpChanged(target_: XBuildingModel) {
         this.hpLabel.string = this.data.curHp.toString()
         if (this.data.isDie) {
-            EventCenter.emit(XEventNames.E_BUILDING_BUILD, this.data)
+            EventCenter.emit(XEventNames.E_BUILD_DEAD, this.data)
             this.onDead()
         }
     }

@@ -35,7 +35,6 @@ export class XGameScene extends Component {
     }
 
     private generateMatchData() {
-        let idxArr = [0, 1, 2, 3, 4, 5]
         let hunterArr: XPlayerModel[] = []
         let defenderArr: XPlayerModel[] = []
 
@@ -52,7 +51,7 @@ export class XGameScene extends Component {
         hunterModel.maxHp = hunterModel.curHp
         hunterArr.push(hunterModel)
 
-        for (let i = 0; i < 6; ++i) {
+        for (let i = 0; i < 2; ++i) {
             let playerModel = new XPlayerModel;
             playerModel.type = XPlayerType.E_Defender
             playerModel.uuid = XUtil.createUUIDEx(10)

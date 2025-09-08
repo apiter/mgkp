@@ -273,7 +273,7 @@ export class XBatleMgr implements ISchedulable {
         e.curHp += t * e.maxHp
         e.curHp = Math.min(e.curHp, e.maxHp)
         e.isDie = 0 == e.curHp
-        e.owner && e.owner.event(XEventNames.Hp_Changed, [-i])
+        e.owner && e.owner.event(XEventNames.Hp_Changed, -i)
     }
     get arrDatas() {
         return this._arrDatas

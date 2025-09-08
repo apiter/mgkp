@@ -3942,34 +3942,72 @@ define("js/bundle.js", function(require, module, exports) {
                     child: e
                 })
             }
-            satisfy(i) {
-                let s, a, n = i.target,
-                    r = n.getCurTarget(),
-                    o = n.getDataModel();
-                if (o.isEntice) return !1;
-                if (r && r instanceof XPlayerModel && n.targetIsOK(r)) return !0;
-                let l = n.getAllPlayersRand(),
-                    h = 99999;
-                for (const i of l) {
-                    if (i.isDie) continue;
-                    if (-1 != i.roomId) {
-                        if (r && n.targetIsOK(r) && i.roomId == r.roomId) {
-                            let s = XMgr.mapMgr.getRoomById(i.roomId),
-                                a = XMgr.mapMgr.mapPosToGridPos(o.owner.x, o.owner.y);
-                            for (const t of s.grids)
-                                if (a.x == t.x && a.y == t.y && r.type == e.BuildType.door && !i.isDie && !i.isOutDoor) return n.setCurTarget(i), !0;
-                            continue
+            satisfy(tick_) {
+                let targetPlayer, a;
+                const playerScript = tick_.target;
+                const curTarget = playerScript.getCurTarget();
+                const playerModel = playerScript.getDataModel();
+            
+                if (playerModel.isEntice) return false;
+            
+                // 当前目标合法，直接返回
+                if (curTarget && curTarget instanceof XPlayerModel && playerScript.targetIsOK(curTarget)) {
+                    return true;
+                }
+            
+                const allPlayersRd = playerScript.getAllPlayersRand();
+                let pathLen = 99999;
+            
+                for (const player of allPlayersRd) {
+                    if (player.isDie) continue;
+            
+                    if (player.roomId !== -1) {
+                        // 当前目标与玩家在同一个房间
+                        if (curTarget && playerScript.targetIsOK(curTarget) && player.roomId === curTarget.roomId) {
+                            const room = XMgr.mapMgr.getRoomById(player.roomId);
+                            const playerGrid = XMgr.mapMgr.mapPosToGridPos(playerModel.owner.x, playerModel.owner.y);
+            
+                            for (const grid of room.grids) {
+                                if (
+                                    playerGrid.x === grid.x &&
+                                    playerGrid.y === grid.y &&
+                                    curTarget.type === e.BuildType.door &&
+                                    !player.isDie &&
+                                    !player.isOutDoor
+                                ) {
+                                    playerScript.setCurTarget(player);
+                                    return true;
+                                }
+                            }
+                            continue;
                         }
-                        if (i.roomId != n.getOwnerRoomId()) {
-                            let e = n.getRoomModel(i.roomId);
-                            if (null != e && e.doorModel && !e.doorModel.isOpen && !e.doorModel.isDie) continue
+            
+                        // 目标在其他房间，且房间门可进入
+                        if (player.roomId !== playerScript.getOwnerRoomId()) {
+                            const roomModel = playerScript.getRoomModel(player.roomId);
+                            if (roomModel && roomModel.doorModel && !roomModel.doorModel.isOpen && !roomModel.doorModel.isDie) {
+                                continue;
+                            }
                         }
                     }
-                    let l = n.getOwnerPos(),
-                        d = n.getPath(l, n.getTargetPos(i));
-                    d && d.length < h && (h = d.length, s = i, a = d)
+            
+                    // 计算路径，选择距离最近的玩家
+                    const ownerPos = playerScript.getOwnerPos();
+                    const path = playerScript.getPath(ownerPos, playerScript.getTargetPos(player));
+            
+                    if (path && path.length < pathLen) {
+                        pathLen = path.length;
+                        targetPlayer = player;
+                        a = path;
+                    }
                 }
-                return !!s && (n.setCurTarget(s), !0)
+            
+                if (targetPlayer) {
+                    playerScript.setCurTarget(targetPlayer);
+                    return true;
+                }
+            
+                return false;
             }
         }
         XHasPlayerAtkCdt.NAME = "HasPlayerAtk", XHasPlayerAtkCdt.register(XHasPlayerAtkCdt.NAME, ve.CONDITION);

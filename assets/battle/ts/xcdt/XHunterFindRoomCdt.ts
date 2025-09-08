@@ -30,14 +30,14 @@ export class XHunterFindRoomCdt extends XBTCondition {
                         return false
                     }
                     if (!bed.isUsed) {
-                        console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间[${roomModel.id}]但床没人`)
+                        // console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间[${roomModel.id}]但床没人`)
                         return false
                     }
                     targetBuildModel = bed
-                    console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间床[${roomModel.id}]`)
+                    // console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间床[${roomModel.id}]`)
                 } else {
                     targetBuildModel = roomDoor
-                    console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间门[${roomModel.id}]`)
+                    // console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间门[${roomModel.id}]`)
                 }
             }
 

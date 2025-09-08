@@ -39,7 +39,7 @@ export class XGameScript extends Component {
 
     moveTime = 0
 
-    room:XRoomModel = null
+    room: XRoomModel = null
 
     protected onLoad(): void {
         this.map = this.node.getChildByName("map").getComponent(XMapView)
@@ -68,15 +68,19 @@ export class XGameScript extends Component {
     }
 
     initEvents() {
-        EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.on(XEventNames.E_Look_Player, this.lookAtPlayer, this)
         EventCenter.on(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
+        EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
+        EventCenter.on(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
+        EventCenter.on(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
     }
 
     offEvents() {
-        EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.off(XEventNames.E_Look_Player, this.lookAtPlayer, this)
         EventCenter.off(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
+        EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
+        EventCenter.off(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
+        EventCenter.off(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
     }
 
     initMapBuild() {
@@ -174,6 +178,7 @@ export class XGameScript extends Component {
         let mapPos = XMgr.mapMgr.gridPosToMapPos(build_.x, build_.y)
         let canMove = false
         let buildCfg = XMgr.buildingMgr.getBuildCfg(build_.id)
+        buildNode.name = buildCfg.name
         if (buildCfg.type == XBuildType.door)
             buildScript = buildNode.addComponent(XDoorScript);
         else if (buildCfg.type == XBuildType.bed) {
@@ -219,6 +224,15 @@ export class XGameScript extends Component {
         buildScript.map = this.map
     }
 
+    destroyBuilding(buildModel_: XBuildingModel) {
+        let buildScript = this.getBuidling(buildModel_.x, buildModel_.y)
+        if (buildScript) {
+            buildScript.node.removeFromParent()
+            this.buildingGrids[buildModel_.x] && this.buildingGrids[buildModel_.x][buildModel_.y] && (this.buildingGrids[buildModel_.x][buildModel_.y] = null)
+        } else {
+            buildModel_.owner?.removeFromParent()
+        }
+    }
     onDown() {
     }
 
@@ -294,6 +308,15 @@ export class XGameScript extends Component {
         }
 
         // this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
+    }
+
+    getBuidling(x_, y_) {
+        return this.buildingGrids[x_] ? this.buildingGrids[x_][y_] : null
+    }
+
+    onBuildingUpgrade(buildModel_: XBuildingModel) {
+        let buildScript = this.getBuidling(buildModel_.x, buildModel_.y)
+        buildScript?.upgrade()
     }
 }
 

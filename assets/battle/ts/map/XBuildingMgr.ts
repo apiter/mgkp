@@ -621,7 +621,7 @@ export default class XBuildingMgr {
         console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
 
         this.updateBuildingModel(build, nextLvBuildCfg)
-        EventCenter.emit(XEventNames.E_BUILDING_BUILD, build)
+        EventCenter.emit(XEventNames.E_BUILDING_UPGRADE, build)
         return XBuildResult.E_OK
     }
 
