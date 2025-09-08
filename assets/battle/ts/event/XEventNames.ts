@@ -19,6 +19,8 @@ export enum XEventNames {
 
     E_Yanluo_Show = "E_Yanluo_Show",
 
+    E_Hunter_Upgrade = "E_Hunter_Upgrade",
+
 
     Hp_Changed = "Hp_Changed",
     Battle_Be_Hit = "Battle_Be_Hit",

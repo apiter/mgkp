@@ -12,6 +12,7 @@ import XPlayerModel from "../model/XPlayerModel"
 import { XBuildingScript } from "../view/building/XBuildingScript"
 import { XMapMgr } from "./XMapMgr"
 import { XCfgTowerData } from "../xconfig/XCfgData"
+import { XV2Util01 } from "../xutil/XV2Util01"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -694,5 +695,41 @@ export default class XBuildingMgr {
 
         // 事件派发：建筑被移除
         EventCenter.emit(XEventNames.E_BUILDING_REMOVED, buildModel);
+    }
+
+    getAroundBuildings(x_, y_, typesIncludes_, disDelta_ = 1) {
+        let aroundBuidings:XBuildingModel[] = []
+        let mapHeight = XMgr.mapMgr.height,
+            mapWidth = XMgr.mapMgr.width,
+            xLeft = Math.max(x_ - disDelta_, 0),
+            yDown = Math.max(y_ - disDelta_, 0),
+            xRight = Math.min(x_ + disDelta_, mapHeight),
+            yUp = Math.min(y_ + disDelta_, mapWidth);
+        for (let e = xLeft; e <= xRight; ++e)
+            for (let t = yDown; t <= yUp; ++t) {
+                let build = this.getBuilding(e, t);
+                if (build && (!typesIncludes_ || typesIncludes_.includes(build.type))) {
+                    if (aroundBuidings.indexOf(build) >= 0)
+                        continue;
+                    aroundBuidings.push(build)
+                }
+            }
+        return aroundBuidings
+    }
+
+    getNearBuildingByMapPos2(x_, y_, typesIncludes_ = null, disDelta_ = 1) {
+        let gridPos = XMgr.mapMgr.mapPosToGridPos(x_, y_),
+            aroundBuildings = this.getAroundBuildings(gridPos.x, gridPos.y, typesIncludes_, disDelta_);
+        if (0 == aroundBuildings.length) return null;
+        if (1 == aroundBuildings.length) return aroundBuildings[0]; {
+            let nearBuilding = aroundBuildings[0]
+            let currentMinDis = Number.MAX_SAFE_INTEGER;
+            for (let n = 0; n < aroundBuildings.length; ++n) {
+                let mapPos = XMgr.mapMgr.gridPosToMapPos(aroundBuildings[n].x, aroundBuildings[n].y),
+                    dis = XV2Util01.pDistance({ x: x_, y: y_ }, mapPos);
+                dis < currentMinDis && (currentMinDis = dis, nearBuilding = aroundBuildings[n])
+            }
+            return nearBuilding
+        }
     }
 }

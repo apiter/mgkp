@@ -1,6 +1,6 @@
 import { XEffectType } from "../xconfig/XEnum";
 import XBTBaseNode from "./XBTBaseNode";
-import { XEPolicy } from "./XBTEnum";
+import { XBTStatus, XEPolicy } from "./XBTEnum";
 import { XBTSequence } from "./XBTSequence";
 
 export default class XBTUtil {
@@ -8,7 +8,8 @@ export default class XBTUtil {
         return new XBTSequence({
             title: title_,
             children: children_,
-            successPolicy: t
+            successPolicy: t,
+            continuePolicy:XBTStatus.FAILURE
         })
     }
 }

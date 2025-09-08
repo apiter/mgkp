@@ -1,23 +1,25 @@
 import { log } from "cc";
 import XBTComposite from "./XBTComposite";
 import { XBTCategory, XBTStatus, XEPolicy } from "./XBTEnum";
+import XBTBaseNode from "./XBTBaseNode";
 
+interface BTSequenceParam {
+    children: XBTBaseNode[],
+    title?: string
+    continuePolicy: number
+    successPolicy: number
+}
 
 export class XBTSequence extends XBTComposite {
     _continuePolicy: XBTStatus = null
     _successPolicy: XEPolicy = null
-    constructor({
-        children: children_ = [],
-        title: _title = "",
-        continuePolicy: continuePolicy_ = XBTStatus.FAILURE,
-        successPolicy: successPolicy_ = XEPolicy.RequireOne
-    } = {}) {
+    constructor(params: BTSequenceParam) {
         super({
-            name: "Sequence", title: _title, properties: null,
-            children: children_
+            name: "Sequence", title: params.title || "", properties: null,
+            children: params.children
         })
-        this._continuePolicy = continuePolicy_
-        this._successPolicy = successPolicy_
+        this._continuePolicy = params.continuePolicy
+        this._successPolicy = params.successPolicy
     }
 
     open(t) {

@@ -13,7 +13,7 @@ export default class XPlayerMgr {
     angels = [];
     players = [];
     playerMap: { [key: string]: XPlayerModel } = {};
-    player = null;
+    player: XPlayerModel = null;
     isGoldlessMode = false;
     fighter = null;
 
@@ -33,11 +33,11 @@ export default class XPlayerMgr {
     getPlayer(id_: string) {
         return id_ ? this.playerMap[id_] : null
     }
-    getPlayerName(id_:string) {
+    getPlayerName(id_: string) {
         let player = this.getPlayer(id_)
         return player?.name
     }
-    getPlayerCoin(id_:string) {
+    getPlayerCoin(id_: string) {
         let player = this.getPlayer(id_)
         return player?.coin
     }

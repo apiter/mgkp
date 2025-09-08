@@ -26,7 +26,7 @@ export class XHunterFindRoomCdt extends XBTCondition {
                 if (roomDoor?.isOpen || roomDoor?.isDie) {
                     const bed = roomModel.bedModelList[0]
                     if (bed.isDie) {
-                        console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间[${roomModel.id}]但没床了`)
+                        // console.debug(`[${playerScript.skinCfg?.name}] 找到攻击房间[${roomModel.id}]但没床了`)
                         return false
                     }
                     if (!bed.isUsed) {

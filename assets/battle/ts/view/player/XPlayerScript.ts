@@ -240,17 +240,12 @@ export class XPlayerScript extends Component {
         return this.curTarget
     }
 
-    setCurTarget(target_, force_ = false) {
+    setCurTarget(target_) {
         // 如果是第一次找目标，标记已处理
         if (this.isFirstFind) {
             this.isFirstFind = false;
         }
 
-        // 如果是强制目标，并且血量没满
-        if (force_ && (this.forceTarget = target_, this.data.curHp < this.data.maxHp)) {
-            // 不会继续往下执行
-            return;
-        }
 
         // 否则，如果目标和当前目标不同
         if (target_ !== this.curTarget) {
@@ -496,7 +491,14 @@ export class XPlayerScript extends Component {
     }
 
     attack(target_) {
-        
+
+    }
+
+    getNearestBuilding() {
+        let playerPosInMap = this.getOwnerPos()
+        let nearBuilding = XMgr.buildingMgr.getNearBuildingByMapPos2(playerPosInMap.x, playerPosInMap.y);
+        if (nearBuilding && true !== nearBuilding.isOpen)
+            return nearBuilding
     }
 }
 

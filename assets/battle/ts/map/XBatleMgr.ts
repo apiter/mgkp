@@ -198,29 +198,29 @@ export class XBatleMgr implements ISchedulable {
         game.resume()
         this.gameStatus != XGameStatus.E_GAME_READY && this.setGameStatus(XGameStatus.E_GAME_START)
     }
-    changeMaxHp(buildModel_, maxHp_, curHp_) {
+    changeMaxHp(model, maxHp_, curHp_) {
         // 如果新 maxHp 小于原来的 maxHp，限制当前血量在 [0, t] 范围内
-        maxHp_ < buildModel_.maxHp && (buildModel_.curHp = math.clamp(buildModel_.curHp, 0, maxHp_));
+        maxHp_ < model.maxHp && (model.curHp = math.clamp(model.curHp, 0, maxHp_));
 
         // 更新 maxHp
-        buildModel_.maxHp = maxHp_;
+        model.maxHp = maxHp_;
 
         // 如果有 doorkeeper，顺带修改它的血量
-        buildModel_.doorkeeper && (
-            buildModel_.doorkeeper.maxHp = maxHp_,
-            buildModel_.doorkeeper.curHp = curHp_,
-            buildModel_.doorkeeper.owner && buildModel_.doorkeeper.owner.event(XEventNames.Hp_Changed)
+        model.doorkeeper && (
+            model.doorkeeper.maxHp = maxHp_,
+            model.doorkeeper.curHp = curHp_,
+            model.doorkeeper.owner && model.doorkeeper.owner.event(XEventNames.Hp_Changed)
         );
 
         // 如果 i 不为 null，则设置 curHp，并处理死亡状态
         null != curHp_ && (
-            buildModel_.curHp = curHp_,
-            buildModel_.curHp = math.clamp(buildModel_.curHp, 0, buildModel_.maxHp),
-            buildModel_.isDie = (0 == buildModel_.curHp)
+            model.curHp = curHp_,
+            model.curHp = math.clamp(model.curHp, 0, model.maxHp),
+            model.isDie = (0 == model.curHp)
         );
 
         // 通知血量变化
-        buildModel_.owner && buildModel_.owner.emit(XEventNames.Hp_Changed);
+        model.owner && model.owner.emit(XEventNames.Hp_Changed);
     }
 
     takeDamage(playerModel_, target_, atk_) {

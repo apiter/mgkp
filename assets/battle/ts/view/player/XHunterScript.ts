@@ -7,6 +7,8 @@ import { XAIHunter } from '../../xai/XAIHunter';
 import XBTUtil from '../../bt2/XBTUtil';
 import { XEPolicy } from '../../bt2/XBTEnum';
 import { XDifficultCfgItem } from '../../xconfig/XCfgData';
+import EventCenter from '../../event/EventCenter';
+import { XEventNames } from '../../event/XEventNames';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHunterScript')
@@ -16,7 +18,8 @@ export class XHunterScript extends XPlayerScript {
     isAtking = false
     atkCnt = 0
     lv = 1
-    dCfg:XDifficultCfgItem
+    dCfg: XDifficultCfgItem
+    maxHpAddRate = 0
 
     constructor() {
         super()
@@ -30,6 +33,8 @@ export class XHunterScript extends XPlayerScript {
     onInit(): void {
         this.dCfg = XMgr.gameMgr.dCfg
         this.data.uuid != XMgr.playerMgr.mineUuid && this.initBt()
+        
+        this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0 
     }
 
     initBt() {
@@ -93,7 +98,17 @@ export class XHunterScript extends XPlayerScript {
         this.lv += 1
 
         this.data.lv = this.lv;
-        //TODO
+        console.debug(`噬魂者升到${this.lv}等级`)
+
+        // 计算属性
+        let hpList = XMgr.cfg.hunterCfg.hpList;
+        let attackList = XMgr.cfg.hunterCfg.attackList;
+        let hpMax = hpList[this.lv - 1] * (1 + this.maxHpAddRate);
+        let atk = attackList[this.lv - 1];
+        this.data.attackPower = atk
+        XMgr.gameMgr.changeMaxHp(this.data, hpMax, hpMax)
+
+        EventCenter.emit(XEventNames.E_Hunter_Upgrade, this.lv)
     }
 }
 

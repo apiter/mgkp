@@ -3792,82 +3792,144 @@ define("js/bundle.js", function(require, module, exports) {
                     child: e
                 })
             }
-            satisfy(i) {
-                let s = i.target,
-                    a = s.getDataModel(),
-                    n = s.getCurTarget(),
-                    r = s.getNearestBuilding();
-                if (a.isEntice) {
-                    if (r) {
-                        if (!n) return !1;
-                        let e = XMgr.mapMgr.getRoomById(r.roomId),
-                            i = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
-                        for (const t of e.grids)
-                            if (i.x == t.x && i.y == t.y) return s.setCurTarget(r), !0;
-                        if (e.doorPosArr && e.doorPosArr.length)
+            satisfy(tick_) {
+                let playerScript = tick_.target,
+                    playModel = playerScript.getDataModel(),
+                    curTarget = playerScript.getCurTarget(),
+                    nearestBuilding = playerScript.getNearestBuilding();
+            
+                // --- 处理诱惑状态 ---
+                if (playModel.isEntice) {
+                    if (nearestBuilding) {
+                        if (!curTarget) return !1;
+            
+                        let e = XMgr.mapMgr.getRoomById(nearestBuilding.roomId),
+                            i = XMgr.mapMgr.mapPosToGridPos(playModel.owner.x, playModel.owner.y);
+            
+                        // 在同一房间格子里
+                        for (const t of e.grids) {
+                            if (i.x == t.x && i.y == t.y) {
+                                playerScript.setCurTarget(nearestBuilding);
+                                return !0;
+                            }
+                        }
+            
+                        // 遍历门位置，逐级查找可到达的门
+                        if (e.doorPosArr && e.doorPosArr.length) {
                             for (const i of e.doorPosArr) {
-                                if (i.x == n.x && i.y == n.y) return s.setCurTarget(r), !0; {
-                                    let e = XMgr.buildingMgr.getBuilding(i.x, i.y);
-                                    if (e) {
-                                        let i = XMgr.mapMgr.getRoomById(e.roomId);
-                                        if (i.doorPosArr && i.doorPosArr.length)
-                                            for (const e of i.doorPosArr) {
-                                                if (e.x == n.x && e.y == n.y) return s.setCurTarget(r), !0; {
-                                                    let i = XMgr.buildingMgr.getBuilding(e.x, e.y);
-                                                    if (i) {
-                                                        let e = XMgr.mapMgr.getRoomById(i.roomId);
-                                                        if (e.doorPosArr && e.doorPosArr.length)
-                                                            for (const t of e.doorPosArr)
-                                                                if (t.x == n.x && t.y == n.y) return s.setCurTarget(r), !0
+                                if (i.x == curTarget.x && i.y == curTarget.y) {
+                                    playerScript.setCurTarget(nearestBuilding);
+                                    return !0;
+                                }
+            
+                                let e = XMgr.buildingMgr.getBuilding(i.x, i.y);
+                                if (e) {
+                                    let i = XMgr.mapMgr.getRoomById(e.roomId);
+                                    if (i.doorPosArr && i.doorPosArr.length) {
+                                        for (const e of i.doorPosArr) {
+                                            if (e.x == curTarget.x && e.y == curTarget.y) {
+                                                playerScript.setCurTarget(nearestBuilding);
+                                                return !0;
+                                            }
+            
+                                            let i = XMgr.buildingMgr.getBuilding(e.x, e.y);
+                                            if (i) {
+                                                let e = XMgr.mapMgr.getRoomById(i.roomId);
+                                                if (e.doorPosArr && e.doorPosArr.length) {
+                                                    for (const t of e.doorPosArr) {
+                                                        if (t.x == curTarget.x && t.y == curTarget.y) {
+                                                            playerScript.setCurTarget(nearestBuilding);
+                                                            return !0;
+                                                        }
                                                     }
                                                 }
                                             }
+                                        }
                                     }
                                 }
                             }
-                    }
-                    return !1
-                }
-                let o = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
-                if (o && o.includes(r)) return !1;
-                if (r && 6020 != r.id && 6027 != r.id) {
-                    if (n) {
-                        let o = XMgr.playerMgr.player;
-                        if (n == r && r.roomId == o.roomId && o.isOutDoor) {
-                            let l = XMgr.mapMgr.getRoomById(r.roomId),
-                                h = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
-                            for (const e of l.grids)
-                                if (h.x == e.x && h.y == e.y) return !1;
-                            s.setCurTarget(o);
-                            let d = i.blackboard.get(e.PropertiesKey.FILTERTARGET, i.tree.id);
-                            d ? (d.splice(0), d.push(n)) : d = [n]
-                            i.blackboard.set(e.PropertiesKey.FILTERTARGET, d, i.tree.id)
-                            Laya.timer.clear(this, this.clearFilterTarget),
-                            return   Laya.timer.once(5e3, this, this.clearFilterTarget, [i.blackboard, i.tree.id]), !1
                         }
-                        let l = n.bedModel ? n.bedModel : n;
+                    }
+                    return !1;
+                }
+            
+                // --- 黑板过滤逻辑 ---
+                let o = tick_.blackboard.get(e.PropertiesKey.FILTERTARGET, tick_.tree.id);
+                if (o && o.includes(nearestBuilding)) return false;
+            
+                // --- 普通目标逻辑 ---
+                if (nearestBuilding && nearestBuilding.id != 6020 && nearestBuilding.id != 6027) {
+                    if (curTarget) {
+                        let player = XMgr.playerMgr.player;
+            
+                        // 当前目标是门，且玩家在同房间且处于室外
+                        if (curTarget == nearestBuilding && nearestBuilding.roomId == player.roomId && player.isOutDoor) {
+                            let room = XMgr.mapMgr.getRoomById(nearestBuilding.roomId),
+                                gridPos = XMgr.mapMgr.mapPosToGridPos(playModel.owner.x, playModel.owner.y);
+            
+                            for (const grid of room.grids) {
+                                if (gridPos.x == grid.x && gridPos.y == grid.y) return false;
+                            }
+            
+                            playerScript.setCurTarget(player);
+            
+                            let d = tick_.blackboard.get(e.PropertiesKey.FILTERTARGET, tick_.tree.id);
+                            d ? (d.splice(0), d.push(curTarget)) : d = [curTarget];
+                            tick_.blackboard.set(e.PropertiesKey.FILTERTARGET, d, tick_.tree.id);
+            
+                            Laya.timer.clear(this, this.clearFilterTarget);
+                            Laya.timer.once(5e3, this, this.clearFilterTarget, [tick_.blackboard, tick_.tree.id]);
+            
+                            return false;
+                        }
+            
+                        // 检查 n 是否在其他房间
+                        let l = curTarget.bedModel ? curTarget.bedModel : curTarget;
                         if (l) {
                             let i = l.roomId;
-                            if (i != r.roomId) {
-                                if (n.type == e.PlayerType.E_Defender) return s.setCurTarget(r), !0;
-                                if (n.type == e.BuildType.door || n.type == e.BuildType.bed) return s.setCurTarget(r), !0;
-                                let i = XMgr.mapMgr.mapPosToGridPos(l.owner.x, l.owner.y),
-                                    a = XMgr.mapMgr.getRoomById(r.roomId);
-                                for (const t of a.grids)
-                                    if (i.x == t.x && i.y == t.y && r.type == e.BuildType.door) return s.setCurTarget(r), !0;
-                                return !1
-                            } {
-                                let o = XMgr.mapMgr.getRoomById(i),
-                                    l = XMgr.mapMgr.mapPosToGridPos(a.owner.x, a.owner.y);
-                                for (const t of o.grids)
-                                    if (l.x == t.x && l.y == t.y && r.type == e.BuildType.door) return !o.players || !o.players.length || o.players[0].isDie || o.players[0].isOutDoor ? s.setCurTarget(r) : n == r && s.setCurTarget(o.players[0]), !0
+            
+                            // 目标不在同一房间
+                            if (i != nearestBuilding.roomId) {
+                                if (curTarget.type == e.PlayerType.E_Defender) 
+                                    return playerScript.setCurTarget(nearestBuilding), true;
+                                if (curTarget.type == e.BuildType.door || curTarget.type == e.BuildType.bed) 
+                                    return playerScript.setCurTarget(nearestBuilding), true;
+            
+                                let gridPos = XMgr.mapMgr.mapPosToGridPos(l.owner.x, l.owner.y),
+                                    room = XMgr.mapMgr.getRoomById(nearestBuilding.roomId);
+            
+                                for (const t of room.grids) {
+                                    if (gridPos.x == t.x && gridPos.y == t.y && nearestBuilding.type == e.BuildType.door) {
+                                        return playerScript.setCurTarget(nearestBuilding), true;
+                                    }
+                                }
+                                return false;
+                            }
+            
+                            // 同一房间内
+                            let room = XMgr.mapMgr.getRoomById(i),
+                                gridPos = XMgr.mapMgr.mapPosToGridPos(playModel.owner.x, playModel.owner.y);
+            
+                            for (const t of room.grids) {
+                                if (gridPos.x == t.x && gridPos.y == t.y && nearestBuilding.type == e.BuildType.door) {
+                                    if (!room.players || !room.players.length || room.players[0].isDie || room.players[0].isOutDoor) {
+                                        playerScript.setCurTarget(nearestBuilding);
+                                    } else if (curTarget == nearestBuilding) {
+                                        playerScript.setCurTarget(room.players[0]);
+                                    }
+                                    return true;
+                                }
                             }
                         }
                     }
-                    return s.setCurTarget(r), !0
+            
+                    playerScript.setCurTarget(nearestBuilding);
+                    return true;
                 }
-                return !1
+            
+                return false;
             }
+            
             clearFilterTarget(t, i) {
                 t.set(e.PropertiesKey.FILTERTARGET, null, i)
             }
@@ -5308,9 +5370,9 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.data.escapeOdds
             }
             getNearestBuilding() {
-                let e = this.getOwnerPos(),
-                    i = XMgr.buildingMgr.getNearBuildingByMapPos2(e.x, e.y);
-                if (i && !0 !== i.isOpen) return i
+                let playerPosInMap = this.getOwnerPos(),
+                    nearBuildign = XMgr.buildingMgr.getNearBuildingByMapPos2(playerPosInMap.x, playerPosInMap.y);
+                if (nearBuildign && !0 !== nearBuildign.isOpen) return nearBuildign
             }
             getNearestBuildingByPlayer() {
                 return null
@@ -17223,25 +17285,26 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 return n
             }
-            getAroundBuildings(e, i, s, a = 1) {
-                let n = [],
-                    r = this.getBuilding(e, i);
-                !r || s && !s.includes(r.type) || n.push(r);
-                let o = XMgr.mapMgr.height,
-                    l = XMgr.mapMgr.width,
-                    h = Math.max(e - a, 0),
-                    d = Math.max(i - a, 0),
-                    u = Math.min(e + a, o),
-                    g = Math.min(i + a, l);
-                for (let e = h; e <= u; ++e)
-                    for (let t = d; t <= g; ++t) {
-                        let i = this.getBuilding(e, t);
-                        if (i && (!s || s.includes(i.type))) {
-                            if (n.includes(i)) continue;
-                            n.push(i)
+            getAroundBuildings(x_, y_, typesIncludes_, disDelta = 1) {
+                let aroundBuidings = [],
+                    building = this.getBuilding(x_, y_);
+                !building || typesIncludes_ && !typesIncludes_.includes(building.type) || aroundBuidings.push(building);
+                let mapHeight = XMgr.mapMgr.height,
+                    mapWidth = XMgr.mapMgr.width,
+                    xLeft = Math.max(x_ - disDelta, 0),
+                    yDown = Math.max(y_ - disDelta, 0),
+                    xRight = Math.min(x_ + disDelta, mapHeight),
+                    yUp = Math.min(y_ + disDelta, mapWidth);
+                for (let e = xLeft; e <= xRight; ++e)
+                    for (let t = yDown; t <= yUp; ++t) {
+                        let build = this.getBuilding(e, t);
+                        if (build && (!typesIncludes_ || typesIncludes_.includes(build.type))) {
+                            if (aroundBuidings.indexOf(build) >=0) 
+                                continue;
+                            aroundBuidings.push(build)
                         }
                     }
-                return n
+                return aroundBuidings
             }
             getNearBuildingByMapPos(i, s, a, n = 1, r = !1) {
                 let o = XMgr.mapMgr.mapPosToGridPos(i, s),
@@ -17273,22 +17336,19 @@ define("js/bundle.js", function(require, module, exports) {
                     return n.type == e.BuildType.door && n.isOpen && r && (n = null), n
                 }
             }
-            getNearBuildingByMapPos2(e, i, s, a = 1) {
-                let n = XMgr.mapMgr.mapPosToGridPos(e, i),
-                    r = this.getAroundBuildings(n.x, n.y, s, a);
-                if (0 == r.length) return null;
-                if (1 == r.length) return r[0]; {
-                    let s = r[0],
-                        a = 1 / 0;
-                    for (let n = 0; n < r.length; ++n) {
-                        let o = XMgr.mapMgr.gridPosToMapPos(r[n].x, r[n].y),
-                            l = XV2Util01.pDistance({
-                                x: e,
-                                y: i
-                            }, o);
-                        l < a && (a = l, s = r[n])
+            getNearBuildingByMapPos2(x_, y_, typesIncludes_, disDelta_ = 1) {
+                let gridPos = XMgr.mapMgr.mapPosToGridPos(x_, y_),
+                    aroundBuildings = this.getAroundBuildings(gridPos.x, gridPos.y, typesIncludes_, disDelta_);
+                if (0 == aroundBuildings.length) return null;
+                if (1 == aroundBuildings.length) return aroundBuildings[0]; {
+                    let nearBuilding = aroundBuildings[0],
+                        currentMinDis = 1 / 0;
+                    for (let n = 0; n < aroundBuildings.length; ++n) {
+                        let mapPos = XMgr.mapMgr.gridPosToMapPos(aroundBuildings[n].x, aroundBuildings[n].y),
+                            dis = XV2Util01.pDistance({  x: x_,  y: y_ }, mapPos);
+                        dis < currentMinDis && (currentMinDis = dis, nearBuilding = aroundBuildings[n])
                     }
-                    return s
+                    return nearBuilding
                 }
             }
             getNearMapBuildingByMapPos(e, i) {

@@ -5,6 +5,7 @@ import { XBTSequence } from '../bt2/XBTSequence';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import { XAttackAction } from '../xaction/XAttackAction';
 import XRunAction from '../xaction/XRunAction';
+import { XHasBuildingAroundCdt } from '../xcdt/XHasBuildingAroundCdt';
 import XHasPathCdt from '../xcdt/XHasPathCdt';
 import XHasTargetCdt from '../xcdt/XHasTargetCdt';
 import { XHunterFindRoomCdt } from '../xcdt/XHunterFindRoomCdt';
@@ -18,7 +19,8 @@ export class XAIHunter extends XAIModel {
     }
 
     canPatrol(child_: XBTBaseNode) {
-        const ret = new XOneTrueCdt(new XHunterFindRoomCdt(child_))
+        const ret = new XOneTrueCdt(new XHasBuildingAroundCdt(), new XHunterFindRoomCdt())
+        ret.add(child_)
         return ret
     }
 
@@ -26,6 +28,7 @@ export class XAIHunter extends XAIModel {
         let runAction = new XRunAction("move", null);
         return new XBTSequence({
             children: [new XHasTargetCdt(), new XHasPathCdt(), new XNotInStopRangeCdt(this.data.getAttackRange()), runAction],
+            title:"patrol",
             continuePolicy: XBTStatus.SUCCESS,
             successPolicy: XEPolicy.RequireAll
         })
@@ -34,14 +37,14 @@ export class XAIHunter extends XAIModel {
     attack() {
         const inRangeCdt = new XBTInverter(
             {
-                child:new XNotInStopRangeCdt(this.data.getAttackRange())
+                child: new XNotInStopRangeCdt(this.data.getAttackRange())
             }
         )
         return new XBTSequence({
-            children:[inRangeCdt, new XHasTargetCdt(), new XAttackAction()],
-            title:"Attack",
-            continuePolicy:XBTStatus.SUCCESS,
-            successPolicy:XEPolicy.RequireAll
+            children: [inRangeCdt, new XHasTargetCdt(), new XAttackAction()],
+            title: "Attack",
+            continuePolicy: XBTStatus.SUCCESS,
+            successPolicy: XEPolicy.RequireAll
         })
     }
 }
