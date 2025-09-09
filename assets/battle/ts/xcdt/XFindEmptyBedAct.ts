@@ -71,7 +71,7 @@ export class XFindEmptyBedAct extends XBTCondition {
                 XMgr.gameMgr.defenseFindRoomId.push(lastBed.roomId);
             }
             this.lastBed = lastBed;
-            console.debug(`[${playerScript.skinCfg.name}] 奔向房间:${lastBed.roomId}`)
+            // console.debug(`[${playerScript.skinCfg.name}] 奔向房间:${lastBed.roomId}`)
             return true;
         } else {
             playerScript.setCurTarget(null);

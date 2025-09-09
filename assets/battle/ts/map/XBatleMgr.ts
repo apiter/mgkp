@@ -225,7 +225,8 @@ export class XBatleMgr implements ISchedulable {
 
     takeDamage(playerModel_, target_, atk_) {
         if (!target_.isDie && !target_.invincible && !target_.invincible_skill && atk_ > 0) {
-            if (target_.reduceRate && (atk_ *= 1 - target_.reduceRate), target_.type == XBuildType.bed && target_.playerUuid) {
+            target_.reduceRate && (atk_ *= 1 - target_.reduceRate)
+            if (target_.type == XBuildType.bed && target_.playerUuid) {
                 let player = XMgr.playerMgr.getPlayer(target_.playerUuid);
                 if (player.invincibleCnt)
                     return void (player.invincibleCnt -= 1)
@@ -233,11 +234,11 @@ export class XBatleMgr implements ISchedulable {
 
             if (target_.skillEquipHp) {
                 // 技能护盾减血
-                target_.skillEquipHp -= atk_;
-                if (target_.skillEquipHp <= 0) {
-                    target_.skillEquipHp = 0;
-                    target_.ownerScript.changeSkin(false);
-                }
+                // target_.skillEquipHp -= atk_;
+                // if (target_.skillEquipHp <= 0) {
+                //     target_.skillEquipHp = 0;
+                //     target_.ownerScript.changeSkin(false);
+                // }
             } else {
                 // 扣血
                 target_.curHp -= atk_;
@@ -294,16 +295,16 @@ export class XBatleMgr implements ISchedulable {
         let roomId = XMgr.playerMgr.player.roomId;
         return XMgr.buildingMgr.getRoom(roomId)
     }
-    isRoomBedUsed(e) {
-        let i = XMgr.buildingMgr.getRoom(e);
-        if (i) {
-            for (const e of i.bedModelList)
-                if (e.isUsed && !e.isDie) return !0;
-            return !1
+    isRoomBedUsed(roomId_) {
+        let room = XMgr.buildingMgr.getRoom(roomId_);
+        if (room) {
+            for (const bed of room.bedModelList)
+                if (bed.isUsed && !bed.isDie) return true;
+            return false
         }
     }
-    upBed(gridX_, gridY_, a) {
-        let playModel = XMgr.playerMgr.getPlayer(a);
+    upBed(gridX_, gridY_, playerUuid_) {
+        let playModel = XMgr.playerMgr.getPlayer(playerUuid_);
         let buildModel = XMgr.buildingMgr.getBuilding(gridX_, gridY_);
 
         if (buildModel && buildModel.type == XBuildType.bed && XMgr.buildingMgr.getRoom(buildModel.roomId)) {
@@ -350,10 +351,10 @@ export class XBatleMgr implements ISchedulable {
         console.error("gameover", isWin_, s);
     }
 
-    takeMapBuild(e, i, s) {
-        let a = XMgr.playerMgr.getPlayer(s),
-            n = XMgr.buildingMgr.getMapBuild(e, i);
-        return (!n || !n.isUsed) && XMgr.buildingMgr.takeMapBuild(e, i, a)
+    takeMapBuild(x_, y_, playerUuid_) {
+        let player = XMgr.playerMgr.getPlayer(playerUuid_),
+            mapBuild = XMgr.buildingMgr.getMapBuild(x_, y_);
+        return (!mapBuild || !mapBuild.isUsed) && XMgr.buildingMgr.takeMapBuild(x_, y_, player)
     }
 
     playSoundByNode(t, i, s) {
@@ -386,43 +387,7 @@ export class XBatleMgr implements ISchedulable {
         return e
     }
     getPlayer() {
-        let i = [0, 1, 2, 3, 4, 5]
-        let s = new XPlayerModel;
-        s.type = XPlayerType.E_Defender
-        s.uuid = XUtil.createUUID()
-        s.name = this.randomName()
-        s.skinId = XMgr.user.gameInfo.curSkinId;
-        let a = [s, null, null, null, null, null],
-            n = [];
-        for (let s = 0; s < 6; s++) {
-            let s = XRandomUtil.getIntRandom(0, i.length - 1);
-            if (0 == (s = i.splice(s, 1)[0])) {
-                let gameInfo = XMgr.user.gameInfo
-                let diffcultyCfg = XMgr.cfg.difficultCfg.get(gameInfo.curLv.toString());
-                XMgr.gameMgr.dCfg = diffcultyCfg;
-                let a = diffcultyCfg.addMaxHp + 1;
-                if (gameInfo.curLv == XMgr.cfg.difficultCfg.size) {
-                    const newLv = gameInfo.maxWinCnt % gameInfo.curLv + 1
-                    diffcultyCfg = XMgr.cfg.difficultCfg.get(newLv.toString())
-                }
-                let playerModel = new XPlayerModel;
-                playerModel.type = XPlayerType.E_Hunter
-                playerModel.uuid = XUtil.createUUID()
-                playerModel.name = this.randomName()
-                playerModel.skinId = diffcultyCfg.bossId,
-                    playerModel.attackPower = XMgr.cfg.hunterCfg.attackList[0]
-                playerModel.curHp = XMgr.cfg.hunterCfg.hpList[0] * a
-                playerModel.maxHp = XMgr.cfg.hunterCfg.hpList[0] * a, n.push(playerModel)
-            } else {
-                let i = new XPlayerModel;
-                i.type = XPlayerType.E_Defender,
-                    i.uuid = XUtil.createUUID()
-                i.name = this.randomName()
-                i.skinId = XRandomUtil.randomInArray(XMgr.cfg.getPlayerIdArr())
-                a[s] = i
-            }
-        }
-        return [a, n]
+        
     }
     randomName(e = 0) {
         return "随机名字"

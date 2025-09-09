@@ -14,15 +14,16 @@ export default class XHasPathCdt extends XBTCondition {
         dstPos_ && (this._dstPos = dstPos_.clone())
     }
     satisfy(data_) {
-        let target = data_.target
-        let dstPos = this._dstPos || this.takeOut(XPropertiesKey.DESTPOS) || target.getTargetPos();
-        if (!dstPos) return false;
-        let path = target.getCurPath();
+        let playerScript = data_.target as XPlayerScript
+        let dstPos = this._dstPos || this.takeOut(XPropertiesKey.DESTPOS) || playerScript.getTargetPos();
+        if (!dstPos)
+            return false;
+        let path = playerScript.getCurPath();
         if (!path || 0 == path.length) {
-            let e = target.getOwnerPos();
-            path = target.getPath(e, dstPos)
+            let e = playerScript.getOwnerPos();
+            path = playerScript.getPath(e, dstPos)
         }
-        return !!(path && path.length > 0) && (target.setCurPath(path), !0)
+        return !!(path && path.length > 0) && (playerScript.setCurPath(path), !0)
     }
 }
 XHasPathCdt.register("XHasPathCdt", XBTCategory.CONDITION);

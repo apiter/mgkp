@@ -73,6 +73,7 @@ export class XGameScript extends Component {
         EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.on(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
         EventCenter.on(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
+        EventCenter.on(XEventNames.E_Door_State_Changed, this.onDoorStateChanged, this)
     }
 
     offEvents() {
@@ -81,6 +82,7 @@ export class XGameScript extends Component {
         EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.off(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
         EventCenter.off(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
+        EventCenter.off(XEventNames.E_Door_State_Changed, this.onDoorStateChanged, this)
     }
 
     initMapBuild() {
@@ -317,6 +319,13 @@ export class XGameScript extends Component {
     onBuildingUpgrade(buildModel_: XBuildingModel) {
         let buildScript = this.getBuidling(buildModel_.x, buildModel_.y)
         buildScript?.upgrade()
+    }
+
+    onDoorStateChanged(door_:XBuildingModel) {
+        let buildScript = door_.ownerScript as XDoorScript
+        if(!buildScript || buildScript.data.type != XBuildType.door)
+            return
+        door_.isOpen?buildScript.openDoor():buildScript.closeDoor()
     }
 }
 

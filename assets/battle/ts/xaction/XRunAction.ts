@@ -1,5 +1,6 @@
 import XBTBaseNode from "../bt2/XBTBaseNode";
 import { XBTCategory, XBTStatus } from "../bt2/XBTEnum";
+import { XPlayerScript } from "../view/player/XPlayerScript";
 
 export default class XRunAction extends XBTBaseNode {
     canThrough = false
@@ -13,11 +14,11 @@ export default class XRunAction extends XBTBaseNode {
         e.target.playAnim(this.aniName)
     }
     tick(e) {
-        let t = e.target;
-        let i = t.getCurPath();
+        let playerScript = e.target as XPlayerScript;
+        let curPath = playerScript.getCurPath();
 
-        if (i && i.length !== 0) {
-            return t.runWithPath(i, this.canThrough) ? XBTStatus.FAILURE : XBTStatus.SUCCESS;
+        if (curPath && curPath.length !== 0) {
+            return playerScript.runWithPath(curPath, this.canThrough) ? XBTStatus.FAILURE : XBTStatus.SUCCESS;
         }
 
         return XBTStatus.FAILURE;

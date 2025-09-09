@@ -51,7 +51,8 @@ export default class XAStar {
                     }
             nowNode = this._open.shift()
         }
-        return this.buildPath(), !0
+        this.buildPath()
+        return true
     }
     buildPath() {
         this._path = [];

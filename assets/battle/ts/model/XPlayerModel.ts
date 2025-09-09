@@ -5,6 +5,7 @@ import XBaseModel from "./XBaseModel"
 import XBuildingModel from "./XBuildingModel"
 
 export default class XPlayerModel extends XBaseModel {
+    isOutDoor = true
     isBed = false
     coin = 0
     energy = 0

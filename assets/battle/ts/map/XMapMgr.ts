@@ -230,7 +230,6 @@ export class XMapMgr {
                 if (tileInfo.buildName && -1 != tileInfo.buildName.indexOf("door"))
                     return void doorTiles_.push(tileXy);
 
-                // 否则，加入 s（当前房间的格子集合）
                 roomTiles_.push(tileXy);
 
                 // 向四个方向递归搜索
@@ -372,9 +371,12 @@ export class XMapMgr {
     findPath(mapX1_, mapY1_, mapX2_, mapY2_, slant_ = false) {
         const gridPos1 = this.mapPosToGridPos(mapX1_, mapY1_)
         const gridPos2 = this.mapPosToGridPos(mapX2_, mapY2_)
-        if (this._grid.setStartNode(gridPos1.x, gridPos1.y), !this._grid.setEndNode(gridPos2.x, gridPos2.y)) return [];
+        this._grid.setStartNode(gridPos1.x, gridPos1.y)
+        if (!this._grid.setEndNode(gridPos2.x, gridPos2.y)) return [];
         let path = new XAStar;
-        if (path.findPath(this._grid, slant_), !path.path) return [];
+        path.findPath(this._grid, slant_)
+        if (!path.path)
+            return [];
         let l = [];
         for (let e = 0; e < path.path.length; ++e) {
             let t = this.gridPosToMapPos(path.path[e].x, path.path[e].y);
@@ -402,8 +404,8 @@ export class XMapMgr {
         let adjust = false;
         if (oldGrid.y != newGrid.y) {//水平
             let deltaGridY = newGrid.y > oldGrid.y ? 1 : -1//1=向右 -1=向左
-            let nextGrid = this._grid.getNode(oldGrid.x, oldGrid.y + deltaGridY);
-            if (nextGrid && !nextGrid.dynWalkable) {
+            let nextGridX = this._grid.getNode(oldGrid.x, oldGrid.y + deltaGridY);
+            if (nextGridX && !nextGridX.dynWalkable) {
                 newX = this.gridPosToMapPos(oldGrid.x, oldGrid.y + deltaGridY).x - deltaGridY * (XConst.GridHalfSize + .01) - deltaGridY * a
                 adjust = true
             }
@@ -412,8 +414,8 @@ export class XMapMgr {
         adjust = false
         if (oldGrid.x != newGrid.x) {
             let deltaGridX = newGrid.x > oldGrid.x ? 1 : -1
-            let nextGrid = this._grid.getNode(oldGrid.x + deltaGridX, oldGrid.y)
-            if (nextGrid && !nextGrid.dynWalkable) {
+            let nextGridY = this._grid.getNode(oldGrid.x + deltaGridX, oldGrid.y)
+            if (nextGridY && !nextGridY.dynWalkable) {
                 newY = this.gridPosToMapPos(oldGrid.x + deltaGridX, oldGrid.y).y + deltaGridX * (XConst.GridHalfSize + .01) + deltaGridX * a
                 adjust = true
             }

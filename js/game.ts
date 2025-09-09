@@ -3770,16 +3770,16 @@ define("js/bundle.js", function(require, module, exports) {
                     child: e
                 })
             }
-            satisfy(e) {
-                let i = e.target;
-                if (i.getDataModel().isEntice) return !1;
-                let s = i.getAllPlayersRand(),
-                    a = i.getOwnerPos();
-                if (!a) return !1;
-                for (const e of s) {
-                    if (e.isDie) continue;
-                    if (e.uuid == XMgr.playerMgr.mineUuid) continue;
-                    if (a.distanceSq(i.getTargetPos(e)) < 1e4) return i.setCurTarget(e), !0
+            satisfy(data_) {
+                let playerScript = data_.target;
+                if (playerScript.getDataModel().isEntice) return !1;
+                let allPlayersRd = playerScript.getAllPlayersRand(),
+                    ownerPos = playerScript.getOwnerPos();
+                if (!ownerPos) return !1;
+                for (const player of allPlayersRd) {
+                    if (player.isDie) continue;
+                    if (player.uuid == XMgr.playerMgr.mineUuid) continue;
+                    if (ownerPos.distanceSq(playerScript.getTargetPos(player)) < 1e4) return playerScript.setCurTarget(player), !0
                 }
                 return !1
             }
@@ -4157,13 +4157,33 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             satisfy(i) {
-                let s = i.target;
-                s.getDataModel();
-                if (s.isEscapeHp() || s.isEscape()) {
-                    let i = s.getDataModel();
-                    return XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? i.isGhost ? XToast.show("执行人逃跑了") : XToast.show("木头人逃跑了") : i.isGhost ? XToast.show(`${i.name}逃跑了`) : XToast.show("噬魂者逃跑了"), s.setCurTarget(null), s.setLastAtkTarget(null), s.setEscape(!0), !0
+                let playerScript = i.target;
+                playerScript.getDataModel();
+            
+                // 如果目标处于逃跑状态
+                if (playerScript.isEscapeHp() || playerScript.isEscape()) {
+                    let playerModel = playerScript.getDataModel();
+            
+                    // 不同模式下的提示
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        playerModel.isGhost
+                            ? XToast.show("执行人逃跑了")
+                            : XToast.show("木头人逃跑了");
+                    } else {
+                        playerModel.isGhost
+                            ? XToast.show(`${playerModel.name}逃跑了`)
+                            : XToast.show("噬魂者逃跑了");
+                    }
+            
+                    // 更新目标状态
+                    playerScript.setCurTarget(null);
+                    playerScript.setLastAtkTarget(null);
+                    playerScript.setEscape(true);
+            
+                    return true;
                 }
-                return !1
+            
+                return false;
             }
         }
         XEscapeCdt.NAME = "EscapeCondition", XEscapeCdt.register(XEscapeCdt.NAME, ve.CONDITION);
@@ -4469,16 +4489,16 @@ define("js/bundle.js", function(require, module, exports) {
                     child: t
                 }), this.range = e
             }
-            satisfy(t) {
-                let i = t.target,
-                    s = i.getOwnerGridPos(),
-                    a = i.getBuildingByGridPos(s);
-                if (!a || a.type != e.BuildType.door) return !1;
-                let n = i.getOwnerPos(),
-                    r = i.getCurTarget(),
-                    o = i.getTargetPos(r),
-                    l = this.range;
-                return o && (l = n.distance(o)), !(l > this.range - 20) && !a.isOpen
+            satisfy(tick_) {
+                let playerScript = tick_.target,
+                    playerGridPos = playerScript.getOwnerGridPos(),
+                    buildModel = playerScript.getBuildingByGridPos(playerGridPos);
+                if (!buildModel || buildModel.type != e.BuildType.door) return !1;
+                let playerPos = playerScript.getOwnerPos(),
+                    curTarget = playerScript.getCurTarget(),
+                    targetPos = playerScript.getTargetPos(curTarget),
+                    range = this.range;
+                return targetPos && (range = playerPos.distance(targetPos)), !(range > this.range - 20) && !buildModel.isOpen
             }
         }
         XNotOnOpenSpaceCdt.NAME = "NotOnOpenSpace", XNotOnOpenSpaceCdt.register(XNotOnOpenSpaceCdt.NAME, ve.CONDITION);
@@ -5051,56 +5071,227 @@ define("js/bundle.js", function(require, module, exports) {
                 this.playAnim("run");
             }
             
-            onHpChanged(i) {
-                this.data.curHp <= 0 && i && i.playerUuid == XMgr.playerMgr.mineUuid && XMgr.gameMgr.killCnt++, 
+            onHpChanged(playerModel_) {
+                this.data.curHp <= 0 && playerModel_ && playerModel_.playerUuid == XMgr.playerMgr.mineUuid && XMgr.gameMgr.killCnt++, 
                 this.data.isDie && (this.data.type == e.PlayerType.E_Defender && (XMgr.gameMgr.playerDeadCnt += 1), 
                 this.onDead())
             }
+
             onDead() {
-                this.data.isDie = !0, this.barNode && (this.barNode.visible = !1), this.healthBarNode && (this.healthBarNode.visible = !1), this.lb_name && (this.lb_name.visible = !1);
-                let i = XMgr.user.gameInfo,
-                    s = !1;
-                if (this.skinNode.visible = !1, this.data.type == e.PlayerType.E_Defender)
-                    if (fx.EventCenter.I.event(XEventNames.E_Player_Dead), XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
-                        if (this.data.uuid == XMgr.playerMgr.mineUuid) i.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog), XMgr.reporter.finishGame(2), s = !0;
-                        else {
-                            if (XToast.show(`玩家${this.data.name}被淘汰`), XMgr.user.gameInfo.getBuffData(3)) {
-                                let e = XMgr.playerMgr.player;
-                                if (e.isBed) {
-                                    let i = XMgr.buildingMgr.getBuildCfg(1e3, e.bedModel.lv);
-                                    if (i && i.effectList && i.effectList[0].value) {
-                                        let s = i.effectList[0].value[0];
-                                        XMgr.playerMgr.changePlayerIncomeByUuid(e.uuid, 3 * s), XToast.show(`获得队友临别馈赠${3*s}元宝`)
+                this.data.isDie = !0;
+            
+                // 隐藏相关 UI
+                if (this.barNode) this.barNode.visible = !1;
+                if (this.healthBarNode) this.healthBarNode.visible = !1;
+                if (this.lb_name) this.lb_name.visible = !1;
+                this.skinNode.visible = !1;
+            
+                let gameInfo = XMgr.user.gameInfo;
+                let s = false;
+            
+                // --- 防守方死亡逻辑 ---
+                if (this.data.type == e.PlayerType.E_Defender) {
+                    fx.EventCenter.I.event(XEventNames.E_Player_Dead);
+            
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                        // 自己死亡（失败结算）
+                        if (this.data.uuid == XMgr.playerMgr.mineUuid) {
+                            gameInfo.failCnt += 1;
+                            XMgr.user.gameInfo.mapBuildRate = .5;
+            
+                            XMgr.gameMgr.gameover(!1);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.FailDialog);
+                            XMgr.reporter.finishGame(2);
+            
+                            s = !0;
+                        } else {
+                            // 其他玩家死亡
+                            XToast.show(`玩家${this.data.name}被淘汰`);
+            
+                            // 临别馈赠
+                            if (XMgr.user.gameInfo.getBuffData(3)) {
+                                let player = XMgr.playerMgr.player;
+                                if (player.isBed) {
+                                    let cfg = XMgr.buildingMgr.getBuildCfg(1e3, player.bedModel.lv);
+                                    if (cfg && cfg.effectList && cfg.effectList[0].value) {
+                                        let val = cfg.effectList[0].value[0];
+                                        XMgr.playerMgr.changePlayerIncomeByUuid(player.uuid, 3 * val);
+                                        XToast.show(`获得队友临别馈赠${3 * val}元宝`);
                                     }
                                 }
                             }
+            
+                            // 变成“潜行兵马”幽灵
                             if (this.data.isQxbm) {
-                                let e = XMgr.cfg.skin.get(this.data.skinId);
-                                this.changeToQxbmGhost(e.skinType)
+                                let skinCfg = XMgr.cfg.skin.get(this.data.skinId);
+                                this.changeToQxbmGhost(skinCfg.skinType);
                             }
-                        } else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
-                    let i = !0;
-                    if (this.data.uuid == XMgr.playerMgr.mineUuid) return this.data.isGhost ? (i = !1, XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void XMgr.ui.open(l.AogFailDialog)) : this.data.isAngel ? (XMgr.playerMgr.angels = [], fx.EventCenter.I.event(XEventNames.E_Angel_Dead), XMgr.gameUI.startAngelRevive(), void this.changeToGhost()) : (XMgr.gameUI.hideUpgradeMenu(), XMgr.gameUI.hideBuildMenu(), fx.EventCenter.I.event(XEventNames.E_BuildTips_Hide, [this.data.roomId]), 5 == XMgr.gameMgr.defenseDeadCnt ? (XMgr.ui.closeAll(), i = !1, XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), void XMgr.ui.open(l.AogFailDialog)) : void XMgr.ui.open(l.AogChooseDialog, {
-                        cb: new Laya.Handler(this, this.changeAngelOrGhost)
-                    }));
-                    XMgr.gameMgr.defenseDeadCnt += 1, 5 == XMgr.gameMgr.defenseDeadCnt ? XMgr.playerMgr.player.isGhost ? (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.AogWinDialog)) : XMgr.playerMgr.player.isAngel ? (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.ui.open(l.AogFailDialog)) : this.changeToGhost() : i && this.changeToGhost()
-                } else XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ? (XMgr.gameMgr.defenseDeadCnt += 1, 6 == XMgr.gameMgr.defenseDeadCnt && (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.reporter.finishGame(1), XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.HunterWinDialog))) : XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && (this.data.uuid == XMgr.playerMgr.mineUuid ? (XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostFailDialog), XMgr.reporter.finishGame(2), s = !0) : XToast.show(`玩家${this.data.name}被淘汰`));
-                else if (this.data.type == e.PlayerType.E_Hunter) {
-                    if (fx.EventCenter.I.event(XEventNames.E_Hunter_Dead, this.data), XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
-                        if (this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
-                            i.winCnt += 1, XMgr.user.gameInfo.mapBuildRate = .3;
-                            let a = 1;
-                            XMgr.gameMgr.killCnt && (a = 2), XMgr.gameMgr.gameover(!0, a), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.WinDialog), XMgr.reporter.finishGame(1, a), s = !0
                         }
-                    } else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) this.data.uuid == XMgr.playerMgr.hunters[0].uuid && (XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.playerMgr.player.isGhost ? (XMgr.gameMgr.gameover(!1), XMgr.ui.open(l.AogFailDialog), XMgr.reporter.finishGame(2)) : (XMgr.gameMgr.gameover(!0), XMgr.ui.open(l.AogWinDialog), XMgr.reporter.finishGame(1)), s = !0), this.data.isGhost && this.data.uuid == XMgr.playerMgr.mineUuid && (XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.AogFailDialog), s = !0);
-                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) this.data.uuid == XMgr.playerMgr.mineUuid && (XMgr.reporter.finishGame(2), XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.HunterFailDialog), s = !0);
-                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost && this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
-                        let i = 1;
-                        XMgr.gameMgr.killCnt && (i = 2), XMgr.gameMgr.gameover(!0, i), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.SevenGhostWinDialog), XMgr.reporter.finishGame(1, i), s = !0
                     }
-                    s && (XChoreUtil.stopSound(128), XMgr.user.saveToServer())
+            
+                    // --- 天使与幽灵模式 ---
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        let continueChange = !0;
+            
+                        if (this.data.uuid == XMgr.playerMgr.mineUuid) {
+                            if (this.data.isGhost) {
+                                // 自己是幽灵，死亡直接失败
+                                continueChange = !1;
+                                XMgr.reporter.finishGame(2);
+                                XMgr.gameMgr.gameover(!1);
+                                XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                                XMgr.ui.open(l.AogFailDialog);
+                                return;
+                            } else if (this.data.isAngel) {
+                                // 自己是天使 -> 转幽灵
+                                XMgr.playerMgr.angels = [];
+                                fx.EventCenter.I.event(XEventNames.E_Angel_Dead);
+                                XMgr.gameUI.startAngelRevive();
+                                this.changeToGhost();
+                                return;
+                            } else {
+                                // 普通防守者死亡
+                                XMgr.gameUI.hideUpgradeMenu();
+                                XMgr.gameUI.hideBuildMenu();
+                                fx.EventCenter.I.event(XEventNames.E_BuildTips_Hide, [this.data.roomId]);
+            
+                                if (XMgr.gameMgr.defenseDeadCnt == 5) {
+                                    XMgr.ui.closeAll();
+                                    continueChange = !1;
+                                    XMgr.reporter.finishGame(2);
+                                    XMgr.gameMgr.gameover(!1);
+                                    XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                                    XMgr.ui.open(l.AogFailDialog);
+                                    return;
+                                } else {
+                                    XMgr.ui.open(l.AogChooseDialog, {
+                                        cb: new Laya.Handler(this, this.changeAngelOrGhost)
+                                    });
+                                    return;
+                                }
+                            }
+                        }
+            
+                        // 其他防守方死亡
+                        XMgr.gameMgr.defenseDeadCnt += 1;
+                        if (XMgr.gameMgr.defenseDeadCnt == 5) {
+                            if (XMgr.playerMgr.player.isGhost) {
+                                XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                                XMgr.reporter.finishGame(2);
+                                XMgr.gameMgr.gameover(!0);
+                                XMgr.ui.open(l.AogWinDialog);
+                            } else if (XMgr.playerMgr.player.isAngel) {
+                                XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                                XMgr.reporter.finishGame(2);
+                                XMgr.gameMgr.gameover(!1);
+                                XMgr.ui.open(l.AogFailDialog);
+                            } else {
+                                this.changeToGhost();
+                            }
+                        } else if (continueChange) {
+                            this.changeToGhost();
+                        }
+                    }
+            
+                    // --- 噬魂者模式 ---
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                        XMgr.gameMgr.defenseDeadCnt += 1;
+                        if (XMgr.gameMgr.defenseDeadCnt == 6) {
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.reporter.finishGame(1);
+                            XMgr.gameMgr.gameover(!0);
+                            XMgr.ui.open(l.HunterWinDialog);
+                        }
+                    }
+            
+                    // --- 七鬼模式 ---
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost) {
+                        if (this.data.uuid == XMgr.playerMgr.mineUuid) {
+                            XMgr.gameMgr.gameover(!1);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.SevenGhostFailDialog);
+                            XMgr.reporter.finishGame(2);
+                            s = !0;
+                        } else {
+                            XToast.show(`玩家${this.data.name}被淘汰`);
+                        }
+                    }
+                }
+            
+                // --- 猎人死亡逻辑 ---
+                else if (this.data.type == e.PlayerType.E_Hunter) {
+                    fx.EventCenter.I.event(XEventNames.E_Hunter_Dead, this.data);
+            
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                        if (this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
+                            gameInfo.winCnt += 1;
+                            XMgr.user.gameInfo.mapBuildRate = .3;
+            
+                            let result = (XMgr.gameMgr.killCnt ? 2 : 1);
+                            XMgr.gameMgr.gameover(!0, result);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.WinDialog);
+                            XMgr.reporter.finishGame(1, result);
+            
+                            s = !0;
+                        }
+                    }
+            
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                        if (this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+            
+                            if (XMgr.playerMgr.player.isGhost) {
+                                XMgr.gameMgr.gameover(!1);
+                                XMgr.ui.open(l.AogFailDialog);
+                                XMgr.reporter.finishGame(2);
+                            } else {
+                                XMgr.gameMgr.gameover(!0);
+                                XMgr.ui.open(l.AogWinDialog);
+                                XMgr.reporter.finishGame(1);
+                            }
+                            s = !0;
+                        }
+            
+                        if (this.data.isGhost && this.data.uuid == XMgr.playerMgr.mineUuid) {
+                            XMgr.reporter.finishGame(2);
+                            XMgr.gameMgr.gameover(!1);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.AogFailDialog);
+                            s = !0;
+                        }
+                    }
+            
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+                        if (this.data.uuid == XMgr.playerMgr.mineUuid) {
+                            XMgr.reporter.finishGame(2);
+                            XMgr.gameMgr.gameover(!1);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.HunterFailDialog);
+                            s = !0;
+                        }
+                    }
+            
+                    else if (XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost) {
+                        if (this.data.uuid == XMgr.playerMgr.hunters[0].uuid) {
+                            let result = (XMgr.gameMgr.killCnt ? 2 : 1);
+                            XMgr.gameMgr.gameover(!0, result);
+                            XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH);
+                            XMgr.ui.open(l.SevenGhostWinDialog);
+                            XMgr.reporter.finishGame(1, result);
+                            s = !0;
+                        }
+                    }
+            
+                    if (s) {
+                        XChoreUtil.stopSound(128);
+                        XMgr.user.saveToServer();
+                    }
                 }
             }
+            
+            
             changeAngelOrGhost(e) {
                 e ? this.changeToGhost() : this.changeToAngel()
             }
@@ -5225,29 +5416,29 @@ define("js/bundle.js", function(require, module, exports) {
             getLastAtkTarget() {
                 return this.lastAtkTarget
             }
-            setLastAtkTarget(e) {
-                e != this.lastAtkTarget && (this.lastAtkTarget = e)
+            setLastAtkTarget(lastTarget_) {
+                lastTarget_ != this.lastAtkTarget && (this.lastAtkTarget = lastTarget_)
             }
-            setCurTarget(e, t = false) {
+            setCurTarget(target_, force_ = false) {
                 // 如果是第一次找目标，标记已处理
                 if (this.isFirstFind) {
                     this.isFirstFind = false;
                 }
             
                 // 如果是强制目标，并且血量没满
-                if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
+                if (force_ && (this.forceTarget = target_, this.data.curHp < this.data.maxHp)) {
                     // 不会继续往下执行
                     return;
                 }
             
                 // 否则，如果目标和当前目标不同
-                if (e !== this.curTarget) {
+                if (target_ !== this.curTarget) {
                     // 把当前目标存到 lastAtkTarget
                     if (this.curTarget) {
                         this.lastAtkTarget = this.curTarget;
                     }
                     // 更新目标
-                    this.curTarget = e;
+                    this.curTarget = target_;
                     // 路径清空，等待重新寻路
                     this.curPath = null;
                 }
@@ -8479,7 +8670,22 @@ define("js/bundle.js", function(require, module, exports) {
                 return 0 == e || 180 == e
             }
             initSkin() {
-                this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5, this.originX = this.node.x, this.originY = this.node.y, this.data.isOpen && this.openDoor(), this.img_doorEff_1 = new Laya.Image("res/build/doorEff_1.png"), this.skinNode.addChild(this.img_doorEff_1), this.img_doorEff_1.anchorX = this.imgBody.anchorY = .5, this.img_doorEff_1.pos(0, -45), this.img_doorEff_1.visible = !1, this.img_doorEff_2 = new Laya.Image("res/build/doorEff_2.png"), this.skinNode.addChild(this.img_doorEff_2), this.img_doorEff_2.anchorX = this.imgBody.anchorY = .5, this.img_doorEff_2.pos(0, -45), this.img_doorEff_2.visible = !1
+                this.imgBody = new Laya.Image(this.cfg.icon)
+                this.skinNode.addChild(this.imgBody)
+                this.imgBody.anchorX = this.imgBody.anchorY = .5
+                this.originX = this.node.x
+                this.originY = this.node.y
+                this.data.isOpen && this.openDoor()
+                this.img_doorEff_1 = new Laya.Image("res/build/doorEff_1.png")
+                this.skinNode.addChild(this.img_doorEff_1)
+                this.img_doorEff_1.anchorX = this.imgBody.anchorY = .5
+                this.img_doorEff_1.pos(0, -45)
+                this.img_doorEff_1.visible = !1
+                this.img_doorEff_2 = new Laya.Image("res/build/doorEff_2.png")
+                this.skinNode.addChild(this.img_doorEff_2), 
+                this.img_doorEff_2.anchorX = this.imgBody.anchorY = .5 
+                this.img_doorEff_2.pos(0, -45)
+                this.img_doorEff_2.visible = !1
             }
             onInit() {
                 this.createHealthBar(), Laya.timer.clear(this, this.timerloop), Laya.timer.loop(1e3, this, this.timerloop)
@@ -8497,24 +8703,56 @@ define("js/bundle.js", function(require, module, exports) {
                     } else this.node.visible = !1
             }
             openDoor() {
-                !this.open && this.data.canHandle && (this.open = !0, Laya.Tween.clearAll(this.node), this.node.clearTimer(this, this.checkAutoClose), this.node.timerOnce(3e3, this, this.checkAutoClose), this.moveMod ? Laya.Tween.to(this.node, {
-                    x: this.originX + C.GridSize
-                }, 300, null, null, 0, !0) : Laya.Tween.to(this.node, {
-                    y: this.originY + C.GridSize
-                }, 300, null, null, 0, !0))
+                if (!this.open && this.data.canHandle) {
+                    this.open = true;
+            
+                    // 清除动画和定时器
+                    Laya.Tween.clearAll(this.node);
+                    this.node.clearTimer(this, this.checkAutoClose);
+            
+                    // 自动关闭定时器
+                    this.node.timerOnce(3000, this, this.checkAutoClose);
+            
+                    // 门的开启动画
+                    if (this.moveMod) {
+                        Laya.Tween.to(
+                            this.node,
+                            { x: this.originX + C.GridSize },
+                            300,
+                            null,
+                            null,
+                            0,
+                            true
+                        );
+                    } else {
+                        Laya.Tween.to(
+                            this.node,
+                            { y: this.originY + C.GridSize },
+                            300,
+                            null,
+                            null,
+                            0,
+                            true
+                        );
+                    }
+                }
             }
+            
             closeDoor() {
                 if (!this.data.canHandle) return;
                 if (!this.open) return;
-                this.open = !1, Laya.Tween.clearAll(this.node), this.node.clearTimer(this, this.checkAutoClose), this.moveMod ? Laya.Tween.to(this.node, {
+                this.open = false
+                Laya.Tween.clearAll(this.node)
+                this.node.clearTimer(this, this.checkAutoClose)
+                this.moveMod ? Laya.Tween.to(this.node, {
                     x: this.originX
                 }, 300, null, null, 0, !0) : Laya.Tween.to(this.node, {
                     y: this.originY
                 }, 300, null, null, 0, !0);
-                let i = XMgr.playerMgr.player,
-                    s = XMgr.playerMgr.hunters,
-                    a = [i];
-                XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && (a = a.concat(s));
+                let player = XMgr.playerMgr.player,
+                    hunters = XMgr.playerMgr.hunters,
+                    a = [player];
+                XMgr.gameMgr.gameStatus == e.GameStatus.E_GAME_START && (a = a.concat(hunters));
                 for (const i of a) {
                     let s = new fx.V2(i.owner.x, i.owner.y),
                         a = new fx.V2(this.originX, this.originY);
@@ -8566,10 +8804,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
             playAni(e, t, i) {
                 let s = new Laya.Animation;
-                s.loadAtlas(e), s.play(0, !1);
+                s.loadAtlas(e)
+                s.play(0, !1);
                 let a = s.getGraphicBounds(!0);
-                s.pivot(a.width / 2, a.height / 2), this.skinNode.addChild(s), s.pos(t, i), s.on(Laya.Event.COMPLETE, this, () => {
-                    s.offAll(), s.destroy()
+                s.pivot(a.width / 2, a.height / 2) 
+                this.skinNode.addChild(s), s.pos(t, i), 
+                s.on(Laya.Event.COMPLETE, this, () => {
+                    s.offAll()
+                    s.destroy()
                 })
             }
         }
@@ -10261,7 +10503,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
                 this.cdNode.pos(s.x, s.y), this.cdNode.visible = !1, this.skillBtn = new Laya.Image("res/game/trap.png"), this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
                 let a = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
+                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), 
+                this.skillBtn.addComponent(Ni), 
+                this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
                 let n = XMgr.mapMgr.getRoomById(this.data.roomId);
                 (this.door = n.doorModel).owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
@@ -15767,7 +16011,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.players = [], this.defenders = [], this.hunters = [], this.difficulty = 0, this.hideRoomIndex = 0
             }
         }
-        class GameMgr {
+        class XGameMgr {
             constructor() {
                 this._isPause = !1, this.diff = 0, this.isShowTurntable = !1, this.skillABTest = -1, this.difficultABTest = 1, this.speedRatio = 1, this.hunterSpeedRatio = 1
             }
@@ -16278,7 +16522,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this._startNode
             }
         }
-        class MapMgr {
+        class XMapMgr {
             constructor() {
                 this._outRoomGirds = [], this.outRoomGridsInsideMap = [], this.hideDoors = [], this.roomBuildings = [], this.outBuildings = [], this.hideWall = [], this.hideWallMap = new Map, this.roomsWall = [], this.tempV2 = new fx.V2
             }
@@ -19307,7 +19551,7 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, 
                 XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, 
                 XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, 
-                XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new GameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new MapMgr, 
+                XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new XGameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new XMapMgr, 
                 XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, 
                 XMgr.guideMgr = new XGuildMgr, XMgr.buffMgr = new BuffMgr, XMgr.taskMgr = new TaskMgr
             }
@@ -20823,7 +21067,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }, e.GM = XGM, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
         e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
-        e.GameInfoEvent = Ce, e.GameManager = GameMgr, 
+        e.GameInfoEvent = Ce, e.GameManager = XGameMgr, 
         e.GameScene = XGameScene, e.GameScript = XGameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 
         e.GameUI = XGameUI, 
         e.GameUtil = XV2Util01, e.GetValue = er, e.GotoBedAction = XGotoBedAction, e.Grid = XGrid, e.GridDisplayRange = Ki, e.GuideArrowScript = XGuideArrowScript, 
@@ -21054,7 +21298,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.text = e
             }
         }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = XMagicBoxScript, e.MainScene = XMainScene, e.MapBuildingScript = XMapBuildingScript, e.MapCfg = XMapCfg, 
-        e.MapEquipScript = nn, e.MapManager = MapMgr, 
+        e.MapEquipScript = nn, e.MapManager = XMapMgr, 
         e.MapScript = XMapScript, e.Markup = tr, e.MarkupList = class extends tr {
             constructor(e) {
                 super(e), this._list = []
@@ -21187,7 +21431,7 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
-                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new GameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new MapMgr, XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, XMgr.guideMgr = new XGuildMgr
+                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new XGameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new XMapMgr, XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, XMgr.guideMgr = new XGuildMgr
             }
             enterGame() {
                 XMgr.cfg.map.get(19)

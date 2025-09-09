@@ -110,6 +110,10 @@ export class XHunterScript extends XPlayerScript {
 
         EventCenter.emit(XEventNames.E_Hunter_Upgrade, this.lv)
     }
+
+    setEscape(value_: any): void {
+        this.isEscape = value_
+    }
 }
 
 

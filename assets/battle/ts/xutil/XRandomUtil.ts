@@ -27,7 +27,7 @@ export class XRandomUtil {
         return arr_[rd]
     }
 
-    static randomArrayEx(arr_: any[]) {
+    static randomArrayEx<T>(arr_: T[]) {
         if (!arr_ || 0 == arr_.length)
             return [];
         arr_ = arr_.slice()

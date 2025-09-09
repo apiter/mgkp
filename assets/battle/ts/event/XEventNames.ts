@@ -16,6 +16,7 @@ export enum XEventNames {
     E_Look_Player = "E_Look_Player",
     
     E_Player_Hurt = "E_Player_Hurt",
+    E_Player_Dead = "E_Player_Dead",
 
     E_Yanluo_Show = "E_Yanluo_Show",
 

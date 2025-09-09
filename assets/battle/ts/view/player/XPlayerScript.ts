@@ -1,5 +1,5 @@
 import { _decorator, Component, Label, Node, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
-import { XBuildResult, XBuildType, Direction as XDirection, XPlayerType, XSkinType } from '../../xconfig/XEnum';
+import { XBuildResult, XBuildType, Direction as XDirection, XGameMode, XGameStatus, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
 import { XConst } from '../../xconfig/XConst';
@@ -10,6 +10,7 @@ import XResUtil from '../../xutil/XResUtil';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XRoomModel } from '../../model/XRoomModel';
+import EventCenter from '../../event/EventCenter';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -138,9 +139,28 @@ export class XPlayerScript extends Component {
     }
 
     onHpChanged() {
+        if (this.data.curHp <= 0) {
+            this.data.type == XPlayerType.E_Defender && (XMgr.gameMgr.playerDeadCnt += 1)
+            this.onDead()
+        }
     }
 
     onDead() {
+        console.debug(`[${this.data.uuid}][${this.data.name}]死亡`)
+        this.skinNode.active = false;
+        this.lbName.node.active = false;
+        if (this.data.type === XPlayerType.E_Defender) {
+            EventCenter.emit(XEventNames.E_Player_Dead)
+            if (XMgr.gameMgr.gameMode === XGameMode.E_Defense) {
+                if (this.data.uuid === XMgr.playerMgr.mineUuid) {
+                    XMgr.gameMgr.gameover(false)
+                    XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH)
+                    console.debug(`[游戏结束]`)
+                } else {
+
+                }
+            }
+        }
     }
 
     idle() {
@@ -396,7 +416,7 @@ export class XPlayerScript extends Component {
         let s = new Vec2(this.data.owner.x + x_, this.data.owner.y + y_)
         let grid = XMgr.mapMgr.mapPosToGridPos(s.x, s.y)
         let tileInfo = XMgr.mapMgr.getTiledInfo(grid.x, grid.y);
-        return tileInfo && (tileInfo.walkable !== false);
+        return tileInfo && (tileInfo.walkable === true);
     }
 
     getDataModel() {
@@ -503,10 +523,26 @@ export class XPlayerScript extends Component {
 
 
     getAllPlayersRand() {
-        let ret = [];
-        for (const i of XMgr.playerMgr.defenders)
-            ret.push(i);
+        let ret: XPlayerModel[] = [];
+        for (const defender of XMgr.playerMgr.defenders)
+            ret.push(defender);
         return ret = XRandomUtil.randomArrayEx(ret)
+    }
+
+    isEscapeHp() {
+        return this.data.hpPercent <= 0.33
+    }
+
+    getHpPercent() {
+        return this.data.hpPercent
+    }
+
+    setEscape(value_) {
+        this.isEscaped = value_
+    }
+
+    isEscape() {
+        return this.isEscaped
     }
 }
 

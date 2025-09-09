@@ -111,8 +111,8 @@ export class XBuildingScript extends Component {
             this.iconNode = new Node("iconNode")
             this._skinSprite = this.iconNode.addComponent(Sprite)
             this._skinSprite.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon)
-            this._skinSprite.trim = false
-            this._skinSprite.sizeMode = Sprite.SizeMode.RAW
+            this._skinSprite.trim = true
+            this._skinSprite.sizeMode = Sprite.SizeMode.TRIMMED
             this.skinNode.addChild(this.iconNode);
         }
     }
@@ -124,7 +124,7 @@ export class XBuildingScript extends Component {
                 this._skinDiSprite = this.diNode.addComponent(Sprite)
                 this._skinDiSprite.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon)
                 this._skinDiSprite.trim = true
-                this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
+                this._skinDiSprite.sizeMode = Sprite.SizeMode.TRIMMED
                 this.skinNode.addChild(this.diNode);
             }
         }
@@ -168,8 +168,8 @@ export class XBuildingScript extends Component {
         })
         this.cfg.diIcon && XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon).then((sf) => {
             this._skinDiSprite && this._skinDiSprite.isValid && (this._skinDiSprite.spriteFrame = sf)
-            this._skinDiSprite.trim = true
-            this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
+            // this._skinDiSprite.trim = true
+            // this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
         })
 
         this.initEffects()
