@@ -6510,11 +6510,35 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = this.effects.findIndex(t => t == e); - 1 != t && (this.effects[t].clear(), this.effects.splice(t, 1))
             }
             upgrade() {
-                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv), 
-                XMgr.gameMgr.gameMode == e.GameMode.E_Defense && this.data.playerUuid == XMgr.playerMgr.mineUuid && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && this.cfg.buffIcon ? this.imgBody.skin = this.cfg.buffIcon : (this.imgBody.skin = this.cfg.icon, this.imgBody_1 && (this.imgBody_1.skin = this.cfg.icon)), 
-                this.cfg.diIcon && (this.imgDi.skin = this.cfg.diIcon, this.imgDi_1 && (this.imgDi_1.skin = this.cfg.diIcon)), 
-                this.initEffects()
+                this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv);
+            
+                // 防御模式 + 自己的建筑 + 有buff
+                if (
+                    XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                    this.data.playerUuid == XMgr.playerMgr.mineUuid &&
+                    this.cfg.buffId &&
+                    XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) &&
+                    this.cfg.buffIcon
+                ) {
+                    this.imgBody.skin = this.cfg.buffIcon;
+                } else {
+                    this.imgBody.skin = this.cfg.icon;
+                    if (this.imgBody_1) {
+                        this.imgBody_1.skin = this.cfg.icon;
+                    }
+                }
+            
+                // 底座图标
+                if (this.cfg.diIcon) {
+                    this.imgDi.skin = this.cfg.diIcon;
+                    if (this.imgDi_1) {
+                        this.imgDi_1.skin = this.cfg.diIcon;
+                    }
+                }
+            
+                this.initEffects();
             }
+            
             videoUpgrade() {}
             isInStage() {
                 let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);

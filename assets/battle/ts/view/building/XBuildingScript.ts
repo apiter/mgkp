@@ -25,6 +25,9 @@ export class XBuildingScript extends Component {
     isBuildCd = false
     buildCdTime = 0
 
+    _skinSprite: Sprite = null
+    _skinDiSprite: Sprite = null
+
     effects: XBaseEffect[] = []
 
     hpLabel: Label = null
@@ -104,17 +107,12 @@ export class XBuildingScript extends Component {
         this.initDiSkin();
         let isSelf = false;
         this.data.playerUuid == XMgr.playerMgr.player.uuid && (isSelf = true)
-        // if (isSelf && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
-        //     this.initBuffSkin();
-        // } else if (this.cfg.buildAni) {
-        //      EffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode);
-        // } else 
         {
             this.iconNode = new Node("iconNode")
-            const spr = this.iconNode.addComponent(Sprite)
-            spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon)
-            spr.trim = true
-            spr.sizeMode = Sprite.SizeMode.CUSTOM
+            this._skinSprite = this.iconNode.addComponent(Sprite)
+            this._skinSprite.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon)
+            this._skinSprite.trim = false
+            this._skinSprite.sizeMode = Sprite.SizeMode.RAW
             this.skinNode.addChild(this.iconNode);
         }
     }
@@ -123,10 +121,10 @@ export class XBuildingScript extends Component {
         if (this.cfg.diIcon) {
             if (!this.diNode) {
                 this.diNode = new Node("diNode")
-                const spr = this.diNode.addComponent(Sprite)
-                spr.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon)
-                spr.trim = true
-                spr.sizeMode = Sprite.SizeMode.CUSTOM
+                this._skinDiSprite = this.diNode.addComponent(Sprite)
+                this._skinDiSprite.spriteFrame = await XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon)
+                this._skinDiSprite.trim = true
+                this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
                 this.skinNode.addChild(this.diNode);
             }
         }
@@ -158,6 +156,23 @@ export class XBuildingScript extends Component {
 
         // 最后无论如何都要销毁建筑
         XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, false);
+    }
+
+    upgrade() {
+        //获取配置，改数值，改皮肤，播特效
+        this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv);
+        this.cfg.icon && XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon).then((sf) => {
+            this._skinSprite && this._skinSprite.isValid && (this._skinSprite.spriteFrame = sf)
+            // this._skinSprite.trim = true
+            // this._skinSprite.sizeMode = Sprite.SizeMode.CUSTOM
+        })
+        this.cfg.diIcon && XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon).then((sf) => {
+            this._skinDiSprite && this._skinDiSprite.isValid && (this._skinDiSprite.spriteFrame = sf)
+            this._skinDiSprite.trim = true
+            this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
+        })
+
+        this.initEffects()
     }
 }
 
