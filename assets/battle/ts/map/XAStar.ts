@@ -64,8 +64,8 @@ export default class XAStar {
     }
     isOpen(node_: XBlockNode) {
         for (var t = 0; t < this._open.length; t++)
-            if (this._open[t] == node_) return !0;
-        return !1
+            if (this._open[t] == node_) return true;
+        return false
     }
     isClosed(node_: XBlockNode) {
         for (var t = 0; t < this._closed.length; t++)

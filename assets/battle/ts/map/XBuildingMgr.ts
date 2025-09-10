@@ -133,8 +133,7 @@ export default class XBuildingMgr {
 
         // 特殊建造（6666：魔法消耗）
         if (6666 == buildCfg.buildId) {
-            if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt ||
-                (1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == XGameMode.E_Defense)) {
+            if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt || XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
                 // 自己
                 if (XMgr.playerMgr.mineUuid == playerID) {
                     const e = math.clamp(XMgr.gameMgr.randomCnt, 0, 3);

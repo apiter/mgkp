@@ -22,6 +22,8 @@ export class XMapView extends Component {
     playerLayer: Node = null
     @property(Node)
     hunterLayer: Node = null
+    @property(Node)
+    bulletLayer: Node = null
 
     lookPos = v2(0)
 
@@ -34,6 +36,7 @@ export class XMapView extends Component {
         this.buildMoveLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
         this.playerLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
         this.hunterLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
+        this.bulletLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
 
         this.createGround()
     }

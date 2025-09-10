@@ -19,7 +19,6 @@ export class XBatleMgr implements ISchedulable {
     diff = 0
     isShowTurntable = false
     skillABTest = -1
-    difficultABTest = 1
     speedRatio = 1
     hunterSpeedRatio = 1
     mapId = 0
@@ -130,21 +129,15 @@ export class XBatleMgr implements ISchedulable {
         this.defenseDeadCnt = 0
         this.defenseFindRoomId = []
         this.isAdMagicBox = false
-        let s = XMgr.user.gameInfo;
-        if (1 == this.difficultABTest) {
-            this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
-            this.speedRatio = 0.75;
-            this.hunterSpeedRatio = 0.75 / XMgr.gameMgr.dCfg.moveSpeed || 1;
+        let gameInfo = XMgr.user.gameInfo;
+        this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
+        this.speedRatio = 0.75;
+        this.hunterSpeedRatio = 0.75 / XMgr.gameMgr.dCfg.moveSpeed || 1;
 
-        } else {
-            this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
-            this.speedRatio = this.hunterSpeedRatio = 1;
-        }
-
-        if (XMgr.gameMgr.gameMode == XGameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
+        if (XMgr.gameMgr.gameMode == XGameMode.E_Defense && (gameInfo.isStartLv || gameInfo.curLv > 1)) {
             let diffCfg = this.dCfg;
-            if (s.curLv != s.lastLv) {
-                if (s.isLastWin) {
+            if (gameInfo.curLv != gameInfo.lastLv) {
+                if (gameInfo.isLastWin) {
                     XToast.show(`难度上升：${diffCfg.name}`);
                 } else {
                     XToast.show(`难度降低：${diffCfg.name}`);
@@ -156,8 +149,8 @@ export class XBatleMgr implements ISchedulable {
             XToast.show("大战木头人即将开始");
         } else if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt) {
             let diffCfg = this.dCfg;
-            if (s.curHunterLv != s.lastHunterLv) {
-                if (s.isLastHunterWin) {
+            if (gameInfo.curHunterLv != gameInfo.lastHunterLv) {
+                if (gameInfo.isLastHunterWin) {
                     XToast.show(`难度上升：${diffCfg.name}`);
                 } else {
                     XToast.show(`难度降低：${diffCfg.name}`);
@@ -223,7 +216,14 @@ export class XBatleMgr implements ISchedulable {
         model.owner && model.owner.emit(XEventNames.Hp_Changed);
     }
 
-    takeDamage(playerModel_, target_, atk_) {
+    /**
+     * 
+     * @param baseModel_ the one who attack
+     * @param target_ the one attacked
+     * @param atk_ damage
+     * @returns 
+     */
+    takeDamage(baseModel_, target_, atk_) {
         if (!target_.isDie && !target_.invincible && !target_.invincible_skill && atk_ > 0) {
             target_.reduceRate && (atk_ *= 1 - target_.reduceRate)
             if (target_.type == XBuildType.bed && target_.playerUuid) {
@@ -233,12 +233,6 @@ export class XBatleMgr implements ISchedulable {
             }
 
             if (target_.skillEquipHp) {
-                // 技能护盾减血
-                // target_.skillEquipHp -= atk_;
-                // if (target_.skillEquipHp <= 0) {
-                //     target_.skillEquipHp = 0;
-                //     target_.ownerScript.changeSkin(false);
-                // }
             } else {
                 // 扣血
                 target_.curHp -= atk_;
@@ -251,7 +245,6 @@ export class XBatleMgr implements ISchedulable {
             // 通知事件
             if (target_.owner) {
                 target_.owner.emit(XEventNames.Hp_Changed, target_)
-                // target_.owner.emit(XEventNames.Battle_Be_Hit, [playerModel_, atk_]);
             }
 
             if (target_.isDie) {
@@ -259,10 +252,11 @@ export class XBatleMgr implements ISchedulable {
 
                 if (target.type == XBuildType.bed && target.playerUuid) {
                     let player = XMgr.playerMgr.getPlayer(target.playerUuid);
-                    this.takeDamage(playerModel_, player, atk_);
+                    this.takeDamage(baseModel_, player, atk_);
                 }
             }
         }
+        console.debug(`[${baseModel_.name || baseModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`)
     }
     heartSound(e) {
     }
@@ -387,7 +381,7 @@ export class XBatleMgr implements ISchedulable {
         return e
     }
     getPlayer() {
-        
+
     }
     randomName(e = 0) {
         return "随机名字"

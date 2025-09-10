@@ -163,13 +163,9 @@ export class XBuildingScript extends Component {
         this.cfg = XMgr.buildingMgr.getBuildCfg(this.data.id, this.data.lv);
         this.cfg.icon && XAtlasLoader.asyncFetchSpriteFrame(this.cfg.icon).then((sf) => {
             this._skinSprite && this._skinSprite.isValid && (this._skinSprite.spriteFrame = sf)
-            // this._skinSprite.trim = true
-            // this._skinSprite.sizeMode = Sprite.SizeMode.CUSTOM
         })
         this.cfg.diIcon && XAtlasLoader.asyncFetchSpriteFrame(this.cfg.diIcon).then((sf) => {
             this._skinDiSprite && this._skinDiSprite.isValid && (this._skinDiSprite.spriteFrame = sf)
-            // this._skinDiSprite.trim = true
-            // this._skinDiSprite.sizeMode = Sprite.SizeMode.CUSTOM
         })
 
         this.initEffects()

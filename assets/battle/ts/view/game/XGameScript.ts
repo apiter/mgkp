@@ -64,6 +64,8 @@ export class XGameScript extends Component {
 
         this.onInit()
 
+        XMgr.bulletMgr.init(this.map.bulletLayer)
+
         XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_START)
     }
 
@@ -185,8 +187,6 @@ export class XGameScript extends Component {
             buildScript = buildNode.addComponent(XDoorScript);
         else if (buildCfg.type == XBuildType.bed) {
             buildScript = buildNode.addComponent(XBedScript)
-            if (1001 == build_.id) {
-            }
         } else if (buildCfg.type == XBuildType.tower) {
             switch (buildCfg.buildId) {
                 case 3000:

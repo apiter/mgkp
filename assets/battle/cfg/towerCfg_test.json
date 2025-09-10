@@ -11,7 +11,7 @@
     "energy": 0,
     "atkRange": 4,
     "atkDamage": 4,
-    "bullet": "res/bullet/at_2_Bullet.png",
+    "bullet": "atlas/res/bullet/at_2_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -28,7 +28,7 @@
     "energy": 0,
     "atkRange": 4.5,
     "atkDamage": 8,
-    "bullet": "res/bullet/at_5_Bullet.png",
+    "bullet": "atlas/res/bullet/at_5_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -45,7 +45,7 @@
     "energy": 0,
     "atkRange": 5,
     "atkDamage": 16,
-    "bullet": "res/bullet/at_3_Bullet.png",
+    "bullet": "atlas/res/bullet/at_3_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -62,7 +62,7 @@
     "energy": 0,
     "atkRange": 5.5,
     "atkDamage": 32,
-    "bullet": "res/bullet/at_y_Bullet.png",
+    "bullet": "atlas/res/bullet/at_y_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -83,7 +83,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 64,
-    "bullet": "res/bullet/at_4_Bullet.png",
+    "bullet": "atlas/res/bullet/at_4_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -100,7 +100,7 @@
     "energy": 0,
     "atkRange": 6.5,
     "atkDamage": 128,
-    "bullet": "res/bullet/at_6_Bullet.png",
+    "bullet": "atlas/res/bullet/at_6_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -121,7 +121,7 @@
     "energy": 32,
     "atkRange": 7,
     "atkDamage": 256,
-    "bullet": "res/bullet/at_7_Bullet.png",
+    "bullet": "atlas/res/bullet/at_7_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -138,7 +138,7 @@
     "energy": 64,
     "atkRange": 7.5,
     "atkDamage": 512,
-    "bullet": "res/bullet/at_8_Bullet.png",
+    "bullet": "atlas/res/bullet/at_8_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -159,7 +159,7 @@
     "energy": 128,
     "atkRange": 8,
     "atkDamage": 1024,
-    "bullet": "res/bullet/at_9_Bullet.png",
+    "bullet": "atlas/res/bullet/at_9_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -180,7 +180,7 @@
     "energy": 256,
     "atkRange": 8.5,
     "atkDamage": 2048,
-    "bullet": "res/bullet/at_10_Bullet.png",
+    "bullet": "atlas/res/bullet/at_10_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -201,7 +201,7 @@
     "energy": 512,
     "atkRange": 9,
     "atkDamage": 4096,
-    "bullet": "res/bullet/at_11_Bullet.png",
+    "bullet": "atlas/res/bullet/at_11_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -222,7 +222,7 @@
     "energy": 1024,
     "atkRange": 9.5,
     "atkDamage": 8191.99999999999,
-    "bullet": "res/bullet/at_12_Bullet.png",
+    "bullet": "atlas/res/bullet/at_12_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -243,7 +243,7 @@
     "energy": 2048,
     "atkRange": 10,
     "atkDamage": 16384,
-    "bullet": "res/bullet/at_13_Bullet.png",
+    "bullet": "atlas/res/bullet/at_13_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "buffId": [23]
@@ -260,7 +260,7 @@
     "energy": 0,
     "atkRange": 4,
     "atkDamage": 4,
-    "bullet": "res/bullet/at_2_Bullet.png",
+    "bullet": "atlas/res/bullet/at_2_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -276,7 +276,7 @@
     "energy": 0,
     "atkRange": 4.5,
     "atkDamage": 8,
-    "bullet": "res/bullet/at_5_Bullet.png",
+    "bullet": "atlas/res/bullet/at_5_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -292,7 +292,7 @@
     "energy": 0,
     "atkRange": 5,
     "atkDamage": 16,
-    "bullet": "res/bullet/at_3_Bullet.png",
+    "bullet": "atlas/res/bullet/at_3_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -308,7 +308,7 @@
     "energy": 0,
     "atkRange": 5.5,
     "atkDamage": 32,
-    "bullet": "res/bullet/at_y_Bullet.png",
+    "bullet": "atlas/res/bullet/at_y_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -328,7 +328,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 64,
-    "bullet": "res/bullet/at_4_Bullet.png",
+    "bullet": "atlas/res/bullet/at_4_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -344,7 +344,7 @@
     "energy": 0,
     "atkRange": 6.5,
     "atkDamage": 128,
-    "bullet": "res/bullet/at_6_Bullet.png",
+    "bullet": "atlas/res/bullet/at_6_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -364,7 +364,7 @@
     "energy": 32,
     "atkRange": 7,
     "atkDamage": 256,
-    "bullet": "res/bullet/at_7_Bullet.png",
+    "bullet": "atlas/res/bullet/at_7_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -380,7 +380,7 @@
     "energy": 64,
     "atkRange": 7.5,
     "atkDamage": 512,
-    "bullet": "res/bullet/at_8_Bullet.png",
+    "bullet": "atlas/res/bullet/at_8_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -400,7 +400,7 @@
     "energy": 128,
     "atkRange": 8,
     "atkDamage": 1024,
-    "bullet": "res/bullet/at_9_Bullet.png",
+    "bullet": "atlas/res/bullet/at_9_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -420,7 +420,7 @@
     "energy": 256,
     "atkRange": 8.5,
     "atkDamage": 2048,
-    "bullet": "res/bullet/at_10_Bullet.png",
+    "bullet": "atlas/res/bullet/at_10_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -440,7 +440,7 @@
     "energy": 512,
     "atkRange": 9,
     "atkDamage": 4096,
-    "bullet": "res/bullet/at_11_Bullet.png",
+    "bullet": "atlas/res/bullet/at_11_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -460,7 +460,7 @@
     "energy": 1024,
     "atkRange": 9.5,
     "atkDamage": 8191.99999999999,
-    "bullet": "res/bullet/at_12_Bullet.png",
+    "bullet": "atlas/res/bullet/at_12_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -480,7 +480,7 @@
     "energy": 2048,
     "atkRange": 10,
     "atkDamage": 16384,
-    "bullet": "res/bullet/at_13_Bullet.png",
+    "bullet": "atlas/res/bullet/at_13_Bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1
   },
@@ -496,7 +496,7 @@
     "energy": 0,
     "atkRange": 5.5,
     "atkDamage": 4,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -513,7 +513,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 8,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -530,7 +530,7 @@
     "energy": 0,
     "atkRange": 6.5,
     "atkDamage": 16,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -547,7 +547,7 @@
     "energy": 0,
     "atkRange": 7,
     "atkDamage": 32,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -564,7 +564,7 @@
     "energy": 0,
     "atkRange": 7.5,
     "atkDamage": 64,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -581,7 +581,7 @@
     "energy": 16,
     "atkRange": 8,
     "atkDamage": 128,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -598,7 +598,7 @@
     "energy": 32,
     "atkRange": 8.5,
     "atkDamage": 256,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -615,7 +615,7 @@
     "energy": 64,
     "atkRange": 9,
     "atkDamage": 512,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -632,7 +632,7 @@
     "energy": 128,
     "atkRange": 9.5,
     "atkDamage": 1024,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -649,7 +649,7 @@
     "energy": 256,
     "atkRange": 10,
     "atkDamage": 2048,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -666,7 +666,7 @@
     "energy": 512,
     "atkRange": 10,
     "atkDamage": 4096,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -683,7 +683,7 @@
     "energy": 1024,
     "atkRange": 10,
     "atkDamage": 8192,
-    "bullet": "res/bullet/at_fire_bullet.png",
+    "bullet": "atlas/res/bullet/at_fire_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "videoUpgradeIdArr": [2, 3]
@@ -699,7 +699,7 @@
     "energy": 0,
     "atkRange": 4,
     "atkDamage": 4,
-    "bullet": "res/bullet/at_1_Bullet.png",
+    "bullet": "atlas/res/bullet/at_1_Bullet.png",
     "bulletType": "Normal"
   },
   "40": {
@@ -713,7 +713,7 @@
     "energy": 0,
     "atkRange": 4.5,
     "atkDamage": 8,
-    "bullet": "res/bullet/at_2_Bullet.png",
+    "bullet": "atlas/res/bullet/at_2_Bullet.png",
     "bulletType": "Normal"
   },
   "41": {
@@ -727,7 +727,7 @@
     "energy": 0,
     "atkRange": 5,
     "atkDamage": 16,
-    "bullet": "res/bullet/at_3_Bullet.png",
+    "bullet": "atlas/res/bullet/at_3_Bullet.png",
     "bulletType": "Normal"
   },
   "42": {
@@ -741,7 +741,7 @@
     "energy": 0,
     "atkRange": 5.5,
     "atkDamage": 32,
-    "bullet": "res/bullet/at_4_Bullet.png",
+    "bullet": "atlas/res/bullet/at_4_Bullet.png",
     "bulletType": "Normal"
   },
   "43": {
@@ -755,7 +755,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 64,
-    "bullet": "res/bullet/at_5_Bullet.png",
+    "bullet": "atlas/res/bullet/at_5_Bullet.png",
     "bulletType": "Normal"
   },
   "44": {
@@ -769,7 +769,7 @@
     "energy": 0,
     "atkRange": 6.5,
     "atkDamage": 128,
-    "bullet": "res/bullet/at_6_Bullet.png",
+    "bullet": "atlas/res/bullet/at_6_Bullet.png",
     "bulletType": "Normal"
   },
   "45": {
@@ -783,7 +783,7 @@
     "energy": 32,
     "atkRange": 7,
     "atkDamage": 256,
-    "bullet": "res/bullet/at_7_Bullet.png",
+    "bullet": "atlas/res/bullet/at_7_Bullet.png",
     "bulletType": "Normal"
   },
   "46": {
@@ -797,7 +797,7 @@
     "energy": 64,
     "atkRange": 7.5,
     "atkDamage": 512,
-    "bullet": "res/bullet/at_8_Bullet.png",
+    "bullet": "atlas/res/bullet/at_8_Bullet.png",
     "bulletType": "Normal"
   },
   "47": {
@@ -811,7 +811,7 @@
     "energy": 128,
     "atkRange": 8,
     "atkDamage": 1024,
-    "bullet": "res/bullet/at_9_Bullet.png",
+    "bullet": "atlas/res/bullet/at_9_Bullet.png",
     "bulletType": "Normal"
   },
   "48": {
@@ -825,7 +825,7 @@
     "energy": 256,
     "atkRange": 8.5,
     "atkDamage": 2048,
-    "bullet": "res/bullet/at_10_Bullet.png",
+    "bullet": "atlas/res/bullet/at_10_Bullet.png",
     "bulletType": "Normal"
   },
   "49": {
@@ -839,7 +839,7 @@
     "energy": 512,
     "atkRange": 9,
     "atkDamage": 4096,
-    "bullet": "res/bullet/at_11_Bullet.png",
+    "bullet": "atlas/res/bullet/at_11_Bullet.png",
     "bulletType": "Normal"
   },
   "50": {
@@ -853,7 +853,7 @@
     "energy": 1024,
     "atkRange": 9.5,
     "atkDamage": 8192,
-    "bullet": "res/bullet/at_12_Bullet.png",
+    "bullet": "atlas/res/bullet/at_12_Bullet.png",
     "bulletType": "Normal"
   },
   "51": {
@@ -867,7 +867,7 @@
     "energy": 2048,
     "atkRange": 10,
     "atkDamage": 16384,
-    "bullet": "res/bullet/at_13_Bullet.png",
+    "bullet": "atlas/res/bullet/at_13_Bullet.png",
     "bulletType": "Normal"
   },
   "52": {
@@ -881,7 +881,7 @@
     "energy": 64,
     "atkRange": 7.5,
     "atkDamage": 0.3,
-    "bullet": "res/bullet/at_pao_bullet.png",
+    "bullet": "atlas/res/bullet/at_pao_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "maxCnt": 1
@@ -897,7 +897,7 @@
     "energy": 10,
     "atkRange": 7.5,
     "atkDamage": 0.02,
-    "bullet": "res/bullet/at_shoe_bullet.png",
+    "bullet": "atlas/res/bullet/at_shoe_bullet.png",
     "atkInterval": 5,
     "maxCnt": 1
   },
@@ -912,7 +912,7 @@
     "energy": 0,
     "atkRange": 7.5,
     "atkDamage": 0.3,
-    "bullet": "res/bullet/at_tao_bullet.png",
+    "bullet": "atlas/res/bullet/at_tao_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "maxCnt": 1
@@ -928,7 +928,7 @@
     "energy": 10,
     "atkRange": 7.5,
     "atkDamage": 0.003,
-    "bullet": "res/bullet/at_stone_bullet.png",
+    "bullet": "atlas/res/bullet/at_stone_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 1,
     "maxCnt": 1
@@ -944,7 +944,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 0.02,
-    "bullet": "res/bullet/at_mei_bullet.png",
+    "bullet": "atlas/res/bullet/at_mei_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 3,
     "videoUpgradeBuildId": 3009
@@ -960,7 +960,7 @@
     "energy": 0,
     "atkRange": 6,
     "atkDamage": 0.02,
-    "bullet": "res/bullet/at_mei1_bullet.png",
+    "bullet": "atlas/res/bullet/at_mei1_bullet.png",
     "bulletType": "Follow",
     "atkInterval": 3
   },
@@ -973,7 +973,7 @@
     "description": "法宝葫芦，噬魂者若越过这扇门则威力翻倍",
     "coin": 10,
     "energy": 0,
-    "bullet": "res/bullet/at_1_Bullet.png",
+    "bullet": "atlas/res/bullet/at_1_Bullet.png",
     "maxCnt": 1
   }
 }

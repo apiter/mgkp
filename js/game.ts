@@ -8056,15 +8056,36 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XBulletScript extends Laya.Script {
             constructor() {
-                super(...arguments), this.speed = 1e3, this.maxDistSquared = 1e6, this.subBullet = [], this.unlimitedRange = !1
+                super(...arguments), 
+                this.speed = 1e3, 
+                this.maxDistSquared = 1e6, 
+                this.subBullet = [], 
+                this.unlimitedRange = !1
             }
             onAwake() {
-                super.onAwake(), this.speed = XMgr.cfg.constant.bulletSpeed, this.speed /= XMgr.gameMgr.speedRatio
+                super.onAwake(), 
+                this.speed = XMgr.cfg.constant.bulletSpeed
+                this.speed /= XMgr.gameMgr.speedRatio
             }
-            shoot(e, i, s, a, n, r, o, l, h, d) {
-                this.bulletKey = e, this.attack = i, this.moveDir = s, this.target = a, this.baseModel = n, this.collisionCb = h, this.isRotate = d;
-                for (let e of XMgr.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
-                this.node = this.owner, this.node.rotation = 0, this.isActive = !0, this.originPos = new fx.V2(this.node.x, this.node.y), this.isDirZero() ? this.recover() : r || o || (this.initBody(l), this.node.on(Laya.Event.TRIGGER_ENTER, this, this.onCollision))
+            shoot(bulletKey_, attack_, moveDir_, target_, baseModel_, r, o, l, collisionCb_, isRotate_) {
+                this.bulletKey = bulletKey_, 
+                this.attack = attack_, 
+                this.moveDir = moveDir_, this.target = target_, 
+                this.baseModel = baseModel_, this.collisionCb = collisionCb_, this.isRotate = isRotate_;
+                for (let defender of XMgr.playerMgr.defenders) 
+                    baseModel_.playerUuid == defender.uuid && (this.fromModel = defender);
+                this.node = this.owner, 
+                this.node.rotation = 0, 
+                this.isActive = !0, 
+                this.originPos = new fx.V2(this.node.x, this.node.y)
+                if (this.isDirZero()) {
+                    this.recover();
+                } else {
+                    if (!r && !o) {
+                        this.initBody(l);
+                        this.node.on(Laya.Event.TRIGGER_ENTER, this, this.onCollision);
+                    }
+                }
             }
             isDirZero() {
                 return Math.abs(this.moveDir.x) < .01 && Math.abs(this.moveDir.y) < .01
@@ -8134,135 +8155,268 @@ define("js/bundle.js", function(require, module, exports) {
                 (e || 0 === e) && (this.speed = e)
             }
         }
+        
         class XTowerScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.canAttack = !0, this.lastAtkTime = 0
+                super(...arguments);
+                this.canAttack = true;
+                this.lastAtkTime = 0;
             }
+        
             getAtkCD() {
-                for (const e of this.data.buffs)
-                    if (e.Type == M.DYC_ATK_SPD) {
-                        let t = this.getTargetDstSqu();
-                        if (t == 1 / 0) continue;
-                        let i = t / this.getAtkDstSqu();
-                        i = Math.clamp(i, 0, 1), e.Val = -(1 - i)
+                // buff 处理
+                for (const buff of this.data.buffs) {
+                    if (buff.Type == M.DYC_ATK_SPD) {
+                        let dstSqu = this.getTargetDstSqu();
+                        if (dstSqu == Infinity) continue;
+        
+                        let ratio = dstSqu / this.getAtkDstSqu();
+                        ratio = Math.clamp(ratio, 0, 1);
+                        buff.Val = -(1 - ratio);
                     }
-                let e = this.data.getAtkCD(),
-                    i = XMgr.user.gameInfo.getBuffData(2),
-                    s = XMgr.mapMgr.getRoomById(this.data.roomId);
-                return !i || s.doorModel && !s.doorModel.isDie || (e /= 2), 1e3 * (e = Math.max(.21, e))
+                }
+        
+                let cd = this.data.getAtkCD();
+                let buffData = XMgr.user.gameInfo.getBuffData(2);
+                let room = XMgr.mapMgr.getRoomById(this.data.roomId);
+        
+                // 门未被摧毁时减半
+                if (buffData && (!room.doorModel || room.doorModel.isDie)) {
+                    cd /= 2;
+                }
+        
+                return Math.max(0.21, cd) * 1000;
             }
+        
             getAtkDstSqu() {
-                let e = this.data.getAtkDst(),
-                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
-                    s = e;
-                if (i && !i.isDie && i.buffs)
-                    for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
-                let a = s * C.GridSize;
-                return a * a
+                let atkDst = this.data.getAtkDst();
+                let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                let result = atkDst;
+        
+                if (player && !player.isDie && player.buffs) {
+                    for (const buff of player.buffs) {
+                        if (buff.Type == M.ATK_DST) {
+                            result += buff.result(atkDst);
+                        }
+                    }
+                }
+        
+                let px = result * C.GridSize;
+                return px * px;
             }
+        
             onUpdate() {
                 this.owner.timer.delta;
+        
                 if (super.onUpdate(), this.isChange) return;
                 if (this.isBuildCd) return;
                 if (!this.canAttack) return;
                 if (this.data.palsyTime) return;
-                let e = this.owner.timer.currTimer;
-                e - this.data.dizzyStartTime < 1e3 * this.data.dizzyDurSec || e - this.lastAtkTime > this.getAtkCD() && (this.lastAtkTime = e, this.tryAttack())
+        
+                let now = this.owner.timer.currTimer;
+        
+                // 眩晕时间内
+                if (now - this.data.dizzyStartTime < this.data.dizzyDurSec * 1000) return;
+        
+                // 普通攻击 CD
+                if (now - this.lastAtkTime > this.getAtkCD()) {
+                    this.lastAtkTime = now;
+                    this.tryAttack();
+                }
             }
+        
             findTargets() {
-                let e, i = [],
-                    s = 1 / 0,
-                    a = this.getAtkDstSqu(),
-                    n = this.getHunters();
-                for (const t of n) {
-                    if (t.isDie) continue;
-                    if (t.changeSideUuid == this.data.playerUuid) continue;
-                    let n = t.owner;
-                    if (!n || n.destroyed || this.node.destroyed) continue;
-                    let r = XV2Util01.pDistanceSquared(n, this.node);
-                    r <= a && (r < s ? (s = r, e = t, i.splice(0, 0, t)) : i.push(t))
-                }
-                if (i.length > 1) {
-                    let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
-                    if (e)
-                        for (const t of e.buildings)
-                            if (6022 == t.id) return i;
-                    i.splice(1, i.length - 1)
-                }
-                return i
-            }
-            getHunters() {
-                return XMgr.playerMgr.hunters
-            }
-            getTargetDstSqu() {
-                let e = 1 / 0,
-                    t = this.getHunters(),
-                    i = this.getAtkDstSqu();
-                for (const s of t) {
-                    if (s.isDie) continue;
-                    if (s.changeSideUuid == this.data.playerUuid) continue;
-                    let t = s.owner;
-                    if (t && this.node) {
-                        let s = XV2Util01.pDistanceSquared(t, this.node);
-                        s <= i && s < e && (e = s)
+                let bestTarget;
+                let list = [];
+                let minDstSqu = Infinity;
+                let atkDstSqu = this.getAtkDstSqu();
+                let hunters = this.getHunters();
+        
+                for (const h of hunters) {
+                    if (h.isDie) continue;
+                    if (h.changeSideUuid == this.data.playerUuid) continue;
+        
+                    let owner = h.owner;
+                    if (!owner || owner.destroyed || this.node.destroyed) continue;
+        
+                    let dst = XV2Util01.pDistanceSquared(owner, this.node);
+        
+                    if (dst <= atkDstSqu) {
+                        if (dst < minDstSqu) {
+                            minDstSqu = dst;
+                            bestTarget = h;
+                            list.unshift(h); // 放到最前面
+                        } else {
+                            list.push(h);
+                        }
                     }
                 }
-                return e
+        
+                if (list.length > 1) {
+                    let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                    if (player) {
+                        for (const b of player.buildings) {
+                            if (b.id == 6022) {
+                                return list; // 特殊建筑支持群攻
+                            }
+                        }
+                    }
+                    // 默认只保留第一个目标
+                    list.splice(1);
+                }
+        
+                return list;
             }
+        
+            getHunters() {
+                return XMgr.playerMgr.hunters;
+            }
+        
+            getTargetDstSqu() {
+                let minDstSqu = Infinity;
+                let hunters = this.getHunters();
+                let atkDstSqu = this.getAtkDstSqu();
+        
+                for (const h of hunters) {
+                    if (h.isDie) continue;
+                    if (h.changeSideUuid == this.data.playerUuid) continue;
+        
+                    let owner = h.owner;
+                    if (owner && this.node) {
+                        let dst = XV2Util01.pDistanceSquared(owner, this.node);
+                        if (dst <= atkDstSqu && dst < minDstSqu) {
+                            minDstSqu = dst;
+                        }
+                    }
+                }
+        
+                return minDstSqu;
+            }
+        
             tryAttack() {
-                if (this.data.isDizzy) return void(this.isWork = !1);
-                let e = this.findTargets();
-                if (e.length) {
-                    this.atkTarget = e[0], XV2Util01.faceTo(this.node, this.atkTarget.owner.x, this.atkTarget.owner.y, 90), this.addCoinByAtk();
-                    for (const t of e) this.fire(t);
-                    this.isWork = !0
-                } else this.isWork = !1
+                if (this.data.isDizzy) {
+                    this.isWork = false;
+                    return;
+                }
+        
+                let targets = this.findTargets();
+                if (targets.length) {
+                    this.atkTarget = targets[0];
+                    XV2Util01.faceTo(this.node, this.atkTarget.owner.x, this.atkTarget.owner.y, 90);
+                    this.addCoinByAtk();
+        
+                    for (const t of targets) {
+                        this.fire(t);
+                    }
+                    this.isWork = true;
+                } else {
+                    this.isWork = false;
+                }
             }
-            fire(i) {
-                let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
-                if (!s) return;
-                s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
-                let a = s.getComponent(XBulletScript);
-                a && a.destroy();
-                let n = this.cfg.bulletType,
-                    r = {
-                        category: e.CollideGroupType.BULLET,
-                        mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
-                    },
-                    o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i;
-                let l = this.cfg.atkDamage * this.getDamageMult();
-                n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, l, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, l, o, i, this.data, null, void 0, r), this.playFireEff(), this.fireEvent()
+        
+            fire(target) {
+                let bulletNode = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
+                if (!bulletNode) return;
+        
+                bulletNode.rotation = this.node.rotation;
+                bulletNode.x = this.node.x;
+                bulletNode.y = this.node.y;
+        
+                let bullet = bulletNode.getComponent(XBulletScript);
+                if (bullet) bullet.destroy();
+        
+                let bulletType = this.cfg.bulletType;
+                let collideCfg = {
+                    category: e.CollideGroupType.BULLET,
+                    mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
+                };
+        
+                let dir = target
+                    ? new fx.V2(target.owner.x - bulletNode.x, target.owner.y - bulletNode.y)
+                    : new fx.V2(
+                        Math.cos((bulletNode.rotation - 90) * Math.PI / 180),
+                        Math.sin((bulletNode.rotation - 90) * Math.PI / 180)
+                    );
+        
+                dir.normalize();
+        
+                bullet = bulletNode.addComponent(XBulletScript);
+                bullet.lockTarget = target;
+        
+                let damage = this.cfg.atkDamage * this.getDamageMult();
+        
+                if (bulletType == e.BulletType.Normal) {
+                    bullet.shoot(this.cfg.bullet, damage, dir, null, this.data, null, void 0, collideCfg);
+                } else {
+                    bullet.shoot(this.cfg.bullet, damage, dir, target, this.data, null, void 0, collideCfg);
+                }
+        
+                this.playFireEff();
+                this.fireEvent();
             }
+        
             playFireEff() {
-                (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
-                    this.imgBody.scale(1, 1)
-                })).run(this.imgBody)
+                new fx.Sequence()
+                    .scaleOut(1.1, 50)
+                    .scaleIn(0.8, 100)
+                    .scaleOut(1, 50)
+                    .exec(Laya.Handler.create(this, () => {
+                        this.imgBody.scale(1, 1);
+                    }))
+                    .run(this.imgBody);
             }
+        
             updateSpecial() {
-                this.isChange = !0, XMgr.assetLoader.createSpine("spines/specialTower/dongbai_effect2_1.bin", e => {
-                    e.play(0, !0), this.destroyed ? e.destroy() : (this.specialSpine = e, XMgr.mapMgr.effectLayer.addChild(e), e.pos(this.node.x, this.node.y))
-                }), this.owner.timer.once(2e3, this, () => {
-                    this.specialSpine && this.specialSpine.destroy(), XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, !1), XMgr.buildingMgr.buildSpecial(this.data)
-                })
+                this.isChange = true;
+        
+                XMgr.assetLoader.createSpine("spines/specialTower/dongbai_effect2_1.bin", spine => {
+                    spine.play(0, true);
+        
+                    if (this.destroyed) {
+                        spine.destroy();
+                    } else {
+                        this.specialSpine = spine;
+                        XMgr.mapMgr.effectLayer.addChild(spine);
+                        spine.pos(this.node.x, this.node.y);
+                    }
+                });
+        
+                this.owner.timer.once(2000, this, () => {
+                    if (this.specialSpine) this.specialSpine.destroy();
+        
+                    XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, this.data.x, this.data.y, false);
+                    XMgr.buildingMgr.buildSpecial(this.data);
+                });
             }
+        
             getDamageMult() {
-                return 1
+                return 1;
             }
+        
             upgrade() {
-                super.upgrade(), this.data.isSpecial && this.updateIcon(), this.initEffects()
+                super.upgrade();
+                if (this.data.isSpecial) this.updateIcon();
+                this.initEffects();
             }
+        
             updateIcon() {
-                let e = XMgr.buildingMgr.specialTowerCfg.get(this.data.specialId);
-                e.diIcon && (this.imgDi.skin = e.diIcon)
+                let cfg = XMgr.buildingMgr.specialTowerCfg.get(this.data.specialId);
+                if (cfg.diIcon) {
+                    this.imgDi.skin = cfg.diIcon;
+                }
             }
+        
             addCoinByAtk() {}
+        
             fireEvent() {
-                let e = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                e && !e.isDie && e.owner.event(be.Tower_Be_fire, this.data.lv)
+                let bed = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                if (bed && !bed.isDie) {
+                    bed.owner.event(be.Tower_Be_fire, this.data.lv);
+                }
             }
         }
-        class Ii extends XTowerScript {
+
+        class XBailiTowerScript extends XTowerScript {
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
                     i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
@@ -10890,7 +11044,7 @@ define("js/bundle.js", function(require, module, exports) {
                             switch (buildModel_.specialId) {
                                 case 1: r = n.addComponent(XQianjinTowerScript); break;
                                 case 2: r = n.addComponent(XTianShiTowerScript); l = !0; break;
-                                case 3: r = n.addComponent(Ii); break;
+                                case 3: r = n.addComponent(XBailiTowerScript); break;
                                 case 4: r = n.addComponent(Ei); break;
                                 case 5: r = n.addComponent(ds); break;
                                 case 6: r = n.addComponent(XTowerScript); break;
@@ -18885,11 +19039,12 @@ define("js/bundle.js", function(require, module, exports) {
             init(e) {
                 this.bulletLayer = e, this.bulletMaps = {}
             }
-            createBulletNode(e, t) {
+            createBulletNode(resPath_, t) {
                 let i;
-                if (this.bulletMaps[e] && this.bulletMaps[e] && this.bulletMaps[e].length > 0) i = this.bulletMaps[e].pop();
-                else if ((i = new Laya.Box).size(1, 1), i.name = "box_bullet", -1 == e.indexOf(".atlas")) {
-                    let s = new Laya.Image(e);
+                if (this.bulletMaps[resPath_] && this.bulletMaps[resPath_] && this.bulletMaps[resPath_].length > 0) 
+                    i = this.bulletMaps[resPath_].pop();
+                else if ((i = new Laya.Box).size(1, 1), i.name = "box_bullet", -1 == resPath_.indexOf(".atlas")) {
+                    let s = new Laya.Image(resPath_);
                     if (s.name = "img_bullet", s.anchorX = s.anchorY = .5, t) {
                         s.size(90, 90);
                         let e = new Laya.Label;
@@ -18903,7 +19058,8 @@ define("js/bundle.js", function(require, module, exports) {
                 return i.visible = !0, this.bulletLayer.addChild(i), i
             }
             recoverBulletNode(e, t) {
-                this.bulletMaps[e] || (this.bulletMaps[e] = []), this.bulletMaps[e].includes(t) || (this.bulletMaps[e].push(t), t.visible = !1)
+                this.bulletMaps[e] || (this.bulletMaps[e] = []), 
+                this.bulletMaps[e].includes(t) || (this.bulletMaps[e].push(t), t.visible = !1)
             }
         }
         class XGuildMgr {
@@ -20829,7 +20985,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }))
                 }
             }
-        }, e.BMFontLetterSpacing = n, e.BackCdt = XBackConditionCdt, e.BagSystem = Zn, e.BailiTowerScript = Ii, e.BalckBorad = class {}, e.Banner = class extends Laya.Script {
+        }, e.BMFontLetterSpacing = n, e.BackCdt = XBackConditionCdt, e.BagSystem = Zn, e.BailiTowerScript = XBailiTowerScript, e.BalckBorad = class {}, e.Banner = class extends Laya.Script {
             constructor() {
                 super()
             }

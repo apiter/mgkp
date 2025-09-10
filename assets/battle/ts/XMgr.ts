@@ -1,9 +1,9 @@
 import { XBatleMgr } from "./map/XBatleMgr";
 import XBuildingMgr from "./map/XBuildingMgr";
+import XBulletMgr from "./map/XBulletMgr";
 import { XMapMgr } from "./map/XMapMgr";
 import XPlayerMgr from "./player/XPlayerMgr";
 import XUser from "./player/XUser";
-import { XInputScript } from "./view/XInputScript";
 import XCfgMgr from "./xconfig/XCfgMgr";
 
 class XMgr {
@@ -11,6 +11,7 @@ class XMgr {
     playerMgr: XPlayerMgr = null;
     mapMgr:XMapMgr = null;
     buildingMgr:XBuildingMgr = null;
+    bulletMgr:XBulletMgr = null
     user: XUser = null;
     cfg: XCfgMgr = null
     gameTime: Date = new Date
@@ -20,6 +21,7 @@ class XMgr {
         this.gameMgr = new XBatleMgr();
         this.playerMgr = new XPlayerMgr();
         this.mapMgr = new XMapMgr();
+        this.bulletMgr = new XBulletMgr()
         this.buildingMgr = new XBuildingMgr();
         this.user = new XUser();
     }
