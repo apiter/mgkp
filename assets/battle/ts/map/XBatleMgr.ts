@@ -16,59 +16,32 @@ export class XBatleMgr implements ISchedulable {
     id?: string
 
     _isPause: boolean = false
-    diff = 0
-    isShowTurntable = false
-    skillABTest = -1
     speedRatio = 1
     hunterSpeedRatio = 1
     mapId = 0
     gameStatus = XGameStatus.E_GAME_READY
     gameMode = XGameMode.E_Defense
     playTime: number = 0
-    _arrDatas = []
     matchData: XMatchData = null
     mapCfg: XCfgMapCfgItem = null
     startTime = 0
-    killCnt = 0
     randomCnt = 0
-    isfreeUpDoor = false
     buildCnt = 0
-    adCnt = 0
     playerDeadCnt = 0
-    isUsedSuper = false
     defenseDeadCnt = 0
     defenseFindRoomId = []
-    isAdMagicBox = false
-    canChooseBuff = false
-    chooseBuffLv = 0
-    isOpenSevenGhost = false
-    aiRatios = []
     aiMultArr = []
-    curHunterAtkTarget = null
     dCfg: XDifficultCfgItem
     playerNames: string[] = []
 
     inputScript: XInputScript = null
-
-    constructor() {
-    }
+    aiRatios = []
 
     isDefender() {
         return XMgr.playerMgr.player.type == XPlayerType.E_Defender
     }
     isHunter() {
         return XMgr.playerMgr.player.type == XPlayerType.E_Hunter
-    }
-    randomDiff() {
-        let arr_arr = [
-            [0, 1],
-            [0, 1, 2],
-            [1, 2]
-        ]
-        const totalCnt = XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt
-        let idx1 = totalCnt < 5 ? 0 : 1;
-        let idx2 = Math.floor(XRandomUtil.random() * arr_arr[idx1].length);
-        this.diff = arr_arr[idx1][idx2]
     }
 
     match(gameMode_: XGameMode, defenderArr_: XPlayerModel[], hunterArr_: XPlayerModel[], mapCfg_: XCfgMapCfgItem, mapData_: XCfgMapData) {
@@ -77,14 +50,13 @@ export class XBatleMgr implements ISchedulable {
         matchData.mapCfg = mapCfg_
         matchData.mapData = mapData_;
 
-        this.randomDiff()
         this.mapId = mapCfg_.id
 
         let mineIdx = 0
         let defenderPointArr = [];
         for (let i = 0; i < mapCfg_.defenderPointNum; ++i)
             defenderPointArr.push(i);
-        XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt != 0 && XRandomUtil.randomArray(defenderPointArr);
+        XRandomUtil.randomArray(defenderPointArr);
 
         for (let i = 0; i < defenderArr_.length; ++i) {
             let defender = defenderArr_[i];
@@ -107,7 +79,6 @@ export class XBatleMgr implements ISchedulable {
     }
 
     start(matchData_: XMatchData) {
-        this._arrDatas = []
         this.gameStatus = XGameStatus.E_GAME_READY
         this.matchData = matchData_
         this.gameMode = matchData_.gameMode
@@ -115,52 +86,17 @@ export class XBatleMgr implements ISchedulable {
         XMgr.playerMgr.init(matchData_)
         XMgr.mapMgr.init(matchData_.mapData)
         XMgr.buildingMgr.init()
-        // t.taskMgr.init()
         this.startTime = XMgr.gameTime.getTime()
-        this.killCnt = 0
         this.randomCnt = 0
-        this.isfreeUpDoor = false
-        this.curHunterAtkTarget = null
         this.playTime = 0
         this.buildCnt = 0
-        this.adCnt = 0
         this.playerDeadCnt = 0
-        this.isUsedSuper = false
         this.defenseDeadCnt = 0
         this.defenseFindRoomId = []
-        this.isAdMagicBox = false
-        let gameInfo = XMgr.user.gameInfo;
         this.aiRatios = [0.7, 0.75, 0.65, 0.4, 0.7, 0.85, 0.5];
         this.speedRatio = 0.75;
         this.hunterSpeedRatio = 0.75 / XMgr.gameMgr.dCfg.moveSpeed || 1;
 
-        if (XMgr.gameMgr.gameMode == XGameMode.E_Defense && (gameInfo.isStartLv || gameInfo.curLv > 1)) {
-            let diffCfg = this.dCfg;
-            if (gameInfo.curLv != gameInfo.lastLv) {
-                if (gameInfo.isLastWin) {
-                    XToast.show(`难度上升：${diffCfg.name}`);
-                } else {
-                    XToast.show(`难度降低：${diffCfg.name}`);
-                }
-            } else {
-                XToast.show(`难度：${diffCfg.name}`);
-            }
-        } else if (XMgr.gameMgr.gameMode == XGameMode.E_AngelOrGhost) {
-            XToast.show("大战木头人即将开始");
-        } else if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt) {
-            let diffCfg = this.dCfg;
-            if (gameInfo.curHunterLv != gameInfo.lastHunterLv) {
-                if (gameInfo.isLastHunterWin) {
-                    XToast.show(`难度上升：${diffCfg.name}`);
-                } else {
-                    XToast.show(`难度降低：${diffCfg.name}`);
-                }
-            } else {
-                XToast.show(`难度：${diffCfg.name}`);
-            }
-        } else if (XMgr.gameMgr.gameMode == XGameMode.E_SevenGhost) {
-            // XToast.show("挑战模式开始");
-        }
 
         this.aiMultArr = XRandomUtil.randomInArray([
             [1.6, 1.7, 1.8, 1.9, 2],
@@ -270,19 +206,8 @@ export class XBatleMgr implements ISchedulable {
         e.isDie = 0 == e.curHp
         e.owner && e.owner.event(XEventNames.Hp_Changed, -i)
     }
-    get arrDatas() {
-        return this._arrDatas
-    }
-    set arrDatas(e) {
-        this._arrDatas = e
-    }
     addDataInArr(e) {
-        for (let idx = 0; idx < this.arrDatas.length; idx++) {
-            let data = this.arrDatas[idx];
-            if (data.x == e.x && data.y == e.y)
-                return void (this.arrDatas[idx] = e)
-        }
-        this.arrDatas.push(e)
+ 
     }
     revive() { }
     get mineRoom() {
@@ -351,23 +276,15 @@ export class XBatleMgr implements ISchedulable {
         return (!mapBuild || !mapBuild.isUsed) && XMgr.buildingMgr.takeMapBuild(x_, y_, player)
     }
 
-    playSoundByNode(t, i, s) {
-        // this.gameStatus == XGameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
-    }
     nodeIsInPlayerView(e) {
         let i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
         return !(i.x < 0 || i.x > view.getVisibleSize().width) && !(i.y < 0 || i.y > view.getVisibleSize().height)
     }
-    playSound(t, i, s) {
-        // t && this.gameStatus == XGameStatus.E_GAME_START && this.isInPlayerView(t) && XChoreUtil.playSound(i, s)
-    }
+    
     isInPlayerView(e) {
         return this.nodeIsInPlayerView(e.owner)
     }
-    showSpecialTip(e) {
-        director.getScheduler().schedule((dt) => {
-        }, this, 2, 0)
-    }
+
     isChooseBuff() {
         let e = false;
         // XMgr.cfg.buffCfg.forEach(i => {
@@ -380,9 +297,7 @@ export class XBatleMgr implements ISchedulable {
         // })
         return e
     }
-    getPlayer() {
-
-    }
+    
     randomName(e = 0) {
         return "随机名字"
     }

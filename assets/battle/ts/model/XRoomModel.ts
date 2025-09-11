@@ -11,14 +11,13 @@ export class XRoomModel {
     energy = 0
     grids:Vec2[] = []
     walls = []
-    buildings = []
+    buildings:XBuildingModel[] = []
     preBuildings = []
     bedModelList:XBuildingModel[] = []
     active = true
     towers = []
     doorPosArr: Vec2[] = []
     doorPos: Vec2
-    doorRot:number
     doorModel: XBuildingModel
 
     players = []

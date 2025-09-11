@@ -4255,7 +4255,7 @@ define("js/bundle.js", function(require, module, exports) {
                 if (roomDoor.curHp < 0.5 * roomDoor.maxHp) {
                     this.lastUpObj = roomDoor;
                     this.lastBuildObj = null;
-                    this.isBuild = !0;
+                    this.isBuild = true;
                 }
             
                 let lastUpObj = this.lastUpObj;

@@ -24,7 +24,6 @@ export class XDefenderScript extends XPlayerScript {
 
     onInit() {
         // 默认等级和速度系数
-        let level = XMgr.user.gameInfo.maxLevel;
         let speedFactor = 1;
 
         // 是否是自己玩家
@@ -34,15 +33,7 @@ export class XDefenderScript extends XPlayerScript {
             if (XMgr.gameMgr.gameMode == XGameMode.E_Defense) {
                 speedFactor = 1.1;
             } else if (XMgr.gameMgr.gameMode == XGameMode.E_Hunt) {
-                // 随机生成等级
-                level = XRandomUtil.getIntRandom(
-                    XMgr.gameMgr.dCfg.lvlFloor - 1,
-                    XMgr.gameMgr.dCfg.lvlCeil
-                ) + XMgr.gameMgr.dCfg.id;
-                level = Math.min(26, level);
             } else {
-                // 其他模式
-                level = this.getRandomLv();
             }
         } else {
             // 如果是自己玩家并且在防御模式，额外加速

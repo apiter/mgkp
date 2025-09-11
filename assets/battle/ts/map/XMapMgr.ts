@@ -27,12 +27,6 @@ class XTiledInfo {
 }
 
 export class XMapMgr {
-    _outRoomGirds = []
-    // outRoomGridsInsideMap = []
-    // hideDoors = []
-    roomBuildings = []
-    outBuildings = []
-    hideWallMap = new Map
     roomsWall = []
     _height = 0
     _width = 0
@@ -41,7 +35,7 @@ export class XMapMgr {
 
     _tiledMap: XTiledInfo[][] = []
     _rooms: XRoomModel[] = []
-    _buildings = []
+    _buildings:XTiledInfo[] = []
     _hunterSpawns = []
     _defenderSpawns: Vec2[] = []
     _mapBuildPoints = []
@@ -52,7 +46,6 @@ export class XMapMgr {
     _mapNode = null
 
     init(mapData_: XCfgMapData) {
-        this.outBuildings = []
         this.parseData(mapData_)
         this._grid = new XGrid(this._height, this._width);
         for (let h = 0; h < this._height; h++)
@@ -61,7 +54,6 @@ export class XMapMgr {
                 this.setDynWalkable(h, w, this.isWalkable(h, w));
             }
         this.initRooms()
-        this.initOutRoomGrids()
         this._mapBoundBox = {
             minX: 0,
             maxX: this._width * XConst.GridSize,
@@ -96,47 +88,39 @@ export class XMapMgr {
                 }
             } else if (-1 != obj.name.indexOf("Room")) {
                 let s = obj.name.replace("Room_", ""),
-                    a = Number(s);
-                if (this.getRoomById(a)) {
-                    console.error(`Room重复 ${a}`);
+                    roomId = Number(s);
+                if (this.getRoomById(roomId)) {
+                    console.error(`Room重复 ${roomId}`);
                     continue
                 }
                 let roomModel = new XRoomModel;
-                roomModel.id = a;
+                roomModel.id = roomId;
                 let r = this.mapPosToGridPos(obj.x, obj.y);
                 roomModel.x = r.x
                 roomModel.y = r.y
                 this._rooms.push(roomModel)
             }
         }
-        let groundData = this.getLayer(mapData_, "ground").data
-        const buildData = this.getLayer(mapData_, "build").data
+        let groundDataArr = this.getLayer(mapData_, "ground").data
+        const buildDataArr = this.getLayer(mapData_, "build").data
         for (let h = 0; h < this._height; ++h) {
             this._tiledMap[h] = [];
             for (let w = 0; w < this._width; ++w) {
                 let tiledInfo = new XTiledInfo(h, w)
                 const tiledIdx = h * this._width + w
-                const o = groundData[tiledIdx];
-                if (o == 0) {
+                const groundData = groundDataArr[tiledIdx];
+                if (groundData == 0) {
                     tiledInfo.groundBlock = "floor_1";
                     tiledInfo.groundRot = 0;
                 } else {
-                    tiledInfo.groundBlock = this._tileSets[o][0];
-                    tiledInfo.groundRot = this._tileSets[o][1];
+                    tiledInfo.groundBlock = this._tileSets[groundData][0];
+                    tiledInfo.groundRot = this._tileSets[groundData][1];
                 }
-
-                // if (tiledInfo.groundBlock.indexOf("floor_1") !== -1) {
-                //     this.outRoomGridsInsideMap.push(new Vec2(h, w));
-                // }
-
-                // if (tiledInfo.groundBlock.indexOf("wall_unable") !== -1) {
-                //     this.hideDoors.push(new Vec2(tiledInfo.x, tiledInfo.y));
-                // }
 
                 if (tiledInfo.groundBlock.indexOf("floor") !== -1) {
                     tiledInfo.walkable = true;
                 }
-                let buildIdx = buildData[tiledIdx];
+                let buildIdx = buildDataArr[tiledIdx];
                 if (buildIdx > 0) {
                     let name = this._tileSets[buildIdx][0]
                     const buildId = name.split("_");
@@ -152,15 +136,29 @@ export class XMapMgr {
         }
     }
     getTilesets(cfg_) {
-        let t = {};
+        let rets = {};
+    
         for (let i = 0; i < cfg_.tilesets.length; ++i) {
-            let s, a, setInfo = cfg_.tilesets[i],
-                r = setInfo.name.split("_"),
-                o = Number(r[r.length - 1]);
-            !isNaN(o) && o >= 90 ? (s = setInfo.name.replace(`_${o}`, ""), a = o) : (s = setInfo.name, a = 0), t[setInfo.firstgid] = [s, a, setInfo]
+            let setInfo = cfg_.tilesets[i];
+            let splitArr = setInfo.name.split("_");
+    
+            let lastNumber = Number(splitArr[splitArr.length - 1]);
+            let name, rot;
+    
+            if (!isNaN(lastNumber) && lastNumber >= 90) {
+                name = setInfo.name.replace(`_${lastNumber}`, "");
+                rot = lastNumber;
+            } else {
+                name = setInfo.name;
+                rot = 0;
+            }
+    
+            rets[setInfo.firstgid] = [name, rot, setInfo];
         }
-        return t
+    
+        return rets;
     }
+    
     getLayer(cfg_, key_) {
         for (const i of cfg_.layers)
             if (i.name == key_) return i
@@ -210,10 +208,9 @@ export class XMapMgr {
         }
     }
 
-    searchRoomGrids(id_, x_, y_, roomTiles_: Vec2[], blockTiles_: Vec2[], doorTiles_: Vec2[], r = !1) {
+    searchRoomGrids(id_, x_, y_, roomTiles_: Vec2[], blockTiles_: Vec2[], doorTiles_: Vec2[], slant_ = false) {
         let tileXy = new Vec2(x_, y_);
 
-        // 如果 (x_, y_) 已经在 s 或 a 中，就直接返回
         if (XV2Util01.isV2InArray(tileXy, roomTiles_) || XV2Util01.isV2InArray(tileXy, blockTiles_)) return;
 
         let tileInfo = this.getTiledInfo(x_, y_);
@@ -221,7 +218,7 @@ export class XMapMgr {
         if (tileInfo) {
             tileInfo.roomId = id_
             if (tileInfo.walkable) {
-                if (r) return; // 如果是对角线搜索（r = true），直接退出
+                if (slant_) return; // 如果是对角线搜索（r = true），直接退出
 
                 // 如果是地板1，不再继续
                 if (tileInfo.groundBlock && -1 != tileInfo.groundBlock.indexOf("floor_1")) return;
@@ -238,25 +235,17 @@ export class XMapMgr {
                 this.searchRoomGrids(id_, x_ + 1, y_, roomTiles_, blockTiles_, doorTiles_);
                 this.searchRoomGrids(id_, x_ - 1, y_, roomTiles_, blockTiles_, doorTiles_);
 
-                // 向四个斜角递归搜索（但标记 r = true，下一层遇到直接 return，不会继续扩展）
+                // 向四个斜角递归搜索
                 this.searchRoomGrids(id_, x_ + 1, y_ + 1, roomTiles_, blockTiles_, doorTiles_, !0);
                 this.searchRoomGrids(id_, x_ + 1, y_ - 1, roomTiles_, blockTiles_, doorTiles_, !0);
                 this.searchRoomGrids(id_, x_ - 1, y_ + 1, roomTiles_, blockTiles_, doorTiles_, !0);
                 this.searchRoomGrids(id_, x_ - 1, y_ - 1, roomTiles_, blockTiles_, doorTiles_, !0);
 
-            } else blockTiles_.push(tileXy) // 如果 tileInfo 不可走，则加入 a（障碍物集合）
+            } else blockTiles_.push(tileXy) // 如果 tileInfo 不可走，则加入 （障碍物集合）
         }
 
     }
 
-    initOutRoomGrids() {
-        this._outRoomGirds = [];
-        for (let e = 0; e < this._height; ++e)
-            for (let t = 0; t < this._width; ++t) {
-                let i = this._tiledMap[e][t];
-                i && !i.roomId && i.walkable && this._outRoomGirds.push(i)
-            }
-    }
     getRoomById(roomId_) {
         for (const r of this._rooms)
             if (r.id == roomId_) return r
@@ -358,14 +347,22 @@ export class XMapMgr {
         return -1
     }
     getRandomPosByRoomId(roomId_: number) {
-        for (const t of this.rooms)
+        for (const t of this.rooms) {
             if (roomId_ == t.id) {
                 let roomGrids = XUtil.deepClone(t.grids);
-                for (const build of t.buildings)
-                    for (let i = 0; i < roomGrids.length; i++)
-                        build.x != roomGrids[i].x || build.y != roomGrids[i].y || roomGrids.splice(i, 1);
-                return XRandomUtil.randomInArray(roomGrids)
+        
+                // 移除被建筑占用的格子
+                for (const build of t.buildings) {
+                    for (let i = 0; i < roomGrids.length; i++) {
+                        if (build.x == roomGrids[i].x && build.y == roomGrids[i].y) {
+                            roomGrids.splice(i, 1);
+                        }
+                    }
+                }
+        
+                return XRandomUtil.randomInArray(roomGrids);
             }
+        }
     }
 
     findPath(mapX1_, mapY1_, mapX2_, mapY2_, slant_ = false) {
@@ -488,9 +485,7 @@ export class XMapMgr {
     get buildings() {
         return this._buildings
     }
-    get views() {
-        return this._viewList
-    }
+
     get rooms() {
         return this._rooms
     }
@@ -521,8 +516,5 @@ export class XMapMgr {
     }
     get realHeight() {
         return this.height * XConst.GridSize
-    }
-    get outRoomGrids() {
-        return this._outRoomGirds.slice()
     }
 }

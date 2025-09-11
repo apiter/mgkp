@@ -448,12 +448,24 @@ export class XPlayerScript extends Component {
     getOwnerAllBuildings(buildType = null) {
         let roomModel = this.getRoomModel();
         if (!roomModel) return [];
-        let playUuid = this.data.uuid,
-            a = playUuid.indexOf("_");
+        
+        let playUuid = this.data.uuid;
+        let a = playUuid.indexOf("_");
         playUuid = playUuid.slice(a + 1);
-        let ret = [];
-        for (const build of roomModel.buildings) !build.playerUuid || build.playerUuid != playUuid || buildType && build.type != buildType || ret.push(build);
-        return ret
+        
+        let ret:XBuildingModel[] = [];
+        
+        for (const build of roomModel.buildings) {
+            if (
+                build.playerUuid && 
+                build.playerUuid == playUuid && 
+                (!buildType || build.type == buildType)
+            ) {
+                ret.push(build);
+            }
+        }
+        
+        return ret;
     }
 
     getOwnerBed() {

@@ -48,7 +48,7 @@ export class XHunterScript extends XPlayerScript {
 
     protected update(dt: number): void {
         if (this.isSkinLoaded && XMgr.gameMgr.gameStatus === XGameStatus.E_GAME_START && !XMgr.gameMgr.isPause) {
-            this._bt?.exec()
+            // this._bt?.exec()
         }
     }
 
