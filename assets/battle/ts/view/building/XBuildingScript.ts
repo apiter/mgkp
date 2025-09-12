@@ -62,6 +62,7 @@ export class XBuildingScript extends Component {
         const hpNode = new Node("hpNode")
         this.hpLabel = hpNode.addComponent(Label)
         this.hpLabel.string = buildModel_.curHp.toString()
+        this.hpLabel.fontSize = 18
         this.node.addChild(hpNode)
     }
 

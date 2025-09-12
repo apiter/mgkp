@@ -60,8 +60,8 @@ export class XGameScene extends Component {
             playerModel.skinId = XRandomUtil.randomInArray(XMgr.cfg.getPlayerIdArr())
             defenderArr.push(playerModel)
         }
-        let mapCfg = XMgr.cfg.mapCfg.get("1")
-        let mapData = XMgr.cfg.mapDatas.get("map1")
+        let mapCfg = XMgr.cfg.mapCfg.get("2")
+        let mapData = XMgr.cfg.mapDatas.get("map2")
         let data = XMgr.gameMgr.match(XGameMode.E_Defense, defenderArr, hunterArr, mapCfg, mapData)
         return data
     }
