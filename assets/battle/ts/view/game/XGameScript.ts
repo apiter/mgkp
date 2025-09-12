@@ -1,7 +1,7 @@
 import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
-import { XBuildType, XGameMode, XGameStatus } from '../../xconfig/XEnum';
+import { XBuildType, XGameMode, XGameStatus, XPlayerType } from '../../xconfig/XEnum';
 import { XDoorScript } from '../building/XDoorScript';
 import { XBedScript } from '../building/XBedScript';
 import { XTowerScript } from '../building/XTowerScript';
@@ -42,7 +42,9 @@ export class XGameScript extends Component {
     room: XRoomModel = null
 
     protected onLoad(): void {
-        this.map = this.node.getChildByName("map").getComponent(XMapView)
+        const mapNode = this.node.getChildByName("map")
+        XMgr.mapMgr.mapNode = mapNode
+        this.map = mapNode.getComponent(XMapView)
     }
 
     protected onDestroy(): void {
@@ -248,6 +250,7 @@ export class XGameScript extends Component {
 
     protected update(dt: number): void {
         this.updateMove(dt)
+        this.updateOperateUI()
     }
 
     updateMove(dt) {
@@ -308,11 +311,28 @@ export class XGameScript extends Component {
         buildScript?.upgrade()
     }
 
-    onDoorStateChanged(door_:XBuildingModel) {
+    onDoorStateChanged(door_: XBuildingModel) {
         let buildScript = door_.ownerScript as XDoorScript
-        if(!buildScript || buildScript.data.type != XBuildType.door)
+        if (!buildScript || buildScript.data.type != XBuildType.door)
             return
-        door_.isOpen?buildScript.openDoor():buildScript.closeDoor()
+        door_.isOpen ? buildScript.openDoor() : buildScript.closeDoor()
+    }
+
+    updateOperateUI() {
+        XMgr.gameUI?.hideOperateBtn()
+        if (!this.characterControl || this.characterControl.data.type != XPlayerType.E_Defender)
+            return
+        const playerNode = this.characterControl.node
+        const buildNear = XMgr.buildingMgr.getNearBuildingByMapPos2(playerNode.x, playerNode.y, [XBuildType.door, XBuildType.bed])
+        if (buildNear) {
+            switch (buildNear.type) {
+                case XBuildType.door:
+                    XMgr.gameUI.showDoorBtn(buildNear.x, buildNear.y, !buildNear.isOpen)
+                    break
+                case XBuildType.bed:
+                    break
+            }
+        }
     }
 }
 

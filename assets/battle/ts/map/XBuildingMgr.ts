@@ -626,7 +626,7 @@ export default class XBuildingMgr {
         return aroundBuidings
     }
 
-    getNearBuildingByMapPos2(x_, y_, typesIncludes_ = null, disDelta_ = 1) {
+    getNearBuildingByMapPos2(x_, y_, typesIncludes_ = [], disDelta_ = 1) {
         let gridPos = XMgr.mapMgr.mapPosToGridPos(x_, y_),
             aroundBuildings = this.getAroundBuildings(gridPos.x, gridPos.y, typesIncludes_, disDelta_);
         if (0 == aroundBuildings.length) return null;

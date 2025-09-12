@@ -11147,13 +11147,38 @@ define("js/bundle.js", function(require, module, exports) {
                 t && t.videoUpgrade()
             }
             updateOperateUI() {
-                if (XMgr.gameUI.hideOperateBtn(), !this.characterControl || this.characterControl.data.type != e.PlayerType.E_Defender) return;
-                let i = this.characterControl.node,
-                    s = XMgr.buildingMgr.getNearBuildingByMapPos(i.x, i.y, [e.BuildType.door, e.BuildType.bed]);
-                if (s) s.type == e.BuildType.door ? XMgr.gameUI.showDoorBtn(s.x, s.y, !s.isOpen) : s.type != e.BuildType.bed || 1e3 != s.id || s.isUsed || this.characterControl.type != e.PlayerType.E_Defender || XMgr.gameUI.showBedBtn(s.x, s.y);
-                else {
+                // 隐藏操作按钮
+                XMgr.gameUI.hideOperateBtn();
+            
+                // 仅守护者才显示操作按钮
+                if (!this.characterControl || this.characterControl.data.type != e.PlayerType.E_Defender) {
+                    return;
+                }
+            
+                let i = this.characterControl.node;
+            
+                // 获取最近的建筑（门或床）
+                let s = XMgr.buildingMgr.getNearBuildingByMapPos(i.x, i.y, [e.BuildType.door, e.BuildType.bed]);
+            
+                if (s) {
+                    if (s.type == e.BuildType.door) {
+                        // 显示门按钮
+                        XMgr.gameUI.showDoorBtn(s.x, s.y, !s.isOpen);
+                    } else if (
+                        s.type == e.BuildType.bed &&
+                        s.id == 1000 &&
+                        !s.isUsed &&
+                        this.characterControl.type == e.PlayerType.E_Defender
+                    ) {
+                        // 显示床按钮
+                        XMgr.gameUI.showBedBtn(s.x, s.y);
+                    }
+                } else {
+                    // 查找地图上的特殊建筑
                     let e = XMgr.buildingMgr.getNearMapBuildingByMapPos(i.x, i.y);
-                    e && !XMgr.playerMgr.player.takeMapBuild && XMgr.gameUI.showMapBuildBtn(e.x, e.y)
+                    if (e && !XMgr.playerMgr.player.takeMapBuild) {
+                        XMgr.gameUI.showMapBuildBtn(e.x, e.y);
+                    }
                 }
             }
             getDefender(e) {
@@ -11325,8 +11350,22 @@ define("js/bundle.js", function(require, module, exports) {
                 } else console.log("open build ui"), XMgr.gameUI.showBuildMeun(n.x, n.y)
             }
             onUpdate() {
-                super.onUpdate(), this.characterControl && (this.characterControl.data.type == e.PlayerType.E_Hunter ? (XMgr.gameUI.hideOperateBtn(), this.characterControl.tryAttack()) : this.characterControl.data.isAngel && XMgr.gameUI.hideOperateBtn())
+                super.onUpdate();
+            
+                if (!this.characterControl) {
+                    return;
+                }
+            
+                if (this.characterControl.data.type == e.PlayerType.E_Hunter) {
+                    // 猎人：隐藏操作按钮并尝试攻击
+                    XMgr.gameUI.hideOperateBtn();
+                    this.characterControl.tryAttack();
+                } else if (this.characterControl.data.isAngel) {
+                    // 天使：只隐藏操作按钮
+                    XMgr.gameUI.hideOperateBtn();
+                }
             }
+            
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
                 let e = XMgr.gameMgr.mineRoom;
@@ -11463,7 +11502,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.equipArr = []
             }
             onInit() {
-                super.onInit(), XMgr.gameUI.hideOperateBtn(), this.box_equip = this.owner.getChildByName("box_equip"), this.box_equip.visible = !0, this.list_equip = this.box_equip.getChildByName("list_equip");
+                super.onInit(), XMgr.gameUI.hideOperateBtn(), 
+                this.box_equip = this.owner.getChildByName("box_equip"), this.box_equip.visible = !0, this.list_equip = this.box_equip.getChildByName("list_equip");
                 let e = this.owner.getChildByName("box_skill");
                 e.getChildByName("defender_skill").visible = !1;
                 let i = e.getChildByName("hunter_skill");
@@ -18985,13 +19025,20 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateGrid = new fx.V2, this.tipsList = [], this.iconList = [], this.seqArray = []
             }
             init(e, t) {
-                this.gameNode = e, this.label_cd = t.getChildByName("label_cd"), this.label_cd.visible = !1, this.box_angelRevive = t.getChildByName("box_angelRevive"), this.lb_angelRevive = this.box_angelRevive.getChildByName("lb_angelRevive"), this.operateBtn = fx.Utils.createPrefab(T.Prefab_OperateBtn), this.operateImg = this.operateBtn.getChildByName("imgBtn"), this.gameNode.addChild(this.operateBtn), this.operateBtn.visible = !1;
+                this.gameNode = e, this.label_cd = t.getChildByName("label_cd"), this.label_cd.visible = !1, 
+                this.box_angelRevive = t.getChildByName("box_angelRevive"), 
+                this.lb_angelRevive = this.box_angelRevive.getChildByName("lb_angelRevive"), 
+                this.operateBtn = fx.Utils.createPrefab(T.Prefab_OperateBtn),
+                this.operateImg = this.operateBtn.getChildByName("imgBtn"), 
+                this.gameNode.addChild(this.operateBtn), this.operateBtn.visible = !1;
                 let i = fx.Utils.createPrefab(T.Prefab_BuildMenu);
                 this.gameNode.parent.addChild(i), this.buildMenu = i.getComponent(XBuildMenuScript), i.visible = !1;
                 let s = fx.Utils.createPrefab(T.Prefab_UpgradeMenu);
                 this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(XUpgradeMenuScript), s.visible = !1;
                 let a = fx.Utils.createPrefab(T.Prefab_BorrowMoney);
-                this.gameNode.parent.addChild(a), this.borrowMoneyMenu = a.getComponent(XBorrowMoneyMenuScript), a.visible = !1, this.tipsList = [], this.iconList = [], t.getChildByName("btn_back").on(Laya.Event.CLICK, this, this.onClickBack), t.getChildByName("btn_setting").on(Laya.Event.CLICK, this, this.onClickSetting)
+                this.gameNode.parent.addChild(a), this.borrowMoneyMenu = a.getComponent(XBorrowMoneyMenuScript), a.visible = !1, this.tipsList = [], 
+                this.iconList = [], t.getChildByName("btn_back").on(Laya.Event.CLICK, this, this.onClickBack), 
+                t.getChildByName("btn_setting").on(Laya.Event.CLICK, this, this.onClickSetting)
             }
             onClickBack() {
                 XMgr.ui.open(l.ExitView)
@@ -19051,7 +19098,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.hideUpgradeMenu(), this.hideBuildMenu(), this.hideBorrowMoneyMenu()
             }
             showDoorBtn(t, i, s) {
-                this.operateBtn.visible = !0, this.operateImg.skin = s ? "res/game/img_kaimen.png" : "res/game/img_guanmen.png", this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.door, t, i, s]), this.operateGrid.setValue(t, i)
+                this.operateBtn.visible = !0, this.operateImg.skin = s ? "res/game/img_kaimen.png" : "res/game/img_guanmen.png", 
+                this.operateBtn.offAll(Laya.Event.CLICK), 
+                this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.door, t, i, s]), this.operateGrid.setValue(t, i)
             }
             showBedBtn(i, s) {
                 if (XMgr.gameMgr.isGuide) {
@@ -19067,25 +19116,48 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateBtn.visible = !0, this.operateImg.skin = this.switchOperateImg(a.skinId), this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.bed, i, s, null]), this.operateGrid.setValue(i, s)
             }
             showMapBuildBtn(e, t) {
-                this.operateBtn.visible = !0, this.operateImg.skin = "res/game/img_shiqu.png", this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickShiqu, [e, t]), this.operateGrid.setValue(e, t)
+                this.operateBtn.visible = !0, this.operateImg.skin = "res/game/img_shiqu.png", 
+                this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickShiqu, [e, t]), this.operateGrid.setValue(e, t)
             }
             switchOperateImg(e) {
                 let t;
                 return t = "res/game/img_shangchuang.png"
             }
             onClickOperateBtn(i, s, a, n, r) {
-                if (r.stopPropagation(), this.hideOperateBtn(), i == e.BuildType.door) n ? (XChoreUtil.playSound(123), XMgr.buildingMgr.openDoorByGridPos(s, a)) : (XChoreUtil.playSound(122), XMgr.buildingMgr.closeDoorByGridPos(s, a));
+                // 阻止事件冒泡
+                r.stopPropagation();
+            
+                // 点击后先隐藏操作按钮
+                this.hideOperateBtn();
+            
+                if (i == e.BuildType.door) {
+                    // 操作门
+                    if (n) {
+                        XChoreUtil.playSound(123); // 开门音效
+                        XMgr.buildingMgr.openDoorByGridPos(s, a);
+                    } else {
+                        XChoreUtil.playSound(122); // 关门音效
+                        XMgr.buildingMgr.closeDoorByGridPos(s, a);
+                    }
+                } 
                 else if (i == e.BuildType.bed) {
-                    0 == XMgr.gameMgr.upBed(s, a, XMgr.playerMgr.mineUuid) && XMgr.mapMgr.lowLayer.destroyChildren()
+                    // 操作床
+                    let result = XMgr.gameMgr.upBed(s, a, XMgr.playerMgr.mineUuid);
+                    if (result == 0) {
+                        XMgr.mapMgr.lowLayer.destroyChildren();
+                    }
                 }
             }
+            
             onClickShiqu(e, i, s) {
                 s.stopPropagation(), this.hideOperateBtn();
                 let a = XMgr.buildingMgr.getMapBuild(e, i);
                 XMgr.playerMgr.player.ownerScript.takeMapBuild(a)
             }
             hideOperateBtn() {
-                fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !0), this.img_hand && (this.img_hand.visible = !1), this.operateBtn.visible && (this.operateBtn.visible = !1)
+                fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !0), 
+                this.img_hand && (this.img_hand.visible = !1), 
+                this.operateBtn.visible && (this.operateBtn.visible = !1)
             }
             update() {
                 this.updateOperateBtn()
@@ -21698,7 +21770,11 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.timer.callLater(this, this.enterGame)
             }
             initGame() {
-                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new XGameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new XMapMgr, XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, XMgr.guideMgr = new XGuildMgr
+                XMgr.cryptUtil = new CryptUtil, XMgr.http = new Js, XMgr.assetLoader = new AssetLoader, XMgr.assetPool = new AssetPool, 
+                XMgr.ui = new Aa, XMgr.gameTime = new GameTime, XMgr.language = LanguageMgr.instance, XMgr.controller = new Controller, 
+                XMgr.rewardMgr = new RewardMgr, XMgr.reporter = new Reporter, XMgr.serverStorage = XEventDispatcher.I, 
+                XMgr.rankMgr = new RankMgr, XMgr.gameMgr = new XGameMgr, XMgr.gameUI = new XGameUI, XMgr.mapMgr = new XMapMgr, 
+                XMgr.buildingMgr = new XBuildingMgr, XMgr.playerMgr = new XPlayerMgr, XMgr.bulletMgr = new XBulletMgr, XMgr.guideMgr = new XGuildMgr
             }
             enterGame() {
                 XMgr.cfg.map.get(19)
