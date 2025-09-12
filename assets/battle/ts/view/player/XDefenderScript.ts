@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { XPlayerScript } from './XPlayerScript';
-import { XGameMode, XPlayerType } from '../../xconfig/XEnum';
+import { XGameMode, XGameStatus, XPlayerType } from '../../xconfig/XEnum';
 import XMgr from '../../XMgr';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import { XPlayerAI } from '../../xai/XAIPlayer';
@@ -107,8 +107,8 @@ export class XDefenderScript extends XPlayerScript {
         // if (this.dtWait < 0.1)
         //     return
         this.dtWait = 0
-        if (this.isSkinLoaded) {
-            if (!XMgr.gameMgr.isPause && !this.data.isDie) {
+        if (this.isSkinLoaded && XMgr.gameMgr.gameStatus === XGameStatus.E_GAME_START && !XMgr.gameMgr.isPause) {
+            if (!this.data.isDie) {
                 if (!this.data.isBed) {
                     this.node.setSiblingIndex(this.node.y)
                 }

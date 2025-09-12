@@ -155,9 +155,17 @@ export class XPlayerScript extends Component {
                 if (this.data.uuid === XMgr.playerMgr.mineUuid) {
                     XMgr.gameMgr.gameover(false)
                     XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH)
-                    console.debug(`[游戏结束]`)
+                    console.debug(`[游戏结束] 玩家输`)
                 } else {
 
+                }
+            }
+        } else if (this.data.type === XPlayerType.E_Hunter) {
+            if (XMgr.gameMgr.gameMode === XGameMode.E_Defense) {
+                if (this.data.uuid === XMgr.playerMgr.hunters[0].uuid) {
+                    XMgr.gameMgr.gameover(true);
+                    XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH);
+                    console.debug(`[游戏结束] 玩家赢`)
                 }
             }
         }
@@ -448,23 +456,23 @@ export class XPlayerScript extends Component {
     getOwnerAllBuildings(buildType = null) {
         let roomModel = this.getRoomModel();
         if (!roomModel) return [];
-        
+
         let playUuid = this.data.uuid;
         let a = playUuid.indexOf("_");
         playUuid = playUuid.slice(a + 1);
-        
-        let ret:XBuildingModel[] = [];
-        
+
+        let ret: XBuildingModel[] = [];
+
         for (const build of roomModel.buildings) {
             if (
-                build.playerUuid && 
-                build.playerUuid == playUuid && 
+                build.playerUuid &&
+                build.playerUuid == playUuid &&
                 (!buildType || build.type == buildType)
             ) {
                 ret.push(build);
             }
         }
-        
+
         return ret;
     }
 

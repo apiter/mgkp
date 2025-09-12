@@ -16417,56 +16417,161 @@ define("js/bundle.js", function(require, module, exports) {
             DizzyTarget(e, t, i = !0) {
                 e.dizzyStartTime = Laya.timer.currTimer, e.dizzyDurSec = t, i && XEffectUtil.I.playDizzyEffect(e.owner.x, e.owner.y - 100, t)
             }
-            gameover(i, s = 1) {
-                let a = XMgr.user.gameInfo,
-                    n = XMgr.cfg.skin.get(a.curSkinId);
+            gameover(isWin, s = 1) {
+                let a = XMgr.user.gameInfo;
+                let n = XMgr.cfg.skin.get(a.curSkinId);
+            
+                // 【普通模式】
                 if (this.gameMode == e.GameMode.E_Defense) {
-                    if (a.isLastWin = i, a.lastLv = a.curLv, a.isStartLv && this.gameMode == e.GameMode.E_Defense && (a.isMapByWeek = !0), i) {
+                    a.isLastWin = isWin;
+                    a.lastLv = a.curLv;
+            
+                    if (a.isStartLv && this.gameMode == e.GameMode.E_Defense) {
+                        a.isMapByWeek = true;
+                    }
+            
+                    if (isWin) {
                         XAnalyticsUtil.passLevel(s, "普通模式", n.name);
-                        let e = XMgr.cfg.difficultCfg.length;
+            
+                        let difficultLen = XMgr.cfg.difficultCfg.length;
+            
+                        // 更新最高关卡
                         if (a.curLv > a.maxLevel) {
-                            a.maxLevel = a.curLv, XMgr.reporter.setUserMaxLevel(a.maxLevel);
-                            let e = XMgr.cfg.difficultCfg.get(a.maxLevel);
-                            XToast.show(`称号上升：${e.title}`)
+                            a.maxLevel = a.curLv;
+                            XMgr.reporter.setUserMaxLevel(a.maxLevel);
+            
+                            let cfg = XMgr.cfg.difficultCfg.get(a.maxLevel);
+                            XToast.show(`称号上升：${cfg.title}`);
                         }
-                        if (a.curLv == e && (a.maxWinCnt += 1), a.weekMaxLv < a.curLv && (a.weekMaxLv = a.curLv), a.todayMaxLv < a.curLv) {
-                            if (a.hunterUnlockLvl += 1, a.hunterUnlockLvl && a.hunterUnlockLvl % 2 == 0) {
-                                let e = XMgr.cfg.getHunterSkillArr();
-                                for (let t = 0; t < e.length; t++) {
-                                    let i = e[t].id;
+            
+                        // 累计胜利
+                        if (a.curLv == difficultLen) {
+                            a.maxWinCnt += 1;
+                        }
+            
+                        // 更新周最高关
+                        if (a.weekMaxLv < a.curLv) {
+                            a.weekMaxLv = a.curLv;
+                        }
+            
+                        // 更新今日最高关
+                        if (a.todayMaxLv < a.curLv) {
+                            a.hunterUnlockLvl += 1;
+            
+                            if (a.hunterUnlockLvl && a.hunterUnlockLvl % 2 == 0) {
+                                let arr = XMgr.cfg.getHunterSkillArr();
+                                for (let t = 0; t < arr.length; t++) {
+                                    let i = arr[t].id;
                                     if (!a.isUnlockHunterSkin(i)) {
                                         a.unlockHunterSkin(i);
-                                        break
+                                        break;
                                     }
                                 }
                             }
+            
                             a.todayMaxLv = a.curLv;
-                            let e = XMgr.user.gameInfo.todayMaxLv;
-                            XMgr.rankMgr.setCustomRankValue("score_day", e, XMgr.user.gameInfo.curSkinId)
-                        } else a.curLv >= XMgr.cfg.difficultCfg.length && (a.todayExtraScore += 1, a.todayMaxLv < a.curLv + a.todayExtraScore && (a.todayMaxLv += 1, XMgr.rankMgr.setCustomRankValue("score_day", a.todayMaxLv, XMgr.user.gameInfo.curSkinId)));
-                        a.buffLvArr.includes(a.curLv) || (this.canChooseBuff = !0, this.chooseBuffLv = a.curLv)
-                    } else XAnalyticsUtil.loseLevel("普通模式", n.name), a.todayExtraScore ? a.todayExtraScore -= 1 : a.curLv > a.lowestLv && a.setCurLv(a.lowestLv);
-                    XMgr.user.saveToServer()
-                } else if (this.gameMode == e.GameMode.E_AngelOrGhost) {
-                    let e = n.name;
-                    XMgr.playerMgr.player.isAngel ? e = "救援者" : XMgr.playerMgr.player.isGhost && (e = "执行人"), i ? XAnalyticsUtil.passLevel(s, "木头人模式", e) : XAnalyticsUtil.loseLevel("木头人模式", e)
-                } else if (this.gameMode == e.GameMode.E_Hunt) {
-                    a.isLastHunterWin = i, a.lastHunterLv = a.curHunterLv;
-                    let e = XMgr.cfg.skin.get(a.curHunterSkinId);
-                    if (i) {
-                        if (XAnalyticsUtil.passLevel(s, "噬魂者模式", e.name), a.curHunterLv > a.maxHunterLevel) {
-                            a.maxHunterLevel = a.curHunterLv;
-                            let e = XMgr.cfg.hunterDifficultCfg.get(a.maxHunterLevel);
-                            XToast.show(`称号上升：${e.title}`)
+                            let todayLv = XMgr.user.gameInfo.todayMaxLv;
+                            XMgr.rankMgr.setCustomRankValue("score_day", todayLv, XMgr.user.gameInfo.curSkinId);
+                        } else if (a.curLv >= XMgr.cfg.difficultCfg.length) {
+                            // 额外分数处理
+                            a.todayExtraScore += 1;
+                            if (a.todayMaxLv < a.curLv + a.todayExtraScore) {
+                                a.todayMaxLv += 1;
+                                XMgr.rankMgr.setCustomRankValue("score_day", a.todayMaxLv, XMgr.user.gameInfo.curSkinId);
+                            }
                         }
+            
+                        // Buff 解锁检查
+                        if (!a.buffLvArr.includes(a.curLv)) {
+                            this.canChooseBuff = true;
+                            this.chooseBuffLv = a.curLv;
+                        }
+                    } else {
+                        XAnalyticsUtil.loseLevel("普通模式", n.name);
+                        if (a.todayExtraScore) {
+                            a.todayExtraScore -= 1;
+                        } else if (a.curLv > a.lowestLv) {
+                            a.setCurLv(a.lowestLv);
+                        }
+                    }
+            
+                    XMgr.user.saveToServer();
+                }
+            
+                // 【木头人模式】
+                else if (this.gameMode == e.GameMode.E_AngelOrGhost) {
+                    let roleName = n.name;
+                    if (XMgr.playerMgr.player.isAngel) roleName = "救援者";
+                    else if (XMgr.playerMgr.player.isGhost) roleName = "执行人";
+            
+                    isWin
+                        ? XAnalyticsUtil.passLevel(s, "木头人模式", roleName)
+                        : XAnalyticsUtil.loseLevel("木头人模式", roleName);
+                }
+            
+                // 【噬魂者模式】
+                else if (this.gameMode == e.GameMode.E_Hunt) {
+                    a.isLastHunterWin = isWin;
+                    a.lastHunterLv = a.curHunterLv;
+            
+                    let hunterSkin = XMgr.cfg.skin.get(a.curHunterSkinId);
+            
+                    if (isWin) {
+                        XAnalyticsUtil.passLevel(s, "噬魂者模式", hunterSkin.name);
+            
+                        // 更新最高等级
+                        if (a.curHunterLv > a.maxHunterLevel) {
+                            a.maxHunterLevel = a.curHunterLv;
+                            let cfg = XMgr.cfg.hunterDifficultCfg.get(a.maxHunterLevel);
+                            XToast.show(`称号上升：${cfg.title}`);
+                        }
+            
+                        // 今日最高
                         if (a.todayHunterMaxLv < a.curHunterLv) {
                             a.todayHunterMaxLv = a.curHunterLv;
-                            let e = XMgr.user.gameInfo.todayHunterMaxLv;
-                            XMgr.rankMgr.setCustomRankValue("score_hunter_day", e, XMgr.user.gameInfo.curHunterSkinId)
-                        } else a.curHunterLv >= XMgr.cfg.hunterDifficultCfg.length && (a.todayHunterExtraScore += 1, a.todayHunterMaxLv < a.curHunterLv + a.todayHunterExtraScore && (a.todayHunterMaxLv += 1, XMgr.rankMgr.setCustomRankValue("score_hunter_day", a.todayHunterMaxLv, XMgr.user.gameInfo.curHunterSkinId)))
-                    } else XAnalyticsUtil.loseLevel("噬魂者模式", e.name), a.todayHunterExtraScore ? a.todayHunterExtraScore -= 1 : a.curHunterLv > a.lowestHunterLv && a.setCurHunterLv(a.lowestHunterLv);
-                    XMgr.user.saveToServer()
-                } else this.gameMode == e.GameMode.E_SevenGhost && (i ? (a.curSevenGhostLv == XMgr.cfg.sevenGhostCfg.length ? (a.curSevenGhostLv = 1, a.isUnlockSkin(1003) || (a.unlockSkin(1003), this.isOpenSevenGhost = !0)) : a.curSevenGhostLv += 1, XAnalyticsUtil.passLevel(s, "挑战模式", n.name)) : (a.curSevenGhostLv = 1, XAnalyticsUtil.loseLevel("挑战模式", n.name)), XMgr.user.saveToServer())
+                            let todayLv = XMgr.user.gameInfo.todayHunterMaxLv;
+                            XMgr.rankMgr.setCustomRankValue("score_hunter_day", todayLv, XMgr.user.gameInfo.curHunterSkinId);
+                        } else if (a.curHunterLv >= XMgr.cfg.hunterDifficultCfg.length) {
+                            // 今日额外分数
+                            a.todayHunterExtraScore += 1;
+                            if (a.todayHunterMaxLv < a.curHunterLv + a.todayHunterExtraScore) {
+                                a.todayHunterMaxLv += 1;
+                                XMgr.rankMgr.setCustomRankValue("score_hunter_day", a.todayHunterMaxLv, XMgr.user.gameInfo.curHunterSkinId);
+                            }
+                        }
+                    } else {
+                        XAnalyticsUtil.loseLevel("噬魂者模式", hunterSkin.name);
+                        if (a.todayHunterExtraScore) {
+                            a.todayHunterExtraScore -= 1;
+                        } else if (a.curHunterLv > a.lowestHunterLv) {
+                            a.setCurHunterLv(a.lowestHunterLv);
+                        }
+                    }
+            
+                    XMgr.user.saveToServer();
+                }
+            
+                // 【挑战模式 - 七鬼】
+                else if (this.gameMode == e.GameMode.E_SevenGhost) {
+                    if (isWin) {
+                        if (a.curSevenGhostLv == XMgr.cfg.sevenGhostCfg.length) {
+                            a.curSevenGhostLv = 1;
+                            if (!a.isUnlockSkin(1003)) {
+                                a.unlockSkin(1003);
+                                this.isOpenSevenGhost = true;
+                            }
+                        } else {
+                            a.curSevenGhostLv += 1;
+                        }
+            
+                        XAnalyticsUtil.passLevel(s, "挑战模式", n.name);
+                    } else {
+                        a.curSevenGhostLv = 1;
+                        XAnalyticsUtil.loseLevel("挑战模式", n.name);
+                    }
+            
+                    XMgr.user.saveToServer();
+                }
             }
             takeMapBuild(x_, y_, data_) {
                 let player_ = XMgr.playerMgr.getPlayer(data_),
@@ -20531,7 +20636,10 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.user.gameInfo.setCurLv(Math.max(1, Math.min(e, i)))
             }
             static openWin() {
-                XMgr.user.gameInfo.winCnt += 1, XMgr.user.gameInfo.mapBuildRate = .3, XMgr.gameMgr.gameover(!0), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.WinDialog)
+                XMgr.user.gameInfo.winCnt += 1, XMgr.user.gameInfo.mapBuildRate = .3, 
+                XMgr.gameMgr.gameover(!0), 
+                XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), 
+                XMgr.ui.open(l.WinDialog)
             }
             static openFail() {
                 XMgr.user.gameInfo.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog)
