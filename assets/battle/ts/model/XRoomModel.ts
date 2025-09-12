@@ -19,6 +19,6 @@ export class XRoomModel {
     doorPosArr: Vec2[] = []
     doorPos: Vec2
     doorModel: XBuildingModel
-
+    doorRot:number = 0 
     players = []
 }

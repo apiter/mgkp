@@ -31,7 +31,7 @@ export class XMapMgr {
     _height = 0
     _width = 0
     _grid: XGrid = null
-    _mapBoundBox = null
+    // _mapBoundBox = null
 
     _tiledMap: XTiledInfo[][] = []
     _rooms: XRoomModel[] = []
@@ -54,18 +54,17 @@ export class XMapMgr {
                 this.setDynWalkable(h, w, this.isWalkable(h, w));
             }
         this.initRooms()
-        this._mapBoundBox = {
-            minX: 0,
-            maxX: this._width * XConst.GridSize,
-            minY: 0,
-            maxY: this._height * XConst.GridSize
-        };
+        // this._mapBoundBox = {
+        //     minX: 0,
+        //     maxX: this._width * XConst.GridSize,
+        //     minY: 0,
+        //     maxY: this._height * XConst.GridSize
+        // };
     }
     parseData(mapData_: XCfgMapData) {
         this._width = mapData_.width
         this._height = mapData_.height
         this._tileSets = this.getTilesets(mapData_)
-        let i = -1
         const objs = this.getLayer(mapData_, "data").objects;
         for (const obj of objs) {
             if ("HealZone" == obj.type) {
@@ -254,10 +253,12 @@ export class XMapMgr {
         let i = this.getRoomIdByGridPos(x_, y_);
         if (-1 !== i) return this.getRoomById(i)
     }
+
     getRoomByWallGrid(x_, y_) {
         if (this.roomsWall[`x${x_}_y${y_}`])
             return this.getRoomById(this.roomsWall[`x${x_}_y${y_}`])
     }
+
     getRoomTiledList(room_: XRoomModel) {
         let tiles: XTiledInfo[] = [];
         for (const grid of room_.grids) {
@@ -269,6 +270,7 @@ export class XMapMgr {
     getTiledInfo(x_, y_) {
         return this._tiledMap[x_] ? this._tiledMap[x_][y_] : null
     }
+
     isWall(x_, y_, i) {
         if (!i) return;
         let s = i.walls;
@@ -276,13 +278,16 @@ export class XMapMgr {
             if (x_ == i.x && y_ == i.y) return !0;
         return !1
     }
+
     isGridWall(x_, y_) {
         let i = this.getTiledInfo(x_, y_);
         if (i) return -1 != i.groundBlock.indexOf("wall")
     }
+
     getHunterSpawnPos(idx_) {
         return idx_ = math.clamp(idx_, 0, this._hunterSpawns.length - 1), this._hunterSpawns[idx_]
     }
+
     getDefenderSpawnPos(idx_) {
         idx_ = math.clamp(idx_, 0, this._defenderSpawns.length - 1)
         return this._defenderSpawns[idx_ % this._defenderSpawns.length]
@@ -450,9 +455,11 @@ export class XMapMgr {
     setDynWalkable(x_, y_, value_) {
         this._grid.setDynWalkable(x_, y_, value_)
     }
-    isInMap(x_, y_) {
-        return !(x_ < this.mapBoundBox.minX || x_ > this.mapBoundBox.maxX || y_ < this.mapBoundBox.minY || y_ > this.mapBoundBox.maxY)
-    }
+
+    // isInMap(x_, y_) {
+    //     return !(x_ < this.mapBoundBox.minX || x_ > this.mapBoundBox.maxX || y_ < this.mapBoundBox.minY || y_ > this.mapBoundBox.maxY)
+    // }
+
     isInHealZone(x_, y_) {
         for (const i of this._healZones)
             if (i.contains(x_, y_)) return true;
@@ -496,9 +503,9 @@ export class XMapMgr {
     set mapNode(e) {
         this._mapNode = e
     }
-    get mapBoundBox() {
-        return this._mapBoundBox
-    }
+    // get mapBoundBox() {
+    //     return this._mapBoundBox
+    // }
     get hunterSpawns() {
         return this._hunterSpawns
     }

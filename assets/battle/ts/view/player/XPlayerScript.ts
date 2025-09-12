@@ -11,6 +11,7 @@ import { XRandomUtil } from '../../xutil/XRandomUtil';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XRoomModel } from '../../model/XRoomModel';
 import EventCenter from '../../event/EventCenter';
+import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -146,7 +147,7 @@ export class XPlayerScript extends Component {
     }
 
     onDead() {
-        console.debug(`[${this.data.uuid}][${this.data.name}]死亡`)
+        LogWrapper.log("流程", `[${this.data.uuid}][${this.data.name}]死亡`, {}, [XLogModule.XLogModuleGameFlow])
         this.skinNode.active = false;
         this.lbName.node.active = false;
         if (this.data.type === XPlayerType.E_Defender) {
@@ -155,7 +156,7 @@ export class XPlayerScript extends Component {
                 if (this.data.uuid === XMgr.playerMgr.mineUuid) {
                     XMgr.gameMgr.gameover(false)
                     XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH)
-                    console.debug(`[游戏结束] 玩家输`)
+                    LogWrapper.log("流程", "游戏结束,玩家输", {}, [XLogModule.XLogModuleGameFlow])
                 } else {
 
                 }
@@ -165,7 +166,7 @@ export class XPlayerScript extends Component {
                 if (this.data.uuid === XMgr.playerMgr.hunters[0].uuid) {
                     XMgr.gameMgr.gameover(true);
                     XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH);
-                    console.debug(`[游戏结束] 玩家赢`)
+                    LogWrapper.log("流程", "游戏结束,玩家赢", {}, [XLogModule.XLogModuleGameFlow])
                 }
             }
         }

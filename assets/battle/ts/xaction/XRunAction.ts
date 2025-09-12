@@ -13,8 +13,8 @@ export default class XRunAction extends XBTBaseNode {
     open(e) {
         e.target.playAnim(this.aniName)
     }
-    tick(e) {
-        let playerScript = e.target as XPlayerScript;
+    tick(tick_) {
+        let playerScript = tick_.target as XPlayerScript;
         let curPath = playerScript.getCurPath();
 
         if (curPath && curPath.length !== 0) {

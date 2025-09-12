@@ -124,19 +124,7 @@ export class XGameScript extends Component {
             defenderScript.init(defender);
             let spawnPos = XMgr.mapMgr.getDefenderSpawnPos(defender.spwanPoint);
             if (!spawnPos) {
-                let targetTile = null;
-                for (const tiles of XMgr.mapMgr.getMapTiles())
-                    for (const tile of tiles)
-                        if (-1 !== tile.groundBlock.indexOf("floor_2")) {
-                            targetTile = tile;
-                            break
-                        }
-                if (targetTile)
-                    spawnPos = XMgr.mapMgr.gridPosToMapPos(targetTile.x, targetTile.y);
-                else {
-                    let e = XConst.GridSize;
-                    spawnPos = new Vec2(XMgr.mapMgr.width * e / 2, XMgr.mapMgr.height * e / 2)
-                }
+                console.error("no spwan pos")
             }
             defenderScript.pos(spawnPos.x, spawnPos.y)
             this.defenders.push(defenderScript)
@@ -169,9 +157,8 @@ export class XGameScript extends Component {
     }
 
     printCharactorPos(premsg: string = "") {
-        const lookX = this.characterControl.node.worldPositionX
-        const lookY = this.characterControl.node.worldPositionY
-        console.debug(`${premsg} characterControl world:${this.characterControl.node.name}, x:${lookX} y:${lookY}`)
+        // const lookX = this.characterControl.node.worldPositionX
+        // const lookY = this.characterControl.node.worldPositionY
     }
 
     build(build_: XBuildingModel, s, cdTime_ = 0) {

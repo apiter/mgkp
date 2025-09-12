@@ -50,13 +50,9 @@ export class XBaseEffect implements ISchedulable {
         }
     }
 
-    getPlayerInsideGrids(e) { }
-
     playerWorkEff() { }
 
     showWorkEff() {
-        // let e = this.data.ownerScript;
-        // e && e.onWork()
     }
 
     update(dt: number): void {

@@ -12,8 +12,8 @@ export default class XHasTargetCdt extends XBTCondition {
             child: child_
         })
     }
-    satisfy(e) {
-        let player = e.target as XPlayerScript
+    satisfy(tick_) {
+        let player = tick_.target as XPlayerScript
         let curTarget = player.getCurTarget() as XBuildingModel;
         if (curTarget?.owner.isValid && player.targetIsOK(curTarget)) {
             // curTarget 正常，不做处理

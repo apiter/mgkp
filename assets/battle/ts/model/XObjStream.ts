@@ -33,7 +33,6 @@ export class XObjStream extends XStream {
         const result: Record<string, any> = {};
 
         for (const key in this) {
-            // 忽略私有属性、空值和原型链上的属性
             if (!this.hasOwnProperty(key)) continue;
             if (key[0] === '_' || this[key] == null) continue;
 
@@ -67,8 +66,6 @@ export class XObjStream extends XStream {
 
         return result;
     }
-    onNewDay() { }
-    onNewGameDay() { }
 }
 
 

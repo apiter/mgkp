@@ -4,13 +4,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XCatBedScript')
 export class XCatBedScript extends XBuildingScript {
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
 }
 
 

@@ -33,9 +33,9 @@ export default class XAStar {
                     if (this._slant || n == nowNode.x || r == nowNode.y) {
                         var node = this._grid.getNode(n, r);
                         if (node != nowNode && node.walkable && this._grid.getNode(nowNode.x, node.y).walkable && this._grid.getNode(node.x, nowNode.y).walkable) {
-                            var cost = this._straightCost;
+                            let cost = this._straightCost;
                             nowNode.x != node.x && nowNode.y != node.y && (cost = this._diagCost);
-                            var h = nowNode.g + cost * node.costMultiplier,
+                            let h = nowNode.g + cost * node.costMultiplier,
                                 d = this.euclidian(node),
                                 u = h + d;
                             this.isOpen(node) || this.isClosed(node) ? node.f > u && (node.f = u, node.g = h, node.h = d, node.parent = nowNode) : (node.f = u, node.g = h, node.h = d, node.parent = nowNode, this._open.push(node))

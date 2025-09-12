@@ -13,17 +13,13 @@ export default class XPlayerModel extends XBaseModel {
     canBedRange = 116
     attackCd = 1
     attackRange = 100
-    escapeOdds = .3
     attackPower = 0
     critRate = 0
-    poisonTimes = 0
     skillIdArr = []
     skillMoveSpeedRate = 0
     skillAtkRate = 0
     skillEquipHp = 0
     skillSuckHpRate = 0
-    skillAtkSquRate = 0
-    addReduceRate = 0
     equipAtk = 0
     equipHp = 0
     equipMoveSpeed = 0
@@ -31,11 +27,9 @@ export default class XPlayerModel extends XBaseModel {
     equipAtkSpeed = 0
     equipExp = 0
     invincibleCnt = 0
-    isGhost = false
     isAngel = false
     isBack = false
     randomCnt = 0
-    reduceRate = 0
     ownerScript: XPlayerScript
     owner: Node
 
@@ -76,9 +70,6 @@ export default class XPlayerModel extends XBaseModel {
     }
     getAtkPow() {
         return this.attackPower
-    }
-    getPoison() {
-        this.poisonTimes = 5
     }
     
     refreshEquip() {

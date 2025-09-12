@@ -9179,7 +9179,10 @@ define("js/bundle.js", function(require, module, exports) {
                     category: e.CollideGroupType.BULLET,
                     mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                 };
-                s = i.addComponent(XBulletRotScript), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
+                s = i.addComponent(XBulletRotScript), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), 
+                i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), 
+                i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), 
+                s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
             }
             onFlyCutterBeHit() {
                 this.hitCnt += 1

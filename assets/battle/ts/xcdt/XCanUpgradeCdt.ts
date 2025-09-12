@@ -7,6 +7,7 @@ import { XBuildType, XGameMode } from "../xconfig/XEnum";
 import { XRandomUtil } from "../xutil/XRandomUtil";
 import { XPropertiesKey } from "./XPropertiesKey";
 import XMgr from "../XMgr";
+import LogWrapper, { XLogModule } from "../log/LogWrapper";
 
 export class XCanUpgradeCdt extends XBTCondition {
     static NAME = "XCanUpgradeCdt"
@@ -47,46 +48,46 @@ export class XCanUpgradeCdt extends XBTCondition {
                 const rd1 = XRandomUtil.random()
                 if (rd1 < 0.7) {
                     lastUpObj = ownerBed
-                    console.debug(`[${playerScript.skinCfg.name}] 准备升级床lv${ownerBed.lv}`)
+                    LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备升级床lv${ownerBed.lv}`, {}, [XLogModule.XLogModuleBT])
                 }
                 else if (rd1 < 0.75) {
                     if (allTowers.length > 0) {
                         lastUpObj = XRandomUtil.randomInArray(allTowers)
-                        console.debug(`[${playerScript.skinCfg.name}] 准备随机升级炮台lv${lastUpObj.lv}`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备随机升级炮台lv${lastUpObj.lv}`, {}, [XLogModule.XLogModuleBT])
                     } else {
                         lastBuildObj = "3000_1" //1级塔
                         this.isBuild = true
-                        console.debug(`[${playerScript.skinCfg.name}] 准备创建炮台lv1`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备创建炮台lv1`, {}, [XLogModule.XLogModuleBT])
                     }
                 } else {
                     lastUpObj = roomDoor
-                    console.debug(`[${playerScript.skinCfg.name}] 准备升级门lv${roomDoor.lv}`)
+                    LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备升级门lv${roomDoor.lv}`, {}, [XLogModule.XLogModuleBT])
                 }
             } else {
                 let rd2 = XRandomUtil.random()
                 if (rd2 < 0.4) {
                     lastUpObj = ownerBed
-                    console.debug(`[${playerScript.skinCfg.name}] 准备升级床lv${ownerBed.lv}`)
+                    LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备升级床lv${ownerBed.lv}`, {}, [XLogModule.XLogModuleBT])
                 } else if (rd2 < 0.7) {
                     if (allTowers.length > 0) {
                         lastUpObj = allTowers[XRandomUtil.getIntRandom(0, allTowers.length - 1)];
-                        console.debug(`[${playerScript.skinCfg.name}] 准备随机升级炮台lv${lastUpObj.lv}`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备随机升级炮台lv${lastUpObj.lv}`, {}, [XLogModule.XLogModuleBT])
                     } else {
                         lastBuildObj = "3000_1";
                         this.isBuild = true;
-                        console.debug(`[${playerScript.skinCfg.name}] 准备创建炮台lv1`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备创建炮台lv1`, {}, [XLogModule.XLogModuleBT])
                     }
                 } else if (rd2 < 0.85) {
                     lastUpObj = roomDoor;
-                    console.debug(`[${playerScript.skinCfg.name}] 准备升级门lv${roomDoor.lv}`)
+                    LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备升级门lv${roomDoor.lv}`, {}, [XLogModule.XLogModuleBT])
                 } else {
                     if (allEnergys.length > 0) {
                         lastUpObj = allEnergys[XRandomUtil.getIntRandom(0, allEnergys.length - 1)];
-                        console.debug(`[${playerScript.skinCfg.name}] 准备随机升级能量建筑lv${lastUpObj.lv}`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备随机升级能量建筑lv${lastUpObj.lv}`, {}, [XLogModule.XLogModuleBT])
                     } else {
                         lastBuildObj = "4000_1";
                         this.isBuild = true;
-                        console.debug(`[${playerScript.skinCfg.name}] 准备创建背包lv1`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 准备创建背包lv1`, {}, [XLogModule.XLogModuleBT])
                     }
                 }
             }
@@ -100,7 +101,7 @@ export class XCanUpgradeCdt extends XBTCondition {
                 else {
                     if (XRandomUtil.random() < 0.2) {
                         this.lastBuildObj = this.lastUpObj = null;
-                        console.debug(`[${playerScript.skinCfg.name}] 放弃升级的决定`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 放弃升级的决定`, {}, [XLogModule.XLogModuleBT])
                     }
                     lastUpObj = null;
                 }
@@ -119,7 +120,7 @@ export class XCanUpgradeCdt extends XBTCondition {
                 } else {
                     if (XRandomUtil.random() < 0.2) {
                         this.lastBuildObj = this.lastUpObj = null;
-                        console.debug(`[${playerScript.skinCfg.name}] 放弃建造的决定`)
+                        LogWrapper.log("建造I", `[${playerScript.skinCfg.name}] 放弃建造的决定`, {}, [XLogModule.XLogModuleBT])
                     }
                     lastBuildObj = null;
                     this.isBuild = false;

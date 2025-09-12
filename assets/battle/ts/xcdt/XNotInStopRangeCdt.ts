@@ -12,8 +12,8 @@ export default class XNotInStopRangeCdt extends XBTCondition {
         })
         this.range = range_
     }
-    satisfy(e) {
-        let playerScript = e.target as XPlayerScript
+    satisfy(tick_) {
+        let playerScript = tick_.target as XPlayerScript
         let ownPos = playerScript.getOwnerPos()
         let targetPos = playerScript.getTargetPos(playerScript.getCurTarget())
         let curTarge = playerScript.getCurTarget();

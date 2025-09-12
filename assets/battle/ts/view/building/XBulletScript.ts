@@ -18,7 +18,7 @@ export class XBulletScript extends Component {
     _target: XPlayerModel
     _baseModel: XBuildingModel
 
-    _disArriveAtTarget = 5
+    _disArriveAtTarget = 25
     protected onLoad(): void {
         this._speed = XMgr.cfg.constant.bulletSpeed
         this._speed /= XMgr.gameMgr.speedRatio

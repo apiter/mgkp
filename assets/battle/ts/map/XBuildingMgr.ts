@@ -13,6 +13,7 @@ import { XBuildingScript } from "../view/building/XBuildingScript"
 import { XMapMgr } from "./XMapMgr"
 import { XCfgTowerData } from "../xconfig/XCfgData"
 import { XV2Util01 } from "../xutil/XV2Util01"
+import LogWrapper, { XLogModule } from "../log/LogWrapper"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -104,14 +105,14 @@ export default class XBuildingMgr {
         return false
     }
 
-    getEmptyGrids(e) {
+    getEmptyGrids(roomId_) {
         let arr: Vec2[] = []
-        let room = this.getRoom(e);
+        let room = this.getRoom(roomId_);
         if (!room) return arr;
-        for (const e of room.grids) {
-            if (this.isBedInRoom(room, e.x, e.y) || room.doorPos.x == e.x && room.doorPos.y == e.y) continue;
-            let s = this.getBuilding(e.x, e.y);
-            s && !s.isDie || arr.push(e.clone())
+        for (const grid of room.grids) {
+            if (this.isBedInRoom(room, grid.x, grid.y) || room.doorPos.x == grid.x && room.doorPos.y == grid.y) continue;
+            let s = this.getBuilding(grid.x, grid.y);
+            s && !s.isDie || arr.push(grid.clone())
         }
         return arr
     }
@@ -160,7 +161,7 @@ export default class XBuildingMgr {
             if (!this.isInfiniteIncome && consumeCoin && consumeCoin > playerModel.coin) return XBuildResult.E_COIN_NOT_ENOUGH;
             if (!this.isInfiniteIncome && consumeEnergy && consumeEnergy > playerModel.energy) return XBuildResult.E_ENERGY_NOT_ENOUGH;
             if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv)) {
-                console.warn(`[${playerModel.name}]建造[${buildCfg.name}]失败缺乏[${buildCfg.preBuilding.buildId}]`)
+                LogWrapper.log('建造', `[${playerModel.name}]建造${buildCfg.name}失败，缺乏[${buildCfg.preBuilding.buildId}lv${buildCfg.preBuilding.lv}]`, {}, [XLogModule.XLogModuleBuild])
                 return XBuildResult.E_NOT_HAVE_PREBUILD;
             }
 
@@ -189,18 +190,17 @@ export default class XBuildingMgr {
         // 广播事件
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildingModel, false);
 
-        console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级 消耗金币${consumeCoin} 能量:${consumeEnergy}`)
-
+        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级`, {"消耗金币":consumeCoin,"消耗能量":consumeEnergy}, [XLogModule.XLogModuleBuild])
         return XBuildResult.E_OK;
     }
 
-    buildFree(playerId_, buildId_, gridX_, gridY_, rotation_ = 0, buildMinLv_ = 1, canHandle_ = true, specialTowerIdx_ = null) {
+    buildFree(playerId_, buildId_, gridX_, gridY_, rotation_ = 0, buildMinLv_ = 1, canHandle_ = true) {
         let buildModel = this.getBuilding(gridX_, gridY_);
         if (buildModel && !buildModel.isDie)
             return XBuildResult.E_FAILD;
 
         let buildCfg = this.getBuildCfg(buildId_, buildMinLv_);
-        //TODO special
+        //TODO 
         if (!buildCfg) return;
 
         let roomId = XMgr.mapMgr.getRoomIdByGrid(gridX_, gridY_); // 房间id
@@ -434,10 +434,10 @@ export default class XBuildingMgr {
         return XBuildResult.E_OK;
     }
 
-    closeDoorByGridPos(t, i) {
-        let s = this.getBuilding(t, i);
-        if (!s || s.type != XBuildType.door) return XBuildResult.E_FAILD;
-        this.changeDoorState(s, false)
+    closeDoorByGridPos(gridX_, gridY_) {
+        let building = this.getBuilding(gridX_, gridY_);
+        if (!building || building.type != XBuildType.door) return XBuildResult.E_FAILD;
+        this.changeDoorState(building, false)
     }
 
     buildCd(playerUuid_, buildId_, x_, y_, r = 0, lv_ = 1, canHandle_ = true) {
@@ -482,10 +482,6 @@ export default class XBuildingMgr {
         return XBuildResult.E_OK;
     }
 
-    getSpecialTower(e = false) {
-       //TODO
-    }
-
     getOutdoorEmptyGrids(x_, y_, delta_ = 1) {
         let ret = [];
         for (let n = -delta_; n <= delta_; n++)
@@ -524,13 +520,14 @@ export default class XBuildingMgr {
         if (energyNeed > player.energy)
             return XBuildResult.E_ENERGY_NOT_ENOUGH
         const room = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
-        if (nextLvBuildCfg.preBuilding && false === this.isHaveBuilding(room.id, nextLvBuildCfg.preBuilding.buildId, build.lv + 1)) {
-            console.warn(`[${player.name}]升级[${build.ownerScript?.cfg?.name}]失败缺乏[${nextLvBuildCfg.preBuilding.buildId}]`)
+        if (nextLvBuildCfg.preBuilding && false === this.isHaveBuilding(room.id, nextLvBuildCfg.preBuilding.buildId, nextLvBuildCfg.preBuilding.lv)) {
+            LogWrapper.log('建造', `[${player.name}]升级[${build.ownerScript?.cfg?.name}]失败, 缺乏[${nextLvBuildCfg.preBuilding.buildId}]lv${nextLvBuildCfg.preBuilding.lv}]`, {}, [XLogModule.XLogModuleBuild])
+
             return XBuildResult.E_NOT_HAVE_PREBUILD
         }
         XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
         build.lv += 1
-        console.debug(`[XBuildingMgr] [${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级 消耗金币${coinNeed} 能量:${energyNeed}`)
+        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级`, {"消耗金币":coinNeed,"消耗能量":energyNeed}, [XLogModule.XLogModuleBuild])
 
         this.updateBuildingModel(build, nextLvBuildCfg)
         EventCenter.emit(XEventNames.E_BUILDING_UPGRADE, build)

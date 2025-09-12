@@ -7,6 +7,7 @@ import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XBulletScript } from './XBulletScript';
+import { XGameStatus } from '../../xconfig/XEnum';
 const { ccclass, property } = _decorator;
 
 @ccclass('XTowerScript')
@@ -20,8 +21,8 @@ export class XTowerScript extends XBuildingScript {
 
     protected update(dt: number): void {
         super.update?.(dt)
-
-        //眩晕
+        
+        if(XMgr.gameMgr.gameStatus !== XGameStatus.E_GAME_START) return
         if (this.canAttack == false) return
         if (this.isBuildCd) return
         let now = game.totalTime;
@@ -159,7 +160,6 @@ export class XTowerScript extends XBuildingScript {
         bullet.shoot(this.cfg.bullet, damage, dir, target, this.data)
 
         this.playFireAni()
-        // console.debug(`[塔][${this._towerData?.ownerScript?.cfg?.name}]攻击=>${target.name} 伤害:${damage}`)
     }
 
     playFireAni() {

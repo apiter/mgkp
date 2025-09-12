@@ -4,6 +4,7 @@ import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
 import XMgr from '../../XMgr';
 import { XEffectType } from '../../xconfig/XEnum';
+import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBedScript')
@@ -35,7 +36,7 @@ export class XBedScript extends XBuildingScript {
                         energy += Math.floor(t.value[0] * playTime / e)
                     }
         }
-        console.log(`玩家[${playerUuid_}] 上床收益金币:${coin} 能量:${energy}`)
+        LogWrapper.log("流程", `玩家[${playerUuid_}] 上床`, {}, [XLogModule.XLogModuleGameFlow])
         XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin, energy);
         for (const effect of this.effects)
             effect._data.playerUuid = buildMode_.playerUuid;

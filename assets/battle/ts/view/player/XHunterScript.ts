@@ -9,6 +9,7 @@ import { XEPolicy } from '../../bt2/XBTEnum';
 import { XDifficultCfgItem } from '../../xconfig/XCfgData';
 import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
+import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHunterScript')
@@ -98,7 +99,6 @@ export class XHunterScript extends XPlayerScript {
         this.lv += 1
 
         this.data.lv = this.lv;
-        console.debug(`[噬魂者]升到${this.lv}等级`)
 
         // 计算属性
         let hpList = XMgr.cfg.hunterCfg.hpList;
@@ -109,6 +109,8 @@ export class XHunterScript extends XPlayerScript {
         XMgr.gameMgr.changeMaxHp(this.data, hpMax, hpMax)
 
         EventCenter.emit(XEventNames.E_Hunter_Upgrade, this.lv)
+
+        LogWrapper.log("流程", `噬魂者升到${this.lv}等级`, {}, [XLogModule.XLogModuleGameFlow])
     }
 
     setEscape(value_: any): void {

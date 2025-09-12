@@ -12,8 +12,8 @@ export class XUpgradeAction extends XBTAction {
         })
     }
 
-    tick(i) {
-        let target = i.target as XPlayerScript;
+    tick(tick_) {
+        let target = tick_.target as XPlayerScript;
         let status = XBTStatus.FAILURE;
         let model = target.getDataModel();
 

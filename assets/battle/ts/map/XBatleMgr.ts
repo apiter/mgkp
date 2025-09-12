@@ -10,6 +10,7 @@ import XUtil from "../xutil/XUtil"
 import XPlayerModel from "../model/XPlayerModel"
 import { XCfgMapCfgItem, XCfgMapData, XDifficultCfgItem } from "../xconfig/XCfgData"
 import { XInputScript } from "../view/XInputScript"
+import LogWrapper, { XLogModule } from "../log/LogWrapper"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -116,8 +117,8 @@ export class XBatleMgr implements ISchedulable {
     get isPause() {
         return this._isPause
     }
-    set isPause(e) {
-        this._isPause = e
+    set isPause(value_) {
+        this._isPause = value_
     }
     pauseGame() {
         game.pause()
@@ -192,8 +193,10 @@ export class XBatleMgr implements ISchedulable {
                 }
             }
         }
-        console.debug(`[${baseModel_.name || baseModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`)
+        const msg = `[${baseModel_.name || baseModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`
+        LogWrapper.log("战斗", msg, {}, [XLogModule.XLogModuleBT])
     }
+
     heartSound(e) {
     }
 
@@ -235,20 +238,7 @@ export class XBatleMgr implements ISchedulable {
         }
         return XBuildResult.E_FAILD;
     }
-
-    canHandleGrid(i, s, a) {
-        let n = XMgr.playerMgr.mineUuid;
-        a = a || n;
-        let r = XMgr.mapMgr.getRoomIdByGridPos(i, s),
-            o = XMgr.playerMgr.getPlayer(a),
-            l = XMgr.buildingMgr.getBuilding(i, s);
-        if (!l && r == o.roomId) return !0;
-        if (-1 != r && l)
-            if (l.type == XBuildType.door) {
-                if (l.roomId == o.roomId) return !0
-            } else if (l.playerUuid == a) return !0;
-        return !1
-    }
+    
     canLocatePlayer() {
         if (this.isHunter()) {
             return this.gameStatus == XGameStatus.E_GAME_READY;
@@ -258,16 +248,12 @@ export class XBatleMgr implements ISchedulable {
         return void 0;
     }
 
-    DizzyTarget(e, t, bPlayEffect_ = true) {
-        // 记录眩晕开始时间
+    dizzyTarget(e, t, bPlayEffect_ = true) {
         e.dizzyStartTime = game.totalTime;
-
-        // 设置眩晕持续时间
         e.dizzyDurSec = t;
     }
 
-    gameover(isWin_, s = 1) {
-        console.error("gameover", isWin_, s);
+    gameover(isWin_) {
     }
 
     takeMapBuild(x_, y_, playerUuid_) {
@@ -276,28 +262,20 @@ export class XBatleMgr implements ISchedulable {
         return (!mapBuild || !mapBuild.isUsed) && XMgr.buildingMgr.takeMapBuild(x_, y_, player)
     }
 
-    nodeIsInPlayerView(e) {
-        let i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
+    nodeIsInPlayerView(pos_) {
+        let i = XMgr.mapMgr.mapPosToStagePos(pos_.x, pos_.y);
         return !(i.x < 0 || i.x > view.getVisibleSize().width) && !(i.y < 0 || i.y > view.getVisibleSize().height)
     }
     
-    isInPlayerView(e) {
-        return this.nodeIsInPlayerView(e.owner)
+    isInPlayerView(player) {
+        return this.nodeIsInPlayerView(player.owner)
     }
 
     isChooseBuff() {
         let e = false;
-        // XMgr.cfg.buffCfg.forEach(i => {
-        //     if (i.isOpen) {
-        //         let s = XMgr.user.gameInfo.getBuffData(i.id);
-        //         if (i.isRepeat) {
-        //             if (!s || s.lv < i.values.length - 1) return e = !0, !1
-        //         } else if (!s) return e = !0, !1
-        //     }
-        // })
         return e
     }
-    
+
     randomName(e = 0) {
         return "随机名字"
     }

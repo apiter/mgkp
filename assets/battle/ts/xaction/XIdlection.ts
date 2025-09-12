@@ -14,8 +14,8 @@ export default class XIdleAction extends XBTAction {
     open(e) {
         e.target.playAnim(this._aniName)
     }
-    tick(e) {
-        e.target;
+    tick(tick_) {
+        tick_.target;
         return XBTStatus.SUCCESS
     }
 }

@@ -11,10 +11,10 @@ export class XOneTrueCdt extends XBTCondition {
         })
         this.arrCdts = e
     }
-    satisfy(e) {
+    satisfy(tick_) {
         let ret = false;
         for (const cdt of this.arrCdts) {
-            if (cdt._execute(e) == XBTStatus.SUCCESS) {
+            if (cdt._execute(tick_) == XBTStatus.SUCCESS) {
                 ret = true;
                 break
             }

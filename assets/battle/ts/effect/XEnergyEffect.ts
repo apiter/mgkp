@@ -22,9 +22,7 @@ export class XEnergyEffect extends XBaseEffect {
         let addValue = this.addValue;
         let value = addValue * this._data.energyRatio
         let aiMult = value * XMgr.mapMgr.getRoomById(this._data.roomId).aiMult
-        let changeRet = XMgr.playerMgr.changePlayerIncomeByUuid(this._data.playerUuid, 0, aiMult)
-        //let r = this.data;
-        // console.debug(`玩家[${XMgr.playerMgr.getPlayerName(this._data.playerUuid)}] [${this._data.ownerScript?.cfg?.name}]金币变化${aiMult + this.extra + this.godExtra} 现金币:${XMgr.playerMgr.getPlayerCoin(this._data.playerUuid)} `)
+        XMgr.playerMgr.changePlayerIncomeByUuid(this._data.playerUuid, 0, aiMult)
         //TODO
         this.showWorkEff()
     }

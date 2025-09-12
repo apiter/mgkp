@@ -8,6 +8,7 @@ import { XRandomUtil } from '../../xutil/XRandomUtil';
 import XPlayerModel from '../../model/XPlayerModel';
 import XUtil from '../../xutil/XUtil';
 import { XInputScript } from '../XInputScript';
+import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScene')
