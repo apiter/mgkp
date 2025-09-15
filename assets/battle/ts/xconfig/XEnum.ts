@@ -108,3 +108,8 @@ export enum XBuildResult {
     E_BED_IS_USED = 7,
     E_STAGE_NOT_ENOUGH = 8
 }
+
+export enum XTokenType {
+    E_Coin = 0,
+    E_Energy = 1
+}

@@ -1,4 +1,4 @@
-import { log, math, Rect, v2, Vec2, view } from "cc"
+import { log, math, Node, Rect, v2, Vec2, view } from "cc"
 import { XConst } from "../xconfig/XConst"
 import { XGrid } from "./XGrid"
 import { XRoomModel } from "../model/XRoomModel"
@@ -43,7 +43,7 @@ export class XMapMgr {
     _healZones = []
     _viewList = []
     _tileSets = null
-    _mapNode = null
+    _mapNode:Node = null
 
     init(mapData_: XCfgMapData) {
         this.parseData(mapData_)
@@ -500,8 +500,8 @@ export class XMapMgr {
     get mapNode() {
         return this._mapNode
     }
-    set mapNode(e) {
-        this._mapNode = e
+    set mapNode(node_) {
+        this._mapNode = node_
     }
     // get mapBoundBox() {
     //     return this._mapBoundBox

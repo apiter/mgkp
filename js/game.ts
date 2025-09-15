@@ -932,7 +932,11 @@ define("js/bundle.js", function(require, module, exports) {
             Prefab_Guide: "scenes/prefab/box_guide.json"
         };
         var E, L, D, A, P, N;
-        e.Direction = void 0, (E = e.Direction || (e.Direction = {}))[E.Left = 1] = "Left", E[E.Right = 2] = "Right", E[E.Up = 3] = "Up", E[E.Down = 4] = "Down", e.BuildGroup = void 0, (L = e.BuildGroup || (e.BuildGroup = {}))[L.Build = 1] = "Build", L[L.Mine = 2] = "Mine", L[L.GodProp = 3] = "GodProp", L[L.ZongProp = 4] = "ZongProp", L[L.Secret = 5] = "Secret", L[L.HideBuild = 6] = "HideBuild", e.TokenType = void 0, (D = e.TokenType || (e.TokenType = {}))[D.E_Coin = 0] = "E_Coin", D[D.E_Energy = 1] = "E_Energy", e.GameStatus = void 0, (A = e.GameStatus || (e.GameStatus = {}))[A.E_GAME_READY = 1] = "E_GAME_READY", A[A.E_GAME_START = 2] = "E_GAME_START", A[A.E_GAME_PAUSE = 3] = "E_GAME_PAUSE", A[A.E_GAME_FINISH = 4] = "E_GAME_FINISH", e.CollideGroupType = void 0, (P = e.CollideGroupType || (e.CollideGroupType = {}))[P.NONE = 0] = "NONE", P[P.BULLET = 2] = "BULLET", P[P.HUNTER = 4] = "HUNTER", P[P.BOX = 8] = "BOX", P[P.PoprWall = 16] = "PoprWall", P[P.Defender = 32] = "Defender", P[P.Building = 64] = "Building", P[P.HunterMine = 128] = "HunterMine", P[P.DefenderMine = 256] = "DefenderMine";
+        e.Direction = void 0, (E = e.Direction || (e.Direction = {}))[E.Left = 1] = "Left", E[E.Right = 2] = "Right", E[E.Up = 3] = "Up", E[E.Down = 4] = "Down", 
+        e.BuildGroup = void 0, (L = e.BuildGroup || (e.BuildGroup = {}))[L.Build = 1] = "Build", L[L.Mine = 2] = "Mine", L[L.GodProp = 3] = "GodProp", L[L.ZongProp = 4] = "ZongProp", L[L.Secret = 5] = "Secret", L[L.HideBuild = 6] = "HideBuild", 
+        e.TokenType = void 0, (D = e.TokenType || (e.TokenType = {}))[D.E_Coin = 0] = "E_Coin", D[D.E_Energy = 1] = "E_Energy", 
+        e.GameStatus = void 0, (A = e.GameStatus || (e.GameStatus = {}))[A.E_GAME_READY = 1] = "E_GAME_READY", A[A.E_GAME_START = 2] = "E_GAME_START", A[A.E_GAME_PAUSE = 3] = "E_GAME_PAUSE", A[A.E_GAME_FINISH = 4] = "E_GAME_FINISH", 
+        e.CollideGroupType = void 0, (P = e.CollideGroupType || (e.CollideGroupType = {}))[P.NONE = 0] = "NONE", P[P.BULLET = 2] = "BULLET", P[P.HUNTER = 4] = "HUNTER", P[P.BOX = 8] = "BOX", P[P.PoprWall = 16] = "PoprWall", P[P.Defender = 32] = "Defender", P[P.Building = 64] = "Building", P[P.HunterMine = 128] = "HunterMine", P[P.DefenderMine = 256] = "DefenderMine";
         class XToastItem extends Laya.Box {
             constructor() {
                 super(), this.anchorX = this.anchorY = .5, this.bg = new Laya.Image(s.TipsBg), this.bg.sizeGrid = "18,18,18,18", this.addChild(this.bg), this.bg.left = this.bg.right = this.bg.top = this.bg.bottom = 0
@@ -6027,14 +6031,48 @@ define("js/bundle.js", function(require, module, exports) {
             }
             exec() {
                 if (this.data.palsyTime) return;
-                let i = this.addValue;
-                this.canDouble && this.data.playerUuid == XMgr.playerMgr.mineUuid && (i *= 2);
-                let s = i * this.data.coinRatio,
-                    a = s * XMgr.mapMgr.getRoomById(this.data.roomId).aiMult,
-                    n = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a + this.extra + this.godExtra),
-                    r = this.data;
-                n ? XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra) : r.type && r.type == e.BuildType.bed || XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x + this.deltaX, this.node.y + this.deltaY, this.extra + this.godExtra), this.showWorkEff()
+            
+                // 计算基础收益
+                let addValue = this.addValue;
+                if (this.canDouble && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                    addValue *= 2;
+                }
+            
+                // 计算最终收益
+                let lastValue = addValue * this.data.coinRatio;
+                let a = lastValue * XMgr.mapMgr.getRoomById(this.data.roomId).aiMult;
+            
+                // 更新玩家收入
+                let n = XMgr.playerMgr.changePlayerIncomeByUuid(
+                    this.data.playerUuid,
+                    a + this.extra + this.godExtra
+                );
+            
+                let r = this.data;
+            
+                // 显示金币提示
+                if (n) {
+                    XMgr.gameUI.valueTips(
+                        e.TokenType.E_Coin,
+                        lastValue,
+                        this.node.x + this.deltaX,
+                        this.node.y + this.deltaY,
+                        this.extra + this.godExtra
+                    );
+                } else if (!r.type || r.type != e.BuildType.bed) {
+                    XMgr.gameUI.valueTips(
+                        e.TokenType.E_Coin,
+                        lastValue,
+                        this.node.x + this.deltaX,
+                        this.node.y + this.deltaY,
+                        this.extra + this.godExtra
+                    );
+                }
+            
+                // 播放工作特效
+                this.showWorkEff();
             }
+            
             clear() {
                 this.node.timer.clear(this, this.exec)
             }
@@ -19228,31 +19266,71 @@ define("js/bundle.js", function(require, module, exports) {
             getTokenIcon(t) {
                 return t == e.TokenType.E_Coin ? "res/game/img_coin.png" : t == e.TokenType.E_Energy ? "res/game/img_energy.png" : void 0
             }
-            valueTips(e, i, s, a, n = 0, r = !0, o = !1) {
-                if (!XMgr.mapMgr.isInStageByMapPos(s, a)) return;
-                let l;
-                (l = this.tipsList.length > 0 ? this.tipsList.pop() : fx.Utils.createPrefab(T.Prefab_IconTips)).visible = !0, XMgr.mapMgr.mapNode.addChild(l);
+            valueTips(type_, baseValue_, x_, y_, extraValue_ = 0, visible_ = true, o = false) {
+                // 如果坐标不在场景内，直接返回
+                if (!XMgr.mapMgr.isInStageByMapPos(x_, y_)) return;
+            
+                // 获取或创建提示节点
+                let l = this.tipsList.length > 0 
+                    ? this.tipsList.pop() 
+                    : fx.Utils.createPrefab(T.Prefab_IconTips);
+            
+                l.visible = true;
+                XMgr.mapMgr.mapNode.addChild(l);
+            
+                // 显示基础数值
                 let h = l.getChildByName("labelValue");
-                if (i > 999) {
-                    const e = i / 1e3;
-                    h.value = `+${Math.floor(e)}k`
-                } else h.value = i >= 0 ? `+${i}` : `${i}`;
+                if (baseValue_ > 999) {
+                    const e = baseValue_ / 1e3;
+                    h.value = `+${Math.floor(e)}k`;
+                } else {
+                    h.value = baseValue_ >= 0 ? `+${baseValue_}` : `${baseValue_}`;
+                }
+            
+                // 显示图标
                 let d = h.getChildByName("imgToken");
                 if (!d) return;
-                if (d.visible = r, d.skin = this.getTokenIcon(e), o && (Number.isInteger(i) ? h.value = `${i}` : h.value = `${i.toFixed(1)}`, i > 999)) {
-                    const e = i / 1e3;
-                    h.value = `${Math.floor(e)}k`
+            
+                d.visible = visible_;
+                d.skin = this.getTokenIcon(type_);
+            
+                // 特殊显示模式
+                if (o) {
+                    h.value = Number.isInteger(baseValue_)
+                        ? `${baseValue_}`
+                        : `${baseValue_.toFixed(1)}`;
+            
+                    if (baseValue_ > 999) {
+                        const e = baseValue_ / 1e3;
+                        h.value = `${Math.floor(e)}k`;
+                    }
                 }
+            
+                // 额外加成数值
                 let u = h.getChildByName("extraImg");
-                if (n) {
-                    u.visible = !0;
+                if (extraValue_) {
+                    u.visible = true;
+                    u.skin = this.getTokenIcon(type_);
                     let t = u.getChildByName("extraValue");
-                    u.skin = this.getTokenIcon(e), t.value = `+${n}`
-                } else u.visible = !1;
-                l.pos(s, a), l.alpha = 1, Laya.Tween.clearAll(l);
+                    t.value = `+${extraValue_}`;
+                } else {
+                    u.visible = false;
+                }
+            
+                // 动画效果
+                l.pos(x_, y_);
+                l.alpha = 1;
+                Laya.Tween.clearAll(l);
+            
                 let g = new fx.Sequence;
-                this.seqArray.push(g), g.pos(s, a - 50, 1e3), g.fadeOut(100), g.exec(Laya.Handler.create(this, this.recoverTips, [l])), g.run(l)
+                this.seqArray.push(g);
+            
+                g.pos(x_, y_ - 50, 1000)
+                 .fadeOut(100)
+                 .exec(Laya.Handler.create(this, this.recoverTips, [l]))
+                 .run(l);
             }
+            
             recoverTips(e) {
                 -1 == this.tipsList.indexOf(e) && (this.tipsList.push(e), e.visible = !1)
             }
