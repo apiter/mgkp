@@ -376,6 +376,20 @@ export default class XBuildingMgr {
         }
     }
 
+    openDoorByGridPos(gridX_, gridY_) {
+        let door = this.getBuilding(gridX_, gridY_)
+        if(!door || door.type != XBuildType.door)
+            return 
+        this.changeDoorState(door, true)
+    }
+
+    closeDoorByGridPos(gridX_, gridY_) {
+        let door = this.getBuilding(gridX_, gridY_)
+        if(!door || door.type != XBuildType.door)
+            return 
+        this.changeDoorState(door, false)
+    }
+
     changeDoorState(door: XBuildingModel, isOpen_) {
         door.isOpen = isOpen_
         XMgr.mapMgr.setDynWalkable(door.x, door.y, isOpen_)
@@ -432,12 +446,6 @@ export default class XBuildingMgr {
         // 搬建筑逻辑
 
         return XBuildResult.E_OK;
-    }
-
-    closeDoorByGridPos(gridX_, gridY_) {
-        let building = this.getBuilding(gridX_, gridY_);
-        if (!building || building.type != XBuildType.door) return XBuildResult.E_FAILD;
-        this.changeDoorState(building, false)
     }
 
     buildCd(playerUuid_, buildId_, x_, y_, r = 0, lv_ = 1, canHandle_ = true) {

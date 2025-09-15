@@ -74,6 +74,7 @@ export class XGameScript extends Component {
     initEvents() {
         EventCenter.on(XEventNames.E_Look_Player, this.lookAtPlayer, this)
         EventCenter.on(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
+        EventCenter.on(XEventNames.E_Bed_Down, this.hideBuildTips, this)
         EventCenter.on(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.on(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
         EventCenter.on(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
@@ -83,6 +84,7 @@ export class XGameScript extends Component {
     offEvents() {
         EventCenter.off(XEventNames.E_Look_Player, this.lookAtPlayer, this)
         EventCenter.off(XEventNames.E_Bed_Up, this.onPlayerUpBed, this)
+        EventCenter.off(XEventNames.E_Bed_Down, this.hideBuildTips, this)
         EventCenter.off(XEventNames.E_BUILDING_BUILD, this.build, this)
         EventCenter.off(XEventNames.E_BUILDING_REMOVED, this.destroyBuilding, this)
         EventCenter.off(XEventNames.E_BUILDING_UPGRADE, this.onBuildingUpgrade, this)
@@ -231,17 +233,16 @@ export class XGameScript extends Component {
         if (!this.isPlayerBed || this.characterControl) return;
         let moveX = this.mapMoveSpeed * deltaX,
             moveY = this.mapMoveSpeed * deltaY;
-        // this.map.lookPos.x -= moveX
-        // this.map.lookPos.y -= moveY
-        const mapWorldPt = this.map.node.worldPosition
+        this.map.lookPos.x -= moveX
+        this.map.lookPos.y -= moveY
 
-        this.lookAt(mapWorldPt.x - moveX, mapWorldPt.y - moveY)
+        // this.lookAt(this.map.lookPos.x, this.map.lookPos.y)
+        this.map.move(deltaX, deltaY)
     }
     onClickMap(e) { }
 
     lookAt(worldX, worldY) {
         this.map.lookAt(worldX, worldY)
-        this.map.updateArea()
     }
 
     lookAtPlayer(player_: XPlayerModel) {
@@ -296,7 +297,7 @@ export class XGameScript extends Component {
             this.characterControl = null;
 
             this.inputScript.hide();
-            // this.showBuildTips(build_.roomId);
+            this.showBuildTips(build_.roomId);
         }
 
         // this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
@@ -330,7 +331,28 @@ export class XGameScript extends Component {
                     XMgr.gameUI.showDoorBtn(buildNear.x, buildNear.y, !buildNear.isOpen)
                     break
                 case XBuildType.bed:
+                    XMgr.gameUI.showBedBtn(buildNear.x, buildNear.y)
                     break
+            }
+        }
+    }
+
+    showBuildTips(roomId_) {
+        let room = XMgr.buildingMgr.getRoom(roomId_);
+        if (room) {
+            for (const grid of room.grids) {
+                this.map.hideBuildTips(grid.x, grid.y)
+                this.map.showBuildTips(grid.x, grid.y)
+            }
+        }
+
+    }
+
+    hideBuildTips(roomId_) {
+        let room = XMgr.buildingMgr.getRoom(roomId_);
+        if (room) {
+            for (const grid of room.grids) {
+                this.map.hideBuildTips(grid.x, grid.y)
             }
         }
     }

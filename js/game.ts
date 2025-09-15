@@ -9727,16 +9727,49 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = fx.Utils.createPrefab(T.Prefab_HealZoneEff);
                 i && (s.name = i), this.effectLayer.addChild(s), s.pos(e, t), s._aniList[0].play(0, !0)
             }
-            showBuildTips(e, t, i) {
-                if (this.buildTipsList[e] || (this.buildTipsList[e] = []), this.buildTipsList[e][t]) {
-                    let i = this.buildTipsList[e][t];
-                    return i.visible = !0, void new fx.Sequence(null, !0).fadeIn(1e3).fadeOut(1e3).run(i)
+            showBuildTips(gridX_, gridY_, i) {
+                // 初始化行数组
+                if (!this.buildTipsList[gridX_]) {
+                    this.buildTipsList[gridX_] = [];
                 }
-                let s;
-                s = i ? new Laya.Image("res/game/capture_bg.png") : new Laya.Image("res/game/img_buildTips.png"), this.groundLayer.addChild(s), s.anchorX = s.anchorY = .5, s.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize), s.alpha = 0, s.width = s.height = this.gridSize, new fx.Sequence(null, !0).to({
-                    alpha: .9
-                }, 1e3).fadeOut(1e3).run(s), this.buildTipsList[e][t] = s
+            
+                // 已经有提示图标：重新显示并播放动画
+                if (this.buildTipsList[gridX_][gridY_]) {
+                    let tip = this.buildTipsList[gridX_][gridY_];
+                    tip.visible = true;
+            
+                    new fx.Sequence(null, true)
+                        .fadeIn(1000)
+                        .fadeOut(1000)
+                        .run(tip);
+            
+                    return;
+                }
+            
+                // 新建提示图标
+                let s = i 
+                    ? new Laya.Image("res/game/capture_bg.png") 
+                    : new Laya.Image("res/game/img_buildTips.png");
+            
+                this.groundLayer.addChild(s);
+            
+                // 设置锚点、位置和大小
+                s.anchorX = s.anchorY = 0.5;
+                s.pos((gridY_ + 0.5) * this.gridSize, (gridX_ + 0.5) * this.gridSize);
+                s.alpha = 0;
+                s.width = this.gridSize;
+                s.height = this.gridSize;
+            
+                // 淡入淡出动画
+                new fx.Sequence(null, true)
+                    .to({ alpha: 0.9 }, 1000)
+                    .fadeOut(1000)
+                    .run(s);
+            
+                // 保存到 buildTipsList
+                this.buildTipsList[gridX_][gridY_] = s;
             }
+            
             hideBuildTips(e, t) {
                 if (!this.buildTipsList[e] || !this.buildTipsList[e][t]) return;
                 let i = this.buildTipsList[e][t];
@@ -9836,7 +9869,9 @@ define("js/bundle.js", function(require, module, exports) {
             lookAt(e, i) {
                 let s = XMgr.gameMgr.mapCfg.row,
                     a = XMgr.gameMgr.mapCfg.column;
-                e = Math.max(Laya.stage.width / 2 + 0 * C.GridSize, Math.min((s - 0) * C.GridSize - Laya.stage.width / 2, e)), i = Math.max(Laya.stage.height / 2 + 0 * C.GridSize, Math.min((a - 0) * C.GridSize - Laya.stage.height / 2, i)), this.lookPos.setValue(e, i), e = Laya.stage.width / 2 - e, i = Laya.stage.height / 2 - i, this.node.x = e, this.node.y = i
+                e = Math.max(Laya.stage.width / 2 + 0 * C.GridSize, Math.min((s - 0) * C.GridSize - Laya.stage.width / 2, e)), 
+                i = Math.max(Laya.stage.height / 2 + 0 * C.GridSize, Math.min((a - 0) * C.GridSize - Laya.stage.height / 2, i)), 
+                this.lookPos.setValue(e, i), e = Laya.stage.width / 2 - e, i = Laya.stage.height / 2 - i, this.node.x = e, this.node.y = i
             }
             onUpdate() {
                 this.updateSign && this.updateArea()
@@ -11235,13 +11270,13 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = this.getDefender(t);
                 i && i.takeMapBuild(e)
             }
-            showBuildTips(e) {
-                let i = XMgr.buildingMgr.getRoom(e);
+            showBuildTips(roomId_) {
+                let i = XMgr.buildingMgr.getRoom(roomId_);
                 if (i)
                     for (const e of i.grids) this.map.hideBuildTips(e.x, e.y), this.map.showBuildTips(e.x, e.y)
             }
-            hideBuildTips(e) {
-                let i = XMgr.buildingMgr.getRoom(e);
+            hideBuildTips(roomId_) {
+                let i = XMgr.buildingMgr.getRoom(roomId_);
                 if (i)
                     for (const e of i.grids) this.map.hideBuildTips(e.x, e.y)
             }
@@ -11723,7 +11758,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.drag(t, i);
                 let s = t - this.lastPos.x,
                     a = i - this.lastPos.y;
-                (Math.abs(s) > 1 || Math.abs(a) > 1) && (this.moveFlag, this.moveFlag = !0), this.moveHandler && this.moveHandler.runWith([t - this.lastPos.x, i - this.lastPos.y]), this.lastPos.setValue(t, i)
+                (Math.abs(s) > 1 || Math.abs(a) > 1) && (this.moveFlag, this.moveFlag = !0), 
+                this.moveHandler && this.moveHandler.runWith([t - this.lastPos.x, i - this.lastPos.y]), this.lastPos.setValue(t, i)
             }
             onUp(e) {
                 this.mouseDown && (this.mouseDown = !1, this.input.setValue(0, 0), this.updateHandle(), this.joystickNode.visible = !1)
@@ -13340,21 +13376,40 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             getPlayerList() {
-                let i = [];
-                for (let e = 0; e < XMgr.playerMgr.defenders.length; e++) {
-                    let s = XMgr.playerMgr.defenders[e];
-                    s.uuid != XMgr.playerMgr.mineUuid && i.push({
+                let players = [];
+                for (let defenders = 0; defenders < XMgr.playerMgr.defenders.length; defenders++) {
+                    let s = XMgr.playerMgr.defenders[defenders];
+                    s.uuid != XMgr.playerMgr.mineUuid && players.push({
                         player: s
                     })
                 }
-                return XMgr.playerMgr.player.type == e.PlayerType.E_Defender && i.push({
+                return XMgr.playerMgr.player.type == e.PlayerType.E_Defender && players.push({
                     player: XMgr.playerMgr.player
-                }), i
+                }), players
             }
             initHunter() {
-                let i = XMgr.playerMgr.hunters.length;
-                this.list_hunter = this.owner.getChildByName("list_hunter"), XMgr.gameMgr.gameMode != e.GameMode.E_Defense && XMgr.gameMgr.gameMode != e.GameMode.E_SevenGhost || (this.list_hunter.visible = !0), this.list_hunter.width = 94 * i + 10 * (i - 1), this.list_hunter && (this.list_hunter.array = this.getHunterList(), this.list_hunter.renderHandler = new Laya.Handler(this, this.updateHunterItem))
+                let hunterCnt = XMgr.playerMgr.hunters.length;
+            
+                // 获取猎人列表节点
+                this.list_hunter = this.owner.getChildByName("list_hunter");
+            
+                // 防守模式或七鬼模式时显示猎人列表
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense || 
+                    XMgr.gameMgr.gameMode == e.GameMode.E_SevenGhost) 
+                {
+                    this.list_hunter.visible = true;
+                }
+            
+                // 设置列表宽度
+                this.list_hunter.width = 94 * hunterCnt + 10 * (hunterCnt - 1);
+            
+                // 绑定数据和渲染函数
+                if (this.list_hunter) {
+                    this.list_hunter.array = this.getHunterList();
+                    this.list_hunter.renderHandler = new Laya.Handler(this, this.updateHunterItem);
+                }
             }
+            
             getHunterList() {
                 let e = [];
                 for (let i = 0; i < XMgr.playerMgr.hunters.length; i++) {
@@ -19097,12 +19152,12 @@ define("js/bundle.js", function(require, module, exports) {
             hideAllMenu() {
                 this.hideUpgradeMenu(), this.hideBuildMenu(), this.hideBorrowMoneyMenu()
             }
-            showDoorBtn(t, i, s) {
-                this.operateBtn.visible = !0, this.operateImg.skin = s ? "res/game/img_kaimen.png" : "res/game/img_guanmen.png", 
+            showDoorBtn(x_, y_, isOpen_) {
+                this.operateBtn.visible = !0, this.operateImg.skin = isOpen_ ? "res/game/img_kaimen.png" : "res/game/img_guanmen.png", 
                 this.operateBtn.offAll(Laya.Event.CLICK), 
-                this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.door, t, i, s]), this.operateGrid.setValue(t, i)
+                this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.door, x_, y_, isOpen_]), this.operateGrid.setValue(x_, y_)
             }
-            showBedBtn(i, s) {
+            showBedBtn(x_, y_) {
                 if (XMgr.gameMgr.isGuide) {
                     if (this.img_hand) this.img_hand.visible = !0;
                     else {
@@ -19112,8 +19167,10 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                     fx.EventCenter.I.event(XEventNames.E_GuideArrow_Visible, !1)
                 }
-                let a = XMgr.playerMgr.player;
-                this.operateBtn.visible = !0, this.operateImg.skin = this.switchOperateImg(a.skinId), this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickOperateBtn, [e.BuildType.bed, i, s, null]), this.operateGrid.setValue(i, s)
+                let player = XMgr.playerMgr.player;
+                this.operateBtn.visible = !0, 
+                this.operateImg.skin = this.switchOperateImg(player.skinId), 
+                this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this,  this.onClickOperateBtn, [e.BuildType.bed, x_, y_, null]), this.operateGrid.setValue(x_, y_)
             }
             showMapBuildBtn(e, t) {
                 this.operateBtn.visible = !0, this.operateImg.skin = "res/game/img_shiqu.png", 
@@ -20494,7 +20551,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class Vn {
+        class XGameConfig {
             constructor() {}
             static init() {
                 var e = Laya.ClassUtils.regClass;
@@ -20515,9 +20572,9 @@ define("js/bundle.js", function(require, module, exports) {
                  e("modules/WXJump/MoreGameBtnScript.ts", XMoreGameBtnScript), e("modules/WXJump/WXGameClubScript.ts", On)
             }
         }
-        Vn.width = 750, Vn.height = 1334, Vn.scaleMode = "fixedauto", Vn.screenMode = "vertical", 
-        Vn.alignV = "middle", Vn.alignH = "center", Vn.startScene = "scenes/LoadingScene.scene", 
-        Vn.sceneRoot = "", Vn.debug = !1, Vn.stat = !1, Vn.physicsDebug = !1, Vn.exportSceneToJson = !0, Vn.init();
+        XGameConfig.width = 750, XGameConfig.height = 1334, XGameConfig.scaleMode = "fixedauto", XGameConfig.screenMode = "vertical", 
+        XGameConfig.alignV = "middle", XGameConfig.alignH = "center", XGameConfig.startScene = "scenes/LoadingScene.scene", 
+        XGameConfig.sceneRoot = "", XGameConfig.debug = !1, XGameConfig.stat = !1, XGameConfig.physicsDebug = !1, XGameConfig.exportSceneToJson = !0, XGameConfig.init();
         let Fn = null;
 
         function zn(e) {
@@ -20804,7 +20861,7 @@ define("js/bundle.js", function(require, module, exports) {
         new class extends fx.AppBase {
             constructor() {
                 Laya.isWXPlayable = !1, Laya.Laya.isWXPlayable = !1;
-                let e = Vn;
+                let e = XGameConfig;
                 !e.stat && fx.Utils.isOnPC() && (e.stat = !0)
                 e.stat && XGM.enableLog()
                 Laya.isWXPlayable || sdk.Sdk.sInit(V)
@@ -21404,7 +21461,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.owner;
                 XChoreUtil.setFont(e, e.text, this.font)
             }
-        }, e.GM = XGM, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = Vn, 
+        }, e.GM = XGM, e.GMScript = Ln, e.GScope = Cn, e.Game = XMgr, e.GameAngelOrGhostScript = AngelOrGhostGameScript, e.GameCfg = V, e.GameConfig = XGameConfig, 
         e.GameConst = C, e.GameDefenseScript = DefenseGameScript, e.GameEndBoxDialog = oe, e.GameEvent = XEventNames, e.GameHunterScript = HuntGameScript, 
         e.GameInfoEvent = Ce, e.GameManager = XGameMgr, 
         e.GameScene = XGameScene, e.GameScript = XGameScript, e.GameSevenGhostScript = ServenGhostGameScript, e.GameTime = GameTime, e.GameTimeEvent = _e, 

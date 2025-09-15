@@ -5,7 +5,6 @@ const { ccclass, property } = _decorator;
 export class XInputScript extends Component {
     visible = true
     moveFlag = false
-    whetherControl = true
     canHandle = true
 
     joystickNode: Node = null
@@ -17,7 +16,7 @@ export class XInputScript extends Component {
 
     clickHandler: (touch: EventTouch) => void = null
     downHandler: (touch: EventTouch) => void = null
-    moveHandler: (delta: Vec2) => void = null
+    moveHandler: (deltaX, deltaY) => void = null
 
     onLoad() {
         this.joystickNode = this.node.getChildByName("joystickNode")
@@ -40,8 +39,6 @@ export class XInputScript extends Component {
         this.mouseDown = true
         this.moveFlag = false;
         let touchPtLocal = this.node.getComponent(UITransform).convertToNodeSpaceAR(v3(touch.getLocationX(), touch.getLocationY()))
-        // let x = e.stageX
-        // let y = e.stageY;
         this.joystickNode.setPosition(touchPtLocal.x, touchPtLocal.y)
         this.visible && (this.joystickNode.active = true)
         this.drag(touchPtLocal.x, touchPtLocal.y)
@@ -50,7 +47,7 @@ export class XInputScript extends Component {
         this.downHandler && this.downHandler?.(touch)
     }
     onMove(touch: EventTouch) {
-        if (!this.mouseDown || !this.whetherControl || !this.canHandle)
+        if (!this.mouseDown)
             return;
         // let t = e.stageX,
         //     i = e.stageY;
@@ -59,12 +56,19 @@ export class XInputScript extends Component {
         // let s = t - this.lastPos.x,
         //     a = i - this.lastPos.y;
         // (Math.abs(s) > 1 || Math.abs(a) > 1) && (this.moveFlag, this.moveFlag = true)
-        this.moveHandler && this.moveHandler?.(v2(touch.getDeltaX(), touch.getDeltaY()))
+        this.moveHandler && this.moveHandler?.(touch.getDeltaX(), touch.getDeltaY())
         // this.lastPos.set(t, i)
     }
+
     onUp(e) {
-        this.mouseDown && (this.mouseDown = false, this.input.set(0, 0), this.updateHandle(), this.joystickNode.active = false)
+        if(this.mouseDown) {
+            this.mouseDown = false
+            this.input.set(0, 0)
+            this.updateHandle()
+            this.joystickNode.active = false
+        }
     }
+
     drag(x_, y_) {
         this.input.x = x_ - this.joystickNode.x
         this.input.y = y_ - this.joystickNode.y;

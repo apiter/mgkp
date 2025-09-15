@@ -245,7 +245,7 @@ export class XBatleMgr implements ISchedulable {
         } else if (this.isDefender()) {
             return XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid);
         }
-        return void 0;
+        return false;
     }
 
     dizzyTarget(e, t, bPlayEffect_ = true) {
