@@ -4,7 +4,6 @@ const { ccclass, property } = _decorator;
 @ccclass('XInputScript')
 export class XInputScript extends Component {
     visible = true
-    moveFlag = false
     canHandle = true
 
     joystickNode: Node = null
@@ -32,12 +31,10 @@ export class XInputScript extends Component {
     }
 
     onClick(e) {
-        this.moveFlag || this.clickHandler?.(e)
     }
 
     onDown(touch: EventTouch) {
         this.mouseDown = true
-        this.moveFlag = false;
         let touchPtLocal = this.node.getComponent(UITransform).convertToNodeSpaceAR(v3(touch.getLocationX(), touch.getLocationY()))
         this.joystickNode.setPosition(touchPtLocal.x, touchPtLocal.y)
         this.visible && (this.joystickNode.active = true)
@@ -49,23 +46,23 @@ export class XInputScript extends Component {
     onMove(touch: EventTouch) {
         if (!this.mouseDown)
             return;
-        // let t = e.stageX,
-        //     i = e.stageY;
         let touchPtLocal = this.node.getComponent(UITransform).convertToNodeSpaceAR(v3(touch.getLocationX(), touch.getLocationY()))
         this.drag(touchPtLocal.x, touchPtLocal.y)
-        // let s = t - this.lastPos.x,
-        //     a = i - this.lastPos.y;
-        // (Math.abs(s) > 1 || Math.abs(a) > 1) && (this.moveFlag, this.moveFlag = true)
         this.moveHandler && this.moveHandler?.(touch.getDeltaX(), touch.getDeltaY())
-        // this.lastPos.set(t, i)
     }
 
-    onUp(e) {
-        if(this.mouseDown) {
+    onUp(touch: EventTouch) {
+        if (this.mouseDown) {
             this.mouseDown = false
             this.input.set(0, 0)
             this.updateHandle()
             this.joystickNode.active = false
+
+
+            const touchDis = Vec2.distance(touch.getStartLocation(), touch.getLocation())
+            if (touchDis <= 2) {
+                this.clickHandler?.(touch)
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 import { _decorator, Component, instantiate, Label, Node, NodePool, Pool, Prefab, Sprite, SpriteAtlas, tween, Tween, UIOpacity } from 'cc';
 import XMgr from '../../XMgr';
 import { XBuildType, XTokenType } from '../../xconfig/XEnum';
+import LogWrapper from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 interface OperateBtnInfo {
@@ -83,6 +84,18 @@ export class XGameUI extends Component {
                 const result = XMgr.gameMgr.upBed(this._operateBtnInfo.gridX, this._operateBtnInfo.gridY, XMgr.playerMgr.mineUuid)
                 break
         }
+    }
+
+    showBuildMeun(gridX_, gridY_) {
+        //TODO show dialog
+        const room = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
+        if(!room)
+            return
+        XMgr.buildingMgr.build(XMgr.playerMgr.mineUuid, 3000, gridX_, gridY_, 0, 1)
+    }
+
+    hideAllMenu() {
+        LogWrapper.log(`GameUI`, "hideAllMenu", {})
     }
 
     valueTips(type_: XTokenType, baseValue_, x_, y_, extraValue_ = 0) {

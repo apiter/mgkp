@@ -7,6 +7,8 @@ import { XRandomUtil } from "../xutil/XRandomUtil"
 import XAStar from "./XAStar"
 import XUtil from "../xutil/XUtil"
 import { XCfgMapData } from "../xconfig/XCfgData"
+import XMgr from "../XMgr"
+import { XBuildType } from "../xconfig/XEnum"
 
 class XTiledInfo {
     x: number = 0
@@ -35,7 +37,7 @@ export class XMapMgr {
 
     _tiledMap: XTiledInfo[][] = []
     _rooms: XRoomModel[] = []
-    _buildings:XTiledInfo[] = []
+    _buildings: XTiledInfo[] = []
     _hunterSpawns = []
     _defenderSpawns: Vec2[] = []
     _mapBuildPoints = []
@@ -43,7 +45,7 @@ export class XMapMgr {
     _healZones = []
     _viewList = []
     _tileSets = null
-    _mapNode:Node = null
+    _mapNode: Node = null
 
     init(mapData_: XCfgMapData) {
         this.parseData(mapData_)
@@ -136,14 +138,14 @@ export class XMapMgr {
     }
     getTilesets(cfg_) {
         let rets = {};
-    
+
         for (let i = 0; i < cfg_.tilesets.length; ++i) {
             let setInfo = cfg_.tilesets[i];
             let splitArr = setInfo.name.split("_");
-    
+
             let lastNumber = Number(splitArr[splitArr.length - 1]);
             let name, rot;
-    
+
             if (!isNaN(lastNumber) && lastNumber >= 90) {
                 name = setInfo.name.replace(`_${lastNumber}`, "");
                 rot = lastNumber;
@@ -151,13 +153,13 @@ export class XMapMgr {
                 name = setInfo.name;
                 rot = 0;
             }
-    
+
             rets[setInfo.firstgid] = [name, rot, setInfo];
         }
-    
+
         return rets;
     }
-    
+
     getLayer(cfg_, key_) {
         for (const i of cfg_.layers)
             if (i.name == key_) return i
@@ -355,7 +357,7 @@ export class XMapMgr {
         for (const t of this.rooms) {
             if (roomId_ == t.id) {
                 let roomGrids = XUtil.deepClone(t.grids);
-        
+
                 // 移除被建筑占用的格子
                 for (const build of t.buildings) {
                     for (let i = 0; i < roomGrids.length; i++) {
@@ -364,7 +366,7 @@ export class XMapMgr {
                         }
                     }
                 }
-        
+
                 return XRandomUtil.randomInArray(roomGrids);
             }
         }
@@ -456,9 +458,23 @@ export class XMapMgr {
         this._grid.setDynWalkable(x_, y_, value_)
     }
 
-    // isInMap(x_, y_) {
-    //     return !(x_ < this.mapBoundBox.minX || x_ > this.mapBoundBox.maxX || y_ < this.mapBoundBox.minY || y_ > this.mapBoundBox.maxY)
-    // }
+    canHandleGrid(gridX_, gridY_, playerUuid_ = null) {
+        let mineUuid = XMgr.playerMgr.mineUuid;
+        playerUuid_ = playerUuid_ || mineUuid;
+        let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_),
+            player = XMgr.playerMgr.getPlayer(playerUuid_),
+            building = XMgr.buildingMgr.getBuilding(gridX_, gridY_);
+        if (!building && roomId == player.roomId) 
+            return true;
+        if (-1 != roomId && building) {
+            if (building.type == XBuildType.door) {
+                if (building.roomId == player.roomId)
+                    return true
+            } else if (building.playerUuid == playerUuid_)
+                return true;
+        }
+        return false
+    }
 
     isInHealZone(x_, y_) {
         for (const i of this._healZones)

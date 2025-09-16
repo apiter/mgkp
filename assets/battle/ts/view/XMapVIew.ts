@@ -29,18 +29,18 @@ export class XMapView extends Component {
 
     lookPos = v2(0)
 
-    _buildTipsList:Node[][] = []
+    _buildTipsList: Node[][] = []
 
     init() {
         const width = XMgr.mapMgr.width
         const height = XMgr.mapMgr.height
         this.node.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.groundLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.buildLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.buildMoveLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.playerLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.hunterLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.bulletLayer.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
+        this.groundLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
+        this.buildLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
+        this.buildMoveLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
+        this.playerLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
+        this.hunterLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
+        this.bulletLayer.getComponent(UITransform).setContentSize((XConst.GridSize) * width, (XConst.GridSize) * height)
 
         this.createGround()
     }
@@ -93,7 +93,7 @@ export class XMapView extends Component {
         newY = math.clamp(newY, view.getVisibleSize().height * 0.5, this.node.getComponent(UITransform).contentSize.height - view.getVisibleSize().height * 0.5)
         this.node.x = newX
         this.node.y = newY
-        
+
         this.updateArea()
     }
 
@@ -123,6 +123,10 @@ export class XMapView extends Component {
             uiOpacity.opacity = 255
             this._buildTipsList[gridX_][gridY_] = tipNode;
             // tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, { opacity: 255 }).to(1, { opacity: 0 })).start()
+
+            this._buildTipsList[gridX_][gridY_].on(Node.EventType.TOUCH_END, ()=>{
+                XMgr.gameUI.showBuildMeun(gridX_, gridY_)
+            }, this)
         }
 
     }
@@ -133,6 +137,18 @@ export class XMapView extends Component {
         }
     }
 
+    clearBuilTips(gridX_, gridY_) {
+        this._buildTipsList[gridX_] && this._buildTipsList[gridX_][gridY_] &&
+            (this._buildTipsList[gridX_][gridY_].destroy(),
+                this._buildTipsList[gridX_][gridY_] = null)
+    }
+
+    hideAllBuildTips() {
+        for (const room of XMgr.mapMgr.rooms)
+            for (const grid of room.grids) {
+                this.hideBuildTips(grid.x, grid.y)
+            }
+    }
 }
 
 

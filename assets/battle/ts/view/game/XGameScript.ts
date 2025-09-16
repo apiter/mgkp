@@ -1,4 +1,4 @@
-import { _decorator, Component, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
+import { _decorator, Component, EventTouch, log, Node, Sprite, UITransform, v2, Vec2, Vec3 } from 'cc';
 import XMgr from '../../XMgr';
 import XBuildingModel from '../../model/XBuildingModel';
 import { XBuildType, XGameMode, XGameStatus, XPlayerType } from '../../xconfig/XEnum';
@@ -239,7 +239,9 @@ export class XGameScript extends Component {
         // this.lookAt(this.map.lookPos.x, this.map.lookPos.y)
         this.map.move(deltaX, deltaY)
     }
-    onClickMap(e) { }
+    onClickMap(touch:EventTouch) {
+
+    }
 
     lookAt(worldX, worldY) {
         this.map.lookAt(worldX, worldY)

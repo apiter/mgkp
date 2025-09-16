@@ -2543,7 +2543,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
         }
-        class re extends e.ui.scenes.panel.FailDialogUI {
+        class XFailDialog extends e.ui.scenes.panel.FailDialogUI {
             constructor() {
                 super()
             }
@@ -7049,7 +7049,11 @@ define("js/bundle.js", function(require, module, exports) {
                 super.init(e), this.lv = e.lv, e.invincible = !0
             }
             onInit() {
-                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, this.lb_name.anchorY = 1, this.lb_name.y = -170, this.lb_name.fontSize = 25, this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name), this.initBody(), this.data.uuid != XMgr.playerMgr.mineUuid && this.initAI(), this.createHealthBar(), this.dCfg = XMgr.gameMgr.dCfg, this.lb_name.text = "讨债鬼"
+                this.lb_name = new Laya.Label, this.lb_name.anchorX = .5, 
+                this.lb_name.anchorY = 1, this.lb_name.y = -170, this.lb_name.fontSize = 25, 
+                this.lb_name.color = "#ffffff", this.lb_name.stroke = 3, this.node.addChild(this.lb_name), 
+                this.initBody(), this.data.uuid != XMgr.playerMgr.mineUuid && this.initAI(), this.createHealthBar(), 
+                this.dCfg = XMgr.gameMgr.dCfg, this.lb_name.text = "讨债鬼"
             }
             initBody() {
                 let t = {
@@ -11508,26 +11512,73 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.on(XEventNames.E_Create_Fighter, this, this.createFighter)
             }
             onClickMap(i) {
+                // 如果玩家不是在床上状态，直接 return
                 if (!XMgr.playerMgr.player.isBed) return;
+            
+                // 1. 获取点击的舞台坐标
                 let s = i.stageX,
-                    a = i.stageY,
-                    n = XMgr.mapMgr.stagePosToMapPos(s, a),
-                    r = XMgr.mapMgr.mapPosToGridPos(n.x, n.y),
-                    o = XMgr.user.gameInfo.getBuffData(18),
-                    l = XMgr.user.gameInfo.getBuffData(6),
-                    h = XMgr.mapMgr.getRoomIdByGridPos(r.x, r.y),
-                    d = XMgr.mapMgr.getRoomById(h);
-                if (!d || !d.players || !d.players.length) return;
-                let u = XMgr.gameMgr.canHandleGrid(r.x, r.y);
-                if (!u && !o && !l) return void XMgr.gameUI.hideAllMenu();
-                let g = XMgr.buildingMgr.getBuilding(r.x, r.y);
-                if (g && 6028 == g.id) console.log("open borrowMoney ui"), XMgr.gameUI.showBorrowMoneyMeun(r.x, r.y, g);
-                else if (g && (u || l || o)) {
-                    if (!g.canHandle) return void(6025 != g.id && 5104 != g.id || g.ownerScript.onClickOwner());
-                    if ((g.type == e.BuildType.bed || g.type == e.BuildType.door) && !u && l && !o) return;
-                    console.log("open upgrade ui"), XMgr.gameUI.showUpgradeMeun(r.x, r.y, g)
-                } else(u || o) && (console.log("open build ui"), XMgr.gameUI.showBuildMeun(r.x, r.y))
+                    a = i.stageY;
+            
+                // 2. 转换成地图坐标 & 网格坐标
+                let mapPos = XMgr.mapMgr.stagePosToMapPos(s, a);
+                let gridPos = XMgr.mapMgr.mapPosToGridPos(mapPos.x, mapPos.y);
+            
+                // 3. 检查 buff
+                let buff18 = XMgr.user.gameInfo.getBuffData(18);
+                let buff6  = XMgr.user.gameInfo.getBuffData(6);
+            
+                // 4. 获取点击位置所属的房间
+                let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridPos.x, gridPos.y);
+                let room = XMgr.mapMgr.getRoomById(roomId);
+            
+                // 如果没有房间，或者房间里没有玩家，直接 return
+                if (!room || !room.players || !room.players.length) return;
+            
+                // 5. 判断格子是否可操作
+                let canHandle = XMgr.gameMgr.canHandleGrid(gridPos.x, gridPos.y);
+            
+                // 如果格子不可操作 且 没有 buff18、buff6 -> 隐藏菜单并 return
+                if (!canHandle && !buff18 && !buff6) {
+                    XMgr.gameUI.hideAllMenu();
+                    return;
+                }
+            
+                // 6. 获取该格子上的建筑
+                let building = XMgr.buildingMgr.getBuilding(gridPos.x, gridPos.y);
+            
+                if (building && building.id == 6028) {
+                    // 特殊建筑：借钱
+                    console.log("open borrowMoney ui");
+                    XMgr.gameUI.showBorrowMoneyMeun(gridPos.x, gridPos.y, building);
+            
+                } else if (building && (canHandle || buff6 || buff18)) {
+                    // 如果格子上有建筑，且玩家有权限操作（或有 buff）
+            
+                    // 如果建筑不可操作
+                    if (!building.canHandle) {
+                        // 但是 id 是 6025 或 5104，可以触发 owner 的点击逻辑
+                        if (building.id == 6025 || building.id == 5104) {
+                            building.ownerScript.onClickOwner();
+                        }
+                        return;
+                    }
+            
+                    // 床或门类建筑：必须有 canHandle 或 buff18，buff6 单独不能操作
+                    if ((building.type == e.BuildType.bed || building.type == e.BuildType.door) &&
+                        !canHandle && buff6 && !buff18) {
+                        return;
+                    }
+            
+                    console.log("open upgrade ui");
+                    XMgr.gameUI.showUpgradeMeun(gridPos.x, gridPos.y, building);
+            
+                } else if (canHandle || buff18) {
+                    // 空地 && 可建造
+                    console.log("open build ui");
+                    XMgr.gameUI.showBuildMeun(gridPos.x, gridPos.y);
+                }
             }
+            
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
                 let e = XMgr.gameMgr.mineRoom;
@@ -13273,7 +13324,7 @@ define("js/bundle.js", function(require, module, exports) {
                 Laya.ClassUtils.regClass(l.MainScene, XMainScene), 
                 Laya.ClassUtils.regClass(l.GameScene, XGameScene), 
                 Laya.ClassUtils.regClass(l.WinDialog, ye), 
-                Laya.ClassUtils.regClass(l.FailDialog, re), 
+                Laya.ClassUtils.regClass(l.FailDialog, XFailDialog), 
                 Laya.ClassUtils.regClass(l.SkinView, XSkinView), 
                 Laya.ClassUtils.regClass(l.TipsView, XTipsView), 
                 Laya.ClassUtils.regClass(l.SettingDialog, ge), 
@@ -16534,18 +16585,18 @@ define("js/bundle.js", function(require, module, exports) {
                     r = XMgr.buildingMgr.getBuilding(i, s);
                 return r && r.type == e.BuildType.bed && XMgr.buildingMgr.getRoom(r.roomId) ? r.isUsed ? e.BuildResult.E_BED_IS_USED : XMgr.buildingMgr.upBed(i, s, n) : e.BuildResult.E_FAILD
             }
-            canHandleGrid(i, s, a) {
-                let n = XMgr.playerMgr.mineUuid;
-                a = a || n;
-                let r = XMgr.mapMgr.getRoomIdByGridPos(i, s),
-                    o = XMgr.playerMgr.getPlayer(a),
-                    l = XMgr.buildingMgr.getBuilding(i, s);
-                if (!l && r == o.roomId) return !0;
-                if (-1 != r && l)
-                    if (l.type == e.BuildType.door) {
-                        if (l.roomId == o.roomId) return !0
-                    } else if (l.playerUuid == a) return !0;
-                return !1
+            canHandleGrid(gridX_, gridY_, playerUuid_) {
+                let mineUuid = XMgr.playerMgr.mineUuid;
+                playerUuid_ = playerUuid_ || mineUuid;
+                let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_),
+                    player = XMgr.playerMgr.getPlayer(playerUuid_),
+                    building = XMgr.buildingMgr.getBuilding(gridX_, gridY_);
+                if (!building && roomId == player.roomId) return true;
+                if (-1 != roomId && building)
+                    if (building.type == e.BuildType.door) {
+                        if (building.roomId == player.roomId) return true
+                    } else if (building.playerUuid == playerUuid_) return true;
+                return false
             }
             canLocatePlayer() {
                 return this.isHunter() ? this.gameStatus == e.GameStatus.E_GAME_READY : this.isDefender() ? XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) : void 0
@@ -18467,7 +18518,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }, this.isMouseDown = !1, this.buildCreateArr = []
             }
             onEnable() {
-                this.curMenu = e.BuildGroup.Build, this.list_build = this.owner.getChildByName("list_build"), this.list_hide = this.owner.getChildByName("list_hide"), this.img_bg = this.owner.getChildByName("img_bg"), this.img_hide = this.img_bg.getChildByName("img_hide"), this.select = this.img_bg.getChildByName("select"), this.touchGrid = this.owner.getChildByName("touchGrid"), this.img_guide = this.owner.getChildByName("img_guide"), this.img_hide.on(Laya.Event.CLICK, this, () => {
+                this.curMenu = e.BuildGroup.Build, 
+                this.list_build = this.owner.getChildByName("list_build"), 
+                this.list_hide = this.owner.getChildByName("list_hide"), this.img_bg = this.owner.getChildByName("img_bg"), 
+                this.img_hide = this.img_bg.getChildByName("img_hide"), this.select = this.img_bg.getChildByName("select"), 
+                this.touchGrid = this.owner.getChildByName("touchGrid"), this.img_guide = this.owner.getChildByName("img_guide"), 
+                this.img_hide.on(Laya.Event.CLICK, this, () => {
                     this.curMenu = 6, this.updateMenuUI(), this.initList(dn[6])
                 });
                 for (let e = 1; e <= this.select.numChildren; e++) {
@@ -18681,24 +18737,24 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 return 6666 == e.buildId && (a = XMgr.gameMgr.randomCnt), a
             }
-            build(i, s = !1, a = !0) {
-                if ((i.type == e.BuildType.skill || 6666 == i.buildId) && !s) {
-                    if (!(XMgr.user.gameInfo.getOwnBuildCnt(i.buildId) > 0)) return void XToast.show("快去神秘商店购买吧~"); {
-                        let e = this.getBuildNum(i),
-                            t = i.maxCnt;
-                        if (6666 == i.buildId && (t = 4), e >= t) return void XToast.show("已达到建造上限~")
+            build(buildModel_, s = false, a = true) {
+                if ((buildModel_.type == e.BuildType.skill || 6666 == buildModel_.buildId) && !s) {
+                    if (!(XMgr.user.gameInfo.getOwnBuildCnt(buildModel_.buildId) > 0)) return void XToast.show("快去神秘商店购买吧~"); {
+                        let e = this.getBuildNum(buildModel_),
+                            t = buildModel_.maxCnt;
+                        if (6666 == buildModel_.buildId && (t = 4), e >= t) return void XToast.show("已达到建造上限~")
                     }
                 }
-                let n = XMgr.buildingMgr.getBuildRet(this.roomId, i.buildId, i.lv);
+                let n = XMgr.buildingMgr.getBuildRet(this.roomId, buildModel_.buildId, buildModel_.lv);
                 switch (s && (n = e.BuildResult.E_OK), n) {
                     case e.BuildResult.E_OK:
                         XMgr.gameMgr.buildCnt++, 
-                        XMgr.reporter.useProp(i.name), 
-                        XMgr.user.gameInfo.isFirstBuild && 6666 == i.buildId && (XMgr.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), 
+                        XMgr.reporter.useProp(buildModel_.name), 
+                        XMgr.user.gameInfo.isFirstBuild && 6666 == buildModel_.buildId && (XMgr.user.gameInfo.isFirstBuild = !1), XToast.show("建造成功！"), 
                         this.hide(), 
-                        a && XMgr.user.gameInfo.useBuildData(i.buildId),
-                        XAnalyticsUtil.useLevelItem(`商店道具-${i.name}`), 
-                        s ? XMgr.buildingMgr.buildFree(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv) : XMgr.buildingMgr.build(this.playerUuid, i.buildId, this.buildPos.x, this.buildPos.y, 0, i.lv);
+                        a && XMgr.user.gameInfo.useBuildData(buildModel_.buildId),
+                        XAnalyticsUtil.useLevelItem(`商店道具-${buildModel_.name}`), 
+                        s ? XMgr.buildingMgr.buildFree(this.playerUuid, buildModel_.buildId, this.buildPos.x, this.buildPos.y, 0, buildModel_.lv) : XMgr.buildingMgr.build(this.playerUuid, buildModel_.buildId, this.buildPos.x, this.buildPos.y, 0, buildModel_.lv);
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("建造失败！");
@@ -18720,7 +18776,7 @@ define("js/bundle.js", function(require, module, exports) {
                         break;
                     case e.BuildResult.E_NOT_HAVE_PREBUILD:
                         {
-                            let e = XMgr.buildingMgr.getBuildCfg(i.preBuilding.buildId, i.preBuilding.lv);
+                            let e = XMgr.buildingMgr.getBuildCfg(buildModel_.preBuilding.buildId, buildModel_.preBuilding.lv);
                             XToast.show(`请建造前置建筑：${e.name}！`)
                         }
                         break;
@@ -19067,7 +19123,8 @@ define("js/bundle.js", function(require, module, exports) {
                     if (a) return void XToast.show("不能再建造了")
                 }
                 j.I.playVideo("视频升级", this, s => {
-                    s && (XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), XMgr.buildingMgr.buildFree(e.playerUuid, i.videoUpgradeBuildId, e.x, e.y), this.hide(), XMgr.gameMgr.isUsedSuper = !0)
+                    s && (XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), 
+                    XMgr.buildingMgr.buildFree(e.playerUuid, i.videoUpgradeBuildId, e.x, e.y), this.hide(), XMgr.gameMgr.isUsedSuper = !0)
                 })
             }
             videoUpgradeDoor() {
@@ -19085,7 +19142,9 @@ define("js/bundle.js", function(require, module, exports) {
                     if (e) {
                         XMgr.gameMgr.adCnt++;
                         let e = this.buildData;
-                        e.canChangeSpecial = !1, e.specialId = XMgr.buildingMgr.getSpecialTower(!0).id, XMgr.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildData.x, this.buildData.y, !1), XMgr.buildingMgr.buildSpecial(this.buildData), this.hide()
+                        e.canChangeSpecial = !1, e.specialId = XMgr.buildingMgr.getSpecialTower(!0).id, 
+                        XMgr.buildingMgr.destroyBuilding(this.buildData.playerUuid, this.buildData.x, this.buildData.y, !1), 
+                        XMgr.buildingMgr.buildSpecial(this.buildData), this.hide()
                     }
                 })
             }
@@ -19095,7 +19154,8 @@ define("js/bundle.js", function(require, module, exports) {
                         let e = this.buildData,
                             i = XMgr.buildingMgr.getBuildCfg(e.id, e.lv),
                             s = fx.Utils.randomInArray(i.variantList);
-                        XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), XMgr.buildingMgr.buildFree(e.playerUuid, s.id, e.x, e.y), this.hide()
+                        XMgr.gameMgr.adCnt++, XMgr.buildingMgr.destroyBuilding(e.playerUuid, e.x, e.y, !1), 
+                        XMgr.buildingMgr.buildFree(e.playerUuid, s.id, e.x, e.y), this.hide()
                     }
                 })
             }
@@ -21525,7 +21585,7 @@ define("js/bundle.js", function(require, module, exports) {
             changeState(e) {
                 this._currentState && this._currentState.onExit(), this._currentState = this._states.get(e), this._currentState.onEnter()
             }
-        }, e.FailDialog = re, e.FightBackBuff = class extends XBaseBuff {
+        }, e.FailDialog = XFailDialog, e.FightBackBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.FIGHT_BACK
             }

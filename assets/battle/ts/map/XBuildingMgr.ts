@@ -117,16 +117,16 @@ export default class XBuildingMgr {
         return arr
     }
 
-    build(playerID, buildId_, x_, y_, buildRot_ = 0, lv_ = 1, check = true, canHandle_ = true, maxHp = null, isInit_ = false) {
+    build(playerID, buildId_, gridX_, gridY_, buildRot_ = 0, lv_ = 1, check = true, canHandle_ = true, maxHp = null, isInit_ = false) {
         // 检查目标格子是否已有建筑
-        const buildModel = this.getBuilding(x_, y_);
+        const buildModel = this.getBuilding(gridX_, gridY_);
         if (buildModel && !buildModel.isDie) return XBuildResult.E_FAILD;
 
         // 获取建造配置
         let buildCfg = this.getBuildCfg(buildId_, lv_);
         if (!buildCfg) return;
 
-        const roomId = XMgr.mapMgr.getRoomIdByGrid(x_, y_);
+        const roomId = XMgr.mapMgr.getRoomIdByGrid(gridX_, gridY_);
         let consumeCoin = buildCfg.coin;      // 消耗金币
         let consumeEnergy = buildCfg.energy;    // 消耗能量
         const playerModel = XMgr.playerMgr.getPlayer(playerID);
@@ -174,7 +174,7 @@ export default class XBuildingMgr {
         }
 
         // 创建建筑实例
-        const buildingModel = this.createBuildingModelByCfg(playerID, buildId_, roomId, lv_, x_, y_, buildRot_, buildCfg);
+        const buildingModel = this.createBuildingModelByCfg(playerID, buildId_, roomId, lv_, gridX_, gridY_, buildRot_, buildCfg);
         if (maxHp) buildingModel.curHp = buildingModel.maxHp = maxHp;
 
         buildingModel.isInit = isInit_;
@@ -184,7 +184,7 @@ export default class XBuildingMgr {
 
         // 更新寻路
         if (XMgr.playerMgr.player.type != XPlayerType.E_Defender) {
-            XMgr.mapMgr.setDynWalkable(x_, y_, false);
+            XMgr.mapMgr.setDynWalkable(gridX_, gridY_, false);
         }
 
         // 广播事件
