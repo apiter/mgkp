@@ -106,7 +106,7 @@ export class XGameUI extends Component {
         Tween.stopAllByTarget(uiOpacity)
         Tween.stopAllByTarget(node)
         tween(node).to(1, { y: y_ + 50 }).start()
-        tween(uiOpacity).to(1, { opacity: 100 }).call(() => {
+        tween(uiOpacity).to(1, { opacity: 255 }).call(() => {
             this._recycle_tip_node(type_, node)
         }).start()
     }

@@ -3599,7 +3599,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value",
+    "_name": "lbCoin",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -3687,7 +3687,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "1",
+    "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
@@ -4029,7 +4029,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value",
+    "_name": "lbEnergy",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4117,7 +4117,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "1",
+    "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
@@ -4234,7 +4234,7 @@
     "_id": "41YtCcvXZJ7YXdiNLP7Cgq"
   },
   {
-    "__type__": "038d6LhByhAm7tJK/QEGB8b",
+    "__type__": "babffyitbdLi7K0N9adw86J",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -4243,7 +4243,13 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_id": "472kS6/81JPYK9gnZXOiFh"
+    "lbCoin": {
+      "__id__": 99
+    },
+    "lbEnergy": {
+      "__id__": 110
+    },
+    "_id": "68D+e3xDpHfYgwkZGUybg0"
   },
   {
     "__type__": "cc.UITransform",
