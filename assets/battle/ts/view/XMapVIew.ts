@@ -33,6 +33,7 @@ export class XMapView extends Component {
 
     _buildTipsList: Node[][] = []
     _doorTipsList: Node[][] = []
+    upTipsList: Node[][] = []
 
     init() {
         const cellCntW = XMgr.mapMgr.width
@@ -172,12 +173,37 @@ export class XMapView extends Component {
         uiOpacity.opacity = 0
         this._doorTipsList[gridX_][gridY_] = tipNode;
 
-        tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, {opacity:255}).to(1, {opacity:0})).start()
+        tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, { opacity: 255 }).to(1, { opacity: 0 })).start()
     }
 
     removeDoorTips(gridX_: number, gridY_: number) {
         this._doorTipsList[gridX_] && this._doorTipsList[gridX_][gridY_] && this._doorTipsList[gridX_][gridY_].destroy()
         this._doorTipsList[gridX_][gridY_] = null
+    }
+
+    showUpTips(gridX_, gridY_, isMyBuilding_ = true) {
+        this.upTipsList[gridX_] || (this.upTipsList[gridX_] = []);
+        let upTipNode = this.upTipsList[gridX_][gridY_];
+        if (!upTipNode) {
+            upTipNode = instantiate(XMgr.prefabMgr.pf_upgradetip_01)
+            this.hunterLayer.addChild(upTipNode)
+            upTipNode.x = (gridY_ + 0.5) * XConst.GridSize
+            upTipNode.y = -(gridX_ + 0.5) * XConst.GridSize
+
+            const tip_bg_node = upTipNode.children[0]
+
+            const uiOpacity = tip_bg_node.getComponent(UIOpacity)
+            uiOpacity.opacity = 0
+
+            tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, { opacity: 255 }).to(1, { opacity: 0 })).start()
+
+            const tip_arrow_node = upTipNode.children[1]
+            tween(tip_arrow_node).repeatForever(tween(tip_arrow_node).to(1, { y: -16 }).to(1, { y: 16 })).start()
+
+            this.upTipsList[gridX_][gridY_] = upTipNode
+        }
+
+        upTipNode.active = true
     }
 }
 

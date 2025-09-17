@@ -6807,13 +6807,13 @@ define("js/bundle.js", function(require, module, exports) {
                                 XMgr.buildingMgr.canUpgrade(XMgr.playerMgr.mineUuid, this.data)) {
             
                                 // ---- 是否是自己房间/建筑 ----
-                                let i = this.data.type == e.BuildType.door
+                                let isMyBuilding = this.data.type == e.BuildType.door
                                     ? XMgr.playerMgr.mineRoomId == this.data.roomId  // 门需要房间ID匹配
                                     : XMgr.playerMgr.mineUuid == this.data.playerUuid; // 其它建筑需要归属玩家匹配
             
                                 // 不是特殊 ID(3008)，建筑激活时才显示升级提示
                                 if (3008 != this.data.id && this.isActive)
-                                    this.map.showUpTips(this.data.x, this.data.y, i);
+                                    this.map.showUpTips(this.data.x, this.data.y, isMyBuilding);
                             } else {
                                 // 否则隐藏提示
                                 this.map.hideUpTips(this.data.x, this.data.y);
@@ -9850,34 +9850,34 @@ define("js/bundle.js", function(require, module, exports) {
             clearHideTip(e, t) {
                 this.mowHideTipList[e] && this.mowHideTipList[e][t] && this.mowHideTipList[e][t].destroy()
             }
-            showUpTips(e, t, i = !0) {
-                let s = i ? "res/game/img_upgradeTips.png" : "res/game/img_upgradeTips02.png",
-                    a = i ? "res/game/img_up.png" : "res/game/img_up02.png";
+            showUpTips(gridX_, gridY_, isMyBuilding_ = true) {
+                let img_upgradeTips = isMyBuilding_ ? "res/game/img_upgradeTips.png" : "res/game/img_upgradeTips02.png",
+                    img_up = isMyBuilding_ ? "res/game/img_up.png" : "res/game/img_up02.png";
 
-                this.upTipsList[e] || (this.upTipsList[e] = []);
+                this.upTipsList[gridX_] || (this.upTipsList[gridX_] = []);
 
                 let n, r,
-                    o = this.upTipsList[e][t];
+                    upTipNode = this.upTipsList[gridX_][gridY_];
 
-                if (o) {
-                    n = o.getChildAt(0);
-                    r = o.getChildAt(1);
+                if (upTipNode) {
+                    n = upTipNode.getChildAt(0);
+                    r = upTipNode.getChildAt(1);
                 } else {
-                    o = new Laya.Box;
-                    o.width = o.height = .01;
-                    o.anchorX = o.anchorY = .5;
-                    this.hunterLayer.addChild(o);
-                    o.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize);
+                    upTipNode = new Laya.Box;
+                    upTipNode.width = upTipNode.height = .01;
+                    upTipNode.anchorX = upTipNode.anchorY = .5;
+                    this.hunterLayer.addChild(upTipNode);
+                    upTipNode.pos((gridY_ + .5) * this.gridSize, (gridX_ + .5) * this.gridSize);
 
-                    n = new Laya.Image(s);
+                    n = new Laya.Image(img_upgradeTips);
                     n.visible = !1;
                     n.width = n.height = C.GridSize;
                     n.anchorX = n.anchorY = .5;
-                    o.addChild(n);
+                    upTipNode.addChild(n);
 
-                    r = new Laya.Image(a);
+                    r = new Laya.Image(img_up);
                     r.anchorX = r.anchorY = .5;
-                    o.addChild(r);
+                    upTipNode.addChild(r);
 
                     Laya.Tween.clearAll(n);
                     n.alpha = 0;
@@ -9887,20 +9887,20 @@ define("js/bundle.js", function(require, module, exports) {
                     r.y = 0;
                     new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r);
 
-                    this.upTipsList[e][t] = o;
+                    this.upTipsList[gridX_][gridY_] = upTipNode;
                 }
 
-                if (!o.visible) {
-                    o.visible = !0;
+                if (!upTipNode.visible) {
+                    upTipNode.visible = !0;
 
                     Laya.Tween.clearAll(n);
-                    n.skin = s;
+                    n.skin = img_upgradeTips;
                     n.alpha = 0;
                     new fx.Sequence(null, !0).fadeIn(1000).fadeOut(1000).run(n);
 
                     Laya.Tween.clearAll(r);
                     r.y = 0;
-                    r.skin = a;
+                    r.skin = img_up;
                     new fx.Sequence(null, !0).move(0, -16, 350).move(0, 16, 350).run(r);
                 }
             }

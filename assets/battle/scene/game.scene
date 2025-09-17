@@ -4266,6 +4266,10 @@
       "__uuid__": "c743120b-bf88-40e3-a360-6e37e4c24518",
       "__expectedType__": "cc.Prefab"
     },
+    "pf_upgradetip_01": {
+      "__uuid__": "4613cca9-6b37-494e-8411-2068a5c8584f",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "2cSv9aBVtPzZVyb0XG0eei"
   },
   {
