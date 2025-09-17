@@ -32,6 +32,7 @@ export class XMapView extends Component {
     lookPos = v2(0)
 
     _buildTipsList: Node[][] = []
+    _doorTipsList: Node[][] = []
 
     init() {
         const cellCntW = XMgr.mapMgr.width
@@ -155,6 +156,28 @@ export class XMapView extends Component {
             for (const grid of room.grids) {
                 this.hideBuildTips(grid.x, grid.y)
             }
+    }
+
+    createDoorTips(gridX_: number, gridY_: number, rotation_: number) {
+        this._doorTipsList[gridX_] || (this._doorTipsList[gridX_] = [])
+        if (this._doorTipsList[gridX_][gridY_]) return;
+        let tipNode = new Node("buildTip")
+        let spr = tipNode.addComponent(Sprite)
+        spr.spriteFrame = this.gameAtlas.getSpriteFrame("img_doorTips")
+        this.buildLayer.addChild(tipNode)
+        let uiOpacity = tipNode.addComponent(UIOpacity)
+        tipNode.x = (gridY_ + 0.5) * XConst.GridSize
+        tipNode.y = -(gridX_ + 0.5) * XConst.GridSize
+        tipNode.angle = -rotation_
+        uiOpacity.opacity = 0
+        this._doorTipsList[gridX_][gridY_] = tipNode;
+
+        tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, {opacity:255}).to(1, {opacity:0})).start()
+    }
+
+    removeDoorTips(gridX_: number, gridY_: number) {
+        this._doorTipsList[gridX_] && this._doorTipsList[gridX_][gridY_] && this._doorTipsList[gridX_][gridY_].destroy()
+        this._doorTipsList[gridX_][gridY_] = null
     }
 }
 

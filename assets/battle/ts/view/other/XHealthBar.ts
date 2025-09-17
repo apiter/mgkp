@@ -29,6 +29,9 @@ export class XHealthBar extends Component {
             this.node.x = this._dataModel.owner.x
             this.node.y = this._dataModel.owner.y + this._barDeltaY
         }
+        if(this._dataModel.owner?.isValid == false){
+            this.node.destroy()
+        }
     }
 
     init(data_: XBaseModel, bNotDefender = false, deltaY = 0) {

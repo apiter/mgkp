@@ -111,7 +111,7 @@ export class XGameScript extends Component {
         let buildings = XMgr.buildingMgr.buildings;
         for (const build of buildings) {
             this.build(build, true)
-            // build.type == XBuildType.door && this.map.createDoorTips(build.x, build.y, build.rotation)
+            build.type == XBuildType.door && this.map.createDoorTips(build.x, build.y, build.rotation)
         }
 
     }
@@ -302,7 +302,7 @@ export class XGameScript extends Component {
             this.showBuildTips(build_.roomId);
         }
 
-        // this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
+        this.map.removeDoorTips(room.doorPos.x, room.doorPos.y);
     }
 
     getBuidling(x_, y_) {

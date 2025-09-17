@@ -9917,7 +9917,10 @@ define("js/bundle.js", function(require, module, exports) {
             createDoorTips(e, t, i) {
                 if (this.doorTipsList[e] || (this.doorTipsList[e] = []), this.doorTipsList[e][t]) return;
                 let s = new Laya.Image("res/game/img_doorTips.png");
-                this.buildLayer.addChild(s), s.rotation = i, s.anchorX = s.anchorY = .5, s.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize), s.alpha = 0, new fx.Sequence(null, !0).fadeIn(1e3).fadeOut(1e3).run(s), this.doorTipsList[e][t] = s
+                this.buildLayer.addChild(s), s.rotation = i, s.anchorX = s.anchorY = .5, 
+                s.pos((t + .5) * this.gridSize, (e + .5) * this.gridSize), s.alpha = 0, 
+                new fx.Sequence(null, !0).fadeIn(1e3).fadeOut(1e3).run(s), 
+                this.doorTipsList[e][t] = s
             }
             removeDoorTips(e, t) {
                 this.doorTipsList[e] && this.doorTipsList[e][t] && (this.doorTipsList[e][t].destroy(), delete this.doorTipsList[e][t])
