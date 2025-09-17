@@ -30,7 +30,7 @@ export class XBuildingScript extends Component {
 
     effects: XBaseEffect[] = []
 
-    hpLabel: Label = null
+    // hpLabel: Label = null
 
     init(buildModel_: XBuildingModel, cdTime_ = 0) {
         this.skinNode = new Node("SkinNode")
@@ -59,11 +59,11 @@ export class XBuildingScript extends Component {
             this.onInit()
             this.initEffects()
         }
-        const hpNode = new Node("hpNode")
-        this.hpLabel = hpNode.addComponent(Label)
-        this.hpLabel.string = buildModel_.curHp.toString()
-        this.hpLabel.fontSize = 18
-        this.node.addChild(hpNode)
+        // const hpNode = new Node("hpNode")
+        // this.hpLabel = hpNode.addComponent(Label)
+        // this.hpLabel.string = buildModel_.curHp.toString()
+        // this.hpLabel.fontSize = 18
+        // this.node.addChild(hpNode)
     }
 
     onInit() {
@@ -95,7 +95,8 @@ export class XBuildingScript extends Component {
         this.effects.push(e)
     }
     clearEffects() {
-        for (const e of this.effects) e.clear();
+        for (const e of this.effects)
+            e.clear();
         this.effects = []
     }
     removeEffect(e) {
@@ -136,7 +137,6 @@ export class XBuildingScript extends Component {
     }
 
     onHpChanged(target_: XBuildingModel) {
-        this.hpLabel.string = this.data.curHp.toString()
         if (this.data.isDie) {
             EventCenter.emit(XEventNames.E_BUILD_DEAD, this.data)
             this.onDead()
@@ -170,6 +170,10 @@ export class XBuildingScript extends Component {
         })
 
         this.initEffects()
+    }
+
+    protected onDestroy(): void {
+        this.clearEffects()
     }
 }
 

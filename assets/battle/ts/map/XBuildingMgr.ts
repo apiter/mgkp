@@ -614,8 +614,13 @@ export default class XBuildingMgr {
         EventCenter.emit(XEventNames.E_BUILDING_REMOVED, buildModel);
     }
 
-    getAroundBuildings(x_, y_, typesIncludes_, disDelta_ = 1) {
+    getAroundBuildings(x_, y_, typesIncludes_ = null, disDelta_ = 1) {
         let aroundBuidings: XBuildingModel[] = []
+        let building = this.getBuilding(x_, y_);
+        if (building && (!typesIncludes_ || typesIncludes_.includes(building.type))) {
+            aroundBuidings.push(building);
+        }
+    
         let mapHeight = XMgr.mapMgr.height,
             mapWidth = XMgr.mapMgr.width,
             xLeft = Math.max(x_ - disDelta_, 0),
@@ -634,7 +639,7 @@ export default class XBuildingMgr {
         return aroundBuidings
     }
 
-    getNearBuildingByMapPos2(x_, y_, typesIncludes_ = [], disDelta_ = 1) {
+    getNearBuildingByMapPos2(x_, y_, typesIncludes_ = null, disDelta_ = 1) {
         let gridPos = XMgr.mapMgr.mapPosToGridPos(x_, y_),
             aroundBuildings = this.getAroundBuildings(gridPos.x, gridPos.y, typesIncludes_, disDelta_);
         if (0 == aroundBuildings.length) return null;

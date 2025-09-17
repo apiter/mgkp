@@ -33,7 +33,6 @@ export class XMapMgr {
     _height = 0
     _width = 0
     _grid: XGrid = null
-    // _mapBoundBox = null
 
     _tiledMap: XTiledInfo[][] = []
     _rooms: XRoomModel[] = []
@@ -46,6 +45,8 @@ export class XMapMgr {
     _viewList = []
     _tileSets = null
     _mapNode: Node = null
+
+    barLayer:Node = null
 
     init(mapData_: XCfgMapData) {
         this.parseData(mapData_)

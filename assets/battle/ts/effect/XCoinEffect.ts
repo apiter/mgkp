@@ -20,6 +20,8 @@ export class XCoinEffect extends XBaseEffect {
     exec() {
         if (!this._data.playerUuid)
             return
+        if(!this._node || this._node.isValid == false)
+            return
         let addValue = this.addValue;
         let value = addValue * this._data.coinRatio
         let aiMult = value * XMgr.mapMgr.getRoomById(this._data.roomId).aiMult

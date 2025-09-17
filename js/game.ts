@@ -4857,10 +4857,21 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.hide = !1
             }
             onAwake() {
-                this.node = this.owner, this.img_bar = this.owner.getChildByName("img_bar"), this.img_graybar = this.owner.getChildByName("img_graybar"), this.img_di = this.owner.getChildByName("img_di"), this.img_shield = this.owner.getChildByName("img_shield"), this.barWidth = this.img_bar.width, this.label_lv = this.owner.getChildByName("label_lv"), this.label_lv.visible = !1, this.node.visible = !1, this.autoSkillBarBg = this.owner.getChildByName("autoSkillBarBg"), this.autoSkillBar = this.autoSkillBarBg.getChildByName("autoSkillBar"), this.autoSkillBarBg.visible = !1
+                this.node = this.owner, this.img_bar = this.owner.getChildByName("img_bar"), 
+                this.img_graybar = this.owner.getChildByName("img_graybar"), 
+                this.img_di = this.owner.getChildByName("img_di"), 
+                this.img_shield = this.owner.getChildByName("img_shield"), 
+                this.barWidth = this.img_bar.width, this.label_lv = this.owner.getChildByName("label_lv"), 
+                this.label_lv.visible = !1, this.node.visible = !1, 
+                this.autoSkillBarBg = this.owner.getChildByName("autoSkillBarBg"), 
+                this.autoSkillBar = this.autoSkillBarBg.getChildByName("autoSkillBar"), 
+                this.autoSkillBarBg.visible = !1
             }
-            init(e, t = !1, i, s) {
-                if (this.data = e, this.data.owner.on(be.Hp_Changed, this, this.onHpChanged), this.updateHealth(), t && (this.label_lv.visible = !0, this.label_lv.value = `LV.${this.data.lv}`, this.img_bar.skin = "res/game/img_healthbar_red.png", this.img_graybar.skin = "res/game/img_healthbar_white.png"), s) switch (s) {
+            init(data_, bNotDefender = false, i, s) {
+                this.data = data_, this.data.owner.on(be.Hp_Changed, this, this.onHpChanged), this.updateHealth()
+                bNotDefender && (this.label_lv.visible = !0, this.label_lv.value = `LV.${this.data.lv}`, 
+                    this.img_bar.skin = "res/game/img_healthbar_red.png", this.img_graybar.skin = "res/game/img_healthbar_white.png")
+                if (s) switch (s) {
                     case 1:
                         this.img_bar.skin = "res/rank/yellow.png";
                         break;
@@ -4886,7 +4897,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             updateHealth() {
                 if (!this.owner || this.owner.destroyed || !this.img_bar) return;
-                this.data.curHp < this.data.maxHp && !this.data.isDie && !this.hide && (this.node.visible = !0), this.img_bar.width = this.barWidth * this.data.curHp / this.data.maxHp, Laya.Tween.to(this.img_graybar, {
+                this.data.curHp < this.data.maxHp && !this.data.isDie && !this.hide && (this.node.visible = !0), 
+                this.img_bar.width = this.barWidth * this.data.curHp / this.data.maxHp, 
+                Laya.Tween.to(this.img_graybar, {
                     width: this.img_bar.width
                 }, 500);
                 let e = this.data.owner.parent;
@@ -5322,10 +5335,11 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!this.node) return;
                 let i = fx.Utils.createPrefab(T.Prefab_HealthBar);
                 this.barNode = i;
-                let s = new Laya.Box;
-                s.anchorX = s.anchorY = .5, this.node.addChild(s), this.healthBarNode = s, XMgr.mapMgr.barLayer.addChild(i), s.y -= 128, this.healthBar = i.addComponent(XHealthBar);
-                let a = this.data.type != e.PlayerType.E_Defender;
-                this.healthBar.init(this.data, a, s), this.healthBar.node.visible = !0;
+                let node = new Laya.Box;
+                node.anchorX = node.anchorY = .5, this.node.addChild(node), this.healthBarNode = node,
+                XMgr.mapMgr.barLayer.addChild(i), node.y -= 128, this.healthBar = i.addComponent(XHealthBar);
+                let bNotDefender = this.data.type != e.PlayerType.E_Defender;
+                this.healthBar.init(this.data, bNotDefender, node), this.healthBar.node.visible = !0;
                 let n = i.getChildByName("label_name");
                 if (this.data.type == e.PlayerType.E_Defender) {
                     let e = i.getChildren();
@@ -18040,23 +18054,35 @@ define("js/bundle.js", function(require, module, exports) {
             getAroundBuildings(x_, y_, typesIncludes_, disDelta = 1) {
                 let aroundBuidings = [],
                     building = this.getBuilding(x_, y_);
-                !building || typesIncludes_ && !typesIncludes_.includes(building.type) || aroundBuidings.push(building);
+            
+                // ① 先检查 (x_, y_) 自己这个格子
+                if (building && (!typesIncludes_ || typesIncludes_.includes(building.type))) {
+                    aroundBuidings.push(building);
+                }
+            
+                // ② 计算搜索范围 (防止越界)
                 let mapHeight = XMgr.mapMgr.height,
                     mapWidth = XMgr.mapMgr.width,
                     xLeft = Math.max(x_ - disDelta, 0),
                     yDown = Math.max(y_ - disDelta, 0),
                     xRight = Math.min(x_ + disDelta, mapHeight),
                     yUp = Math.min(y_ + disDelta, mapWidth);
-                for (let e = xLeft; e <= xRight; ++e)
+            
+                // ③ 遍历范围内的所有格子
+                for (let e = xLeft; e <= xRight; ++e) {
                     for (let t = yDown; t <= yUp; ++t) {
                         let build = this.getBuilding(e, t);
+            
                         if (build && (!typesIncludes_ || typesIncludes_.includes(build.type))) {
-                            if (aroundBuidings.indexOf(build) >=0) 
+                            // 避免重复加入（因为自己那个格子可能已经加过了）
+                            if (aroundBuidings.indexOf(build) >= 0) 
                                 continue;
-                            aroundBuidings.push(build)
+                            aroundBuidings.push(build);
                         }
                     }
-                return aroundBuidings
+                }
+            
+                return aroundBuidings;
             }
             getNearBuildingByMapPos(i, s, a, n = 1, r = !1) {
                 let o = XMgr.mapMgr.mapPosToGridPos(i, s),

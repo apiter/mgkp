@@ -26,21 +26,28 @@ export class XMapView extends Component {
     hunterLayer: Node = null
     @property(Node)
     bulletLayer: Node = null
+    @property(Node)
+    barLayer: Node = null
 
     lookPos = v2(0)
 
     _buildTipsList: Node[][] = []
 
     init() {
-        const width = XMgr.mapMgr.width
-        const height = XMgr.mapMgr.height
-        this.node.getComponent(UITransform).setContentSize((XConst.GridSize + 1) * width, (XConst.GridSize + 1) * height)
-        this.groundLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
-        this.buildLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
-        this.buildMoveLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
-        this.playerLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
-        this.hunterLayer.getComponent(UITransform).setContentSize((XConst.GridSize ) * width, (XConst.GridSize ) * height)
-        this.bulletLayer.getComponent(UITransform).setContentSize((XConst.GridSize) * width, (XConst.GridSize) * height)
+        const cellCntW = XMgr.mapMgr.width
+        const cellCntH = XMgr.mapMgr.height
+        const pixelW = (XConst.GridSize) * cellCntW
+        const pixelH = (XConst.GridSize) * cellCntH
+        this.node.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.groundLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.buildLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.buildMoveLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.playerLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.hunterLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.bulletLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.barLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+
+        XMgr.mapMgr.barLayer = this.barLayer
 
         this.createGround()
     }
@@ -124,7 +131,7 @@ export class XMapView extends Component {
             this._buildTipsList[gridX_][gridY_] = tipNode;
             // tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, { opacity: 255 }).to(1, { opacity: 0 })).start()
 
-            this._buildTipsList[gridX_][gridY_].on(Node.EventType.TOUCH_END, ()=>{
+            this._buildTipsList[gridX_][gridY_].on(Node.EventType.TOUCH_END, () => {
                 XMgr.gameUI.showBuildMeun(gridX_, gridY_)
             }, this)
         }

@@ -34,6 +34,8 @@ export class XHunterScript extends XPlayerScript {
     onInit(): void {
         this.dCfg = XMgr.gameMgr.dCfg
         this.data.uuid != XMgr.playerMgr.mineUuid && this.initBt()
+
+        this.createHealthBar()
         
         this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0 
     }

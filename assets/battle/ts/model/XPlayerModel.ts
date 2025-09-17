@@ -31,7 +31,6 @@ export default class XPlayerModel extends XBaseModel {
     isBack = false
     randomCnt = 0
     ownerScript: XPlayerScript
-    owner: Node
 
     type = XPlayerType.E_Defender
     uuid = ""

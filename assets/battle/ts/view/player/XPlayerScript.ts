@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, Label, Node, Prefab, sp, Sprite, UITransform, v2, v3, Vec2, Vec3 } from 'cc';
 import { XBuildResult, XBuildType, Direction as XDirection, XGameMode, XGameStatus, XPlayerType, XSkinType } from '../../xconfig/XEnum';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XEventNames } from '../../event/XEventNames';
@@ -12,6 +12,7 @@ import XBuildingModel from '../../model/XBuildingModel';
 import { XRoomModel } from '../../model/XRoomModel';
 import EventCenter from '../../event/EventCenter';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
+import { XHealthBar } from '../other/XHealthBar';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -80,7 +81,7 @@ export class XPlayerScript extends Component {
             this.skinBedImgNode = new Node(this.skinCfg.skinBedPath)
             let uiTrans = this.skinBedImgNode.addComponent(UITransform)
             uiTrans.anchorX = .5
-            uiTrans.anchorY = .25
+            uiTrans.anchorY = .35
             this.skinNode.addChild(this.skinBedImgNode)
             this.skinBedImgNode.y = 15
             this.skinBedImgNode.active = false
@@ -432,7 +433,6 @@ export class XPlayerScript extends Component {
         return this.data
     }
 
-
     gotoBed(gridX_, gridY_) {
         return XMgr.gameMgr.upBed(gridX_, gridY_, this.data.uuid) == XBuildResult.E_OK
     }
@@ -564,6 +564,14 @@ export class XPlayerScript extends Component {
 
     isEscape() {
         return this.isEscaped
+    }
+
+    createHealthBar() {
+        let prefab = XMgr.prefabMgr.pf_health_bar
+        const node = instantiate(prefab)
+        XMgr.mapMgr.barLayer.addChild(node)
+        const healthBar = node.getComponent(XHealthBar)
+        healthBar.init(this.data, this.data.type != XPlayerType.E_Defender, 128)
     }
 }
 

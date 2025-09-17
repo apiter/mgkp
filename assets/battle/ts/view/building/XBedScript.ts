@@ -15,6 +15,7 @@ export class XBedScript extends XBuildingScript {
     }
 
     protected onDestroy(): void {
+        super.onDestroy()
         EventCenter.off(XEventNames.E_Bed_Up, this.onPlayerGotoBed, this)
         EventCenter.off(XEventNames.E_Bed_Down, this.onPlayerDownBed, this)
     }

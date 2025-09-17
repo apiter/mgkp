@@ -1,3 +1,5 @@
+import { Node } from "cc"
+
 export default class XBaseModel {
     curHp = 1
     maxHp = 1
@@ -9,6 +11,8 @@ export default class XBaseModel {
     invincible = false
     invincible_skill = false
     buffs = []
+    owner: Node
+    
     
     get hpPercent() {
         return this.curHp / this.maxHp

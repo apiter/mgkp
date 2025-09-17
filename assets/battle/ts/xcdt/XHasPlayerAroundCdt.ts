@@ -3,6 +3,7 @@ import { XBTCondition } from '../bt2/XBTCondition';
 import XBTTick from '../bt2/XBTTick';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import XMgr from '../XMgr';
+import LogWrapper from '../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHasPlayerAroundCdt')
@@ -30,6 +31,7 @@ export class XHasPlayerAroundCdt extends XBTCondition {
             const dis = Vec2.squaredDistance(v2(ownerPos.x, ownerPos.y), playerScript.getTargetPos(player))
             if (dis < 10000) {
                 playerScript.setCurTarget(player)
+                LogWrapper.log(`猎人`, `找到旁边的角色:${[player.name]}`)
                 return true
             }
         }

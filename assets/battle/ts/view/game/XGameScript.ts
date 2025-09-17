@@ -220,10 +220,10 @@ export class XGameScript extends Component {
     destroyBuilding(buildModel_: XBuildingModel) {
         let buildScript = this.getBuidling(buildModel_.x, buildModel_.y)
         if (buildScript) {
-            buildScript.node.removeFromParent()
+            buildScript.node.destroy()
             this.buildingGrids[buildModel_.x] && this.buildingGrids[buildModel_.x][buildModel_.y] && (this.buildingGrids[buildModel_.x][buildModel_.y] = null)
         } else {
-            buildModel_.owner?.removeFromParent()
+            buildModel_.owner?.destroy()
         }
     }
     onDown() {

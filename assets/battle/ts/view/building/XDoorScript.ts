@@ -1,9 +1,10 @@
-import { _decorator, Component, Node, Sprite, Tween, tween, v2, Vec2 } from 'cc';
+import { _decorator, Component, instantiate, Node, Sprite, Tween, tween, v2, Vec2 } from 'cc';
 import { XBuildingScript } from './XBuildingScript';
 import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XConst } from '../../xconfig/XConst';
 import XMgr from '../../XMgr';
 import { XGameStatus, XPlayerType } from '../../xconfig/XEnum';
+import { XHealthBar } from '../other/XHealthBar';
 const { ccclass, property } = _decorator;
 
 @ccclass('XDoorScript')
@@ -33,7 +34,7 @@ export class XDoorScript extends XBuildingScript {
     }
 
     onInit(): void {
-
+        this.createHealthBar()
     }
 
     openDoor() {
@@ -75,6 +76,14 @@ export class XDoorScript extends XBuildingScript {
 
     checkAutoClose() {
         XMgr.gameMgr.isRoomBedUsed(this.data.roomId) && XMgr.buildingMgr.closeDoorByGridPos(this.data.x, this.data.y)
+    }
+
+    createHealthBar() {
+        let prefab = XMgr.prefabMgr.pf_health_bar
+        const node = instantiate(prefab)
+        XMgr.mapMgr.barLayer.addChild(node)
+        const healthBar = node.getComponent(XHealthBar)
+        healthBar.init(this.data, false, XConst.GridHalfSize)
     }
 }
 

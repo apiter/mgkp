@@ -1,0 +1,17 @@
+import { _decorator, Component, Node, Prefab } from 'cc';
+import XMgr from '../XMgr';
+const { ccclass, property, executionOrder } = _decorator;
+
+@ccclass('XPrefabMgr')
+@executionOrder(-1)
+export class XPrefabMgr extends Component {
+
+    @property(Prefab)
+    pf_health_bar: Prefab = null
+
+    protected onLoad(): void {
+        XMgr.prefabMgr = this
+    }
+}
+
+
