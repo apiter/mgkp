@@ -3314,26 +3314,28 @@ define("js/bundle.js", function(require, module, exports) {
             open(e) {
                 e.target.playAnim(this.aniName)
             }
-            tick(e) {
-                let i = e.target,
-                    s = i.getCurPath();
-                if (!s || s.length < 2) return Ie.SUCCESS;
-                let a = i.data,
-                    n = i.getAttackCd(),
-                    r = XMgr.gameTime.now;
-                if (r - this.atkIntervalTs >= 1e3 * n) {
-                    this.atkIntervalTs = r;
-                    let e = s[1],
+            tick(tick_) {
+                let target = tick_.target,
+                    curPath = target.getCurPath();
+                if (!curPath || curPath.length < 2) return Ie.SUCCESS;
+                let targetModelData = target.data,
+                    attackCd = target.getAttackCd(),
+                    now = XMgr.gameTime.now;
+                if (now - this.atkIntervalTs >= 1e3 * attackCd) {
+                    this.atkIntervalTs = now;
+                    let e = curPath[1],
                         n = XMgr.mapMgr.mapPosToGridPos(e.x, e.y),
                         o = XMgr.buildingMgr.getBuilding(n.x, n.y),
-                        l = s[0],
+                        l = curPath[0],
                         h = XMgr.mapMgr.mapPosToGridPos(l.x, l.y),
                         d = XMgr.buildingMgr.getBuilding(h.x, h.y);
                     if (d) {
-                        if (XV2Util01.pDistance(new fx.V2(a.owner.x, a.owner.y), new fx.V2(d.owner.x, d.owner.y)) <= i.getAttackRange()) return i.attack(d), Ie.FAILURE
+                        if (XV2Util01.pDistance(new fx.V2(targetModelData.owner.x, targetModelData.owner.y), new fx.V2(d.owner.x, d.owner.y)) <= target.getAttackRange()) 
+                            return target.attack(d), Ie.FAILURE
                     }
                     if (o) {
-                        if (XV2Util01.pDistance(new fx.V2(a.owner.x, a.owner.y), new fx.V2(o.owner.x, o.owner.y)) <= i.getAttackRange()) return i.attack(o), Ie.FAILURE
+                        if (XV2Util01.pDistance(new fx.V2(targetModelData.owner.x, targetModelData.owner.y), new fx.V2(o.owner.x, o.owner.y)) <= target.getAttackRange()) 
+                            return target.attack(o), Ie.FAILURE
                     }
                 }
                 return Ie.SUCCESS
@@ -7252,15 +7254,15 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = new XOneTrueCdt(new XEscapeCdt);
                 return t.add(e), t
             }
-            escape(e) {
-                let t = new XRunAction(e),
-                    i = new XSimpleRunAction,
+            escape(child_) {
+                let runAction = new XRunAction(child_),
+                    simpleRunAction = new XSimpleRunAction,
                     s = new fx.BTSequence({
-                        children: [i, t],
+                        children: [simpleRunAction, runAction],
                         continuePolicy: Ie.SUCCESS,
                         successPolicy: fx.EPolicy.RequireAll
                     }),
-                    a = (new XHasPathCdt).bindout(t);
+                    a = (new XHasPathCdt).bindout(runAction);
                 return new fx.BTSequence({
                     children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
@@ -16448,7 +16450,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             start(i) {
                 this._arrDatas = [], this.gameStatus = e.GameStatus.E_GAME_READY, 
-                this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, XMgr.playerMgr.init(i), XMgr.mapMgr.init(i.mapData, 0), XMgr.buildingMgr.init(), XMgr.taskMgr.init(), this.startTime = XMgr.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
+                this.matchData = i, this.gameMode = i.gameMode, this.mapCfg = i.mapCfg, XMgr.playerMgr.init(i), XMgr.mapMgr.init(i.mapData, 0), XMgr.buildingMgr.init(), XMgr.taskMgr.init(), 
+                this.startTime = XMgr.gameTime.now, this.killCnt = 0, this.randomCnt = 0, this.isfreeUpDoor = !1, this.curHunterAtkTarget = null, this.playTime = 0, 
+                this.buildCnt = 0, this.adCnt = 0, this.playerDeadCnt = 0, this.isUsedSuper = !1, this.defenseDeadCnt = 0, this.defenseFindRoomId = [], 
+                this.isAdMagicBox = !1, Laya.timer.clear(this, this.loopTime), Laya.timer.loop(1e3, this, this.loopTime);
                 let s = XMgr.user.gameInfo;
                 if (1 == this.difficultABTest ? (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = .75, this.hunterSpeedRatio = .75 / XMgr.gameMgr.dCfg.moveSpeed || 1, console.log(1 / this.hunterSpeedRatio, XMgr.gameMgr.dCfg.moveSpeed, "real Speed")) : (this.aiRatios = [.7, .75, .65, .4, .7, .85, .5], this.speedRatio = this.hunterSpeedRatio = 1), XMgr.gameMgr.gameMode == e.GameMode.E_Defense && (s.isStartLv || s.curLv > 1)) {
                     let e = this.dCfg;
@@ -19292,12 +19297,49 @@ define("js/bundle.js", function(require, module, exports) {
                 this.label_cd.visible = !0, this.label_cd.value = e.toString(), Laya.timer.loop(1e3, this, this.countdownFunc)
             }
             countdownFunc() {
-                if (this.gameNode.destroyed) return void Laya.timer.clear(this, this.countdownFunc);
-                let i = Number(this.label_cd.value);
-                i -= 1, this.label_cd.value = i.toString(), i <= 10 && XChoreUtil.playSound(116), i <= 0 && (this.gameNode.destroyed || (XChoreUtil.playSound(109), Laya.timer.clear(this, this.countdownFunc), this.label_cd.visible = !1, XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? Laya.timer.once(5e3, this, () => {
-                    XMgr.buildingMgr.clearMapBuild()
-                }) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人开始攻击~") : XToast.show("噬魂者开始攻击~"), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_START)))
+                // ---- 1. 节点检查 ----
+                if (this.gameNode.destroyed) {
+                    Laya.timer.clear(this, this.countdownFunc);
+                    return;
+                }
+            
+                // ---- 2. 倒计时更新 ----
+                let timeLeft = Number(this.label_cd.value) - 1;
+                this.label_cd.value = timeLeft.toString();
+            
+                // ---- 3. 提示音效 ----
+                if (timeLeft <= 10) XChoreUtil.playSound(116);   // 警告音
+                if (timeLeft > 0) return;                       // 倒计时未结束，直接返回
+            
+                // ---- 4. 倒计时结束 ----
+                if (this.gameNode.destroyed) return;            // 再次安全检查
+            
+                XChoreUtil.playSound(109);                      // 开始音效
+                Laya.timer.clear(this, this.countdownFunc);     // 停止倒计时
+                this.label_cd.visible = false;                  // 隐藏倒计时UI
+            
+                // ---- 5. 根据模式处理 ----
+                switch (XMgr.gameMgr.gameMode) {
+                    case e.GameMode.E_Defense:
+                        // 5秒后清除地图建筑
+                        Laya.timer.once(5000, this, () => {
+                            XMgr.buildingMgr.clearMapBuild();
+                        });
+                        break;
+            
+                    case e.GameMode.E_AngelOrGhost:
+                        XToast.show("木头人开始攻击~");
+                        break;
+            
+                    case e.GameMode.E_Hunt:
+                        XToast.show("噬魂者开始攻击~");
+                        break;
+                }
+            
+                // ---- 6. 修改游戏状态 ----
+                XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_START);
             }
+            
             startAngelRevive() {
                 this.box_angelRevive.visible = !0, this.lb_angelRevive.value = "10", Laya.timer.loop(1e3, this, this.countdownRevive)
             }

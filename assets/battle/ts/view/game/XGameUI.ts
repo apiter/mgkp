@@ -1,6 +1,6 @@
-import { _decorator, Component, instantiate, Label, Node, NodePool, Pool, Prefab, Sprite, SpriteAtlas, tween, Tween, UIOpacity } from 'cc';
+import { _decorator, Component, instantiate, Label, macro, Node, NodePool, Pool, Prefab, Sprite, SpriteAtlas, tween, Tween, UIOpacity } from 'cc';
 import XMgr from '../../XMgr';
-import { XBuildType, XTokenType } from '../../xconfig/XEnum';
+import { XBuildType, XGameMode, XGameStatus, XTokenType } from '../../xconfig/XEnum';
 import LogWrapper from '../../log/LogWrapper';
 import XBuildingModel from '../../model/XBuildingModel';
 const { ccclass, property } = _decorator;
@@ -22,6 +22,9 @@ export class XGameUI extends Component {
     @property(Sprite)
     operateImg: Sprite = null
 
+    @property(Label)
+    lb_start_cd: Label = null
+
     @property(Prefab)
     pf_coin_tip: Prefab = null
     @property(Prefab)
@@ -42,8 +45,33 @@ export class XGameUI extends Component {
         this.operateBtn.on(Node.EventType.TOUCH_END, this.onClickOperateBtn, this)
     }
 
+    startGameCd() {
+        this.lb_start_cd.node.active = true
+        this.lb_start_cd.string = XMgr.cfg.constant.startTime.toString()
+        this.schedule(this.countdownFunc, 1, macro.REPEAT_FOREVER, 1)
+    }
+
     update(deltaTime: number) {
 
+    }
+
+    countdownFunc() {
+        let timeLeft = Number(this.lb_start_cd.string) - 1;
+        this.lb_start_cd.string = timeLeft.toString();
+
+        if (timeLeft > 0) return;                       // 倒计时未结束，直接返回
+        this.unschedule(this.countdownFunc)
+        this.lb_start_cd.node.active = false;                  // 隐藏倒计时UI
+
+        // ---- 5. 根据模式处理 ----
+        switch (XMgr.gameMgr.gameMode) {
+            case XGameMode.E_Defense:
+                // 5秒后清除地图建筑
+                break;
+
+        }
+        // ---- 6. 修改游戏状态 ----
+        XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_START);
     }
 
     hideOperateBtn() {
@@ -51,8 +79,8 @@ export class XGameUI extends Component {
     }
 
     showDoorBtn(gridX_, gridY_, isOpen_) {
-        const building =  XMgr.buildingMgr.getBuilding(gridX_, gridY_)
-        if(building) {
+        const building = XMgr.buildingMgr.getBuilding(gridX_, gridY_)
+        if (building) {
             this.operateBtn.active = true
             this.operateBtn.worldPosition = building.owner?.worldPosition
             this.operateImg.spriteFrame = isOpen_ ? this.gameUIAtlas.getSpriteFrame("img_kaimen") : this.gameUIAtlas.getSpriteFrame("img_guanmen")
@@ -61,8 +89,8 @@ export class XGameUI extends Component {
     }
 
     showBedBtn(gridX_, gridY_) {
-        const building =  XMgr.buildingMgr.getBuilding(gridX_, gridY_)
-        if(building) {
+        const building = XMgr.buildingMgr.getBuilding(gridX_, gridY_)
+        if (building) {
             this.operateBtn.active = true
             this.operateBtn.worldPosition = building.owner?.worldPosition
             this.operateImg.spriteFrame = this.gameUIAtlas.getSpriteFrame("img_shangchuang")
@@ -89,7 +117,7 @@ export class XGameUI extends Component {
     showBuildMeun(gridX_, gridY_) {
         //TODO show dialog
         const room = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
-        if(!room)
+        if (!room)
             return
         XMgr.buildingMgr.build(XMgr.playerMgr.mineUuid, 3000, gridX_, gridY_, 0, 1)
     }
@@ -98,9 +126,9 @@ export class XGameUI extends Component {
         LogWrapper.log(`GameUI`, "hideAllMenu", {})
     }
 
-    showUpgradeMeun(gridX_, gridY_, building_:XBuildingModel) {
-         //TODO show dialog
-         XMgr.buildingMgr.upgrade(building_.playerUuid, gridX_, gridY_)
+    showUpgradeMeun(gridX_, gridY_, building_: XBuildingModel) {
+        //TODO show dialog
+        XMgr.buildingMgr.upgrade(building_.playerUuid, gridX_, gridY_)
     }
 
     valueTips(type_: XTokenType, baseValue_, x_, y_, extraValue_ = 0) {
@@ -120,7 +148,7 @@ export class XGameUI extends Component {
 
         const uiOpacity = node.getComponent(UIOpacity)
         uiOpacity.opacity = 255
-        
+
         Tween.stopAllByTarget(uiOpacity)
         Tween.stopAllByTarget(node)
         tween(node).to(1, { y: y_ + 50 }).start()

@@ -80,7 +80,7 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        const buildings = [5001, 6012, 3000, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
+        const buildings = [5001, 6012, 5001, 6005, 6005, 6005, 6001, 6013, 6019, 4000, 6006];
         const weights = [
             0.15,
             0.30,

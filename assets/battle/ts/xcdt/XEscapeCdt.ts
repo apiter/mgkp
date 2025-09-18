@@ -3,6 +3,7 @@ import { XBTCondition } from '../bt2/XBTCondition';
 import XBTTick from '../bt2/XBTTick';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import XMgr from '../XMgr';
+import LogWrapper, { XLogModule } from '../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XEscapeCdt')
@@ -28,6 +29,7 @@ export class XEscapeCdt extends XBTCondition {
             playerScript.setLastAtkTarget(null);
             playerScript.setEscape(true);
     
+            LogWrapper.log(`流程`, `${playerModel.name}逃跑了`, {}, [XLogModule.XLogModuleGameFlow])
             return true;
         }
         return false

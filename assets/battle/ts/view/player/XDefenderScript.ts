@@ -107,7 +107,7 @@ export class XDefenderScript extends XPlayerScript {
         // if (this.dtWait < 0.1)
         //     return
         this.dtWait = 0
-        if (this.isSkinLoaded && XMgr.gameMgr.gameStatus === XGameStatus.E_GAME_START && !XMgr.gameMgr.isPause) {
+        if (this.isSkinLoaded && !XMgr.gameMgr.isPause) {
             if (!this.data.isDie) {
                 if (!this.data.isBed) {
                     this.node.setSiblingIndex(this.node.y)

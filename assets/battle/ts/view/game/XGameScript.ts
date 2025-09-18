@@ -69,7 +69,7 @@ export class XGameScript extends Component {
 
         XMgr.bulletMgr.init(this.map.bulletLayer)
 
-        XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_START)
+        // XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_START)
     }
 
     initEvents() {
@@ -159,6 +159,7 @@ export class XGameScript extends Component {
 
     onInit() {
         this.lookAt(this.characterControl.node.worldPositionX, this.characterControl.node.worldPositionY)
+        XMgr.gameUI.startGameCd()
     }
 
     printCharactorPos(premsg: string = "") {
