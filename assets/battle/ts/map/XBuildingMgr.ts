@@ -190,7 +190,7 @@ export default class XBuildingMgr {
         // 广播事件
         EventCenter.emit(XEventNames.E_BUILDING_BUILD, buildingModel, false);
 
-        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级`, {"消耗金币":consumeCoin,"消耗能量":consumeEnergy}, [XLogModule.XLogModuleBuild])
+        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerID)}] 建造${buildCfg['name']}到${buildingModel.lv}级`, { "消耗金币": consumeCoin, "消耗能量": consumeEnergy }, [XLogModule.XLogModuleBuild])
         return XBuildResult.E_OK;
     }
 
@@ -378,15 +378,15 @@ export default class XBuildingMgr {
 
     openDoorByGridPos(gridX_, gridY_) {
         let door = this.getBuilding(gridX_, gridY_)
-        if(!door || door.type != XBuildType.door)
-            return 
+        if (!door || door.type != XBuildType.door)
+            return
         this.changeDoorState(door, true)
     }
 
     closeDoorByGridPos(gridX_, gridY_) {
         let door = this.getBuilding(gridX_, gridY_)
-        if(!door || door.type != XBuildType.door)
-            return 
+        if (!door || door.type != XBuildType.door)
+            return
         this.changeDoorState(door, false)
     }
 
@@ -535,7 +535,7 @@ export default class XBuildingMgr {
         }
         XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
         build.lv += 1
-        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级`, {"消耗金币":coinNeed,"消耗能量":energyNeed}, [XLogModule.XLogModuleBuild])
+        LogWrapper.log("建筑", `[${XMgr.playerMgr.getPlayerName(playerUuid_)}] 升级${nextLvBuildCfg.name}到${build.lv}级`, { "消耗金币": coinNeed, "消耗能量": energyNeed }, [XLogModule.XLogModuleBuild])
 
         this.updateBuildingModel(build, nextLvBuildCfg)
         EventCenter.emit(XEventNames.E_BUILDING_UPGRADE, build)
@@ -620,7 +620,7 @@ export default class XBuildingMgr {
         if (building && (!typesIncludes_ || typesIncludes_.includes(building.type))) {
             aroundBuidings.push(building);
         }
-    
+
         let mapHeight = XMgr.mapMgr.height,
             mapWidth = XMgr.mapMgr.width,
             xLeft = Math.max(x_ - disDelta_, 0),
@@ -653,5 +653,36 @@ export default class XBuildingMgr {
             }
             return nearBuilding
         }
+    }
+    canUpgrade(playerUuid_, data_: XBuildingModel) {
+        if (!data_ || !data_.canHandle) 
+            return false;                               
+        if (data_.playerUuid && data_.playerUuid != playerUuid_) 
+            return false;       
+        const roomId = XMgr.mapMgr.getRoomIdByGridPos(data_.x, data_.y);
+        if (!roomId) 
+            return false;                                                        
+        if (data_.lv >= this.getBuildMaxLv(data_.id)) 
+            return false;       
+        const buildCfg = this.getBuildCfg(data_.id, data_.lv + 1);
+        if (!buildCfg) 
+            return false;                                                       
+    
+        const player = XMgr.playerMgr.getPlayer(playerUuid_);          
+        let rate = 1;
+    
+        // 特殊规则：防守模式 & buffId=1 & 当前房间是自己房间
+        // if (XMgr.gameMgr.gameMode == XGameMode.E_Defense &&
+        //     buildCfg.buffId && buildCfg.buffId.includes(1) &&
+        //     XMgr.user.gameInfo.getBuffData(1) &&
+        //     data_.roomId == XMgr.playerMgr.mineRoomId) {
+        //     i = 0.9;
+        // }
+
+        if (buildCfg.coin && Math.round(buildCfg.coin * rate) > player.coin) 
+            return false;             // 金币不足
+        if (buildCfg.energy && Math.round(buildCfg.energy * rate) > player.energy) 
+            return false;       // 能量不足
+        return true
     }
 }

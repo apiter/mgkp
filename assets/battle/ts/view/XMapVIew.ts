@@ -198,12 +198,20 @@ export class XMapView extends Component {
             tween(uiOpacity).repeatForever(tween(uiOpacity).to(1, { opacity: 255 }).to(1, { opacity: 0 })).start()
 
             const tip_arrow_node = upTipNode.children[1]
-            tween(tip_arrow_node).repeatForever(tween(tip_arrow_node).to(1, { y: -16 }).to(1, { y: 16 })).start()
+            tween(tip_arrow_node).repeatForever(tween(tip_arrow_node).to(1, { y: 0 }).to(1, { y: 16 })).start()
 
             this.upTipsList[gridX_][gridY_] = upTipNode
         }
 
         upTipNode.active = true
+    }
+
+    hideUpTips(gridX_, gridY_) {
+        if (!this.upTipsList[gridX_] || !this.upTipsList[gridX_][gridY_]) return;
+        let upTipNode = this.upTipsList[gridX_][gridY_];
+        if (!upTipNode.isValid) return;
+        if (!upTipNode.active) return;
+        upTipNode.active = false
     }
 }
 

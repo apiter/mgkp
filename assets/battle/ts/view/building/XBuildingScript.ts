@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, Sprite, UITransform, v3 } from 'cc';
+import { _decorator, Component, director, Label, Node, rect, Sprite, UITransform, v3, view } from 'cc';
 import { XConst } from '../../xconfig/XConst';
 import XBuildingModel from '../../model/XBuildingModel';
 import XMgr from '../../XMgr';
@@ -9,6 +9,7 @@ import XAtlasLoader from 'db://assets/XAtlasLoader';
 import { XEffectBuilder } from '../../effect/XEffectBuilder';
 import { XBaseEffect } from '../../effect/XBaseEffect';
 import EventCenter from '../../event/EventCenter';
+import XUtil from '../../xutil/XUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('XBuildingScript')
@@ -174,6 +175,93 @@ export class XBuildingScript extends Component {
 
     protected onDestroy(): void {
         this.clearEffects()
+        this.map.hideUpTips(this.data.x, this.data.y);
+    }
+
+    updateBuildCd() {
+        // 如果没有处于冷却状态，直接返回 false
+        if (!this.isBuildCd) return;
+
+        // 每帧减少冷却时间
+        this.buildCdTime -= XUtil.getFrameDelta(.033);
+
+        // 更新冷却条宽度 (从 0 → 89 的进度条)
+        // this.panel_buildCd.width = (60 - this.buildCdTime) / 60 * 89;
+
+        // 冷却结束
+        if (this.buildCdTime <= 0) {
+            this.buildCdTime = 0;
+            this.isBuildCd = false;
+
+            // 移除冷却条节点
+            // this.barNode.destroy();
+
+            // 重新初始化
+            this.onInit();
+            this.initEffects();
+
+            // 返回 true 表示冷却完成
+            return true;
+        }
+    }
+
+    isInStage() {
+        // const mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+
+        // // 左下角和右上角（基于格子坐标转换）
+        // const mapCheck1 = XMgr.mapMgr.isInStageByMapPos(mapPos.x - XConst.GridHalfSize, mapPos.y - XConst.GridHalfSize);
+        // const mapCheck2 = XMgr.mapMgr.isInStageByMapPos(mapPos.x + XConst.GridHalfSize, mapPos.y + XConst.GridHalfSize);
+
+        // // 左下角和右上角（基于节点坐标）
+        // const nodeCheck1 = XMgr.mapMgr.isInStageByMapPos(this.node.x - XConst.GridHalfSize, this.node.y - XConst.GridHalfSize);
+        // const nodeCheck2 = XMgr.mapMgr.isInStageByMapPos(this.node.x + XConst.GridHalfSize, this.node.y + XConst.GridHalfSize);
+
+        // const building = XMgr.buildingMgr.getBuildCfg(this.data.x, this.data.y)
+        // if(building)
+
+        const worldAABB = this.node.getComponent(UITransform).getBoundingBoxToWorld()
+
+        const screenSize = view.getVisibleSize();
+
+        // 判断矩形是否和屏幕相交
+        return (
+            worldAABB.xMax >= 0 &&
+            worldAABB.xMin <= screenSize.width &&
+            worldAABB.yMax >= 0 &&
+            worldAABB.yMin <= screenSize.height
+        );
+    }
+
+    protected update(dt: number): void {
+        this.updateBuildCd()
+        if (!XMgr.gameMgr.isPause) {
+            if (this.map) {
+                if (this.isInStage()) {
+                    // ---- 如果不是猎人身份 ----
+                    if (!XMgr.gameMgr.isHunter()) {
+                        // 检查当前位置是否可交互，并且能否升级建筑
+                        const canHandle = XMgr.mapMgr.canHandleGrid(this.data.x, this.data.y)
+                        if (canHandle &&
+                            XMgr.buildingMgr.canUpgrade(XMgr.playerMgr.mineUuid, this.data)) {
+
+                            // ---- 是否是自己房间/建筑 ----
+                            let isMyBuilding = this.data.type == XBuildType.door
+                                ? XMgr.playerMgr.mineRoomId == this.data.roomId  // 门需要房间ID匹配
+                                : XMgr.playerMgr.mineUuid == this.data.playerUuid; // 其它建筑需要归属玩家匹配
+
+                            // 不是特殊 ID(3008)，建筑激活时才显示升级提示
+                            // if (3008 != this.data.id )
+                            this.map.showUpTips(this.data.x, this.data.y, isMyBuilding);
+                        } else {
+                            // 否则隐藏提示
+                            this.map.hideUpTips(this.data.x, this.data.y);
+                        }
+                    }
+                } else {
+                    this.map.hideUpTips(this.data.x, this.data.y);
+                }
+            }
+        }
     }
 }
 

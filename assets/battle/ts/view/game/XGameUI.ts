@@ -50,24 +50,23 @@ export class XGameUI extends Component {
     }
 
     showDoorBtn(gridX_, gridY_, isOpen_) {
-        this.operateBtn.active = true
-        const mapPos = XMgr.mapMgr.gridPosToMapPos(gridX_, gridY_)
-        const stagePos = XMgr.mapMgr.mapPosToStagePos(mapPos.x, mapPos.y)
-        this.operateBtn.x = stagePos.x
-        this.operateBtn.y = stagePos.y
-        this.operateImg.spriteFrame = isOpen_ ? this.gameUIAtlas.getSpriteFrame("img_kaimen") : this.gameUIAtlas.getSpriteFrame("img_guanmen")
-        this._operateBtnInfo = { buildType: XBuildType.door, gridX: gridX_, gridY: gridY_, isOpen: isOpen_ }
+        const building =  XMgr.buildingMgr.getBuilding(gridX_, gridY_)
+        if(building) {
+            this.operateBtn.active = true
+            this.operateBtn.worldPosition = building.owner?.worldPosition
+            this.operateImg.spriteFrame = isOpen_ ? this.gameUIAtlas.getSpriteFrame("img_kaimen") : this.gameUIAtlas.getSpriteFrame("img_guanmen")
+            this._operateBtnInfo = { buildType: XBuildType.door, gridX: gridX_, gridY: gridY_, isOpen: isOpen_ }
+        }
     }
 
     showBedBtn(gridX_, gridY_) {
-        let player = XMgr.playerMgr.player
-        this.operateBtn.active = true
-        this.operateImg.spriteFrame = this.gameUIAtlas.getSpriteFrame("img_shangchuang")
-        const mapPos = XMgr.mapMgr.gridPosToMapPos(gridX_, gridY_)
-        const stagePos = XMgr.mapMgr.mapPosToStagePos(mapPos.x, mapPos.y)
-        this.operateBtn.x = stagePos.x
-        this.operateBtn.y = stagePos.y
-        this._operateBtnInfo = { buildType: XBuildType.bed, gridX: gridX_, gridY: gridY_, }
+        const building =  XMgr.buildingMgr.getBuilding(gridX_, gridY_)
+        if(building) {
+            this.operateBtn.active = true
+            this.operateBtn.worldPosition = building.owner?.worldPosition
+            this.operateImg.spriteFrame = this.gameUIAtlas.getSpriteFrame("img_shangchuang")
+            this._operateBtnInfo = { buildType: XBuildType.bed, gridX: gridX_, gridY: gridY_, }
+        }
     }
 
     onClickOperateBtn() {

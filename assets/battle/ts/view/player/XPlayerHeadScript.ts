@@ -21,13 +21,13 @@ export class XPlayerHeadScript extends Component {
 
     initPlayers() {
         let players: XPlayerModel[] = [];
-        for (let defenders = 0; defenders < XMgr.playerMgr.defenders.length; defenders++) {
-            let s = XMgr.playerMgr.defenders[defenders];
-            s.uuid != XMgr.playerMgr.mineUuid && players.push(s)
+        for (let defenderIdx = 0; defenderIdx < XMgr.playerMgr.defenders.length; defenderIdx++) {
+            let defender = XMgr.playerMgr.defenders[defenderIdx];
+            defender.uuid != XMgr.playerMgr.mineUuid && players.push(defender)
         }
         XMgr.playerMgr.player.type == XPlayerType.E_Defender && players.push(XMgr.playerMgr.player)
 
-        for (let i = 0; i < 6; ++i) {
+        for (let i = 0; i < players.length; ++i) {
             const cfg = XMgr.cfg.skin.get(players[i].skinId + "");
             const headerNode = this.node.getChildByName(i.toString())
             const iconNode = headerNode.getChildByName("icon")

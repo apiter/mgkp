@@ -6784,9 +6784,19 @@ define("js/bundle.js", function(require, module, exports) {
             
             videoUpgrade() {}
             isInStage() {
-                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                return !!XMgr.mapMgr.isInStageByMapPos(e.x - C.GridHalfSize, e.y - C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(e.x + C.GridHalfSize, e.y + C.GridHalfSize) || (!!XMgr.mapMgr.isInStageByMapPos(this.node.x - C.GridHalfSize, this.node.y - C.GridHalfSize) || !!XMgr.mapMgr.isInStageByMapPos(this.node.x + C.GridHalfSize, this.node.y + C.GridHalfSize)))
+                const mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+            
+                // 左下角和右上角（基于格子坐标转换）
+                const mapCheck1 = XMgr.mapMgr.isInStageByMapPos(mapPos.x - C.GridHalfSize, mapPos.y - C.GridHalfSize);
+                const mapCheck2 = XMgr.mapMgr.isInStageByMapPos(mapPos.x + C.GridHalfSize, mapPos.y + C.GridHalfSize);
+            
+                // 左下角和右上角（基于节点坐标）
+                const nodeCheck1 = XMgr.mapMgr.isInStageByMapPos(this.node.x - C.GridHalfSize, this.node.y - C.GridHalfSize);
+                const nodeCheck2 = XMgr.mapMgr.isInStageByMapPos(this.node.x + C.GridHalfSize, this.node.y + C.GridHalfSize);
+            
+                return mapCheck1 || mapCheck2 || nodeCheck1 || nodeCheck2;
             }
+            
             onUpdate() {
                 if (!XMgr.gameMgr.isPause && this.updateBuildCd())   // ① 游戏未暂停 + 冷却更新成功
                     if (this.data.palsyTime)                         // ② 如果建筑存在麻痹时间，处理麻痹
@@ -6848,8 +6858,32 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             updateBuildCd() {
-                return !this.isBuildCd || (this.buildCdTime -= fx.Utils.getFrameDelta(.033), this.panel_buildCd.width = (60 - this.buildCdTime) / 60 * 89, this.buildCdTime <= 0 && (this.buildCdTime = 0, this.isBuildCd = !1, this.barNode.destroy(), this.onInit(), this.initEffects(), !0))
+                // 如果没有处于冷却状态，直接返回 false
+                if (!this.isBuildCd) return;
+            
+                // 每帧减少冷却时间
+                this.buildCdTime -= fx.Utils.getFrameDelta(.033);
+            
+                // 更新冷却条宽度 (从 0 → 89 的进度条)
+                this.panel_buildCd.width = (60 - this.buildCdTime) / 60 * 89;
+            
+                // 冷却结束
+                if (this.buildCdTime <= 0) {
+                    this.buildCdTime = 0;
+                    this.isBuildCd = false;
+            
+                    // 移除冷却条节点
+                    this.barNode.destroy();
+            
+                    // 重新初始化
+                    this.onInit();
+                    this.initEffects();
+            
+                    // 返回 true 表示冷却完成
+                    return true;
+                }
             }
+            
             checkPalsyTime() {
                 this.data.palsyTime && (this.data.palsyTime -= 1e3 * fx.Utils.getFrameDelta(.033), this.data.palsyTime <= 0 && (this.data.palsyTime = 0, this.palsyEff && this.palsyEff.destroy()))
             }
@@ -9905,9 +9939,9 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
 
-            hideUpTips(e, t) {
-                if (!this.upTipsList[e] || !this.upTipsList[e][t]) return;
-                let i = this.upTipsList[e][t];
+            hideUpTips(gridX_, gridY_) {
+                if (!this.upTipsList[gridX_] || !this.upTipsList[gridX_][gridY_]) return;
+                let i = this.upTipsList[gridX_][gridY_];
                 if (i.destroyed) return;
                 if (!i.visible) return;
                 let s = i.getChildAt(0),
@@ -18210,22 +18244,43 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 return a
             }
-            canUpgrade(i, s, a = !0) {
-                if (!s.canHandle) return !1;
-                if (s.playerUuid && s.playerUuid != i) return !1;
-                let n = XMgr.mapMgr.getRoomIdByGridPos(s.x, s.y);
-                if (!s || !n) return !1;
-                if (s.lv >= this.getBuildMaxLv(s.id)) return !1;
-                let r = this.getBuildCfg(s.id, s.lv + 1);
-                if (!r) return !1;
-                let o = XMgr.playerMgr.getPlayer(i);
+            canUpgrade(playerUuid_, data_, a = true) {
+                // ---- 基础校验 ----
+                if (!data_ || !data_.canHandle) return false;                               // 建筑必须可操作
+                if (data_.playerUuid && data_.playerUuid != playerUuid_) return false;       // 玩家必须是建筑所有者
+            
+                const roomId = XMgr.mapMgr.getRoomIdByGridPos(data_.x, data_.y);
+                if (!roomId) return false;                                                        // 房间无效
+                if (data_.lv >= this.getBuildMaxLv(data_.id)) return false;                  // 等级已达上限
+            
+                const buildCfg = this.getBuildCfg(data_.id, data_.lv + 1);
+                if (!buildCfg) return false;                                                        // 下一级配置不存在
+            
+                const player = XMgr.playerMgr.getPlayer(playerUuid_);
+            
+                // ---- 消耗校验 ----
                 if (a) {
                     let i = 1;
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && r.buffId && r.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && s.roomId == XMgr.playerMgr.mineRoomId && (i = .9), r.coin && Math.round(r.coin * i) > o.coin) return !1;
-                    if (r.energy && Math.round(r.energy * i) > o.energy) return !1
+            
+                    // 特殊规则：防守模式 & buffId=1 & 当前房间是自己房间
+                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                        buildCfg.buffId && buildCfg.buffId.includes(1) &&
+                        XMgr.user.gameInfo.getBuffData(1) &&
+                        data_.roomId == XMgr.playerMgr.mineRoomId) {
+                        i = 0.9;
+                    }
+            
+                    if (buildCfg.coin && Math.round(buildCfg.coin * i) > player.coin) return false;             // 金币不足
+                    if (buildCfg.energy && Math.round(buildCfg.energy * i) > player.energy) return false;       // 能量不足
                 }
-                return !(r.preBuilding && !this.isHaveBuilding(n, r.preBuilding.buildId, r.preBuilding.lv))
+            
+                // ---- 前置建筑校验 ----
+                if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
+                    return false;
+            
+                return true;
             }
+            
             isBedInRoom(e, t, i) {
                 for (const s of e.bedModelList)
                     if (t == s.x && i == s.y) return !0;
