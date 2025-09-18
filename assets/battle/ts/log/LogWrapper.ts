@@ -10,7 +10,7 @@ export enum XLogModule {
 }
 
 export default class LogWrapper {
-    static allowModules = [XLogModule.XLogModuleBT, XLogModule.XLogMuduleTemp]
+    static allowModules = [XLogModule.XLogModuleBT, XLogModule.XLogMuduleTemp, XLogModule.XLogModuleGameFlow]
     static log(tag_: string, msg_: string, params_: { [key: string]: any } = {}, modules_: XLogModule[] = [XLogModule.XLogMuduleTemp]) {
         this._canLog(modules_) &&
             console.log(`[${tag_}] ${msg_} ${this._paramsToString(params_)}`)

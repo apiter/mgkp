@@ -52,7 +52,7 @@ export class XGameScene extends Component {
         hunterModel.maxHp = hunterModel.curHp
         hunterArr.push(hunterModel)
 
-        for (let i = 0; i < 1; ++i) {
+        for (let i = 0; i < 6; ++i) {
             let playerModel = new XPlayerModel;
             playerModel.type = XPlayerType.E_Defender
             playerModel.uuid = XUtil.createUUIDEx(10)
