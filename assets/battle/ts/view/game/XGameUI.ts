@@ -2,6 +2,7 @@ import { _decorator, Component, instantiate, Label, Node, NodePool, Pool, Prefab
 import XMgr from '../../XMgr';
 import { XBuildType, XTokenType } from '../../xconfig/XEnum';
 import LogWrapper from '../../log/LogWrapper';
+import XBuildingModel from '../../model/XBuildingModel';
 const { ccclass, property } = _decorator;
 
 interface OperateBtnInfo {
@@ -95,6 +96,11 @@ export class XGameUI extends Component {
 
     hideAllMenu() {
         LogWrapper.log(`GameUI`, "hideAllMenu", {})
+    }
+
+    showUpgradeMeun(gridX_, gridY_, building_:XBuildingModel) {
+         //TODO show dialog
+         XMgr.buildingMgr.upgrade(building_.playerUuid, gridX_, gridY_)
     }
 
     valueTips(type_: XTokenType, baseValue_, x_, y_, extraValue_ = 0) {

@@ -20,6 +20,7 @@ import { XInputScript } from '../XInputScript';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XV2Util01 } from '../../xutil/XV2Util01';
 import { XRoomModel } from '../../model/XRoomModel';
+import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -207,6 +208,10 @@ export class XGameScript extends Component {
             } else {
                 buildScript = buildNode.addComponent(XBuildingScript);
             }
+        }
+        if(buildScript == null) {
+            LogWrapper.log(`建造`,`${JSON.stringify(buildCfg)}失败`, {}, [XLogModule.XLogMuduleTemp])
+            return
         }
         this.buildingGrids[build_.x] || (this.buildingGrids[build_.x] = [])
         canMove ? this.map.buildMoveLayer.addChild(buildNode) : this.map.buildLayer.addChild(buildNode)

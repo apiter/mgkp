@@ -33,7 +33,7 @@ export class XDefenseGameScript extends XGameScript {
         }
         let building = XMgr.buildingMgr.getBuilding(gridPos.x, gridPos.y);
         if (building && (canHandle)) {
-
+            XMgr.gameUI.showUpgradeMeun(gridPos.x, gridPos.y, building)
         } else if (canHandle) {
             XMgr.gameUI.showBuildMeun(gridPos.x, gridPos.y)
         }

@@ -17571,23 +17571,23 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = [6001, 6002, 6004, 6005, 6006, 6007, 6003, 6008, 6009, 6010, 6011];
                 for (const t in this.rooms) {
                     let i, s = this.rooms[t],
-                        a = s.bedModelList[0],
-                        n = new fx.V2(a.x, a.y),
-                        r = this.getGridByPos(s.id, n),
-                        o = XRandomUtil.random(),
-                        l = e[i = o <= .15 ? 0 : o <= .3 ? 1 : o <= .4 ? 2 : o <= .45 ? 3 : o <= .65 ? 4 : o <= .7 ? 5 : o <= .8 ? 6 : o <= .85 ? 7 : o <= .9 ? 8 : o <= .95 ? 9 : 10],
-                        h = this.getBuildCfg(l);
-                    this.build(null, h.buildId, r.x, r.y, 0, 1, !1, !0, 10)
+                        bed = s.bedModelList[0],
+                        bedGrid = new fx.V2(bed.x, bed.y),
+                        grid = this.getGridByPos(s.id, bedGrid),
+                        rd = XRandomUtil.random(),
+                        buildId = e[i = rd <= .15 ? 0 : rd <= .3 ? 1 : rd <= .4 ? 2 : rd <= .45 ? 3 : rd <= .65 ? 4 : rd <= .7 ? 5 : rd <= .8 ? 6 : rd <= .85 ? 7 : rd <= .9 ? 8 : rd <= .95 ? 9 : 10],
+                        buildCfg = this.getBuildCfg(buildId);
+                    this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, !1, !0, 10)
                 }
             }
             initRandomBuild() {
                 let e = 100 / 95,
                     t = [5001, 6012, 3e3, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
                 for (const i in this.rooms) {
-                    let s, a = this.rooms[i],
-                        n = a.bedModelList[0],
+                    let s, room = this.rooms[i],
+                        n = room.bedModelList[0],
                         r = new fx.V2(n.x, n.y),
-                        o = this.getGridByPos(a.id, r),
+                        o = this.getGridByPos(room.id, r),
                         l = XRandomUtil.random(),
                         h = t[s = l < .25 * e ? 0 : l < .4 * e ? 1 : l < .45 * e ? 2 : l < .5 * e ? 3 : l < .55 * e ? 4 : l < .67 * e ? 5 : l < .79 * e ? 6 : l < .83 * e ? 7 : l < .85 * e ? 8 : l < .9 * e ? 9 : 10],
                         d = this.getBuildCfg(h);
@@ -18957,7 +18957,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = new Laya.Point;
                 switch (s.copy(this.buildPos), XMgr.buildingMgr.getUpgradeRet(this.buildData.playerUuid, s.x, s.y, i)) {
                     case e.BuildResult.E_OK:
-                        XToast.show("升级成功！"), XMgr.buildingMgr.getBuilding(s.x, s.y) && (XMgr.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, i, 0), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()), this.hide();
+                        XToast.show("升级成功！"), 
+                        XMgr.buildingMgr.getBuilding(s.x, s.y) && (XMgr.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, i, 0), 
+                        !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()), this.hide();
                         break;
                     case e.BuildResult.E_FAILD:
                         XToast.show("升级失败！");

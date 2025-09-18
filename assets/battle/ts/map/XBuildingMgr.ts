@@ -80,15 +80,34 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        let e = 100 / 95,
-            t = [5001, 6012, 3e3, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
+        const buildings = [5001, 6012, 3000, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
+        const weights = [
+            0.15,
+            0.30,
+            0.40,
+            0.45,
+            0.65,
+            0.70,
+            0.80,
+            0.85,
+            0.90,
+            0.95,
+            1.00
+        ];
         for (const i in this.rooms) {
             let room = this.rooms[i],
-                n = room.bedModelList[0],
-                pos = v2(n.x, n.y),
-                grid = this.getGridByPos(room.id, pos),
-                h = t[0]
-            let buildCfg = this.getBuildCfg(h);
+                bed = room.bedModelList[0],
+                bedGrid = v2(bed.x, bed.y),
+                grid = this.getEmptyGridNearByPos(room.id, bedGrid)
+            const rd = XRandomUtil.random()
+            let idx = 10
+            for (let i = 0; i < weights.length; i++) {
+                if (rd <= weights[i]) {
+                    idx = i
+                    break
+                }
+            }
+            let buildCfg = this.getBuildCfg(buildings[idx]);
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }
@@ -320,7 +339,7 @@ export default class XBuildingMgr {
             return this.buildingGrids[gridX_][gridY_]
     }
 
-    getGridByPos(roomId_, pos_) {
+    getEmptyGridNearByPos(roomId_, pos_) {
         let roomEmptyGrids = XMgr.buildingMgr.getEmptyGrids(roomId_);
         if (0 == roomEmptyGrids.length) return;
         let retGrid = v2(0, 0);
@@ -655,22 +674,22 @@ export default class XBuildingMgr {
         }
     }
     canUpgrade(playerUuid_, data_: XBuildingModel) {
-        if (!data_ || !data_.canHandle) 
-            return false;                               
-        if (data_.playerUuid && data_.playerUuid != playerUuid_) 
-            return false;       
+        if (!data_ || !data_.canHandle)
+            return false;
+        if (data_.playerUuid && data_.playerUuid != playerUuid_)
+            return false;
         const roomId = XMgr.mapMgr.getRoomIdByGridPos(data_.x, data_.y);
-        if (!roomId) 
-            return false;                                                        
-        if (data_.lv >= this.getBuildMaxLv(data_.id)) 
-            return false;       
+        if (!roomId)
+            return false;
+        if (data_.lv >= this.getBuildMaxLv(data_.id))
+            return false;
         const buildCfg = this.getBuildCfg(data_.id, data_.lv + 1);
-        if (!buildCfg) 
-            return false;                                                       
-    
-        const player = XMgr.playerMgr.getPlayer(playerUuid_);          
+        if (!buildCfg)
+            return false;
+
+        const player = XMgr.playerMgr.getPlayer(playerUuid_);
         let rate = 1;
-    
+
         // 特殊规则：防守模式 & buffId=1 & 当前房间是自己房间
         // if (XMgr.gameMgr.gameMode == XGameMode.E_Defense &&
         //     buildCfg.buffId && buildCfg.buffId.includes(1) &&
@@ -679,10 +698,13 @@ export default class XBuildingMgr {
         //     i = 0.9;
         // }
 
-        if (buildCfg.coin && Math.round(buildCfg.coin * rate) > player.coin) 
+        if (buildCfg.coin && Math.round(buildCfg.coin * rate) > player.coin)
             return false;             // 金币不足
-        if (buildCfg.energy && Math.round(buildCfg.energy * rate) > player.energy) 
+        if (buildCfg.energy && Math.round(buildCfg.energy * rate) > player.energy)
             return false;       // 能量不足
+
+        if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
+            return false;
         return true
     }
 }
