@@ -19,7 +19,7 @@ export class XDefenderScript extends XPlayerScript {
     }
 
     protected onLoad(): void {
-        this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed * 1.5
+        this.moveSpeed = XMgr.cfg.constant.playerMoveSpeed 
     }
 
     onInit() {

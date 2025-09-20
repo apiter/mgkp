@@ -10,7 +10,7 @@ import { XCfgMapData } from "../xconfig/XCfgData"
 import XMgr from "../XMgr"
 import { XBuildType } from "../xconfig/XEnum"
 
-class XTiledInfo {
+export class XTiledInfo {
     x: number = 0
     y: number = 0
     groundBlock: string = ""

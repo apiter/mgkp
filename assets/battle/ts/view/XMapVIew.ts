@@ -1,7 +1,8 @@
-import { _decorator, Component, director, instantiate, log, math, Node, Prefab, Sprite, SpriteAtlas, tween, UIOpacity, UITransform, v2, v3, Vec2, Vec3, view } from 'cc';
+import { _decorator, Component, director, instantiate, log, math, Node, NodePool, Prefab, Sprite, SpriteAtlas, tween, UIOpacity, UITransform, v2, v3, Vec2, Vec3, view } from 'cc';
 import { XBattleEntrance } from 'db://assets/XBattleEntrance';
 import XMgr from '../XMgr';
 import { XConst } from '../xconfig/XConst';
+import { XTiledInfo } from '../map/XMapMgr';
 const { ccclass, property } = _decorator;
 
 @ccclass('XMapView')
@@ -35,6 +36,13 @@ export class XMapView extends Component {
     _doorTipsList: Node[][] = []
     upTipsList: Node[][] = []
 
+    _lastMinGridX = -1
+    _lastMinGridY = -1
+
+    blockPools: Map<string, NodePool> = new Map
+
+    currentGroundNode: Map<string, Node> = new Map
+
     init() {
         const cellCntW = XMgr.mapMgr.width
         const cellCntH = XMgr.mapMgr.height
@@ -51,26 +59,7 @@ export class XMapView extends Component {
 
         XMgr.mapMgr.barLayer = this.barLayer
 
-        this.createGround()
-    }
-
-    private createGround() {
-        //TODO visible only
-        const width = XMgr.mapMgr.width
-        const height = XMgr.mapMgr.height
-        for (let h = 0; h < height; h++) {
-            for (let w = 0; w < width; w++) {
-                const tiledInfo = XMgr.mapMgr.getTiledInfo(h, w)
-                if (tiledInfo.groundBlock) {
-                    const groundNode = instantiate(this.groundCellPrefab)
-                    groundNode.name = `ground_${h}_${w}`
-                    groundNode.setPosition((w + 0.5) * XConst.GridSize, -(h + 0.5) * XConst.GridSize)
-                    const sp = groundNode.getComponent(Sprite)
-                    sp.spriteFrame = this.mapAtlas.getSpriteFrame(tiledInfo.groundBlock)
-                    groundNode.parent = this.groundLayer
-                }
-            }
-        }
+        this.updateArea()
     }
 
     lookAt(worldX, worldY) {
@@ -106,8 +95,80 @@ export class XMapView extends Component {
         this.updateArea()
     }
 
-    updateArea() {
+    private getBlockNode(tileName: string, gridX, gridY) {
+        const nodeName = `ground_${gridX}_${gridY}`
 
+        if (this.currentGroundNode.get(nodeName))
+            return this.currentGroundNode.get(nodeName)
+
+        let pool = this.blockPools.get(tileName)
+        if (!pool) {
+            pool = new NodePool
+            this.blockPools.set(tileName, pool)
+        }
+        let groundNode = pool.get()
+        if (!groundNode) {
+            groundNode = instantiate(this.groundCellPrefab)
+            const sp = groundNode.getComponent(Sprite)
+            sp.spriteFrame = this.mapAtlas.getSpriteFrame(tileName)
+            groundNode['tileName'] = tileName
+        }
+        //name不能改了
+        groundNode.name = nodeName
+        groundNode.setPosition((gridX + 0.5) * XConst.GridSize, -(gridY + 0.5) * XConst.GridSize)
+        return groundNode
+    }
+
+
+    updateBatchId = 0
+
+    updateArea() {
+        let leftX = Math.abs(this.node.x) - view.getVisibleSize().width * 0.5 - XConst.GridHalfSize
+        let topY = Math.abs(this.node.y) - view.getVisibleSize().height * 0.5 - XConst.GridHalfSize
+        leftX = Math.max(0, leftX)
+        topY = Math.max(0, topY)
+
+        const minGridX = Math.abs(Math.floor(leftX / XConst.GridSize))
+        const minGridY = Math.abs(Math.floor(topY / XConst.GridSize))
+
+        if (minGridX == this._lastMinGridX && this._lastMinGridY == minGridY)
+            return
+        this._lastMinGridX = minGridX
+        this._lastMinGridY = minGridY
+
+        this.updateBatchId++
+
+        const rightX = leftX + view.getVisibleSize().width + XConst.GridSize
+        const maxGridX = Math.abs(Math.ceil(rightX / XConst.GridSize))
+        const bottomY = topY + view.getVisibleSize().height + XConst.GridSize
+        const maxGridY = Math.abs(Math.ceil(bottomY / XConst.GridSize))
+
+        console.log(`update area:x(${minGridX},${maxGridX}) y(${minGridY}, ${maxGridY})`)
+        for (let h = minGridY; h <= maxGridY; h++) {
+            for (let w = minGridX; w <= maxGridX; w++) {
+                const tiledInfo = XMgr.mapMgr.getTiledInfo(h, w)
+                if (tiledInfo?.groundBlock) {
+                    const groundNode = this.getBlockNode(tiledInfo.groundBlock, w, h)
+                    groundNode.parent = this.groundLayer
+                    groundNode['updateBatchId'] = this.updateBatchId
+                    this.currentGroundNode.set(groundNode.name, groundNode)
+                }
+            }
+        }
+
+        //recycle
+        this.currentGroundNode.forEach((node, key) => {
+            if (node['updateBatchId'] != this.updateBatchId) {
+                this.currentGroundNode.delete(node.name)
+                node.removeFromParent()
+                let pool = this.blockPools.get(node['tileName'])
+                if (!pool) {
+                    pool = new NodePool
+                    this.blockPools.set(node['tileName'], pool)
+                }
+                pool.put(node)
+            }
+        })
     }
 
     showBuildTips(gridX_, gridY_) {

@@ -68,6 +68,7 @@ export class XPlayerScript extends Component {
         this.node.addChild(nameNode)
         nameNode.y = 100
         this.lbName.fontSize = 18
+        this.lbName.string = ""
         this.loadSkin()
 
         this.onInit()
