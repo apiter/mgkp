@@ -1,4 +1,4 @@
-import { _decorator, math, sp } from 'cc';
+import { _decorator, game, math, sp } from 'cc';
 import { XPlayerScript } from './XPlayerScript';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XGameStatus, XPlayerType } from '../../xconfig/XEnum';
@@ -21,6 +21,10 @@ export class XHunterScript extends XPlayerScript {
     lv = 1
     dCfg: XDifficultCfgItem
     maxHpAddRate = 0
+    isOutHeal = false
+    lastHealTime = 0
+    healSpeed = 0.1
+    isFirstOutHeal = false
 
     constructor() {
         super()
@@ -43,6 +47,7 @@ export class XHunterScript extends XPlayerScript {
     initBt() {
         this._bt = new XAIHunter(this)
         let bt_seq = XBTUtil.bt_sequenceOr([
+            this._bt.canEscape(this._bt.escape("move")),
             this._bt.canPatrol(this._bt.patrol()),
             this._bt.attack()
         ], XEPolicy.RequireOne, "HunterBT")
@@ -51,6 +56,7 @@ export class XHunterScript extends XPlayerScript {
 
     protected update(dt: number): void {
         if (this.isSkinLoaded && XMgr.gameMgr.gameStatus === XGameStatus.E_GAME_START && !XMgr.gameMgr.isPause) {
+            this.checkHealZone()
             this._bt?.exec()
         }
     }
@@ -116,7 +122,55 @@ export class XHunterScript extends XPlayerScript {
     }
 
     setEscape(value_: any): void {
-        this.isEscape = value_
+        this.isEscaped = value_
+    }
+
+    checkHealZone() {
+        // 1. 判断当前是否在治疗区
+        let inZone = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
+    
+        if (inZone) {
+            // ---- 刚进入治疗区 ----
+            if (this.isOutHeal) {
+                this.isOutHeal = false;
+    
+                // 处理技能效果
+                for (const skillId of this.data.skillIdArr) {
+                }
+    
+                // 切换皮肤效果（可能是回血特效）
+                // this.changeSkin(true);
+            }
+    
+            // ---- 区域内持续回血逻辑 ----
+            let dt = game.deltaTime ; // 秒
+            this.lastHealTime += dt;
+    
+            // 每秒执行一次回血
+            if (this.lastHealTime >= 1 && this.data.hpPercent < 1) {
+                this.lastHealTime = 0;
+    
+                let healValue = this.healSpeed;
+                // 执行回血
+                XMgr.gameMgr.addHp(this.data, healValue);
+            }
+    
+            // 在回血区时无敌
+            this.data.invincible = true;
+    
+        } else {
+            // ---- 离开治疗区 ----
+            if (!this.isOutHeal) {
+                if (this.isFirstOutHeal) {
+                    this.isFirstOutHeal = false;
+                } 
+                this.isOutHeal = true;
+            }
+    
+            // 离开治疗区 → 取消无敌 & 重置计时
+            this.data.invincible = false;
+            this.lastHealTime = 0;
+        }
     }
 }
 

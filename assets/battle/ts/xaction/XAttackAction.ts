@@ -1,11 +1,9 @@
-import { _decorator, Component, game, Node } from 'cc';
+import { _decorator, game } from 'cc';
 import XBTAction from '../bt2/XBTAction';
 import { XBTStatus } from '../bt2/XBTEnum';
 import XBTTick from '../bt2/XBTTick';
 import { XPlayerScript } from '../view/player/XPlayerScript';
-const { ccclass, property } = _decorator;
 
-@ccclass('XAttackAction')
 export class XAttackAction extends XBTAction {
     static NAME = "XAttackAction"
 

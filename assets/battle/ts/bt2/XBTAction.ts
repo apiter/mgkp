@@ -5,7 +5,7 @@ class XBTAction extends XBTBaseNode {
     constructor({
         name: e = "Action",
         title: a = "",
-        properties: n
+        properties: n = null
     }) {
         super({
             category: XBTCategory.ACTION,

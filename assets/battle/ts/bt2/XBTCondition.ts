@@ -8,7 +8,7 @@ export class XBTCondition extends XBTBaseNode {
         child: child_ = null,
         name: name_ = "Condition",
         title: title_ = "",
-        properties: prop_
+        properties: prop_ = null
     }) {
         super({
             category: XBTCategory.CONDITION,

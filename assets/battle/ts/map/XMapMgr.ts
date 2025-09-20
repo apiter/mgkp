@@ -41,12 +41,12 @@ export class XMapMgr {
     _defenderSpawns: Vec2[] = []
     _mapBuildPoints = []
     _mapEquipPoints = []
-    _healZones = []
+    _healZones: Rect[] = []
     _viewList = []
     _tileSets = null
     _mapNode: Node = null
 
-    barLayer:Node = null
+    barLayer: Node = null
 
     init(mapData_: XCfgMapData) {
         this.parseData(mapData_)
@@ -71,7 +71,7 @@ export class XMapMgr {
         const objs = this.getLayer(mapData_, "data").objects;
         for (const obj of objs) {
             if ("HealZone" == obj.type) {
-                let t = new Rect(obj.x, obj.y, obj.width, obj.height);
+                let t = new Rect(obj.x, -obj.y - obj.height, obj.width, obj.height);
                 this._healZones.push(t)
             }
             else if ("DefenderSpawnPoint" == obj.type)
@@ -465,7 +465,7 @@ export class XMapMgr {
         let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_),
             player = XMgr.playerMgr.getPlayer(playerUuid_),
             building = XMgr.buildingMgr.getBuilding(gridX_, gridY_);
-        if (!building && roomId == player.roomId) 
+        if (!building && roomId == player.roomId)
             return true;
         if (-1 != roomId && building) {
             if (building.type == XBuildType.door) {
@@ -478,8 +478,9 @@ export class XMapMgr {
     }
 
     isInHealZone(x_, y_) {
-        for (const i of this._healZones)
-            if (i.contains(x_, y_)) return true;
+        for (const zone of this._healZones)
+            if (zone.contains(v2(x_, y_)))
+                return true;
         return false
     }
     stagePosToGridPos(x_, y_) {

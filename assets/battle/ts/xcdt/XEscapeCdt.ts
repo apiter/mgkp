@@ -1,12 +1,9 @@
-import { _decorator, Component, Node } from 'cc';
 import { XBTCondition } from '../bt2/XBTCondition';
 import XBTTick from '../bt2/XBTTick';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import XMgr from '../XMgr';
 import LogWrapper, { XLogModule } from '../log/LogWrapper';
-const { ccclass, property } = _decorator;
 
-@ccclass('XEscapeCdt')
 export class XEscapeCdt extends XBTCondition {
     static NAME = "XEscapeCdt"
     constructor(child_ = null) {

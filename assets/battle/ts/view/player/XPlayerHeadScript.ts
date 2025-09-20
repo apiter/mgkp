@@ -11,10 +11,10 @@ const { ccclass, property } = _decorator;
 export class XPlayerHeadScript extends Component {
 
     protected onLoad(): void {
-        EventCenter.once(XEventNames.E_Game_Start, this.onGameStart, this)
+        EventCenter.once(XEventNames.E_RES_READY, this.onResReady, this)
     }
 
-    protected onGameStart(): void {
+    onResReady() {
         this.initPlayers()
         this.initHunters()
     }

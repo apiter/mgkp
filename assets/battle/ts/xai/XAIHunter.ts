@@ -2,9 +2,15 @@ import XBTBaseNode from '../bt2/XBTBaseNode';
 import { XBTStatus, XEPolicy } from '../bt2/XBTEnum';
 import { XBTInverter } from '../bt2/XBTInverter';
 import { XBTSequence } from '../bt2/XBTSequence';
+import XBTUtil from '../bt2/XBTUtil';
+import { XBTWaitUtil } from '../bt2/XBTWaitUtil';
+import { XEventNames } from '../event/XEventNames';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import { XAttackAction } from '../xaction/XAttackAction';
+import { XClearTargetAction } from '../xaction/XClearTargetAction';
+import { XPostEventAction } from '../xaction/XPostEventAction';
 import XRunAction from '../xaction/XRunAction';
+import { XSimpleRunAction } from '../xaction/XSimpleRunAction';
 import { XEscapeCdt } from '../xcdt/XEscapeCdt';
 import { XHasBuildingAroundCdt } from '../xcdt/XHasBuildingAroundCdt';
 import XHasPathCdt from '../xcdt/XHasPathCdt';
@@ -12,8 +18,10 @@ import { XHasPlayerAroundCdt } from '../xcdt/XHasPlayerAroundCdt';
 import { XHasPlayerAtkCdt } from '../xcdt/XHasPlayerAtkCdt';
 import XHasTargetCdt from '../xcdt/XHasTargetCdt';
 import { XHunterFindRoomCdt } from '../xcdt/XHunterFindRoomCdt';
+import { XIsMaxHpCdt } from '../xcdt/XIsMaxHpCdt';
 import XNotInStopRangeCdt from '../xcdt/XNotInStopRangeCdt';
 import { XOneTrueCdt } from '../xcdt/XOneTrueCdt';
+import { XRandomSpawnPosCdt } from '../xcdt/XRandomSpawnPosCdt';
 import { XAIModel } from './XAIModel';
 
 export class XAIHunter extends XAIModel {
@@ -55,6 +63,29 @@ export class XAIHunter extends XAIModel {
         let t = new XOneTrueCdt(new XEscapeCdt);
         t.add(child_)
         return t
+    }
+
+    escape(aniName_) {
+        let runAction = new XRunAction(aniName_, null)
+        let simpleRunAction = new XSimpleRunAction
+        let seq = new XBTSequence({
+            children:[simpleRunAction, runAction],
+            continuePolicy:XBTStatus.SUCCESS,
+            successPolicy:XEPolicy.RequireAll
+        })
+
+        let hasPathCdt = (new XHasPathCdt).bindout(runAction)
+        return new XBTSequence({
+            children:[(new XRandomSpawnPosCdt).bindout(hasPathCdt), hasPathCdt, new XPostEventAction(XEventNames.E_Hunter_Upgrade),
+                new XBTWaitUtil({
+                    condition:new XIsMaxHpCdt,
+                    child:seq
+                }),
+                new XClearTargetAction
+            ],
+            successPolicy:XEPolicy.RequireAll,
+            continuePolicy:XBTStatus.SUCCESS
+        })
     }
 }
 

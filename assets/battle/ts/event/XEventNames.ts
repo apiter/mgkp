@@ -1,4 +1,5 @@
 export enum XEventNames {
+    E_RES_READY = "E_RES_READY",
     E_Game_Start = "E_Game_Start",
     E_Create_Fighter = "E_Create_Fighter",
     E_Create_BoxMonster = "E_Create_BoxMonster",
@@ -21,6 +22,7 @@ export enum XEventNames {
     E_Yanluo_Show = "E_Yanluo_Show",
 
     E_Hunter_Upgrade = "E_Hunter_Upgrade",
+    E_HUNTER_ESCAPE = "E_HUNTER_ESCAPE",
 
 
     Hp_Changed = "Hp_Changed",

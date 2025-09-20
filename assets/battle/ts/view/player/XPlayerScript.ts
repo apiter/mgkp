@@ -13,6 +13,7 @@ import { XRoomModel } from '../../model/XRoomModel';
 import EventCenter from '../../event/EventCenter';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import { XHealthBar } from '../other/XHealthBar';
+import XBaseModel from '../../model/XBaseModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('XPlayerScript')
@@ -149,7 +150,7 @@ export class XPlayerScript extends Component {
 
     onDead() {
         LogWrapper.log("流程", `[${this.data.uuid}][${this.data.name}]死亡`, {}, [XLogModule.XLogModuleGameFlow])
-        this.skinNode.active = false;
+        this.node.active = false;
         this.lbName.node.active = false;
         if (this.data.type === XPlayerType.E_Defender) {
             EventCenter.emit(XEventNames.E_Player_Dead)
@@ -270,7 +271,7 @@ export class XPlayerScript extends Component {
         return this.curTarget
     }
 
-    setCurTarget(target_) {
+    setCurTarget(target_:XBaseModel) {
         // 如果是第一次找目标，标记已处理
         if (this.isFirstFind) {
             this.isFirstFind = false;
@@ -287,6 +288,7 @@ export class XPlayerScript extends Component {
             this.curTarget = target_;
             // 路径清空，等待重新寻路
             this.curPath = null;
+            LogWrapper.log(`流程`, `${this.data.name}设定目标:${target_?.owner?.name}`, {}, [XLogModule.XLogModuleGameFlow])
         }
     }
 
@@ -434,6 +436,7 @@ export class XPlayerScript extends Component {
     }
 
     gotoBed(gridX_, gridY_) {
+        this.lbName.node.active = false
         return XMgr.gameMgr.upBed(gridX_, gridY_, this.data.uuid) == XBuildResult.E_OK
     }
 
@@ -572,6 +575,17 @@ export class XPlayerScript extends Component {
         XMgr.mapMgr.barLayer.addChild(node)
         const healthBar = node.getComponent(XHealthBar)
         healthBar.init(this.data, this.data.type != XPlayerType.E_Defender, 128)
+    }
+    getRandomHealZonePos() {
+        let healZones = XMgr.mapMgr.healZones;
+        if (!healZones || 0 == healZones.length) return;
+        let healZone = XRandomUtil.randomInArray(healZones);
+
+        return v2(healZone.x + .5 * healZone.width, healZone.y + .5 * healZone.height)
+    }
+    
+    isMaxHp() {
+        return this.data.curHp >= this.data.maxHp
     }
 }
 

@@ -11,6 +11,7 @@ import XPlayerModel from "../model/XPlayerModel"
 import { XCfgMapCfgItem, XCfgMapData, XDifficultCfgItem } from "../xconfig/XCfgData"
 import { XInputScript } from "../view/XInputScript"
 import LogWrapper, { XLogModule } from "../log/LogWrapper"
+import XBaseModel from "../model/XBaseModel"
 
 export class XBatleMgr implements ISchedulable {
     uuid?: string
@@ -194,23 +195,23 @@ export class XBatleMgr implements ISchedulable {
             }
         }
         const msg = `[${baseModel_.name || baseModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`
-        LogWrapper.log("战斗", msg, {}, [XLogModule.XLogModuleBT])
+        LogWrapper.log("战斗", msg, {}, [XLogModule.XLogModuleBattle])
     }
 
     heartSound(e) {
     }
 
-    AddHp(e, t) {
-        if (e.isDie) return;
-        if (t <= 0) return;
-        let i = t * e.maxHp;
-        e.curHp += t * e.maxHp
-        e.curHp = Math.min(e.curHp, e.maxHp)
-        e.isDie = 0 == e.curHp
-        e.owner && e.owner.event(XEventNames.Hp_Changed, -i)
+    addHp(modelData_: XBaseModel, addPercent_) {
+        if (modelData_.isDie) return;
+        if (addPercent_ <= 0) return;
+        let i = addPercent_ * modelData_.maxHp;
+        modelData_.curHp += addPercent_ * modelData_.maxHp
+        modelData_.curHp = Math.min(modelData_.curHp, modelData_.maxHp)
+        modelData_.isDie = 0 == modelData_.curHp
+        modelData_.owner && modelData_.owner.emit(XEventNames.Hp_Changed, -i)
     }
     addDataInArr(e) {
- 
+
     }
     revive() { }
     get mineRoom() {
@@ -238,7 +239,7 @@ export class XBatleMgr implements ISchedulable {
         }
         return XBuildResult.E_FAILD;
     }
-    
+
     canLocatePlayer() {
         if (this.isHunter()) {
             return this.gameStatus == XGameStatus.E_GAME_READY;
@@ -266,7 +267,7 @@ export class XBatleMgr implements ISchedulable {
         let i = XMgr.mapMgr.mapPosToStagePos(pos_.x, pos_.y);
         return !(i.x < 0 || i.x > view.getVisibleSize().width) && !(i.y < 0 || i.y > view.getVisibleSize().height)
     }
-    
+
     isInPlayerView(player) {
         return this.nodeIsInPlayerView(player.owner)
     }

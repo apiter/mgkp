@@ -19,7 +19,7 @@ export default class LogWrapper {
     static _canLog(modules_: XLogModule[]) {
         for (let i = 0; i < modules_.length; ++i) {
             let module = modules_[i]
-            if (this.allowModules.indexOf(module) > 0)
+            if (this.allowModules.indexOf(module) >= 0)
                 return true
         }
         return false

@@ -142,7 +142,7 @@ export class XGameScript extends Component {
         let hunters = XMgr.playerMgr.hunters;
         for (let i = 0; i < hunters.length; ++i) {
             let hunterModel = hunters[i]
-            let huntNode = new Node
+            let huntNode = new Node(hunterModel.name)
             huntNode.addComponent(UITransform).setContentSize(1, 1)
             this.map.hunterLayer.addChild(huntNode);
             let script = huntNode.addComponent(XHunterScript);

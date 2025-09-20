@@ -2660,7 +2660,12 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XPlayerModel extends XBaseModel {
             constructor() {
-                super(...arguments), this.isBed = !1, this.coin = 0, this.energy = 0, this.buildings = [], this.canBedRange = 116, this.attackCd = 1, this.attackRange = 100, this.escapeOdds = .3, this.attackPower = 0, this.critRate = 0, this.poisonTimes = 0, this.skillIdArr = [], this.skillMoveSpeedRate = 0, this.skillAtkRate = 0, this.skillEquipHp = 0, this.skillSuckHpRate = 0, this.skillAtkSquRate = 0, this.addReduceRate = 0, this.equipAtk = 0, this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0, this.invincibleCnt = 0, this.isGhost = !1, this.isAngel = !1, this.isBack = !1, this.randomCnt = 0, this.reduceRate = 0
+                super(...arguments), this.isBed = !1, this.coin = 0, this.energy = 0, this.buildings = [], 
+                this.canBedRange = 116, this.attackCd = 1, this.attackRange = 100, this.escapeOdds = .3, this.attackPower = 0, 
+                this.critRate = 0, this.poisonTimes = 0, this.skillIdArr = [], this.skillMoveSpeedRate = 0, this.skillAtkRate = 0, 
+                this.skillEquipHp = 0, this.skillSuckHpRate = 0, this.skillAtkSquRate = 0, this.addReduceRate = 0, this.equipAtk = 0, 
+                this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0, 
+                this.invincibleCnt = 0, this.isGhost = !1, this.isAngel = !1, this.isBack = !1, this.randomCnt = 0, this.reduceRate = 0
             }
             getSpeedPow() {
                 let e = 1;
@@ -3662,9 +3667,9 @@ define("js/bundle.js", function(require, module, exports) {
                     name: XClearTargetAction.NAME
                 })
             }
-            tick(e) {
-                let t = e.target;
-                return t.setEscape(!1), t.setCurTarget(null), Ie.SUCCESS
+            tick(tick_) {
+                let target = tick_.target;
+                return target.setEscape(!1), target.setCurTarget(null), Ie.SUCCESS
             }
         }
         XClearTargetAction.NAME = "ClearTarget", XClearTargetAction.register(XClearTargetAction.NAME, ve.ACTION);
@@ -4449,15 +4454,15 @@ define("js/bundle.js", function(require, module, exports) {
         }
         XCanUpgradeCdt.NAME = "CanUpgrade", XCanUpgradeCdt.register(XCanUpgradeCdt.NAME, ve.CONDITION);
         class XIsMaxHpCdt extends fx.BTCondition {
-            constructor(e) {
+            constructor(child_) {
                 super({
                     name: XIsMaxHpCdt.NAME,
-                    child: e
+                    child: child_
                 })
             }
-            satisfy(e) {
-                let t = e.target;
-                return !t.getDataModel().isBack && t.isMaxHp()
+            satisfy(tick_) {
+                let target = tick_.target;
+                return !target.getDataModel().isBack && target.isMaxHp()
             }
         }
         XIsMaxHpCdt.NAME = "IsMaxHp", XIsMaxHpCdt.register(XIsMaxHpCdt.NAME, ve.CONDITION);
@@ -5694,12 +5699,14 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.data.hpPercent
             }
             getRandomHealZonePos() {
-                let e = XMgr.mapMgr.healZones;
-                if (!e || 0 == e.length) return;
+                let healZones = XMgr.mapMgr.healZones;
+                if (!healZones || 0 == healZones.length) return;
                 let i = new fx.V2,
                     s = new fx.V2,
-                    a = fx.Utils.randomInArray(e);
-                return i.setValue(a.x + .5 * a.width, a.y + .5 * a.height), s.from(i), s
+                    healZone = fx.Utils.randomInArray(healZones);
+                i.setValue(healZone.x + .5 * healZone.width, healZone.y + .5 * healZone.height), 
+                s.from(i)
+                return s
             }
             targetIsOKNew(e) {
                 return e instanceof XPlayerModel ? !e.isDie : e instanceof XBuildingModel ? !e.isOpen : !e.isDie
@@ -5729,26 +5736,52 @@ define("js/bundle.js", function(require, module, exports) {
                 this.isEscaped = e
             }
             changeSkin(e) {
-                if (e)
+                if (e) {
+                    // 从技能数组最后一个开始往前遍历
                     for (let e = this.data.skillIdArr.length - 1; e >= 0; e--) {
-                        let t = !1;
+                        let t = false;
                         switch (this.data.skillIdArr[e]) {
                             case 8:
-                                this.skinSpine.showSkinByName("maozi"), t = !0;
+                                this.skinSpine.showSkinByName("maozi");  // 帽子皮肤
+                                t = true;
                                 break;
                             case 13:
-                                this.skinSpine.showSkinByName("guancai"), t = !0;
+                                this.skinSpine.showSkinByName("guancai"); // 棺材皮肤
+                                t = true;
                                 break;
                             case 14:
-                                this.skinSpine.showSkinByName("fanwan"), t = !0
+                                this.skinSpine.showSkinByName("fanwan");  // 饭碗皮肤
+                                t = true;
                         }
-                        if (t) return
-                    } else {
-                        if (this.data.skillEquipHp) return void(this.data.skillIdArr.includes(8) ? this.skinSpine.showSkinByName("maozi") : this.data.skillIdArr.includes(13) && this.skinSpine.showSkinByName("guancai"));
-                        if (!this.data.skillIsUsed && this.data.skillIdArr.includes(14)) return void this.skinSpine.showSkinByName("fanwan");
-                        10004 == this.data.skinId ? this.skinSpine.showSkinByName("guaigun") : this.skinSpine.showSkinByIndex(0)
+                        if (t) return;  // 找到并切换皮肤就直接退出
                     }
+                } else {
+                    // 如果装备了技能 HP（说明有特殊装备效果）
+                    if (this.data.skillEquipHp) {
+                        if (this.data.skillIdArr.includes(8)) {
+                            this.skinSpine.showSkinByName("maozi");
+                        } else if (this.data.skillIdArr.includes(13)) {
+                            this.skinSpine.showSkinByName("guancai");
+                        }
+                        return;
+                    }
+            
+                    // 如果技能未使用，并且包含技能 14 → 显示饭碗
+                    if (!this.data.skillIsUsed && this.data.skillIdArr.includes(14)) {
+                        this.skinSpine.showSkinByName("fanwan");
+                        return;
+                    }
+            
+                    // 如果皮肤 id = 10004 → 用拐棍皮肤
+                    if (this.data.skinId == 10004) {
+                        this.skinSpine.showSkinByName("guaigun");
+                    } else {
+                        // 否则用默认索引皮肤
+                        this.skinSpine.showSkinByIndex(0);
+                    }
+                }
             }
+            
             setStartAtkTime(e) {
                 this.startAtkTime = e
             }
@@ -7090,7 +7123,11 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XFighterScript extends XPlayerScript {
             constructor() {
-                super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new Ft(.25), this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0
+                super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, 
+                this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new Ft(.25), 
+                this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, 
+                this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, 
+                this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
             onAwake() {
                 super.onAwake(), this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1
@@ -7138,9 +7175,44 @@ define("js/bundle.js", function(require, module, exports) {
                 XToast.show("讨债鬼拿着元宝离开了"), this.data.isDie = !0, this.barNode && (this.barNode.visible = !1), this.healthBarNode && (this.healthBarNode.visible = !1), this.skinNode && (this.skinNode.visible = !1), this.lb_name && (this.lb_name.visible = !1)
             }
             checkHealZone() {
+                // 1. 判断当前坐标是否在治疗区
                 let e = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
-                this.isInHealZone = e, e ? (this.isOutHeal && (this.isOutHeal = !1), this.data.isBack && this.back(), this.data.invincible = !0) : (this.isOutHeal || (this.isFirstOutHeal && (this.isFirstOutHeal = !1), this.isOutHeal = !0), this.data.invincible = !1, this.lastHealTime = 0)
+            
+                // 2. 保存状态
+                this.isInHealZone = e;
+            
+                // ✅ 在治疗区
+                if (e) {
+                    // 如果之前是“出治疗区”的状态，则重置
+                    if (this.isOutHeal) {
+                        this.isOutHeal = false;
+                    }
+            
+                    // 如果角色状态是“返回中”，则执行 back()
+                    if (this.data.isBack) {
+                        this.back();
+                    }
+            
+                    // 在治疗区内无敌
+                    this.data.invincible = true;
+                }
+            
+                else {
+                    // 如果之前不是“出治疗区”，更新状态
+                    if (!this.isOutHeal) {
+                        // 第一次离开治疗区
+                        if (this.isFirstOutHeal) {
+                            this.isFirstOutHeal = false;
+                        }
+                        this.isOutHeal = true;
+                    }
+            
+                    // 离开治疗区 → 取消无敌 & 重置治疗计时
+                    this.data.invincible = false;
+                    this.lastHealTime = 0;
+                }
             }
+            
             attack(i) {
                 if (this.control || this.data.isDie) return;
                 this.isAtking = !0, this.playAnim("attack", !0, () => {
@@ -7264,7 +7336,8 @@ define("js/bundle.js", function(require, module, exports) {
                     }),
                     a = (new XHasPathCdt).bindout(runAction);
                 return new fx.BTSequence({
-                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
+                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), 
+                        new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
                         child: s
                     }), new XClearTargetAction],
@@ -8629,15 +8702,44 @@ define("js/bundle.js", function(require, module, exports) {
                 return e || (e = XMgr.buildingMgr.getBuildCfg(this.doorModel.id, this.doorModel.lv)), e.coin * this.mult
             }
             repayMoney() {
-                let i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
-                    s = i.coin;
-                if (s >= this.curBorrowMoney) {
-                    return XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, -this.curBorrowMoney) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -this.curBorrowMoney, this.node.x, this.node.y), this.curAmount = 0, this.mult += 1, this.borrowMoneyTime = 0, this.curBorrowMoney = 0, this.curHireMoney = 0, XToast.show("已还清！已提升借款额度"), this.imgBody.timer.clear(this, this.loopTime), this.curFighter && (this.curFighter.isBack = !0, this.curFighter = null), !0
-                } {
-                    let a = (this.curBorrowMoney - s).toFixed(1);
-                    return this.curBorrowMoney = Number(a), XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, -s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -s, this.node.x, this.node.y), XToast.show("未还清！请继续还款"), !1
+                let player = XMgr.playerMgr.getPlayer(this.data.playerUuid), // 找到当前的玩家对象
+                    playerCoin = player.coin; // 玩家当前金币数量
+                if (playerCoin >= this.curBorrowMoney) {
+                    // 从玩家身上扣除借款金额
+                    XMgr.playerMgr.changePlayerIncomeByUuid(player.uuid, -this.curBorrowMoney) 
+                        && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -this.curBorrowMoney, this.node.x, this.node.y);
+            
+                    // 重置借款相关的状态
+                    this.curAmount = 0;            // 当前借的钱数归零
+                    this.mult += 1;                // 借款额度提高一个等级
+                    this.borrowMoneyTime = 0;      // 借款时间清零
+                    this.curBorrowMoney = 0;       // 当前欠款清零
+                    this.curHireMoney = 0;         // 当前雇佣资金清零
+            
+                    // UI提示 + 停止计时器
+                    XToast.show("已还清！已提升借款额度");
+                    this.imgBody.timer.clear(this, this.loopTime);
+            
+                    // 如果当前有战斗单位，设置返回并清空引用
+                    this.curFighter && (this.curFighter.isBack = !0, this.curFighter = null);
+            
+                    return true; // 还款成功
+                } 
+            
+                else {
+                    let a = (this.curBorrowMoney - playerCoin).toFixed(1); // 计算剩余欠款（保留一位小数）
+                    this.curBorrowMoney = Number(a);
+            
+                    // 扣除玩家身上所有金币
+                    XMgr.playerMgr.changePlayerIncomeByUuid(player.uuid, -playerCoin) 
+                        && XMgr.gameUI.valueTips(e.TokenType.E_Coin, -playerCoin, this.node.x, this.node.y);
+            
+                    XToast.show("未还清！请继续还款");
+            
+                    return false; // 还款未完成
                 }
             }
+            
             borrowMoney() {
                 let i = this.getBorrowAmount();
                 this.interestMult = .005, this.curAmount = i, this.curBorrowMoney = i, this.curHireMoney = i, this.borrowMoneyTime = 60;

@@ -107,7 +107,7 @@ export default class XBuildingMgr {
                     break
                 }
             }
-            let buildCfg = this.getBuildCfg(buildings[idx]);
+            let buildCfg = this.getBuildCfg(5001);
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }

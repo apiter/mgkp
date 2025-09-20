@@ -9,6 +9,8 @@ import XPlayerModel from '../../model/XPlayerModel';
 import XUtil from '../../xutil/XUtil';
 import { XInputScript } from '../XInputScript';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
+import EventCenter from '../../event/EventCenter';
+import { XEventNames } from '../../event/XEventNames';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScene')
@@ -33,6 +35,8 @@ export class XGameScene extends Component {
             this.gameScript = this.gameNode.addComponent(XDefenseGameScript)
             this.gameScript.init()
         }
+
+        EventCenter.emit(XEventNames.E_RES_READY)
     }
 
     private generateMatchData() {
