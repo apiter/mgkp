@@ -49,6 +49,7 @@ export class XPlayerScript extends Component {
     lastAtkTarget
 
     lbName: Label = null
+    healthBar:XHealthBar = null
 
     init(data_: XPlayerModel) {
         this.data = data_
@@ -246,21 +247,15 @@ export class XPlayerScript extends Component {
     getMapBuildTarget() {
         return this.curMapBuild
     }
-    setMapBuildTarget(e, t = !1) {
+    setMapBuildTarget(e, t = false) {
         if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
-            // 情况1：t 为 true，并且 curHp < maxHp
-            // 同时会执行 this.forceTarget = e
         } else if (e != this.curMapBuild) {
-            // 情况2：目标和当前不同
             this.curMapBuild = e;
             this.curPath = null;
         }
     }
     takeMapBuild(e) {
         if (e && !e.isUsed) {
-            // this.takeMapBuildNode.addChild(e.node);
-            // e.node.pos(0, 0);
-            // return XMgr.buildingMgr.takeMapBuild(e.x, e.y, this.data);
         }
     }
 
@@ -575,6 +570,7 @@ export class XPlayerScript extends Component {
         XMgr.mapMgr.barLayer.addChild(node)
         const healthBar = node.getComponent(XHealthBar)
         healthBar.init(this.data, this.data.type != XPlayerType.E_Defender, 128)
+        this.healthBar = healthBar
     }
     getRandomHealZonePos() {
         let healZones = XMgr.mapMgr.healZones;

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, SpriteFrame, UIOpacity, UITransform } from 'cc';
+import { _decorator, Component, Label, Node, Sprite, SpriteFrame, UIOpacity, UITransform } from 'cc';
 import XBaseModel from '../../model/XBaseModel';
 import { XEventNames } from '../../event/XEventNames';
 const { ccclass, property } = _decorator;
@@ -15,6 +15,9 @@ export class XHealthBar extends Component {
     @property(Sprite)
     spr_health_bar: Sprite = null
 
+    @property(Label)
+    lb_lv: Label = null
+
     _dataModel: XBaseModel = null
     _barWidth = 0
     _barDeltaY = 0
@@ -25,11 +28,11 @@ export class XHealthBar extends Component {
     }
 
     protected lateUpdate(dt: number): void {
-        if(this._dataModel.owner.isValid) {
+        if (this._dataModel.owner.isValid) {
             this.node.x = this._dataModel.owner.x
             this.node.y = this._dataModel.owner.y + this._barDeltaY
         }
-        if(this._dataModel.owner?.isValid == false){
+        if (this._dataModel.owner?.isValid == false) {
             this.node.destroy()
         }
     }
@@ -48,12 +51,17 @@ export class XHealthBar extends Component {
     }
 
     updateHealth() {
-        if(!this.node.isValid)
+        if (!this.node.isValid)
             return
-        if(this._dataModel.curHp < this._dataModel.maxHp && !this._dataModel.isDie) {
+        if (this._dataModel.isDie)
+            return
+        if (this._dataModel.curHp <= this._dataModel.maxHp) {
             this.node.getComponent(UIOpacity).opacity = 255
             this.spr_health_bar.getComponent(UITransform).width = this._barWidth * this._dataModel.curHp / this._dataModel.maxHp
         }
+    }
+    setLv(lv: number) {
+        this.lb_lv.string = `LV.${lv}`
     }
 }
 

@@ -8203,7 +8203,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             healHP() {
                 let e = Math.min(.6, this.hpCnt + .1 * (Math.ceil(this.useSkillCnt / 2) - 1));
-                this.hpHeal = Math.ceil(this.data.maxHp * e / 10), this.data.curHp = Math.min(this.data.curHp + this.hpHeal, this.data.maxHp), this.data.owner.event(be.Hp_Changed)
+                this.hpHeal = Math.ceil(this.data.maxHp * e / 10), 
+                this.data.curHp = Math.min(this.data.curHp + this.hpHeal, this.data.maxHp), 
+                this.data.owner.event(be.Hp_Changed)
             }
             createGhost(i, s) {
                 let a = new XPlayerModel;

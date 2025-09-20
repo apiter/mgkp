@@ -10,6 +10,7 @@ import { XDifficultCfgItem } from '../../xconfig/XCfgData';
 import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
+import { XHealthBar } from '../other/XHealthBar';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHunterScript')
@@ -26,6 +27,7 @@ export class XHunterScript extends XPlayerScript {
     healSpeed = 0.1
     isFirstOutHeal = false
 
+
     constructor() {
         super()
         this.type = XPlayerType.E_Hunter
@@ -40,6 +42,7 @@ export class XHunterScript extends XPlayerScript {
         this.data.uuid != XMgr.playerMgr.mineUuid && this.initBt()
 
         this.createHealthBar()
+        this.healthBar?.setLv(this.lv)
         
         this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0 
     }
@@ -116,6 +119,7 @@ export class XHunterScript extends XPlayerScript {
         this.data.attackPower = atk
         XMgr.gameMgr.changeMaxHp(this.data, hpMax, hpMax)
 
+        this.healthBar?.setLv(this.lv)
         EventCenter.emit(XEventNames.E_Hunter_Upgrade, this.lv)
 
         LogWrapper.log("流程", `噬魂者升到${this.lv}等级`, {}, [XLogModule.XLogModuleGameFlow])

@@ -488,14 +488,14 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value",
+    "_name": "lv",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 21
@@ -510,7 +510,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 31.79,
       "z": 0
     },
     "_lrot": {
@@ -550,7 +550,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30.0322265625,
+      "width": 0,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -581,12 +581,12 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 231,
+      "g": 66,
+      "b": 198,
       "a": 255
     },
-    "_string": "100",
+    "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 18,
@@ -667,6 +667,9 @@
     },
     "spr_health_bar": {
       "__id__": 17
+    },
+    "lb_lv": {
+      "__id__": 23
     },
     "_id": ""
   },
