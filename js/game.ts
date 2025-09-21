@@ -3479,28 +3479,41 @@ define("js/bundle.js", function(require, module, exports) {
         }
         XAttackAction.NAME = "AttackAction", XAttackAction.register(XAttackAction.NAME, ve.ACTION);
         class XFindMapBuildAct extends fx.BTCondition {
-            constructor(e) {
+            constructor(child_ = null) {
                 super({
                     name: XFindEmptyBedAct.NAME,
-                    child: e
+                    child: child_
                 })
             }
-            satisfy(e) {
-                let i = e.target;
-                if (i.getTakeMapBuild()) return i.setMapBuildTarget(null), this.lastMapBuild = void 0, !1;
-                let s, a = this.lastMapBuild;
-                if (!this.lastMapBuild || (s = this.lastMapBuild.isUsed)) {
-                    let e = XMgr.buildingMgr.mapBuildScriptArr;
-                    if (e && e.length) {
-                        e = fx.Utils.randomArrayEx(e);
-                        for (const t of e)
-                            if (!t.isTarget && !t.isUsed) {
-                                t.isTarget = !0, a = t;
+            satisfy(tick_) {
+                let playerScript = tick_.target;
+                if (playerScript.getTakeMapBuild()) {
+                    playerScript.setMapBuildTarget(null), this.lastMapBuild = void 0
+                    return false;
+                }
+                let isUsed, lastMapBuild = this.lastMapBuild;
+                if (!this.lastMapBuild || (isUsed = this.lastMapBuild.isUsed)) {
+                    let mapBuildScriptArr = XMgr.buildingMgr.mapBuildScriptArr;
+                    if (mapBuildScriptArr && mapBuildScriptArr.length) {
+                        mapBuildScriptArr = fx.Utils.randomArrayEx(mapBuildScriptArr);
+                        for (const mapBuildScript of mapBuildScriptArr)
+                            if (!mapBuildScript.isTarget && !mapBuildScript.isUsed) {
+                                mapBuildScript.isTarget = true
+                                lastMapBuild = mapBuildScript;
                                 break
                             }
                     }
                 }
-                return a ? (i.setMapBuildTarget(a), i.setCurTarget(a), this.lastMapBuild = a, !0) : (i.setMapBuildTarget(null), this.lastMapBuild = void 0, !1)
+                if(lastMapBuild) {
+                    playerScript.setMapBuildTarget(lastMapBuild)
+                    playerScript.setCurTarget(lastMapBuild)
+                    this.lastMapBuild = lastMapBuild
+                    return true
+                }else{
+                    playerScript.setMapBuildTarget(null)
+                    this.lastMapBuild = null
+                    return false
+                }
             }
         }
         XFindMapBuildAct.NAME = "FindMapBuild", XFindMapBuildAct.register(XFindMapBuildAct.NAME, ve.ACTION);
@@ -5402,13 +5415,9 @@ define("js/bundle.js", function(require, module, exports) {
             getMapBuildTarget() {
                 return this.curMapBuild
             }
-            setMapBuildTarget(e, t = !1) {
-                if (t && (this.forceTarget = e, this.data.curHp < this.data.maxHp)) {
-                    // 情况1：t 为 true，并且 curHp < maxHp
-                    // 同时会执行 this.forceTarget = e
-                } else if (e != this.curMapBuild) {
-                    // 情况2：目标和当前不同
-                    this.curMapBuild = e;
+            setMapBuildTarget(mapBuild_) {
+                if (mapBuild_ != this.curMapBuild) {
+                    this.curMapBuild = mapBuild_;
                     this.curPath = null;
                 }
             }
@@ -11136,7 +11145,9 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             initMapBuild() {
-                if (XMgr.buildingMgr.mapBuildScripts = [], XMgr.buildingMgr.mapBuildScriptArr = [], XMgr.gameMgr.gameMode != e.GameMode.E_Defense) return;
+                XMgr.buildingMgr.mapBuildScripts = []
+                XMgr.buildingMgr.mapBuildScriptArr = []
+                if (XMgr.gameMgr.gameMode != e.GameMode.E_Defense) return;
                 let i = XMgr.user.gameInfo,
                     s = i.winCnt + i.failCnt;
                 if (i.isExitGame) return i.isExitGame = !1, void XMgr.user.saveToServer();
@@ -17589,8 +17600,14 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class XMapBuildingScript extends Laya.Script {
-            init(e, t, i) {
-                this.node = this.owner, this.x = e.x, this.y = e.y, this.buildCfg = t, this.isUsed = !1, this.isTarget = !1, this.buildName = i
+            init(grid, cfg_, buildName_) {
+                this.node = this.owner, 
+                this.x = grid.x, 
+                this.y = grid.y, 
+                this.buildCfg = cfg_, 
+                this.isUsed = !1, 
+                this.isTarget = !1, 
+                this.buildName = buildName_
             }
         }
         class nn extends Laya.Script {
@@ -17626,7 +17643,10 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XBuildingMgr {
             constructor() {
-                this.isAddCfg = !1, this.buildCfgs = {}, this.buildIdsMap = {}, this.dawnBed = [], this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"], this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5], this.magicConsumeArr = [
+                this.isAddCfg = !1, this.buildCfgs = {}, this.buildIdsMap = {}, this.dawnBed = [], 
+                this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"], 
+                this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5], 
+                this.magicConsumeArr = [
                     [10, 0],
                     [40, 10],
                     [160, 10],
@@ -18424,36 +18444,65 @@ define("js/bundle.js", function(require, module, exports) {
                 return ret
             }
             addMapBuild() {
-                let e = !1,
-                    i = XMgr.mapMgr.mapBuildPoints,
-                    s = fx.Utils.randomInArrayEx(i, XRandomUtil.getIntRandom(6, 11));
-                for (const i of s) {
-                    let s = "",
-                        a = [];
-                    for (let t = 0; t < this.mapBuildArr.length; t++) e && "fhl_1" == this.mapBuildArr[t] || a.push({
-                        o: this.mapBuildArr[t],
-                        weight: this.mapBuildWeightArr[t]
-                    });
-                    for (;
-                        "" == s;) s = fx.Utils.takeOneByWeight(a)[1].o;
-                    let n, r, o = s.split("_"),
-                        l = Number(o[0]),
-                        h = new Laya.Image;
-                    if (isNaN(l)) r = o[0], "fhl" == o[0] && (e = !0, h.skin = "res/build/specialBuild/fhl.png", h.anchorX = h.anchorY = .5);
-                    else {
-                        let e = Number(o[1]);
-                        n = XMgr.buildingMgr.getBuildCfg(l, e), h.skin = n.icon, h.anchorX = h.anchorY = .5
+                let isFhlHave = false;   // 用来标记特殊建筑 "fhl" 是否已经放置过
+            
+                let mapBuildPoints = fx.Utils.randomInArrayEx(XMgr.mapMgr.mapBuildPoints, XRandomUtil.getIntRandom(6, 11));
+            
+                for (const mapBuildPoint of mapBuildPoints) {
+                    let s = "", a = [];
+            
+                    // 从 mapBuildArr 中挑选一个候选
+                    for (let t = 0; t < this.mapBuildArr.length; t++) {
+                        // 如果 e==true (fhl 已经放过) 并且当前是 fhl_1，就跳过
+                        isFhlHave && "fhl_1" == this.mapBuildArr[t] || a.push({
+                            o: this.mapBuildArr[t],              // 建筑 id/标识
+                            weight: this.mapBuildWeightArr[t]   // 权重
+                        });
                     }
-                    let d = XMgr.mapMgr.mapPosToGridPos(i.x, i.y),
-                        u = h.addComponentIntance(new XMapBuildingScript);
-                    u.init(d, n, r), 
-                    XMgr.mapMgr.propLayer.addChild(h), 
-                    h.pos(i.x, i.y), 
-                    this.mapBuildScripts[d.x] || (this.mapBuildScripts[d.x] = []), 
-                    this.mapBuildScripts[d.x][d.y] = u, 
-                    this.mapBuildScriptArr.push(u)
+            
+                    // 按权重随机选择一个建筑标识
+                    while (s == "") {
+                        s = fx.Utils.takeOneByWeight(a)[1].o;
+                    }
+            
+                    // ---- 解析建筑 ID 与皮肤 ----
+                    let buildCfg, r, o = s.split("_"),
+                        buildId = Number(o[0]),
+                        mapBuildNode = new Laya.Image;
+            
+                    if (isNaN(buildId)) {
+                        // 特殊建筑
+                        r = o[0];
+                        if ("fhl" == o[0]) {
+                            isFhlHave = true;
+                            mapBuildNode.skin = "res/build/specialBuild/fhl.png";
+                            mapBuildNode.anchorX = mapBuildNode.anchorY = 0.5;
+                        }
+                    } else {
+                        // 普通建筑
+                        let buildLv = Number(o[1]);
+                        buildCfg = XMgr.buildingMgr.getBuildCfg(buildId, buildLv);
+                        mapBuildNode.skin = buildCfg.icon;
+                        mapBuildNode.anchorX = mapBuildNode.anchorY = 0.5;
+                    }
+            
+                    let gridPos = XMgr.mapMgr.mapPosToGridPos(mapBuildPoint.x, mapBuildPoint.y),
+                        mapBuildScript = mapBuildNode.addComponentIntance(new XMapBuildingScript);
+            
+                    mapBuildScript.init(gridPos, buildCfg, r);
+            
+                    XMgr.mapMgr.propLayer.addChild(mapBuildNode);
+                    mapBuildNode.pos(mapBuildPoint.x, mapBuildPoint.y);
+            
+                    // 存到二维数组 mapBuildScripts
+                    this.mapBuildScripts[gridPos.x] || (this.mapBuildScripts[gridPos.x] = []);
+                    this.mapBuildScripts[gridPos.x][gridPos.y] = mapBuildScript;
+            
+                    // 存到一维数组 mapBuildScriptArr
+                    this.mapBuildScriptArr.push(mapBuildScript);
                 }
             }
+            
             takeMapBuild(e, i, s) {
                 let a = this.getMapBuild(e, i);
                 if (!a || a.isUsed) return !1;

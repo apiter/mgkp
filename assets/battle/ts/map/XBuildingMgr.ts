@@ -14,6 +14,7 @@ import { XMapMgr } from "./XMapMgr"
 import { XCfgTowerData } from "../xconfig/XCfgData"
 import { XV2Util01 } from "../xutil/XV2Util01"
 import LogWrapper, { XLogModule } from "../log/LogWrapper"
+import { XMapBuildingScript } from "../view/building/XMapBuildingScript"
 
 export default class XBuildingMgr {
     isAddCfg: boolean = false
@@ -34,8 +35,8 @@ export default class XBuildingMgr {
     specialTowerCfg = [];
     isInfiniteIncome = false
 
-    mapBuildScripts: any[][] = []
-    mapBuildScriptArr: XBuildingScript[] = []
+    mapBuildScripts: XMapBuildingScript[][] = []
+    mapBuildScriptArr: XMapBuildingScript[] = []
 
     constructor() {
         this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"]
@@ -282,7 +283,8 @@ export default class XBuildingMgr {
     takeMapBuild(x_, y_, data_) {
         let build = this.getMapBuild(x_, y_);
         if (!build || build.isUsed) return false;
-        if (build.isUsed = !0, build.owner && !build.owner.destroyed) {
+        build.isUsed = true
+        if (build.node && build.node.isValid) {
             this.mapBuildScripts[x_][y_] = null
             data_.takeMapBuild = build
             EventCenter.emit(XEventNames.E_MapBuild_take, build, data_.uuid)
