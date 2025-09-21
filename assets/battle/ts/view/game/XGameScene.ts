@@ -24,8 +24,6 @@ export class XGameScene extends Component {
     gameScript: XGameScript = null
 
     protected async onLoad() {
-        //must be first 
-        await XBattleEntrance.loadRes()
         const matchData = this.generateMatchData()
         XMgr.gameMgr.start(matchData)
 

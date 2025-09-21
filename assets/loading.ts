@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, assetManager, Component, director, Node } from 'cc';
 import { XBattleEntrance } from './XBattleEntrance';
 const { ccclass, property } = _decorator;
 
@@ -6,6 +6,12 @@ const { ccclass, property } = _decorator;
 export class Loading extends Component {
     start() {
         XBattleEntrance.loadRes()
+
+        assetManager.loadBundle('battle', (err, bundle)=>{
+            bundle.loadScene("game", (err, scene)=>{
+                director.runScene(scene)
+            })
+        })
     }
 
     update(deltaTime: number) {
