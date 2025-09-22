@@ -1,4 +1,4 @@
-import XMgr from "./battle_ts/XMgr"
+import XMgr from "./XMgr"
 
 export class XBattleEntrance {
     static async loadRes() {

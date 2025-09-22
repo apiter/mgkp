@@ -1,5 +1,5 @@
 import { _decorator, assetManager, Component, director, Node } from 'cc';
-import { XBattleEntrance } from './XBattleEntrance';
+import { XBattleEntrance } from './battle_ts/XBattleEntrance';
 const { ccclass, property } = _decorator;
 
 @ccclass('Loading')
