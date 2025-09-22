@@ -25,6 +25,7 @@ export class XPlayerScript extends Component {
     isEscaped = false
     isSkinLoaded = false
     atkIntervalTs = 0
+    startAtkTime = 0
     isFirstFind = true
     getPathCd = false
 
@@ -532,6 +533,10 @@ export class XPlayerScript extends Component {
 
     attack(target_) {
 
+    }
+
+    setStartAtkTime(timeInMs) {
+        this.startAtkTime = timeInMs
     }
 
     getNearestBuilding() {

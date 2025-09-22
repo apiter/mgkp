@@ -2,7 +2,6 @@ import { _decorator, Component, Node } from 'cc';
 import XMgr from '../../XMgr';
 import { XGameMode, XPlayerType } from '../../xconfig/XEnum';
 import { XDefenseGameScript } from './XDefenseGameScript';
-import { XBattleEntrance } from 'db://assets/XBattleEntrance';
 import { XGameScript } from './XGameScript';
 import { XRandomUtil } from '../../xutil/XRandomUtil';
 import XPlayerModel from '../../model/XPlayerModel';
@@ -11,9 +10,11 @@ import { XInputScript } from '../XInputScript';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
-const { ccclass, property } = _decorator;
+import { XToast } from '../XToast';
+const { ccclass, property, executionOrder } = _decorator;
 
 @ccclass('XGameScene')
+@executionOrder(-1)
 export class XGameScene extends Component {
     @property(Node)
     gameNode: Node = null
@@ -34,8 +35,13 @@ export class XGameScene extends Component {
             this.gameScript.init()
         }
 
+    }
+
+    protected start(): void {
+        
         EventCenter.emit(XEventNames.E_RES_READY)
     }
+
 
     private generateMatchData() {
         let hunterArr: XPlayerModel[] = []

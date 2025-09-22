@@ -3,7 +3,7 @@ import XMgr from '../XMgr';
 const { ccclass, property, executionOrder } = _decorator;
 
 @ccclass('XPrefabMgr')
-@executionOrder(-1)
+@executionOrder(-100)
 export class XPrefabMgr extends Component {
 
     @property(Prefab)

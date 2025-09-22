@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Label, Node, rect, Sprite, UITransform, v3, view } from 'cc';
+import { _decorator, Component, director, Label, Node, rect, Sprite, tween, UITransform, v3, Vec3, view } from 'cc';
 import { XConst } from '../../xconfig/XConst';
 import XBuildingModel from '../../model/XBuildingModel';
 import XMgr from '../../XMgr';
@@ -25,6 +25,7 @@ export class XBuildingScript extends Component {
     cfg: any = null
     isBuildCd = false
     buildCdTime = 0
+    onHitting = false
 
     _skinSprite: Sprite = null
     _skinDiSprite: Sprite = null
@@ -145,7 +146,20 @@ export class XBuildingScript extends Component {
     }
 
     onHit() {
+        if (this.onHitting) return;
+        this.onHitting = true;
 
+        this.node.setScale(1, 1, 1);
+        
+        tween(this.node)
+            .to(0.05, { scale: new Vec3(1.1, 1.1, 1) }) // scaleOut 1.1
+            .to(0.1, { scale: new Vec3(0.8, 0.8, 1) })  // scaleIn 0.8
+            .to(0.05, { scale: new Vec3(1, 1, 1) })     // scaleOut 1
+            .call(() => {
+                this.node.setScale(1, 1, 1);
+                this.onHitting = false;
+            })
+            .start();
     }
 
     onDead() {

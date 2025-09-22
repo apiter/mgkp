@@ -1,5 +1,4 @@
 import { _decorator, Component, director, instantiate, log, math, Node, NodePool, Prefab, Sprite, SpriteAtlas, tween, UIOpacity, UITransform, v2, v3, Vec2, Vec3, view } from 'cc';
-import { XBattleEntrance } from 'db://assets/XBattleEntrance';
 import XMgr from '../XMgr';
 import { XConst } from '../xconfig/XConst';
 import { XTiledInfo } from '../map/XMapMgr';
@@ -143,7 +142,7 @@ export class XMapView extends Component {
         const bottomY = topY + view.getVisibleSize().height + XConst.GridSize
         const maxGridY = Math.abs(Math.ceil(bottomY / XConst.GridSize))
 
-        console.log(`update area:x(${minGridX},${maxGridX}) y(${minGridY}, ${maxGridY})`)
+        // console.log(`update area:x(${minGridX},${maxGridX}) y(${minGridY}, ${maxGridY})`)
         for (let h = minGridY; h <= maxGridY; h++) {
             for (let w = minGridX; w <= maxGridX; w++) {
                 const tiledInfo = XMgr.mapMgr.getTiledInfo(h, w)

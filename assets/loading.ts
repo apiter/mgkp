@@ -5,9 +5,8 @@ const { ccclass, property } = _decorator;
 @ccclass('Loading')
 export class Loading extends Component {
     start() {
-        XBattleEntrance.loadRes()
-
         assetManager.loadBundle('battle', (err, bundle)=>{
+            XBattleEntrance.loadRes()
             bundle.loadScene("game", (err, scene)=>{
                 director.runScene(scene)
             })

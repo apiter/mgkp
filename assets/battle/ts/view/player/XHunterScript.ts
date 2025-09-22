@@ -1,7 +1,7 @@
 import { _decorator, game, math, sp } from 'cc';
 import { XPlayerScript } from './XPlayerScript';
 import XPlayerModel from '../../model/XPlayerModel';
-import { XGameStatus, XPlayerType } from '../../xconfig/XEnum';
+import { XGameMode, XGameStatus, XPlayerType } from '../../xconfig/XEnum';
 import XMgr from '../../XMgr';
 import { XAIHunter } from '../../xai/XAIHunter';
 import XBTUtil from '../../bt2/XBTUtil';
@@ -11,6 +11,7 @@ import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import { XHealthBar } from '../other/XHealthBar';
+import { XToast } from '../XToast';
 const { ccclass, property } = _decorator;
 
 @ccclass('XHunterScript')
@@ -26,7 +27,9 @@ export class XHunterScript extends XPlayerScript {
     lastHealTime = 0
     healSpeed = 0.1
     isFirstOutHeal = false
-
+    atkCdScale = 1
+    lastAtkCdScale = 1
+    skillAttackTime = 0
 
     constructor() {
         super()
@@ -35,6 +38,8 @@ export class XHunterScript extends XPlayerScript {
 
     init(data_: XPlayerModel): void {
         super.init(data_)
+        this.atkCdScale = 1
+        this.lastAtkCdScale = 1
     }
 
     onInit(): void {
@@ -43,8 +48,8 @@ export class XHunterScript extends XPlayerScript {
 
         this.createHealthBar()
         this.healthBar?.setLv(this.lv)
-        
-        this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0 
+
+        this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0
     }
 
     initBt() {
@@ -52,6 +57,7 @@ export class XHunterScript extends XPlayerScript {
         let bt_seq = XBTUtil.bt_sequenceOr([
             this._bt.canEscape(this._bt.escape("move")),
             this._bt.canPatrol(this._bt.patrol()),
+            this._bt.skill(),
             this._bt.attack()
         ], XEPolicy.RequireOne, "HunterBT")
         this._bt.load(bt_seq)
@@ -65,9 +71,15 @@ export class XHunterScript extends XPlayerScript {
     }
 
     getAttackCd() {
-        const baseAtkCd = this.data.getAtkCD()
+        let atkCd = this.data.getAtkCD()
 
-        let retAckCd = baseAtkCd
+        atkCd *= this.atkCdScale;
+        
+        let retAckCd = atkCd
+
+        
+        atkCd = Math.max(0.2, atkCd);
+
         return retAckCd
     }
 
@@ -78,6 +90,7 @@ export class XHunterScript extends XPlayerScript {
         this.isAtking = true
         const spine = this.spineNode.getComponent(sp.Skeleton)
         spine.setAnimation(0, "attack1", false)
+        spine.timeScale = Math.max(1, 1.0 / this.atkCdScale)
         spine.setEndListener((trackEntry) => {
             if (trackEntry.animation.name == 'attack1') {
                 spine.setAnimation(0, "idle", false)
@@ -93,6 +106,16 @@ export class XHunterScript extends XPlayerScript {
             this.atkCnt++
             this.checkUpgrade()
         }, 0.1)
+
+
+        // 攻速动态调整
+        if (this.atkCdScale > 0.5) {
+            this.setAtkFrqScale(this.atkCdScale - 0.05);
+        } else if (this.data.isRage) {
+            this.setAtkFrqScale(this.lastAtkCdScale);
+        } else {
+            this.atkCdScale = 1;
+        }
     }
 
     checkUpgrade() {
@@ -121,7 +144,7 @@ export class XHunterScript extends XPlayerScript {
 
         this.healthBar?.setLv(this.lv)
         EventCenter.emit(XEventNames.E_Hunter_Upgrade, this.lv)
-
+        XToast.show(`${this.data.name} 升到${this.lv}等级`)
         LogWrapper.log("流程", `噬魂者升到${this.lv}等级`, {}, [XLogModule.XLogModuleGameFlow])
     }
 
@@ -132,49 +155,72 @@ export class XHunterScript extends XPlayerScript {
     checkHealZone() {
         // 1. 判断当前是否在治疗区
         let inZone = XMgr.mapMgr.isInHealZone(this.node.x, this.node.y);
-    
+
         if (inZone) {
             // ---- 刚进入治疗区 ----
             if (this.isOutHeal) {
                 this.isOutHeal = false;
-    
                 // 处理技能效果
                 for (const skillId of this.data.skillIdArr) {
                 }
-    
-                // 切换皮肤效果（可能是回血特效）
-                // this.changeSkin(true);
             }
-    
+
             // ---- 区域内持续回血逻辑 ----
-            let dt = game.deltaTime ; // 秒
+            let dt = game.deltaTime; // 秒
             this.lastHealTime += dt;
-    
+
             // 每秒执行一次回血
             if (this.lastHealTime >= 1 && this.data.hpPercent < 1) {
                 this.lastHealTime = 0;
-    
+
                 let healValue = this.healSpeed;
                 // 执行回血
                 XMgr.gameMgr.addHp(this.data, healValue);
             }
-    
+
             // 在回血区时无敌
             this.data.invincible = true;
-    
+
         } else {
             // ---- 离开治疗区 ----
             if (!this.isOutHeal) {
                 if (this.isFirstOutHeal) {
                     this.isFirstOutHeal = false;
-                } 
+                }
                 this.isOutHeal = true;
             }
-    
+
             // 离开治疗区 → 取消无敌 & 重置计时
             this.data.invincible = false;
             this.lastHealTime = 0;
         }
+    }
+
+    setAtkFrqScale(value_) {
+        value_ >= 0 && value_ <= 1.2 && (this.atkCdScale = value_)
+    }
+
+    cancelRage() {
+        this.data.isRage = false,
+            this.atkCdScale = this.lastAtkCdScale
+    }
+
+    rageSkill() {
+        this.skillAttackTime = game.totalTime
+        this.data.isRage = true
+        this.scheduleOnce(this.cancelRage, 8)
+        // XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y)
+        this.lastAtkCdScale = this.atkCdScale
+        this.setAtkFrqScale(this.atkCdScale - .3)
+        if (XMgr.gameMgr.gameMode === XGameMode.E_AngelOrGhost) {
+            this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了")
+        } else {
+            this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
+        }
+    }
+
+    performSkill(skillName_) {
+        "rage" == skillName_ && this.rageSkill()
     }
 }
 

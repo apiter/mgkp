@@ -7,6 +7,7 @@ import XBuildingModel from "./XBuildingModel"
 export default class XPlayerModel extends XBaseModel {
     isOutDoor = true
     isBed = false
+    isRage = false
     coin = 0
     energy = 0
     buildings = []
@@ -28,6 +29,7 @@ export default class XPlayerModel extends XBaseModel {
     equipExp = 0
     invincibleCnt = 0
     isAngel = false
+    isGhost = false
     isBack = false
     randomCnt = 0
     ownerScript: XPlayerScript

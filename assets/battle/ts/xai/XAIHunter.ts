@@ -11,11 +11,13 @@ import { XClearTargetAction } from '../xaction/XClearTargetAction';
 import { XPostEventAction } from '../xaction/XPostEventAction';
 import XRunAction from '../xaction/XRunAction';
 import { XSimpleRunAction } from '../xaction/XSimpleRunAction';
+import { XSkillAction } from '../xaction/XSkillAction';
 import { XEscapeCdt } from '../xcdt/XEscapeCdt';
 import { XHasBuildingAroundCdt } from '../xcdt/XHasBuildingAroundCdt';
 import XHasPathCdt from '../xcdt/XHasPathCdt';
 import { XHasPlayerAroundCdt } from '../xcdt/XHasPlayerAroundCdt';
 import { XHasPlayerAtkCdt } from '../xcdt/XHasPlayerAtkCdt';
+import { XHasSkillId01 } from '../xcdt/XHasSkillId01';
 import XHasTargetCdt from '../xcdt/XHasTargetCdt';
 import { XHunterFindRoomCdt } from '../xcdt/XHunterFindRoomCdt';
 import { XIsMaxHpCdt } from '../xcdt/XIsMaxHpCdt';
@@ -76,7 +78,7 @@ export class XAIHunter extends XAIModel {
 
         let hasPathCdt = (new XHasPathCdt).bindout(runAction)
         return new XBTSequence({
-            children:[(new XRandomSpawnPosCdt).bindout(hasPathCdt), hasPathCdt, new XPostEventAction(XEventNames.E_Hunter_Upgrade),
+            children:[(new XRandomSpawnPosCdt).bindout(hasPathCdt), hasPathCdt, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE),
                 new XBTWaitUtil({
                     condition:new XIsMaxHpCdt,
                     child:seq
@@ -86,6 +88,18 @@ export class XAIHunter extends XAIModel {
             successPolicy:XEPolicy.RequireAll,
             continuePolicy:XBTStatus.SUCCESS
         })
+    }
+
+    skill() {
+        const hasSkill01 = new XHasSkillId01()
+        const skillAction = new XSkillAction()
+        return new XBTSequence(
+            {
+                children:[hasSkill01, skillAction],
+                successPolicy:XEPolicy.RequireAll,
+                continuePolicy:XBTStatus.SUCCESS
+            }
+        )
     }
 }
 

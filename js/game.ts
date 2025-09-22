@@ -4755,11 +4755,11 @@ define("js/bundle.js", function(require, module, exports) {
                     n.offAll(), n.destroy()
                 }), n)
             }
-            playeEffect(e, i, s, a = !1, n) {
-                if (!XMgr.mapMgr.isInStageByMapPos(e, i)) return;
-                if (!this.checkInterval(e, i, s)) return;
-                Laya.loader.getRes(s) ? this.loadAnimAndPlay(s, e, i, a, n) : Laya.loader.load(s, Laya.Handler.create(this, () => {
-                    this.effectLayer.destroyed || this.loadAnimAndPlay(s, e, i, a, n)
+            playeEffect(mapX_, mapY_, altasPath_, a = !1, n) {
+                if (!XMgr.mapMgr.isInStageByMapPos(mapX_, mapY_)) return;
+                if (!this.checkInterval(mapX_, mapY_, altasPath_)) return;
+                Laya.loader.getRes(altasPath_) ? this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, n) : Laya.loader.load(altasPath_, Laya.Handler.create(this, () => {
+                    this.effectLayer.destroyed || this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, n)
                 }))
             }
             playUpgradeEffect(e, i) {
@@ -5791,8 +5791,8 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             
-            setStartAtkTime(e) {
-                this.startAtkTime = e
+            setStartAtkTime(timeInMs) {
+                this.startAtkTime = timeInMs
             }
             tryAttack() {
                 let i = this.findAttackTarget();
@@ -5976,7 +5976,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = Ee.ATK_POW
             }
         }
-        class zt extends XBaseBuff {
+        class XAtkSpdBuff extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ATK_SPD
             }
@@ -6333,7 +6333,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let s;
                 if (this.getCurDoorModel()[0]) {
                     if (this.map.has(e)) {
-                        this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5), s = new zt(this.slowRatio * this.slowMult);
+                        this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5), s = new XAtkSpdBuff(this.slowRatio * this.slowMult);
                         for (const [i, a] of this.map) {
                             if (!e.buffs) continue;
                             let i = !0;
@@ -6389,7 +6389,7 @@ define("js/bundle.js", function(require, module, exports) {
                         for (const [e, t] of this.map) {
                             let t = e.owner.getChildByName("skinNode");
                             t && (t.filters = []);
-                            let i = new zt(this.slowRatio * this.slowMult);
+                            let i = new XAtkSpdBuff(this.slowRatio * this.slowMult);
                             if (!e.buffs) continue;
                             let s, a = !0;
                             for (s = 0; s < e.buffs.length; s++)
@@ -6547,9 +6547,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = XMgr.buildingMgr.getBuildCfg(this.data.id);
                 if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && i.buffId.includes(17) && XMgr.user.gameInfo.getBuffData(17)) {
                     let e = XMgr.cfg.buffCfg.get(17).values[0] / 100 + 1;
-                    return new zt(-this.changeVal * e)
+                    return new XAtkSpdBuff(-this.changeVal * e)
                 }
-                return new zt(-this.changeVal)
+                return new XAtkSpdBuff(-this.changeVal)
             }
         }
         class XTowerAddAtkSpdOnEnemyNear extends XTowerBuffEffect {
@@ -7134,12 +7134,14 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, 
                 this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new Ft(.25), 
-                this.addPowSkillBuff_2 = new zt(-.3), this.rageSkillBuff = new zt(-.3), this.skillAttackTime = null, 
+                this.addPowSkillBuff_2 = new XAtkSpdBuff(-.3), this.rageSkillBuff = new XAtkSpdBuff(-.3), this.skillAttackTime = null, 
                 this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, 
                 this.isOutHeal = !0, this.isFirstOutHeal = !0
             }
             onAwake() {
-                super.onAwake(), this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, this.atkCdScale = 1, this.lastAtkCdScale = 1
+                super.onAwake(), this.moveSpeed = XMgr.cfg.constant.hunterMoveSpeed, 
+                this.moveSpeed /= XMgr.gameMgr.hunterSpeedRatio, this.maxHpAddRate = XMgr.gameMgr.dCfg.addMaxHp ? XMgr.gameMgr.dCfg.addMaxHp : 0, 
+                this.atkCdScale = 1, this.lastAtkCdScale = 1
             }
             init(e) {
                 super.init(e), this.lv = e.lv, e.invincible = !0
@@ -7274,13 +7276,15 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = this.owner.timer.currTimer / 1e3;
                 this.skillAttackTime = i, this.data.isRage || (this.data.isRage = !0), XToast.show(`${this.data.name}暴躁了`);
                 let s = e || 8;
-                this.node.timerOnce(1e3 * s, this, this.cancelRage), fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
+                this.node.timerOnce(1e3 * s, this, this.cancelRage), 
+                fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), 
+                XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
             }
             cancelRage() {
                 this.data.isRage = !1, this.atkCdScale = this.lastAtkCdScale
             }
-            performSkill(e) {
-                "rage" == e && this.rageSkill()
+            performSkill(skillName_) {
+                "rage" == skillName_ && this.rageSkill()
             }
             setEscape(e) {
                 this.isEscaped = e, e && (this.atkCdScale = 1)
@@ -7390,8 +7394,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, 
                 this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), 
                 this.addPowSkillBuff_1 = new Ft(.25), 
-                this.addPowSkillBuff_2 = new zt(-.3), 
-                this.rageSkillBuff = new zt(-.3), 
+                this.addPowSkillBuff_2 = new XAtkSpdBuff(-.3), 
+                this.rageSkillBuff = new XAtkSpdBuff(-.3), 
                 this.skillAttackTime = null, this.dismissDizzyFlag = !0, 
                 this.lastAttackRoomId = null, this.lastHealTime = 0, 
                 this.healSpeed = .1, this.isOutHeal = !0, this.isFirstOutHeal = !0, this.curAutoSkillCd = 0, 
@@ -7783,9 +7787,25 @@ define("js/bundle.js", function(require, module, exports) {
             }
             playAnim(aniName, t = !1, i) {
                 let s;
-                "idle" == aniName ? s = "idle" : "run" == aniName ? s = "run" : "attack" == aniName && (s = "attack"), s && s != this.curAniName && ("run" == s ? (this.playWalkSound(), Laya.timer.loop(500, this, this.playWalkSound)) : Laya.timer.clear(this, this.playWalkSound)), 
+                "idle" == aniName ? s = "idle" 
+                : "run" == aniName ? s = "run" 
+                : "attack" == aniName && (s = "attack");
+            
+                if (s && s != this.curAniName) {
+                    if ("run" == s) {
+                        // 如果是跑步，开始循环播放脚步声，每 500ms 播一次
+                        this.playWalkSound();
+                        Laya.timer.loop(500, this, this.playWalkSound);
+                    } else {
+                        // 如果不是跑步，就清除脚步声循环
+                        Laya.timer.clear(this, this.playWalkSound);
+                    }
+                }
+            
+                // ③ 调用父类的 playAnim 真正播放动画
                 super.playAnim(aniName, t, i)
             }
+            
             playWalkSound() {
                 this.isInHealZone
             }
@@ -7991,15 +8011,22 @@ define("js/bundle.js", function(require, module, exports) {
             dismissDizzy() {
                 this.data.dizzyDurSec = 0, this.data.dizzyStartTime = 0
             }
-            rageSkill(i, s = !1) {
+            rageSkill(i) {
                 XChoreUtil.playSound(108);
                 let a = this.owner.timer.currTimer / 1e3;
-                this.skillAttackTime = a, this.data.isRage || (this.data.isRage = !0), XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了") : this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
+                this.skillAttackTime = a, 
+                this.data.isRage || (this.data.isRage = !0), 
+                XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? this.data.isGhost ? XToast.show("执行人暴躁了") : XToast.show("木头人暴躁了") : this.data.isGhost ? XToast.show(`${this.data.name}暴躁了`) : XToast.show("噬魂者暴躁了");
                 let n = i || 8;
-                this.node.timerOnce(1e3 * n, this, this.cancelRage), fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), this.lastAtkCdScale = this.atkCdScale, this.setAtkFrqScale(this.atkCdScale - .3)
+                this.node.timerOnce(1e3 * n, this, this.cancelRage), 
+                fx.EventCenter.I.event(XEventNames.E_Hunter_Use_Skill, [this.lastAttackRoomId, this.data]), 
+                XEffectUtil.I.playKuangbaoEffect(this.node.x, this.node.y), 
+                this.lastAtkCdScale = this.atkCdScale, 
+                this.setAtkFrqScale(this.atkCdScale - .3)
             }
             cancelRage() {
-                this.data.isRage = !1, this.atkCdScale = this.lastAtkCdScale
+                this.data.isRage = false, 
+                this.atkCdScale = this.lastAtkCdScale
             }
             performSkill(e) {
                 "rage" == e ? this.rageSkill() : "dizzy" == e && this.dizzySkill()
@@ -8034,8 +8061,8 @@ define("js/bundle.js", function(require, module, exports) {
             
                 return atkCd;
             }
-            setAtkFrqScale(e) {
-                e >= 0 && e <= 1.2 && (this.atkCdScale = e)
+            setAtkFrqScale(value_) {
+                value_ >= 0 && value_ <= 1.2 && (this.atkCdScale = value_)
             }
             usePalsySkill(i) {
                 let s = i,
@@ -21593,7 +21620,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return e * (1 / (1 - this.Val) - 1)
             }
-        }, e.AtkDstBuff = qt, e.AtkPowBuff = Ft, e.AtkSpdBuff = zt, e.AttackAction = XAttackAction, e.AvatarScript = class extends Laya.Script {
+        }, e.AtkDstBuff = qt, e.AtkPowBuff = Ft, e.AtkSpdBuff = XAtkSpdBuff, e.AttackAction = XAttackAction, e.AvatarScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this._skinAttachmentMap = {}, this._usedAttachment = {}, this._skinTypeMap = {}
             }

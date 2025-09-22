@@ -3,6 +3,7 @@ import XBTTick from '../bt2/XBTTick';
 import { XPlayerScript } from '../view/player/XPlayerScript';
 import XMgr from '../XMgr';
 import LogWrapper, { XLogModule } from '../log/LogWrapper';
+import { XToast } from '../view/XToast';
 
 export class XEscapeCdt extends XBTCondition {
     static NAME = "XEscapeCdt"
@@ -26,7 +27,8 @@ export class XEscapeCdt extends XBTCondition {
             playerScript.setLastAtkTarget(null);
             playerScript.setEscape(true);
     
-            LogWrapper.log(`流程`, `${playerModel.name}逃跑了`, {}, [XLogModule.XLogModuleGameFlow])
+            XToast.show(`${playerModel.name}逃跑了`)
+            // LogWrapper.log(`流程`, `${playerModel.name}逃跑了`, {}, [XLogModule.XLogModuleGameFlow])
             return true;
         }
         return false
