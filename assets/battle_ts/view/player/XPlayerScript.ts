@@ -161,6 +161,7 @@ export class XPlayerScript extends Component {
                 if (this.data.uuid === XMgr.playerMgr.mineUuid) {
                     XMgr.gameMgr.gameover(false)
                     XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH)
+                    XMgr.ui.showHunterWin()
                     LogWrapper.log("流程", "游戏结束,玩家输", {}, [XLogModule.XLogModuleGameFlow])
                 } else {
 
@@ -171,6 +172,7 @@ export class XPlayerScript extends Component {
                 if (this.data.uuid === XMgr.playerMgr.hunters[0].uuid) {
                     XMgr.gameMgr.gameover(true);
                     XMgr.gameMgr.setGameStatus(XGameStatus.E_GAME_FINISH);
+                    XMgr.ui.showHunterFailed()
                     LogWrapper.log("流程", "游戏结束,玩家赢", {}, [XLogModule.XLogModuleGameFlow])
                 }
             }

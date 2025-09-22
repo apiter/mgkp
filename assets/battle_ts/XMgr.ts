@@ -4,6 +4,7 @@ import XBulletMgr from "./map/XBulletMgr";
 import { XMapMgr } from "./map/XMapMgr";
 import XPlayerMgr from "./player/XPlayerMgr";
 import { XGameUI } from "./view/game/XGameUI";
+import { UI } from "./view/UI";
 import { XPrefabMgr } from "./view/XPrefabMgr";
 import XCfgMgr from "./xconfig/XCfgMgr";
 
@@ -17,6 +18,7 @@ class XMgr {
     gameTime: Date = new Date
     gameUI:XGameUI = null
     prefabMgr:XPrefabMgr = null
+    ui:UI = null
 
     init() {
         this.cfg = new XCfgMgr()
