@@ -82,7 +82,7 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        const initBuildings = [3000, 3001];
+        const initBuildings = [3000, 3001, 3004, 4000];
         const weights = [
             0.15,
             0.30,

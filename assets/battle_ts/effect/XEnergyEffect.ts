@@ -4,6 +4,7 @@ import { XCfgEffectData } from '../xconfig/XCfgData';
 import { XConst } from '../xconfig/XConst';
 import { XBaseEffect } from './XBaseEffect';
 import XMgr from '../XMgr';
+import { XTokenType } from '../xconfig/XEnum';
 
 export class XEnergyEffect extends XBaseEffect {
     addValue = 0
@@ -22,7 +23,10 @@ export class XEnergyEffect extends XBaseEffect {
         let addValue = this.addValue;
         let value = addValue * this._data.energyRatio
         let aiMult = value * XMgr.mapMgr.getRoomById(this._data.roomId).aiMult
-        XMgr.playerMgr.changePlayerIncomeByUuid(this._data.playerUuid, 0, aiMult)
+        const result = XMgr.playerMgr.changePlayerIncomeByUuid(this._data.playerUuid, 0, aiMult)
+        if (result) {
+            XMgr.gameUI.valueTips(XTokenType.E_Energy, value, this._node.x, this._node.y, 0)
+        }
         //TODO
         this.showWorkEff()
     }

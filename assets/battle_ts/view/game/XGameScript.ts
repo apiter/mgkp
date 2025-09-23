@@ -22,6 +22,7 @@ import { XV2Util01 } from '../../xutil/XV2Util01';
 import { XRoomModel } from '../../model/XRoomModel';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import { XTowerDoubleScript } from '../building/XTowerDoubleScript';
+import { XSpringTowerScript } from '../building/XSpringTowerScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -188,6 +189,9 @@ export class XGameScript extends Component {
                     break
                 case 3001:
                     buildScript = buildNode.addComponent(XTowerDoubleScript)
+                    break
+                case 3004:
+                    buildScript = buildNode.addComponent(XSpringTowerScript)
                 //TOOD 其他
                 default: break;
             }

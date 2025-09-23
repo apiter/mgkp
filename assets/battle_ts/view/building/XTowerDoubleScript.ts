@@ -56,20 +56,6 @@ export class XTowerDoubleScript extends XTowerBaseScript {
         this.iconNodeR.x = 25
     }
 
-    findTarget() {
-        let target: XPlayerModel, minDis = 1 / 0,
-            atkDstSqu = this.getAtkDstSqu(),
-            hunters = XMgr.playerMgr.hunters;
-        for (const hunter of hunters) {
-            if (hunter.isDie) continue;
-            let hunterNode = hunter.owner;
-            if (!hunterNode || !hunterNode.isValid) continue;
-            let dis = XV2Util01.pDistanceSquared(hunterNode, this.node);
-            dis <= atkDstSqu && dis < minDis && (minDis = dis, target = hunter)
-        }
-        return target
-    }
-
     tryAttack() {
         let target = this.findTarget();
 

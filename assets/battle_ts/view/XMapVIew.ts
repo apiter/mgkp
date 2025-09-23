@@ -17,6 +17,8 @@ export class XMapView extends Component {
     @property(Node)
     groundLayer: Node = null
     @property(Node)
+    buildTipLayer:Node = null
+    @property(Node)
     buildLayer: Node = null
     @property(Node)
     buildMoveLayer: Node = null
@@ -49,6 +51,7 @@ export class XMapView extends Component {
         const pixelH = (XConst.GridSize) * cellCntH
         this.node.getComponent(UITransform).setContentSize(pixelW, pixelH)
         this.groundLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
+        this.buildTipLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
         this.buildLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
         this.buildMoveLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
         this.playerLayer.getComponent(UITransform).setContentSize(pixelW, pixelH)
@@ -186,7 +189,7 @@ export class XMapView extends Component {
             spr.spriteFrame = this.gameAtlas.getSpriteFrame("img_buildTips")
             let uiOpacity = tipNode.addComponent(UIOpacity)
 
-            this.groundLayer.addChild(tipNode);
+            this.buildTipLayer.addChild(tipNode);
             tipNode.x = (gridY_ + 0.5) * XConst.GridSize
             tipNode.y = -(gridX_ + 0.5) * XConst.GridSize
             uiOpacity.opacity = 255

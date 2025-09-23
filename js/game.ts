@@ -10706,19 +10706,67 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? (this.atkTarget = e, this.fire(), this.isWork = !0) : this.isWork = !1
             }
             fire() {
+                // 1. 创建子弹节点
                 let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
-                i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
+            
+                // 2. 初始化位置和旋转
+                i.rotation = this.node.rotation;
+                i.x = this.node.x;
+                i.y = this.node.y;
+            
+                // 3. 如果子弹上原本有脚本，先销毁掉
                 let s = i.getComponent(XBulletScript);
                 s && s.destroy();
+            
+                // 4. 碰撞组配置
                 let a = this.cfg.bulletType,
                     n = {
                         category: e.CollideGroupType.BULLET,
-                        mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
-                    },
-                    r = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y) : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
-                r.normalize(), (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
+                        mask: e.CollideGroupType.HUNTER | 
+                              e.CollideGroupType.Defender | 
+                              e.CollideGroupType.Building | 
+                              e.CollideGroupType.DefenderMine
+                    };
+            
+                // 5. 计算射击方向（有目标就指向目标，没有就按旋转角度方向）
+                let r = this.atkTarget
+                    ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y)
+                    : new fx.V2(
+                          Math.cos((i.rotation - 90) * Math.PI / 180),
+                          Math.sin((i.rotation - 90) * Math.PI / 180)
+                      );
+                r.normalize();
+            
+                // 6. 添加新子弹脚本
+                (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget;
+            
+                // 7. 发射
+                if (a == e.BulletType.Normal) {
+                    s.shoot(
+                        this.cfg.bullet,              // 子弹配置
+                        .3 * this.atkTarget.attackPower, // 攻击力
+                        r,                            // 方向
+                        null,                         // 没有锁定目标
+                        this.data,
+                        null,
+                        void 0,
+                        n                             // 碰撞配置
+                    );
+                } else {
+                    s.shoot(
+                        this.cfg.bullet,
+                        .3 * this.atkTarget.attackPower,
+                        r,
+                        this.atkTarget,               // 有锁定目标
+                        this.data,
+                        null,
+                        void 0,
+                        n
+                    );
+                }
             }
+            
         }
         class as extends XTowerScript {
             getDamageMult() {
