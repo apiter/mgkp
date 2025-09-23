@@ -39,7 +39,8 @@ export default class XBuildingMgr {
     mapBuildScriptArr: XMapBuildingScript[] = []
 
     constructor() {
-        this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"]
+        // this.mapBuildArr = ["5002_1", "4000_3", "4000_2", "4000_1", "6017_1", "5000_2", "5000_1", "5003_1", "5004_1", "5005_1", "3008_1", "3009_1", "fhl_1", "7777_1", "3006_1", "6023_1"]
+        this.mapBuildArr=["3006_1"]
         this.mapBuildWeightArr = [12, 1, 3, 5, 5, 1, 5, 10, 18, 25, 5, 2, 6, 2, 10, 5]
         this.magicConsumeArr = [
             [10, 0], [40, 10], [160, 10], [240, 30]
@@ -81,7 +82,7 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        const buildings = [5001, 6012, 5001, 6005, 6005, 6005, 6001, 6013, 6019, 4000, 6006];
+        const initBuildings = [3000, 6012, 5001, 6005, 6005, 6005, 6001, 6013, 6019, 4000, 6006];
         const weights = [
             0.15,
             0.30,
@@ -108,7 +109,7 @@ export default class XBuildingMgr {
                     break
                 }
             }
-            let buildCfg = this.getBuildCfg(5001);
+            let buildCfg = this.getBuildCfg(3001);
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }

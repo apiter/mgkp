@@ -107,7 +107,6 @@ export class XHunterScript extends XPlayerScript {
         this.playAnim("attack", true, () => {
             this.isAtking = false;
             this.playAnim("idle");
-            console.log(`attack tm:${game.totalTime - t1}`)
         });
 
         this.scheduleOnce(() => {

@@ -10840,31 +10840,78 @@ define("js/bundle.js", function(require, module, exports) {
             }
             getAtkDstSqu() {
                 let e = this.data.getAtkDst(),
-                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
+                    player = XMgr.playerMgr.getPlayer(this.data.playerUuid),
                     s = e;
-                if (i && !i.isDie && i.buffs)
-                    for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
+                if (player && !player.isDie && player.buffs)
+                    for (const t of player.buffs) t.Type == M.ATK_DST && (s += t.result(e));
                 let a = s * C.GridSize;
                 return a * a
             }
             initSkin() {
-                this.cfg.diIcon && (this.imgDi = new Laya.Image(this.cfg.diIcon), 
-                this.imgDi.anchorX = this.imgDi.anchorY = .5, this.skinNode.addChild(this.imgDi), 
-                this.imgDi.pos(-25, 0), this.imgDi_1 = new Laya.Image(this.cfg.diIcon), 
-                this.imgDi_1.anchorX = this.imgDi_1.anchorY = .5, this.skinNode.addChild(this.imgDi_1), this.imgDi_1.pos(25, 0)), 
-                this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), 
-                this.imgBody.anchorX = this.imgBody.anchorY = .5, this.imgBody.pos(-25, 0), 
-                this.imgBody_1 = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody_1), 
-                this.imgBody_1.anchorX = this.imgBody_1.anchorY = .5, this.imgBody_1.pos(25, 0), this.initEffects()
+                // 如果有底图配置
+                if (this.cfg.diIcon) {
+                    // 左底图
+                    this.imgDi = new Laya.Image(this.cfg.diIcon);
+                    this.imgDi.anchorX = this.imgDi.anchorY = 0.5;
+                    this.skinNode.addChild(this.imgDi);
+                    this.imgDi.pos(-25, 0);
+            
+                    // 右底图
+                    this.imgDi_1 = new Laya.Image(this.cfg.diIcon);
+                    this.imgDi_1.anchorX = this.imgDi_1.anchorY = 0.5;
+                    this.skinNode.addChild(this.imgDi_1);
+                    this.imgDi_1.pos(25, 0);
+                }
+            
+                // 左身体
+                this.imgBody = new Laya.Image(this.cfg.icon);
+                this.imgBody.anchorX = this.imgBody.anchorY = 0.5;
+                this.skinNode.addChild(this.imgBody);
+                this.imgBody.pos(-25, 0);
+            
+                // 右身体
+                this.imgBody_1 = new Laya.Image(this.cfg.icon);
+                this.imgBody_1.anchorX = this.imgBody_1.anchorY = 0.5;
+                this.skinNode.addChild(this.imgBody_1);
+                this.imgBody_1.pos(25, 0);
+            
+                // 初始化特效
+                this.initEffects();
             }
+            
             onUpdate() {
+                // 1. 取一下 timer.delta（这里没用到，可能是触发 timer 更新或保留写法）
                 this.owner.timer.delta;
-                if (super.onUpdate(), this.isBuildCd) return;
+            
+                // 2. 调用父类 onUpdate
+                super.onUpdate();
+            
+                // 3. 如果建筑处于冷却状态，直接返回
+                if (this.isBuildCd) return;
+            
+                // 4. 如果不能攻击，返回
                 if (!this.canAttack) return;
+            
+                // 5. 如果当前被麻痹中（palsyTime > 0），返回
                 if (this.data.palsyTime) return;
-                let e = this.owner.timer.currTimer;
-                e - this.data.dizzyStartTime < 1e3 * this.data.dizzyDurSec || e - this.lastAtkTime > this.getAtkCD() && (this.lastAtkTime = e, this.tryAttack())
+            
+                // 6. 当前时间
+                let curentTime = this.owner.timer.currTimer;
+            
+                // 7. 如果处于眩晕状态（未到眩晕持续结束时间），直接不攻击
+                if (curentTime - this.data.dizzyStartTime < 1000 * this.data.dizzyDurSec) {
+                    return;
+                }
+            
+                // 8. 攻击冷却判断：如果当前时间 - 上次攻击时间 > 攻击CD
+                if (curentTime - this.lastAtkTime > this.getAtkCD()) {
+                    // 记录新的攻击时间
+                    this.lastAtkTime = curentTime;
+                    // 执行攻击
+                    this.tryAttack();
+                }
             }
+            
             findTarget() {
                 let e, t = 1 / 0,
                     i = this.getAtkDstSqu(),
@@ -10896,10 +10943,36 @@ define("js/bundle.js", function(require, module, exports) {
                 return e
             }
             tryAttack() {
-                if (this.data.isDizzy) return void(this.isWork = !1);
+                // ① 如果建筑/单位处于眩晕状态，直接不能攻击，并设置工作状态为 false
+                if (this.data.isDizzy) {
+                    this.isWork = false;
+                    return;
+                }
+            
+                // ② 查找目标（通常是范围内的敌人）
                 let e = this.findTarget();
-                e ? (this.atkTarget = e, XV2Util01.faceTo_1(this.node, this.imgDi, e.owner.x, e.owner.y, 90), XV2Util01.faceTo_1(this.node, this.imgDi_1, e.owner.x, e.owner.y, 90), XV2Util01.faceTo_1(this.node, this.imgBody, e.owner.x, e.owner.y, 90), XV2Util01.faceTo_1(this.node, this.imgBody_1, e.owner.x, e.owner.y, 90), this.fire(), this.isWork = !0) : this.isWork = !1
+            
+                if (e) {
+                    // 找到目标，锁定目标
+                    this.atkTarget = e;
+            
+                    // ③ 朝向目标旋转（四个部件：底座 + 两个身体）
+                    XV2Util01.faceTo_1(this.node,    this.imgDi,    e.owner.x, e.owner.y, 90);
+                    XV2Util01.faceTo_1(this.node,    this.imgDi_1,  e.owner.x, e.owner.y, 90);
+                    XV2Util01.faceTo_1(this.node,    this.imgBody,  e.owner.x, e.owner.y, 90);
+                    XV2Util01.faceTo_1(this.node,    this.imgBody_1,e.owner.x, e.owner.y, 90);
+            
+                    // ④ 开火攻击
+                    this.fire();
+            
+                    // ⑤ 设置当前状态为正在工作（攻击中）
+                    this.isWork = true;
+                } else {
+                    // 没找到目标，就不工作
+                    this.isWork = false;
+                }
             }
+            
             fire() {
                 for (let i = 0; i < 2; i++) {
                     let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);

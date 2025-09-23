@@ -21,6 +21,7 @@ import XPlayerModel from '../../model/XPlayerModel';
 import { XV2Util01 } from '../../xutil/XV2Util01';
 import { XRoomModel } from '../../model/XRoomModel';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
+import { XTowerDoubleScript } from '../building/XTowerDoubleScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -111,7 +112,7 @@ export class XGameScript extends Component {
     initBuildings() {
         let buildings = XMgr.buildingMgr.buildings;
         for (const build of buildings) {
-            this.build(build, true)
+            this.build(build)
             build.type == XBuildType.door && this.map.createDoorTips(build.x, build.y, build.rotation)
         }
 
@@ -167,7 +168,7 @@ export class XGameScript extends Component {
         // const lookY = this.characterControl.node.worldPositionY
     }
 
-    build(build_: XBuildingModel, s, cdTime_ = 0) {
+    build(build_: XBuildingModel, cdTime_ = 0) {
         let buildNode = new Node;
         buildNode.addComponent(UITransform).setContentSize(XConst.GridSize, XConst.GridSize)
         build_.owner = buildNode
@@ -185,6 +186,8 @@ export class XGameScript extends Component {
                 case 3000:
                     buildScript = buildNode.addComponent(XTowerScript)
                     break
+                case 3001:
+                    buildScript = buildNode.addComponent(XTowerDoubleScript)
                 //TOOD 其他
                 default: break;
             }
@@ -221,6 +224,8 @@ export class XGameScript extends Component {
         this.buildingGrids[build_.x][build_.y] = buildScript
         buildScript.init(build_, cdTime_)
         buildScript.map = this.map
+
+        this.map.hideBuildTips(build_.x, build_.y)
     }
 
     destroyBuilding(buildModel_: XBuildingModel) {
@@ -349,6 +354,8 @@ export class XGameScript extends Component {
         let room = XMgr.buildingMgr.getRoom(roomId_);
         if (room) {
             for (const grid of room.grids) {
+                if(XMgr.buildingMgr.getBuilding(grid.x, grid.y) != null)
+                    continue
                 this.map.hideBuildTips(grid.x, grid.y)
                 this.map.showBuildTips(grid.x, grid.y)
             }
