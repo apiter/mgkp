@@ -7,38 +7,16 @@ import XMgr from '../../XMgr';
 import { XV2Util01 } from '../../xutil/XV2Util01';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XBulletScript } from './XBulletScript';
+import { XTowerBaseScript } from './XTowerBaseScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XTowerDoubleScript')
-export class XTowerDoubleScript extends XBuildingScript {
-    canAttack = true
-    lastAtkTime = 0
-    _towerData: XTowerModel = null
-
+export class XTowerDoubleScript extends XTowerBaseScript {
     diNodeR: Node = null
     iconNodeR: Node = null
     _skinDiSpriteR: Sprite = null
     _skinSpriteR: Sprite = null
     atkTarget
-    isWork = false
-
-    init(buildModel_, cdTime_?: number): void {
-        super.init(buildModel_, cdTime_)
-        this._towerData = this.data as XTowerModel
-    }
-
-    getAtkCD() {
-        let cd = this._towerData.getAtkCD()
-
-        return Math.max(0.2, cd) * 1000
-    }
-
-    getAtkDstSqu() {
-        let atkDst = this._towerData.getAtkDst();
-        let result = atkDst;
-        let px = result * XConst.GridSize;
-        return px * px;
-    }
 
     async initSkin() {
         if (this.cfg.diIcon) {
@@ -76,22 +54,6 @@ export class XTowerDoubleScript extends XBuildingScript {
         this._skinSpriteR.sizeMode = Sprite.SizeMode.TRIMMED
         this.skinNode.addChild(this.iconNodeR);
         this.iconNodeR.x = 25
-    }
-
-    protected update(dt: number): void {
-        super.update(dt)
-
-        if (this.isBuildCd) return;
-
-        if (!this.canAttack) return;
-
-        const curentTime = game.totalTime
-        if (curentTime - this.lastAtkTime > this.getAtkCD()) {
-            // 记录新的攻击时间
-            this.lastAtkTime = curentTime;
-            // 执行攻击
-            this.tryAttack();
-        }
     }
 
     findTarget() {

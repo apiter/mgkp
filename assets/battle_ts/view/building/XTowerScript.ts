@@ -8,48 +8,12 @@ import XBuildingModel from '../../model/XBuildingModel';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XBulletScript } from './XBulletScript';
 import { XGameStatus } from '../../xconfig/XEnum';
+import { XTowerBaseScript } from './XTowerBaseScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XTowerScript')
-export class XTowerScript extends XBuildingScript {
-    canAttack = true
-    lastAtkTime = 0;
-    isWork = false
+export class XTowerScript extends XTowerBaseScript {
     atkTarget: XPlayerModel = null
-
-    _towerData: XTowerModel = null
-
-    protected update(dt: number): void {
-        super.update?.(dt)
-        
-        if(XMgr.gameMgr.gameStatus !== XGameStatus.E_GAME_START) return
-        if (this.canAttack == false) return
-        if (this.isBuildCd) return
-        let now = game.totalTime;
-        if (now - this.lastAtkTime > this.getAtkCD()) {
-            this.lastAtkTime = now
-            this.tryAttack()
-        }
-    }
-
-    init(buildModel_: XBuildingModel, cdTime_?: number): void {
-        super.init(buildModel_, cdTime_)
-        this._towerData = this.data as XTowerModel
-    }
-
-    getAtkCD() {
-        let cd = this._towerData.getAtkCD()
-
-        return Math.max(0.2, cd) * 1000
-    }
-
-    getAtkDstSqu() {
-        let atkDst = this._towerData.getAtkDst();
-        let result = atkDst;
-        let px = result * XConst.GridSize;
-        return px * px;
-    }
-
 
     findTargets() {
         let bestTarget;
