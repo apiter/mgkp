@@ -68,6 +68,11 @@ export class XBuildingScript extends Component {
         // this.node.addChild(hpNode)
     }
 
+    protected onDisable(): void {
+        this.node.off(XEventNames.Hp_Changed, this.onHpChanged, this)
+        this.node.off(XEventNames.Battle_Be_Hit, this.onHit, this)
+    }
+
     onInit() {
 
     }

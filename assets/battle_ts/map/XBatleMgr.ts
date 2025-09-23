@@ -183,6 +183,7 @@ export class XBatleMgr implements ISchedulable {
             // 通知事件
             if (target_.owner) {
                 target_.owner.emit(XEventNames.Hp_Changed, target_)
+                target_.owner.emit(XEventNames.Battle_Be_Hit, target_)
             }
 
             if (target_.isDie) {

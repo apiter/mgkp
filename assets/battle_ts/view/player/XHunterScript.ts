@@ -83,20 +83,32 @@ export class XHunterScript extends XPlayerScript {
         return retAckCd
     }
 
+    playAnim(aniName, restart_ = false, cb = null) {
+    
+        // 如果要播放的动画和当前不同
+        if (aniName && aniName !== this.curAniName) {
+            if (aniName === "run") {
+            } else {
+            }
+        }
+    
+        // 播放动画（父类实现）
+        super.playAnim(aniName, restart_, cb);
+    }
+    
+
 
     attack(target_) {
         if (this.data.isDie)
             return
         this.isAtking = true
-        const spine = this.spineNode.getComponent(sp.Skeleton)
-        spine.setAnimation(0, "attack1", false)
-        spine.timeScale = Math.max(1, 1.0 / this.atkCdScale)
-        spine.setEndListener((trackEntry) => {
-            if (trackEntry.animation.name == 'attack1') {
-                spine.setAnimation(0, "idle", false)
-                this.isAtking = false
-            }
-        })
+        
+        const t1 = game.totalTime
+        this.playAnim("attack", true, () => {
+            this.isAtking = false;
+            this.playAnim("idle");
+            console.log(`attack tm:${game.totalTime - t1}`)
+        });
 
         this.scheduleOnce(() => {
             //结算伤害

@@ -7785,7 +7785,7 @@ define("js/bundle.js", function(require, module, exports) {
                     XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
                 }
             }
-            playAnim(aniName, t = !1, i) {
+            playAnim(aniName, restart_ = false, cb) {
                 let s;
                 "idle" == aniName ? s = "idle" 
                 : "run" == aniName ? s = "run" 
@@ -7803,7 +7803,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             
                 // ③ 调用父类的 playAnim 真正播放动画
-                super.playAnim(aniName, t, i)
+                super.playAnim(aniName, restart_, cb)
             }
             
             playWalkSound() {

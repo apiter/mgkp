@@ -29,7 +29,7 @@ export class XAttackAction extends XBTAction {
 
         if(playerModel.isRage) {
             this.atkRageStartTs = timeNowInMs
-            console.log(`[设置狂暴开始]playerModel.isRage${this.atkRageStartTs}`)
+            // console.log(`[设置狂暴开始]playerModel.isRage${this.atkRageStartTs}`)
         }
         if(!playerScript.getLastAtkTarget()) {
             playerScript.setLastAtkTarget(curTarget)

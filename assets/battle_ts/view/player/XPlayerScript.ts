@@ -49,6 +49,8 @@ export class XPlayerScript extends Component {
     curTarget
     lastAtkTarget
 
+    curAniName = null
+    
     lbName: Label = null
     healthBar:XHealthBar = null
 
@@ -136,12 +138,28 @@ export class XPlayerScript extends Component {
     }
 
     playAnim(aniName_, reStart_ = false, callback_ = null) {
-        const spine = this.spineNode.getComponent(sp.Skeleton)
-        if (spine.animation != aniName_) {
-            spine.animation = aniName_
-        }
-        // spine.setAnimation(0, aniName_, true)
 
+        if (!reStart_ && this.curAniName === aniName_) return;
+        const spine = this.spineNode.getComponent(sp.Skeleton)
+    
+        if (spine) {
+            spine.setCompleteListener(null);
+    
+            if (aniName_ === "idle") {
+                this.curAniName = aniName_;
+                spine.setAnimation(0, "idle", true);
+            } else if (aniName_ === "run") {
+                this.curAniName = aniName_;
+                spine.setAnimation(0, "move", true);
+            } else if (aniName_ === "attack") {
+                this.curAniName = aniName_;
+                spine.setCompleteListener(() => {
+                    callback_?.();
+                });
+               spine.setAnimation(0, "attack1", false);
+            }
+        } else {
+        }
     }
 
     onHpChanged() {
