@@ -23,6 +23,7 @@ export enum XEventNames {
 
     E_Hunter_Upgrade = "E_Hunter_Upgrade",
     E_HUNTER_ESCAPE = "E_HUNTER_ESCAPE",
+    E_HUNTER_LEAVE = "E_HUNTER_LEAVE",
 
 
     Hp_Changed = "Hp_Changed",

@@ -1,10 +1,10 @@
 import XBuildingModel from "../model/XBuildingModel"
 import { XCfgEffectData } from "../xconfig/XCfgData"
 import { XEffectType } from "../xconfig/XEnum"
-import { XBaseEffect } from "./XBaseEffect"
 import { XCoinAndEnergyEffect } from "./XCoinAndEnergyEffect"
 import { XCoinEffect } from "./XCoinEffect"
 import { XDoorAlwaysAddHp } from "./XDoorAlwaysAddHp"
+import { XEnemySlowAtkSpd } from "./XEnemySlowAtkSpd"
 import { XEnergyEffect } from "./XEnergyEffect"
 
 export class XEffectBuilder {
@@ -14,7 +14,8 @@ export class XEffectBuilder {
             [XEffectType.Add_Coin]: XCoinEffect,
             [XEffectType.Add_Energy]: XEnergyEffect,
             [XEffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
-            [XEffectType.Door_AlwaysAddHp]:XDoorAlwaysAddHp
+            [XEffectType.Door_AlwaysAddHp]:XDoorAlwaysAddHp,
+            [XEffectType.Enemy_SlowAtkSpd]:XEnemySlowAtkSpd
         }
     }
 

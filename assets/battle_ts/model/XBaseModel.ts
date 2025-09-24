@@ -1,4 +1,5 @@
 import { Node } from "cc"
+import { XBufBase } from "../buf/XBufBase"
 
 export default class XBaseModel {
     curHp = 1
@@ -10,7 +11,7 @@ export default class XBaseModel {
     energyRatio = 1
     invincible = false
     invincible_skill = false
-    buffs = []
+    buffs:XBufBase[] = []
     owner: Node
     
     

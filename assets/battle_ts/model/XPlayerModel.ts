@@ -49,8 +49,8 @@ export default class XPlayerModel extends XBaseModel {
         let speedPow = 1;
         if (this.buffs)
             for (const buff of this.buffs) {
-                if (buff.Type == XBuffType.SPEED) return speedPow = buff.result(1);
-                buff.Type == XBuffType.SPEED_POW && (speedPow *= buff.result(1))
+                if (buff.type == XBuffType.SPEED) return speedPow = buff.result(1);
+                buff.type == XBuffType.SPEED_POW && (speedPow *= buff.result(1))
             }
         this.skillMoveSpeedRate && (speedPow *= 1 + this.skillMoveSpeedRate)
         this.equipMoveSpeed && (speedPow *= 1 + this.equipMoveSpeed)
@@ -66,7 +66,7 @@ export default class XPlayerModel extends XBaseModel {
         let sum = attackCd;
         if (this.buffs)
             for (const buff of this.buffs)
-                buff.Type != XBuffType.ATK_SPD && buff.Type != XBuffType.DYC_ATK_SPD || (sum += buff.result(attackCd));
+                buff.type != XBuffType.ATK_SPD && buff.type != XBuffType.DYC_ATK_SPD || (sum += buff.result(attackCd));
         return sum = Math.max(.2, sum)
     }
     getAtkPow() {

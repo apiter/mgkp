@@ -5971,7 +5971,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.Val
             }
         }
-        class Ft extends XBaseBuff {
+        class XAtkPowBuff extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ATK_POW
             }
@@ -5981,7 +5981,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.type = Ee.ATK_SPD
             }
         }
-        class qt extends XBaseBuff {
+        class XAtkDstBuff extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ATK_DST
             }
@@ -6327,10 +6327,13 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class EnemySlowAtkSpd extends XBaseEffect {
-            constructor(e, t) {
-                super(e, t), this.map = new Map, this.slowMult = 1, this.slowRatio = e.value[0];
-                let i = this.getCurDoorModel()[0];
-                i && (i.owner.on(be.Battle_Be_Hit, this, this.exec), 
+            constructor(effectCfg_, buildModel_) {
+                super(effectCfg_, buildModel_)
+                this.map = new Map
+                this.slowMult = 1
+                this.slowRatio = effectCfg_.value[0];
+                let door = this.getCurDoorModel()[0];
+                door && (door.owner.on(be.Battle_Be_Hit, this, this.exec), 
                 fx.EventCenter.I.on(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), 
                 fx.EventCenter.I.on(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape), 
                 this.data.owner.timerLoop(100, this, this.onHunterEscape))
@@ -6343,10 +6346,10 @@ define("js/bundle.js", function(require, module, exports) {
                         buff = new XAtkSpdBuff(this.slowRatio * this.slowMult);
                         for (const [i, a] of this.map) {
                             if (!atkModel_.buffs) continue;
-                            let i = !0;
+                            let i = true;
                             for (let t = 0; t < atkModel_.buffs.length; t++)
                                 if (atkModel_.buffs[t].Type == buff.Type && atkModel_.buffs[t].Val == buff.Val) {
-                                    i = !1;
+                                    i = false;
                                     break
                                 }
                             i && (XMgr.buffMgr.addBuff(atkModel_, buff), this.playerWorkEff())
@@ -6356,7 +6359,9 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             clear() {
-                this.data.owner.timer.clear(this, this.onHunterEscape), fx.EventCenter.I.off(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.off(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape);
+                this.data.owner.timer.clear(this, this.onHunterEscape), 
+                fx.EventCenter.I.off(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), 
+                fx.EventCenter.I.off(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape);
                 let e = this.getCurDoorModel();
                 for (const i of e) {
                     if (!i) return;
@@ -6368,46 +6373,60 @@ define("js/bundle.js", function(require, module, exports) {
                     this.map.clear()
                 }
             }
-            onHunterEscape(e) {
+            onHunterEscape(hunterModel_) {
                 if (this.data.palsyTime) return;
-                let i = this.getCurDoorModel();
-                if (0 != i.length)
-                    for (const s of i) {
-                        if (!s) return;
-                        if (e) {
-                            for (const [i, s] of this.map)
-                                if (i == e) {
+            
+                let doors = this.getCurDoorModel();
+            
+                if (0 != doors.length) {
+                    for (const door of doors) {
+                        if (!door) return;
+            
+                        if (hunterModel_) {
+                            for (const [i, s] of this.map) {
+                                if (i == hunterModel_) {
                                     let e = i.owner.getChildByName("skinNode");
-                                    e && (e.filters = []), XMgr.buffMgr.removeBuff(i, s);
-                                    break
-                                }
-                        } else
-                            for (const [e, i] of this.map) {
-                                let a = Math.abs(s.owner.x - e.owner.x),
-                                    n = Math.abs(s.owner.y - e.owner.y);
-                                if (a > 2 * C.GridSize && n > 2 * C.GridSize) break;
-                                if (a > C.GridSize || n > C.GridSize) {
-                                    let s = e.owner.getChildByName("skinNode");
-                                    s && (s.filters = []), XMgr.buffMgr.removeBuff(e, i);
-                                    break
+                                    if (e) e.filters = [];
+                                    XMgr.buffMgr.removeBuff(i, s);
+                                    break;
                                 }
                             }
-                    } else {
-                        for (const [e, t] of this.map) {
-                            let t = e.owner.getChildByName("skinNode");
-                            t && (t.filters = []);
-                            let i = new XAtkSpdBuff(this.slowRatio * this.slowMult);
-                            if (!e.buffs) continue;
-                            let s, a = !0;
-                            for (s = 0; s < e.buffs.length; s++)
-                                if (e.buffs[s].Type == i.Type && e.buffs[s].Val == i.Val) {
-                                    a = !1;
-                                    break
+                        } else {
+                            for (const [e, i] of this.map) {
+                                let a = Math.abs(door.owner.x - e.owner.x);
+                                let n = Math.abs(door.owner.y - e.owner.y);
+            
+                                if (a > 2 * C.GridSize && n > 2 * C.GridSize) break;
+            
+                                if (a > C.GridSize || n > C.GridSize) {
+                                    let s = e.owner.getChildByName("skinNode");
+                                    if (s) s.filters = [];
+                                    XMgr.buffMgr.removeBuff(e, i);
+                                    break;
                                 }
-                            a || e.buffs.splice(s, 1)
+                            }
                         }
-                        this.clear()
                     }
+                } else {
+                    for (const [atkModel, buff] of this.map) {
+                        let t = atkModel.owner.getChildByName("skinNode");
+                        if (t) t.filters = [];
+            
+                        let atkSpdBuff = new XAtkSpdBuff(this.slowRatio * this.slowMult);
+                        if (!atkModel.buffs) continue;
+            
+                        let atkBufIdx, a = true;
+                        for (atkBufIdx = 0; atkBufIdx < atkModel.buffs.length; atkBufIdx++) {
+                            if (atkModel.buffs[atkBufIdx].Type == atkSpdBuff.Type && atkModel.buffs[atkBufIdx].Val == atkSpdBuff.Val) {
+                                a = false;
+                                break;
+                            }
+                        }
+            
+                        if (!a) atkModel.buffs.splice(atkBufIdx, 1);
+                    }
+                    this.clear();
+                }
             }
         }
         class EnemyEscapeBeDizzy extends XBaseEffect {
@@ -6546,7 +6565,7 @@ define("js/bundle.js", function(require, module, exports) {
             createBuff() {
                 let i = this.changeVal,
                     s = XMgr.buildingMgr.getBuildCfg(this.data.id);
-                return XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new qt(i)
+                return XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new XAtkDstBuff(i)
             }
         }
         class XTowerAddAtkSpd extends XTowerBuffEffect {
@@ -7140,7 +7159,7 @@ define("js/bundle.js", function(require, module, exports) {
         class XFighterScript extends XPlayerScript {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, this.atkCnt = 0, this.lv = 1, 
-                this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new Ft(.25), 
+                this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), this.addPowSkillBuff_1 = new XAtkPowBuff(.25), 
                 this.addPowSkillBuff_2 = new XAtkSpdBuff(-.3), this.rageSkillBuff = new XAtkSpdBuff(-.3), this.skillAttackTime = null, 
                 this.dismissDizzyFlag = !0, this.lastAttackRoomId = null, this.lastHealTime = 0, this.healSpeed = .1, 
                 this.isOutHeal = !0, this.isFirstOutHeal = !0
@@ -7400,7 +7419,7 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 super(...arguments), this.type = e.PlayerType.E_Hunter, 
                 this.atkCnt = 0, this.lv = 1, this.skillCd = 20, this.normalAtkBuff = new XDynamicAtkSpdBuff(0), 
-                this.addPowSkillBuff_1 = new Ft(.25), 
+                this.addPowSkillBuff_1 = new XAtkPowBuff(.25), 
                 this.addPowSkillBuff_2 = new XAtkSpdBuff(-.3), 
                 this.rageSkillBuff = new XAtkSpdBuff(-.3), 
                 this.skillAttackTime = null, this.dismissDizzyFlag = !0, 
@@ -20322,17 +20341,17 @@ define("js/bundle.js", function(require, module, exports) {
             addBuff(model_, buff) {
                 model_ && buff && (model_.buffs || (model_.buffs = []), model_.buffs.includes(buff) || model_.buffs.push(buff))
             }
-            removeBuff(e, t) {
-                if (!(e && e.buffs && e.buffs.length && t)) return;
-                let i = e.buffs.findIndex(e => e == t); - 1 != i && e.buffs.splice(i, 1)
+            removeBuff(model, buff) {
+                if (!(model && model.buffs && model.buffs.length && buff)) return;
+                let i = model.buffs.findIndex(e => e == buff); - 1 != i && model.buffs.splice(i, 1)
             }
-            getBuff(e, t) {
-                if (!(e && e.buffs && e.buffs.length && t)) return null;
-                let i = e.buffs.findIndex(e => (console.log(e), console.log(t), e == t));
-                return -1 == i ? null : e.buffs[i]
+            getBuff(model, buff) {
+                if (!(model && model.buffs && model.buffs.length && buff)) return null;
+                let i = model.buffs.findIndex(e => (console.log(e), console.log(buff), e == buff));
+                return -1 == i ? null : model.buffs[i]
             }
-            clearBuffs(e) {
-                e && e.buffs && e.buffs.length && (e.buffs = [])
+            clearBuffs(model) {
+                model && model.buffs && model.buffs.length && (model.buffs = [])
             }
         }
         class TaskMgr {
@@ -21748,7 +21767,7 @@ define("js/bundle.js", function(require, module, exports) {
             result(e) {
                 return e * (1 / (1 - this.Val) - 1)
             }
-        }, e.AtkDstBuff = qt, e.AtkPowBuff = Ft, e.AtkSpdBuff = XAtkSpdBuff, e.AttackAction = XAttackAction, e.AvatarScript = class extends Laya.Script {
+        }, e.AtkDstBuff = XAtkDstBuff, e.AtkPowBuff = XAtkPowBuff, e.AtkSpdBuff = XAtkSpdBuff, e.AttackAction = XAttackAction, e.AvatarScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this._skinAttachmentMap = {}, this._usedAttachment = {}, this._skinTypeMap = {}
             }

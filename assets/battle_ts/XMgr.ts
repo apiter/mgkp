@@ -1,3 +1,4 @@
+import { XBuffMgr } from "./buf/XBuffMgr";
 import { XBatleMgr } from "./map/XBatleMgr";
 import XBuildingMgr from "./map/XBuildingMgr";
 import XBulletMgr from "./map/XBulletMgr";
@@ -15,6 +16,7 @@ class XMgr {
     buildingMgr: XBuildingMgr = null;
     bulletMgr: XBulletMgr = null
     cfg: XCfgMgr = null
+    buffMgr:XBuffMgr = null
     gameTime: Date = new Date
     gameUI:XGameUI = null
     prefabMgr:XPrefabMgr = null
@@ -27,6 +29,7 @@ class XMgr {
         this.mapMgr = new XMapMgr();
         this.bulletMgr = new XBulletMgr()
         this.buildingMgr = new XBuildingMgr();
+        this.buffMgr = new XBuffMgr
     }
 }
 export default new XMgr();
