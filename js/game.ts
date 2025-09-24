@@ -6183,9 +6183,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             exec() {
                 let i = this.addValue,
-                    s = this.data,
-                    a = XMgr.buildingMgr.getBuildCfg(s.id, s.lv);
-                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && 6001 == s.id && a.buffId && a.buffId.includes(15) && XMgr.user.gameInfo.getBuffData(15)) {
+                    buildModelData = this.data,
+                    buildCfg = XMgr.buildingMgr.getBuildCfg(buildModelData.id, buildModelData.lv);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && 6001 == buildModelData.id && buildCfg.buffId && buildCfg.buffId.includes(15) && XMgr.user.gameInfo.getBuffData(15)) {
                     i *= 1 + XMgr.cfg.buffCfg.get(15).values[0] / 100
                 }
                 let n = this.getCurDoorModel();

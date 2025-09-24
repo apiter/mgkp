@@ -4,6 +4,7 @@ import { XEffectType } from "../xconfig/XEnum"
 import { XBaseEffect } from "./XBaseEffect"
 import { XCoinAndEnergyEffect } from "./XCoinAndEnergyEffect"
 import { XCoinEffect } from "./XCoinEffect"
+import { XDoorAlwaysAddHp } from "./XDoorAlwaysAddHp"
 import { XEnergyEffect } from "./XEnergyEffect"
 
 export class XEffectBuilder {
@@ -13,6 +14,7 @@ export class XEffectBuilder {
             [XEffectType.Add_Coin]: XCoinEffect,
             [XEffectType.Add_Energy]: XEnergyEffect,
             [XEffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
+            [XEffectType.Door_AlwaysAddHp]:XDoorAlwaysAddHp
         }
     }
 
