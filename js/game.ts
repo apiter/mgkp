@@ -5997,7 +5997,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this.val = e
             }
         }! function(e) {
-            e[e.ATK_POW = 1] = "ATK_POW", e[e.ATK_SPD = 2] = "ATK_SPD", e[e.ATK_DST = 3] = "ATK_DST", e[e.ATK_SPLIT = 4] = "ATK_SPLIT", e[e.DYC_ATK_SPD = 5] = "DYC_ATK_SPD", e[e.INCOME_DOWN = 6] = "INCOME_DOWN", e[e.ENERGY_RATIO = 7] = "ENERGY_RATIO", e[e.FIGHT_BACK = 8] = "FIGHT_BACK", e[e.SPEED_POW = 9] = "SPEED_POW", e[e.DEF_ROI = 10] = "DEF_ROI", e[e.DOOR_HP_INCREASE = 11] = "DOOR_HP_INCREASE", e[e.SPEED = 12] = "SPEED"
+            e[e.ATK_POW = 1] = "ATK_POW", e[e.ATK_SPD = 2] = "ATK_SPD", e[e.ATK_DST = 3] = "ATK_DST", 
+            e[e.ATK_SPLIT = 4] = "ATK_SPLIT", e[e.DYC_ATK_SPD = 5] = "DYC_ATK_SPD", e[e.INCOME_DOWN = 6] = "INCOME_DOWN", 
+            e[e.ENERGY_RATIO = 7] = "ENERGY_RATIO", e[e.FIGHT_BACK = 8] = "FIGHT_BACK", e[e.SPEED_POW = 9] = "SPEED_POW", 
+            e[e.DEF_ROI = 10] = "DEF_ROI", e[e.DOOR_HP_INCREASE = 11] = "DOOR_HP_INCREASE", e[e.SPEED = 12] = "SPEED"
         }(Ee || (Ee = {}));
         class XEffectBuilder {
             static init() {
@@ -6327,25 +6330,29 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(e, t) {
                 super(e, t), this.map = new Map, this.slowMult = 1, this.slowRatio = e.value[0];
                 let i = this.getCurDoorModel()[0];
-                i && (i.owner.on(be.Battle_Be_Hit, this, this.exec), fx.EventCenter.I.on(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), fx.EventCenter.I.on(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape), this.data.owner.timerLoop(100, this, this.onHunterEscape))
+                i && (i.owner.on(be.Battle_Be_Hit, this, this.exec), 
+                fx.EventCenter.I.on(XEventNames.E_HUNTER_ESCAPE, this, this.onHunterEscape), 
+                fx.EventCenter.I.on(XEventNames.E_HUNTER_LEAVE, this, this.onHunterEscape), 
+                this.data.owner.timerLoop(100, this, this.onHunterEscape))
             }
-            exec(e, i) {
-                let s;
+            exec(atkModel_, i) {
+                let buff;
                 if (this.getCurDoorModel()[0]) {
-                    if (this.map.has(e)) {
-                        this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5), s = new XAtkSpdBuff(this.slowRatio * this.slowMult);
+                    if (this.map.has(atkModel_)) {
+                        this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5)
+                        buff = new XAtkSpdBuff(this.slowRatio * this.slowMult);
                         for (const [i, a] of this.map) {
-                            if (!e.buffs) continue;
+                            if (!atkModel_.buffs) continue;
                             let i = !0;
-                            for (let t = 0; t < e.buffs.length; t++)
-                                if (e.buffs[t].Type == s.Type && e.buffs[t].Val == s.Val) {
+                            for (let t = 0; t < atkModel_.buffs.length; t++)
+                                if (atkModel_.buffs[t].Type == buff.Type && atkModel_.buffs[t].Val == buff.Val) {
                                     i = !1;
                                     break
                                 }
-                            i && (XMgr.buffMgr.addBuff(e, s), this.playerWorkEff())
+                            i && (XMgr.buffMgr.addBuff(atkModel_, buff), this.playerWorkEff())
                         }
                     }
-                    this.map.set(e, s)
+                    this.map.set(atkModel_, buff)
                 }
             }
             clear() {
@@ -20312,8 +20319,8 @@ define("js/bundle.js", function(require, module, exports) {
         }
         wn.patchFileName = "data";
         class BuffMgr {
-            addBuff(e, t) {
-                e && t && (e.buffs || (e.buffs = []), e.buffs.includes(t) || e.buffs.push(t))
+            addBuff(model_, buff) {
+                model_ && buff && (model_.buffs || (model_.buffs = []), model_.buffs.includes(buff) || model_.buffs.push(buff))
             }
             removeBuff(e, t) {
                 if (!(e && e.buffs && e.buffs.length && t)) return;

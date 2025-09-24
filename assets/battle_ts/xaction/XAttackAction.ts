@@ -34,7 +34,7 @@ export class XAttackAction extends XBTAction {
         if(!playerScript.getLastAtkTarget()) {
             playerScript.setLastAtkTarget(curTarget)
             this.atkRageStartTs = timeNowInMs
-            console.log(`[设置狂暴开始]playerScript.getLastAtkTarget${this.atkRageStartTs}`)
+            // console.log(`[设置狂暴开始]playerScript.getLastAtkTarget${this.atkRageStartTs}`)
         }
 
         if(!this.lastTarget || this.lastTarget.owner != curTarget.owner) {
@@ -42,14 +42,14 @@ export class XAttackAction extends XBTAction {
             this.lastTarget = curTarget
             playerScript.setStartAtkTime(timeNowInMs)
             
-            console.log(`[设置狂暴开始]改变攻击目标${this.atkRageStartTs}`)
+            // console.log(`[设置狂暴开始]改变攻击目标${this.atkRageStartTs}`)
         }
         if(timeNowInMs - this.lastAttackTime >= attackCd * 1000) {
 
             if(timeNowInMs - this.atkRageStartTs > 20000) {
                 tick_.blackboard.set(XPropertiesKey.SKILLID, "rage", tick_.tree.id)
                 this.atkRageStartTs = timeNowInMs
-                console.log(`[设置狂暴开始]狂暴${this.atkRageStartTs}`)
+                // console.log(`[设置狂暴开始]狂暴${this.atkRageStartTs}`)
             }
 
             playerScript.attack(curTarget)

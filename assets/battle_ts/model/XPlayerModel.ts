@@ -65,8 +65,8 @@ export default class XPlayerModel extends XBaseModel {
         let attackCd = this.attackCd;
         let sum = attackCd;
         if (this.buffs)
-            for (const i of this.buffs)
-                i.Type != XBuffType.ATK_SPD && i.Type != XBuffType.DYC_ATK_SPD || (sum += i.result(attackCd));
+            for (const buff of this.buffs)
+                buff.Type != XBuffType.ATK_SPD && buff.Type != XBuffType.DYC_ATK_SPD || (sum += buff.result(attackCd));
         return sum = Math.max(.2, sum)
     }
     getAtkPow() {

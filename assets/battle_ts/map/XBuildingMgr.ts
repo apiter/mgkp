@@ -82,7 +82,7 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        const initBuildings = [3000, 3001, 3004, 4000];
+        const initBuildings = [3000, 3001, 3004, 4000, 6001];
         const weights = [
             0.15,
             0.30,
@@ -109,7 +109,7 @@ export default class XBuildingMgr {
                     break
                 }
             }
-            let buildCfg = this.getBuildCfg(6001);XRandomUtil.randomInArray(initBuildings)
+            let buildCfg = this.getBuildCfg(XRandomUtil.randomInArray(initBuildings));
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }

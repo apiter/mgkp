@@ -156,12 +156,12 @@ export class XBatleMgr implements ISchedulable {
 
     /**
      * 
-     * @param baseModel_ the one who attack
+     * @param atkModel_ the one who attack
      * @param target_ the one attacked
      * @param atk_ damage
      * @returns 
      */
-    takeDamage(baseModel_, target_, atk_) {
+    takeDamage(atkModel_, target_, atk_) {
         if (!target_.isDie && !target_.invincible && !target_.invincible_skill && atk_ > 0) {
             target_.reduceRate && (atk_ *= 1 - target_.reduceRate)
             if (target_.type == XBuildType.bed && target_.playerUuid) {
@@ -191,11 +191,11 @@ export class XBatleMgr implements ISchedulable {
 
                 if (target.type == XBuildType.bed && target.playerUuid) {
                     let player = XMgr.playerMgr.getPlayer(target.playerUuid);
-                    this.takeDamage(baseModel_, player, atk_);
+                    this.takeDamage(atkModel_, player, atk_);
                 }
             }
         }
-        const msg = `[${baseModel_.name || baseModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`
+        const msg = `[${atkModel_.name || atkModel_?.ownerScript?.cfg?.name}]对[${target_?.name || target_?.ownerScript?.cfg?.name}]造成${atk_}伤害 剩余血量:${target_.curHp}`
         LogWrapper.log("战斗", msg, {}, [XLogModule.XLogModuleBattle])
     }
 
