@@ -6584,15 +6584,15 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class XDoorGetCoinOnHurt extends XBaseEffect {
-            constructor(e, t, i = !0) {
-                super(e, t), this.addValue = this.cfg.value[0];
-                let s = this.getCurDoorModel()[0];
-                s && s.owner.on(be.Battle_Be_Hit, this, this.exec)
+            constructor(cfg_, buildModel_, i = !0) {
+                super(cfg_, buildModel_), this.addValue = this.cfg.value[0];
+                let door = this.getCurDoorModel()[0];
+                door && door.owner.on(be.Battle_Be_Hit, this, this.exec)
             }
-            exec(i, s) {
+            exec(atk, atkPower) {
                 if (this.data.palsyTime) return;
                 if (!this.getCurDoorModel()[0]) return;
-                let a = Math.floor(this.addValue * 2 * i.lv);
+                let a = Math.floor(this.addValue * 2 * atk.lv);
                 XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.showWorkEff())
             }
             clear() {

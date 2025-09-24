@@ -4,6 +4,7 @@ import { XEffectType } from "../xconfig/XEnum"
 import { XCoinAndEnergyEffect } from "./XCoinAndEnergyEffect"
 import { XCoinEffect } from "./XCoinEffect"
 import { XDoorAlwaysAddHp } from "./XDoorAlwaysAddHp"
+import { XDoorGetCoinOnHurt } from "./XDoorGetCoinOnHurt"
 import { XEnemySlowAtkSpd } from "./XEnemySlowAtkSpd"
 import { XEnergyEffect } from "./XEnergyEffect"
 
@@ -15,7 +16,8 @@ export class XEffectBuilder {
             [XEffectType.Add_Energy]: XEnergyEffect,
             [XEffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
             [XEffectType.Door_AlwaysAddHp]:XDoorAlwaysAddHp,
-            [XEffectType.Enemy_SlowAtkSpd]:XEnemySlowAtkSpd
+            [XEffectType.Enemy_SlowAtkSpd]:XEnemySlowAtkSpd,
+            [XEffectType.Door_GetCoinOnHurt]:XDoorGetCoinOnHurt
         }
     }
 

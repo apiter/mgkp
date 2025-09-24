@@ -110,7 +110,7 @@ export class XEnemySlowAtkSpd extends XBaseEffect {
         let doors = this.getCurDoorModel();
         for (const door of doors) {
             if (!door) return;
-            door.owner.off(XEventNames.Battle_Be_Hit, this, this.exec);
+            door.owner.off(XEventNames.Battle_Be_Hit, this.exec, this);
             for (const [atkModel, buff] of this.map) {
                 XMgr.buffMgr.removeBuff(atkModel, buff)
             }

@@ -7,8 +7,7 @@ import { XBaseEffect } from "./XBaseEffect";
 import { XConst } from "../xconfig/XConst";
 
 export class XCoinEffect extends XBaseEffect {
-    addValue = 0
-
+    
     constructor(cfg_: XCfgEffectData, buildModel_: XBuildingModel) {
         super(cfg_, buildModel_)
         this.addValue = this.cfg.value[0] * XConst.TestCoinMul;

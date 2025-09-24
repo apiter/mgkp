@@ -7,7 +7,6 @@ import XMgr from '../XMgr';
 import { XTokenType } from '../xconfig/XEnum';
 
 export class XEnergyEffect extends XBaseEffect {
-    addValue = 0
 
     constructor(cfg_: XCfgEffectData, buildModel_: XBuildingModel) {
         super(cfg_, buildModel_)
@@ -17,6 +16,7 @@ export class XEnergyEffect extends XBaseEffect {
         Scheduler.enableForTarget(this)
         director.getScheduler().schedule(this.exec, this, duration)
     }
+    
     exec() {
         if (!this._data.playerUuid)
             return

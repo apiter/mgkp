@@ -8,7 +8,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('XDoorAlwaysAddHp')
 export class XDoorAlwaysAddHp extends XBaseEffect {
-     addValue = 0
  
      constructor(cfg_: XCfgEffectData, buildModel_: XBuildingModel) {
          super(cfg_, buildModel_)

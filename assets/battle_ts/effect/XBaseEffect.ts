@@ -12,18 +12,20 @@ export class XBaseEffect implements ISchedulable {
     _node: Node
     _ownerScript: XBuildingScript
     clearFlag = true
+    addValue = 0
     
     constructor(cfg_: XCfgEffectData, data_: XBuildingModel) {
         cfg_ && (this.type = cfg_.type, this.cfg = cfg_)
         this._data = data_
         this._ownerScript = data_?.ownerScript
         this._node = data_?.owner
+        this.addValue = this.cfg.value[0]
     }
 
     clear() { }
 
     getCurDoorModel() {
-        let doors = []
+        let doors:XBuildingModel[] = []
         let room = XMgr.buildingMgr.getRoom(this._data.roomId);
         if (room) {
             for (const build of room.buildings)
