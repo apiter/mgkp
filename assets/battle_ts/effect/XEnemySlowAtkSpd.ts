@@ -30,24 +30,24 @@ export class XEnemySlowAtkSpd extends XBaseEffect {
         director.getScheduler().schedule(this.onHunterEscapeNoParam, this, 0.1)
     }
 
-    exec(buildModel_, i) {
-        let buff;
+    exec(playerModel_:XPlayerModel, i) {
+        let buff:XBufBase;
         if (this.getCurDoorModel()[0]) {
-            if (this.map.has(buildModel_)) {
+            if (this.map.has(playerModel_)) {
                 // this._data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(5) && (this.slowMult = 1.5)
                 buff = new XAtkSpdBuff(this.slowRatio * this.slowMult);
                 for (const [i, a] of this.map) {
-                    if (!buildModel_.buffs) continue;
+                    if (!playerModel_.buffs) continue;
                     let needAnd = true;
-                    for (let t = 0; t < buildModel_.buffs.length; t++)
-                        if (buildModel_.buffs[t].Type == buff.Type && buildModel_.buffs[t].Val == buff.Val) {
+                    for (let t = 0; t < playerModel_.buffs.length; t++)
+                        if (playerModel_.buffs[t].type == buff.type && playerModel_.buffs[t]._val == buff._val) {
                             needAnd = false;
                             break
                         }
-                    needAnd && (XMgr.buffMgr.addBuff(buildModel_, buff), this.playerWorkEff())
+                    needAnd && (XMgr.buffMgr.addBuff(playerModel_, buff), this.playerWorkEff())
                 }
             }
-            this.map.set(buildModel_, buff)
+            this.map.set(playerModel_, buff)
         }
     }
 

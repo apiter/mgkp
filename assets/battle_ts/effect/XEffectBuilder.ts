@@ -7,6 +7,7 @@ import { XDoorAlwaysAddHp } from "./XDoorAlwaysAddHp"
 import { XDoorGetCoinOnHurt } from "./XDoorGetCoinOnHurt"
 import { XEnemySlowAtkSpd } from "./XEnemySlowAtkSpd"
 import { XEnergyEffect } from "./XEnergyEffect"
+import { XTowerAddAtkDst } from "./XTowerAddAtkDst"
 
 export class XEffectBuilder {
     static effectMap: { [key: string]: any } = null
@@ -17,7 +18,8 @@ export class XEffectBuilder {
             [XEffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
             [XEffectType.Door_AlwaysAddHp]:XDoorAlwaysAddHp,
             [XEffectType.Enemy_SlowAtkSpd]:XEnemySlowAtkSpd,
-            [XEffectType.Door_GetCoinOnHurt]:XDoorGetCoinOnHurt
+            [XEffectType.Door_GetCoinOnHurt]:XDoorGetCoinOnHurt,
+            [XEffectType.Tower_AddAtkDst]:XTowerAddAtkDst
         }
     }
 

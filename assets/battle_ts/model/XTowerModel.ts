@@ -12,14 +12,14 @@ export default class XTowerModel extends XBuildingModel {
         let bastAtkk = this.atk
         let resultAtk = bastAtkk;
         for (const buff of this.buffs)
-            buff.Type == XBuffType.ATK_POW && (resultAtk += buff.result(bastAtkk));
+            buff.type == XBuffType.ATK_POW && (resultAtk += buff.result(bastAtkk));
         return resultAtk
     }
     getAtkCD() {
         let atkCD = this.atkCD
         let resultCD = atkCD;
         for (const buff of this.buffs)
-            buff.Type != XBuffType.ATK_SPD && buff.Type != XBuffType.DYC_ATK_SPD || (resultCD += buff.result(atkCD));
+            buff.type != XBuffType.ATK_SPD && buff.type != XBuffType.DYC_ATK_SPD || (resultCD += buff.result(atkCD));
         if (3e3 == this.id && this.playerUuid == XMgr.playerMgr.mineUuid) {
         }
         return resultCD = Math.max(.2, resultCD)
@@ -28,7 +28,7 @@ export default class XTowerModel extends XBuildingModel {
         let atkDst = this.atkDst,
             resultDst = atkDst;
         for (const buff of this.buffs)
-            buff.Type == XBuffType.ATK_DST && (resultDst += buff.result(atkDst));
+            buff.type == XBuffType.ATK_DST && (resultDst += buff.result(atkDst));
         return resultDst
     }
 }

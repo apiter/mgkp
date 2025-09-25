@@ -6530,10 +6530,13 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class XTowerBuffEffect extends XBaseEffect {
-            constructor(i, s) {
-                super(i, s), this.map = new Map, this.changeVal = this.cfg.value[0];
-                let a = XMgr.buildingMgr.getRoom(this.data.roomId);
-                for (const t of a.buildings) t.type == e.BuildType.tower && this.addBuff(t);
+            constructor(effectCfg_, buildModel_) {
+                super(effectCfg_, buildModel_)
+                this.map = new Map, 
+                this.changeVal = this.cfg.value[0];
+                let room = XMgr.buildingMgr.getRoom(this.data.roomId);
+                for (const building of room.buildings) 
+                    building.type == e.BuildType.tower && this.addBuff(building);
                 fx.EventCenter.I.on(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
                 fx.EventCenter.I.on(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove)
             }
@@ -6548,24 +6551,26 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = this.map.get(e);
                 XMgr.buffMgr.removeBuff(e, i), this.map.delete(e)
             }
-            onBuildingBuild(t) {
-                t.roomId == this.data.roomId && t.type == e.BuildType.tower && this.addBuff(t)
+            onBuildingBuild(buildModel_) {
+                buildModel_.roomId == this.data.roomId && buildModel_.type == e.BuildType.tower && this.addBuff(buildModel_)
             }
-            onBuildingRemove(t) {
-                t.roomId == this.data.roomId && t.type == e.BuildType.tower && this.removeBuff(t)
+            onBuildingRemove(buildModel_) {
+                buildModel_.roomId == this.data.roomId && buildModel_.type == e.BuildType.tower && this.removeBuff(buildModel_)
             }
             clear() {
                 fx.EventCenter.I.off(XEventNames.E_BUILDING_BUILD, this, this.onBuildingBuild), 
                 fx.EventCenter.I.off(XEventNames.E_BUILDING_REMOVED, this, this.onBuildingRemove);
-                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
-                for (const t of i.buildings) t.type == e.BuildType.tower && this.removeBuff(t)
+                let room = XMgr.buildingMgr.getRoom(this.data.roomId);
+                for (const building of room.buildings) 
+                    building.type == e.BuildType.tower && this.removeBuff(building)
             }
         }
         class XTowerAddAtkDst extends XTowerBuffEffect {
             createBuff() {
-                let i = this.changeVal,
-                    s = XMgr.buildingMgr.getBuildCfg(this.data.id);
-                return XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId && this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(s.buffId[0]) && (i *= 2), new XAtkDstBuff(i)
+                let addValue = this.changeVal
+                let buildCfg = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                XMgr.gameMgr.gameMode == e.GameMode.E_Defense && buildCfg.buffId && this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(buildCfg.buffId[0]) && (addValue *= 2)
+                return new XAtkDstBuff(addValue)
             }
         }
         class XTowerAddAtkSpd extends XTowerBuffEffect {
