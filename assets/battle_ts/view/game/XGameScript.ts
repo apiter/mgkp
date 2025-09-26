@@ -23,6 +23,7 @@ import { XRoomModel } from '../../model/XRoomModel';
 import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import { XTowerDoubleScript } from '../building/XTowerDoubleScript';
 import { XSpringTowerScript } from '../building/XSpringTowerScript';
+import { XMagicBoxScript } from '../building/XMagicBoxScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('XGameScript')
@@ -200,7 +201,7 @@ export class XGameScript extends Component {
             } else if (buildCfg.type == XBuildType.springBox) {
             } else if (buildCfg.type == XBuildType.knife) {
             } else if (buildCfg.type == XBuildType.random) {
-                // r = n.addComponent(Wi);
+                buildScript = buildNode.addComponent(XMagicBoxScript)
             } else if (buildCfg.type == XBuildType.mine) {
                 if ([5002, 5103, 5104, 5105, 5106].indexOf(buildCfg.buildId) >= 0) {
                     buildScript = buildNode.addComponent(XCatBedScript);
@@ -217,8 +218,8 @@ export class XGameScript extends Component {
                 buildScript = buildNode.addComponent(XBuildingScript);
             }
         }
-        if(buildScript == null) {
-            LogWrapper.log(`建造`,`${JSON.stringify(buildCfg)}失败`, {}, [XLogModule.XLogMuduleTemp])
+        if (buildScript == null) {
+            LogWrapper.log(`建造`, `${JSON.stringify(buildCfg)}失败`, {}, [XLogModule.XLogMuduleTemp])
             return
         }
         this.buildingGrids[build_.x] || (this.buildingGrids[build_.x] = [])
@@ -254,7 +255,7 @@ export class XGameScript extends Component {
         // this.lookAt(this.map.lookPos.x, this.map.lookPos.y)
         this.map.move(deltaX, deltaY)
     }
-    onClickMap(touch:EventTouch) {
+    onClickMap(touch: EventTouch) {
 
     }
 
@@ -358,7 +359,7 @@ export class XGameScript extends Component {
         let room = XMgr.buildingMgr.getRoom(roomId_);
         if (room) {
             for (const grid of room.grids) {
-                if(XMgr.buildingMgr.getBuilding(grid.x, grid.y) != null)
+                if (XMgr.buildingMgr.getBuilding(grid.x, grid.y) != null)
                     continue
                 this.map.hideBuildTips(grid.x, grid.y)
                 this.map.showBuildTips(grid.x, grid.y)

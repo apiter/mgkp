@@ -185,3 +185,10 @@ export interface XCfgDoorData {
     hp:number,
     buffId:number[]
 }
+
+export interface XCfgMagicBoxData {
+    id:number
+    name:string
+    sid:string
+    weight:number
+}

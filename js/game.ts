@@ -9810,17 +9810,22 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XMagicBoxScript extends XBuildingScript {
             onInit() {
-                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
-                    if (this.data.playerUuid == XMgr.playerMgr.mineUuid) XAnalyticsUtil.useLevelItem("摇签盒"), XMgr.gameMgr.randomCnt += 1;
-                    else {
-                        let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
-                        e && (e.randomCnt += 1)
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense) {
+                    if (this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                        XAnalyticsUtil.useLevelItem("摇签盒");
+                        XMgr.gameMgr.randomCnt += 1;
                     } else {
-                    let e = XMgr.playerMgr.getPlayer(this.data.playerUuid);
-                    e && (e.randomCnt += 1)
+                        let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                        if (player) player.randomCnt += 1;
+                    }
+                } else {
+                    let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                    if (player) player.randomCnt += 1;
                 }
-                this.data.owner.timerOnce(1e3, this, this.randomBuild)
+            
+                this.data.owner.timerOnce(1e3, this, this.randomBuild);
             }
+            
             randomBuild() {
                 if (4 == XMgr.gameMgr.randomCnt) {
                     this.specialTower();

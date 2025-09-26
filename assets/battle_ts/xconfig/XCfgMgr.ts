@@ -1,6 +1,6 @@
 import { assetManager, JsonAsset, log } from "cc"
 import { XRandomUtil } from "../xutil/XRandomUtil"
-import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapData, XDifficultCfgItem, XCfgHunterData, XCfgSpecialTowerData, XCfgSuperBuildingData, XConstant } from "./XCfgData"
+import { XCfgHunterEquipData, XCfgMapCfgItem, XCfgShopData, XCfgSkinData, XDifficultCfgItem as XCfgDifficultyItem, XCfgBuffItem, XCfgMapData, XDifficultCfgItem, XCfgHunterData, XCfgSpecialTowerData, XCfgSuperBuildingData, XConstant, XCfgMagicBoxData } from "./XCfgData"
 import { XSkinType } from "./XEnum"
 import XUtil from "../xutil/XUtil"
 
@@ -30,7 +30,7 @@ export default class XCfgMgr {
     sevenGhostCfg: BaseDataModel
     clubReward: BaseDataModel
     inviteCfg: BaseDataModel
-    magicBoxCfg: BaseDataModel
+    magicBoxCfg: Map<string, XCfgMagicBoxData>
     shopCfg: XCfgShopData[] = []
     hunterSkillCfg: BaseDataModel
     playerIdArr: number[] = []
@@ -72,10 +72,12 @@ export default class XCfgMgr {
                     this.hunterDifficultCfg = XUtil.objectToMap<string, XDifficultCfgItem>(this.allCfgMap.get("hunterDifficultCfg")) 
                     this.skin = XUtil.objectToMap<string, XCfgSkinData>(this.allCfgMap.get("skinCfg"))
                     this.buffCfg = XUtil.objectToMap<string, XCfgBuffItem>(this.allCfgMap.get("buffCfg_test"))
+                    this.magicBoxCfg = XUtil.objectToMap<string, XCfgMagicBoxData>(this.allCfgMap.get("magicBoxCfg"))
                     this.hunterCfg = this.allCfgMap.get("hunterCfg") as XCfgHunterData
                     this.specialTowerCfg = XUtil.objectToMap<string, XCfgSpecialTowerData>(this.allCfgMap.get("specialTowerCfg_test"))
                     this.superBuildCfg = XUtil.objectToMap<string, XCfgSuperBuildingData>(this.allCfgMap.get("superBuildCfg_test"))
                     this.constant = this.allCfgMap.get("constant") as XConstant
+
 
                     this.skin.forEach((v, k) => {
                         if (v.type == XSkinType.Human) {
