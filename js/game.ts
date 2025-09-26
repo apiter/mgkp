@@ -5945,7 +5945,7 @@ define("js/bundle.js", function(require, module, exports) {
         class Ut extends fx.BaseData {}
         class Gt extends fx.BaseData {}
         class InviteCfg extends fx.BaseData {}
-        class Ht extends fx.BaseData {}
+        class XMagicBoxCfg extends fx.BaseData {}
         class XBaseBuff {
             constructor(e) {
                 this.val = 0, this.val = e
@@ -9831,41 +9831,42 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = "";
                 if (1 == XMgr.gameMgr.randomCnt && XMgr.taskMgr.getInit()) e = "5000_2";
                 else {
-                    let i = XMgr.cfg.magicBoxCfg.getList(),
-                        s = [];
-                    for (let e = 0; e < i.length; e++) {
-                        let a = i[e].sid.split("_"),
-                            n = Number(a[0]),
-                            r = Number(a[1]),
-                            o = XMgr.buildingMgr.getBuildCfg(n, r),
-                            l = !1;
-                        if (o) {
-                            if (o.maxCnt) {
-                                let e = XMgr.playerMgr.player,
+                    let magicList = XMgr.cfg.magicBoxCfg.getList(),
+                        ret = [];
+                    for (let idx = 0; idx < magicList.length; idx++) {
+                        let sidSplited = magicList[idx].sid.split("_"),
+                            buildId = Number(sidSplited[0]),
+                            buildLv = Number(sidSplited[1]),
+                            buildCfg = XMgr.buildingMgr.getBuildCfg(buildId, buildLv),
+                            canPush = false;
+                        if (buildCfg) {
+                            if (buildCfg.maxCnt) {
+                                let player = XMgr.playerMgr.player,
                                     i = 0;
-                                for (const t of e.buildings)
-                                    if (t.id == o.buildId && ++i == o.maxCnt) {
-                                        l = !0;
+                                for (const t of player.buildings)
+                                    if (t.id == buildCfg.buildId && ++i == buildCfg.maxCnt) {
+                                        canPush = true;
                                         break
                                     }
                             }
-                        } else l = !0;
-                        l || s.push({
-                            o: i[e].sid,
-                            weight: i[e].weight
+                        } else canPush = true;
+                        canPush || ret.push({
+                            o: magicList[idx].sid,
+                            weight: magicList[idx].weight
                         })
                     }
                     for (;
-                        "" == e;) e = fx.Utils.takeOneByWeight(s)[1].o
+                        "" == e;) e = fx.Utils.takeOneByWeight(ret)[1].o
                 }
                 let i = e.split("_"),
-                    s = Number(i[0]),
-                    a = Number(i[1]),
-                    n = XMgr.buildingMgr.getBuildCfg(s, a);
-                s = (n = this.checkVariant(n)).buildId;
+                    buildId = Number(i[0]),
+                    buildLv = Number(i[1]),
+                    buildCfg = XMgr.buildingMgr.getBuildCfg(buildId, buildLv);
+                buildId = (buildCfg = this.checkVariant(buildCfg)).buildId;
                 let r = this.data.x,
                     o = this.data.y;
-                XMgr.buildingMgr.destroyBuilding(XMgr.playerMgr.mineUuid, r, o, !1), XMgr.buildingMgr.buildFree(this.data.playerUuid, s, r, o, 0, a)
+                XMgr.buildingMgr.destroyBuilding(XMgr.playerMgr.mineUuid, r, o, !1)
+                XMgr.buildingMgr.buildFree(this.data.playerUuid, buildId, r, o, 0, buildLv)
             }
             checkVariant(e) {
                 if (e.variantList && XRandomUtil.getNumberRandom(0, 10) < 3) {
@@ -15894,7 +15895,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.sevenGhostCfg = new fx.BaseDataModel("sevenGhostCfg", Ut), 
                 this.clubReward = new fx.BaseDataModel("clubReward", Gt), 
                 this.inviteCfg = new fx.BaseDataModel("inviteCfg", InviteCfg), 
-                this.magicBoxCfg = new fx.BaseDataModel("magicBoxCfg", Ht), 
+                this.magicBoxCfg = new fx.BaseDataModel("magicBoxCfg", XMagicBoxCfg), 
                 this.shopCfg = new fx.BaseDataModel("shopCfg_test", Tt), 
                 this.hunterSkillCfg = new fx.BaseDataModel("hunterSkillCfg_test", Pt), 
                 this.buffCfg = new fx.BaseDataModel("buffCfg_test", At), 
@@ -18050,37 +18051,91 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 t.players.splice(i, 1), e.isBed = !1, e.bedModel = null, fx.EventCenter.I.event(XEventNames.E_Bed_Down, [e.uuid, t.id])
             }
-            build(i, s, a, n, r = 0, o = 1, l = !0, h = !0, d, u = !1) {
-                let g = this.getBuilding(a, n);
+            build(playerID, buildId_, gridX_, gridY_, buildRot_ = 0, lv_ = 1, check = !0, canHandle_ = !0, maxHp, isInit_ = !1) {
+                // ① 检查是否已有建筑
+                let g = this.getBuilding(gridX_, gridY_);
                 if (g && !g.isDie) return e.BuildResult.E_FAILD;
-                let c = this.getBuildCfg(s, o);
-                if (!c) return;
-                let p = XMgr.mapMgr.getRoomIdByGrid(a, n),
-                    f = c.coin,
-                    m = c.energy,
-                    y = XMgr.playerMgr.getPlayer(i);
-                if (6666 == c.buildId)
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt || 1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
-                        if (XMgr.playerMgr.mineUuid == i) {
-                            let e = Math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
-                            f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
-                        } else {
-                            let e = Math.clamp(y.randomCnt, 0, 3);
-                            f = this.magicConsumeArr[e][0], m = this.magicConsumeArr[e][1]
-                        } else f = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0], m = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
-                else XMgr.gameMgr.gameMode == e.GameMode.E_Defense && c.buffId && c.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (f = Math.round(.9 * c.coin), m = Math.round(.9 * c.energy));
-                if (p && y && l) {
-                    let a = this.getRoom(p),
-                        n = this.getBuildCntInRoom(a, s);
-                    if (c.maxCnt && n >= c.maxCnt) return e.BuildResult.E_MAX_CNT;
-                    if (!this.isInfiniteIncome && f && f > y.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
-                    if (!this.isInfiniteIncome && m && m > y.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
-                    if (c.preBuilding && !this.isHaveBuilding(p, c.preBuilding.buildId, c.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(i, f, m) : XMgr.playerMgr.changePlayerIncomeByUuid(i, -f, -m)
+            
+                // ② 获取建造配置
+                let buildCfg = this.getBuildCfg(buildId_, lv_);
+                if (!buildCfg) return;
+            
+                // ③ 基础建造消耗
+                let roomId = XMgr.mapMgr.getRoomIdByGrid(gridX_, gridY_);
+                let coinNeed = buildCfg.coin;
+                let enengyNeed = buildCfg.energy;
+                let player = XMgr.playerMgr.getPlayer(playerID);
+            
+                // ④ 特殊建筑 ID=6666 的处理
+                if (6666 == buildCfg.buildId) {
+                    if (
+                        XMgr.gameMgr.gameMode == e.GameMode.E_Hunt ||
+                        (1 == XMgr.gameMgr.difficultABTest && XMgr.gameMgr.gameMode == e.GameMode.E_Defense)
+                    ) {
+                        let e = Math.clamp(player.randomCnt, 0, 3);
+                        if (XMgr.playerMgr.mineUuid == playerID) {
+                            e = Math.clamp(XMgr.gameMgr.randomCnt, 0, 3);
+                        } 
+                        coinNeed = this.magicConsumeArr[e][0];
+                        enengyNeed = this.magicConsumeArr[e][1];
+                    } else {
+                        coinNeed = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0];
+                        enengyNeed = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
+                    }
+                } else if (
+                    XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                    buildCfg.buffId &&
+                    buildCfg.buffId.includes(1) &&
+                    XMgr.user.gameInfo.getBuffData(1)
+                ) {
+                    // ⑤ 防御模式 + buffId=1 的折扣
+                    coinNeed = Math.round(.9 * buildCfg.coin);
+                    enengyNeed = Math.round(.9 * buildCfg.energy);
                 }
-                let C = this.createBuildingModelByCfg(i, s, p, o, a, n, r, c);
-                return d && (C.curHp = C.maxHp = d), C.isInit = u, C.canHandle = h, this.addBuilding(C, y), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [C, !1]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(C, 111), e.BuildResult.E_OK
+            
+                // ⑥ 检查建造条件
+                if (roomId && player && check) {
+                    let a = this.getRoom(roomId);
+                    let n = this.getBuildCntInRoom(a, buildId_);
+            
+                    if (buildCfg.maxCnt && n >= buildCfg.maxCnt) return e.BuildResult.E_MAX_CNT;
+                    if (!this.isInfiniteIncome && coinNeed && coinNeed > player.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
+                    if (!this.isInfiniteIncome && enengyNeed && enengyNeed > player.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
+                    if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
+                        return e.BuildResult.E_NOT_HAVE_PREBUILD;
+            
+                    // 扣除资源
+                    if (this.isInfiniteIncome) {
+                        XMgr.playerMgr.changePlayerIncomeByUuid(playerID, coinNeed, enengyNeed);
+                    } else {
+                        XMgr.playerMgr.changePlayerIncomeByUuid(playerID, -coinNeed, -enengyNeed);
+                    }
+                }
+            
+                // ⑦ 创建建筑实例
+                let C = this.createBuildingModelByCfg(playerID, buildId_, roomId, lv_, gridX_, gridY_, buildRot_, buildCfg);
+                if (maxHp) {
+                    C.curHp = C.maxHp = maxHp;
+                }
+                C.isInit = isInit_;
+                C.canHandle = canHandle_;
+            
+                // ⑧ 添加到地图和玩家
+                this.addBuilding(C, player);
+                if (XMgr.playerMgr.player.type != e.PlayerType.E_Defender) {
+                    XMgr.mapMgr.setDynWalkable(gridX_, gridY_, !1);
+                }
+            
+                // ⑨ 事件 & 任务 & 音效
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [C, !1]);
+                if (!XMgr.taskMgr.compeletAllTask()) {
+                    XMgr.taskMgr.startTask();
+                }
+                XMgr.gameMgr.playSound(C, 111);
+            
+                return e.BuildResult.E_OK;
             }
+            
             buildFree(i, s, a, n, r = 0, o = 1, l = !0, h) {
                 let d = this.getBuilding(a, n);
                 if (d && !d.isDie) return e.BuildResult.E_FAILD;
@@ -22346,7 +22401,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = LanguageMgr.instance.getLabel(this._key, this._params);
                 this.text = e
             }
-        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = Ht, e.MagicBoxScript = XMagicBoxScript, e.MainScene = XMainScene, e.MapBuildingScript = XMapBuildingScript, e.MapCfg = XMapCfg, 
+        }, e.LocalizedLabelScript = Jn, e.MagicBoxCfg = XMagicBoxCfg, e.MagicBoxScript = XMagicBoxScript, e.MainScene = XMainScene, e.MapBuildingScript = XMapBuildingScript, e.MapCfg = XMapCfg, 
         e.MapEquipScript = nn, e.MapManager = XMapMgr, 
         e.MapScript = XMapScript, e.Markup = tr, e.MarkupList = class extends tr {
             constructor(e) {
