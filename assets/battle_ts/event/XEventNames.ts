@@ -25,6 +25,8 @@ export enum XEventNames {
     E_HUNTER_ESCAPE = "E_HUNTER_ESCAPE",
     E_HUNTER_LEAVE = "E_HUNTER_LEAVE",
 
+    E_SHOW_BUILD_MENU = "E_SHOW_BUILD_MENU",
+
 
     Hp_Changed = "Hp_Changed",
     Battle_Be_Hit = "Battle_Be_Hit",

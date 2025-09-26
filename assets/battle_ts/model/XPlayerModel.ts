@@ -40,7 +40,7 @@ export default class XPlayerModel extends XBaseModel {
     skinId = 0
     spwanPoint = 0
     bedModel: XBuildingModel
-    takeMapBuild = false
+    takeMapBuild 
 
     dizzyDurSec = 0
     dizzyStartTime = 0

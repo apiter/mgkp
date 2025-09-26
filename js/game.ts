@@ -19607,8 +19607,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateBtn = fx.Utils.createPrefab(T.Prefab_OperateBtn),
                 this.operateImg = this.operateBtn.getChildByName("imgBtn"), 
                 this.gameNode.addChild(this.operateBtn), this.operateBtn.visible = !1;
-                let i = fx.Utils.createPrefab(T.Prefab_BuildMenu);
-                this.gameNode.parent.addChild(i), this.buildMenu = i.getComponent(XBuildMenuScript), i.visible = !1;
+                let buildMenuNode = fx.Utils.createPrefab(T.Prefab_BuildMenu);
+                this.gameNode.parent.addChild(buildMenuNode), this.buildMenu = buildMenuNode.getComponent(XBuildMenuScript), buildMenuNode.visible = !1;
                 let s = fx.Utils.createPrefab(T.Prefab_UpgradeMenu);
                 this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(XUpgradeMenuScript), s.visible = !1;
                 let a = fx.Utils.createPrefab(T.Prefab_BorrowMoney);

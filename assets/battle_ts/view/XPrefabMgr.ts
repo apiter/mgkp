@@ -12,6 +12,9 @@ export class XPrefabMgr extends Component {
     @property(Prefab)
     pf_upgradetip_01 = null
 
+    @property(Prefab)
+    pf_build_menu:Prefab = null
+
     protected onLoad(): void {
         XMgr.prefabMgr = this
     }

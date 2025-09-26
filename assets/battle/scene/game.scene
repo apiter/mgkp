@@ -4604,6 +4604,10 @@
       "__uuid__": "4613cca9-6b37-494e-8411-2068a5c8584f",
       "__expectedType__": "cc.Prefab"
     },
+    "pf_build_menu": {
+      "__uuid__": "e752e064-bd7a-4530-932b-9ec69764d037",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "2cSv9aBVtPzZVyb0XG0eei"
   },
   {

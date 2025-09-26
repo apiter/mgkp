@@ -82,7 +82,7 @@ export default class XBuildingMgr {
     }
 
     initRandomBuild() {
-        const initBuildings = [3000, 3001, 3004, 4000, 6001];
+        const initBuildings = [3000, 3001, 3004, 4000, 5001, 6001, 6005, 6012, 6014, 6019];
         const weights = [
             0.15,
             0.30,
@@ -109,7 +109,7 @@ export default class XBuildingMgr {
                     break
                 }
             }
-            let buildCfg = this.getBuildCfg(6019);XRandomUtil.randomInArray(initBuildings)
+            let buildCfg = this.getBuildCfg(XRandomUtil.randomInArray(initBuildings));
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }
@@ -281,14 +281,14 @@ export default class XBuildingMgr {
         }
     }
 
-    takeMapBuild(x_, y_, data_) {
+    takeMapBuild(x_, y_, playerModel_:XPlayerModel) {
         let build = this.getMapBuild(x_, y_);
         if (!build || build.isUsed) return false;
         build.isUsed = true
         if (build.node && build.node.isValid) {
             this.mapBuildScripts[x_][y_] = null
-            data_.takeMapBuild = build
-            EventCenter.emit(XEventNames.E_MapBuild_take, build, data_.uuid)
+            playerModel_.takeMapBuild = build
+            EventCenter.emit(XEventNames.E_MapBuild_take, build, playerModel_.uuid)
             return true
         }
     }

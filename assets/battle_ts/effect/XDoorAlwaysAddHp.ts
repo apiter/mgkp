@@ -29,6 +29,10 @@ export class XDoorAlwaysAddHp extends XBaseEffect {
             XMgr.gameMgr.addHp(door, this.addValue)
         }
      }
+
+     clear(): void {
+        director.getScheduler().unschedule(this.exec, this)
+     }
 }
 
 

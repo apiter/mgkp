@@ -3,6 +3,7 @@ import XMgr from '../../XMgr';
 import { XBuildType, XGameMode, XGameStatus, XTokenType } from '../../xconfig/XEnum';
 import LogWrapper from '../../log/LogWrapper';
 import XBuildingModel from '../../model/XBuildingModel';
+import { XBuildMenuScript } from './XBuildMenuScript';
 const { ccclass, property } = _decorator;
 
 interface OperateBtnInfo {
@@ -119,7 +120,9 @@ export class XGameUI extends Component {
         const room = XMgr.mapMgr.getRoomByGridPos(gridX_, gridY_)
         if (!room)
             return
-        XMgr.buildingMgr.build(XMgr.playerMgr.mineUuid, 3000, gridX_, gridY_, 0, 1)
+        // XMgr.buildingMgr.build(XMgr.playerMgr.mineUuid, 3000, gridX_, gridY_, 0, 1)
+
+        XBuildMenuScript.show({ gridX: gridX_, gridY: gridY_, level: 1, angle: 0 })
     }
 
     hideAllMenu() {
