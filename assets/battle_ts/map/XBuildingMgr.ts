@@ -109,7 +109,7 @@ export default class XBuildingMgr {
                     break
                 }
             }
-            let buildCfg = this.getBuildCfg(XRandomUtil.randomInArray(initBuildings));
+            let buildCfg = this.getBuildCfg(6004);XRandomUtil.randomInArray(initBuildings)
             this.build(null, buildCfg.buildId, grid.x, grid.y, 0, 1, false, true, null, true)
         }
     }

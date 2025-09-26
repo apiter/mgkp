@@ -7,6 +7,7 @@ import { XConst } from '../../xconfig/XConst';
 import XPlayerModel from '../../model/XPlayerModel';
 import { XBulletScript } from './XBulletScript';
 import { XV2Util01 } from '../../xutil/XV2Util01';
+import { XEventNames } from '../../event/XEventNames';
 const { ccclass, property } = _decorator;
 
 @ccclass('XTowerBaseScript')
@@ -169,6 +170,15 @@ export class XTowerBaseScript extends XBuildingScript {
 
             })
             .start()
+
+        this.fireEvent()
+    }
+
+    fireEvent() {
+        let bed = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+        if (bed && !bed.isDie) {
+            bed.owner.emit(XEventNames.Tower_Be_fire, this.data.lv);
+        }
     }
 }
 

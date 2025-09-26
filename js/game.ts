@@ -6273,14 +6273,16 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XTowerGetCoinOnAtk extends XBaseEffect {
             constructor(i, s) {
-                super(i, s), this.curCnt = 0, this.buffMult = 1, this.bonusRate = i.value[0], this.node.timerLoop(1e3, this, this.exec);
+                super(i, s), this.curCnt = 0, 
+                this.buffMult = 1, this.bonusRate = i.value[0], 
+                this.node.timerLoop(1e3, this, this.exec);
                 let a = XMgr.buildingMgr.getBuildCfg(this.data.id);
                 if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(14) && XMgr.user.gameInfo.getBuffData(14)) {
                     let e = XMgr.cfg.buffCfg.get(14);
                     this.buffMult = 1 + e.values[0] / 100
                 }
-                let n = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
-                n && n.owner.on(be.Tower_Be_fire, this, this.addCoin)
+                let bed = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
+                bed && bed.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
             addCoin(e) {
                 if (this.data.palsyTime) return;
@@ -6292,9 +6294,19 @@ define("js/bundle.js", function(require, module, exports) {
             exec() {
                 if (this.data.palsyTime) return;
                 if (!this.curCnt) return;
+            
                 let i = this.bonusRate * this.data.coinRatio * this.curCnt;
-                this.curCnt = 0, i && XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y), this.showWorkEff())
+                this.curCnt = 0;
+            
+                if (i) {
+                    let changed = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i);
+                    if (changed) {
+                        XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y);
+                        this.showWorkEff();
+                    }
+                }
             }
+            
             clear() {
                 this.node.clearTimer(this, this.exec);
                 let e = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
@@ -8721,19 +8733,60 @@ define("js/bundle.js", function(require, module, exports) {
             fire(i) {
                 let s = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!s) return;
-                s.rotation = this.node.rotation, s.x = this.node.x, s.y = this.node.y;
+            
+                // 初始化子弹位置和朝向
+                s.rotation = this.node.rotation;
+                s.x = this.node.x;
+                s.y = this.node.y;
+            
                 let a = s.getComponent(XBulletScript);
                 a && a.destroy();
-                let n = this.cfg.bulletType,
-                    r = {
-                        category: e.CollideGroupType.BULLET,
-                        mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
-                    },
-                    o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i;
-                let l, h = this.cfg.atkDamage * this.getDamageMult();
-                this.atkCnt++, this.atkCnt >= 15 && (this.atkCnt -= 15, l = new Laya.Handler(this, this.freezeTarget)), n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, h, o, null, this.data, null, void 0, r, l) : a.shoot(this.cfg.bullet, h, o, i, this.data, null, void 0, r, l), this.playFireEff(), this.fireEvent()
+            
+                let n = this.cfg.bulletType;
+                let r = {
+                    category: e.CollideGroupType.BULLET,
+                    mask: e.CollideGroupType.HUNTER | 
+                          e.CollideGroupType.Defender | 
+                          e.CollideGroupType.Building | 
+                          e.CollideGroupType.DefenderMine
+                };
+            
+                // 子弹方向：优先瞄准目标，否则按当前角度计算
+                let o = i
+                    ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y)
+                    : new fx.V2(
+                        Math.cos((s.rotation - 90) * Math.PI / 180),
+                        Math.sin((s.rotation - 90) * Math.PI / 180)
+                    );
+                o.normalize();
+            
+                // 添加子弹脚本并锁定目标
+                a = s.addComponent(XBulletScript);
+                a.lockTarget = i;
+            
+                // 计算伤害
+                let l;
+                let h = this.cfg.atkDamage * this.getDamageMult();
+            
+                // 攻击计数，达到阈值触发特殊效果
+                this.atkCnt++;
+                if (this.atkCnt >= 15) {
+                    this.atkCnt -= 15;
+                    l = new Laya.Handler(this, this.freezeTarget);
+                }
+            
+                // 发射子弹（普通 / 特殊）
+                if (n == e.BulletType.Normal) {
+                    a.shoot(this.cfg.bullet, h, o, null, this.data, null, void 0, r, l);
+                } else {
+                    a.shoot(this.cfg.bullet, h, o, i, this.data, null, void 0, r, l);
+                }
+            
+                // 开火特效和事件
+                this.playFireEff();
+                this.fireEvent();
             }
+            
             freezeTarget(e) {
                 if (e) {
                     let i = new Laya.Animation;
@@ -19608,7 +19661,9 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateImg = this.operateBtn.getChildByName("imgBtn"), 
                 this.gameNode.addChild(this.operateBtn), this.operateBtn.visible = !1;
                 let buildMenuNode = fx.Utils.createPrefab(T.Prefab_BuildMenu);
-                this.gameNode.parent.addChild(buildMenuNode), this.buildMenu = buildMenuNode.getComponent(XBuildMenuScript), buildMenuNode.visible = !1;
+                this.gameNode.parent.addChild(buildMenuNode), 
+                this.buildMenu = buildMenuNode.getComponent(XBuildMenuScript)
+                buildMenuNode.visible = !1;
                 let s = fx.Utils.createPrefab(T.Prefab_UpgradeMenu);
                 this.gameNode.parent.addChild(s), this.upgradeMenu = s.getComponent(XUpgradeMenuScript), s.visible = !1;
                 let a = fx.Utils.createPrefab(T.Prefab_BorrowMoney);
