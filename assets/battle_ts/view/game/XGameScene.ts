@@ -11,6 +11,7 @@ import LogWrapper, { XLogModule } from '../../log/LogWrapper';
 import EventCenter from '../../event/EventCenter';
 import { XEventNames } from '../../event/XEventNames';
 import { XToast } from '../XToast';
+import XGameInfo from '../../XGameInfo';
 const { ccclass, property, executionOrder } = _decorator;
 
 @ccclass('XGameScene')
@@ -47,7 +48,7 @@ export class XGameScene extends Component {
         let hunterArr: XPlayerModel[] = []
         let defenderArr: XPlayerModel[] = []
 
-        let diffCfg = XMgr.cfg.difficultCfg.get("1");
+        let diffCfg = XMgr.cfg.difficultCfg.get(XGameInfo.getDiffcultLv().toString());
         XMgr.gameMgr.dCfg = diffCfg;
         let addMaxHp = diffCfg.addMaxHp + 1;
         let hunterModel = new XPlayerModel;
@@ -68,8 +69,8 @@ export class XGameScene extends Component {
             playerModel.skinId = XRandomUtil.randomInArray(XMgr.cfg.getPlayerIdArr())
             defenderArr.push(playerModel)
         }
-        let mapCfg = XMgr.cfg.mapCfg.get("2")
-        let mapData = XMgr.cfg.mapDatas.get("map2")
+        let mapCfg = XMgr.cfg.mapCfg.get(XGameInfo.getMapId().toString())
+        let mapData = XMgr.cfg.mapDatas.get("map" + mapCfg.id)
         let data = XMgr.gameMgr.match(XGameMode.E_Defense, defenderArr, hunterArr, mapCfg, mapData)
         return data
     }
