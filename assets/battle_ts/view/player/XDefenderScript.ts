@@ -89,13 +89,6 @@ export class XDefenderScript extends XPlayerScript {
     }
     downBed() {
         if (this.skinBedImgNode) {
-            // this.skinBedImg.visible = false;
-
-            // if (this.skinSpine) {
-            //     this.skinSpine.visible = true;
-            // } else if (this.skinImg) {
-            //     this.skinImg.visible = true;
-            // }
         } else {
             this.playAnim("move");
         }

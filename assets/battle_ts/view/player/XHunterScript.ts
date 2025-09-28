@@ -55,10 +55,10 @@ export class XHunterScript extends XPlayerScript {
     initBt() {
         this._bt = new XAIHunter(this)
         let bt_seq = XBTUtil.bt_sequenceOr([
-            this._bt.canEscape(this._bt.escape("move")),
-            this._bt.canPatrol(this._bt.patrol()),
-            this._bt.skill(),
-            this._bt.attack()
+            // this._bt.canEscape(this._bt.escape("move")),
+            // this._bt.canPatrol(this._bt.patrol()),
+            // this._bt.skill(),
+            // this._bt.attack()
         ], XEPolicy.RequireOne, "HunterBT")
         this._bt.load(bt_seq)
     }
