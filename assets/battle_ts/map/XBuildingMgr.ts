@@ -582,6 +582,7 @@ export default class XBuildingMgr {
 
         let buildIndex, room = this.getRoom(buildModel.roomId);
         if (room) {
+            buildModel.ownerScript.clearEffects()
             buildIndex = room.buildings.indexOf(buildModel);
             if (buildIndex !== -1) {
                 room.buildings.splice(buildIndex, 1);
