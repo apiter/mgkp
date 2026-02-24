@@ -3146,13 +3146,13 @@ define("libs/min/fx.d2.min.js", function(require, module, exports) {
                 if (!t || 0 == t.length) return null;
                 return t[Math.floor(Math.random() * t.length)]
             }
-            static randomInArrayEx(t, e) {
-                if (!t || 0 == t.length) return null;
-                let a = this.copyArray(t);
+            static randomInArrayEx(arr_, e) {
+                if (!arr_ || 0 == arr_.length) return null;
+                let a = this.copyArray(arr_);
                 if (this.randomArray(a), e <= a.length) return a.slice(0, Math.min(e, a.length)); {
                     let n = e - a.length,
                         u = 0;
-                    for (; n--;) a.push(t[u]), u++, u %= t.length;
+                    for (; n--;) a.push(arr_[u]), u++, u %= arr_.length;
                     return this.randomArray(a), a
                 }
             }

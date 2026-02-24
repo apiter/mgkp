@@ -1111,9 +1111,9 @@ define("js/bundle.js", function(require, module, exports) {
                     e.scheduleOnce(i, t)
                 })
             }
-            static playSound(e, t) {
+            static playSound(id_, t) {
                 if (Laya.isWXPlayable && window.wx) {
-                    let t = fx.CfgMgr.instance.get("soundCfg", e);
+                    let t = fx.CfgMgr.instance.get("soundCfg", id_);
                     if (!t) return;
                     let i = wx.createInnerAudioContext({
                         useWebAudioImplement: !0
@@ -1122,7 +1122,7 @@ define("js/bundle.js", function(require, module, exports) {
                         let e = XChoreUtil.audioPool.indexOf(i); - 1 != e && XChoreUtil.audioPool.splice(e, 1), i.destroy()
                     })
                 }
-                e = this.soundABTest(e), fx.SoundManager.instance.playSoundById(e, t)
+                id_ = this.soundABTest(id_), fx.SoundManager.instance.playSoundById(id_, t)
             }
             static stopSound(e) {
                 if (Laya.isWXPlayable && window.wx) {
@@ -2215,7 +2215,8 @@ define("js/bundle.js", function(require, module, exports) {
             onAwake() {
                 XMgr.user.gameInfo.canPlayTurnTable = !0;
                 let e = XMgr.playerMgr.player;
-                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_1.png" : (this.initSkin(XMgr.user.gameInfo.curSkinId), this.img_mvp.visible = !!XMgr.gameMgr.killCnt), this.checkOpenBox(), XChoreUtil.playSound(118);
+                e.isAngel ? this.initSkin(90003) : e.isGhost ? this.img_photo.skin = "res/ui/angelOrGhost/gameEnd/img_1.png" : (this.initSkin(XMgr.user.gameInfo.curSkinId), this.img_mvp.visible = !!XMgr.gameMgr.killCnt), this.checkOpenBox(), 
+                XChoreUtil.playSound(118);
                 let i = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 20, i >= 210 && (this.coinNum += Math.floor(10 * Math.min(i / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -2642,7 +2643,8 @@ define("js/bundle.js", function(require, module, exports) {
                 j.I.playVideo("结算宝箱奖励", this, e => {
                     e && (this.rewardMap.forEach((e, i) => {
                         XMgr.user.gameInfo.addOwnBuildData(i, e), XMgr.user.saveToServer()
-                    }), this.img_closeBox.visible = !1, this.img_openBox.visible = !0, this.btn_close.visible = !1, this.btn_video.visible = !1, this.initList(), XChoreUtil.playSound(127))
+                    }), this.img_closeBox.visible = !1, this.img_openBox.visible = !0, this.btn_close.visible = !1, this.btn_video.visible = !1, this.initList(), 
+                    XChoreUtil.playSound(127))
                 })
             }
             onClickClose() {
@@ -2660,12 +2662,17 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XPlayerModel extends XBaseModel {
             constructor() {
-                super(...arguments), this.isBed = !1, this.coin = 0, this.energy = 0, this.buildings = [], 
-                this.canBedRange = 116, this.attackCd = 1, this.attackRange = 100, this.escapeOdds = .3, this.attackPower = 0, 
-                this.critRate = 0, this.poisonTimes = 0, this.skillIdArr = [], this.skillMoveSpeedRate = 0, this.skillAtkRate = 0, 
-                this.skillEquipHp = 0, this.skillSuckHpRate = 0, this.skillAtkSquRate = 0, this.addReduceRate = 0, this.equipAtk = 0, 
+                super(...arguments), this.isBed = false, 
+                this.coin = 0, this.energy = 0, 
+                this.buildings = [], 
+                this.canBedRange = 116, this.attackCd = 1, 
+                this.attackRange = 100, this.escapeOdds = .3, this.attackPower = 0, 
+                this.critRate = 0, this.poisonTimes = 0, this.skillIdArr = [], 
+                this.skillMoveSpeedRate = 0, this.skillAtkRate = 0, 
+                this.skillEquipHp = 0, this.skillSuckHpRate = 0, this.skillAtkSquRate = 0, 
+                this.addReduceRate = 0, this.equipAtk = 0, 
                 this.equipHp = 0, this.equipMoveSpeed = 0, this.equipCritRate = 0, this.equipAtkSpeed = 0, this.equipExp = 0, 
-                this.invincibleCnt = 0, this.isGhost = !1, this.isAngel = !1, this.isBack = !1, this.randomCnt = 0, this.reduceRate = 0
+                this.invincibleCnt = 0, this.isGhost = false, this.isAngel = false, this.isBack = false, this.randomCnt = 0, this.reduceRate = 0
             }
             getSpeedPow() {
                 let e = 1;
@@ -2944,7 +2951,8 @@ define("js/bundle.js", function(require, module, exports) {
             onClickBuy(e) {
                 if (XMgr.user.gameInfo.coinEnough(e.unlock.num)) {
                     let i = 1;
-                    e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.useCoin(e.unlock.num), XMgr.reporter.useCoinCnt("商店购买道具"), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XChoreUtil.playSound(125), this.list_item.refresh(), XMgr.reporter.shopBuyProp(e.name, 1), XAnalyticsUtil.shopBuyProp(e.name, 1), XMgr.user.saveToServer()
+                    e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.useCoin(e.unlock.num), XMgr.reporter.useCoinCnt("商店购买道具"), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), 
+                    XToast.show("购买成功"), XChoreUtil.playSound(125), this.list_item.refresh(), XMgr.reporter.shopBuyProp(e.name, 1), XAnalyticsUtil.shopBuyProp(e.name, 1), XMgr.user.saveToServer()
                 } else XToast.show("铜币不足")
             }
             onClickVideo(e) {
@@ -2955,7 +2963,8 @@ define("js/bundle.js", function(require, module, exports) {
                             let e = XMgr.user.gameInfo.magicGetCnt;
                             e < 3 && (i = XMgr.cfg.constant.magicGetArr[e])
                         } else e.unlock.getCnt && (i = e.unlock.getCnt);
-                        XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 2), XAnalyticsUtil.shopBuyProp(e.name, 2), XChoreUtil.playSound(125), 6666 == e.buildId && (XMgr.user.gameInfo.magicGetCnt += 1, 3 == XMgr.user.gameInfo.magicGetCnt && XToast.show("今日购买次数用完，明天再来")), XMgr.user.saveToServer(), this.list_item.refresh()
+                        XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 2), 
+                        XAnalyticsUtil.shopBuyProp(e.name, 2), XChoreUtil.playSound(125), 6666 == e.buildId && (XMgr.user.gameInfo.magicGetCnt += 1, 3 == XMgr.user.gameInfo.magicGetCnt && XToast.show("今日购买次数用完，明天再来")), XMgr.user.saveToServer(), this.list_item.refresh()
                     }
                 })
             }
@@ -2963,7 +2972,8 @@ define("js/bundle.js", function(require, module, exports) {
                 XAnalyticsUtil.share("商店分享"), j.I.share(!1, i => {
                     if (i) {
                         let i = 1;
-                        e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 3), XAnalyticsUtil.shopBuyProp(e.name, 3), XChoreUtil.playSound(125), XMgr.user.gameInfo.dailyBuyZr = !0, XMgr.user.saveToServer(), this.list_item.refresh()
+                        e.unlock.getCnt && (i = e.unlock.getCnt), XMgr.user.gameInfo.addOwnBuildData(e.buildId, i, e.limit), XToast.show("购买成功"), XMgr.reporter.shopBuyProp(e.name, 3), 
+                        XAnalyticsUtil.shopBuyProp(e.name, 3), XChoreUtil.playSound(125), XMgr.user.gameInfo.dailyBuyZr = !0, XMgr.user.saveToServer(), this.list_item.refresh()
                     }
                 }, "商店分享")
             }
@@ -3488,7 +3498,8 @@ define("js/bundle.js", function(require, module, exports) {
             satisfy(tick_) {
                 let playerScript = tick_.target;
                 if (playerScript.getTakeMapBuild()) {
-                    playerScript.setMapBuildTarget(null), this.lastMapBuild = void 0
+                    playerScript.setMapBuildTarget(null), 
+                    this.lastMapBuild = void 0
                     return false;
                 }
                 let isUsed, lastMapBuild = this.lastMapBuild;
@@ -3695,12 +3706,12 @@ define("js/bundle.js", function(require, module, exports) {
             open(e) {
                 e.target.playAnim(this.aniName)
             }
-            tick(t) {
-                let i = t.target,
-                    s = i.getDizzyDurSec(),
-                    a = this.takeOut(e.PropertiesKey.TIMESTAMP);
-                if (s > 0 && a > 0) {
-                    return Laya.timer.currTimer - a > 1e3 * s ? (i.dismissDizzy(), Ie.FAILURE) : Ie.SUCCESS
+            tick(tick_) {
+                let playerScript = tick_.target,
+                    dizzySec = playerScript.getDizzyDurSec(),
+                    ts = this.takeOut(e.PropertiesKey.TIMESTAMP);
+                if (dizzySec > 0 && ts > 0) {
+                    return Laya.timer.currTimer - ts > 1e3 * dizzySec ? (playerScript.dismissDizzy(), Ie.FAILURE) : Ie.SUCCESS
                 }
                 return Ie.FAILURE
             }
@@ -3825,45 +3836,45 @@ define("js/bundle.js", function(require, module, exports) {
                 // --- 处理诱惑状态 ---
                 if (playModel.isEntice) {
                     if (nearestBuilding) {
-                        if (!curTarget) return !1;
+                        if (!curTarget) return false;
             
-                        let e = XMgr.mapMgr.getRoomById(nearestBuilding.roomId),
-                            i = XMgr.mapMgr.mapPosToGridPos(playModel.owner.x, playModel.owner.y);
+                        let room = XMgr.mapMgr.getRoomById(nearestBuilding.roomId),
+                            gridPos = XMgr.mapMgr.mapPosToGridPos(playModel.owner.x, playModel.owner.y);
             
                         // 在同一房间格子里
-                        for (const t of e.grids) {
-                            if (i.x == t.x && i.y == t.y) {
+                        for (const grid of room.grids) {
+                            if (gridPos.x == grid.x && gridPos.y == grid.y) {
                                 playerScript.setCurTarget(nearestBuilding);
-                                return !0;
+                                return true;
                             }
                         }
             
                         // 遍历门位置，逐级查找可到达的门
-                        if (e.doorPosArr && e.doorPosArr.length) {
-                            for (const i of e.doorPosArr) {
-                                if (i.x == curTarget.x && i.y == curTarget.y) {
+                        if (room.doorPosArr && room.doorPosArr.length) {
+                            for (const doorPos1 of room.doorPosArr) {
+                                if (doorPos1.x == curTarget.x && doorPos1.y == curTarget.y) {
                                     playerScript.setCurTarget(nearestBuilding);
-                                    return !0;
+                                    return true;
                                 }
             
-                                let e = XMgr.buildingMgr.getBuilding(i.x, i.y);
-                                if (e) {
-                                    let i = XMgr.mapMgr.getRoomById(e.roomId);
-                                    if (i.doorPosArr && i.doorPosArr.length) {
-                                        for (const e of i.doorPosArr) {
-                                            if (e.x == curTarget.x && e.y == curTarget.y) {
+                                let doorBuilding1 = XMgr.buildingMgr.getBuilding(doorPos1.x, doorPos1.y);
+                                if (doorBuilding1) {
+                                    let room1 = XMgr.mapMgr.getRoomById(doorBuilding1.roomId);
+                                    if (room1.doorPosArr && room1.doorPosArr.length) {
+                                        for (const doorPos2 of room1.doorPosArr) {
+                                            if (doorPos2.x == curTarget.x && doorPos2.y == curTarget.y) {
                                                 playerScript.setCurTarget(nearestBuilding);
-                                                return !0;
+                                                return true;
                                             }
             
-                                            let i = XMgr.buildingMgr.getBuilding(e.x, e.y);
-                                            if (i) {
-                                                let e = XMgr.mapMgr.getRoomById(i.roomId);
-                                                if (e.doorPosArr && e.doorPosArr.length) {
-                                                    for (const t of e.doorPosArr) {
-                                                        if (t.x == curTarget.x && t.y == curTarget.y) {
+                                            let doorBuilding2 = XMgr.buildingMgr.getBuilding(doorPos2.x, doorPos2.y);
+                                            if (doorBuilding2) {
+                                                let room2 = XMgr.mapMgr.getRoomById(doorBuilding2.roomId);
+                                                if (room2.doorPosArr && room2.doorPosArr.length) {
+                                                    for (const doorPos3 of room2.doorPosArr) {
+                                                        if (doorPos3.x == curTarget.x && doorPos3.y == curTarget.y) {
                                                             playerScript.setCurTarget(nearestBuilding);
-                                                            return !0;
+                                                            return true;
                                                         }
                                                     }
                                                 }
@@ -3874,7 +3885,7 @@ define("js/bundle.js", function(require, module, exports) {
                             }
                         }
                     }
-                    return !1;
+                    return false;
                 }
             
                 // --- 黑板过滤逻辑 ---
@@ -4500,9 +4511,9 @@ define("js/bundle.js", function(require, module, exports) {
                     child: e
                 })
             }
-            satisfy(t) {
-                let i = t.target.getDizzyStartTime();
-                return i > 0 && (this.output(e.PropertiesKey.TIMESTAMP, i), !0)
+            satisfy(tick_) {
+                let dizzyStartTs = tick_.target.getDizzyStartTime();
+                return dizzyStartTs > 0 && (this.output(e.PropertiesKey.TIMESTAMP, dizzyStartTs), !0)
             }
         }
         XIsDizzyingCdt.NAME = "IsDizzying", XIsDizzyingCdt.register(XIsDizzyingCdt.NAME, ve.CONDITION);
@@ -4720,9 +4731,9 @@ define("js/bundle.js", function(require, module, exports) {
                     n = Date.now();
                 return n - a > 200 && (this.lastPlayTimes[s] = n, !0)
             }
-            loadAnimAndPlay(e, t, i, s = !1, a) {
+            loadAnimAndPlay(atlasPath_, x_, y_, loop_ = !1, sec_) {
                 let n = new Laya.Animation;
-                n.loadAtlas(e), n.play(0, !1);
+                n.loadAtlas(atlasPath_), n.play(0, !1);
                 let r = n._frames,
                     o = 0,
                     l = 0;
@@ -4730,11 +4741,12 @@ define("js/bundle.js", function(require, module, exports) {
                     let t = r[e];
                     t._one, o < t._one.width && (o = t._one.width), l < t._one.height && (l = t._one.width)
                 }
-                n.pivot(o / 2, l / 2), a ? this.playAnimByTime(n, t, i, a) : this.playAnim(n, t, i)
+                n.pivot(o / 2, l / 2), sec_ ? this.playAnimByTime(n, x_, y_, sec_) : this.playAnim(n, x_, y_)
             }
-            playAnim(e, t, i, s = !1, a) {
-                this.effectLayer.addChild(e), e.pos(t, i), e.play(0, s), s || e.on(Laya.Event.COMPLETE, this, () => {
-                    e.offAll(), e.destroy(), a && a.run()
+            playAnim(node_, x_, y_, needCb_ = !1, cb_) {
+                this.effectLayer.addChild(node_), 
+                node_.pos(x_, y_), node_.play(0, needCb_), needCb_ || node_.on(Laya.Event.COMPLETE, this, () => {
+                    node_.offAll(), node_.destroy(), cb_ && cb_.run()
                 })
             }
             playAnimByTime(e, t, i, s, a, n) {
@@ -4755,11 +4767,11 @@ define("js/bundle.js", function(require, module, exports) {
                     n.offAll(), n.destroy()
                 }), n)
             }
-            playeEffect(mapX_, mapY_, altasPath_, a = !1, n) {
+            playeEffect(mapX_, mapY_, altasPath_, a = !1, sec_) {
                 if (!XMgr.mapMgr.isInStageByMapPos(mapX_, mapY_)) return;
                 if (!this.checkInterval(mapX_, mapY_, altasPath_)) return;
-                Laya.loader.getRes(altasPath_) ? this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, n) : Laya.loader.load(altasPath_, Laya.Handler.create(this, () => {
-                    this.effectLayer.destroyed || this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, n)
+                Laya.loader.getRes(altasPath_) ? this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, sec_) : Laya.loader.load(altasPath_, Laya.Handler.create(this, () => {
+                    this.effectLayer.destroyed || this.loadAnimAndPlay(altasPath_, mapX_, mapY_, a, sec_)
                 }))
             }
             playUpgradeEffect(e, i) {
@@ -4812,8 +4824,8 @@ define("js/bundle.js", function(require, module, exports) {
             playKuangbao_1Effect(e, t) {
                 this.playeEffect(e, t - 80, "res/effect/kuangbaoEffect_1.atlas")
             }
-            playDizzyEffect(e, t, i) {
-                i && i < 100 && (i *= 1e3), this.playeEffect(e - 20, t, "res/effect/build_dizzy.atlas", !1, i)
+            playDizzyEffect(x_, y_, sec_) {
+                sec_ && sec_ < 100 && (sec_ *= 1e3), this.playeEffect(x_ - 20, y_, "res/effect/build_dizzy.atlas", !1, sec_)
             }
             playSpecialAttackEffect(e, t) {
                 t.visible = !1;
@@ -5036,7 +5048,11 @@ define("js/bundle.js", function(require, module, exports) {
                      i.type == e.SkinType.Fighter ? this.skinSpine.scale(1, 1) : 
                      this.data.isGhost ? (this.skinSpine.scale(.275, .275), 
                      this.skinSpine.showSkinByIndex(0)) : this.skinSpine.scale(.5, .5), 
-                     10004 == i.id && this.skinSpine.showSkinByName("guaigun"), this.skinAniNode.addChild(t), t.pos(C.GridHalfSize, C.GridSize + 15), this.playAnim("idle"), this.isSkinLoaded = !0
+                     10004 == i.id && this.skinSpine.showSkinByName("guaigun"), 
+                     this.skinAniNode.addChild(t), 
+                     t.pos(C.GridHalfSize, C.GridSize + 15), 
+                     this.playAnim("idle"),
+                     this.isSkinLoaded = !0
                 })) : (this.skinImg = new Laya.Image(i.skinPath), this.skinImg.name = "img_skin", this.skinImg.anchorX = .5, this.skinImg.anchorY = .9, 
                 this.skinNode.addChild(this.skinImg), this.playAnim("idle"), this.isSkinLoaded = !0)
             }
@@ -5744,8 +5760,8 @@ define("js/bundle.js", function(require, module, exports) {
             setEscape(e) {
                 this.isEscaped = e
             }
-            changeSkin(e) {
-                if (e) {
+            changeSkin(isInZone) {
+                if (isInZone) {
                     // 从技能数组最后一个开始往前遍历
                     for (let e = this.data.skillIdArr.length - 1; e >= 0; e--) {
                         let t = false;
@@ -5829,7 +5845,9 @@ define("js/bundle.js", function(require, module, exports) {
                 if (e && !e.isDie) {
                     if (Math.abs(this.data.owner.x - e.owner.x) > 300 || Math.abs(this.data.owner.y - e.owner.y) > 300) return !1;
                     let i = new Laya.Animation;
-                    return i.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(i, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(e, 2), !0
+                    i.source = "res/atlas/res/Ani/zhua.atlas"
+                    XEffectUtil.I.playAnim(i, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1)
+                    return XMgr.gameMgr.DizzyTarget(e, 2), !0
                 }
                 return !1
             }
@@ -6009,14 +6027,14 @@ define("js/bundle.js", function(require, module, exports) {
                     [e.EffectType.Add_Energy]: XEnergyEffect, 
                     [e.EffectType.Add_CoinAndEnergy]: XCoinAndEnergyEffect,
                     [e.EffectType.Door_AlwaysAddHp]: XDoorAlwaysAddHp, 
-                    [e.EffectType.Enemy_UseSkillBeDizzy]: EnemyUseSkillBeDizzy, 
+                    [e.EffectType.Enemy_UseSkillBeDizzy]: XEnemyUseSkillBeDizzy, 
                     [e.EffectType.Door_NotGetDmgOnHpLow]: XDoorNotGetDmgOnHpLow, 
                     [e.EffectType.Tower_GetCoinOnAtk]: XTowerGetCoinOnAtk, 
                     [e.EffectType.Tower_GetCoinOnAtk_1]: XTowerGetCoinOnAtk_1, 
-                    [e.EffectType.Enemy_SlowAtkSpd]: EnemySlowAtkSpd, 
-                    [e.EffectType.Enemy_EscapeBeDizzy]: EnemyEscapeBeDizzy, 
+                    [e.EffectType.Enemy_SlowAtkSpd]: XEnemySlowAtkSpd, 
+                    [e.EffectType.Enemy_EscapeBeDizzy]: XEnemyEscapeBeDizzy, 
                     [e.EffectType.Door_FightBackOnBeAtk]: XDoorFightBackOnBeAtk, 
-                    [e.EffectType.Enemy_OnHpLowBeAtk]: EnemyOnHpLowBeAtk, 
+                    [e.EffectType.Enemy_OnHpLowBeAtk]: XEnemyOnHpLowBeAtk, 
                     [e.EffectType.Tower_AddAtkDst]: XTowerAddAtkDst, 
                     [e.EffectType.Tower_AddAtkSpd]: XTowerAddAtkSpd, 
                     [e.EffectType.Tower_AddAtkSpdOnEnemyNear]: XTowerAddAtkSpdOnEnemyNear, 
@@ -6025,7 +6043,7 @@ define("js/bundle.js", function(require, module, exports) {
                     [e.EffectType.Door_EnemyBeDizzy]: XDoorEnemyBeDizzy, 
                     [e.EffectType.Door_EnemyBeEscape]: XDoorEnemyBeEscape, 
                     [e.EffectType.Enemy_EscapeBeSlowdown]: EnemyEscapeBeSlowdown, 
-                    [e.EffectType.Enemy_HpRateBeDizzy]: EnemyHpRateBeDizzy
+                    [e.EffectType.Enemy_HpRateBeDizzy]: XEnemyHpRateBeDizzy
                 }
             }
             static createEffect(e, t) {
@@ -6073,22 +6091,22 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class XCoinEffect extends XBaseEffect {
-            constructor(i, s, a = !0) {
-                super(i, s), this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
-                let n = 1e3,
-                    r = s;
+            constructor(cfg_, buildModel_, a = !0) {
+                super(cfg_, buildModel_), this.deltaX = 0, this.deltaY = 0, this.extra = 0, this.godExtra = 0, this.addValue = this.cfg.value[0];
+                let duration = 1e3,
+                    r = buildModel_;
                 if (5001 == r.id) this.data.playerUuid == XMgr.playerMgr.mineUuid && XMgr.user.gameInfo.getBuffData(13) && (this.extra = 1);
                 else if (1e3 == r.id) {
                     let i = XMgr.buildingMgr.getBuildCfg(r.id, r.lv);
                     if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && i.buffId && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
                         if (XMgr.user.gameInfo.getBuffData(22)) {
                             let e = XMgr.user.gameInfo.getBuffData(22);
-                            n = n * (100 - XMgr.cfg.buffCfg.get(22).values[e.lv]) / 100
+                            duration = duration * (100 - XMgr.cfg.buffCfg.get(22).values[e.lv]) / 100
                         }
                         XMgr.user.gameInfo.getBuffData(11) && (this.extra = 1)
                     }
                 }
-                this.node.timerLoop(n, this, this.exec)
+                this.node.timerLoop(duration, this, this.exec)
             }
             exec() {
                 if (this.data.palsyTime) return;
@@ -6165,16 +6183,17 @@ define("js/bundle.js", function(require, module, exports) {
             }
             exec() {
                 if (this.data.palsyTime) return;
-                let i = this.addCoinValue,
-                    s = this.addEnergyValue,
-                    a = XMgr.playerMgr.getPlayer(this.data.playerUuid);
-                a && (i = Math.floor(i * this.data.coinRatio)), a && (s = Math.floor(s * this.data.energyRatio));
-                let n = XMgr.mapMgr.getRoomById(this.data.roomId),
-                    r = i * n.aiMult,
-                    o = s * n.aiMult,
+                let addCoinValue = this.addCoinValue,
+                    addEnergyValue = this.addEnergyValue,
+                    player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                player && (addCoinValue = Math.floor(addCoinValue * this.data.coinRatio)), 
+                player && (addEnergyValue = Math.floor(addEnergyValue * this.data.energyRatio));
+                let room = XMgr.mapMgr.getRoomById(this.data.roomId),
+                    r = addCoinValue * room.aiMult,
+                    o = addEnergyValue * room.aiMult,
                     l = XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, r, o);
                 this.data;
-                l && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y - 20), XMgr.gameUI.valueTips(e.TokenType.E_Energy, s, this.node.x, this.node.y + 20)), this.showWorkEff()
+                l && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, addCoinValue, this.node.x, this.node.y - 20), XMgr.gameUI.valueTips(e.TokenType.E_Energy, addEnergyValue, this.node.x, this.node.y + 20)), this.showWorkEff()
             }
             clear() {
                 this.node.timer.clear(this, this.exec)
@@ -6207,24 +6226,27 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.timer.clear(this, this.exec)
             }
         }
-        class EnemyUseSkillBeDizzy extends XBaseEffect {
+        class XEnemyUseSkillBeDizzy extends XBaseEffect {
             constructor(e, t) {
-                super(e, t), this.rate = e.value[0], this.time = e.value[1], fx.EventCenter.I.on(XEventNames.E_Hunter_Use_Skill, this, this.exec)
+                super(e, t), 
+                this.rate = e.value[0], 
+                this.time = e.value[1], 
+                fx.EventCenter.I.on(XEventNames.E_Hunter_Use_Skill, this, this.exec)
             }
-            exec(e, i) {
+            exec(roomId, hunter) {
                 if (this.data.palsyTime) return;
-                if (e != this.data.roomId || Math.random() > this.rate || !i) return;
+                if (roomId != this.data.roomId || Math.random() > this.rate || !hunter) return;
                 let s = this.time;
-                XMgr.user.gameInfo.getBuffData(4) && this.data.playerUuid == XMgr.playerMgr.mineUuid && (s *= 1.5), XMgr.gameMgr.DizzyTarget(i, s, !1);
+                XMgr.user.gameInfo.getBuffData(4) && this.data.playerUuid == XMgr.playerMgr.mineUuid && (s *= 1.5), XMgr.gameMgr.DizzyTarget(hunter, s, !1);
                 let a = "res/atlas/res/Ani/xuanyun.atlas";
                 if (Laya.loader.getRes(a)) {
-                    let e = XEffectUtil.I.loadAnimAndPlayReturn(a, i.owner.x - 20, i.owner.y - 100, !0);
+                    let e = XEffectUtil.I.loadAnimAndPlayReturn(a, hunter.owner.x - 20, hunter.owner.y - 100, !0);
                     e.timer.once(1e3 * s, this, () => {
                         e.destroy()
                     })
                 } else Laya.loader.load(a, Laya.Handler.create(this, () => {
                     if (XMgr.mapMgr.effectLayer.destroyed) return;
-                    let e = XEffectUtil.I.loadAnimAndPlayReturn(a, i.owner.x - 20, i.owner.y - 100, !0);
+                    let e = XEffectUtil.I.loadAnimAndPlayReturn(a, hunter.owner.x - 20, hunter.owner.y - 100, !0);
                     e.timer.once(1e3 * s, this, () => {
                         e.destroy()
                     })
@@ -6236,38 +6258,82 @@ define("js/bundle.js", function(require, module, exports) {
             }
         }
         class XDoorNotGetDmgOnHpLow extends XBaseEffect {
-            constructor(i, s) {
-                super(i, s), this.threshold = i.value[0], this.time = i.value[1];
-                let a = s,
-                    n = XMgr.buildingMgr.getBuildCfg(a.id, a.lv);
-                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(7) && XMgr.user.gameInfo.getBuffData(7)) {
+            constructor(cfg_, buildModel_) {
+                super(cfg_, buildModel_), 
+                this.threshold = cfg_.value[0], 
+                this.time = cfg_.value[1];
+                let a = buildModel_,
+                    buildCfg = XMgr.buildingMgr.getBuildCfg(a.id, a.lv);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && buildCfg.buffId && buildCfg.buffId.includes(7) && XMgr.user.gameInfo.getBuffData(7)) {
                     let e = XMgr.cfg.buffCfg.get(7);
                     this.time += e.values[0]
                 }
-                let r = this.getCurDoorModel()[0];
-                r && r.owner.on(be.Battle_Be_Hit, this, this.exec, [r])
+                let door = this.getCurDoorModel()[0];
+                door && door.owner.on(be.Battle_Be_Hit, this, this.exec, [door])
             }
-            exec(e) {
-                let t = e.owner.getChildAt(0),
-                    i = t.getChildByName("energuhoodImg");
-                if (!i) {
-                    let e = t.getChildAt(0),
-                        i = new Laya.Image("res/map/energuhoodImg.png");
-                    i.name = "energuhoodImg", i.width = 1.4 * e.width, i.height = 1.4 * e.height, i.anchorX = .5, i.anchorY = .5, i.visible = !1, t.addChild(i)
+            exec(door_) {
+                // 获取门节点的第一个子节点和名为 "energuhoodImg" 的子节点（可能为 undefined）
+                let t = door_.owner.getChildAt(0);
+                let energuhoodImg = t.getChildByName("energuhoodImg");
+            
+                // 若不存在 energuhoodImg，则创建并添加（在原代码中此处是块级声明）
+                if (!energuhoodImg) {
+                    let e = t.getChildAt(0);
+                    let energuhoodImg = new Laya.Image("res/map/energuhoodImg.png");
+                    energuhoodImg.name = "energuhoodImg";
+                    energuhoodImg.width = 1.4 * e.width;
+                    energuhoodImg.height = 1.4 * e.height;
+                    energuhoodImg.anchorX = 0.5;
+                    energuhoodImg.anchorY = 0.5;
+                    energuhoodImg.visible = false;
+                    t.addChild(energuhoodImg);
                 }
-                e.invincible ? i && (i.visible = !0) : (this.isUsed && e.owner.timer.once(5e3, this, this.updateUsed), e.curHp / e.maxHp > this.threshold ? i && (i.visible = !1) : this.isUsed || (i && (i.visible = !0), e.invincible = !0, e.owner.timerOnce(1e3 * this.time, e.owner, () => {
-                    e.invincible = !1, i && (i.visible = !1)
-                }), this.playerWorkEff(), this.isUsed = !0))
+            
+                // 若门处于无敌（invincible）状态，则显示防护图标（若存在）
+                if (door_.invincible) {
+                    if (energuhoodImg) energuhoodImg.visible = true;
+                    return;
+                }
+            
+                // 非无敌分支
+                // 如果 isUsed 为 true，则在 5s 后调用 updateUsed（保持原有调用时机）
+                if (this.isUsed) {
+                    door_.owner.timer.once(5000, this, this.updateUsed);
+                }
+            
+                // 根据当前血量比例与阈值决定显示/隐藏防护图标或触发临时无敌逻辑
+                if (door_.curHp / door_.maxHp > this.threshold) {
+                    // 血量高于阈值：隐藏图标（若存在）
+                    if (energuhoodImg) energuhoodImg.visible = false;
+                } else {
+                    // 血量低于等于阈值：只有当 isUsed 为 false 时执行以下操作
+                    if (!this.isUsed) {
+                        // 显示图标（若存在）
+                        if (energuhoodImg) energuhoodImg.visible = true;
+            
+                        // 设置临时无敌，并在 time 秒后取消（timerOnce 保持原调用签名）
+                        door_.invincible = true;
+                        door_.owner.timerOnce(1000 * this.time, door_.owner, () => {
+                            door_.invincible = false;
+                            if (energuhoodImg) energuhoodImg.visible = false;
+                        });
+            
+                        // 播放/触发角色工作效果并标记为已使用
+                        this.playerWorkEff();
+                        this.isUsed = true;
+                    }
+                }
             }
+            
             updateUsed() {
                 this.isUsed = !1
             }
             clear() {
-                let e = this.getCurDoorModel();
-                for (const t of e) {
-                    if (!t || !t.owner || t.owner.destroyed) return;
-                    let e = t.owner.getChildAt(0).getChildByName("energuhoodImg");
-                    e && (e.visible = !1), t.owner.off(be.Hp_Changed, this, this.exec)
+                let doors = this.getCurDoorModel();
+                for (const door of doors) {
+                    if (!door || !door.owner || door.owner.destroyed) return;
+                    let e = door.owner.getChildAt(0).getChildByName("energuhoodImg");
+                    e && (e.visible = !1), door.owner.off(be.Hp_Changed, this, this.exec)
                 }
             }
         }
@@ -6276,8 +6342,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super(i, s), this.curCnt = 0, 
                 this.buffMult = 1, this.bonusRate = i.value[0], 
                 this.node.timerLoop(1e3, this, this.exec);
-                let a = XMgr.buildingMgr.getBuildCfg(this.data.id);
-                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && a.buffId && a.buffId.includes(14) && XMgr.user.gameInfo.getBuffData(14)) {
+                let buildCfg = XMgr.buildingMgr.getBuildCfg(this.data.id);
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && buildCfg.buffId && buildCfg.buffId.includes(14) && XMgr.user.gameInfo.getBuffData(14)) {
                     let e = XMgr.cfg.buffCfg.get(14);
                     this.buffMult = 1 + e.values[0] / 100
                 }
@@ -6319,12 +6385,12 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0];
                 s && s.owner.on(be.Tower_Be_fire, this, this.addCoin)
             }
-            addCoin(e) {
+            addCoin(towerLv_) {
                 if (this.data.palsyTime) return;
                 let i = XMgr.buildingMgr.getRoom(this.data.roomId).bedModelList[0],
-                    s = XMgr.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
-                    a = Math.ceil(s / 200 * e);
-                this.curCnt += a
+                    mul = XMgr.buildingMgr.getBuildCfg(i.id, i.lv).effectList[0].value[0],
+                    coinAdd = Math.ceil(mul / 200 * towerLv_);
+                this.curCnt += coinAdd
             }
             exec() {
                 if (this.data.palsyTime) return;
@@ -6338,7 +6404,7 @@ define("js/bundle.js", function(require, module, exports) {
                 e && e.owner.off(be.Tower_Be_fire, this, this.addCoin)
             }
         }
-        class EnemySlowAtkSpd extends XBaseEffect {
+        class XEnemySlowAtkSpd extends XBaseEffect {
             constructor(effectCfg_, buildModel_) {
                 super(effectCfg_, buildModel_)
                 this.map = new Map
@@ -6441,39 +6507,57 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class EnemyEscapeBeDizzy extends XBaseEffect {
+        class XEnemyEscapeBeDizzy extends XBaseEffect {
             constructor(e, t) {
-                super(e, t), this.hunters = [], this.dizzyTime = e.value[0], this.data.owner.timerLoop(100, this, this.exec);
+                super(e, t), 
+                this.hunters = [], 
+                this.dizzyTime = e.value[0], 
+                this.data.owner.timerLoop(100, this, this.exec);
                 let i = this.getCurDoorModel();
                 if (i[0])
-                    for (const e of i) e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
+                    for (const e of i) 
+                        e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
             exec() {
                 if (this.data.palsyTime) return;
-                let i = this.dizzyTime;
-                XMgr.user.gameInfo.getBuffData(8) && this.data.playerUuid == XMgr.playerMgr.mineUuid && (i += 1);
-                let s = this.getCurDoorModel();
-                if (!s[0]) return;
-                let a = [];
-                for (const n of s) {
-                    for (const s of this.hunters)
-                        if (Math.abs(n.owner.x - s.owner.x) > 150 || Math.abs(n.owner.y - s.owner.y) > 150)
-                            if (s.ownerScript.isEscape() || XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
+            
+                let dizzyTime = this.dizzyTime;
+                if (XMgr.user.gameInfo.getBuffData(8) && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                    dizzyTime += 1;
+                }
+            
+                let doorModels = this.getCurDoorModel();
+                if (!doorModels[0]) return;
+            
+                let escapeHunters = [];
+            
+                for (const doorModel of doorModels) {
+                    for (const hunter of this.hunters) {
+                        if (Math.abs(doorModel.owner.x - hunter.owner.x) > 150 || Math.abs(doorModel.owner.y - hunter.owner.y) > 150) {
+                            if (hunter.ownerScript.isEscape() || XMgr.gameMgr.gameMode == e.GameMode.E_Hunt) {
                                 let e = new Laya.Animation;
-                                e.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(e, s.owner.x - C.GridHalfSize, s.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(s, i), a.push(s)
+                                e.source = "res/atlas/res/Ani/zhua.atlas";
+                                XEffectUtil.I.playAnim(e, hunter.owner.x - C.GridHalfSize, hunter.owner.y - C.GridHalfSize, false);
+                                XMgr.gameMgr.DizzyTarget(hunter, dizzyTime);
+                                escapeHunters.push(hunter);
                             } else {
-                                let e = this.hunters.indexOf(s);
-                                e >= 0 && this.hunters.splice(e, 1)
+                                let hunterIndex = this.hunters.indexOf(hunter);
+                                if (hunterIndex >= 0) this.hunters.splice(hunterIndex, 1);
                             }
-                    if (a.length) {
-                        for (; a.length;) {
-                            let e = a.pop(),
-                                t = this.hunters.findIndex(t => e == t); - 1 != t && this.hunters.splice(t, 1)
                         }
-                        this.playerWorkEff()
+                    }
+            
+                    if (escapeHunters.length) {
+                        while (escapeHunters.length) {
+                            let e = escapeHunters.pop();
+                            let t = this.hunters.findIndex(t => e == t);
+                            if (-1 != t) this.hunters.splice(t, 1);
+                        }
+                        this.playerWorkEff();
                     }
                 }
             }
+            
             clear() {
                 this.data.owner.timer.clear(this, this.exec);
                 let e = this.getCurDoorModel();
@@ -6509,30 +6593,33 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.gameMgr.takeDamage(e, e, i), this.playerWorkEff()
             }
         }
-        class EnemyOnHpLowBeAtk extends XBaseEffect {
+        class XEnemyOnHpLowBeAtk extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.canUse = !0, this.threshold = this.cfg.value[0], this.dmgPer = this.cfg.value[1];
                 let i = this.getCurDoorModel();
-                if (this.door = i[0], this.data.owner.timerLoop(100, this, this.exec), i[0])
+                this.door = i[0], this.data.owner.timerLoop(100, this, this.exec)
+                if (i[0])
                     for (const e of i) e.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
             }
-            onDoorBeHit(e) {
-                this.hunter || e != XMgr.playerMgr.hunters[0] || (this.hunter = e)
+            onDoorBeHit(hunter_) {
+                this.hunter || hunter_ != XMgr.playerMgr.hunters[0] || (this.hunter = hunter_)
             }
             exec() {
                 if (this.data.palsyTime) return;
-                let e = this.hunter;
-                if (!e || !e.owner) return;
+                let hunter = this.hunter;
+                if (!hunter || !hunter.owner) return;
                 if (!this.door || !this.door.owner) return;
-                if (!(Math.abs(this.door.owner.x - e.owner.x) < 2 * C.GridSize && Math.abs(this.door.owner.y - e.owner.y) < 2 * C.GridSize)) return this.hunter = null, void(this.canUse = !0);
+                if (!(Math.abs(this.door.owner.x - hunter.owner.x) < 2 * C.GridSize && Math.abs(this.door.owner.y - hunter.owner.y) < 2 * C.GridSize)) 
+                    return this.hunter = null, void(this.canUse = !0);
                 if (!this.canUse) return;
-                if (e.curHp / e.maxHp > this.threshold) return;
+                if (hunter.curHp / hunter.maxHp > this.threshold) return;
                 this.canUse = !1;
-                let i = e.maxHp * this.dmgPer;
-                this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(19) && (i *= 1.5), XMgr.gameMgr.takeDamage(null, e, i);
+                let i = hunter.maxHp * this.dmgPer;
+                this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(19) && (i *= 1.5), 
+                XMgr.gameMgr.takeDamage(null, hunter, i);
                 let s = "res/atlas/res/Ani/chujue.atlas";
-                Laya.loader.getRes(s) ? XEffectUtil.I.loadAnimAndPlayReturn(s, e.owner.x - 20, e.owner.y - 30, !1) : Laya.loader.load(s, Laya.Handler.create(this, () => {
-                    XMgr.mapMgr.effectLayer.destroyed || XEffectUtil.I.loadAnimAndPlayReturn(s, e.owner.x - 20, e.owner.y - 30, !1)
+                Laya.loader.getRes(s) ? XEffectUtil.I.loadAnimAndPlayReturn(s, hunter.owner.x - 20, hunter.owner.y - 30, !1) : Laya.loader.load(s, Laya.Handler.create(this, () => {
+                    XMgr.mapMgr.effectLayer.destroyed || XEffectUtil.I.loadAnimAndPlayReturn(s, hunter.owner.x - 20, hunter.owner.y - 30, !1)
                 })), this.clear(), this.playerWorkEff()
             }
             clear() {
@@ -6631,17 +6718,21 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XDoorEnemyBeDizzy extends XBaseEffect {
             constructor(e, t) {
-                super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
+                super(e, t), 
+                this.threshold = e.value[0], 
+                this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
                 i && i.owner.on(be.Battle_Be_Hit, this, this.exec)
             }
             exec(e, i) {
                 if (this.data.palsyTime) return;
-                let s = this.getCurDoorModel()[0];
-                if (!s) return;
-                if (s.curHp / s.maxHp > this.threshold) return;
+                let doorModel = this.getCurDoorModel()[0];
+                if (!doorModel) return;
+                if (doorModel.curHp / doorModel.maxHp > this.threshold) return;
                 let a = new Laya.Animation;
-                a.source = "res/atlas/res/Ani/lanyincao.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridSize / 2, e.owner.y - C.GridSize, !1), XMgr.gameMgr.DizzyTarget(e, this.dizzyTime, !1), this.clear();
+                a.source = "res/atlas/res/Ani/lanyincao.atlas", 
+                XEffectUtil.I.playAnim(a, e.owner.x - C.GridSize / 2, e.owner.y - C.GridSize, !1), 
+                XMgr.gameMgr.DizzyTarget(e, this.dizzyTime, !1), this.clear();
                 let n = this.data;
                 XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
             }
@@ -6662,7 +6753,9 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s) return;
                 if (s.curHp / s.maxHp > this.threshold) return;
                 let a = new Laya.Animation;
-                a.source = "res/atlas/res/Ani/xun.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), e.ownerScript.setEscape(!0), this.clear();
+                a.source = "res/atlas/res/Ani/xun.atlas", XEffectUtil.I.playAnim(a, e.owner.x - C.GridHalfSize, e.owner.y - C.GridHalfSize, !1), 
+                e.ownerScript.setEscape(!0), 
+                this.clear();
                 let n = this.data;
                 XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
             }
@@ -6703,26 +6796,28 @@ define("js/bundle.js", function(require, module, exports) {
                 this.hunter = e
             }
         }
-        class EnemyHpRateBeDizzy extends XBaseEffect {
+        class XEnemyHpRateBeDizzy extends XBaseEffect {
             constructor(e, t) {
                 super(e, t), this.threshold = e.value[0], this.dizzyTime = e.value[1];
                 let i = this.getCurDoorModel()[0];
-                i && (i.owner.on(be.Battle_Be_Hit, this, this.onDoorHit), this.data.owner.timerLoop(100, this, this.exec), this.hunterArr = [])
+                i && (i.owner.on(be.Battle_Be_Hit, this, this.onDoorHit), 
+                this.data.owner.timerLoop(100, this, this.exec), 
+                this.hunterArr = [])
             }
             onDoorHit(e, t) {
                 this.hunterArr.includes(e) || this.hunterArr.push(e)
             }
             exec() {
-                for (const e of this.hunterArr) {
+                for (const hunter of this.hunterArr) {
                     if (this.data.palsyTime) return;
-                    if (e.isDie) return;
-                    if (e.curHp / e.maxHp > this.threshold) return;
+                    if (hunter.isDie) return;
+                    if (hunter.curHp / hunter.maxHp > this.threshold) return;
                     this.clear();
-                    let i = e.owner.x,
-                        s = e.owner.y - C.GridSize,
+                    let i = hunter.owner.x,
+                        s = hunter.owner.y - C.GridSize,
                         a = new Laya.Image("res/bullet/iceBall/1.png");
                     a.anchorX = 1, XMgr.mapMgr.effectLayer.addChild(a), a.pos(i, s), (new fx.Sequence).rotate(-90, 500).exec(new Laya.Handler(this, () => {
-                        XMgr.gameMgr.DizzyTarget(e, this.dizzyTime, !0), a.destroy()
+                        XMgr.gameMgr.DizzyTarget(hunter, this.dizzyTime, !0), a.destroy()
                     })).run(a);
                     let n = this.data;
                     XMgr.buildingMgr.destroyBuilding(this.data.playerUuid, n.x, n.y, !1)
@@ -6758,22 +6853,66 @@ define("js/bundle.js", function(require, module, exports) {
             initCdUI(e) {
                 this.barNode = fx.Utils.createPrefab(T.Prefab_BuildingCD);
                 let i = this.barNode.getChildByName("img_building");
-                this.panel_buildCd = i.getChildByName("panel_bar"), this.panel_buildCd.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.barNode);
+                this.panel_buildCd = i.getChildByName("panel_bar"), 
+                this.panel_buildCd.width = .001, 
+                XMgr.mapMgr.buildCdLayer.addChild(this.barNode);
                 let s = XMgr.mapMgr.gridPosToMapPos(e.x, e.y);
                 this.barNode.pos(s.x, s.y)
             }
             initSkin() {
-                this.skinNode.destroyChildren(), this.initDiSkin();
-                let i = !1;
-                this.data.playerUuid == XMgr.playerMgr.player.uuid && (i = !0), i && this.cfg.buffId && XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) && XMgr.gameMgr.gameMode == e.GameMode.E_Defense ? this.initBuffSkin() : this.cfg.buildAni ? XEffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode) : (this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5), this.data.isSpecial && this.updateIcon()
-            }
-            initBuffSkin() {
-                if (this.cfg.buffBuildAni) XEffectUtil.I.playBuildAni(this.cfg.buffBuildAni, this.skinNode);
-                else {
-                    let e = this.cfg.buffIcon;
-                    e || (e = this.cfg.icon), this.imgBody = new Laya.Image(e), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5
+                // 清空并初始化底层皮肤
+                this.skinNode.destroyChildren();
+                this.initDiSkin();
+            
+                // 判断是否为本地玩家
+                let isSelf = false;
+                if (this.data.playerUuid == XMgr.playerMgr.player.uuid) {
+                    isSelf = true;
+                }
+            
+                // 根据条件选择皮肤类型
+                if (
+                    isSelf &&
+                    this.cfg.buffId &&
+                    XMgr.user.gameInfo.getBuffData(this.cfg.buffId[0]) &&
+                    XMgr.gameMgr.gameMode == e.GameMode.E_Defense
+                ) {
+                    // 使用 buff 皮肤
+                    this.initBuffSkin();
+                } else if (this.cfg.buildAni) {
+                    // 播放建筑动画皮肤
+                    XEffectUtil.I.playBuildAni(this.cfg.buildAni, this.skinNode);
+                } else {
+                    // 使用静态图片皮肤
+                    this.imgBody = new Laya.Image(this.cfg.icon);
+                    this.skinNode.addChild(this.imgBody);
+                    this.imgBody.anchorX = this.imgBody.anchorY = 0.5;
+                }
+            
+                // 特殊皮肤时更新图标
+                if (this.data.isSpecial) {
+                    this.updateIcon();
                 }
             }
+            
+            initBuffSkin() {
+                // 如果配置里指定了 buff 的动画（buffBuildAni），则播放这个特效动画
+                if (this.cfg.buffBuildAni) 
+                    XEffectUtil.I.playBuildAni(this.cfg.buffBuildAni, this.skinNode);
+                else {
+                    // 否则，使用静态图片作为外观
+                    let e = this.cfg.buffIcon;
+                    // 如果 buffIcon 没配置，就退而用 icon
+                    e || (e = this.cfg.icon);
+                    // 创建一个 Laya 的图片对象
+                    this.imgBody = new Laya.Image(e);
+                    // 把图片加到 skinNode 上显示
+                    this.skinNode.addChild(this.imgBody);
+                    // 让图片以中心为锚点，方便旋转或缩放时居中
+                    this.imgBody.anchorX = this.imgBody.anchorY = .5;
+                }
+            }
+            
             initDiSkin() {
                 this.cfg.diIcon && (this.imgDi && !this.imgDi.destroyed || (this.imgDi = new Laya.Image(this.cfg.diIcon), this.imgDi.anchorX = this.imgDi.anchorY = .5, this.skinNode.addChild(this.imgDi)))
             }
@@ -6922,17 +7061,26 @@ define("js/bundle.js", function(require, module, exports) {
                     }
             }
             repair(e) {
-                this.imgRepair || (this.imgRepair = new Laya.Image("res/game/img_repair.png"), this.node.addChild(this.imgRepair), this.imgRepair.anchorX = .5, this.imgRepair.anchorY = .5, this.imgRepair.pos(0, 0)), this.imgRepair.clearTimer(this, this.repairOnce);
-                for (let t = 0; t < e; ++t) this.imgRepair.timerOnce(1e3 * t, this, this.repairOnce, null, !1)
+                this.imgRepair || (this.imgRepair = new Laya.Image("res/game/img_repair.png"), 
+                this.node.addChild(this.imgRepair), 
+                this.imgRepair.anchorX = .5, this.imgRepair.anchorY = .5, this.imgRepair.pos(0, 0)), 
+                this.imgRepair.clearTimer(this, this.repairOnce);
+                for (let t = 0; t < e; ++t) 
+                    this.imgRepair.timerOnce(1e3 * t, this, this.repairOnce, null, !1)
             }
             repairOnce() {
-                this.imgRepair.visible = !0, this.imgRepair.rotation = 0, Laya.Tween.clearAll(this.imgRepair), (new fx.Sequence).rotate(-30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !1])).rotate(30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !0])).run(this.imgRepair)
+                this.imgRepair.visible = !0, 
+                this.imgRepair.rotation = 0, 
+                Laya.Tween.clearAll(this.imgRepair), 
+                (new fx.Sequence).rotate(-30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !1])).rotate(30, 250).exec(Laya.Handler.create(this, this.repairHandler, [!0, !1])).rotate(0, 250).exec(Laya.Handler.create(this, this.repairHandler, [!1, !0])).run(this.imgRepair)
             }
             repairHandler(e, i) {
-                this.data.hpPercent < 1 && XMgr.gameMgr.AddHp(this.data, .05), i && (this.imgRepair.visible = !1, XMgr.buildingMgr.stopRepairDoor(this.data))
+                this.data.hpPercent < 1 && XMgr.gameMgr.AddHp(this.data, .05), 
+                i && (this.imgRepair.visible = !1, XMgr.buildingMgr.stopRepairDoor(this.data))
             }
             onDestroy() {
-                if (this.palsyEff && this.palsyEff.destroy(), this.barNode && this.barNode.destroy(), this.cfg.effectList && 0 != this.cfg.effectList.length) {
+                this.palsyEff && this.palsyEff.destroy(), this.barNode && this.barNode.destroy()
+                if (this.cfg.effectList && 0 != this.cfg.effectList.length) {
                     this.clearEffects();
                     for (const i of this.cfg.effectList) {
                         if (i.type == e.EffectType.Enemy_SlowAtkSpd) {
@@ -6972,15 +7120,18 @@ define("js/bundle.js", function(require, module, exports) {
             }
             
             checkPalsyTime() {
-                this.data.palsyTime && (this.data.palsyTime -= 1e3 * fx.Utils.getFrameDelta(.033), this.data.palsyTime <= 0 && (this.data.palsyTime = 0, this.palsyEff && this.palsyEff.destroy()))
+                this.data.palsyTime && (this.data.palsyTime -= 1e3 * fx.Utils.getFrameDelta(.033), 
+                this.data.palsyTime <= 0 && (this.data.palsyTime = 0, this.palsyEff && this.palsyEff.destroy()))
             }
             playPalsyEff() {
-                this.palsyEff = new Laya.Animation, this.palsyEff.source = "res/effect/build_dizzy.atlas", XEffectUtil.I.playAnim(this.palsyEff, this.data.owner.x - 64, this.data.owner.y - 64, !0)
+                this.palsyEff = new Laya.Animation, this.palsyEff.source = "res/effect/build_dizzy.atlas", 
+                XEffectUtil.I.playAnim(this.palsyEff, this.data.owner.x - 64, this.data.owner.y - 64, !0)
             }
             updateIcon() {}
             showRepairEff() {
                 if (!this.doorRepair) {
-                    this.doorRepair = new Laya.Image("res/game/img_repair.png"), this.node.addChild(this.doorRepair), this.doorRepair.anchorX = .5, this.doorRepair.anchorY = .5, this.doorRepair.pos(0, 0);
+                    this.doorRepair = new Laya.Image("res/game/img_repair.png"), 
+                    this.node.addChild(this.doorRepair), this.doorRepair.anchorX = .5, this.doorRepair.anchorY = .5, this.doorRepair.pos(0, 0);
                     let e = (new fx.Sequence).rotate(-30, 250).rotate(0, 250).rotate(30, 250).rotate(0, 250);
                     e.isRepeat = !0, e.run(this.doorRepair)
                 }
@@ -7044,14 +7195,14 @@ define("js/bundle.js", function(require, module, exports) {
                 return t.add(e), t
             }
             back(e) {
-                let t = new XRunAction(e),
+                let runAction = new XRunAction(e),
                     i = new XSimpleRunAction,
                     s = new fx.BTSequence({
-                        children: [i, t],
+                        children: [i, runAction],
                         continuePolicy: Ie.SUCCESS,
                         successPolicy: fx.EPolicy.RequireAll
                     }),
-                    a = (new XHasPathCdt).bindout(t);
+                    a = (new XHasPathCdt).bindout(runAction);
                 return new fx.BTSequence({
                     children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
@@ -7348,10 +7499,10 @@ define("js/bundle.js", function(require, module, exports) {
             constructor(e) {
                 super(e)
             }
-            dizzy(e) {
-                let t = new XDizzyAction(e);
+            dizzy(child_) {
+                let dizzyAction = new XDizzyAction(child_);
                 return new fx.BTSequence({
-                    children: [(new XIsDizzyingCdt).bindout(t), t],
+                    children: [(new XIsDizzyingCdt).bindout(dizzyAction), dizzyAction],
                     continuePolicy: Ie.SUCCESS,
                     successPolicy: fx.EPolicy.RequireAll
                 })
@@ -7390,9 +7541,9 @@ define("js/bundle.js", function(require, module, exports) {
                         continuePolicy: Ie.SUCCESS,
                         successPolicy: fx.EPolicy.RequireAll
                     }),
-                    a = (new XHasPathCdt).bindout(runAction);
+                    hasPathCdt = (new XHasPathCdt).bindout(runAction);
                 return new fx.BTSequence({
-                    children: [(new XRandomSpawnPosCdt).bindout(a), a, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), 
+                    children: [(new XRandomSpawnPosCdt).bindout(hasPathCdt), hasPathCdt, new XPostEventAction(XEventNames.E_HUNTER_ESCAPE), 
                         new fx.BTWaitUtil({
                         condition: new XIsMaxHpCdt,
                         child: s
@@ -7469,7 +7620,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.lv = i.lv, 
             
                 // 设置无敌状态
-                i.invincible = !0, 
+                i.invincible = true, 
             
                 // 游戏模式判断
                 XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost 
@@ -7682,51 +7833,55 @@ define("js/bundle.js", function(require, module, exports) {
                     tempTarget: t
                 }
             }
+
             attack(target_) {
+                // --- 早期退出（控制/死亡） ---
                 if (this.control || this.data.isDie) return;
             
-                // 取消诱导状态
-                if (this.data.isEntice) this.data.isEntice = !1;
+                // 取消诱导状态（entice）
+                if (this.data.isEntice) this.data.isEntice = false;
             
-                // 播放攻击动画
-                this.isAtking = !0;
-                this.playAnim("attack", !0, () => {
-                    this.isAtking = !1;
+                // --- 播放攻击动画（带回调恢复 idle） ---
+                this.isAtking = true;
+                this.playAnim("attack", true, () => {
+                    this.isAtking = false;
                     this.playAnim("idle");
                 });
             
-                let s = XMgr.gameTime.now;
+                let now = XMgr.gameTime.now;
             
-                // 攻击门类目标时，每10秒触发一次特殊技能
-                if (target_.type == e.BuildType.door && s - this.startAtkTime >= 1e4) {
-                    this.startAtkTime = s;
+                // --- 对门（door）目标：每 10s 触发一次特殊技能（由 startAtkTime 控制） ---
+                if (target_.type == e.BuildType.door && now - this.startAtkTime >= 1e4) {
+                    this.startAtkTime = now;
+            
                     if (this.data.skillIdArr.includes(14) && !this.data.skillIsUsed) {
                         this.startAtkTime = 0;
-                        this.data.skillIsUsed = !0;
-                        this.changeSkin(!1);
+                        this.data.skillIsUsed = true;
+                        this.changeSkin(false);
                         this.usePalsySkill(target_);
                     }
                 }
             
+                // 记录最后攻击的房间 id
                 this.lastAttackRoomId = target_.roomId;
             
-                // 延迟 100ms 结算攻击
+                // --- 延迟结算攻击（100ms） ---
                 this.owner.timer.once(100, this, () => {
                     if (target_ && !target_.owner.destroyed) {
-                        
-                        // 技能触发逻辑
-                        if (
-                            !this.data.isGhost &&
+            
+                        // ---------- 技能触发判定 ----------
+                        // 将复杂的条件提取为局部常量以便阅读（不改变原逻辑）
+                        const notGhost = !this.data.isGhost;
+                        const notDefenseOrSpecialTest =
+                            XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
                             (
-                                XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
-                                (
-                                    XMgr.gameMgr.difficultABTest == 1 &&
-                                    XMgr.user.gameInfo.curLv > 2 &&
-                                    (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)
-                                )
-                            ) &&
-                            this.canUseSkill && !this.isUsedSkill
-                        ) {
+                                XMgr.gameMgr.difficultABTest == 1 &&
+                                XMgr.user.gameInfo.curLv > 2 &&
+                                (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)
+                            );
+                        const canUseSkillOverall = notGhost && notDefenseOrSpecialTest && this.canUseSkill && !this.isUsedSkill;
+            
+                        if (canUseSkillOverall) {
                             let s = target_;
                             if (this.data.skinId == 10003) {
                                 let room = XMgr.mapMgr.getRoomById(s.roomId);
@@ -7736,9 +7891,7 @@ define("js/bundle.js", function(require, module, exports) {
                                     (s.type != e.BuildType.door || !room.bedModelList[0].isDie)
                                 ) {
                                     this.useSkillsOfAtk(s.roomId);
-                                } else if (
-                                    s.type != e.BuildType.door || !room.bedModelList[0].isDie
-                                ) {
+                                } else if (s.type != e.BuildType.door || !room.bedModelList[0].isDie) {
                                     this.useSkillsOfAtk(s.roomId);
                                 }
                             } else {
@@ -7746,13 +7899,16 @@ define("js/bundle.js", function(require, module, exports) {
                             }
                         }
             
-                        // 计算攻击力
-                        let crit = !1;
-                        let a = Math.max(this.data.getAtkPow(), 1);
+                        // ---------- 攻击力计算 ----------
+                        let crit = false;
+                        let atkPower = Math.max(this.data.getAtkPow(), 1);
             
-                        if ( !this.data.isGhost && ( XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
-                                ( XMgr.gameMgr.difficultABTest == 1 && XMgr.user.gameInfo.curLv > 2 && (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1)) )) {
-                            a *= 1 + this.data.skillAtkRate;
+                        // 与上面相同的判定单元（为了与原代码行为一致，这里使用相同的表达式）
+                        if (!this.data.isGhost && (
+                                XMgr.gameMgr.gameMode != e.GameMode.E_Defense ||
+                                (XMgr.gameMgr.difficultABTest == 1 && XMgr.user.gameInfo.curLv > 2 && (XMgr.gameMgr.skillABTest != 1 || XMgr.user.userInfo.loginDay > 1))
+                            )) {
+                            atkPower *= 1 + this.data.skillAtkRate;
             
                             if (this.data.skinId == 10001 && this.canUseSkill) {
                                 if (this.critCurCnt > this.critCnt) {
@@ -7761,27 +7917,27 @@ define("js/bundle.js", function(require, module, exports) {
                                 } else {
                                     this.critCurCnt++;
                                     this.critScale = 2;
-                                    crit = !0;
+                                    crit = true;
                                 }
                             }
                         }
             
                         if (this.data.equipAtk) {
-                            a += this.data.equipAtk;
+                            atkPower += this.data.equipAtk;
                         }
             
                         if (this.data.critRate + this.data.equipCritRate > XRandomUtil.random()) {
-                            a *= 2;
-                            crit = !0;
+                            atkPower *= 2;
+                            crit = true;
                         }
             
                         if (XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && target_.type == e.BuildType.door) {
-                            a = (1 - this.dCfg.doorReduce) * a;
+                            atkPower = (1 - this.dCfg.doorReduce) * atkPower;
                         }
             
-                        a *= this.critScale;
+                        atkPower *= this.critScale;
             
-                        // 暴击特效
+                        // ---------- 暴击特效展示（存在目标且未销毁时） ----------
                         if (crit && target_.owner && !target_.owner.destroyed) {
                             XMgr.gameUI.iconTips(
                                 -C.GridHalfSize + target_.owner.x,
@@ -7791,15 +7947,15 @@ define("js/bundle.js", function(require, module, exports) {
                             );
                         }
             
-                        // 伤害结算
+                        // ---------- 伤害结算（门有 doorkeeper 时优先对守门者造成伤害） ----------
                         if (target_.type == e.BuildType.door && target_.doorkeeper) {
-                            XMgr.gameMgr.takeDamage(this.data, target_.doorkeeper, a);
+                            XMgr.gameMgr.takeDamage(this.data, target_.doorkeeper, atkPower);
                         } else {
-                            XMgr.gameMgr.takeDamage(this.data, target_, a);
+                            XMgr.gameMgr.takeDamage(this.data, target_, atkPower);
                         }
             
-                        // 附加效果
-                        this.suckHp(a);
+                        // ---------- 附加效果与音效等 ----------
+                        this.suckHp(atkPower);
                         XEffectUtil.I.playHitEffect(target_.owner.x, target_.owner.y, this.data);
                         XMgr.gameMgr.playSound(this.data, 106);
             
@@ -7808,7 +7964,7 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 });
             
-                // 攻速动态调整
+                // --- 攻速动态调整 ---
                 if (this.atkCdScale > 0.5) {
                     this.setAtkFrqScale(this.atkCdScale - 0.05);
                 } else if (this.data.isRage) {
@@ -7818,12 +7974,12 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             
-            suckHp(e) {
+            suckHp(atkPow_) {
                 if (this.data.skillSuckHpRate) {
-                    let i = e * this.data.skillSuckHpRate,
-                        s = this.data.curHp;
-                    s += i, 
-                    this.data.curHp = Math.min(s, this.data.maxHp), 
+                    let value = atkPow_ * this.data.skillSuckHpRate,
+                        curHp = this.data.curHp;
+                    curHp += value, 
+                    this.data.curHp = Math.min(curHp, this.data.maxHp), 
                     this.healthBar.updateHealth(), 
                     XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
                 }
@@ -7895,13 +8051,13 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             
                 // 计算属性
-                let n = hpList[this.lv - 1] * (1 + this.maxHpAddRate);
-                let r = attackList[this.lv - 1];
+                let hpMax = hpList[this.lv - 1] * (1 + this.maxHpAddRate);
+                let atk = attackList[this.lv - 1];
             
                 // 幽灵：额外衰减
                 if (this.data.isGhost) {
-                    n *= 0.8;
-                    r *= this.data.lv > 5 ? 0.8 : 0.6;
+                    hpMax *= 0.8;
+                    atk *= this.data.lv > 5 ? 0.8 : 0.6;
             
                     if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
                         XToast.show(`${this.data.name} 执行人升到${this.lv}等级`);
@@ -7917,11 +8073,11 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             
                 // 更新战斗属性
-                this.data.attackPower = r;
+                this.data.attackPower = atk;
                 XMgr.gameMgr.changeMaxHp(
                     this.data,
-                    n + this.data.equipHp,
-                    this.data.curHp + n - this.data.maxHp + this.data.equipHp
+                    hpMax + this.data.equipHp,
+                    this.data.curHp + hpMax - this.data.maxHp + this.data.equipHp
                 );
             
                 // 特殊：防御模式达到指定等级获得技能
@@ -7967,29 +8123,31 @@ define("js/bundle.js", function(require, module, exports) {
                 this.refreshEquip(e, !0)
             }
             getSkill() {
-                let i = XMgr.gameMgr.dCfg.skillWeight,
-                    s = XMgr.gameMgr.difficultABTest;
-                if (1 == s && XMgr.gameMgr.gameMode == e.GameMode.E_Defense && (i = XMgr.gameMgr.dCfg.difficultSkillWeight), i) {
-                    let e = [];
-                    for (let a = 0; a < i.length; a++) {
-                        let n = a + 1,
-                            r = XMgr.cfg.hunterSkillCfg.get(n);
-                        (r.isOpen || 1 == s && 4 == r.id) && !this.data.skillIdArr.includes(n) && e.push({
-                            o: n,
-                            weight: i[a]
+                let skillWeights = XMgr.gameMgr.dCfg.skillWeight,
+                    difficultABTest = XMgr.gameMgr.difficultABTest;
+                1 == difficultABTest && XMgr.gameMgr.gameMode == e.GameMode.E_Defense && (skillWeights = XMgr.gameMgr.dCfg.difficultSkillWeight)
+                if (skillWeights) {
+                    let openSkillWights = [];
+                    for (let skillId = 0; skillId < skillWeights.length; skillId++) {
+                        let nextSkillId = skillId + 1,
+                            nextSkillCfg = XMgr.cfg.hunterSkillCfg.get(nextSkillId);
+                        (nextSkillCfg.isOpen || 1 == difficultABTest && 4 == nextSkillCfg.id) && !this.data.skillIdArr.includes(nextSkillId) && openSkillWights.push({
+                            o: nextSkillId,
+                            weight: skillWeights[skillId]
                         })
                     }
-                    if (!e.length) return;
-                    let a = fx.Utils.takeOneByWeight(e)[1].o,
-                        n = XMgr.cfg.hunterSkillCfg.get(a);
-                    if (!n) return;
-                    let r = n.des;
-                    switch (this.data.skillIdArr.push(a), a) {
+                    if (!openSkillWights.length) return;
+                    let skillId = fx.Utils.takeOneByWeight(openSkillWights)[1].o,
+                        skillCfg = XMgr.cfg.hunterSkillCfg.get(skillId);
+                    if (!skillCfg) return;
+                    let skillDes = skillCfg.des;
+                    this.data.skillIdArr.push(skillId)
+                    switch (skillId) {
                         case 1:
                             this.skinSpine.scale(.25, .25), this.data.skillAtkRate += -.05, this.data.addReduceRate = -.1;
                             break;
                         case 2:
-                            this.curBigCnt = 0, this.canBig = !0;
+                            this.curBigCnt = 0, this.canBig = true;
                             break;
                         case 3:
                             break;
@@ -7999,7 +8157,7 @@ define("js/bundle.js", function(require, module, exports) {
                             e = i <= .85 ? 1 : i <= .9 ? 2 : 3;
                             let s = XMgr.cfg.skin.get(this.data.skinId);
                             for (let t = 0; t < e; t++) this.createGhost(this.data.skinId, s.name + "镜像");
-                            r = r.replace("{0}", `${e}`);
+                            skillDes = skillDes.replace("{0}", `${e}`);
                             break;
                         case 5:
                         case 6:
@@ -8014,7 +8172,10 @@ define("js/bundle.js", function(require, module, exports) {
                             this.skinSpine.showSkinByName("dianju"), this.data.skillAtkRate += .5;
                             break;
                         case 10:
-                            this.img_addHp = new Laya.Image("res/game/img_addHp.png"), this.img_addHp.anchorX = .5, this.img_addHp.anchorY = .1, this.diEffect.addChild(this.img_addHp), this.owner.timerLoop(1e3, this, this.addHpBySkill);
+                            this.img_addHp = new Laya.Image("res/game/img_addHp.png"), 
+                            this.img_addHp.anchorX = .5, this.img_addHp.anchorY = .1, 
+                            this.diEffect.addChild(this.img_addHp), 
+                            this.owner.timerLoop(1e3, this, this.addHpBySkill);
                             break;
                         case 11:
                         case 12:
@@ -8034,25 +8195,30 @@ define("js/bundle.js", function(require, module, exports) {
                         case 17:
                             this.skinSpine.showSkinByName("zhaohunfan"), this.data.skillAtkSquRate += .2
                     }
-                    XToast.show(r, 2)
+                    XToast.show(skillDes, 2)
                 }
             }
             addHpBySkill() {
                 if (!this.data.isDie && this.data.curHp < this.data.maxHp) {
                     let e = Math.ceil(.01 * this.data.maxHp);
-                    this.data.curHp += e, this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), this.healthBar.updateHealth(), XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
+                    this.data.curHp += e, 
+                    this.data.curHp = Math.min(this.data.curHp, this.data.maxHp), 
+                    this.healthBar.updateHealth(), 
+                    XMgr.gameUI.iconTips(0, -106, "res/game/suckHp.png", this.data.owner)
                 }
             }
-            dizzySkill(i = 4, s = 3, a = !0) {
+            dizzySkill(deltaDis = 4, timeNow = 3, showTips = true) {
                 this.dismissDizzyFlag = !1;
-                let n = XMgr.mapMgr.mapPosToGridPos(this.node.x, this.node.y),
-                    r = XMgr.buildingMgr.getAroundBuildings(n.x, n.y, null, i),
+                let gridPos = XMgr.mapMgr.mapPosToGridPos(this.node.x, this.node.y),
+                    aroundBuildings = XMgr.buildingMgr.getAroundBuildings(gridPos.x, gridPos.y, null, deltaDis),
                     o = this.owner.timer.currTimer;
-                for (const t of r) t.owner && t.type == e.BuildType.tower && (t.dizzyStartTime = o, t.dizzyDurSec = s, XEffectUtil.I.playDizzyEffect(t.owner.x, t.owner.y, s));
-                return a && XToast.show("玩家被震撼了！"), !0
+                for (const build of aroundBuildings) 
+                    build.owner && build.type == e.BuildType.tower && (build.dizzyStartTime = o, build.dizzyDurSec = timeNow, XEffectUtil.I.playDizzyEffect(build.owner.x, build.owner.y, timeNow));
+                return showTips && XToast.show("玩家被震撼了！"), !0
             }
             dismissDizzy() {
-                this.data.dizzyDurSec = 0, this.data.dizzyStartTime = 0
+                this.data.dizzyDurSec = 0, 
+                this.data.dizzyStartTime = 0
             }
             rageSkill(i) {
                 XChoreUtil.playSound(108);
@@ -8107,20 +8273,24 @@ define("js/bundle.js", function(require, module, exports) {
             setAtkFrqScale(value_) {
                 value_ >= 0 && value_ <= 1.2 && (this.atkCdScale = value_)
             }
-            usePalsySkill(i) {
-                let s = i,
-                    a = XMgr.mapMgr.getRoomById(s.roomId),
-                    n = [];
-                for (const t of a.buildings) t.type != e.BuildType.door && t.type != e.BuildType.bed && n.push(t);
-                if (n.length) {
-                    let e = fx.Utils.randomInArray(n),
-                        i = new Laya.Image("res/game/img_fanwan.png");
-                    i.anchorX = i.anchorY = .5, XMgr.mapMgr.mapNode.addChild(i), i.pos(this.data.owner.x, this.data.owner.y), (new fx.Sequence).to({
-                        x: e.owner.x,
-                        y: e.owner.y
+            usePalsySkill(target_) {
+                let target = target_
+                let room = XMgr.mapMgr.getRoomById(target.roomId),
+                    buildings = [];
+                for (const build of room.buildings) 
+                    build.type != e.BuildType.door && build.type != e.BuildType.bed && buildings.push(build);
+                if (buildings.length) {
+                    let build = fx.Utils.randomInArray(buildings)
+                    let fanwan = new Laya.Image("res/game/img_fanwan.png");
+                    fanwan.anchorX = fanwan.anchorY = .5, 
+                    XMgr.mapMgr.mapNode.addChild(fanwan), 
+                    fanwan.pos(this.data.owner.x, this.data.owner.y), 
+                    (new fx.Sequence).to({
+                        x: build.owner.x,
+                        y: build.owner.y
                     }, 500).exec(new Laya.Handler(this, () => {
-                        i.destroy(), !e.owner.destroyed && e && e.ownerScript && (e.palsyTime = 2e4, e.ownerScript.playPalsyEff())
-                    })).run(i)
+                        fanwan.destroy(), !build.owner.destroyed && build && build.ownerScript && (build.palsyTime = 2e4, build.ownerScript.playPalsyEff())
+                    })).run(fanwan)
                 }
             }
             autoHeal() {
@@ -8210,26 +8380,33 @@ define("js/bundle.js", function(require, module, exports) {
             clearYanluo() {
                 this.data.reduceRate = 0, this.img_yanluo.destroy()
             }
-            useSkillsOfAtk(e) {
+            useSkillsOfAtk(roomId){
                 switch (this.data.skinId) {
                     case 10001:
                         this.isUsedSkill = !0, this.critCnt = Math.min(Math.ceil(this.useSkillCnt / 3) - 1 + 5, 8);
                         break;
                     case 10003:
-                        let i = XMgr.mapMgr.getRandomPosByRoomId(e);
-                        if (i) {
-                            let e = XMgr.mapMgr.gridPosToMapPos(i.x, i.y);
-                            fx.EventCenter.I.event(XEventNames.E_Hurter_Dig, [e]), this.isUsedSkill = !0, this.owner.timer.once(2e3, this, this.closeSkillByAtk)
+                        let grid = XMgr.mapMgr.getRandomPosByRoomId(roomId);
+                        if (grid) {
+                            let mapPos = XMgr.mapMgr.gridPosToMapPos(grid.x, grid.y);
+                            fx.EventCenter.I.event(XEventNames.E_Hurter_Dig, [mapPos]), 
+                            this.isUsedSkill = !0, 
+                            this.owner.timer.once(2e3, this, this.closeSkillByAtk)
                         }
                         break;
                     case 10005:
                         this.isUsedSkill = !0;
                         let s = new Laya.Image("res/game/dizzy.png");
-                        s.anchorX = s.anchorY = .5, s.scale(0, 0), XMgr.mapMgr.effectLayer.addChild(s), s.pos(this.node.x, this.node.y), (new fx.Sequence).scaleOut(4, 200).exec(new Laya.Handler(this, () => {
+                        s.anchorX = s.anchorY = .5, 
+                        s.scale(0, 0), 
+                        XMgr.mapMgr.effectLayer.addChild(s), 
+                        s.pos(this.node.x, this.node.y), 
+                        (new fx.Sequence).scaleOut(4, 200).exec(new Laya.Handler(this, () => {
                             s.destroy()
                         })).run(s);
                         let a = Math.min(6, Math.ceil(this.useSkillCnt / 2) + 2);
-                        this.dizzySkill(10, a, !1), this.owner.timer.once(1e3 * a, this, this.closeSkillByAtk)
+                        this.dizzySkill(10, a, false), 
+                        this.owner.timer.once(1e3 * a, this, this.closeSkillByAtk)
                 }
             }
             useSkillsByTime() {
@@ -8286,12 +8463,39 @@ define("js/bundle.js", function(require, module, exports) {
                 this.data.curHp = Math.min(this.data.curHp + this.hpHeal, this.data.maxHp), 
                 this.data.owner.event(be.Hp_Changed)
             }
-            createGhost(i, s) {
-                let a = new XPlayerModel;
-                a.isGhost = !0, a.uuid = fx.Utils.createUUID(), a.name = s;
-                let n = XMgr.playerMgr.hunters[0].lv;
-                a.lv = n, n > 2 ? (a.curHp = a.maxHp = XMgr.cfg.hunterCfg.hpList[n - 2], a.attackPower = XMgr.cfg.hunterCfg.attackList[n - 2]) : 2 == n ? (a.curHp = a.maxHp = 400, a.attackPower = 4) : (a.curHp = a.maxHp = XMgr.cfg.hunterCfg.hpList[0], a.attackPower = XMgr.cfg.hunterCfg.attackList[0]), a.skinId = i, a.type = e.PlayerType.E_Hunter, XMgr.playerMgr.addGhost(a)
+            createGhost(skinId_, name_) {
+                // 创建一个新的幽灵玩家实例
+                let ghost = new XPlayerModel();
+            
+                // 基础属性
+                ghost.isGhost = true;
+                ghost.uuid = fx.Utils.createUUID();
+                ghost.name = name_;
+            
+                // 获取玩家等级
+                let lv = XMgr.playerMgr.hunters[0].lv;
+                ghost.lv = lv;
+            
+                // 根据等级设置血量与攻击力
+                if (lv > 2) {
+                    ghost.curHp = ghost.maxHp = XMgr.cfg.hunterCfg.hpList[lv - 2];
+                    ghost.attackPower = XMgr.cfg.hunterCfg.attackList[lv - 2];
+                } else if (lv === 2) {
+                    ghost.curHp = ghost.maxHp = 400;
+                    ghost.attackPower = 4;
+                } else {
+                    ghost.curHp = ghost.maxHp = XMgr.cfg.hunterCfg.hpList[0];
+                    ghost.attackPower = XMgr.cfg.hunterCfg.attackList[0];
+                }
+            
+                // 其他属性
+                ghost.skinId = skinId_;
+                ghost.type = e.PlayerType.E_Hunter;
+            
+                // 注册到玩家管理器
+                XMgr.playerMgr.addGhost(ghost);
             }
+            
             deleteGhost() {
                 XMgr.playerMgr.deleteGhost()
             }
@@ -8365,7 +8569,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.moveDir.normalize(i * this.speed);
                 let s = this.node.x + this.moveDir.x,
                     a = this.node.y + this.moveDir.y;
-                this.node.pos(s, a), this.isRotate ? (this.node.rotation += 10, this.node.rotation >= 360 && (this.node.rotation -= 360)) : t && XV2Util01.faceTo(this.node, t.x, t.y, 90)
+                this.node.pos(s, a), 
+                this.isRotate ? (this.node.rotation += 10, this.node.rotation >= 360 && (this.node.rotation -= 360)) : t && XV2Util01.faceTo(this.node, t.x, t.y, 90)
             }
             onCollision(e) {
                 if (!this.isActive) return;
@@ -8664,13 +8869,13 @@ define("js/bundle.js", function(require, module, exports) {
 
         class XBailiTowerScript extends XTowerScript {
             getAtkDstSqu() {
-                let e = this.data.getAtkDst(),
-                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
-                    s = e;
-                if (i && !i.isDie && i.buffs)
-                    for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
-                let a = s * C.GridSize * 1.5;
-                return a * a
+                let atkDst = this.data.getAtkDst(),
+                    playId = XMgr.playerMgr.getPlayer(this.data.playerUuid),
+                    atkDstInGrid = atkDst;
+                if (playId && !playId.isDie && playId.buffs)
+                    for (const t of playId.buffs) t.Type == M.ATK_DST && (atkDstInGrid += t.result(atkDst));
+                let disInPixel = atkDstInGrid * C.GridSize * 1.5;
+                return disInPixel * disInPixel
             }
         }
         class XBedScript extends XBuildingScript {
@@ -8790,7 +8995,8 @@ define("js/bundle.js", function(require, module, exports) {
             freezeTarget(e) {
                 if (e) {
                     let i = new Laya.Animation;
-                    i.source = "res/atlas/res/Ani/freeze.atlas", i.interval = 200, XEffectUtil.I.playAnimByTime(i, e.owner.x - 150, e.owner.y - 195, 2e3), XMgr.gameMgr.DizzyTarget(e, 2.1, !1)
+                    i.source = "res/atlas/res/Ani/freeze.atlas", i.interval = 200, XEffectUtil.I.playAnimByTime(i, e.owner.x - 150, e.owner.y - 195, 2e3), 
+                    XMgr.gameMgr.DizzyTarget(e, 2.1, !1)
                 }
             }
         }
@@ -8887,7 +9093,10 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.isClick = !1, this.monsterLv = 0, this.curClickNum = 0
             }
             onInit() {
-                this.data.canHandle = !1, fx.EventCenter.I.on(XEventNames.E_Hunter_Dead, this, this.onHunterDead), this.imgBody.timerLoop(1e3, this, this.autoAddCoin), this.initOutDoorPos()
+                this.data.canHandle = !1, 
+                fx.EventCenter.I.on(XEventNames.E_Hunter_Dead, this, this.onHunterDead), 
+                this.imgBody.timerLoop(1e3, this, this.autoAddCoin), 
+                this.initOutDoorPos()
             }
             onHunterDead(e) {
                 "宝箱怪" == e.name && (this.curClickNum = 0, this.monsterLv += 1, this.isOut = !1, this.isClick = !1, this.updateBox())
@@ -8926,7 +9135,8 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, a) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, a, this.node.x, this.node.y), this.onWork(), this.updateBox())
             }
             updateBox() {
-                if (30 == this.curClickNum) this.isOut = !0, this.imgBody.skin = "res/build/specialBuild/baoxiang/box_7.png", this.startCreateBoxMonster();
+                if (30 == this.curClickNum) 
+                    this.isOut = !0, this.imgBody.skin = "res/build/specialBuild/baoxiang/box_7.png", this.startCreateBoxMonster();
                 else {
                     let e = `res/build/specialBuild/baoxiang/box_${Math.max(1,Math.ceil(this.curClickNum/5))}.png`;
                     e != this.imgBody.skin && (this.imgBody.skin = e)
@@ -8934,7 +9144,9 @@ define("js/bundle.js", function(require, module, exports) {
             }
             startCreateBoxMonster() {
                 let e = new Laya.Image("res/build/specialBuild/baoxiang/monster.png");
-                e.anchorX = e.anchorY = .5, XMgr.mapMgr.mapNode.addChild(e), e.pos(this.node.x, this.node.y);
+                e.anchorX = e.anchorY = .5, 
+                XMgr.mapMgr.mapNode.addChild(e), 
+                e.pos(this.node.x, this.node.y);
                 let i = XMgr.playerMgr.player;
                 if (!i) return;
                 let s = i.roomId;
@@ -8952,13 +9164,40 @@ define("js/bundle.js", function(require, module, exports) {
                 n.run(e), r.run(e)
             }
             createBoxMonster(i) {
-                let s = new XPlayerModel;
-                s.isGhost = !0, s.uuid = fx.Utils.createUUID(), s.name = "宝箱怪";
+                // 创建宝箱怪角色
+                let s = new XPlayerModel();
+                s.isGhost = true;
+                s.uuid = fx.Utils.createUUID();
+                s.name = "宝箱怪";
+            
+                // 根据第一个猎人的等级设置属性
                 let a = XMgr.playerMgr.hunters[0].lv;
-                s.lv = a, a > 2 ? (s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[a - 2], s.attackPower = XMgr.cfg.hunterCfg.attackList[a - 2]) : 2 == a ? (s.curHp = s.maxHp = 400, s.attackPower = 4) : (s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[0], s.attackPower = XMgr.cfg.hunterCfg.attackList[0]), s.skinId = 10001, s.type = e.PlayerType.E_Hunter, XMgr.playerMgr.addBoxMonster(s, i)
+                s.lv = a;
+            
+                if (a > 2) {
+                    s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[a - 2];
+                    s.attackPower = XMgr.cfg.hunterCfg.attackList[a - 2];
+                } else if (a == 2) {
+                    s.curHp = s.maxHp = 400;
+                    s.attackPower = 4;
+                } else {
+                    s.curHp = s.maxHp = XMgr.cfg.hunterCfg.hpList[0];
+                    s.attackPower = XMgr.cfg.hunterCfg.attackList[0];
+                }
+            
+                // 设定模型与类型
+                s.skinId = 10001;
+                s.type = e.PlayerType.E_Hunter;
+            
+                // 添加到管理器
+                XMgr.playerMgr.addBoxMonster(s, i);
             }
+            
             initSkin() {
-                this.skinNode.destroyChildren(), this.imgBody = new Laya.Image(this.cfg.icon), this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = .5, this.imgBody.anchorY = 1, this.imgBody.y += 40
+                this.skinNode.destroyChildren(), 
+                this.imgBody = new Laya.Image(this.cfg.icon), 
+                this.skinNode.addChild(this.imgBody), 
+                this.imgBody.anchorX = .5, this.imgBody.anchorY = 1, this.imgBody.y += 40
             }
         }
         class XCatBedScript extends XBuildingScript {
@@ -8966,7 +9205,9 @@ define("js/bundle.js", function(require, module, exports) {
                 super(...arguments), this.curIdx = 1, this.idxArr = [1, 2, 3, 4], this.fsTime = 0, this.fireCd = 0
             }
             onInit() {
-                switch (this.imgBody.timerLoop(1e3, this, this.autoAddCoin), this.data.id) {
+                this.imgBody.timerLoop(1e3, this, this.autoAddCoin)
+
+                switch (this.data.id) {
                     case 5103:
                         this.initFanShen();
                         break;
@@ -8980,26 +9221,93 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
             onUpdate() {
-                if (super.onUpdate(), XMgr.gameMgr.isPause) return;
+                // 保持父类更新先执行（原代码使用逗号表达式）
+                super.onUpdate();
+            
+                // 暂停时提前返回
+                if (XMgr.gameMgr.isPause) return;
+            
+                // 更新建造冷却，若需要则直接返回
                 if (!this.updateBuildCd()) return;
+            
+                // 帧时间增量
                 let e = fx.Utils.getFrameDelta();
-                if (this.fireCd > 0 && (this.fireCd -= e, this.fireCd <= 0 && (this.fireCd = 0, this.img_bullet.visible = !0)), 5103 == this.data.id && (this.fsTime += e, this.fsTime >= 10))
-                    if (this.fsTime = 0, "res/build/mine_fs1.png" == this.imgBody.skin) {
-                        XRandomUtil.getNumberRandom(0, 1) >= .5 && (this.imgBody.skin = "res/build/mine_fs2.png", this.imgBody.timerOnce(500, this, this.fsToBack))
-                    } else this.imgBody.skin = "res/build/mine_fs2.png", this.imgBody.timerOnce(500, this, this.fsToFront)
+            
+                // ---------- 火力冷却计时 ----------
+                if (this.fireCd > 0) {
+                    this.fireCd -= e;
+            
+                    if (this.fireCd <= 0) {
+                        this.fireCd = 0;
+                        this.img_bullet.visible = true;
+                    }
+                }
+            
+                // ---------- 矿（id == 5103）特殊动画 / 皮肤切换逻辑 ----------
+                if (5103 == this.data.id) {
+                    // 增加计时
+                    this.fsTime += e;
+            
+                    // 达到触发阈值（10 秒）后处理
+                    if (this.fsTime >= 10) {
+                        // 重置计时
+                        this.fsTime = 0;
+            
+                        // 如果当前是前置皮肤，50% 概率切换到后置并在 500ms 后回到前
+                        if ("res/build/mine_fs1.png" == this.imgBody.skin) {
+                            if (XRandomUtil.getNumberRandom(0, 1) >= 0.5) {
+                                this.imgBody.skin = "res/build/mine_fs2.png";
+                                this.imgBody.timerOnce(500, this, this.fsToBack);
+                            }
+                        }
+                        // 否则直接切到后置，并在 500ms 后回到前（与原逻辑一致）
+                        else {
+                            this.imgBody.skin = "res/build/mine_fs2.png";
+                            this.imgBody.timerOnce(500, this, this.fsToFront);
+                        }
+                    }
+                }
             }
+            
             autoAddCoin() {
                 this.addCoin()
             }
             addCoin() {
-                let i = XMgr.gameMgr.playerDeadCnt,
-                    s = 1 * Math.pow(2, i);
-                if (5103 == this.data.id && "res/build/mine_fs1.png" != this.imgBody.skin && (s *= 2), XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, s) && (XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, this.node.x, this.node.y), 5104 != this.data.id && this.onWork()), 5105 == this.data.id)
-                    for (const i of XMgr.playerMgr.players)
+                // 依据死亡人数计算基础金币
+                let playerDeadCnt = XMgr.gameMgr.playerDeadCnt;
+                let addCoin = 1 * Math.pow(2, playerDeadCnt);
+            
+                // 特殊矿山皮肤：ID 为 5103 且 皮肤不是指定路径时，产出翻倍
+                if (5103 == this.data.id && "res/build/mine_fs1.png" != this.imgBody.skin) {
+                    addCoin *= 2;
+                }
+            
+                // 给所属玩家增加金币；如果成功则显示数值飘字，并在非 5104 的情况下触发工作回调
+                if (XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, addCoin)) {
+                    XMgr.gameUI.valueTips(e.TokenType.E_Coin, addCoin, this.node.x, this.node.y);
+            
+                    if (5104 != this.data.id) {
+                        this.onWork();
+                    }
+                }
+            
+                // 如果建筑是 5105（特殊共享矿/建筑），则遍历所有玩家，给处于床上的其他玩家也发放金币并显示飘字
+                if (5105 == this.data.id) {
+                    for (const i of XMgr.playerMgr.players) {
                         if (this.data.playerUuid != i.uuid && i.isBed && !i.isDie) {
-                            XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, s) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, s, i.bedModel.owner.x, i.bedModel.owner.y + C.GridHalfSize)
+                            if (XMgr.playerMgr.changePlayerIncomeByUuid(i.uuid, addCoin)) {
+                                XMgr.gameUI.valueTips(
+                                    e.TokenType.E_Coin,
+                                    addCoin,
+                                    i.bedModel.owner.x,
+                                    i.bedModel.owner.y + C.GridHalfSize
+                                );
+                            }
                         }
+                    }
+                }
             }
+            
             initEffects() {}
             onClickOwner() {
                 XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, 1) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, 1, this.node.x, this.node.y), this.updateChongWu()
@@ -9045,7 +9353,7 @@ define("js/bundle.js", function(require, module, exports) {
                 n.shoot(s, l, o, i, this.data, null, void 0, r, null, !0)
             }
         }
-        class Ei extends XTowerScript {
+        class XDaTowerScript extends XTowerScript {
             initSkin() {
                 super.initSkin(), this.imgBody.scale(1.3, 1.3)
             }
@@ -9060,18 +9368,23 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XDoorGuardTowerScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2
+                super(...arguments), 
+                this.canAttack = !0, 
+                this.lastAtkTime = 0, 
+                this.v2 = new fx.V2, this.v2_1 = new fx.V2
             }
             onInit() {
-                this.node.zOrder = 9998, this.initX = this.node.x, this.initY = this.node.y;
-                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
-                if (i)
-                    for (const t of i.buildings)
-                        if (t.type == e.BuildType.door) {
-                            this.door = t;
+                this.node.zOrder = 9998, 
+                this.initX = this.node.x, this.initY = this.node.y;
+                let room = XMgr.buildingMgr.getRoom(this.data.roomId);
+                if (room)
+                    for (const building of room.buildings)
+                        if (building.type == e.BuildType.door) {
+                            this.door = building;
                             break
                         }
-                this.door && !this.door.isDie && this.door.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit), this.data.owner.timerLoop(100, this, this.timeLoop)
+                this.door && !this.door.isDie && this.door.owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit), 
+                this.data.owner.timerLoop(100, this, this.timeLoop)
             }
             onDoorBeHit(e, t) {
                 this.atkTarget || (this.lastAtkTime = this.owner.timer.currTimer), this.atkTarget = e
@@ -9102,10 +9415,10 @@ define("js/bundle.js", function(require, module, exports) {
             }
             fire() {
                 if (this.atkTarget.isDie || !this.atkTarget.owner || this.atkTarget.owner.destroyed) return;
-                let e = this.atkTarget,
+                let atkTarget = this.atkTarget,
                     i = .03 * this.atkTarget.maxHp;
                 (new fx.Sequence).moveToTarget(this.atkTarget.owner, 300, fx.V2.ZERO).exec(new Laya.Handler(this, () => {
-                    XMgr.gameMgr.takeDamage(this.data, e, i)
+                    XMgr.gameMgr.takeDamage(this.data, atkTarget, i)
                 })).to({
                     x: this.initX,
                     y: this.initY
@@ -9114,11 +9427,12 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XDoorkeeperScript extends XBuildingScript {
             onInit() {
-                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
-                if (e.doorModel && !e.doorModel.isDie) {
-                    e.doorModel.doorkeeper = this.data;
-                    let t = e.doorModel.maxHp;
-                    this.data.curHp = t, this.data.maxHp = t
+                let room = XMgr.mapMgr.getRoomById(this.data.roomId);
+                if (room.doorModel && !room.doorModel.isDie) {
+                    room.doorModel.doorkeeper = this.data;
+                    let maxHp = room.doorModel.maxHp;
+                    this.data.curHp = maxHp, 
+                    this.data.maxHp = maxHp
                 }
                 this.createHealthBar()
             }
@@ -9127,8 +9441,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.node.addChild(e), e.zOrder = 100, this.healthBar = e.addComponent(XHealthBar), this.healthBar.init(this.data), e.y = -C.GridHalfSize
             }
             onDestroy() {
-                let e = XMgr.mapMgr.getRoomById(this.data.roomId);
-                e.doorModel && !e.doorModel.isDie && (e.doorModel.doorkeeper = null)
+                let room = XMgr.mapMgr.getRoomById(this.data.roomId);
+                room.doorModel && !room.doorModel.isDie && (room.doorModel.doorkeeper = null)
             }
         }
         class XDoorScript extends XBuildingScript {
@@ -9287,61 +9601,165 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XEatMosquitoScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.flameArr = [], this.dir = new fx.V2(0, -1), this.temp = new fx.V2(0, 0)
+                super(...arguments);
+                this.flameArr = [];
+                this.dir = new fx.V2(0, -1);
+                this.temp = new fx.V2(0, 0);
             }
+        
             onInit() {
-                this.cnt = 0, this.updateStatus(), this.attackImg = new Laya.Image("res/build/skillBuild/fox_hand.png"), this.attackImg.anchorX = .5, this.skinNode.addChild(this.attackImg), this.attackImg.pos(15, 5), this.attackImg.sizeGrid = "2,0,27,0", this.attackImg.visible = !1
+                // 初始化计数与状态
+                this.cnt = 0;
+                this.updateStatus();
+        
+                // 攻击图像（隐藏，默认不显示）
+                this.attackImg = new Laya.Image("res/build/skillBuild/fox_hand.png");
+                this.attackImg.anchorX = 0.5;
+                this.skinNode.addChild(this.attackImg);
+                this.attackImg.pos(15, 5);
+                this.attackImg.sizeGrid = "2,0,27,0";
+                this.attackImg.visible = false;
             }
+        
+            // 定时重置状态并创建 coin/flame 周期
             updateStatus() {
-                this.node.timerOnce(5e3, this, this.createCoin)
+                this.node.timerOnce(5000, this, this.createCoin);
             }
+        
+            // 创建周期性火焰并重置吃的计数
             createCoin() {
-                this.cnt++, this.cnt > 10 && (this.cnt = 1), this.createFlame(), this.eatCnt = 0, this.startTime = XMgr.gameTime.now
+                this.cnt++;
+                if (this.cnt > 10) this.cnt = 1;
+        
+                this.createFlame();
+        
+                // 重置吃的计数并记录开始时间
+                this.eatCnt = 0;
+                this.startTime = XMgr.gameTime.now;
             }
+        
+            // 根据当前 cnt 创建若干火焰特效
             createFlame() {
-                let e = "res/build/skillBuild/skillEff/foxFire.atlas";
+                const atlasPath = "res/build/skillBuild/skillEff/foxFire.atlas";
+        
                 for (let t = 0; t < this.cnt; t++) {
-                    let t = this.getRandomNum(),
-                        i = this.getRandomNum();
-                    Laya.loader.getRes(e) ? this.loadAnimAndPlay(e, t, i) : Laya.loader.load(e, Laya.Handler.create(this, () => {
-                        this.destroyed || this.loadAnimAndPlay(e, t, i)
-                    }))
+                    let x = this.getRandomNum();
+                    let y = this.getRandomNum();
+        
+                    if (Laya.loader.getRes(atlasPath)) {
+                        this.loadAnimAndPlay(atlasPath, x, y);
+                    } else {
+                        Laya.loader.load(atlasPath, Laya.Handler.create(this, () => {
+                            if (!this.destroyed) {
+                                this.loadAnimAndPlay(atlasPath, x, y);
+                            }
+                        }));
+                    }
                 }
             }
-            loadAnimAndPlay(e, t, i) {
-                let s = new Laya.Animation;
-                s.loadAtlas(e), s.play(0, !1);
-                let a = s.getGraphicBounds(!0);
-                s.pivot(a.width / 2, a.height / 2), this.playAnim(s, t, i), this.flameArr.push(s)
+        
+            // 加载动画并播放，记录到 flameArr
+            loadAnimAndPlay(atlasPath, x, y) {
+                let anim = new Laya.Animation();
+                anim.loadAtlas(atlasPath);
+                anim.play(0, false);
+        
+                let bounds = anim.getGraphicBounds(true);
+                anim.pivot(bounds.width / 2, bounds.height / 2);
+        
+                this.playAnim(anim, x, y);
+                this.flameArr.push(anim);
             }
-            playAnim(e, t, i, s = !0, a) {
-                this.aniNode.addChild(e), e.pos(t, i), e.play(0, s), s || e.on(Laya.Event.COMPLETE, this, () => {
-                    e.offAll(), e.destroy(), a && a.run()
-                })
+        
+            /**
+             * 将动画节点加入 aniNode 并播放
+             * @param e Laya.Animation 或 Laya.Sprite 等
+             * @param x x 坐标
+             * @param y y 坐标
+             * @param loop 是否循环播放（默认 true）
+             * @param onComplete 可选回调（仅在非循环时执行）
+             */
+            playAnim(e, x, y, loop = true, onComplete) {
+                this.aniNode.addChild(e);
+                e.pos(x, y);
+                e.play(0, loop);
+        
+                if (!loop) {
+                    e.on(Laya.Event.COMPLETE, this, () => {
+                        e.offAll();
+                        e.destroy();
+                        onComplete && onComplete.run();
+                    });
+                }
             }
+        
+            // 随机位置生成器（返回 0..80 的 10 的倍数）
             getRandomNum() {
-                return 10 * Math.floor(9 * XRandomUtil.random())
+                return 10 * Math.floor(9 * XRandomUtil.random());
             }
+        
+            // 每帧更新：处理吃火焰的节奏与攻击动画
             onUpdate() {
-                if (super.onUpdate(), this.updateBuildCd() && !this.data.palsyTime && (this.cnt || this.eatCnt) && this.cnt != this.eatCnt && XMgr.gameTime.now - this.startTime > 800 && this.flameArr.length) {
-                    let e = this.flameArr.splice(0, 1)[0];
+                super.onUpdate();
+        
+                // 只有在满足条件时才处理吃动作：
+                // - 建筑冷却正常（updateBuildCd 返回 true）
+                // - 未处于麻痹状态
+                // - 存在要吃的火焰（cnt 或 eatCnt）
+                // - 尚未吃完（cnt != eatCnt）
+                // - 距离上次开始时间超过 800 ms
+                // - flameArr 有元素
+                if (
+                    this.updateBuildCd() &&
+                    !this.data.palsyTime &&
+                    (this.cnt || this.eatCnt) &&
+                    this.cnt != this.eatCnt &&
+                    XMgr.gameTime.now - this.startTime > 800 &&
+                    this.flameArr.length
+                ) {
+                    // 取出第一个 flame 动画
+                    let flame = this.flameArr.splice(0, 1)[0];
+        
+                    // 重置起始时间
                     this.startTime = XMgr.gameTime.now;
-                    let i = Math.min(700 / (this.cnt - this.eatCnt), 500);
-                    this.attackImg.visible = !0, this.temp.setValue(e.x - C.GridHalfSize, e.y - C.GridHalfSize);
-                    let s = this.temp.len();
-                    XV2Util01.faceTo(this.attackImg, this.temp.x, this.temp.y, -90), (new fx.Sequence).to({
-                        height: s
-                    }, i / 2).exec(new Laya.Handler(this, () => {
-                        e.destroy()
-                    })).to({
-                        height: 10
-                    }, i / 2).exec(new Laya.Handler(this, () => {
-                        this.attackImg.visible = !1, this.eatCnt++, this.eatCnt == this.cnt && (this.node.event(be.AddCoin_By_Cnt, this.eatCnt), this.updateStatus())
-                    })).run(this.attackImg)
+        
+                    // 计算动画总时长（每个 flame 吃掉用时依 cnt-eatCnt 而变）
+                    let interval = Math.min(700 / (this.cnt - this.eatCnt), 500);
+        
+                    // 显示攻击图像并计算朝向/距离
+                    this.attackImg.visible = true;
+        
+                    // temp 存放目标向量（以格子中心为基准）
+                    this.temp.setValue(flame.x - C.GridHalfSize, flame.y - C.GridHalfSize);
+                    let distance = this.temp.len();
+        
+                    // 朝向攻击图像指向目标
+                    XV2Util01.faceTo(this.attackImg, this.temp.x, this.temp.y, -90);
+        
+                    // 使用动画序列伸缩攻击图像（使用 fx.Sequence 保持原行为）
+                    (new fx.Sequence())
+                        .to({ height: distance }, interval / 2)
+                        .exec(new Laya.Handler(this, () => {
+                            // 第一段完成后销毁 flame
+                            flame.destroy();
+                        }))
+                        .to({ height: 10 }, interval / 2)
+                        .exec(new Laya.Handler(this, () => {
+                            // 第二段完成后隐藏攻击图像并更新吃的计数
+                            this.attackImg.visible = false;
+                            this.eatCnt++;
+                            if (this.eatCnt == this.cnt) {
+                                // 吃完所有 flame，触发加金币事件并重置周期
+                                this.node.event(be.AddCoin_By_Cnt, this.eatCnt);
+                                this.updateStatus();
+                            }
+                        }))
+                        .run(this.attackImg);
                 }
             }
         }
-        class Ni extends Laya.Script {
+        
+        class XScaleEffectBtn extends Laya.Script {
             constructor() {
                 super(), this.anchorCenter = !0, this.scaleX = .88, this.scaleY = .88
             }
@@ -9357,63 +9775,215 @@ define("js/bundle.js", function(require, module, exports) {
                 e ? XChoreUtil.playSound(e) : 0 != e && XChoreUtil.playSound(4)
             }
         }
-        class EnticeScript extends XBuildingScript {
+        class XEnticeScript extends XBuildingScript {
             onInit() {
+                // 创建技能冷却 prefab 并初始化进度条
                 this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
-                let e = this.cdNode.getChildByName("img_building");
-                this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let i = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_entice = new Laya.Image("res/game/entice.png"), this.btn_entice.anchorX = this.btn_entice.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_entice), this.btn_entice.addComponent(Ni), this.btn_entice.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_entice.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                let imgBuilding = this.cdNode.getChildByName("img_building");
+                this.panel_bar = imgBuilding.getChildByName("panel_bar");
+                this.panel_bar.width = 0.001;
+        
+                // 把冷却 UI 添加到地图的冷却层
+                XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+        
+                // 定位冷却 UI 到建筑位置
+                let mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.cdNode.pos(mapPos.x, mapPos.y);
+                this.cdNode.visible = false;
+        
+                // 创建并初始化引诱按钮（默认隐藏）
+                this.btn_entice = new Laya.Image("res/game/entice.png");
+                this.btn_entice.anchorX = this.btn_entice.anchorY = 0.5;
+                XMgr.gameUI.gameNode.addChild(this.btn_entice);
+                this.btn_entice.addComponent(XScaleEffectBtn);
+                this.btn_entice.visible = false;
+        
+                // 仅本地玩家的引诱按钮绑定点击事件
+                if (this.data.playerUuid == XMgr.playerMgr.mineUuid) {
+                    this.btn_entice.on(Laya.Event.CLICK, this, this.onClickBtn);
+                }
+        
+                // 初始更新按钮位置
+                this.updateBtnPos();
             }
+        
             onClickBtn() {
+                // 麻痹状态不能点击
                 if (this.data.palsyTime) return;
-                if (this.isCd) return void XToast.show("冷却中");
-                let e = XMgr.playerMgr.hunters[0];
-                e && e.ownerScript.isEscaped ? XToast.show("噬魂者正在逃跑，无法引诱") : (e.isEntice = !0, e.ownerScript.setCurTarget(null), this.isCd = !0, this.curTime = 60, this.cdNode.visible = !0, this.btn_entice.visible = !1)
+        
+                // 冷却中提示并返回
+                if (this.isCd) {
+                    XToast.show("冷却中");
+                    return;
+                }
+        
+                // 检查第一个猎人状态
+                let hunter = XMgr.playerMgr.hunters[0];
+                if (hunter && hunter.ownerScript.isEscaped) {
+                    // 猎人正在逃跑，无法引诱
+                    XToast.show("噬魂者正在逃跑，无法引诱");
+                    return;
+                }
+        
+                // 触发引诱效果（与原逻辑顺序一致）
+                if (hunter) {
+                    hunter.isEntice = true;
+                    hunter.ownerScript.setCurTarget(null);
+                }
+        
+                // 开始冷却并更新 UI 显示
+                this.isCd = true;
+                this.curTime = 60;
+                this.cdNode.visible = true;
+                this.btn_entice.visible = false;
             }
+        
             onUpdate() {
-                super.onUpdate(), XMgr.gameMgr.isPause || this.updateBuildCd() && this.btn_entice && this.data.playerUuid == XMgr.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_entice.visible = !0)) : this.btn_entice.visible || (this.btn_entice.visible = !0))
+                super.onUpdate();
+        
+                // 如果游戏暂停，直接返回
+                if (XMgr.gameMgr.isPause) return;
+        
+                // 只在满足条件时更新按钮位置与冷却显示：
+                // updateBuildCd() 必须返回 true，按钮存在，并且是本地玩家的建筑
+                if (
+                    this.updateBuildCd() &&
+                    this.btn_entice &&
+                    this.data.playerUuid == XMgr.playerMgr.mineUuid
+                ) {
+                    // 更新按钮位置
+                    this.updateBtnPos();
+        
+                    // 若处于冷却中，更新冷却进度
+                    if (this.isCd) {
+                        this.curTime -= fx.Utils.getFrameDelta(0.033);
+                        this.panel_bar.width = ((60 - this.curTime) / 60) * 89;
+        
+                        // 冷却结束，恢复按钮显示
+                        if (this.curTime <= 0) {
+                            this.isCd = false;
+                            this.cdNode.visible = false;
+                            this.btn_entice.visible = true;
+                        }
+                    }
+                    // 若不在冷却中且按钮被隐藏，则显示按钮
+                    else if (!this.btn_entice.visible) {
+                        this.btn_entice.visible = true;
+                    }
+                }
             }
+        
             updateBtnPos() {
-                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
-                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
-                this.btn_entice.pos(i.x, i.y + 20)
+                // 将格子坐标转为地图坐标，再转为舞台坐标，最后偏移 Y 轴 20 像素
+                let mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                let stagePos = XMgr.mapMgr.mapPosToStagePos(mapPos.x, mapPos.y);
+                this.btn_entice.pos(stagePos.x, stagePos.y + 20);
             }
+        
             onDestroy() {
-                super.onDestroy(), this.cdNode && this.cdNode.destroy(), this.btn_entice && this.btn_entice.destroy()
+                super.onDestroy();
+        
+                // 销毁 UI 元素（如果存在）
+                if (this.cdNode) this.cdNode.destroy();
+                if (this.btn_entice) this.btn_entice.destroy();
             }
         }
+        
         class XBulletRotScript extends XBulletScript {
             constructor() {
-                super(...arguments), this.subBullet = [], this.unlimitedRange = !1
+                super(...arguments);
+                this.subBullet = [];
+                this.unlimitedRange = !1;
             }
+        
+            // 每帧更新：围绕 centerPos 按角度旋转并移动到圆周上
             onUpdate() {
                 if (!this.isActive) return;
-                if (this.curRot += 2, this.curRot >= 360) return this.recover(), void this.owner.event(be.FlyCutter_End);
-                let e = this.rot + this.curRot;
-                e > 360 && (e -= 360), this.node.rotation += 10;
-                let t = Math.cos(Math.rad(e)) * this.length,
-                    i = Math.sin(Math.rad(e)) * this.length;
-                this.node.pos(this.centerPos.x + t, this.centerPos.y + i)
+        
+                this.curRot += 2;
+                if (this.curRot >= 360) {
+                    this.recover();
+                    this.owner.event(be.FlyCutter_End);
+                    return;
+                }
+        
+                let nowRot = this.rot + this.curRot;
+                if (nowRot > 360) nowRot -= 360;
+        
+                this.node.rotation += 10;
+        
+                let x = Math.cos(Math.rad(nowRot)) * this.length;
+                let y = Math.sin(Math.rad(nowRot)) * this.length;
+        
+                this.node.pos(this.centerPos.x + x, this.centerPos.y + y);
             }
-            shoot(e, i, s, a, n, r, o, l) {
-                this.bulletKey = e, this.attack = i, this.centerPos = new fx.V2(s.x, s.y), this.target = a, this.baseModel = n;
-                for (let e of XMgr.playerMgr.defenders) n.playerUuid == e.uuid && (this.fromModel = e);
+        
+            /**
+             * 发射并初始化旋转子弹
+             * 参数顺序及含义保持原样：
+             * e: bulletKey, i: attack, s: centerPos (V2), a: target, n: baseModel,
+             * r, o: flags, l: collide config (或其它)
+             */
+            shoot(bulletKey_, attack_, centerPos_, target_, baseModel_, r, o, l) {
+                this.bulletKey = bulletKey_;
+                this.attack = attack_;
+                this.centerPos = new fx.V2(centerPos_.x, centerPos_.y);
+                this.target = target_;
+                this.baseModel = baseModel_;
+        
+                // 找到发射来源模型（fromModel）
+                for (let defender of XMgr.playerMgr.defenders) {
+                    if (baseModel_.playerUuid == defender.uuid) {
+                        this.fromModel = defender;
+                    }
+                }
+        
                 this.node = this.owner;
+        
+                // 计算到中心点的向量和半径长度，并计算初始角度 rot（度数）
                 let h = new fx.V2(this.node.x, this.node.y).subOut(this.centerPos);
                 this.length = h.len();
                 let d = Math.atan2(h.y, h.x) * (180 / Math.PI);
-                d > 360 ? d -= 360 : d < 0 && (d += 360), this.rot = d, this.curRot = 0, this.isActive = !0, this.originPos = new fx.V2(this.node.x, this.node.y), r || o || (this.initBody(l), this.node.on(Laya.Event.TRIGGER_ENTER, this, this.onCollision))
+                if (d > 360) d -= 360;
+                else if (d < 0) d += 360;
+        
+                this.rot = d;
+                this.curRot = 0;
+                this.isActive = !0;
+                this.originPos = new fx.V2(this.node.x, this.node.y);
+        
+                // 如果没有传入 r 或 o 标志，则初始化 body 与碰撞回调
+                if (!r && !o) {
+                    this.initBody(l);
+                    this.node.on(Laya.Event.TRIGGER_ENTER, this, this.onCollision);
+                }
             }
+        
+            // 碰撞回调：命中猎人或战斗单元时造成伤害并触发事件
             onCollision(e) {
                 if (!this.isActive) return;
-                let i, s = e.owner;
-                s.destroyed || ((i = s.getComponent(XHunterScript)) || (i = s.getComponent(XFighterScript)), i && !i.data.isDie && (this.removeBody(), XMgr.gameMgr.takeDamage(this.baseModel, i.data, this.attack), this.owner.event(be.FlyCutter_Be_Hit)))
+        
+                let i;
+                let s = e.owner;
+        
+                if (s.destroyed) return;
+        
+                i = s.getComponent(XHunterScript) || s.getComponent(XFighterScript);
+                if (i && !i.data.isDie) {
+                    this.removeBody();
+                    XMgr.gameMgr.takeDamage(this.baseModel, i.data, this.attack);
+                    this.owner.event(be.FlyCutter_Be_Hit);
+                }
             }
         }
+        
         class XFlyCutterScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.centerPos = new fx.V2, this.fireCnt = 0
+                super(...arguments), 
+                this.canAttack = !0, 
+                this.lastAtkTime = 0, 
+                this.centerPos = new fx.V2, 
+                this.fireCnt = 0
             }
             onAwake() {
                 super.onAwake()
@@ -9449,8 +10019,8 @@ define("js/bundle.js", function(require, module, exports) {
             findTarget() {
                 let e, t = 1 / 0,
                     i = this.getAtkDstSqu(),
-                    s = this.getHunters();
-                for (const a of s) {
+                    hunters = this.getHunters();
+                for (const a of hunters) {
                     if (a.isDie) continue;
                     if (a.changeSideUuid == this.data.playerUuid) continue;
                     let s = a.owner;
@@ -9482,23 +10052,30 @@ define("js/bundle.js", function(require, module, exports) {
                 if (e)
                     if (this.atkTarget = e, this.centerPos.setValue((e.owner.x + this.data.owner.x) / 2, (e.owner.y + this.data.owner.y) / 2), this.hitCnt = 0, this.fireCnt = 0, 3008 == this.data.id) this.fireCnt = 1, this.fire();
                     else {
-                        this.fireCnt = 3, this.fire(), (new fx.Sequence).delay(300).exec(new Laya.Handler(this, this.fire)).delay(300).exec(new Laya.Handler(this, this.fire)).run(this.node)
+                        this.fireCnt = 3, 
+                        this.fire(), 
+                        (new fx.Sequence).delay(300).exec(new Laya.Handler(this, this.fire)).delay(300).exec(new Laya.Handler(this, this.fire)).run(this.node)
                     }
             }
             fire() {
-                let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
-                if (!i) return;
-                i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
-                let s = i.getComponent(XBulletRotScript);
-                s && s.destroy();
+                let bulletNode = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
+                if (!bulletNode) return;
+                bulletNode.rotation = this.node.rotation, 
+                bulletNode.x = this.node.x, 
+                bulletNode.y = this.node.y;
+                let bulletRotScript = bulletNode.getComponent(XBulletRotScript);
+                bulletRotScript && bulletRotScript.destroy();
                 let a = {
                     category: e.CollideGroupType.BULLET,
                     mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                 };
-                s = i.addComponent(XBulletRotScript), i.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), i.off(be.FlyCutter_End, this, this.onFlyCutterEnd), 
-                i.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), 
-                i.once(be.FlyCutter_End, this, this.onFlyCutterEnd), 
-                s.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a), this.canAttack = !1
+                bulletRotScript = bulletNode.addComponent(XBulletRotScript), 
+                bulletNode.off(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit)
+                bulletNode.off(be.FlyCutter_End, this, this.onFlyCutterEnd)
+                bulletNode.once(be.FlyCutter_Be_Hit, this, this.onFlyCutterBeHit), 
+                bulletNode.once(be.FlyCutter_End, this, this.onFlyCutterEnd), 
+                bulletRotScript.shoot(this.cfg.bullet, .02 * this.atkTarget.maxHp, this.centerPos, null, this.data, null, void 0, a)
+                this.canAttack = !1
             }
             onFlyCutterBeHit() {
                 this.hitCnt += 1
@@ -9506,12 +10083,12 @@ define("js/bundle.js", function(require, module, exports) {
             onFlyCutterEnd() {
                 if (this.lastAtkTime = this.owner.timer.currTimer, this.fireCnt--, 0 == this.fireCnt) {
                     if (this.lastAtkTime = this.owner.timer.currTimer, this.canAttack = !0, this.hitCnt) {
-                        let i = XMgr.playerMgr.getPlayer(this.data.playerUuid);
-                        if (i.bedModel) {
-                            let s = i.bedModel,
-                                a = XMgr.buildingMgr.getBuildCfg(s.id, s.lv),
-                                n = Math.ceil(5 * this.hitCnt * a.effectList[0].value[0]);
-                            XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, n) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, n, this.node.x, this.node.y)
+                        let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                        if (player.bedModel) {
+                            let bedModel = player.bedModel,
+                                buildCfg = XMgr.buildingMgr.getBuildCfg(bedModel.id, bedModel.lv),
+                                coin = Math.ceil(5 * this.hitCnt * buildCfg.effectList[0].value[0]);
+                            XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, coin, this.node.x, this.node.y)
                         }
                     }
                     this.hitCnt = 0
@@ -9520,113 +10097,193 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XFollowSpringTowerScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.v2 = new fx.V2, this.v2_1 = new fx.V2
+                super(...arguments);
+                this.canAttack = !0;
+                this.lastAtkTime = 0;
+                this.v2 = new fx.V2;
+                this.v2_1 = new fx.V2;
             }
+        
             onInit() {
-                this.initX = this.node.x, this.initY = this.node.y
+                this.initX = this.node.x;
+                this.initY = this.node.y;
             }
+        
             getAtkCD() {
-                for (const e of this.data.buffs)
-                    if (e.Type == M.DYC_ATK_SPD) {
+                for (const buff of this.data.buffs) {
+                    if (buff.Type == M.DYC_ATK_SPD) {
                         let t = this.getTargetDstSqu();
                         if (t == 1 / 0) continue;
                         let i = t / this.getAtkDstSqu();
-                        i = Math.clamp(i, 0, 1), e.Val = -(1 - i)
+                        i = Math.clamp(i, 0, 1);
+                        buff.Val = -(1 - i);
                     }
+                }
                 let e = this.data.getAtkCD();
-                return 1e3 * (e = Math.max(.21, e))
+                e = Math.max(.21, e);
+                return 1e3 * e;
             }
+        
             getAtkDstSqu() {
-                let e = this.data.getAtkDst(),
-                    i = XMgr.playerMgr.getPlayer(this.data.playerUuid),
-                    s = e;
-                if (i && !i.isDie && i.buffs)
-                    for (const t of i.buffs) t.Type == M.ATK_DST && (s += t.result(e));
+                let e = this.data.getAtkDst();
+                let i = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                let s = e;
+                if (i && !i.isDie && i.buffs) {
+                    for (const t of i.buffs) {
+                        if (t.Type == M.ATK_DST) s += t.result(e);
+                    }
+                }
                 let a = s * C.GridSize;
-                return a * a
+                return a * a;
             }
+        
             onUpdate() {
                 this.owner.timer.delta;
-                if (super.onUpdate(), this.isBuildCd) return;
+                super.onUpdate();
+        
+                if (this.isBuildCd) return;
                 if (!this.canAttack) return;
                 if (this.data.palsyTime) return;
+        
                 let e = this.owner.timer.currTimer;
-                e - this.data.dizzyStartTime < 1e3 * this.data.dizzyDurSec || (e - this.lastAtkTime > this.getAtkCD() && (this.lastAtkTime = e, this.tryAttack()), this.followTarget())
+                if (e - this.data.dizzyStartTime < 1e3 * this.data.dizzyDurSec) return;
+        
+                if (e - this.lastAtkTime > this.getAtkCD()) {
+                    this.lastAtkTime = e;
+                    this.tryAttack();
+                }
+        
+                this.followTarget();
             }
+        
             getFollowSqu() {
                 let e = 18 * C.GridSize;
-                return e * e
+                return e * e;
             }
+        
             followTarget() {
                 if (this.isAtking) return;
-                let e = this.getHunters();
-                if (e && e.length) {
-                    let t = e[0],
-                        i = XV2Util01.pDistanceSquared(t.owner, {
-                            x: this.initX,
-                            y: this.initY
-                        }),
-                        s = this.getAtkDstSqu();
-                    if (this.getFollowSqu() > i)
-                        if (s > i) this.v2.setValue(this.initX, this.initY), this.v2_1.setValue(this.node.x, this.node.y), fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1), this.node.pos(this.v2_1.x, this.v2_1.y);
-                        else {
-                            XV2Util01.pDistanceSquared(t.owner, this.node) > s / 4 && (this.v2.setValue(t.owner.x, t.owner.y), this.v2_1.setValue(this.node.x, this.node.y), fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1), this.node.pos(this.v2_1.x, this.v2_1.y))
-                        } else this.v2.setValue(this.initX, this.initY), this.v2_1.setValue(this.node.x, this.node.y), fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1), this.node.pos(this.v2_1.x, this.v2_1.y)
+        
+                let hunters = this.getHunters();
+                if (!hunters || !hunters.length) return;
+        
+                let hunter = hunters[0];
+                let hunterToInitDisSqu = XV2Util01.pDistanceSquared(hunter.owner, { x: this.initX, y: this.initY });
+                let atkDisSqu = this.getAtkDstSqu();
+        
+                if (this.getFollowSqu() > hunterToInitDisSqu) {
+                    if (atkDisSqu > hunterToInitDisSqu) {
+                        // 回归初始位置（在范围内且无需贴近目标）
+                        this.v2.setValue(this.initX, this.initY);
+                        this.v2_1.setValue(this.node.x, this.node.y);
+                        fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1);
+                        this.node.pos(this.v2_1.x, this.v2_1.y);
+                    } else {
+                        // 跟随目标（当目标在攻击范围外的一定比例位置）
+                        if (XV2Util01.pDistanceSquared(hunter.owner, this.node) > atkDisSqu / 4) {
+                            this.v2.setValue(hunter.owner.x, hunter.owner.y);
+                            this.v2_1.setValue(this.node.x, this.node.y);
+                            fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1);
+                            this.node.pos(this.v2_1.x, this.v2_1.y);
+                        }
+                    }
+                } else {
+                    // 超出跟随范围，回归初始位置
+                    this.v2.setValue(this.initX, this.initY);
+                    this.v2_1.setValue(this.node.x, this.node.y);
+                    fx.V2.lerp(this.v2_1, this.v2, .03, this.v2_1);
+                    this.node.pos(this.v2_1.x, this.v2_1.y);
                 }
             }
+        
             findTarget() {
-                let e, t = 1 / 0,
-                    i = this.getAtkDstSqu(),
-                    s = this.getHunters();
+                let e;
+                let t = 1 / 0;
+                let i = this.getAtkDstSqu();
+                let s = this.getHunters();
+        
                 for (const a of s) {
                     if (a.isDie) continue;
                     if (a.changeSideUuid == this.data.playerUuid) continue;
-                    let s = a.owner;
-                    if (!s || s.destroyed || this.node.destroyed) continue;
-                    let n = XV2Util01.pDistanceSquared(s, {
-                        x: this.node.x,
-                        y: this.node.y
-                    });
-                    n <= i && n < t && (t = n, e = a)
+                    let node = a.owner;
+                    if (!node || node.destroyed || this.node.destroyed) continue;
+                    let n = XV2Util01.pDistanceSquared(node, { x: this.node.x, y: this.node.y });
+                    if (n <= i && n < t) {
+                        t = n;
+                        e = a;
+                    }
                 }
-                return e
+        
+                return e;
             }
+        
             getHunters() {
-                return XMgr.playerMgr.hunters
+                return XMgr.playerMgr.hunters;
             }
+        
             getTargetDstSqu() {
-                let e = 1 / 0,
-                    t = this.getHunters(),
-                    i = this.getAtkDstSqu();
+                let e = 1 / 0;
+                let t = this.getHunters();
+                let i = this.getAtkDstSqu();
                 for (const s of t) {
                     if (s.isDie) continue;
                     if (s.changeSideUuid == this.data.playerUuid) continue;
-                    let t = s.owner,
-                        a = XV2Util01.pDistanceSquared(t, this.node);
-                    a <= i && a < e && (e = a)
+                    let node = s.owner;
+                    let a = XV2Util01.pDistanceSquared(node, this.node);
+                    if (a <= i && a < e) e = a;
                 }
-                return e
+                return e;
             }
+        
             tryAttack() {
-                if (this.data.isDizzy) return void(this.isWork = !1);
+                if (this.data.isDizzy) {
+                    this.isWork = !1;
+                    return;
+                }
                 let e = this.findTarget();
-                e ? (this.atkTarget = e, this.fire(), this.isWork = !0) : this.isWork = !1
+                if (e) {
+                    this.atkTarget = e;
+                    this.fire();
+                    this.isWork = !0;
+                } else {
+                    this.isWork = !1;
+                }
             }
+        
             fire() {
                 let i = XMgr.bulletMgr.createBulletNode(this.cfg.bullet);
                 if (!i) return;
-                i.rotation = this.node.rotation, i.x = this.node.x, i.y = this.node.y;
+        
+                i.rotation = this.node.rotation;
+                i.x = this.node.x;
+                i.y = this.node.y;
+        
                 let s = i.getComponent(XBulletScript);
-                s && s.destroy();
-                let a = this.cfg.bulletType,
-                    n = {
-                        category: e.CollideGroupType.BULLET,
-                        mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
-                    },
-                    r = this.atkTarget ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y) : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
-                r.normalize(), (s = i.addComponent(XBulletScript)).lockTarget = this.atkTarget, a == e.BulletType.Normal ? s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, null, this.data, null, void 0, n) : s.shoot(this.cfg.bullet, .3 * this.atkTarget.attackPower, r, this.atkTarget, this.data, null, void 0, n)
+                if (s) s.destroy();
+        
+                let a = this.cfg.bulletType;
+                let n = {
+                    category: e.CollideGroupType.BULLET,
+                    mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
+                };
+        
+                let r = this.atkTarget
+                    ? new fx.V2(this.atkTarget.owner.x - i.x, this.atkTarget.owner.y - i.y)
+                    : new fx.V2(Math.cos((i.rotation - 90) * Math.PI / 180), Math.sin((i.rotation - 90) * Math.PI / 180));
+                r.normalize();
+        
+                s = i.addComponent(XBulletScript);
+                s.lockTarget = this.atkTarget;
+        
+                let damage = .3 * this.atkTarget.attackPower;
+                if (a == e.BulletType.Normal) {
+                    s.shoot(this.cfg.bullet, damage, r, null, this.data, null, void 0, n);
+                } else {
+                    s.shoot(this.cfg.bullet, damage, r, this.atkTarget, this.data, null, void 0, n);
+                }
             }
         }
+        
         class XGuideArrowScript extends Laya.Script {
             constructor() {
                 super(...arguments), this.v2 = new fx.V2, this.v2_1 = new fx.V2
@@ -9641,7 +10298,7 @@ define("js/bundle.js", function(require, module, exports) {
                 }
             }
         }
-        class JiguangTowerScript extends XTowerScript {
+        class XJiguangTowerScript extends XTowerScript {
             constructor() {
                 super(...arguments), this.v2 = new fx.V2, this.v2_1 = new fx.V2, this.atkTime = 0
             }
@@ -9687,7 +10344,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.img_laser && this.img_laser.destroy()
             }
         }
-        class JisuTowerScript extends XTowerScript {
+        class XJisuTowerScript extends XTowerScript {
             constructor() {
                 super(...arguments), this.curBuffTime = 0, this.curCdTime = 0
             }
@@ -9696,7 +10353,7 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.cdNode.getChildByName("img_building");
                 this.panel_bar = e.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
                 let i = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_jiasu = new Laya.Image("res/game/img_jiasu.png"), this.btn_jiasu.anchorX = this.btn_jiasu.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_jiasu), this.btn_jiasu.addComponent(Ni), this.btn_jiasu.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_jiasu.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                this.cdNode.pos(i.x, i.y), this.cdNode.visible = !1, this.btn_jiasu = new Laya.Image("res/game/img_jiasu.png"), this.btn_jiasu.anchorX = this.btn_jiasu.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_jiasu), this.btn_jiasu.addComponent(XScaleEffectBtn), this.btn_jiasu.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_jiasu.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
             }
             onClickBtn() {
                 this.data.palsyTime || (this.isCd ? XToast.show("冷却中") : (this.isBuff = !0, this.btn_jiasu.visible = !1, this.curBuffTime = 8))
@@ -9730,7 +10387,7 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.cdNode && this.cdNode.destroy(), this.btn_jiasu && this.btn_jiasu.destroy()
             }
         }
-        class JuTowerScript extends XTowerScript {
+        class XJuTowerScript extends XTowerScript {
             initSkin() {
                 super.initSkin(), this.imgBody.scale(1.5, 1.5)
             }
@@ -9745,53 +10402,185 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XKnifeScript extends XBuildingScript {
             onInit() {
-                let i = XMgr.buildingMgr.getRoom(this.data.roomId);
-                if (i)
-                    for (const t of i.buildings)
+                let room = XMgr.buildingMgr.getRoom(this.data.roomId);
+                if (room)
+                    for (const t of room.buildings)
                         if (t.type == e.BuildType.door) {
                             this.door = t;
                             break
                         }
-                this.data.owner.timerLoop(100, this, this.timeLoop), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
+                this.data.owner.timerLoop(100, this, this.timeLoop), 
+                this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let s = this.cdNode.getChildByName("img_building");
-                this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
-                let a = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(a.x, a.y), this.cdNode.visible = !1, this.btn_slash = new Laya.Image("res/game/slash.png"), this.btn_slash.anchorX = this.btn_slash.anchorY = .5, XMgr.gameUI.gameNode.addChild(this.btn_slash), this.btn_slash.addComponent(Ni), this.btn_slash.visible = !1, this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_slash.on(Laya.Event.CLICK, this, this.onClickBtn), this.updateBtnPos()
+                this.panel_bar = s.getChildByName("panel_bar"), 
+                this.panel_bar.width = .001, 
+                XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                let mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
+                this.cdNode.pos(mapPos.x, mapPos.y), 
+                this.cdNode.visible = !1, 
+                this.btn_slash = new Laya.Image("res/game/slash.png"), 
+                this.btn_slash.anchorX = this.btn_slash.anchorY = .5, 
+                XMgr.gameUI.gameNode.addChild(this.btn_slash), 
+                this.btn_slash.addComponent(XScaleEffectBtn), 
+                this.btn_slash.visible = !1, 
+                this.data.playerUuid == XMgr.playerMgr.mineUuid && this.btn_slash.on(Laya.Event.CLICK, this, this.onClickBtn), 
+                this.updateBtnPos()
             }
             timeLoop() {
-                let e = XMgr.playerMgr.hunters[0];
-                e && this.door && this.door.owner && (Math.abs(this.door.owner.x - e.owner.x) < 2 * C.GridSize || Math.abs(this.door.owner.y - e.owner.y) < 2 * C.GridSize ? this.hunter = e : this.hunter && (this.hunter = null))
+                // 获取第一个猎人对象
+                let hunter = XMgr.playerMgr.hunters[0];
+            
+                // 确保门与猎人都存在
+                if (!hunter || !this.door || !this.door.owner) return;
+            
+                // 计算猎人与门的距离（以格子为单位）
+                let dx = Math.abs(this.door.owner.x - hunter.owner.x);
+                let dy = Math.abs(this.door.owner.y - hunter.owner.y);
+            
+                // 若猎人靠近门（x 或 y 距离小于 2 格），设置为当前猎人
+                if (dx < 2 * C.GridSize || dy < 2 * C.GridSize) {
+                    this.hunter = hunter;
+                } 
+                // 否则清空目标
+                else if (this.hunter) {
+                    this.hunter = null;
+                }
             }
+            
             onClickBtn() {
+                // 若处于麻痹状态，直接返回
                 if (this.data.palsyTime) return;
-                if (this.isCd) return void XToast.show("冷却中");
-                this.hunter ? (this.isCd = !0, this.curTime = 60, this.cdNode.visible = !0, this.btn_slash.visible = !1, this.fire()) : XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost ? XToast.show("木头人太远了") : XToast.show("噬魂者太远了")
+            
+                // 若技能冷却中，提示并返回
+                if (this.isCd) {
+                    XToast.show("冷却中");
+                    return;
+                }
+            
+                // 如果有 hunter，触发技能逻辑
+                if (this.hunter) {
+                    this.isCd = true;
+                    this.curTime = 60;
+                    this.cdNode.visible = true;
+                    this.btn_slash.visible = false;
+                    this.fire();
+                    return;
+                }
+            
+                // 否则根据模式显示不同提示
+                if (XMgr.gameMgr.gameMode == e.GameMode.E_AngelOrGhost) {
+                    XToast.show("木头人太远了");
+                } else {
+                    XToast.show("噬魂者太远了");
+                }
             }
+            
             fire() {
-                let i = .1,
-                    s = "res/bullet/knife/1.png";
-                this.data.isSuper && (i = .25, s = "res/bullet/knife/2.png");
-                let a = this.hunter,
-                    n = XMgr.bulletMgr.createBulletNode(s);
-                if (!n) return;
-                n.rotation = this.node.rotation, n.x = this.node.x, n.y = this.node.y;
-                let r = n.getComponent(XBulletScript);
-                r && r.destroy();
-                let o = {
-                        category: e.CollideGroupType.BULLET,
-                        mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
-                    },
-                    l = a ? new fx.V2(a.owner.x - n.x, a.owner.y - n.y) : new fx.V2(Math.cos((n.rotation - 90) * Math.PI / 180), Math.sin((n.rotation - 90) * Math.PI / 180));
-                l.normalize(), (r = n.addComponent(XBulletScript)).lockTarget = a;
-                let h = a.maxHp * i;
-                r.shoot(s, h, l, a, this.data, null, void 0, o, null, !0)
+                // 初始化基础伤害比例与子弹贴图
+                let damgePercent = 0.1;
+                let bulletPath = "res/bullet/knife/1.png";
+            
+                // 若为超级状态，提升伤害与更换子弹贴图
+                if (this.data.isSuper) {
+                    damgePercent = 0.25;
+                    bulletPath = "res/bullet/knife/2.png";
+                }
+            
+                // 创建子弹节点
+                let hunter = this.hunter;
+                let bulletNode = XMgr.bulletMgr.createBulletNode(bulletPath);
+                if (!bulletNode) return;
+            
+                // 初始化子弹位置与朝向
+                bulletNode.rotation = this.node.rotation;
+                bulletNode.x = this.node.x;
+                bulletNode.y = this.node.y;
+            
+                // 若已有脚本组件，先销毁
+                let bulletScript = bulletNode.getComponent(XBulletScript);
+                if (bulletScript) bulletScript.destroy();
+            
+                // 碰撞组配置
+                let collideInfo = {
+                    category: e.CollideGroupType.BULLET,
+                    mask:
+                        e.CollideGroupType.HUNTER |
+                        e.CollideGroupType.Defender |
+                        e.CollideGroupType.Building |
+                        e.CollideGroupType.DefenderMine,
+                };
+            
+                // 计算方向向量
+                let dir = hunter
+                    ? new fx.V2(hunter.owner.x - bulletNode.x, hunter.owner.y - bulletNode.y)
+                    : new fx.V2(
+                          Math.cos((bulletNode.rotation - 90) * Math.PI / 180),
+                          Math.sin((bulletNode.rotation - 90) * Math.PI / 180)
+                      );
+                dir.normalize();
+            
+                // 添加并初始化子弹脚本
+                bulletScript = bulletNode.addComponent(XBulletScript);
+                bulletScript.lockTarget = hunter;
+            
+                // 计算最终伤害
+                let damge = hunter.maxHp * damgePercent;
+            
+                // 发射子弹
+                bulletScript.shoot(
+                    bulletPath,
+                    damge,
+                    dir,
+                    hunter,
+                    this.data,
+                    null,
+                    void 0,
+                    collideInfo,
+                    null,
+                    true
+                );
             }
+            
             onUpdate() {
-                super.onUpdate(), XMgr.gameMgr.isPause || this.updateBuildCd() && this.btn_slash && this.data.playerUuid == XMgr.playerMgr.mineUuid && (this.updateBtnPos(), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (60 - this.curTime) / 60 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.btn_slash.visible = !0)) : this.btn_slash.visible || (this.btn_slash.visible = !0))
+                // 调用父类更新
+                super.onUpdate();
+            
+                // 如果游戏暂停，则不执行后续逻辑
+                if (XMgr.gameMgr.isPause) return;
+            
+                // 仅在建造CD更新成功、按钮存在、且是自己玩家时执行
+                if (
+                    this.updateBuildCd() &&
+                    this.btn_slash &&
+                    this.data.playerUuid == XMgr.playerMgr.mineUuid
+                ) {
+                    // 更新按钮位置
+                    this.updateBtnPos();
+            
+                    // 如果处于冷却状态
+                    if (this.isCd) {
+                        // 更新冷却时间
+                        this.curTime -= fx.Utils.getFrameDelta(0.033);
+                        // 根据冷却进度调整冷却条宽度
+                        this.panel_bar.width = ((60 - this.curTime) / 60) * 89;
+            
+                        // 冷却完成
+                        if (this.curTime <= 0) {
+                            this.isCd = false;
+                            this.cdNode.visible = false;
+                            this.btn_slash.visible = true;
+                        }
+                    } 
+                    // 若不在冷却状态且按钮被隐藏，则显示按钮
+                    else if (!this.btn_slash.visible) {
+                        this.btn_slash.visible = true;
+                    }
+                }
             }
+            
             updateBtnPos() {
-                let e = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
-                    i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
+                let mapPos = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y),
+                    i = XMgr.mapMgr.mapPosToStagePos(mapPos.x, mapPos.y);
                 this.btn_slash.pos(i.x, i.y + 20)
             }
             videoUpgrade() {
@@ -9873,36 +10662,38 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.buildingMgr.destroyBuilding(XMgr.playerMgr.mineUuid, r, o, !1)
                 XMgr.buildingMgr.buildFree(this.data.playerUuid, buildId, r, o, 0, buildLv)
             }
-            checkVariant(e) {
-                if (e.variantList && XRandomUtil.getNumberRandom(0, 10) < 3) {
+            checkVariant(buildCfg) {
+                if (buildCfg.variantList && XRandomUtil.getNumberRandom(0, 10) < 3) {
                     let i = [];
-                    for (const t of e.variantList) i.push({
+                    for (const t of buildCfg.variantList) i.push({
                         o: t.id,
                         weight: t.weight
                     });
                     let s = fx.Utils.takeOneByWeight(i)[1].o;
                     return XMgr.buildingMgr.getBuildCfg(s)
                 }
-                return e
+                return buildCfg
             }
             specialTower() {
-                let e = XMgr.mapMgr.getRoomById(this.data.roomId),
-                    i = [];
-                if (e.buildings && e.buildings.length) {
-                    for (const t of e.buildings) t.isSpecial || 3e3 != t.id || i.push(t);
-                    if (i.length) {
-                        let e = XMgr.user.gameInfo.getBuffData(20),
+                let room = XMgr.mapMgr.getRoomById(this.data.roomId),
+                    towersToBe = [];
+                if (room.buildings && room.buildings.length) {
+                    for (const roomBuilding of room.buildings) roomBuilding.isSpecial || 3e3 != roomBuilding.id || towersToBe.push(roomBuilding);
+                    if (towersToBe.length) {
+                        let buffData = XMgr.user.gameInfo.getBuffData(20),
                             s = 2;
-                        if (e) {
-                            s = XMgr.cfg.buffCfg.get(20).values[e.lv] / 100
+                        if (buffData) {
+                            s = XMgr.cfg.buffCfg.get(20).values[buffData.lv] / 100
                         }
-                        let a = Math.min(s / i.length, 1);
-                        s > 2 && (a = s / i.length), XToast.show(`当前所有炮台有${Math.round(100*a)}%几率变化底座`);
+                        let ratio = Math.min(s / towersToBe.length, 1);
+                        s > 2 && (ratio = s / towersToBe.length), XToast.show(`当前所有炮台有${Math.round(100*ratio)}%几率变化底座`);
                         let n = 0;
-                        for (const e of i)
-                            if (XRandomUtil.getNumberRandom(0, 1) <= a) {
+                        for (const tower of towersToBe)
+                            if (XRandomUtil.getNumberRandom(0, 1) <= ratio) {
                                 let i = XMgr.buildingMgr.getSpecialTowerByWeight();
-                                e.isSpecial = !0, e.specialId = i.id, console.log(`随机特殊炮台id---------${i.id}`), e.ownerScript.updateSpecial(), n++
+                                tower.isSpecial = !0, tower.specialId = i.id, console.log(`随机特殊炮台id---------${i.id}`), 
+                                tower.ownerScript.updateSpecial(), 
+                                n++
                             }
                         XMgr.gameMgr.showSpecialTip(n)
                     } else XToast.show("当前没有炮台")
@@ -10341,8 +11132,8 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XQianjinTowerScript extends XTowerScript {
             addCoinByAtk() {
-                let i = Math.round(.5 * this.cfg.atkDamage * .25);
-                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                let coin = Math.round(.5 * this.cfg.atkDamage * .25);
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, coin, this.node.x, this.node.y)
             }
         }
         class XQianliTowerScript extends XTowerScript {
@@ -10358,7 +11149,12 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XQuirkyTowerScript extends XBuildingScript {
             constructor() {
-                super(...arguments), this.canAttack = !0, this.lastAtkTime = 0, this.curNum = 180, this.isCoin = !1, this.isSuper = !1
+                super(...arguments), 
+                this.canAttack = !0, 
+                this.lastAtkTime = 0, 
+                this.curNum = 180, 
+                this.isCoin = false, 
+                this.isSuper = false
             }
             getAtkCD() {
                 for (const e of this.data.buffs)
@@ -10440,22 +11236,29 @@ define("js/bundle.js", function(require, module, exports) {
                         mask: e.CollideGroupType.HUNTER | e.CollideGroupType.Defender | e.CollideGroupType.Building | e.CollideGroupType.DefenderMine
                     },
                     o = i ? new fx.V2(i.owner.x - s.x, i.owner.y - s.y) : new fx.V2(Math.cos((s.rotation - 90) * Math.PI / 180), Math.sin((s.rotation - 90) * Math.PI / 180));
-                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i, n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, i, this.data, null, void 0, r), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
+                o.normalize(), (a = s.addComponent(XBulletScript)).lockTarget = i, 
+                n == e.BulletType.Normal ? a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, null, this.data, null, void 0, r) 
+                    : a.shoot(this.cfg.bullet, this.cfg.atkDamage, o, i, this.data, null, void 0, r), 
+                (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
                     this.imgBody.scale(1, 1)
                 })).run(this.imgBody);
                 let l = this.node.rotation,
                     h = this.getAtkCD();
-                if ((new fx.Sequence).to({
+                (new fx.Sequence).to({
                         rotation: l + this.curNum
                     }, h / 4).to({
                         rotation: l
-                    }, h / 4).run(this.node), this.curNum *= -1, this.isCoin) {
-                    let i = 2 * * (this.data.lv - 1);
-                    i > 512 && (i = 512), XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                    }, h / 4).run(this.node), this.curNum *= -1
+                if (this.isCoin) {
+                    let i = 2 * (this.data.lv - 1);
+                    i > 512 && (i = 512), 
+                    XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
                 }
             }
             videoUpgrade() {
-                this.isCoin = !0, XRandomUtil.getNumberRandom(1, 11) <= 5 ? (this.isSuper = !0, this.data.superId = this.cfg.videoUpgradeIdArr[1]) : this.data.superId = this.cfg.videoUpgradeIdArr[0], this.updateIcon()
+                this.isCoin = !0, 
+                XRandomUtil.getNumberRandom(1, 11) <= 5 ? (this.isSuper = !0, this.data.superId = this.cfg.videoUpgradeIdArr[1]) : this.data.superId = this.cfg.videoUpgradeIdArr[0], 
+                this.updateIcon()
             }
             upgrade() {
                 super.upgrade(), this.data.isSuper && this.updateIcon()
@@ -10465,7 +11268,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.imgBody.skin = e.icon
             }
         }
-        class XRabbitScript extends XBuildingScript {get moveMod() {
+        class XRabbitScript extends XBuildingScript {
+            get moveMod() {
                 let e = Math.abs(this.data.rotation);
                 return 0 == e || 180 == e
             }
@@ -10561,13 +11365,14 @@ define("js/bundle.js", function(require, module, exports) {
                             this.bed = t;
                             break
                         }
-                this.initOutDoorPos(), this.bedPos = new fx.V2(i.bedModelList[0].x, i.bedModelList[0].y), XMgr.gameMgr.mapScript.changeBuildTips(this.bedPos.x, this.bedPos.y), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
+                this.initOutDoorPos(), this.bedPos = new fx.V2(i.bedModelList[0].x, i.bedModelList[0].y), 
+                XMgr.gameMgr.mapScript.changeBuildTips(this.bedPos.x, this.bedPos.y), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let s = this.cdNode.getChildByName("img_building");
                 this.panel_bar = s.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
                 let a = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
                 this.cdNode.pos(a.x, a.y), this.cdNode.visible = !1, this.skillBtn = new Laya.Image("res/game/out.png"), this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
                 let n = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(n.x, n.y + 50), this.skillBtn.addComponent(Ni), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill)
+                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(n.x, n.y + 50), this.skillBtn.addComponent(XScaleEffectBtn), this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill)
             }
             initOutDoorPos() {
                 let e = XMgr.mapMgr.getRoomById(this.data.roomId);
@@ -10596,7 +11401,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let e = this.outDoorPos,
                     i = XMgr.mapMgr.gridPosToMapPos(this.bedPos.x, this.bedPos.y);
                 if (this.isUsedSkill) {
-                    this.skillBtn.skin = "res/game/out.png", XMgr.playerMgr.player.isOutDoor = !1, this.isUsedSkill = !1, this.isCd = !0, this.curTime = 90, this.cdNode.visible = !0, this.skillBtn.visible = !1, XChoreUtil.playSound(133), (new fx.Sequence).to({
+                    this.skillBtn.skin = "res/game/out.png", XMgr.playerMgr.player.isOutDoor = !1, this.isUsedSkill = !1, this.isCd = !0, this.curTime = 90, this.cdNode.visible = !0, 
+                    this.skillBtn.visible = !1, XChoreUtil.playSound(133), (new fx.Sequence).to({
                         x: i.x,
                         y: i.y
                     }, 1e3).exec(new Laya.Handler(this, () => {
@@ -10718,8 +11524,23 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.skillBtn && this.skillBtn.destroy(), this.cdNode && this.cdNode.destroy()
             }
             videoUpgrade() {
-                XRandomUtil.getNumberRandom(1, 11) <= 2 ? (this.isSuper = !0, this.data.superId = this.cfg.videoUpgradeIdArr[1]) : (this.isDouble = !0, this.data.superId = this.cfg.videoUpgradeIdArr[0]), this.updateIcon()
+                // 随机 1~10，有 20% 概率成为超级状态
+                const rand = XRandomUtil.getNumberRandom(1, 11);
+            
+                if (rand <= 2) {
+                    // 超级升级
+                    this.isSuper = true;
+                    this.data.superId = this.cfg.videoUpgradeIdArr[1];
+                } else {
+                    // 双倍升级
+                    this.isDouble = true;
+                    this.data.superId = this.cfg.videoUpgradeIdArr[0];
+                }
+            
+                // 更新图标显示
+                this.updateIcon();
             }
+            
             upgrade() {
                 super.upgrade(), this.data.isSuper && this.updateIcon()
             }
@@ -10858,7 +11679,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             
         }
-        class as extends XTowerScript {
+        class XSusheTowerScript extends XTowerScript {
             getDamageMult() {
                 return .5
             }
@@ -11135,14 +11956,22 @@ define("js/bundle.js", function(require, module, exports) {
         class XTrapScript extends XBuildingScript {
             initBuild() {
                 let e = XMgr.buildingMgr.getBuildCfg(this.data.id);
-                this.dizzyTime = e.effectList[0].value[0], XMgr.user.gameInfo.getBuffData(8) && (this.dizzyTime += 1), this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
+                this.dizzyTime = e.effectList[0].value[0], 
+                XMgr.user.gameInfo.getBuffData(8) && (this.dizzyTime += 1), 
+                this.cdNode = fx.Utils.createPrefab(T.Prefab_SkillCD);
                 let i = this.cdNode.getChildByName("img_building");
-                this.panel_bar = i.getChildByName("panel_bar"), this.panel_bar.width = .001, XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
+                this.panel_bar = i.getChildByName("panel_bar"), 
+                this.panel_bar.width = .001, 
+                XMgr.mapMgr.buildCdLayer.addChild(this.cdNode);
                 let s = XMgr.mapMgr.gridPosToMapPos(this.data.x, this.data.y);
-                this.cdNode.pos(s.x, s.y), this.cdNode.visible = !1, this.skillBtn = new Laya.Image("res/game/trap.png"), this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
+                this.cdNode.pos(s.x, s.y), 
+                this.cdNode.visible = false, 
+                this.skillBtn = new Laya.Image("res/game/trap.png"), 
+                this.skillBtn.anchorX = this.skillBtn.anchorY = .5;
                 let a = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                XMgr.gameUI.gameNode.addChild(this.skillBtn), this.skillBtn.pos(a.x, a.y + 50), 
-                this.skillBtn.addComponent(Ni), 
+                XMgr.gameUI.gameNode.addChild(this.skillBtn), 
+                this.skillBtn.pos(a.x, a.y + 50), 
+                this.skillBtn.addComponent(XScaleEffectBtn), 
                 this.skillBtn.on(Laya.Event.CLICK, this, this.onClickSkill), this.hunters = [];
                 let n = XMgr.mapMgr.getRoomById(this.data.roomId);
                 (this.door = n.doorModel).owner.on(be.Battle_Be_Hit, this, this.onDoorBeHit)
@@ -11156,7 +11985,9 @@ define("js/bundle.js", function(require, module, exports) {
                     for (const i of this.hunters)
                         if (Math.abs(this.door.owner.x - i.owner.x) <= 150 || Math.abs(this.door.owner.y - i.owner.y) <= 150) {
                             let s = new Laya.Animation;
-                            s.source = "res/atlas/res/Ani/zhua.atlas", XEffectUtil.I.playAnim(s, i.owner.x - C.GridHalfSize, i.owner.y - C.GridHalfSize, !1), XMgr.gameMgr.DizzyTarget(i, this.dizzyTime), e = !0
+                            s.source = "res/atlas/res/Ani/zhua.atlas", 
+                            XEffectUtil.I.playAnim(s, i.owner.x - C.GridHalfSize, i.owner.y - C.GridHalfSize, !1), 
+                            XMgr.gameMgr.DizzyTarget(i, this.dizzyTime), e = !0
                         } else {
                             let e = this.hunters.indexOf(i);
                             e >= 0 && this.hunters.splice(e, 1)
@@ -11170,23 +12001,37 @@ define("js/bundle.js", function(require, module, exports) {
             updateBtn() {
                 if (this.skillBtn && this.data.playerUuid == XMgr.playerMgr.mineUuid) {
                     let e = XMgr.mapMgr.mapPosToStagePos(this.node.x, this.node.y - 25);
-                    this.skillBtn.pos(e.x, e.y + 50), this.isCd ? (this.curTime -= fx.Utils.getFrameDelta(.033), this.panel_bar.width = (20 - this.curTime) / 20 * 89, this.curTime <= 0 && (this.isCd = !1, this.cdNode.visible = !1, this.skillBtn.visible = !0)) : this.skillBtn.visible || (this.skillBtn.visible = !0)
+                    this.skillBtn.pos(e.x, e.y + 50);
+                
+                    if (this.isCd) {
+                        this.curTime -= fx.Utils.getFrameDelta(.033);
+                        this.panel_bar.width = (20 - this.curTime) / 20 * 89;
+                
+                        if (this.curTime <= 0) {
+                            this.isCd = !1;
+                            this.cdNode.visible = !1;
+                            this.skillBtn.visible = !0;
+                        }
+                    } else if (!this.skillBtn.visible) {
+                        this.skillBtn.visible = !0;
+                    }
                 }
             }
             initEffects() {
-                if (this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(9)) this.initBuild();
+                if (this.data.playerUuid == XMgr.playerMgr.player.uuid && XMgr.user.gameInfo.getBuffData(9)) 
+                    this.initBuild();
                 else {
-                    for (let e = this.effects.length - 1; e >= 0; --e) {
-                        let t = this.effects[e];
-                        t.clearFlag && (t.clear(), this.effects.splice(e, 1))
+                    for (let idx = this.effects.length - 1; idx >= 0; --idx) {
+                        let t = this.effects[idx];
+                        t.clearFlag && (t.clear(), this.effects.splice(idx, 1))
                     }
-                    for (const i of this.cfg.effectList) {
-                        let s = XEffectBuilder.createEffect(i, this.data);
-                        if (s) {
-                            if (s.clearFlag = !0, this.addEffect(s), i.type == e.EffectType.Enemy_SlowAtkSpd) {
+                    for (const cfgEffect of this.cfg.effectList) {
+                        let effect = XEffectBuilder.createEffect(cfgEffect, this.data);
+                        if (effect) {
+                            if (effect.clearFlag = true, this.addEffect(effect), cfgEffect.type == e.EffectType.Enemy_SlowAtkSpd) {
                                 return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_1()
                             }
-                            if (i.type == e.EffectType.Door_FightBackOnBeAtk) {
+                            if (cfgEffect.type == e.EffectType.Door_FightBackOnBeAtk) {
                                 return void XMgr.mapMgr.getRoomById(this.data.roomId).doorModel.ownerScript.showDoorEff_2()
                             }
                         }
@@ -11197,25 +12042,64 @@ define("js/bundle.js", function(require, module, exports) {
                 super.onDestroy(), this.skillBtn && this.skillBtn.destroy(), this.cdNode && this.cdNode.destroy()
             }
         }
-        class ls extends XTowerScript {
+        class XWanjinTowerScript extends XTowerScript {
             addCoinByAtk() {
-                let i = Math.round(.5 * this.cfg.atkDamage * .5);
-                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, i) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, i, this.node.x, this.node.y)
+                let coin = Math.round(.5 * this.cfg.atkDamage * .5);
+                XMgr.playerMgr.changePlayerIncomeByUuid(this.data.playerUuid, coin) && XMgr.gameUI.valueTips(e.TokenType.E_Coin, coin, this.node.x, this.node.y)
             }
         }
-        class hs extends XTowerScript {
+        class XXixingTowerScript extends XTowerScript {
             playFireEff() {
-                let e = XMgr.playerMgr.getPlayer(this.data.playerUuid),
-                    i = XMgr.mapMgr.getRoomById(e.roomId);
-                i && i.doorModel && (XMgr.gameMgr.AddHp(i.doorModel, .01 * i.doorModel.maxHp), i.doorModel.ownerScript.showHuiFuEff()), (new fx.Sequence).scaleOut(1.1, 50).scaleIn(.8, 100).scaleOut(1, 50).exec(Laya.Handler.create(this, () => {
-                    this.imgBody.scale(1, 1)
-                })).run(this.imgBody)
+                // 获取当前玩家与所在房间
+                let player = XMgr.playerMgr.getPlayer(this.data.playerUuid);
+                let room = XMgr.mapMgr.getRoomById(player.roomId);
+            
+                // 若房间存在并且有门模型，则为门回复生命值并显示特效
+                if (room && room.doorModel) {
+                    XMgr.gameMgr.AddHp(room.doorModel, 0.01 * room.doorModel.maxHp);
+                    room.doorModel.ownerScript.showHuiFuEff();
+                }
+            
+                // 播放缩放动画特效
+                new fx.Sequence()
+                    .scaleOut(1.1, 50)
+                    .scaleIn(0.8, 100)
+                    .scaleOut(1, 50)
+                    .exec(Laya.Handler.create(this, () => {
+                        this.imgBody.scale(1, 1);
+                    }))
+                    .run(this.imgBody);
             }
+            
         }
-        class ds extends XTowerScript {
+        class XZimuTowerScript extends XTowerScript {
             initSkin() {
-                this.cfg.diIcon && (this.imgDi = new Laya.Image, this.imgDi.anchorX = this.imgDi.anchorY = .5, this.skinNode.addChild(this.imgDi), this.imgDi.pos(0, 0)), this.imgBody = new Laya.Image, this.skinNode.addChild(this.imgBody), this.imgBody.anchorX = this.imgBody.anchorY = .5, this.imgBody.pos(-25, 0), this.imgBody_1 = new Laya.Image, this.skinNode.addChild(this.imgBody_1), this.imgBody_1.anchorX = this.imgBody_1.anchorY = .5, this.imgBody_1.pos(25, 0), this.imgBody_1.scale(.8, .8), this.updateIcon(), this.initEffects()
+                // 初始化底部图层（如果有底图）
+                if (this.cfg.diIcon) {
+                    this.imgDi = new Laya.Image();
+                    this.imgDi.anchorX = this.imgDi.anchorY = 0.5;
+                    this.skinNode.addChild(this.imgDi);
+                    this.imgDi.pos(0, 0);
+                }
+            
+                // 初始化左侧主体图像
+                this.imgBody = new Laya.Image();
+                this.skinNode.addChild(this.imgBody);
+                this.imgBody.anchorX = this.imgBody.anchorY = 0.5;
+                this.imgBody.pos(-25, 0);
+            
+                // 初始化右侧主体图像
+                this.imgBody_1 = new Laya.Image();
+                this.skinNode.addChild(this.imgBody_1);
+                this.imgBody_1.anchorX = this.imgBody_1.anchorY = 0.5;
+                this.imgBody_1.pos(25, 0);
+                this.imgBody_1.scale(0.8, 0.8);
+            
+                // 更新图标与特效
+                this.updateIcon();
+                this.initEffects();
             }
+            
             tryAttack() {
                 if (this.data.isDizzy) return void(this.isWork = !1);
                 let e = this.findTarget();
@@ -11367,6 +12251,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_ghostDoor = new Laya.Image("res/game/img_ghostDoor.png"), 
                 this.img_ghostDoor.width = this.img_ghostDoor.height = 180, 
                 this.panel_ghostDoor.addChild(this.img_ghostDoor), this.img_ghostDoor.pos(0, 180);
+
                 let e = XMgr.playerMgr.mineUuid,
                     i = XMgr.playerMgr.hunters;
                 for (let s = 0; s < i.length; ++s) {
@@ -11389,13 +12274,13 @@ define("js/bundle.js", function(require, module, exports) {
                 let i = XMgr.user.gameInfo,
                     s = i.winCnt + i.failCnt;
                 if (i.isExitGame) return i.isExitGame = !1, void XMgr.user.saveToServer();
-                let a = .2;
-                a = XMgr.user.gameInfo.ownBuff.size ? .2 : i.mapBuildRate;
+                let mapBuildRate = .2;
+                mapBuildRate = XMgr.user.gameInfo.ownBuff.size ? .2 : i.mapBuildRate;
                 let n = XMgr.user.gameInfo.getBuffData(24);
                 if (n) {
-                    a += XMgr.cfg.buffCfg.get(24).values[n.lv] / 100
+                    mapBuildRate += XMgr.cfg.buffCfg.get(24).values[n.lv] / 100
                 }
-                s > 0 && XRandomUtil.random() <= a && XMgr.buildingMgr.addMapBuild()
+                s > 0 && XRandomUtil.random() <= mapBuildRate && XMgr.buildingMgr.addMapBuild()
             }
             firstPlay() {
                 if (0 == XMgr.user.gameInfo.winCnt + XMgr.user.gameInfo.failCnt) {
@@ -11531,20 +12416,20 @@ define("js/bundle.js", function(require, module, exports) {
                                 case 1: r = n.addComponent(XQianjinTowerScript); break;
                                 case 2: r = n.addComponent(XTianShiTowerScript); l = !0; break;
                                 case 3: r = n.addComponent(XBailiTowerScript); break;
-                                case 4: r = n.addComponent(Ei); break;
-                                case 5: r = n.addComponent(ds); break;
+                                case 4: r = n.addComponent(XDaTowerScript); break;
+                                case 5: r = n.addComponent(XZimuTowerScript); break;
                                 case 6: r = n.addComponent(XTowerScript); break;
                                 case 7: r = n.addComponent(XShuangtouTowerScript); break;
                                 case 8: r = n.addComponent(XBingdongTowerScript); break;
-                                case 9: r = n.addComponent(JuTowerScript); break;
-                                case 10: r = n.addComponent(JiguangTowerScript); break;
-                                case 11: r = n.addComponent(ls); break;
+                                case 9: r = n.addComponent(XJuTowerScript); break;
+                                case 10: r = n.addComponent(XJiguangTowerScript); break;
+                                case 11: r = n.addComponent(XWanjinTowerScript); break;
                                 case 12: r = n.addComponent(XMiniTowerScript); break;
-                                case 13: r = n.addComponent(JisuTowerScript); break;
+                                case 13: r = n.addComponent(XJisuTowerScript); break;
                                 case 14: r = n.addComponent(XQianliTowerScript); break;
                                 case 15: r = n.addComponent(XTowerScript); break;
-                                case 16: r = n.addComponent(as); break;
-                                case 17: r = n.addComponent(hs); break;
+                                case 16: r = n.addComponent(XSusheTowerScript); break;
+                                case 17: r = n.addComponent(XXixingTowerScript); break;
                                 default: r = n.addComponent(XTowerScript);
                             }
                         } else {
@@ -11583,7 +12468,7 @@ define("js/bundle.js", function(require, module, exports) {
                             r = n.addComponent(XBuildingScript);
                         }
                     } else if (buildCfg.type == e.BuildType.entice) {
-                        r = n.addComponent(EnticeScript);
+                        r = n.addComponent(XEnticeScript);
                     } else if (buildCfg.type == e.BuildType.stone) {
                         r = n.addComponent(XRabbitScript);
                     } else if (buildCfg.type == e.BuildType.boxMonster) {
@@ -11658,9 +12543,9 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 } else {
                     // 查找地图上的特殊建筑
-                    let e = XMgr.buildingMgr.getNearMapBuildingByMapPos(i.x, i.y);
-                    if (e && !XMgr.playerMgr.player.takeMapBuild) {
-                        XMgr.gameUI.showMapBuildBtn(e.x, e.y);
+                    let mapBuilding = XMgr.buildingMgr.getNearMapBuildingByMapPos(i.x, i.y);
+                    if (mapBuilding && !XMgr.playerMgr.player.takeMapBuild) {
+                        XMgr.gameUI.showMapBuildBtn(mapBuilding.x, mapBuilding.y);
                     }
                 }
             }
@@ -11681,9 +12566,9 @@ define("js/bundle.js", function(require, module, exports) {
                 let s = i;
                 t.isOpen ? s.openDoor() : s.closeDoor()
             }
-            repairDoor(e) {
-                if (!e.doorModel.owner || e.doorModel.owner.destroyed) return !1;
-                e.doorModel.owner.getComponent(XBuildingScript).repair(5)
+            repairDoor(room) {
+                if (!room.doorModel.owner || room.doorModel.owner.destroyed) return !1;
+                room.doorModel.owner.getComponent(XBuildingScript).repair(5)
             }
             onPlayerUpBed(build_, uuid_) {
                 let defender = this.getDefender(uuid_);
@@ -11728,13 +12613,13 @@ define("js/bundle.js", function(require, module, exports) {
                 if (i)
                     for (const e of i.grids) this.map.hideBuildTips(e.x, e.y)
             }
-            setBtnInCD(e, t = 0, i) {
-                if (!e) return;
-                e.mouseEnabled = !1, e.__cdTween = fx.Effect.cd(e, 1e3 * t, new Laya.Handler(this, () => {
-                    e.mouseEnabled = !0, i && i.run()
+            setBtnInCD(node_, cdTime_ = 0, callback_) {
+                if (!node_) return;
+                node_.mouseEnabled = !1, node_.__cdTween = fx.Effect.cd(node_, 1e3 * cdTime_, new Laya.Handler(this, () => {
+                    node_.mouseEnabled = !0, callback_ && callback_.run()
                 }));
-                let s = e.getChildByName("label_cd");
-                s || ((s = new Laya.Label).name = "label_cd", s.text = t.toString(), s.anchorX = s.anchorY = .5, s.centerX = s.centerY = 0, s.color = "#ffffff", s.bold = !0, s.stroke = 2, s.fontSize = 36, s.dataSource = t, e.addChild(s)), s.timerLoop(1e3, s, this.setCdLabel, [s, e])
+                let s = node_.getChildByName("label_cd");
+                s || ((s = new Laya.Label).name = "label_cd", s.text = cdTime_.toString(), s.anchorX = s.anchorY = .5, s.centerX = s.centerY = 0, s.color = "#ffffff", s.bold = !0, s.stroke = 2, s.fontSize = 36, s.dataSource = cdTime_, node_.addChild(s)), s.timerLoop(1e3, s, this.setCdLabel, [s, node_])
             }
             setCdLabel(e, t) {
                 e.dataSource -= 1, e.text = e.dataSource.toString(), e.dataSource <= 0 && e.destroy()
@@ -11747,17 +12632,29 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = e.getChildByName("label_cd");
                 t && t.destroy()
             }
-            useDigHole(i) {
-                let s = this.hunters[0];
-                s.data.invincible_skill = !0, s.data.isUsingSkill = !0, this.panel_ghostDoor.pos(s.node.x, s.node.y), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = null), (new fx.Sequence).to({
+            useDigHole(mapPos) {
+                let hunter = this.hunters[0];
+                hunter.data.invincible_skill = !0, 
+                hunter.data.isUsingSkill = !0, 
+                this.panel_ghostDoor.pos(hunter.node.x, hunter.node.y), 
+                XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = null), 
+                (new fx.Sequence).to({
                     y: 0
-                }, 500).run(this.img_ghostDoor), (new fx.Sequence).delay(500).scaleOut(0, 2500).exec(new Laya.Handler(this, () => {
-                    s.node.pos(i.x, i.y), s.data.invincible_skill = !1, this.img_ghostDoor.y = 180, this.panel_ghostDoor.pos(i.x, i.y), (new fx.Sequence).to({
+                }, 500).run(this.img_ghostDoor), 
+                (new fx.Sequence).delay(500).scaleOut(0, 2500).exec(new Laya.Handler(this, () => {
+                    hunter.node.pos(mapPos.x, mapPos.y), 
+                    hunter.data.invincible_skill = false, 
+                    this.img_ghostDoor.y = 180, 
+                    this.panel_ghostDoor.pos(mapPos.x, mapPos.y), 
+                    (new fx.Sequence).to({
                         y: 0
-                    }, 500).run(this.img_ghostDoor), (new fx.Sequence).delay(500).scaleOut(1, 2500).exec(new Laya.Handler(this, () => {
-                        s.data.isUsingSkill = !1, this.img_ghostDoor.y = 180
-                    })).run(s.node), XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = s, this.lookAt(this.characterControl.node.x, this.characterControl.node.y))
-                })).run(s.node)
+                    }, 500).run(this.img_ghostDoor), 
+                    (new fx.Sequence).delay(500).scaleOut(1, 2500).exec(new Laya.Handler(this, () => {
+                        hunter.data.isUsingSkill = !1, 
+                        this.img_ghostDoor.y = 180
+                    })).run(hunter.node), 
+                    XMgr.gameMgr.gameMode == e.GameMode.E_Hunt && (this.characterControl = hunter, this.lookAt(this.characterControl.node.x, this.characterControl.node.y))
+                })).run(hunter.node)
             }
             guideHandShow(e) {
                 if (!this.img_guideHand) return;
@@ -11855,7 +12752,8 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!XMgr.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
                 if (!XMgr.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
                 let i = fx.CfgMgr.instance.getConstant("repairTime");
-                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, new Laya.Handler(this, () => {
+                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), 
+                this.setBtnInCD(this.skill_repair, i, new Laya.Handler(this, () => {
                     this.skill_repair._skillCD = !1
                 }))
             }
@@ -11883,7 +12781,8 @@ define("js/bundle.js", function(require, module, exports) {
                 a.init(e);
                 let n = XMgr.mapMgr.getHunterSpawnPos(e.spwanPoint);
                 a.pos(n.x, n.y), this.hunters.push(a), 
-                e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, XMgr.playerMgr.player = e, this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
+                e.uuid == i && (e.name = "我", this.isPlayerBed = !1, this.inputScript.show(), this.characterControl = a, XMgr.playerMgr.player = e, 
+                this.lookAt(this.characterControl.node.x, this.characterControl.node.y)), XToast.show(`${e.name}变为执行人`)
             }
             createAngel(e) {
                 this.angel_skill.visible = !0, this.isPlayerBed = !1, this.inputScript.show();
@@ -11987,11 +12886,13 @@ define("js/bundle.js", function(require, module, exports) {
             
             onClickRepair() {
                 if (this.skill_repair._skillCD) return;
-                let e = XMgr.gameMgr.mineRoom;
+                let mineRoom = XMgr.gameMgr.mineRoom;
                 if (!XMgr.playerMgr.player.isBed) return void XToast.show("入梦后才能维修");
-                if (!XMgr.buildingMgr.repairDoor(e)) return void XToast.show("无法修复");
+                if (!XMgr.buildingMgr.repairDoor(mineRoom)) return void XToast.show("无法修复");
                 let i = fx.CfgMgr.instance.getConstant("repairTime");
-                this.skill_repair._skillCD = !0, XMgr.gameMgr.playSound(e.doorModel, 119), this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
+                this.skill_repair._skillCD = !0, 
+                XMgr.gameMgr.playSound(mineRoom.doorModel, 119), 
+                this.setBtnInCD(this.skill_repair, i, Laya.Handler.create(this, () => {
                     this.skill_repair._skillCD = !1
                 })), XMgr.gameMgr.isClickRepair = !0, this.skill_repair.getChildByName("img_hand").visible = !1, !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()
             }
@@ -12149,7 +13050,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_zhenhan.visible && this.characterControl && (this.img_zhenhan.visible = !1, this.characterControl.performSkill("dizzy"))
             }
             onClickRandom() {
-                XAnalyticsUtil.useLevelItem("猎梦者摇签盒"), this.img_random.visible = !1, XMgr.user.gameInfo.hunterBox -= 1, XMgr.user.saveToServer(), XMgr.playerMgr.hunters[0].ownerScript.getSkill()
+                XAnalyticsUtil.useLevelItem("猎梦者摇签盒"), this.img_random.visible = !1, 
+                XMgr.user.gameInfo.hunterBox -= 1, 
+                XMgr.user.saveToServer(), 
+                XMgr.playerMgr.hunters[0].ownerScript.getSkill()
             }
             createGhost(e) {
                 let i = new Laya.Box;
@@ -12283,7 +13187,9 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XGameScene extends e.ui.scenes.GameSceneUI {
             static getRes(...e) {
-                return [T.Prefab_GuideFinger, T.Prefab_HealZoneEff, T.Prefab_IconTips, T.Prefab_OperateBtn, T.Prefab_BuildMenu, T.Prefab_UpgradeMenu, T.Prefab_BorrowMoney, T.Prefab_HealthBar, T.Prefab_BuildingCD, T.Prefab_SkillCD, T.Prefab_LabelTips, T.Prefab_Guide]
+                return [T.Prefab_GuideFinger, T.Prefab_HealZoneEff, T.Prefab_IconTips, 
+                    T.Prefab_OperateBtn, T.Prefab_BuildMenu, T.Prefab_UpgradeMenu, T.Prefab_BorrowMoney,
+                     T.Prefab_HealthBar, T.Prefab_BuildingCD, T.Prefab_SkillCD, T.Prefab_LabelTips, T.Prefab_Guide]
             }
             constructor(e, i) {
                 super(), XMgr.gameMgr.start(i.matchData)
@@ -13071,7 +13977,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                XMgr.user.gameInfo.canPlayTurnTable = !0, XMgr.user.gameInfo.playHunter = !0, this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
+                XMgr.user.gameInfo.canPlayTurnTable = !0, 
+                XMgr.user.gameInfo.playHunter = !0, this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
                 let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -13118,7 +14025,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                XMgr.user.gameInfo.canPlayTurnTable = !0, XMgr.user.gameInfo.playHunter = !0, this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(118);
+                XMgr.user.gameInfo.canPlayTurnTable = !0, XMgr.user.gameInfo.playHunter = !0, 
+                this.initSkin(XMgr.user.gameInfo.curHunterSkinId), this.checkOpenBox(), XChoreUtil.playSound(118);
                 let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.propNum = XRandomUtil.getIntRandom(1, 2), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -13440,7 +14348,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), this.checkOpenBox(), XChoreUtil.playSound(117);
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), 
+                this.checkOpenBox(), XChoreUtil.playSound(117);
                 let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 10, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -13487,7 +14396,8 @@ define("js/bundle.js", function(require, module, exports) {
                 super()
             }
             onAwake() {
-                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), this.img_mvp.visible = !!XMgr.gameMgr.killCnt, this.checkOpenBox(), XChoreUtil.playSound(118);
+                XMgr.user.gameInfo.canPlayTurnTable = !0, this.initSkin(XMgr.user.gameInfo.curSkinId), 
+                this.img_mvp.visible = !!XMgr.gameMgr.killCnt, this.checkOpenBox(), XChoreUtil.playSound(118);
                 let e = (XMgr.gameTime.now - XMgr.gameMgr.startTime) / 1e3;
                 this.coinNum = 20, e >= 210 && (this.coinNum += Math.floor(10 * Math.min(e / 330, 1))), XMgr.gameMgr.killCnt ? this.coinNum += 10 : this.coinNum += 5, this.initUI(), this.btn_video.on(Laya.Event.CLICK, this, this.onClickVideo), this.btn_close.on(Laya.Event.CLICK, this, this.onClickClose)
             }
@@ -13969,12 +14879,17 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.taskMgr.index = 1, fx.EventCenter.I.off(XEventNames.E_Task_Compelet, this, this.compeletFunc)
             }
         }
-        class Xs extends Laya.Script {
+        class XHunterSkillDesScript extends Laya.Script {
             constructor() {
                 super()
             }
             onAwake() {
-                this.node = this.owner, this.node.visible = !1, this.label_hunterDes = this.owner.getChildByName("label_hunterDes"), this.label_sureBtn = this.owner.getChildByName("label_sureBtn"), this.label_sureBtn.on(Laya.Event.CLICK, this, this.onClickSure), this.checkShow()
+                this.node = this.owner, 
+                this.node.visible = !1, 
+                this.label_hunterDes = this.owner.getChildByName("label_hunterDes"), 
+                this.label_sureBtn = this.owner.getChildByName("label_sureBtn"), 
+                this.label_sureBtn.on(Laya.Event.CLICK, this, this.onClickSure), 
+                this.checkShow()
             }
             onClickSure() {
                 this.node.visible = !1
@@ -13984,7 +14899,9 @@ define("js/bundle.js", function(require, module, exports) {
                 if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && XMgr.gameMgr.skillABTest && XMgr.user.userInfo.loginDay > 1 && XMgr.user.gameInfo.curLv > 3) {
                     if (!XMgr.user.gameInfo.getShowHunterSkillDes(i.skinId)) {
                         let e = XMgr.cfg.skin.get(i.skinId);
-                        this.label_hunterDes.text = e.skillDes, this.node.visible = !0, XMgr.user.gameInfo.addShowHunterSkillDes(i.skinId)
+                        this.label_hunterDes.text = e.skillDes
+                        this.node.visible = !0
+                        XMgr.user.gameInfo.addShowHunterSkillDes(i.skinId)
                     }
                 }
             }
@@ -14843,8 +15760,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let t = new ka;
                 t.b = !0, this.showHunterSkillDes.set(e, t), this.onPropertyChange("showHunterDes")
             }
-            getShowHunterSkillDes(e) {
-                return this.showHunterSkillDes.get(e)
+            getShowHunterSkillDes(skinId) {
+                return this.showHunterSkillDes.get(skinId)
             }
         }, na([ya("coin", e.StreamType.Original, null, Ce.CoinChange)], e.GameInfo.prototype, "coin", void 0), 
         na([ya("tian", e.StreamType.Original, null, Ce.TianChange)], e.GameInfo.prototype, "tian", void 0), 
@@ -17010,8 +17927,9 @@ define("js/bundle.js", function(require, module, exports) {
             canLocatePlayer() {
                 return this.isHunter() ? this.gameStatus == e.GameStatus.E_GAME_READY : this.isDefender() ? XMgr.playerMgr.isPlayerBed(XMgr.playerMgr.mineUuid) : void 0
             }
-            DizzyTarget(e, t, i = !0) {
-                e.dizzyStartTime = Laya.timer.currTimer, e.dizzyDurSec = t, i && XEffectUtil.I.playDizzyEffect(e.owner.x, e.owner.y - 100, t)
+            DizzyTarget(modelData_, dizzyDurSec_, playEffect = true) {
+                modelData_.dizzyStartTime = Laya.timer.currTimer, modelData_.dizzyDurSec = dizzyDurSec_, 
+                playEffect && XEffectUtil.I.playDizzyEffect(modelData_.owner.x, modelData_.owner.y - 100, dizzyDurSec_)
             }
             gameover(isWin, s = 1) {
                 let a = XMgr.user.gameInfo;
@@ -17174,15 +18092,15 @@ define("js/bundle.js", function(require, module, exports) {
                     n = XMgr.buildingMgr.getMapBuild(x_, y_);
                 return (!n || !n.isUsed) && XMgr.buildingMgr.takeMapBuild(x_, y_, player_)
             }
-            playSoundByNode(t, i, s) {
-                this.gameStatus == e.GameStatus.E_GAME_START && this.nodeIsInPlayerView(t) && XChoreUtil.playSound(i, s)
+            playSoundByNode(node_, soundId_, s) {
+                this.gameStatus == e.GameStatus.E_GAME_START && this.nodeIsInPlayerView(node_) && XChoreUtil.playSound(soundId_, s)
             }
             nodeIsInPlayerView(e) {
                 let i = XMgr.mapMgr.mapPosToStagePos(e.x, e.y);
                 return !(i.x < 0 || i.x > Laya.stage.width) && !(i.y < 0 || i.y > Laya.stage.height)
             }
-            playSound(t, i, s) {
-                t && this.gameStatus == e.GameStatus.E_GAME_START && this.isInPlayerView(t) && XChoreUtil.playSound(i, s)
+            playSound(baseModel_, soundId_, s) {
+                baseModel_ && this.gameStatus == e.GameStatus.E_GAME_START && this.isInPlayerView(baseModel_) && XChoreUtil.playSound(soundId_, s)
             }
             isInPlayerView(e) {
                 return this.nodeIsInPlayerView(e.owner)
@@ -17194,11 +18112,11 @@ define("js/bundle.js", function(require, module, exports) {
             }
             isChooseBuff() {
                 let e = !1;
-                return XMgr.cfg.buffCfg.foreach(i => {
-                    if (i.isOpen) {
-                        let s = XMgr.user.gameInfo.getBuffData(i.id);
-                        if (i.isRepeat) {
-                            if (!s || s.lv < i.values.length - 1) return e = !0, !1
+                return XMgr.cfg.buffCfg.foreach(bufCfg => {
+                    if (bufCfg.isOpen) {
+                        let s = XMgr.user.gameInfo.getBuffData(bufCfg.id);
+                        if (bufCfg.isRepeat) {
+                            if (!s || s.lv < bufCfg.values.length - 1) return e = !0, !1
                         } else if (!s) return e = !0, !1
                     }
                 }), e
@@ -17379,7 +18297,8 @@ define("js/bundle.js", function(require, module, exports) {
         }
         class XMapMgr {
             constructor() {
-                this._outRoomGirds = [], this.outRoomGridsInsideMap = [], this.hideDoors = [], this.roomBuildings = [], this.outBuildings = [], this.hideWall = [], this.hideWallMap = new Map, this.roomsWall = [], this.tempV2 = new fx.V2
+                this._outRoomGirds = [], this.outRoomGridsInsideMap = [], this.hideDoors = [], 
+                this.roomBuildings = [], this.outBuildings = [], this.hideWall = [], this.hideWallMap = new Map, this.roomsWall = [], this.tempV2 = new fx.V2
             }
             init(e, t) {
                 this.outBuildings = [], this.parseData(e, t), this._grid = new XGrid(this._height, this._width);
@@ -17443,8 +18362,18 @@ define("js/bundle.js", function(require, module, exports) {
                 return this._outRoomGirds.slice()
             }
             parseData(e, t) {
-                this._tiledMap = [], this._rooms = [], this._hideRooms = [], this._invalidHideRooms = [], this._buildings = [], this._hunterSpawns = [], this._defenderSpawns = [], this._mapBuildPoints = [], this._mapEquipPoints = [], this._healZones = [], this._viewList = [], this._width = e.width, this._height = e.height, this._tileSets = this.getTilesets(e), this.hideDoors = [], this.hideWall = [], this.hideWallMap.clear();
-                let i = -1,
+                this._tiledMap = [], 
+                this._rooms = [], 
+                this._hideRooms = [], 
+                this._invalidHideRooms = [], 
+                this._buildings = [], 
+                this._hunterSpawns = [], 
+                this._defenderSpawns = [], 
+                this._mapBuildPoints = [], 
+                this._mapEquipPoints = [], 
+                this._healZones = [], this._viewList = [], 
+                this._width = e.width, this._height = e.height, this._tileSets = this.getTilesets(e), this.hideDoors = [], this.hideWall = [], this.hideWallMap.clear();
+                let i = -1, 
                     s = this.getLayer(e, "data").objects;
                 for (const e of s)
                     if ("HealZone" == e.type) {
@@ -17701,13 +18630,13 @@ define("js/bundle.js", function(require, module, exports) {
                         if (s.x == e && s.y == t) return i.id;
                 return -1
             }
-            getRandomPosByRoomId(e) {
-                for (const t of this.rooms)
-                    if (e == t.id) {
-                        let e = fx.Utils.cloneArray(t.grids);
-                        for (const i of t.buildings)
-                            for (let t = 0; t < e.length; t++) i.x != e[t].x || i.y != e[t].y || e.splice(t, 1);
-                        return fx.Utils.randomInArray(e)
+            getRandomPosByRoomId(roomId) {
+                for (const room of this.rooms)
+                    if (roomId == room.id) {
+                        let grids = fx.Utils.cloneArray(room.grids);
+                        for (const build of room.buildings)
+                            for (let gridIdx = 0; gridIdx < grids.length; gridIdx++) build.x != grids[gridIdx].x || build.y != grids[gridIdx].y || grids.splice(gridIdx, 1);
+                        return fx.Utils.randomInArray(grids)
                     }
             }
             getRoomsByDistance(e) {
@@ -17843,8 +18772,8 @@ define("js/bundle.js", function(require, module, exports) {
                 this.x = grid.x, 
                 this.y = grid.y, 
                 this.buildCfg = cfg_, 
-                this.isUsed = !1, 
-                this.isTarget = !1, 
+                this.isUsed = false, 
+                this.isTarget = false, 
                 this.buildName = buildName_
             }
         }
@@ -17861,16 +18790,16 @@ define("js/bundle.js", function(require, module, exports) {
                 return t
             }
             getAtkCD() {
-                let e = this.atkCD,
-                    i = e;
-                for (const t of this.buffs) t.Type != Ee.ATK_SPD && t.Type != Ee.DYC_ATK_SPD || (i += t.result(e));
+                let atkCD = this.atkCD,
+                    resultCD = atkCD;
+                for (const buff of this.buffs) buff.Type != Ee.ATK_SPD && buff.Type != Ee.DYC_ATK_SPD || (resultCD += buff.result(atkCD));
                 if (3e3 == this.id && this.playerUuid == XMgr.playerMgr.mineUuid) {
                     let e = XMgr.user.gameInfo.getBuffData(23);
                     if (e) {
-                        i *= (100 - XMgr.cfg.buffCfg.get(23).values[e.lv]) / 100
+                        resultCD *= (100 - XMgr.cfg.buffCfg.get(23).values[e.lv]) / 100
                     }
                 }
-                return i = Math.max(.2, i)
+                return resultCD = Math.max(.2, resultCD)
             }
             getAtkDst() {
                 let e = this.atkDst,
@@ -17949,7 +18878,7 @@ define("js/bundle.js", function(require, module, exports) {
             }
             initRandomBuild() {
                 let e = 100 / 95,
-                    t = [5001, 6012, 3e3, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
+                    t = [5001, 6012, 3000, 3004, 3001, 6005, 6001, 6013, 6019, 4e3, 6006];
                 for (const i in this.rooms) {
                     let s, room = this.rooms[i],
                         n = room.bedModelList[0],
@@ -18014,37 +18943,83 @@ define("js/bundle.js", function(require, module, exports) {
                 if (!s || s.type != e.BuildType.door) return e.BuildResult.E_FAILD;
                 this.changeDoorState(s, !1)
             }
-            upBed(x_, y_, a) {
-                let n = this.getBuilding(x_, y_),
-                    r = this.getRoom(n.roomId);
-                if (!n || n.type != e.BuildType.bed || !r) return e.BuildResult.E_FAILD;
-                if (n.isUsed) return e.BuildResult.E_BED_IS_USED;
-                for (const i of r.buildings)
-                    if (i.playerUuid = a.uuid, 2e3 == i.id && a.uuid == XMgr.playerMgr.player.uuid) {
-                        let e = XMgr.user.gameInfo.getBuffData(21);
-                        if (e) {
-                            let s = XMgr.cfg.buffCfg.get(21).values[e.lv];
-                            i.maxHp = i.curHp = Math.round(i.maxHp * (s / 100 + 1))
+            upBed(x_, y_, player_) {
+                // 1️⃣ 获取建筑与房间信息
+                let bed = this.getBuilding(x_, y_),
+                    room = this.getRoom(bed.roomId);
+            
+                // 判空和类型检查：必须是床
+                if (!bed || bed.type != e.BuildType.bed || !room)
+                    return e.BuildResult.E_FAILD;
+            
+                // 床已被使用
+                if (bed.isUsed)
+                    return e.BuildResult.E_BED_IS_USED;
+            
+                // 2️⃣ 遍历房间内所有建筑，绑定玩家UUID并应用buff效果
+                for (const building of room.buildings) {
+                    // 给房间内建筑绑定当前玩家UUID（⚠️原代码这里是赋值 =，非比较）
+                    building.playerUuid = player_.uuid;
+            
+                    // 玩家是自己并且建筑是 2000（2e3）类型
+                    if (building.id == 2000 && player_.uuid == XMgr.playerMgr.player.uuid) {
+                        let buffData = XMgr.user.gameInfo.getBuffData(21);
+                        if (buffData) {
+                            let buffValue = XMgr.cfg.buffCfg.get(21).values[buffData.lv];
+                            // 增强血量：HP × (1 + buff百分比)
+                            building.maxHp = building.curHp = Math.round(building.maxHp * (buffValue / 100 + 1));
                         }
-                    } else if (a.uuid == XMgr.playerMgr.player.uuid) {
-                    let s = XMgr.buildingMgr.getBuildCfg(i.id);
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId)
-                        for (const e of s.buffId)
-                            if (XMgr.user.gameInfo.getBuffData(e)) {
-                                (s.buffIcon || s.buffBuildAni) && i.ownerScript.initSkin(), i.ownerScript.clearEffects(), i.ownerScript.initEffects();
-                                break
+                    }
+            
+                    // 玩家是自己，且检查防御模式下的buff效果
+                    else if (player_.uuid == XMgr.playerMgr.player.uuid) {
+                        let s = XMgr.buildingMgr.getBuildCfg(building.id);
+            
+                        if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && s.buffId) {
+                            for (const buffId of s.buffId) {
+                                if (XMgr.user.gameInfo.getBuffData(buffId)) {
+                                    // 若建筑有buff图标或动画，重置皮肤与特效
+                                    if (s.buffIcon || s.buffBuildAni)
+                                        building.ownerScript.initSkin();
+            
+                                    building.ownerScript.clearEffects();
+                                    building.ownerScript.initEffects();
+                                    break;
+                                }
                             }
+                        }
+                    }
                 }
-                n.isUsed = !0, a.isBed = !0, a.bedModel = n, r.players || (r.players = []), r.players.push(a);
-                let o = this.getBuilding(r.doorPos.x, r.doorPos.y);
-                if (o && o.canHandle && this.closeDoorByGridPos(r.doorPos.x, r.doorPos.y), fx.EventCenter.I.event(XEventNames.E_Bed_Up, [n, a.uuid]), a.takeMapBuild) {
-                    let e = a.takeMapBuild.buildCfg,
-                        t = this.getEmptyGrids(r.id),
-                        i = fx.Utils.randomInArray(t);
-                    this.buildCd(a.uuid, e.buildId, i.x, i.y, 0, e.lv)
+            
+                // 3️⃣ 设置床与角色状态
+                bed.isUsed = true;
+                player_.isBed = true;
+                player_.bedModel = bed;
+            
+                // 确保房间玩家列表存在并加入角色
+                room.players || (room.players = []);
+                room.players.push(player_);
+            
+                // 4️⃣ 若门可操作则关门
+                let o = this.getBuilding(room.doorPos.x, room.doorPos.y);
+                if (o && o.canHandle)
+                    this.closeDoorByGridPos(room.doorPos.x, room.doorPos.y);
+            
+                // 5️⃣ 触发上床事件
+                fx.EventCenter.I.event(XEventNames.E_Bed_Up, [bed, player_.uuid]);
+            
+                // 6️⃣ 若角色携带可放置建筑（takeMapBuild），随机在空地建造
+                if (player_.takeMapBuild) {
+                    let e = player_.takeMapBuild.buildCfg;
+                    let t = this.getEmptyGrids(room.id);
+                    let i = fx.Utils.randomInArray(t);
+                    this.buildCd(player_.uuid, e.buildId, i.x, i.y, 0, e.lv);
                 }
-                return e.BuildResult.E_OK
+            
+                // ✅ 成功
+                return e.BuildResult.E_OK;
             }
+            
             downBed(e) {
                 let t = this.getRoom(e.roomId);
                 if (!t) return;
@@ -18141,29 +19116,69 @@ define("js/bundle.js", function(require, module, exports) {
                 return e.BuildResult.E_OK;
             }
             
-            buildFree(i, s, a, n, r = 0, o = 1, l = !0, h) {
-                let d = this.getBuilding(a, n);
+            buildFree(playerID, buildId, gridX, gridY, r = 0, lv = 1, l = !0, h) {
+                let d = this.getBuilding(gridX, gridY);
                 if (d && !d.isDie) return e.BuildResult.E_FAILD;
-                let u = this.getBuildCfg(s, o);
-                if (7777 == s && (u = this.getBuildCfg(3e3, o)), !u) return;
-                let g, c = XMgr.mapMgr.getRoomIdByGrid(a, n),
-                    p = XMgr.playerMgr.getPlayer(i);
-                return 7777 == s ? ((g = this.createBuildingModelByCfg(i, 3e3, c, o, a, n, r, u)).isSpecial = !0, !h || h > XMgr.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(i, s, c, o, a, n, r, u), g.canHandle = l, this.addBuilding(g, p), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [g, !1]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(g, 111), e.BuildResult.E_OK
+                let u = this.getBuildCfg(buildId, lv);
+                if (7777 == buildId && (u = this.getBuildCfg(3e3, lv)), !u) return;
+                let g, c = XMgr.mapMgr.getRoomIdByGrid(gridX, gridY),
+                    p = XMgr.playerMgr.getPlayer(playerID);
+                return 7777 == buildId ? ((g = this.createBuildingModelByCfg(playerID, 3e3, c, lv, gridX, gridY, r, u)).isSpecial = !0, !h || h > XMgr.buildingMgr.specialTowerCfg.length ? g.specialId = this.getSpecialTower().id : g.specialId = h) : g = this.createBuildingModelByCfg(playerID, buildId, c, lv, gridX, gridY, r, u), g.canHandle = l, this.addBuilding(g, p), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(gridX, gridY, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [g, !1]), 
+                !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(g, 111), e.BuildResult.E_OK
             }
-            buildCd(i, s, a, n, r = 0, o = 1, l = !0) {
-                let h = this.getBuilding(a, n);
+            buildCd(playUuid, buildId, x, y, r = 0, lv = 1, canHandle = true) {
+                // 目标格子上是否已有建筑（且未死亡）
+                let h = this.getBuilding(x, y);
                 if (h && !h.isDie) return e.BuildResult.E_FAILD;
-                let d = this.getBuildCfg(s, o);
-                if (7777 == s && (d = this.getBuildCfg(3e3, o)), !d) return;
-                let u, g = XMgr.mapMgr.getRoomIdByGrid(a, n),
-                    c = XMgr.playerMgr.getPlayer(i);
-                if (7777 == s) {
-                    (u = this.createBuildingModelByCfg(i, 3e3, g, o, a, n, r, d)).isSpecial = !0;
-                    let e = this.getSpecialTower();
-                    u.specialId = e.id, "罕见" == e.quality && (u.canChangeSpecial = !0)
-                } else u = this.createBuildingModelByCfg(i, s, g, o, a, n, r, d);
-                return u.canHandle = l, this.addBuilding(u, c), XMgr.playerMgr.player.type != e.PlayerType.E_Defender && XMgr.mapMgr.setDynWalkable(a, n, !1), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, !1, 60]), !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask(), XMgr.gameMgr.playSound(u, 111), e.BuildResult.E_OK
+            
+                // 获取配置（特殊 id 7777 对应使用 3000 的配置）
+                let d = this.getBuildCfg(buildId, lv);
+                if (7777 == buildId) {
+                    d = this.getBuildCfg(3000, lv);
+                }
+                if (!d) return;
+            
+                // 房间 id 与玩家对象
+                let u;
+                let g = XMgr.mapMgr.getRoomIdByGrid(x, y);
+                let c = XMgr.playerMgr.getPlayer(playUuid);
+            
+                // 创建建筑模型（7777 为特殊分支）
+                if (7777 == buildId) {
+                    u = this.createBuildingModelByCfg(playUuid, 3000, g, lv, x, y, r, d);
+                    u.isSpecial = true;
+            
+                    let special = this.getSpecialTower();
+                    u.specialId = special.id;
+            
+                    if ("罕见" == special.quality) {
+                        u.canChangeSpecial = true;
+                    }
+                } else {
+                    u = this.createBuildingModelByCfg(playUuid, buildId, g, lv, x, y, r, d);
+                }
+            
+                // 设置可操作性与加入管理器
+                u.canHandle = canHandle;
+                this.addBuilding(u, c);
+            
+                // 若当前玩家不是守卫者，则把格子设为不可行走
+                if (XMgr.playerMgr.player.type != e.PlayerType.E_Defender) {
+                    XMgr.mapMgr.setDynWalkable(x, y, false);
+                }
+            
+                // 触发建筑创建事件、任务检测与音效（顺序与原代码一致）
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [u, false, 60]);
+            
+                if (!XMgr.taskMgr.compeletAllTask()) {
+                    XMgr.taskMgr.startTask();
+                }
+            
+                XMgr.gameMgr.playSound(u, 111);
+            
+                return e.BuildResult.E_OK;
             }
+            
             buildTurntable(i, s, a, n, r = 0, o = 1, l = !0) {
                 let h = this.getBuilding(a, n);
                 if (h && !h.isDie) return e.BuildResult.E_FAILD;
@@ -18189,9 +19204,11 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.gameMgr.playSound(u, 111)
                 return    e.BuildResult.E_OK
             }
-            buildSpecial(i) {
-                let s = XMgr.playerMgr.getPlayer(i.playerUuid);
-                return this.addBuilding(i, s), fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [i, !1]), e.BuildResult.E_OK
+            buildSpecial(buildModel) {
+                let player = XMgr.playerMgr.getPlayer(buildModel.playerUuid);
+                this.addBuilding(buildModel, player)
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_BUILD, [buildModel, !1]) 
+                return e.BuildResult.E_OK
             }
             createBuildingModelByCfg(i, s, a, n, r, o, l, h) {
                 let d;
@@ -18208,8 +19225,8 @@ define("js/bundle.js", function(require, module, exports) {
                 let u = h.hp || 1;
                 return XMgr.gameMgr.changeMaxHp(d, u, u), d
             }
-            updateBuildingModel(buildModel_, cfg_) {
-                let hp = cfg_.hp || 1;
+            updateBuildingModel(buildModel_, upgradeCfg_) {
+                let hp = upgradeCfg_.hp || 1;
                 if (2e3 == buildModel_.id && buildModel_.playerUuid == XMgr.playerMgr.player.uuid) {
                     let e = XMgr.user.gameInfo.getBuffData(21);
                     if (e) {
@@ -18218,10 +19235,10 @@ define("js/bundle.js", function(require, module, exports) {
                     }
                 }
                 XMgr.gameMgr.changeMaxHp(buildModel_, hp, hp)
-                switch (cfg_.type) {
+                switch (upgradeCfg_.type) {
                     case e.BuildType.tower:
                         let n = buildModel_,
-                            r = cfg_;
+                            r = upgradeCfg_;
                         n.atkCD = r.atkInterval, 
                         n.atkDst = r.atkRange, 
                         n.atk = r.atkDamage
@@ -18242,26 +19259,70 @@ define("js/bundle.js", function(require, module, exports) {
                 s && (s.buildings.push(t), t.type == e.BuildType.bed ? 1e3 == t.id && s.bedModelList.push(t) : t.type == e.BuildType.door ? (s.doorModel = t, s.doorPos = new fx.V2(t.x, t.y)) : t.type == e.BuildType.tower && 3e3 == t.id && s.towers.push(t)), i && i.buildings.push(t)
             }
             getBuildRet(i, s, a = 1) {
+                // 配置与基础检查
                 let n = this.getBuildCfg(s, a);
-                if (-1 == i) return e.BuildResult.E_FAILD;
-                let r = this.getRoom(i),
-                    o = this.getBuildCntInRoom(r, s);
+            
+                // 参数索引非法
+                if (i == -1) return e.BuildResult.E_FAILD;
+            
+                // 房间与已建数量
+                let r = this.getRoom(i);
+                let o = this.getBuildCntInRoom(r, s);
+            
+                // 达到最大数量限制
                 if (n.maxCnt && o >= n.maxCnt) return e.BuildResult.E_MAX_CNT;
-                if (n.preBuilding && !this.isHaveBuilding(i, n.preBuilding.buildId, n.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                let l, h = n.coin,
-                    d = r.players[0];
+            
+                // 前置建筑检测
+                if (n.preBuilding && !this.isHaveBuilding(i, n.preBuilding.buildId, n.preBuilding.lv))
+                    return e.BuildResult.E_NOT_HAVE_PREBUILD;
+            
+                // 消耗默认值与房间玩家引用
+                let l;
+                let h = n.coin;
+                let d = r.players[0];
+            
                 if (d) {
                     let e = d.uuid;
-                    l = XMgr.playerMgr.getPlayer(e)
-                } else l = r;
-                if (l) {
-                    6666 == n.buildId && (h = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0]);
-                    let i = n.energy;
-                    if (6666 == n.buildId ? i = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1] : XMgr.gameMgr.gameMode == e.GameMode.E_Defense && n.buffId && n.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (h = Math.round(.9 * n.coin), i = Math.round(.9 * n.energy)), h && h > l.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
-                    if (i && i > l.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH
+                    l = XMgr.playerMgr.getPlayer(e);
+                } else {
+                    l = r;
                 }
-                return e.BuildResult.E_OK
+            
+                // 如果存在消费对象（玩家或房间）
+                if (l) {
+                    // 特殊 buildId (6666) 的 coin 消耗替换
+                    if (6666 == n.buildId) {
+                        h = this.magicConsumeArr[XMgr.gameMgr.randomCnt][0];
+                    }
+            
+                    // energy 变量用局部命名以避免混淆（不改变外部逻辑）
+                    let energyReq = n.energy;
+            
+                    // 6666 的 energy 特殊值覆盖
+                    if (6666 == n.buildId) {
+                        energyReq = this.magicConsumeArr[XMgr.gameMgr.randomCnt][1];
+                    }
+                    // 防御模式且存在特定 buff 时，coin/energy 打 0.9 倍
+                    else if (
+                        XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                        n.buffId &&
+                        n.buffId.includes(1) &&
+                        XMgr.user.gameInfo.getBuffData(1)
+                    ) {
+                        h = Math.round(0.9 * n.coin);
+                        energyReq = Math.round(0.9 * n.energy);
+                    }
+            
+                    // 判断货币是否足够
+                    if (h && h > l.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
+            
+                    // 判断能量是否足够
+                    if (energyReq && energyReq > l.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH;
+                }
+            
+                return e.BuildResult.E_OK;
             }
+            
             destroyBuilding(playerUuid_, x_, y_, playerDelete_ = true) {
                 let buildModel = this.getBuilding(x_, y_);
                 if (!buildModel) return;
@@ -18387,55 +19448,132 @@ define("js/bundle.js", function(require, module, exports) {
                 fx.EventCenter.I.event(XEventNames.E_BUILDING_REMOVED, [buildModel]);
             }
             
-            upgrade(playerUuid_, x_, y_, n = !0, r = 0, o) {
-                let build = this.getBuilding(x_, y_);
+            upgrade(playerUuid_, gridX_, gridY_, notFree_ = true, r = 0, o) {
+                // 获取建筑与玩家
+                let build = this.getBuilding(gridX_, gridY_);
                 if (!build) return e.BuildResult.E_FAILD;
+            
                 let player = XMgr.playerMgr.getPlayer(playerUuid_);
-                if (build.playerUuid && build.playerUuid != playerUuid_ && !build.playerUuid.includes(playerUuid_)) 
+            
+                // 若建筑绑定了其他玩家且不包含该玩家 UUID，则失败
+                if (build.playerUuid && build.playerUuid != playerUuid_ && !build.playerUuid.includes(playerUuid_))
                     return e.BuildResult.E_FAILD;
-                let roomId = XMgr.mapMgr.getRoomIdByGridPos(x_, y_);
+            
+                // 获取房间 id
+                let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_);
                 if (!roomId) return e.BuildResult.E_FAILD;
-                if (build.lv >= this.getBuildMaxLv(build.id)) 
+            
+                // 达到最大等级
+                if (build.lv >= this.getBuildMaxLv(build.id))
                     return e.BuildResult.E_MAX_LV;
-                let u = 1, nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1));
-                this.getBuildCfg(build.id, build.lv + 1 + r) && (nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1 + r)), u = 1 + r)
-                if (n) {
-                    let coinNeed = nextLvBuildCfg.coin,
-                        energyNeed = nextLvBuildCfg.energy;
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && nextLvBuildCfg.buffId && nextLvBuildCfg.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (coinNeed = Math.round(.9 * nextLvBuildCfg.coin), energyNeed = Math.round(.9 * nextLvBuildCfg.energy)), !this.isInfiniteIncome && nextLvBuildCfg.coin && coinNeed > player.coin) 
+            
+                // 计算要升级的级别增量与下一级配置（考虑 r 参数）
+                let u = 1;
+                let nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1));
+                if (this.getBuildCfg(build.id, build.lv + 1 + r)) {
+                    nextLvBuildCfg = fx.Utils.clone(this.getBuildCfg(build.id, build.lv + 1 + r));
+                    u = 1 + r;
+                }
+            
+                // 付费升级的消耗判断（notFree_ 为 true 时生效）
+                if (notFree_) {
+                    let coinNeed = nextLvBuildCfg.coin;
+                    let energyNeed = nextLvBuildCfg.energy;
+            
+                    // 防御模式下且存在特定 buff 时，对消耗打 0.9 倍（与原逻辑一致）
+                    if (
+                        XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                        nextLvBuildCfg.buffId &&
+                        nextLvBuildCfg.buffId.includes(1) &&
+                        XMgr.user.gameInfo.getBuffData(1)
+                    ) {
+                        coinNeed = Math.round(0.9 * nextLvBuildCfg.coin);
+                        energyNeed = Math.round(0.9 * nextLvBuildCfg.energy);
+                    }
+            
+                    // 检查金币/能量是否足够（考虑 isInfiniteIncome）
+                    if (!this.isInfiniteIncome && nextLvBuildCfg.coin && coinNeed > player.coin)
                         return e.BuildResult.E_COIN_NOT_ENOUGH;
-                    if (!this.isInfiniteIncome && nextLvBuildCfg.energy && energyNeed > player.energy) 
+            
+                    if (!this.isInfiniteIncome && nextLvBuildCfg.energy && energyNeed > player.energy)
                         return e.BuildResult.E_ENERGY_NOT_ENOUGH;
-                    if (nextLvBuildCfg.preBuilding && !this.isHaveBuilding(roomId, nextLvBuildCfg.preBuilding.buildId, nextLvBuildCfg.preBuilding.lv)) 
+            
+                    // 前置建筑检查
+                    if (nextLvBuildCfg.preBuilding && !this.isHaveBuilding(roomId, nextLvBuildCfg.preBuilding.buildId, nextLvBuildCfg.preBuilding.lv))
                         return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                    this.isInfiniteIncome ? XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, coinNeed, energyNeed) : XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed)
+            
+                    // 扣除或增加玩家收入（isInfiniteIncome 为 true 时增加）
+                    if (this.isInfiniteIncome) {
+                        XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, coinNeed, energyNeed);
+                    } else {
+                        XMgr.playerMgr.changePlayerIncomeByUuid(playerUuid_, -coinNeed, -energyNeed);
+                    }
                 }
-                build.lv += u, 
-                o && (nextLvBuildCfg.hp = nextLvBuildCfg.hp * Math.pow(.5, o)), 
-                this.updateBuildingModel(build, nextLvBuildCfg)
-                fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [build]), XMgr.gameMgr.playSound(build, 112)
-                return e.BuildResult.E_OK
-            }
-            videoSuper(i, s, a) {
-                let n = this.getBuilding(s, a);
-                return n ? n.playerUuid && n.playerUuid != i && !n.playerUuid.includes(i) ? e.BuildResult.E_FAILD : XMgr.mapMgr.getRoomIdByGridPos(s, a) ? (n.isSuper = !0, fx.EventCenter.I.event(XEventNames.E_BUILDING_VIDEOUPGRADE, [n]), XMgr.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
-            }
-            getUpgradeRet(i, s, a, n) {
-                let r = this.getBuilding(s, a);
-                if (!r) return e.BuildResult.E_FAILD;
-                let o = XMgr.mapMgr.getRoomIdByGridPos(s, a);
-                if (!o) return e.BuildResult.E_FAILD;
-                if (r.lv >= this.getBuildMaxLv(r.id)) return e.BuildResult.E_MAX_LV;
-                let l = this.getBuildCfg(r.id, r.lv + 1);
-                if (l.preBuilding && !this.isHaveBuilding(o, l.preBuilding.buildId, l.preBuilding.lv)) return e.BuildResult.E_NOT_HAVE_PREBUILD;
-                if (n) {
-                    let s = XMgr.playerMgr.getPlayer(i),
-                        a = 1;
-                    if (XMgr.gameMgr.gameMode == e.GameMode.E_Defense && l.buffId && l.buffId.includes(1) && XMgr.user.gameInfo.getBuffData(1) && (a = .9), l.coin && Math.round(l.coin * a) > s.coin) return e.BuildResult.E_COIN_NOT_ENOUGH;
-                    if (l.energy && Math.round(l.energy * a) > s.energy) return e.BuildResult.E_ENERGY_NOT_ENOUGH
+            
+                // 实施等级提升（u 可能是 1 或 1 + r）
+                build.lv += u;
+            
+                // 可选的 hp 缩放（参数 o 存在时按 0.5 的 o 次幂缩放）
+                if (o) {
+                    nextLvBuildCfg.hp = nextLvBuildCfg.hp * Math.pow(0.5, o);
                 }
-                return e.BuildResult.E_OK
+            
+                // 更新建筑模型并触发事件、播放音效
+                this.updateBuildingModel(build, nextLvBuildCfg);
+                fx.EventCenter.I.event(XEventNames.E_BUILDING_UPGRADE, [build]);
+                XMgr.gameMgr.playSound(build, 112);
+            
+                return e.BuildResult.E_OK;
             }
+            
+            videoSuper(playerUuid_, gridX_, gridY_) {
+                let n = this.getBuilding(gridX_, gridY_);
+                return n ? n.playerUuid && n.playerUuid != playerUuid_ && !n.playerUuid.includes(playerUuid_) ? e.BuildResult.E_FAILD : XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_) ? (n.isSuper = !0, fx.EventCenter.I.event(XEventNames.E_BUILDING_VIDEOUPGRADE, [n]), XMgr.gameMgr.playSound(n, 112), e.BuildResult.E_OK) : e.BuildResult.E_FAILD : e.BuildResult.E_FAILD
+            }
+            getUpgradeRet(playerUuid_, gridX_, gridY_, notFree_) {
+                // 获取目标建筑
+                let building = this.getBuilding(gridX_, gridY_);
+                if (!building) return e.BuildResult.E_FAILD;
+            
+                // 获取所在房间 id
+                let roomId = XMgr.mapMgr.getRoomIdByGridPos(gridX_, gridY_);
+                if (!roomId) return e.BuildResult.E_FAILD;
+            
+                // 已到达最大等级
+                if (building.lv >= this.getBuildMaxLv(building.id)) return e.BuildResult.E_MAX_LV;
+            
+                // 下一级配置与前置建筑检查
+                let buildCfg = this.getBuildCfg(building.id, building.lv + 1);
+                if (buildCfg.preBuilding && !this.isHaveBuilding(roomId, buildCfg.preBuilding.buildId, buildCfg.preBuilding.lv))
+                    return e.BuildResult.E_NOT_HAVE_PREBUILD;
+            
+                // 付费检查（notFree_ 为 true 时判断玩家货币/能量是否足够）
+                if (notFree_) {
+                    let s = XMgr.playerMgr.getPlayer(playerUuid_);
+                    let a = 1;
+            
+                    // 防御模式且存在特定 buff 时，对消耗打 0.9 倍（保持原逻辑）
+                    if (
+                        XMgr.gameMgr.gameMode == e.GameMode.E_Defense &&
+                        buildCfg.buffId &&
+                        buildCfg.buffId.includes(1) &&
+                        XMgr.user.gameInfo.getBuffData(1)
+                    ) {
+                        a = 0.9;
+                    }
+            
+                    // 金币不足
+                    if (buildCfg.coin && Math.round(buildCfg.coin * a) > s.coin)
+                        return e.BuildResult.E_COIN_NOT_ENOUGH;
+            
+                    // 能量不足
+                    if (buildCfg.energy && Math.round(buildCfg.energy * a) > s.energy)
+                        return e.BuildResult.E_ENERGY_NOT_ENOUGH;
+                }
+            
+                return e.BuildResult.E_OK;
+            }
+            
             getBuildingsInRoom(e, t, i) {
                 let s = [],
                     a = e.buildings;
@@ -18587,20 +19725,20 @@ define("js/bundle.js", function(require, module, exports) {
                     return nearBuilding
                 }
             }
-            getNearMapBuildingByMapPos(e, i) {
-                let s = XMgr.mapMgr.mapPosToGridPos(e, i),
-                    a = this.getAroundMapBuildings(s.x, s.y);
-                if (0 == a.length) return null;
-                if (1 == a.length) return a[0]; {
-                    let s = a[0],
+            getNearMapBuildingByMapPos(x, y) {
+                let grid = XMgr.mapMgr.mapPosToGridPos(x, y),
+                    mapbuildings = this.getAroundMapBuildings(grid.x, grid.y);
+                if (0 == mapbuildings.length) return null;
+                if (1 == mapbuildings.length) return mapbuildings[0]; {
+                    let s = mapbuildings[0],
                         n = 1 / 0;
-                    for (let r = 0; r < a.length; ++r) {
-                        let o = XMgr.mapMgr.gridPosToMapPos(a[r].x, a[r].y),
+                    for (let r = 0; r < mapbuildings.length; ++r) {
+                        let o = XMgr.mapMgr.gridPosToMapPos(mapbuildings[r].x, mapbuildings[r].y),
                             l = XV2Util01.pDistance({
-                                x: e,
-                                y: i
+                                x: x,
+                                y: y
                             }, o);
-                        l < n && (n = l, s = a[r])
+                        l < n && (n = l, s = mapbuildings[r])
                     }
                     return s
                 }
@@ -18629,23 +19767,24 @@ define("js/bundle.js", function(require, module, exports) {
                     if (s < 50) return t
                 }
             }
-            getAroundMapBuildings(e, i, s = 1) {
-                let a = [],
-                    n = XMgr.mapMgr.height,
-                    r = XMgr.mapMgr.width,
-                    o = Math.max(e - s, 0),
-                    l = Math.max(i - s, 0),
-                    h = Math.min(e + s, n),
-                    d = Math.min(i + s, r);
-                for (let e = o; e <= h; ++e)
-                    for (let t = l; t <= d; ++t) {
-                        let i = this.getMapBuild(e, t);
+            getAroundMapBuildings(x, y, delta = 1) {
+                let ret = [],
+                    height = XMgr.mapMgr.height,
+                    width = XMgr.mapMgr.width,
+                    x1 = Math.max(x - delta, 0),
+                    y1 = Math.max(y - delta, 0),
+                    x2 = Math.min(x + delta, height),
+                    y2 = Math.min(y + delta, width);
+                for (let x = x1; x <= x2; ++x)
+                    for (let y = y1; y <= y2; ++y) {
+                        let i = this.getMapBuild(x, y);
                         if (i) {
-                            if (a.includes(i)) continue;
-                            a.push(i)
+                            if (ret.includes(i)) 
+                                continue;
+                            ret.push(i)
                         }
                     }
-                return a
+                return ret
             }
             getAroundMapEquips(e, i, s = 1) {
                 let a = [],
@@ -18718,9 +19857,17 @@ define("js/bundle.js", function(require, module, exports) {
                 }
                 return t
             }
-            repairDoor(e) {
-                return !(!e || !e.doorModel) && (e.doorModel.isRepair = !0, fx.EventCenter.I.event(XEventNames.E_Repair_Door, [e]), !0)
+
+            repairDoor(room_) {
+                if (!room_ || !room_.doorModel) {
+                    return false;
+                }
+                
+                room_.doorModel.isRepair = true;
+                fx.EventCenter.I.event(XEventNames.E_Repair_Door, [room_]);
+                return true;
             }
+            
             stopRepairDoor(e) {
                 e.isRepair = !0
             }
@@ -19380,35 +20527,139 @@ define("js/bundle.js", function(require, module, exports) {
                 this.img_bg = this.owner.getChildByName("img_bg"), this.up_build = this.owner.getChildByName("up_build"), this.cancel_build = this.owner.getChildByName("cancel_build"), this.specialDoor_build = this.owner.getChildByName("specialDoor_build"), this.show_build = this.owner.getChildByName("show_build"), this.videoUpgrade_build = this.owner.getChildByName("videoUpgrade_build"), this.videoVariant_build = this.owner.getChildByName("videoVariant_build"), this.changeSpecial_build = this.owner.getChildByName("changeSpecial_build"), this.specialTower_build = this.owner.getChildByName("specialTower_build"), this.videoUpgradeShow_build = this.owner.getChildByName("videoUpgradeShow_build"), this.touchGrid = this.owner.getChildByName("touchGrid"), this.touchGrid.visible = !1
             }
             show(i, s, a) {
-                this.isSuper = !1, this.isSpecial = !1;
+                this.isSuper = !1;
+                this.isSpecial = !1;
+            
                 let n = XMgr.buildingMgr.getBuildCfg(a.id, a.lv);
-                switch (this.up_build.y = 185, this.show_build.y = 185, this.changeSpecial_build.visible = !1, a.isSuper ? (this.img_bg.height = 510, this.cancel_build.y = 395, this.up_build.y = 255, this.show_build.y = 255, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !0, this.isSuper = !0) : !XMgr.gameMgr.isUsedSuper && n.videoUpgradeIdArr && n.videoUpgradeIdArr.length ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !0, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSuper = !0) : a.type == e.BuildType.tower && a.isSpecial ? (this.up_build.y = 255, a.canChangeSpecial ? (this.img_bg.height = 650, this.cancel_build.y = 535, this.changeSpecial_build.visible = !0) : (this.img_bg.height = 510, this.cancel_build.y = 395), this.specialTower_build.visible = !0, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.isSpecial = !0) : n.variantDes ? (this.img_bg.height = 580, this.cancel_build.y = 465, this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !0, this.videoUpgradeShow_build.visible = !1, this.isVariant = !0) : (this.specialTower_build.visible = !1, this.videoUpgrade_build.visible = !1, this.videoVariant_build.visible = !1, this.videoUpgradeShow_build.visible = !1, this.img_bg.height = 440, this.cancel_build.y = 325), this.node.visible = !0, this.show_build.visible = !1, this.buildData = a, this.buildPos.x = i, this.buildPos.y = s, a.type) {
-                    case e.BuildType.bed:
-                        XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initBed());
-                        break;
-                    case e.BuildType.door:
-                        XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv ? (XToast.show("该设施已达到最高等级~"), this.hide()) : (this.cancel_build.y = 325, this.initDoor());
-                        break;
-                    default:
-                        {
-                            let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
-                            XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) != this.buildData.lv || e.videoUpgradeBuildId ? this.initOther() : e.coin || e.energy ? this.initMaxLv() : this.initShow()
-                        }
+            
+                // 先设置默认值
+                this.up_build.y = 185;
+                this.show_build.y = 185;
+                this.changeSpecial_build.visible = !1;
+            
+                // 分支逻辑
+                if (a.isSuper) {
+                    this.img_bg.height = 510;
+                    this.cancel_build.y = 395;
+                    this.up_build.y = 255;
+                    this.show_build.y = 255;
+                    this.specialTower_build.visible = !1;
+                    this.videoUpgrade_build.visible = !1;
+                    this.videoVariant_build.visible = !1;
+                    this.videoUpgradeShow_build.visible = !0;
+                    this.isSuper = !0;
+                } else if (!XMgr.gameMgr.isUsedSuper && n.videoUpgradeIdArr && n.videoUpgradeIdArr.length) {
+                    this.img_bg.height = 580;
+                    this.cancel_build.y = 465;
+                    this.specialTower_build.visible = !1;
+                    this.videoUpgrade_build.visible = !0;
+                    this.videoVariant_build.visible = !1;
+                    this.videoUpgradeShow_build.visible = !1;
+                    this.isSuper = !0;
+                } else if (a.type == e.BuildType.tower && a.isSpecial) {
+                    this.up_build.y = 255;
+                    if (a.canChangeSpecial) {
+                        this.img_bg.height = 650;
+                        this.cancel_build.y = 535;
+                        this.changeSpecial_build.visible = !0;
+                    } else {
+                        this.img_bg.height = 510;
+                        this.cancel_build.y = 395;
+                    }
+                    this.specialTower_build.visible = !0;
+                    this.videoUpgrade_build.visible = !1;
+                    this.videoVariant_build.visible = !1;
+                    this.videoUpgradeShow_build.visible = !1;
+                    this.isSpecial = !0;
+                } else if (n.variantDes) {
+                    this.img_bg.height = 580;
+                    this.cancel_build.y = 465;
+                    this.specialTower_build.visible = !1;
+                    this.videoUpgrade_build.visible = !1;
+                    this.videoVariant_build.visible = !0;
+                    this.videoUpgradeShow_build.visible = !1;
+                    this.isVariant = !0;
+                } else {
+                    this.specialTower_build.visible = !1;
+                    this.videoUpgrade_build.visible = !1;
+                    this.videoVariant_build.visible = !1;
+                    this.videoUpgradeShow_build.visible = !1;
+                    this.img_bg.height = 440;
+                    this.cancel_build.y = 325;
                 }
-                this.buildData.type == e.BuildType.bed && (this.img_bg.height = 290);
-                let r = XMgr.mapMgr.gridPosToMapPos(i, s),
-                    o = XMgr.mapMgr.mapPosToStagePos(r.x, r.y);
-                o.y += this.touchGrid.height / 2, o.y + this.img_bg.height > Laya.stage.height ? o.y -= this.img_bg.height + this.touchGrid.height : o.y - this.img_bg.height / 2 < 0 && (o.y = 0), this.node.pos(Laya.stage.width / 2, (Laya.stage.height - this.node.height) / 2 - 100), this.node.width = this.img_bg.width, this.node.height = this.img_bg.height
+            
+                // 公共赋值
+                this.node.visible = !0;
+                this.show_build.visible = !1;
+                this.buildData = a;
+                this.buildPos.x = i;
+                this.buildPos.y = s;
+            
+                // 按类型处理
+                switch (a.type) {
+                    case e.BuildType.bed:
+                        if (XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv) {
+                            XToast.show("该设施已达到最高等级~");
+                            this.hide();
+                        } else {
+                            this.cancel_build.y = 325;
+                            this.initBed();
+                        }
+                        break;
+            
+                    case e.BuildType.door:
+                        if (XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) == this.buildData.lv) {
+                            XToast.show("该设施已达到最高等级~");
+                            this.hide();
+                        } else {
+                            this.cancel_build.y = 325;
+                            this.initDoor();
+                        }
+                        break;
+            
+                    default: {
+                        let e = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
+                        if (XMgr.buildingMgr.getBuildMaxLv(this.buildData.id) != this.buildData.lv || e.videoUpgradeBuildId) {
+                            this.initOther();
+                        } else if (e.coin || e.energy) {
+                            this.initMaxLv();
+                        } else {
+                            this.initShow();
+                        }
+                    }
+                }
+            
+                // bed 类型 UI 高度特殊处理
+                if (this.buildData.type == e.BuildType.bed) {
+                    this.img_bg.height = 290;
+                }
+            
+                // 确定位置
+                let r = XMgr.mapMgr.gridPosToMapPos(i, s);
+                let o = XMgr.mapMgr.mapPosToStagePos(r.x, r.y);
+                o.y += this.touchGrid.height / 2;
+            
+                if (o.y + this.img_bg.height > Laya.stage.height) {
+                    o.y -= this.img_bg.height + this.touchGrid.height;
+                } else if (o.y - this.img_bg.height / 2 < 0) {
+                    o.y = 0;
+                }
+            
+                this.node.pos(Laya.stage.width / 2, (Laya.stage.height - this.node.height) / 2 - 100);
+                this.node.width = this.img_bg.width;
+                this.node.height = this.img_bg.height;
             }
+            
             hide() {
                 this.node.visible = !1
             }
-            upgrade(i = !0) {
+            upgrade(notFree_ = true) {
                 let s = new Laya.Point;
-                switch (s.copy(this.buildPos), XMgr.buildingMgr.getUpgradeRet(this.buildData.playerUuid, s.x, s.y, i)) {
+                s.copy(this.buildPos)
+                switch (XMgr.buildingMgr.getUpgradeRet(this.buildData.playerUuid, s.x, s.y, notFree_)) {
                     case e.BuildResult.E_OK:
                         XToast.show("升级成功！"), 
-                        XMgr.buildingMgr.getBuilding(s.x, s.y) && (XMgr.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, i, 0), 
+                        XMgr.buildingMgr.getBuilding(s.x, s.y) && (XMgr.buildingMgr.upgrade(this.buildData.playerUuid, s.x, s.y, notFree_, 0), 
                         !XMgr.taskMgr.compeletAllTask() && XMgr.taskMgr.startTask()), this.hide();
                         break;
                     case e.BuildResult.E_FAILD:
@@ -19450,13 +20701,16 @@ define("js/bundle.js", function(require, module, exports) {
                 this.up_build.visible = !0, this.specialDoor_build.visible = this.buildData.playerUuid == XMgr.playerMgr.mineUuid, this.cancel_build.visible = !1, this.initUpBuild(), this.initDoorSpecialBuild()
             }
             initOther() {
-                this.up_build.visible = !0, this.cancel_build.visible = !0, this.specialDoor_build.visible = !1, this.initUpBuild(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial && (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial())
+                this.up_build.visible = !0, this.cancel_build.visible = !0, this.specialDoor_build.visible = !1, this.initUpBuild(), 
+                this.initCancelBuild(), 
+                this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial && (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial())
             }
             initMaxLv() {
-                this.show_build.visible = !0, this.up_build.visible = !1, this.cancel_build.visible = !0, this.specialDoor_build.visible = !1, this.initShow(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial && (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial())
+                this.show_build.visible = !0, this.up_build.visible = !1, this.cancel_build.visible = true, this.specialDoor_build.visible = !1, this.initShow(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial && (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial())
             }
             initShow() {
-                this.show_build.visible = !0, this.up_build.visible = !1, this.specialDoor_build.visible = !1, this.cancel_build.visible = !0, this.initShowBuild(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial ? (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial()) : this.isVariant && this.initVideoVariant()
+                this.show_build.visible = !0, this.up_build.visible = !1, this.specialDoor_build.visible = false, 
+                this.cancel_build.visible = true, this.initShowBuild(), this.initCancelBuild(), this.isSuper ? this.buildData.isSuper ? this.initSuperShow() : this.initVideoSuper() : this.isSpecial ? (this.initSpecialTower(), this.buildData.canChangeSpecial && this.initChangeSpecial()) : this.isVariant && this.initVideoVariant()
             }
             initUpBuild(i = !1) {
                 let s, a = XMgr.buildingMgr.getBuildCfg(this.buildData.id, this.buildData.lv);
@@ -19641,7 +20895,7 @@ define("js/bundle.js", function(require, module, exports) {
                 this.videoUpgradeShow_build.getChildByName("label_describe").text = i.description
             }
             freeUpUpgrade() {
-                XMgr.user.gameInfo.useBuildData(2999), XAnalyticsUtil.useLevelItem("学校技工"), this.upgrade(!1)
+                XMgr.user.gameInfo.useBuildData(2999), XAnalyticsUtil.useLevelItem("学校技工"), this.upgrade(false)
             }
             videoUpgrade() {
                 let e = this.buildData,
@@ -19713,8 +20967,8 @@ define("js/bundle.js", function(require, module, exports) {
             constructor() {
                 this.operateGrid = new fx.V2, this.tipsList = [], this.iconList = [], this.seqArray = []
             }
-            init(e, t) {
-                this.gameNode = e, this.label_cd = t.getChildByName("label_cd"), this.label_cd.visible = !1, 
+            init(gameNode, t) {
+                this.gameNode = gameNode, this.label_cd = t.getChildByName("label_cd"), this.label_cd.visible = !1, 
                 this.box_angelRevive = t.getChildByName("box_angelRevive"), 
                 this.lb_angelRevive = this.box_angelRevive.getChildByName("lb_angelRevive"), 
                 this.operateBtn = fx.Utils.createPrefab(T.Prefab_OperateBtn),
@@ -19845,9 +21099,10 @@ define("js/bundle.js", function(require, module, exports) {
                 this.operateImg.skin = this.switchOperateImg(player.skinId), 
                 this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this,  this.onClickOperateBtn, [e.BuildType.bed, x_, y_, null]), this.operateGrid.setValue(x_, y_)
             }
-            showMapBuildBtn(e, t) {
+            showMapBuildBtn(gridX_, gridY_) {
                 this.operateBtn.visible = !0, this.operateImg.skin = "res/game/img_shiqu.png", 
-                this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickShiqu, [e, t]), this.operateGrid.setValue(e, t)
+                this.operateBtn.offAll(Laya.Event.CLICK), this.operateBtn.on(Laya.Event.CLICK, this, this.onClickShiqu, [gridX_, gridY_]), 
+                this.operateGrid.setValue(gridX_, gridY_)
             }
             switchOperateImg(e) {
                 let t;
@@ -19969,17 +21224,22 @@ define("js/bundle.js", function(require, module, exports) {
             recoverTips(e) {
                 -1 == this.tipsList.indexOf(e) && (this.tipsList.push(e), e.visible = !1)
             }
-            iconTips(e, i, s, a) {
-                let n;
-                if ((n = this.iconList.length > 0 ? this.iconList.pop() : fx.Utils.createPrefab(T.Prefab_LabelTips)).visible = !0, a) a.addChild(n);
+            iconTips(x_, y_, resPath_, parentNode_) {
+                let iconNode;
+                (iconNode = this.iconList.length > 0 ? this.iconList.pop() : fx.Utils.createPrefab(T.Prefab_LabelTips)).visible = !0
+                if (parentNode_) parentNode_.addChild(iconNode);
                 else {
-                    if (!XMgr.mapMgr.isInStageByMapPos(e, i)) return;
-                    XMgr.mapMgr.mapNode.addChild(n)
+                    if (!XMgr.mapMgr.isInStageByMapPos(x_, y_)) return;
+                    XMgr.mapMgr.mapNode.addChild(iconNode)
                 }
-                let r = n.getChildByName("imgToken");
-                r.skin = s, r.scale(.75, .75), n.pos(e, i), n.alpha = 1, Laya.Tween.clearAll(n);
+                let r = iconNode.getChildByName("imgToken");
+                r.skin = resPath_, r.scale(.75, .75), iconNode.pos(x_, y_), iconNode.alpha = 1, Laya.Tween.clearAll(iconNode);
                 let o = new fx.Sequence;
-                this.seqArray.push(o), o.pos(e, i - 50, 1e3), o.fadeOut(100), o.exec(Laya.Handler.create(this, this.recoverlb, [n])), o.run(n)
+                this.seqArray.push(o), 
+                o.pos(x_, y_ - 50, 1e3), 
+                o.fadeOut(100),
+                o.exec(Laya.Handler.create(this, this.recoverlb, [iconNode])),
+                o.run(iconNode)
             }
             recoverlb(e) {
                 -1 == this.iconList.indexOf(e) && (this.iconList.push(e), e.visible = !1)
@@ -21269,12 +22529,12 @@ define("js/bundle.js", function(require, module, exports) {
             static init() {
                 var e = Laya.ClassUtils.regClass;
                 e("game/core/InputScript.ts", XInputScript), 
-                e("script/ScaleEffectBtn.ts", Ni), 
+                e("script/ScaleEffectBtn.ts", XScaleEffectBtn), 
                 e("script/PulseEffectBtn.ts", XPulseEffectBtn), 
                 e("game/core/CoinScript.ts", XCoinScript), 
                 e("game/core/PlayerHeadScript.ts", XPlayerHeadScript), 
                 e("game/core/TaskScript.ts", XTaskScript), 
-                e("game/core/HunterSkillDesScript.ts", Xs), 
+                e("game/core/HunterSkillDesScript.ts", XHunterSkillDesScript), 
                 e("script/LoadingScript.ts", LoadingScript), 
                 e("game/ui/script/TianBoxScript.ts", XTianBoxScript), 
                 e("script/CustomerServiceScript.ts", xn), e("game/ui/script/CoinBoxScript.ts", XCoinBoxScript), e("game/component/WxClubBtnScript.ts", Tn), 
@@ -21487,7 +22747,8 @@ define("js/bundle.js", function(require, module, exports) {
                 XMgr.ui.open(l.WinDialog)
             }
             static openFail() {
-                XMgr.user.gameInfo.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog)
+                XMgr.user.gameInfo.failCnt += 1, XMgr.user.gameInfo.mapBuildRate = .5, 
+                XMgr.gameMgr.gameover(!1), XMgr.gameMgr.setGameStatus(e.GameStatus.E_GAME_FINISH), XMgr.ui.open(l.FailDialog)
             }
             static chooseHunterDifficult(e) {
                 if (e = Number(e), isNaN(e) || !e) return;
@@ -21870,7 +23131,7 @@ define("js/bundle.js", function(require, module, exports) {
             finish() {
                 this._running = !1, this._cb && this._cb()
             }
-        }, e.AogChooseDialog = R, e.AogFailDialog = J, e.AogUnlockDialog = Z, e.AogWinDialog = Q, e.AssetBMFont = a, e.AssetList = o, e.AssetLoader = AssetLoader, e.AssetPool = AssetPool, e.AssetUI = l, e.AssetUrl = s, e.AtkCdIncreaseBuff = class extends XBaseBuff {
+        }, e.AogChooseDialog = R, e.AogFailDialog = J, e.AogUnlockDialog = Z, e.AogWinDialog = Q, e.AssetBMFont = a, e.AssetList = o, e.AssetLoader = AssetLoader, e.AssetPool = AssetPool, e.AssetUI = l, e.AssetUrl = timeNow, e.AtkCdIncreaseBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ATK_SPD, this.val = .1
             }
@@ -22029,7 +23290,7 @@ define("js/bundle.js", function(require, module, exports) {
             onDestroy() {
                 XMgr.user.gameInfo.subTempCoin(this.coin), this.autoSaveToServer && XMgr.user.saveToServer()
             }
-        }, e.CoinScript = XCoinScript, e.ConstantCfg = class extends fx.BaseData {}, e.Controller = Controller, e.CryptUtil = CryptUtil, e.CustomerServiceScript = xn, e.DaTowerScript = Ei, e.DailyShareDialog = ae, e.DateUtil = Qs, e.DefRoiBuff = class extends XBaseBuff {
+        }, e.CoinScript = XCoinScript, e.ConstantCfg = class extends fx.BaseData {}, e.Controller = Controller, e.CryptUtil = CryptUtil, e.CustomerServiceScript = xn, e.DaTowerScript = XDaTowerScript, e.DailyShareDialog = ae, e.DateUtil = Qs, e.DefRoiBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.DEF_ROI
             }
@@ -22080,14 +23341,14 @@ define("js/bundle.js", function(require, module, exports) {
                     alpha: 0
                 }, 50).exec(n).run(a)
             }
-        }, e.EffectUtil = XEffectUtil, e.EnemyEscapeBeDizzy = EnemyEscapeBeDizzy, e.EnemyEscapeBeSlowdown = EnemyEscapeBeSlowdown, e.EnemyHpRateBeDizzy = EnemyHpRateBeDizzy, e.EnemyOnHpLowBeAtk = EnemyOnHpLowBeAtk, e.EnemySlowAtkSpd = EnemySlowAtkSpd, e.EnemyUseSkillBeDizzy = EnemyUseSkillBeDizzy, e.EnergyEffect = XEnergyEffect, e.EnergyRatio = class extends XBaseBuff {
+        }, e.EffectUtil = XEffectUtil, e.EnemyEscapeBeDizzy = XEnemyEscapeBeDizzy, e.EnemyEscapeBeSlowdown = EnemyEscapeBeSlowdown, e.EnemyHpRateBeDizzy = XEnemyHpRateBeDizzy, e.EnemyOnHpLowBeAtk = XEnemyOnHpLowBeAtk, e.EnemySlowAtkSpd = XEnemySlowAtkSpd, e.EnemyUseSkillBeDizzy = XEnemyUseSkillBeDizzy, e.EnergyEffect = XEnergyEffect, e.EnergyRatio = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.ENERGY_RATIO
             }
             result(e) {
                 return Math.round(this.Val * e)
             }
-        }, e.EnticeScript = EnticeScript, e.EscapeCdt = XEscapeCdt, e.EvaluateDialog = XEvaluateDialog, e.ExitView = XExitView, e.FSMState = class {
+        }, e.EnticeScript = XEnticeScript, e.EscapeCdt = XEscapeCdt, e.EvaluateDialog = XEvaluateDialog, e.ExitView = XExitView, e.FSMState = class {
             constructor(e, t) {
                 this.map = new Map, this.timeElapsed = 0, this.stateId = e, this.options = t || {}
             }
@@ -22184,7 +23445,8 @@ define("js/bundle.js", function(require, module, exports) {
         e.HasBuildingAroundCdt = XHasBuildingAroundCdt, e.HasPathCdt = XHasPathCdt, e.HasPlayerAroundCdt = XHasPlayerAroundCdt, 
         e.HasPlayerTargetCdt = XHasPlayerAtkCdt, e.HasSkillIdCdt = XHasSkillId01, e.HasTargetCdt = XHasTargetCdt, e.HasTargetNewCdt = XHasTargetNewCdt, 
         e.HealthBar = XHealthBar, e.Http = Js, e.HunterCfg = class extends fx.BaseData {}, e.HunterChooseView = XHunterChooseView, e.HunterDifficultChooseDialog = XHunterDifficultChooseDialog, e.HunterEquipCfg = Nt, 
-        e.HunterFailDialog = XHunterFailDialog, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = XHunterScript, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, e.HunterSkillDesScript = Xs, 
+        e.HunterFailDialog = XHunterFailDialog, e.HunterMatchingView = XHunterMatchingViewUI, e.HunterScript = XHunterScript, e.HunterSkillCfg = Pt, e.HunterSkillData = ka, 
+        e.HunterSkillDesScript = XHunterSkillDesScript, 
         e.HunterUnlockDialog = XHunterUnlockDialog, e.HunterWinDialog = XHunterWinDialog, e.IconJumpScript = Gn, e.IdleAction = XIdleAction, e.IncomeDownBuff = class extends XBaseBuff {
             constructor() {
                 super(...arguments), this.type = Ee.INCOME_DOWN
@@ -22332,7 +23594,7 @@ define("js/bundle.js", function(require, module, exports) {
                 })
             }
             onDestroy() {}
-        }, e.InviteCfg = InviteCfg, e.InviteDialog = XInviteDialog, e.IsDizzyingCdt = XIsDizzyingCdt, e.IsMaxHpCdt = XIsMaxHpCdt, e.IsNowAttackCdt = XIsNowAttackCdt, e.JiguangTowerScript = JiguangTowerScript, e.JisuTowerScript = JisuTowerScript, e.JuTowerScript = JuTowerScript, e.JumpGameCfg = JumpGameCfg, e.JumpGameListDialog = JumpGameListDialog, e.JumpGameListType = class {}, e.JumpShowCfg = JumpShowCfg, e.KnifeScript = XKnifeScript, e.LanguageExtend = class {
+        }, e.InviteCfg = InviteCfg, e.InviteDialog = XInviteDialog, e.IsDizzyingCdt = XIsDizzyingCdt, e.IsMaxHpCdt = XIsMaxHpCdt, e.IsNowAttackCdt = XIsNowAttackCdt, e.JiguangTowerScript = XJiguangTowerScript, e.JisuTowerScript = XJisuTowerScript, e.JuTowerScript = XJuTowerScript, e.JumpGameCfg = JumpGameCfg, e.JumpGameListDialog = JumpGameListDialog, e.JumpGameListType = class {}, e.JumpShowCfg = JumpShowCfg, e.KnifeScript = XKnifeScript, e.LanguageExtend = class {
             static init() {
                 Laya.Label.prototype.setKey = function(e) {
                     let t = this.getComponent(Jn);
@@ -22714,7 +23976,7 @@ define("js/bundle.js", function(require, module, exports) {
         }, e.ReduEvent = sr, e.RegClass = XRegClass, 
         e.RepaireAction = XRepaireAction, e.ReportEvent = Ka, e.Reporter = Reporter, e.Res = T, 
         e.RewardDialog = XRewardDialog, e.RewardInfo = class {}, e.RewardMgr = RewardMgr, e.RoomModel = XRoomModel, e.RunAction = XRunAction, 
-        e.ScaleEffectBtn = Ni, e.SceneEvent = we, e.Scope = XScope, e.SdkAliPay = z, e.SdkBase = XIAD, e.SdkKuaiShou = q, e.SdkMgr = j, 
+        e.ScaleEffectBtn = XScaleEffectBtn, e.SceneEvent = we, e.Scope = XScope, e.SdkAliPay = z, e.SdkBase = XIAD, e.SdkKuaiShou = q, e.SdkMgr = j, 
         e.SdkPc = W, e.SdkToutiao = K, e.SdkWx = Y, e.ServerStorage = XEventDispatcher, e.SettingDialog = ge, e.SevenGhostCfg = Ut, 
         e.SevenGhostFailDialog = XSevenGhostFailDialog, e.SevenGhostUnlockDialog = XSevenGhostUnlockDialog, e.SevenGhostView = XSevenGhostView, e.SevenGhostWinDialog = XSevenGhostWinDialog, e.ShopCfg = Tt, 
         e.ShopDialog = ce, e.ShouldFixCdt = XShouldFixCdt, e.ShuangtouTowerScript = XShuangtouTowerScript, e.SimpleAtkAction = XSimpleRunAction,
@@ -22728,7 +23990,7 @@ define("js/bundle.js", function(require, module, exports) {
                 return this.Val
             }
         }, e.SpineScript = XSpineScript, e.SpringBoxScript = XSpringBoxScript, e.SpringTowerScript = XSpringTowerScript, e.Status = Ie, e.Store = aa, 
-        e.StoreKey = sa, e.Stream = XStream, e.SuperBuildCfg = Lt, e.SusheTowerScript = as, e.TabScript = class extends Laya.Script {
+        e.StoreKey = sa, e.Stream = XStream, e.SuperBuildCfg = Lt, e.SusheTowerScript = XSusheTowerScript, e.TabScript = class extends Laya.Script {
             constructor() {
                 super(...arguments), this.currIdx = -1
             }
@@ -22809,7 +24071,7 @@ define("js/bundle.js", function(require, module, exports) {
                     for (const e of i) e.node.top = void 0, e.node.centerY = void 0, e.node.bottom = e.pos
                 }
             }
-        }, e.Vm = bn, e.WXGameClubScript = On, e.WXJumpLogic = Pn, e.WanjinTowerScript = ls, e.WinDialog = ye, e.WxClubBtnScript = Tn, e.XixingTowerScript = hs, e.ZimuTowerScript = ds, e.bt_invert = function(e) {
+        }, e.Vm = bn, e.WXGameClubScript = On, e.WXJumpLogic = Pn, e.WanjinTowerScript = XWanjinTowerScript, e.WinDialog = ye, e.WxClubBtnScript = Tn, e.XixingTowerScript = XXixingTowerScript, e.ZimuTowerScript = XZimuTowerScript, e.bt_invert = function(e) {
             return new fx.BTInverter({
                 child: e
             })
